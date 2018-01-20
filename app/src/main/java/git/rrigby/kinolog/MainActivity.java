@@ -5,64 +5,38 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.uwetrottmann.tmdb2.Tmdb;
-import com.uwetrottmann.tmdb2.entities.Movie;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-import com.uwetrottmann.tmdb2.services.MoviesService;
-import com.uwetrottmann.tmdb2.services.SearchService;
-import com.uwetrottmann.tmdb2.enumerations.Status;
-
-import android.widget.Toast;
-import android.support.design.widget.Snackbar;
 
 import org.greenrobot.greendao.query.DeleteQuery;
 import org.greenrobot.greendao.query.Query;
 import org.parceler.Parcels;
 
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
-import butterknife.BindBitmap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-import retrofit2.Call;
+import git.rrigby.kinolog.dao.DaoSession;
+import git.rrigby.kinolog.dao.LocalKino;
+import git.rrigby.kinolog.dao.LocalKinoDao;
 
 //@ TODO ordering of results, infinite scroll
 
@@ -262,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Delete the kino
 
-                                    delete_by_id_query.setParameter(0, kinos.get(position).id);
+                                    delete_by_id_query.setParameter(0, kinos.get(position).getId());
                                     kinos.remove(position);
                                     kino_adapter.notifyDataSetChanged();
                                     delete_by_id_query.executeDeleteWithoutDetachingEntities();
@@ -328,17 +302,17 @@ class KinoListAdapter extends BaseAdapter {
         }
 
         LocalKino movie = mData.get(position);
-        if(movie.title != null)
-            holder.title.setText(movie.title);
+        if(movie.getTitle() != null)
+            holder.title.setText(movie.getTitle());
 
-        if(movie.release_date != null)
-            holder.year.setText(movie.release_date);
+        if(movie.getRelease_date() != null)
+            holder.year.setText(movie.getRelease_date());
 
-        if(movie.poster_path != null){
+        if(movie.getPoster_path() != null){
             //poster.setLayoutParams(new ListView.LayoutParams(120,150));
             holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120,150));
             Glide.with(mContext)
-                    .load("https://image.tmdb.org/t/p/w185"+movie.poster_path)
+                    .load("https://image.tmdb.org/t/p/w185" + movie.getPoster_path())
                     .centerCrop()
                     //.placeholder(R.drawable.loading_spinner)
                     .crossFade()
@@ -347,7 +321,7 @@ class KinoListAdapter extends BaseAdapter {
             holder.poster.setImageResource(0);
         }
 
-        holder.rating_bar.setRating(movie.rating);
+        holder.rating_bar.setRating(movie.getRating());
 
         return convertView;
     }

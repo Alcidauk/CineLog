@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -20,6 +19,7 @@ import org.parceler.Parcels;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import git.rrigby.kinolog.dao.LocalKino;
 
 public class ViewKino extends AppCompatActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -71,20 +71,20 @@ public class ViewKino extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Glide.with(this)
-                .load("https://image.tmdb.org/t/p/w185"+kino.poster_path)
+                .load("https://image.tmdb.org/t/p/w185"+kino.getPoster_path())
                 .centerCrop()
                 //.placeholder(R.drawable.loading_spinner)
                 .crossFade()
                 .into(poster);
-        title.setText(kino.title);
-        year.setText(kino.release_date);
+        title.setText(kino.getTitle());
+        year.setText(kino.getRelease_date());
 
-        overview.setText(kino.overview);
+        overview.setText(kino.getOverview());
 
-        rating.setRating(kino.rating);
-        review.setText(kino.review);
+        rating.setRating(kino.getRating());
+        review.setText(kino.getReview());
 
-        toolbar.setTitle(kino.title);
+        toolbar.setTitle(kino.getTitle());
         System.out.println("onStart()");
     }
 

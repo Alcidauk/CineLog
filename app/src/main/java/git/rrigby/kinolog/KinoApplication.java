@@ -3,6 +3,9 @@ package git.rrigby.kinolog;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
+import git.rrigby.kinolog.dao.DaoMaster;
+import git.rrigby.kinolog.dao.DaoSession;
+
 /**
  * Created by ryan on 12/05/17.
  */

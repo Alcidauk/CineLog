@@ -6,35 +6,26 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,8 +47,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnItemClick;
+import git.rrigby.kinolog.dao.DaoSession;
+import git.rrigby.kinolog.dao.LocalKino;
+import git.rrigby.kinolog.dao.LocalKinoDao;
 import retrofit2.Call;
 
 public class AddKino extends AppCompatActivity {
@@ -379,7 +372,7 @@ public class AddKino extends AppCompatActivity {
                     mWatchedData[position] = 1;
                     holder.switch_icon_watched.setIconEnabled(true);
 
-                    if(movies.get(0).review != null || movies.get(0).rating != 0.0f) {
+                    if(movies.get(0).getReview() != null || movies.get(0).getRating() != 0.0f) {
                         mReveiewedData[position] = 1;
                         holder.switch_icon_review.setIconEnabled(true);
                     } else {

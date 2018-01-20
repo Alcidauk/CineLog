@@ -1,4 +1,4 @@
-package git.rrigby.kinolog;
+package git.rrigby.kinolog.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;

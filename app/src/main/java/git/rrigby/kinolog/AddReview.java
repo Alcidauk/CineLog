@@ -3,13 +3,10 @@ package git.rrigby.kinolog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
@@ -17,10 +14,11 @@ import android.widget.Toast;
 import org.greenrobot.greendao.query.Query;
 import org.parceler.Parcels;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import git.rrigby.kinolog.dao.DaoSession;
+import git.rrigby.kinolog.dao.LocalKino;
+import git.rrigby.kinolog.dao.LocalKinoDao;
 
 public class AddReview extends AppCompatActivity {
 
@@ -53,14 +51,14 @@ public class AddReview extends AppCompatActivity {
 
 
 
-        rating_bar.setRating(kino.rating);
-        if(kino.review != null)
-            review_text.setText(kino.review);
+        rating_bar.setRating(kino.getRating());
+        if(kino.getReview() != null)
+            review_text.setText(kino.getReview());
 
 
 
 
-        toolbar.setTitle("Add Review: " + kino.title);
+        toolbar.setTitle("Add Review: " + kino.getTitle());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 /*
@@ -97,8 +95,8 @@ public class AddReview extends AppCompatActivity {
                             Toast.LENGTH_LONG);
                     t.show();
                 } else {
-                    kino.rating = rating_bar.getRating();
-                    kino.review = review_text.getText().toString();
+                    kino.setRating(rating_bar.getRating());
+                    kino.setReview(review_text.getText().toString());
                     localKinoDao.save(kino);
                     localKinoDao.detachAll();
 
