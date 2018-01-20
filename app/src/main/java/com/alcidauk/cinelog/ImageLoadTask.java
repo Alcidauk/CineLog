@@ -1,4 +1,4 @@
-package git.rrigby.kinolog;
+package com.alcidauk.cinelog;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

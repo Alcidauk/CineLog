@@ -1,10 +1,10 @@
-package git.rrigby.kinolog;
+package com.alcidauk.cinelog;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
-import git.rrigby.kinolog.dao.DaoMaster;
-import git.rrigby.kinolog.dao.DaoSession;
+import com.alcidauk.cinelog.dao.DaoMaster;
+import com.alcidauk.cinelog.dao.DaoSession;
 
 /**
  * Created by ryan on 12/05/17.

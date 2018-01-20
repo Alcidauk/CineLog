@@ -1,10 +1,12 @@
-package git.rrigby.kinolog.dao;
+package com.alcidauk.cinelog.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.parceler.Parcel;
+
+import java.util.Date;
 
 /**
  * Created by ryan on 10/05/17.
@@ -28,6 +30,8 @@ public class LocalKino {
     String release_date;
     int movie_id;
 
+    Date review_date;
+
 
     public LocalKino() {
     }
@@ -41,11 +45,12 @@ public class LocalKino {
         this.overview = overview;
         this.year = year;
         //this.review = "";
+        this.review_date = new Date();
     }
 
-    @Generated(hash = 918668848)
+    @Generated(hash = 1343504559)
     public LocalKino(Long id, String poster_path, float rating, String review, String overview, int year,
-                     @NotNull String title, String release_date, int movie_id) {
+            @NotNull String title, String release_date, int movie_id, Date review_date) {
         this.id = id;
         this.poster_path = poster_path;
         this.rating = rating;
@@ -55,8 +60,8 @@ public class LocalKino {
         this.title = title;
         this.release_date = release_date;
         this.movie_id = movie_id;
+        this.review_date = review_date;
     }
-
 
     public Long getId() {
         return this.id;
@@ -130,4 +135,11 @@ public class LocalKino {
         this.year = year;
     }
 
+    public Date getReview_date() {
+        return review_date;
+    }
+
+    public void setReview_date(Date review_date) {
+        this.review_date = review_date;
+    }
 }

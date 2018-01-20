@@ -1,4 +1,4 @@
-package git.rrigby.kinolog;
+package com.alcidauk.cinelog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,10 +16,13 @@ import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import git.rrigby.kinolog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.LocalKino;
 
 public class ViewKino extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -39,6 +42,8 @@ public class ViewKino extends AppCompatActivity {
     RatingBar rating;
     @BindView(R.id.view_review)
     TextView review;
+    @BindView(R.id.view_review_date)
+    TextView review_date;
 
     LocalKino kino;
     int position;
@@ -91,9 +96,17 @@ public class ViewKino extends AppCompatActivity {
 
         rating.setRating(kino.getRating());
         review.setText(kino.getReview());
+        review_date.setText(getReviewDateAsString(kino.getReview_date()));
 
         toolbar.setTitle(kino.getTitle());
         System.out.println("onStart()");
+    }
+
+    private String getReviewDateAsString(Date review_date) {
+        if(review_date != null){
+            return new SimpleDateFormat("dd/mm/yyyy").format(review_date);
+        }
+        return null;
     }
 
     @Override

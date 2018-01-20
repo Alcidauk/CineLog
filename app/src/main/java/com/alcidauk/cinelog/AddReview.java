@@ -1,4 +1,4 @@
-package git.rrigby.kinolog;
+package com.alcidauk.cinelog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,9 +16,9 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import git.rrigby.kinolog.dao.DaoSession;
-import git.rrigby.kinolog.dao.LocalKino;
-import git.rrigby.kinolog.dao.LocalKinoDao;
+import com.alcidauk.cinelog.dao.DaoSession;
+import com.alcidauk.cinelog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.LocalKinoDao;
 
 public class AddReview extends AppCompatActivity {
 

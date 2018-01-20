@@ -1,4 +1,4 @@
-package git.rrigby.kinolog;
+package com.alcidauk.cinelog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -48,9 +48,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
-import git.rrigby.kinolog.dao.DaoSession;
-import git.rrigby.kinolog.dao.LocalKino;
-import git.rrigby.kinolog.dao.LocalKinoDao;
+import com.alcidauk.cinelog.dao.DaoSession;
+import com.alcidauk.cinelog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.LocalKinoDao;
 import retrofit2.Call;
 
 public class AddKino extends AppCompatActivity {
