@@ -104,7 +104,7 @@ public class ViewKino extends AppCompatActivity {
 
     private String getReviewDateAsString(Date review_date) {
         if(review_date != null){
-            return new SimpleDateFormat("dd/mm/yyyy").format(review_date);
+            return new SimpleDateFormat("dd/MM/yyyy").format(review_date);
         }
         return null;
     }
