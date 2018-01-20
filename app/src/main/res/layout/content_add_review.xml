@@ -12,23 +12,38 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".AddReview"
     tools:showIn="@layout/activity_add_review">
+
     <RatingBar
         android:id="@+id/kino_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
+
     <EditText
         android:id="@+id/kino_review_text"
-        android:layout_below="@id/kino_rating_bar"
-        android:hint="@string/review_hint"
-        android:inputType="text|textMultiLine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/kino_review_date"
-        android:layout_below="@id/kino_review_text"
-        android:hint="@string/review_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="date"/>
+        android:layout_below="@id/kino_rating_bar"
+        android:hint="@string/review_hint"
+        android:inputType="text|textMultiLine" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/kino_review_text"
+        android:layout_width="fill_parent">
+        <TextView
+            android:id="@+id/kino_review_date"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_alignParentStart="true"
+            android:hint="Enter the review date"/>
+        <Button
+            android:id="@+id/kino_review_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="showTimePickerDialog"
+            android:text="Changer" />
+    </LinearLayout>
 </RelativeLayout>
