@@ -1,0 +1,50 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="git.rrigby.kinolog.MainActivity">
+    <item
+        android:id="@+id/action_sort"
+        android:title="@string/order"
+        app:showAsAction="never"
+        android:visible="true">
+        <menu>
+            <item android:id="@+id/order_by_rating"
+                android:title="@string/rating" >
+                <menu>
+                    <item android:id="@+id/order_by_rating_highest_first"
+                        android:title="@string/highest_first" />
+
+                    <item android:id="@+id/order_by_rating_lowest_first"
+                        android:title="@string/lowest_first" />
+                </menu>
+            </item>
+            <item android:id="@+id/order_by_year"
+                android:title="@string/year" >
+                <menu>
+                    <item android:id="@+id/order_by_year_newest_first"
+                        android:title="@string/newest_first" />
+
+                    <item android:id="@+id/order_by_year_oldest_first"
+                        android:title="@string/oldest_first" />
+                </menu>
+            </item>
+            <item android:id="@+id/order_by_date"
+                android:title="@string/date_added" >
+                <menu>
+                    <item android:id="@+id/order_by_date_added_newest_first"
+                        android:title="@string/newest_first" />
+
+                    <item android:id="@+id/order_by_date_added_oldest_first"
+                        android:title="@string/oldest_first" />
+                </menu>
+            </item>
+
+        </menu>
+
+    </item>
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+</menu>

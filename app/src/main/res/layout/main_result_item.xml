@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/kino_poster"
+        android:maxWidth="120px"
+        android:minWidth="120px"
+        android:maxHeight="150px"
+        android:minHeight="150px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingRight="10px"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/kino_title"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/kino_poster"
+        android:layout_toEndOf="@+id/kino_poster" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Large Text"
+        android:textStyle="italic"
+        android:id="@+id/kino_year"
+        android:layout_toRightOf="@id/kino_poster"
+        android:layout_toEndOf="@id/kino_poster"
+        android:layout_below="@id/kino_title" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/ratingBarStyleSmall"
+        android:id="@+id/kino_rating_bar_small"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/kino_poster"/>
+
+</RelativeLayout>
