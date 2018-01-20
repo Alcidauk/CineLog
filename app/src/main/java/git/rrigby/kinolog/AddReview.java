@@ -22,10 +22,13 @@ import git.rrigby.kinolog.dao.LocalKinoDao;
 
 public class AddReview extends AppCompatActivity {
 
-    @BindView(R.id.kino_rating_bar) RatingBar rating_bar;
-    @BindView(R.id.kino_review_text) EditText review_text;
+    @BindView(R.id.kino_rating_bar)
+    RatingBar rating_bar;
+    @BindView(R.id.kino_review_text)
+    EditText review_text;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     LocalKino kino;
     DaoSession daoSession;
@@ -39,8 +42,7 @@ public class AddReview extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-
-        daoSession = ((KinoApplication)getApplicationContext()).getDaoSession();
+        daoSession = ((KinoApplication) getApplicationContext()).getDaoSession();
         localKinoDao = daoSession.getLocalKinoDao();
 
         kino = (LocalKino) Parcels.unwrap(getIntent().getParcelableExtra("kino"));
@@ -50,12 +52,9 @@ public class AddReview extends AppCompatActivity {
         //List<LocalKino> movies = movie_id_query.list();
 
 
-
         rating_bar.setRating(kino.getRating());
-        if(kino.getReview() != null)
+        if (kino.getReview() != null)
             review_text.setText(kino.getReview());
-
-
 
 
         toolbar.setTitle("Add Review: " + kino.getTitle());
@@ -89,7 +88,7 @@ public class AddReview extends AppCompatActivity {
                 return true;
             case R.id.action_save:
                 System.out.println("Saved");
-                if(rating_bar.getRating() == 0 && (review_text.getText().toString().equals("") || review_text.getText().toString().isEmpty())) {
+                if (rating_bar.getRating() == 0 && (review_text.getText().toString().equals("") || review_text.getText().toString().isEmpty())) {
                     Toast t = Toast.makeText(getApplicationContext(),
                             "Error no review to save.",
                             Toast.LENGTH_LONG);

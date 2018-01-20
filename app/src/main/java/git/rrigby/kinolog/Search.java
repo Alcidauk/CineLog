@@ -1,15 +1,7 @@
 package git.rrigby.kinolog;
 
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.uwetrottmann.tmdb2.entities.Movie;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-
-import java.util.List;
-
-import retrofit2.Call;
+import android.support.v7.app.AppCompatActivity;
 
 public class Search extends AppCompatActivity {
 

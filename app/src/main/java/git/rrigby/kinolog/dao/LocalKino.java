@@ -1,10 +1,10 @@
 package git.rrigby.kinolog.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.parceler.Parcel;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by ryan on 10/05/17.
@@ -13,11 +13,12 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class LocalKino {
 
-    @Id(autoincrement = true) Long id;
+    @Id(autoincrement = true)
+    Long id;
 
     String poster_path;
-    
-    float  rating;
+
+    float rating;
     String review;
     String overview;
     int year;
@@ -28,8 +29,8 @@ public class LocalKino {
     int movie_id;
 
 
-
-    public LocalKino(){}
+    public LocalKino() {
+    }
 
     public LocalKino(String title, String release_date, String poster_path, String overview, int year, int movie_id) {
         this.title = title;
@@ -44,7 +45,7 @@ public class LocalKino {
 
     @Generated(hash = 918668848)
     public LocalKino(Long id, String poster_path, float rating, String review, String overview, int year,
-            @NotNull String title, String release_date, int movie_id) {
+                     @NotNull String title, String release_date, int movie_id) {
         this.id = id;
         this.poster_path = poster_path;
         this.rating = rating;
@@ -55,8 +56,6 @@ public class LocalKino {
         this.release_date = release_date;
         this.movie_id = movie_id;
     }
-
-
 
 
     public Long getId() {

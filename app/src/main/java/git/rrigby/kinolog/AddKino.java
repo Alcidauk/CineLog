@@ -55,10 +55,14 @@ import retrofit2.Call;
 
 public class AddKino extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)Toolbar toolbar;
-    @BindView(R.id.kino_search) EditText kino_search;
-    @BindView(R.id.kino_results) ListView kino_results_list;
-    @BindView(R.id.kino_search_progress_bar) ProgressBar kino_search_progress_bar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.kino_search)
+    EditText kino_search;
+    @BindView(R.id.kino_results)
+    ListView kino_results_list;
+    @BindView(R.id.kino_search_progress_bar)
+    ProgressBar kino_search_progress_bar;
 
     Tmdb tmdb;
     SearchService searchService;
@@ -91,7 +95,7 @@ public class AddKino extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_ADD_REVIEW) {
-            if(resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 System.out.println("Result Ok");
                 startSearchTask();
             }
@@ -102,7 +106,7 @@ public class AddKino extends AppCompatActivity {
     }
 
     private void startSearchTask() {
-        if(isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             //@Query("query") String query,
             //@Query("page") Integer page,
             //@Query("language") String language,
@@ -110,7 +114,7 @@ public class AddKino extends AppCompatActivity {
             //@Query("year") Integer year,
             //@Query("primary_release_year") Integer primaryReleaseYear,
             //@Query("search_type") String searchType
-            Call<MovieResultsPage> results = searchService.movie(kino_search.getText().toString(), 1,null,null,null,null, "ngram");
+            Call<MovieResultsPage> results = searchService.movie(kino_search.getText().toString(), 1, null, null, null, null, "ngram");
             NetworkTask searchTask = new NetworkTask();
             searchTask.execute(results);
             taskList.add(searchTask);
@@ -140,16 +144,16 @@ public class AddKino extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             System.out.println("onTextChanged");
-            System.out.println(start +" " +before+ " " +count);
-            for(NetworkTask task : taskList) {
+            System.out.println(start + " " + before + " " + count);
+            for (NetworkTask task : taskList) {
                 task.cancel(true);
             }
-            if(count > 0) {
+            if (count > 0) {
                 kino_search_progress_bar.setVisibility(View.VISIBLE);
                 handler.removeMessages(TRIGGER_SERACH);
                 handler.sendEmptyMessageDelayed(TRIGGER_SERACH, SEARCH_TRIGGER_DELAY_IN_MS);
-            } else if(count == 0) {
-                for(NetworkTask task : taskList) {
+            } else if (count == 0) {
+                for (NetworkTask task : taskList) {
                     task.cancel(true);
                 }
                 clearListView();
@@ -160,7 +164,7 @@ public class AddKino extends AppCompatActivity {
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
             System.out.println("beforeTextChanged");
-            System.out.println(start +" " +count+ " " +after);
+            System.out.println(start + " " + count + " " + after);
         }
 
         @Override
@@ -176,7 +180,7 @@ public class AddKino extends AppCompatActivity {
         protected List<Movie> doInBackground(Call<MovieResultsPage>... results) {
             List<Movie> movies = null;
             try {
-                if(!isCancelled()) {
+                if (!isCancelled()) {
                     movies = results[0].execute().body().results;
                 }
 
@@ -191,7 +195,7 @@ public class AddKino extends AppCompatActivity {
 
         protected void onPostExecute(List<Movie> movies) {
             //System.out.println(message);
-            if(!isCancelled()) {
+            if (!isCancelled()) {
 
                 populateListView(movies);
             }
@@ -206,14 +210,14 @@ public class AddKino extends AppCompatActivity {
     }
 
     private void populateListView(final List<Movie> movies) {
-        if(kino_results_list != null) {
+        if (kino_results_list != null) {
             kino_results_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Intent intent = new Intent(view.getContext(), ViewKino.class);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
                     String year = "";
                     int year_i = 0;
-                    if(movies.get(position).release_date != null) {
+                    if (movies.get(position).release_date != null) {
                         year = sdf.format(movies.get(position).release_date);
                         year_i = Integer.parseInt(year);
                     }
@@ -230,7 +234,7 @@ public class AddKino extends AppCompatActivity {
     }
 
     private void clearListView() {
-        if(kino_results_list != null) {
+        if (kino_results_list != null) {
             kino_results_list.setAdapter(null);
         }
     }
@@ -244,8 +248,8 @@ public class AddKino extends AppCompatActivity {
 
         private Context mContext;
         private List<Movie> mData;
-        private int [] mWatchedData;
-        private int [] mReveiewedData;
+        private int[] mWatchedData;
+        private int[] mReveiewedData;
         private SimpleDateFormat sdf;
         PopupWindow popup_window;
         View popup_view;
@@ -256,14 +260,14 @@ public class AddKino extends AppCompatActivity {
 
         public KinoResultsAdapter(Context c, List<Movie> v) {
             mContext = c;
-            if(v != null) {
+            if (v != null) {
                 mData = v;
                 mWatchedData = new int[mData.size()];
                 mReveiewedData = new int[mData.size()];
 
                 sdf = new SimpleDateFormat("yyyy");
 
-                daoSession = ((KinoApplication)mContext.getApplicationContext()).getDaoSession();
+                daoSession = ((KinoApplication) mContext.getApplicationContext()).getDaoSession();
                 localKinoDao = daoSession.getLocalKinoDao();
                 movie_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Movie_id.eq(1)).limit(1).build();
                 delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Movie_id.eq(1)).buildDelete();
@@ -290,7 +294,7 @@ public class AddKino extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = View.inflate(mContext,R.layout.search_result_item,null);
+                convertView = View.inflate(mContext, R.layout.search_result_item, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
 
@@ -304,29 +308,29 @@ public class AddKino extends AppCompatActivity {
             holder.switch_icon_watched.setIconEnabled(false);
             holder.switch_icon_review.setIconEnabled(false);
 
-            if(movie.title != null)
+            if (movie.title != null)
                 holder.title.setText(movie.title);
 
             String year = "";
             int year_i = 0;
-            if(movie.release_date != null) {
+            if (movie.release_date != null) {
                 year = sdf.format(movie.release_date);
                 holder.year.setText(year);
                 year_i = Integer.parseInt(year);
             }
 
 
-            if(movie.poster_path != null){
+            if (movie.poster_path != null) {
                 //poster.setLayoutParams(new ListView.LayoutParams(120,150));
-                holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120,150));
+                holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
                 Glide.with(mContext)
-                        .load("https://image.tmdb.org/t/p/w185"+movie.poster_path)
+                        .load("https://image.tmdb.org/t/p/w185" + movie.poster_path)
                         .centerCrop()
                         //.placeholder(R.drawable.loading_spinner)
                         .crossFade()
                         .into(holder.poster);
             } else {
-                if(holder.poster != null)
+                if (holder.poster != null)
                     holder.poster.setImageResource(0);
             }
 
@@ -340,7 +344,7 @@ public class AddKino extends AppCompatActivity {
                     movie_id_query.setParameter(0, m_id);
                     List<LocalKino> movies = movie_id_query.list();
 
-                    if(movies.isEmpty()) {
+                    if (movies.isEmpty()) {
                         intent.putExtra("kino", Parcels.wrap(kino));
                     } else {
                         intent.putExtra("kino", Parcels.wrap(movies.get(0)));
@@ -353,26 +357,25 @@ public class AddKino extends AppCompatActivity {
             });
 
 
-
             int get_res = mWatchedData[position];
-            if(get_res != 0) {
-                if(get_res == 1) {
+            if (get_res != 0) {
+                if (get_res == 1) {
                     holder.switch_icon_watched.setIconEnabled(true);
 
                     get_res = mReveiewedData[position];
-                    if(get_res == 1) {
+                    if (get_res == 1) {
                         holder.switch_icon_review.setIconEnabled(true);
                     }
                 }
             } else {
                 movie_id_query.setParameter(0, movie.id);
                 List<LocalKino> movies = movie_id_query.list();
-                if(!movies.isEmpty()) {
+                if (!movies.isEmpty()) {
                     System.out.println("Result found");
                     mWatchedData[position] = 1;
                     holder.switch_icon_watched.setIconEnabled(true);
 
-                    if(movies.get(0).getReview() != null || movies.get(0).getRating() != 0.0f) {
+                    if (movies.get(0).getReview() != null || movies.get(0).getRating() != 0.0f) {
                         mReveiewedData[position] = 1;
                         holder.switch_icon_review.setIconEnabled(true);
                     } else {
@@ -389,8 +392,8 @@ public class AddKino extends AppCompatActivity {
             holder.toggle_watched.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final SwitchIconView v = (SwitchIconView)((ViewGroup)view).getChildAt(0);
-                    if(v.isIconEnabled()) {
+                    final SwitchIconView v = (SwitchIconView) ((ViewGroup) view).getChildAt(0);
+                    if (v.isIconEnabled()) {
                         System.out.println("is_watched");
                         AlertDialog.Builder builder = new AlertDialog.Builder(AddKino.this);
                         builder.setMessage(R.string.delete_kino_dialog)
@@ -435,18 +438,25 @@ public class AddKino extends AppCompatActivity {
         }
 
 
-
     }
+
     static class ViewHolder {
-        @BindView(R.id.kino_title) TextView title;
-        @BindView(R.id.kino_year) TextView year;
-        @BindView(R.id.kino_poster) ImageView poster;
+        @BindView(R.id.kino_title)
+        TextView title;
+        @BindView(R.id.kino_year)
+        TextView year;
+        @BindView(R.id.kino_poster)
+        ImageView poster;
 
-        @BindView(R.id.toggle_watched) LinearLayout toggle_watched;
-        @BindView(R.id.toggle_review) LinearLayout toggle_review;
+        @BindView(R.id.toggle_watched)
+        LinearLayout toggle_watched;
+        @BindView(R.id.toggle_review)
+        LinearLayout toggle_review;
 
-        @BindView(R.id.switch_icon_review) SwitchIconView switch_icon_review;
-        @BindView(R.id.switch_icon_watched) SwitchIconView switch_icon_watched;
+        @BindView(R.id.switch_icon_review)
+        SwitchIconView switch_icon_review;
+        @BindView(R.id.switch_icon_watched)
+        SwitchIconView switch_icon_watched;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

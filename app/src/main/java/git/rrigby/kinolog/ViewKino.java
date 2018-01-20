@@ -22,15 +22,23 @@ import butterknife.OnClick;
 import git.rrigby.kinolog.dao.LocalKino;
 
 public class ViewKino extends AppCompatActivity {
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
-    @BindView(R.id.view_poster) ImageView poster;
-    @BindView(R.id.view_title) TextView title;
-    @BindView(R.id.view_year) TextView year;
-    @BindView(R.id.view_overview) TextView overview;
-    @BindView(R.id.view_rating) RatingBar rating;
-    @BindView(R.id.view_review) TextView review;
+    @BindView(R.id.view_poster)
+    ImageView poster;
+    @BindView(R.id.view_title)
+    TextView title;
+    @BindView(R.id.view_year)
+    TextView year;
+    @BindView(R.id.view_overview)
+    TextView overview;
+    @BindView(R.id.view_rating)
+    RatingBar rating;
+    @BindView(R.id.view_review)
+    TextView review;
 
     LocalKino kino;
     int position;
@@ -52,7 +60,7 @@ public class ViewKino extends AppCompatActivity {
         ButterKnife.bind(this);
 
         kino = (LocalKino) Parcels.unwrap(getIntent().getParcelableExtra("kino"));
-        position = getIntent().getIntExtra("kino_position",-1);
+        position = getIntent().getIntExtra("kino_position", -1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         /*
@@ -71,7 +79,7 @@ public class ViewKino extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Glide.with(this)
-                .load("https://image.tmdb.org/t/p/w185"+kino.getPoster_path())
+                .load("https://image.tmdb.org/t/p/w185" + kino.getPoster_path())
                 .centerCrop()
                 //.placeholder(R.drawable.loading_spinner)
                 .crossFade()
@@ -91,7 +99,7 @@ public class ViewKino extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_ADD_REVIEW) {
-            if(resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 //addNewLocation(data);
                 kino = (LocalKino) Parcels.unwrap(data.getParcelableExtra("kino"));
                 editted = true;
@@ -108,7 +116,7 @@ public class ViewKino extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
 
-                if(editted) {
+                if (editted) {
                     Intent returnIntent = getIntent();
                     returnIntent.putExtra("kino", Parcels.wrap(kino));
                     returnIntent.putExtra("kino_position", position);
