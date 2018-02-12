@@ -21,6 +21,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alcidauk.cinelog.export.ExportDb;
 import com.bumptech.glide.Glide;
 
 import org.greenrobot.greendao.query.DeleteQuery;
@@ -157,7 +158,9 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_export:
+                Intent intent = new Intent(this, ExportDb.class);
+                startActivity(intent);
                 return true;
             case R.id.order_by_date_added_newest_first:
                 createListView(1);

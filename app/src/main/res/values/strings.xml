@@ -24,7 +24,10 @@
     <string name="oldest_first">Oldest First</string>
     <string name="highest_first">Highest First</string>
     <string name="lowest_first">Lowest First</string>
-
+    <string name="title_activity_export_db">Export data</string>
+    <string name="export_db">Export data as CSV</string>
+    <string name="export_db_label">Click the button to export your data as a CSV file. You\'ll then be able to save it and import it later.</string>
+    <string name="action_export">Export</string>
 
 
 </resources>
