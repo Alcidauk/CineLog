@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CsvExporterTest {
@@ -19,16 +20,24 @@ public class CsvExporterTest {
     @Mock
     private LocalKinoRepository localKinoRepository;
 
+    @Mock
+    private CsvExportWriter csvExportWriter;
+
     @Test
     public void export() throws Exception {
         final LocalKino aKino = mock(LocalKino.class);
+        final LocalKino anotherKino = mock(LocalKino.class);
         ArrayList<LocalKino> kinos = new ArrayList<LocalKino>() {{
             add(aKino);
+            add(anotherKino);
         }};
         doReturn(kinos).when(localKinoRepository).findAll();
 
-        new CsvExporter(localKinoRepository).export();
+        new CsvExporter(localKinoRepository, csvExportWriter).export();
 
-        // TODO make the test doing something...
+        verify(csvExportWriter).write(aKino);
+        verify(csvExportWriter).write(anotherKino);
+
+        verify(csvExportWriter).endWriting();
     }
 }

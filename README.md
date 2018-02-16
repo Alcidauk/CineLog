@@ -27,3 +27,7 @@ License: https://en.wikipedia.org/wiki/Unlicense
 Source: https://github.com/bumptech/glide
 License: https://github.com/bumptech/glide/blob/master/LICENSE
 
+ - Apache Commons CSV
+Source: http://commons.apache.org/proper/commons-csv/source-repository.html
+License: http://www.apache.org/licenses/
+

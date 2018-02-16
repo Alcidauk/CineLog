@@ -58,6 +58,8 @@ dependencies {
     // https://mvnrepository.com/artifact/com.uwetrottmann.tmdb2/tmdb-java
     compile 'com.uwetrottmann.tmdb2:tmdb-java:1.6.0'
 
+    compile 'org.apache.commons:commons-csv:1.5'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.13.0'
 }
