@@ -8,18 +8,12 @@ import java.io.IOException;
 /**
  * Created by alcidauk on 16/02/18.
  */
-
 class CSVPrinterWrapper {
 
     private CSVPrinter csvPrinter;
 
-    private enum Headers {
-        title,
-        note;
-    }
-
-    public CSVPrinterWrapper(Appendable out) throws IOException {
-        this.csvPrinter = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(Headers.class));
+    public CSVPrinterWrapper(Appendable out, Class<? extends Enum<?>> headers) throws IOException {
+        this.csvPrinter = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(headers));
     }
 
     public void printRecord(Object... values) throws IOException {

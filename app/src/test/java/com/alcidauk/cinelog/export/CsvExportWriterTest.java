@@ -22,7 +22,17 @@ public class CsvExportWriterTest {
     public void write() throws Exception {
         new CsvExportWriter(csvPrinterWrapper).write(aKino);
 
-        verify(csvPrinterWrapper).printRecord(aKino.getId(), aKino.getMovie_id(), aKino.getOverview());
+        verify(csvPrinterWrapper).printRecord(
+                aKino.getMovie_id(),
+                aKino.getTitle(),
+                aKino.getOverview(),
+                aKino.getYear(),
+                aKino.getPoster_path(),
+                aKino.getRating(),
+                aKino.getRelease_date(),
+                aKino.getReview(),
+                aKino.getReview_date()
+        );
     }
 
     @Test
