@@ -21,7 +21,11 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alcidauk.cinelog.dao.DaoSession;
+import com.alcidauk.cinelog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.LocalKinoDao;
 import com.alcidauk.cinelog.export.ExportDb;
+import com.alcidauk.cinelog.importdb.ImportInDb;
 import com.bumptech.glide.Glide;
 
 import org.greenrobot.greendao.query.DeleteQuery;
@@ -34,16 +38,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-import com.alcidauk.cinelog.dao.DaoSession;
-import com.alcidauk.cinelog.dao.LocalKino;
-import com.alcidauk.cinelog.dao.LocalKinoDao;
 
 //@ TODO ordering of results, infinite scroll
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar)Toolbar toolbar;
-    @BindView(R.id.fab) FloatingActionButton fab;
-    @BindView(R.id.kino_list) ListView kino_list;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.kino_list)
+    ListView kino_list;
 
     @OnClick(R.id.fab)
     public void onClick(View view) {
@@ -60,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     DeleteQuery<LocalKino> delete_by_id_query;
     KinoListAdapter kino_adapter;
     List<LocalKino> kinos;
-
 
 
     Query<LocalKino> get_year_asc;
@@ -97,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         //searchService = tmdb.searchService();
 
 
-        daoSession = ((KinoApplication)getApplication()).getDaoSession();
+        daoSession = ((KinoApplication) getApplication()).getDaoSession();
         localKinoDao = daoSession.getLocalKinoDao();
 
         get_reverse = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Id).build();
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_ADD_KINO) {
-            if(resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 System.out.println("Result Ok");
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -132,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (requestCode == RESULT_VIEW_KINO) {
-            if(resultCode == Activity.RESULT_OK) {
-                int pos = data.getIntExtra("kino_position",-1);
-                kinos.set(pos,(LocalKino) Parcels.unwrap(data.getParcelableExtra("kino")));
+            if (resultCode == Activity.RESULT_OK) {
+                int pos = data.getIntExtra("kino_position", -1);
+                kinos.set(pos, (LocalKino) Parcels.unwrap(data.getParcelableExtra("kino")));
                 kino_adapter.notifyDataSetChanged();
                 System.out.println("Result Ok");
             }
@@ -159,8 +162,10 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_export:
-                Intent intent = new Intent(this, ExportDb.class);
-                startActivity(intent);
+                startActivity(new Intent(this, ExportDb.class));
+                return true;
+            case R.id.action_import:
+                startActivity(new Intent(this, ImportInDb.class));
                 return true;
             case R.id.order_by_date_added_newest_first:
                 createListView(1);
@@ -170,17 +175,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
 
-           case R.id.order_by_rating_highest_first:
-               createListView(3);
+            case R.id.order_by_rating_highest_first:
+                createListView(3);
                 return true;
-           case R.id.order_by_rating_lowest_first:
-               createListView(4);
+            case R.id.order_by_rating_lowest_first:
+                createListView(4);
                 return true;
-           case R.id.order_by_year_newest_first:
-               createListView(5);
+            case R.id.order_by_year_newest_first:
+                createListView(5);
                 return true;
-          case R.id.order_by_year_oldest_first:
-              createListView(6);
+            case R.id.order_by_year_oldest_first:
+                createListView(6);
                 return true;
         }
 
@@ -200,10 +205,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void createListView(int order) {
         System.out.println("createListView");
-        if(kino_list != null) {
+        if (kino_list != null) {
 
             //date added
-            switch (order){
+            switch (order) {
                 case 1:
                     kinos = get_reverse.list(); //localKinoDao.loadAll();
                     break;
@@ -295,7 +300,7 @@ class KinoListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(mContext,R.layout.main_result_item,null);
+            convertView = View.inflate(mContext, R.layout.main_result_item, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
 
@@ -304,15 +309,15 @@ class KinoListAdapter extends BaseAdapter {
         }
 
         LocalKino movie = mData.get(position);
-        if(movie.getTitle() != null)
+        if (movie.getTitle() != null)
             holder.title.setText(movie.getTitle());
 
-        if(movie.getRelease_date() != null)
+        if (movie.getRelease_date() != null)
             holder.year.setText(movie.getRelease_date());
 
-        if(movie.getPoster_path() != null){
+        if (movie.getPoster_path() != null) {
             //poster.setLayoutParams(new ListView.LayoutParams(120,150));
-            holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120,150));
+            holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
             Glide.with(mContext)
                     .load("https://image.tmdb.org/t/p/w185" + movie.getPoster_path())
                     .centerCrop()
@@ -330,10 +335,14 @@ class KinoListAdapter extends BaseAdapter {
 
 
     static class ViewHolder {
-        @BindView(R.id.kino_title) TextView title;
-        @BindView(R.id.kino_year) TextView year;
-        @BindView(R.id.kino_poster) ImageView poster;
-        @BindView(R.id.kino_rating_bar_small) RatingBar rating_bar;
+        @BindView(R.id.kino_title)
+        TextView title;
+        @BindView(R.id.kino_year)
+        TextView year;
+        @BindView(R.id.kino_poster)
+        ImageView poster;
+        @BindView(R.id.kino_rating_bar_small)
+        RatingBar rating_bar;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

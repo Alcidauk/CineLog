@@ -47,4 +47,9 @@
         android:orderInCategory="100"
         android:title="@string/action_export"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_import"
+        android:orderInCategory="100"
+        android:title="@string/action_import"
+        app:showAsAction="never" />
 </menu>

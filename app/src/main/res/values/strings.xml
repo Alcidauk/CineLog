@@ -28,6 +28,10 @@
     <string name="export_db">Export data as CSV</string>
     <string name="export_db_label">Click the button to export your data as a CSV file. You\'ll then be able to save it and import it later.</string>
     <string name="action_export">Export</string>
+    <string name="action_import">Import</string>
+    <string name="title_activity_import_db">CSV File import</string>
+    <string name="import_db">Import CSV file in database</string>
+    <string name="import_db_label">Put a CSV file in CineLog directory and click the below button.</string>
 
 
 </resources>

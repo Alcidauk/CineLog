@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".export.ExportDb">
+    tools:context=".importdb.ImportInDb">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,6 +21,5 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_export_db" />
-
+    <include layout="@layout/content_import_db" />
 </android.support.design.widget.CoordinatorLayout>
