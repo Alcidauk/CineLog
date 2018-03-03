@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alcidauk.cinelog.addkino.KinoCreator;
+import com.alcidauk.cinelog.db.LocalKinoRepository;
 import com.github.zagum.switchicon.SwitchIconView;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
@@ -31,6 +34,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 import retrofit2.Call;
 
@@ -170,6 +174,12 @@ public class AddKino extends AppCompatActivity {
     @OnItemClick(R.id.kino_results)
     public void onItemClick(AdapterView<?> parent, int position) {
         System.out.println("click detected");
+    }
+
+    @OnClick(R.id.kino_search_add_from_scratch)
+    public void onClick(View view) {
+        new KinoCreator(new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession())).create(kino_search.getText().toString());
+        System.out.println("coucou toi !");
     }
 
 

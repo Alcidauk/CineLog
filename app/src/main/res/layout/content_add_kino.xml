@@ -19,19 +19,26 @@
         android:layout_height="wrap_content"
         android:hint="@string/movie_title_input"/>
 
+    <Button
+        android:id="@+id/kino_search_add_from_scratch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kino_search"
+        android:text="@string/add_from_scratch_label" />
+
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:layout_below="@id/kino_search"
+        android:layout_below="@id/kino_search_add_from_scratch"
         android:id="@+id/kino_search_progress_bar"
         android:layout_centerHorizontal="true"
         android:visibility="gone" />
-    
+
     <ListView
         android:id="@+id/kino_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/kino_search"/>
+        android:layout_below="@+id/kino_search_add_from_scratch"/>
 
 </RelativeLayout>

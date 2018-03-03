@@ -4,7 +4,6 @@ import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LocalKinoRepository {
@@ -21,6 +20,9 @@ public class LocalKinoRepository {
 
     public void create(List<LocalKino> localKinos) {
         localKinoDao.insertInTx(localKinos);
+    }
 
+    public void create(LocalKino kinoToCreate) {
+        localKinoDao.insert(kinoToCreate);
     }
 }
