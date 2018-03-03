@@ -11,12 +11,14 @@ import com.alcidauk.cinelog.KinoApplication;
 import com.alcidauk.cinelog.R;
 import com.alcidauk.cinelog.db.LocalKinoRepository;
 
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static java.lang.System.out;
 
 public class ExportDb extends AppCompatActivity {
 
@@ -37,11 +39,17 @@ public class ExportDb extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Clicked !", Toast.LENGTH_LONG).show();
 
         CsvExporter csvExporter;
-        StringWriter out = new StringWriter();
+        FileWriter fileWriter;
+        try {
+            fileWriter = new FileWriterGetter().get("export.csv");
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "An error occured while trying to get export file !", Toast.LENGTH_LONG).show();
+            return;
+        }
         try {
             csvExporter = new CsvExporter(
                     new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession()),
-                    out
+                    fileWriter
             );
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), "An error occured while creating export file !", Toast.LENGTH_LONG).show();
@@ -53,14 +61,12 @@ public class ExportDb extends AppCompatActivity {
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), "An error occured while exporting !", Toast.LENGTH_LONG).show();
         }
-
-        System.out.println(out.toString());
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("Gone !");
+        out.println("Gone !");
     }
 
 
