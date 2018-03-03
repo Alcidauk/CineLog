@@ -45,7 +45,7 @@
             android:label="@string/title_activity_add_review"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".export.ExportDb"
+            android:name=".exportdb.ExportDb"
             android:label="@string/title_activity_export_db"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

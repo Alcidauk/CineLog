@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
-import com.alcidauk.cinelog.export.ExportDb;
+import com.alcidauk.cinelog.exportdb.ExportDb;
 import com.alcidauk.cinelog.importdb.ImportInDb;
 import com.bumptech.glide.Glide;
 

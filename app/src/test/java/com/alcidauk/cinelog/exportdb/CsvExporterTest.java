@@ -1,4 +1,4 @@
-package com.alcidauk.cinelog.export;
+package com.alcidauk.cinelog.exportdb;
 
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.db.LocalKinoRepository;

@@ -1,4 +1,4 @@
-package com.alcidauk.cinelog.export;
+package com.alcidauk.cinelog.exportdb;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;

@@ -1,4 +1,4 @@
-package com.alcidauk.cinelog.export;
+package com.alcidauk.cinelog.exportdb;
 
 import android.content.Intent;
 import android.os.Bundle;
