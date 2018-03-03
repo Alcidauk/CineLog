@@ -16,13 +16,15 @@ import java.util.List;
 
 class KinoImportCreator {
     private CSVFormatWrapper csvFormatWrapper;
+    private LocalKinoBuilder localKinoBuilder;
 
     KinoImportCreator() {
-        this(new CSVFormatWrapper());
+        this(new CSVFormatWrapper(), new LocalKinoBuilder());
     }
 
-    KinoImportCreator(CSVFormatWrapper csvFormatWrapper) {
+    KinoImportCreator(CSVFormatWrapper csvFormatWrapper, LocalKinoBuilder localKinoBuilder) {
         this.csvFormatWrapper = csvFormatWrapper;
+        this.localKinoBuilder = localKinoBuilder;
     }
 
     List<LocalKino> getKinos(FileReader fileReader) throws ImportException {
@@ -35,40 +37,10 @@ class KinoImportCreator {
 
         List<LocalKino> kinos = new ArrayList<>();
         for (CSVRecord csvRecord : csvRecords) {
-            try {
-                kinos.add(
-                        new LocalKino(
-                                csvRecord.get("poster_path"),
-                                formatFloat(csvRecord.get("rating")),
-                                csvRecord.get("review"),
-                                csvRecord.get("overview"),
-                                formatInteger(csvRecord.get("year")),
-                                csvRecord.get("title"),
-                                csvRecord.get("release_date"),
-                                formatInteger(csvRecord.get("movie_id")),
-                                formatDate(csvRecord.get("review_date"))
-                        )
-                );
-            } catch (ParseException e) {
-                throw new ImportException(String.format("Can't save import movie with name %s.", csvRecord.get("title")), e);
-            }
+                kinos.add(localKinoBuilder.build(csvRecord));
         }
 
         return kinos;
     }
-
-    private int formatInteger(String integerToFormat) {
-        return integerToFormat != null && !integerToFormat.isEmpty() ? Integer.parseInt(integerToFormat) : 0;
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private Date formatDate(String dateToFormat) throws ParseException {
-        return dateToFormat != null && !dateToFormat.isEmpty() ? new SimpleDateFormat().parse(dateToFormat) : null;
-    }
-
-    private float formatFloat(String rating) {
-        return rating != null && !rating.isEmpty() ? Float.parseFloat(rating.replace(",", ".")) : 0f;
-    }
-
 
 }
