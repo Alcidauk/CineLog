@@ -26,6 +26,8 @@ import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
 import com.alcidauk.cinelog.exportdb.ExportDb;
 import com.alcidauk.cinelog.importdb.ImportInDb;
+import com.alcidauk.cinelog.settings.SettingsActivity;
+import com.alcidauk.cinelog.settings.SettingsFragment;
 import com.bumptech.glide.Glide;
 
 import org.greenrobot.greendao.query.DeleteQuery;
@@ -166,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_import:
                 startActivity(new Intent(this, ImportInDb.class));
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case R.id.order_by_date_added_newest_first:
                 createListView(1);

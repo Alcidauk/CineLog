@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Common preferences">
+
+        <EditTextPreference
+            android:key="default_max_rate_value"
+            android:title="Default maximum rating"
+            android:summary="Enter the default maximal note you want to set to new movies"
+            android:dialogTitle="Type the maximum rating you want to set to new movies"
+            android:inputType="number" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
