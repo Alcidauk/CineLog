@@ -1,5 +1,7 @@
 package com.alcidauk.cinelog.importdb;
 
+import android.annotation.SuppressLint;
+
 import com.alcidauk.cinelog.dao.LocalKino;
 
 import org.apache.commons.csv.CSVRecord;
@@ -15,7 +17,7 @@ import java.util.List;
 class KinoImportCreator {
     private CSVFormatWrapper csvFormatWrapper;
 
-    public KinoImportCreator() {
+    KinoImportCreator() {
         this(new CSVFormatWrapper());
     }
 
@@ -23,7 +25,7 @@ class KinoImportCreator {
         this.csvFormatWrapper = csvFormatWrapper;
     }
 
-    public List<LocalKino> getKinos(FileReader fileReader) throws ImportException {
+    List<LocalKino> getKinos(FileReader fileReader) throws ImportException {
         Iterable<CSVRecord> csvRecords;
         try {
             csvRecords = csvFormatWrapper.parse(fileReader);
@@ -59,6 +61,7 @@ class KinoImportCreator {
         return integerToFormat != null && !integerToFormat.isEmpty() ? Integer.parseInt(integerToFormat) : 0;
     }
 
+    @SuppressLint("SimpleDateFormat")
     private Date formatDate(String dateToFormat) throws ParseException {
         return dateToFormat != null && !dateToFormat.isEmpty() ? new SimpleDateFormat().parse(dateToFormat) : null;
     }

@@ -7,7 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 class CSVFormatWrapper {
-    public Iterable<CSVRecord> parse(FileReader fileReader) throws IOException {
+
+    Iterable<CSVRecord> parse(FileReader fileReader) throws IOException {
         return CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(fileReader);
     }
 }

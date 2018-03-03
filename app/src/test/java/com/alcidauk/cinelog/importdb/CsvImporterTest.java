@@ -50,7 +50,7 @@ public class CsvImporterTest {
             add(anotherLocalKino);
         }}).when(kinoImportCreator).getKinos(fileReader);
 
-        new CsvImporter(activity, fileReaderGetter, kinoImportCreator, localKinoRepository).importCsvFile();
+        new CsvImporter(fileReaderGetter, kinoImportCreator, localKinoRepository).importCsvFile();
 
         verify(localKinoRepository).create(new ArrayList<LocalKino>() {{
             add(aLocalKino);

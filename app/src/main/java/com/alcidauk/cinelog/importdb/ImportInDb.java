@@ -31,7 +31,7 @@ public class ImportInDb extends AppCompatActivity {
     @OnClick(R.id.import_db_button)
     public void onClick(View view) {
         try {
-            new CsvImporter(this, ((KinoApplication) getApplication()).getDaoSession()).importCsvFile();
+            new CsvImporter(((KinoApplication) getApplication()).getDaoSession()).importCsvFile();
         } catch (ImportException e) {
             Toast.makeText(getApplicationContext(), "An error occured while importing movies !", Toast.LENGTH_LONG).show();
         }
