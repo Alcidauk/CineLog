@@ -9,11 +9,6 @@ import android.widget.Toast;
 
 import com.alcidauk.cinelog.KinoApplication;
 import com.alcidauk.cinelog.R;
-import com.alcidauk.cinelog.db.LocalKinoRepository;
-import com.alcidauk.cinelog.export.CsvExporter;
-
-import java.io.IOException;
-import java.io.StringWriter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,14 +30,17 @@ public class ImportInDb extends AppCompatActivity {
 
     @OnClick(R.id.import_db_button)
     public void onClick(View view) {
-        Toast.makeText(getApplicationContext(), "Clicked !", Toast.LENGTH_LONG).show();
+        try {
+            new CsvImporter(this, ((KinoApplication) getApplication()).getDaoSession()).importCsvFile();
+        } catch (ImportException e) {
+            Toast.makeText(getApplicationContext(), "An error occured while importing movies !", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("Gone !");
     }
-
 
 }
 

@@ -7,9 +7,9 @@ import java.io.IOException;
 /**
  * Created by alcidauk on 16/02/18.
  */
-class CsvExportWriter {
+public class CsvExportWriter {
 
-    private enum Headers {
+    public enum Headers {
         movie_id,
         title,
         overview,
