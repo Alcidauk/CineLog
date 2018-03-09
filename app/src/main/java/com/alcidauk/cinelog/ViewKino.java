@@ -2,7 +2,9 @@ package com.alcidauk.cinelog;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -68,6 +70,12 @@ public class ViewKino extends AppCompatActivity {
         position = getIntent().getIntExtra("kino_position", -1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+        int maxRating = Integer.parseInt(defaultMaxRateValue);
+        rating.setNumStars(maxRating);
+        rating.setStepSize(0.5f);
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

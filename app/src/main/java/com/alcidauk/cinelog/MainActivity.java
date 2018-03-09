@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -333,6 +335,13 @@ class KinoListAdapter extends BaseAdapter {
         }
 
         holder.rating_bar.setRating(movie.getRating());
+
+        holder.rating_bar.setStepSize(0.5f);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+        int maxRating = Integer.parseInt(defaultMaxRateValue);
+        holder.rating_bar.setNumStars(maxRating);
 
         return convertView;
     }

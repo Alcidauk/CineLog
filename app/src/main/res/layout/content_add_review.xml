@@ -13,17 +13,28 @@
     tools:context=".AddReview"
     tools:showIn="@layout/activity_add_review">
 
-    <RatingBar
-        android:id="@+id/kino_rating_bar"
+    <LinearLayout
+        android:id="@+id/rating_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:orientation="horizontal">
+        <RatingBar
+            android:id="@+id/kino_rating_bar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <NumberPicker
+            android:id="@+id/rating_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/kino_review_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/kino_rating_bar"
+        android:layout_below="@id/rating_layout"
         android:hint="@string/review_hint"
         android:inputType="text|textMultiLine" />
 

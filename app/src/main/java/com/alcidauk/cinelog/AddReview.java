@@ -5,7 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +31,9 @@ import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddReview extends AppCompatActivity {
 
@@ -40,6 +46,9 @@ public class AddReview extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.rating_picker)
+    NumberPicker rating_picker;
 
     LocalKino kino;
     DaoSession daoSession;
@@ -62,7 +71,32 @@ public class AddReview extends AppCompatActivity {
         //movie_id_query.setParameter(0, kino.movie_id);
         //List<LocalKino> movies = movie_id_query.list();
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+// then you use
+        String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+        int maxRating = Integer.parseInt(defaultMaxRateValue);
 
+        String[] displayedValues = getDisplayedValues(maxRating);
+
+        rating_picker.setMinValue(0);
+        rating_picker.setMaxValue(maxRating*2);
+        rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
+
+        rating_picker.setDisplayedValues(displayedValues);
+
+        rating_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                String[] displayedValues = picker.getDisplayedValues();
+                float rating = Float.parseFloat(displayedValues[newVal]);
+                rating_bar.setRating(rating);
+
+                kino.setRating(rating);
+            }
+        });
+
+        rating_bar.setNumStars(maxRating);
+        rating_bar.setStepSize(0.5f);
         rating_bar.setRating(kino.getRating());
 
         if (kino.getReview() != null) {
@@ -93,6 +127,34 @@ public class AddReview extends AppCompatActivity {
         });
 */
 
+    }
+
+    private int getValueToDisplay(String[] displayedValues, float rating) {
+        int i = 0;
+        for (String value : displayedValues) {
+            if(Float.parseFloat(value) == rating){
+                return i;
+            }
+
+            i++;
+        }
+
+        return 0;
+    }
+
+    @NonNull
+    private String[] getDisplayedValues(int maxRating) {
+        List<String> displayedValues = new ArrayList<>();
+
+        for(int i = 0; i <= maxRating; i++){
+            displayedValues.add(String.valueOf(i));
+
+            if(i != maxRating) {
+                displayedValues.add(i + ".5");
+            }
+        }
+
+        return displayedValues.toArray(new String[0]);
     }
 
     @Override
