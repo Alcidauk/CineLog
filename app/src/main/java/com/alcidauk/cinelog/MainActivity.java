@@ -328,17 +328,31 @@ class KinoListAdapter extends BaseAdapter {
                     .crossFade()
                     .into(holder.poster);
         } else {
-            holder.poster.setImageResource(0);
+            holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
+            Glide.with(mContext)
+                    // TODO set a default image
+                    .load("https://www.texasforthem.org/wp-content/uploads/2016/03/Feral-Cat-1.jpg")
+                    .centerCrop()
+                    //.placeholder(R.drawable.loading_spinner)
+                    .crossFade()
+                    .into(holder.poster);
         }
-
-        holder.rating_bar.setRating(movie.getRating());
 
         holder.rating_bar.setStepSize(0.5f);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
-        int maxRating = Integer.parseInt(defaultMaxRateValue);
+        int maxRating;
+        if(movie.getMaxRating() == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            maxRating = Integer.parseInt(defaultMaxRateValue);
+        } else {
+            maxRating = movie.getMaxRating();
+        }
         holder.rating_bar.setNumStars(maxRating);
+
+        if(movie.getRating() != null) {
+            holder.rating_bar.setRating(movie.getRating());
+        }
 
         return convertView;
     }

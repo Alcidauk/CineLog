@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.alcidauk.cinelog.dao.LocalKino;
 import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
@@ -24,7 +25,6 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.alcidauk.cinelog.dao.LocalKino;
 
 public class ViewKino extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -66,15 +66,22 @@ public class ViewKino extends AppCompatActivity {
         setContentView(R.layout.activity_view_kino);
         ButterKnife.bind(this);
 
-        kino = (LocalKino) Parcels.unwrap(getIntent().getParcelableExtra("kino"));
+        kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         position = getIntent().getIntExtra("kino_position", -1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
-        int maxRating = Integer.parseInt(defaultMaxRateValue);
+        int maxRating;
+        if (kino.getMaxRating() == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            maxRating = Integer.parseInt(defaultMaxRateValue);
+        } else {
+            maxRating = kino.getMaxRating();
+        }
+
         rating.setNumStars(maxRating);
+        rating.setRating(kino.getRating());
         rating.setStepSize(0.5f);
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -111,7 +118,7 @@ public class ViewKino extends AppCompatActivity {
     }
 
     private String getReviewDateAsString(Date review_date) {
-        if(review_date != null){
+        if (review_date != null) {
             return new SimpleDateFormat("dd/MM/yyyy").format(review_date);
         }
         return null;

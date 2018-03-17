@@ -20,8 +20,8 @@ public class LocalKino {
 
     String poster_path;
 
-    float rating;
-    float maxRating;
+    Float rating;
+    Integer maxRating;
     String review;
     String overview;
     int year;
@@ -37,7 +37,7 @@ public class LocalKino {
     public LocalKino() {
     }
 
-    public LocalKino(String poster_path, float rating, String review, String overview, int year, String title, String release_date, int movie_id, Date review_date) {
+    public LocalKino(String poster_path, Float rating, String review, String overview, int year, String title, String release_date, int movie_id, Date review_date) {
         this.poster_path = poster_path;
         this.rating = rating;
         this.review = review;
@@ -54,15 +54,15 @@ public class LocalKino {
         this.release_date = release_date;
         this.poster_path = poster_path;
         this.movie_id = movie_id;
-        this.rating = 0;
+        this.rating = 0f;
         this.overview = overview;
         this.year = year;
         //this.review = "";
         this.review_date = new Date();
     }
 
-    @Generated(hash = 924205549)
-    public LocalKino(Long id, String poster_path, float rating, float maxRating, String review, String overview, int year, @NotNull String title, String release_date,
+    @Generated(hash = 1321915703)
+    public LocalKino(Long id, String poster_path, Float rating, Integer maxRating, String review, String overview, int year, @NotNull String title, String release_date,
             int movie_id, Date review_date) {
         this.id = id;
         this.poster_path = poster_path;
@@ -93,19 +93,19 @@ public class LocalKino {
         this.poster_path = poster_path;
     }
 
-    public float getRating() {
+    public Float getRating() {
         return this.rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 
-    public float getMaxRating() {
+    public Integer getMaxRating() {
         return maxRating;
     }
 
-    public void setMaxRating(float maxRating) {
+    public void setMaxRating(Integer maxRating) {
         this.maxRating = maxRating;
     }
 
@@ -172,11 +172,14 @@ public class LocalKino {
 
         LocalKino localKino = (LocalKino) o;
 
-        if (Float.compare(localKino.rating, rating) != 0) return false;
         if (year != localKino.year) return false;
         if (movie_id != localKino.movie_id) return false;
         if (id != null ? !id.equals(localKino.id) : localKino.id != null) return false;
         if (poster_path != null ? !poster_path.equals(localKino.poster_path) : localKino.poster_path != null)
+            return false;
+        if (rating != null ? !rating.equals(localKino.rating) : localKino.rating != null)
+            return false;
+        if (maxRating != null ? !maxRating.equals(localKino.maxRating) : localKino.maxRating != null)
             return false;
         if (review != null ? !review.equals(localKino.review) : localKino.review != null)
             return false;
@@ -192,7 +195,8 @@ public class LocalKino {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (poster_path != null ? poster_path.hashCode() : 0);
-        result = 31 * result + (rating != +0.0f ? Float.floatToIntBits(rating) : 0);
+        result = 31 * result + (rating != null ? rating.hashCode() : 0);
+        result = 31 * result + (maxRating != null ? maxRating.hashCode() : 0);
         result = 31 * result + (review != null ? review.hashCode() : 0);
         result = 31 * result + (overview != null ? overview.hashCode() : 0);
         result = 31 * result + year;

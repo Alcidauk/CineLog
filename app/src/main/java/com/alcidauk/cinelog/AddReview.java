@@ -21,19 +21,20 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.greenrobot.greendao.query.Query;
-import org.parceler.Parcels;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
+
+import org.greenrobot.greendao.query.Query;
+import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AddReview extends AppCompatActivity {
 
@@ -65,21 +66,21 @@ public class AddReview extends AppCompatActivity {
         daoSession = ((KinoApplication) getApplicationContext()).getDaoSession();
         localKinoDao = daoSession.getLocalKinoDao();
 
-        kino = (LocalKino) Parcels.unwrap(getIntent().getParcelableExtra("kino"));
+        kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
 
-        //movie_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Movie_id.eq(1)).limit(1).build();
-        //movie_id_query.setParameter(0, kino.movie_id);
-        //List<LocalKino> movies = movie_id_query.list();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-// then you use
-        String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
-        int maxRating = Integer.parseInt(defaultMaxRateValue);
+        int maxRating;
+        if (kino.getMaxRating() == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            maxRating = Integer.parseInt(defaultMaxRateValue);
+        } else {
+            maxRating = kino.getMaxRating();
+        }
 
         String[] displayedValues = getDisplayedValues(maxRating);
 
         rating_picker.setMinValue(0);
-        rating_picker.setMaxValue(maxRating*2);
+        rating_picker.setMaxValue(maxRating * 2);
         rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
 
         rating_picker.setDisplayedValues(displayedValues);
@@ -103,9 +104,9 @@ public class AddReview extends AppCompatActivity {
             review_text.setText(kino.getReview());
         }
 
-        if(kino.getReview_date() != null){
+        if (kino.getReview_date() != null) {
             String review_date_as_string = null;
-            if(kino.getReview_date() != null){
+            if (kino.getReview_date() != null) {
                 review_date_as_string =
                         new SimpleDateFormat("dd/MM/yyyy").format(kino.getReview_date());
             }
@@ -132,7 +133,7 @@ public class AddReview extends AppCompatActivity {
     private int getValueToDisplay(String[] displayedValues, float rating) {
         int i = 0;
         for (String value : displayedValues) {
-            if(Float.parseFloat(value) == rating){
+            if (Float.parseFloat(value) == rating) {
                 return i;
             }
 
@@ -146,10 +147,10 @@ public class AddReview extends AppCompatActivity {
     private String[] getDisplayedValues(int maxRating) {
         List<String> displayedValues = new ArrayList<>();
 
-        for(int i = 0; i <= maxRating; i++){
+        for (int i = 0; i <= maxRating; i++) {
             displayedValues.add(String.valueOf(i));
 
-            if(i != maxRating) {
+            if (i != maxRating) {
                 displayedValues.add(i + ".5");
             }
         }
@@ -181,10 +182,12 @@ public class AddReview extends AppCompatActivity {
                     kino.setRating(rating_bar.getRating());
                     kino.setReview(review_text.getText().toString());
 
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                    String maxRating = prefs.getString("default_max_rate_value", "5");
-                    int maxRatingAsInt = Integer.parseInt(maxRating);
-                    kino.setMaxRating(maxRatingAsInt);
+                    if(kino.getMaxRating() == null) {
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                        String maxRating = prefs.getString("default_max_rate_value", "5");
+                        int maxRatingAsInt = Integer.parseInt(maxRating);
+                        kino.setMaxRating(maxRatingAsInt);
+                    }
 
                     localKinoDao.save(kino);
                     localKinoDao.detachAll();
@@ -232,11 +235,11 @@ public class AddReview extends AppCompatActivity {
             LocalKino kino = ((AddReview) getActivity()).kino;
             kino.setReview_date(c.getTime());
             String review_date_as_string = null;
-            if(kino.getReview_date() != null){
+            if (kino.getReview_date() != null) {
                 review_date_as_string =
                         new SimpleDateFormat("dd/MM/yyyy").format(kino.getReview_date());
             }
-            ((AddReview)getActivity()).review_date.setText(review_date_as_string);
+            ((AddReview) getActivity()).review_date.setText(review_date_as_string);
             // Do something with the date chosen by the user
         }
     }
