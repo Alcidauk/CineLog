@@ -29,7 +29,6 @@ import com.alcidauk.cinelog.dao.LocalKinoDao;
 import com.alcidauk.cinelog.exportdb.ExportDb;
 import com.alcidauk.cinelog.importdb.ImportInDb;
 import com.alcidauk.cinelog.settings.SettingsActivity;
-import com.alcidauk.cinelog.settings.SettingsFragment;
 import com.bumptech.glide.Glide;
 
 import org.greenrobot.greendao.query.DeleteQuery;
@@ -315,11 +314,9 @@ class KinoListAdapter extends BaseAdapter {
         }
 
         LocalKino movie = mData.get(position);
-        if (movie.getTitle() != null)
-            holder.title.setText(movie.getTitle());
 
-        if (movie.getRelease_date() != null)
-            holder.year.setText(movie.getRelease_date());
+        holder.title.setText(movie.getTitle());
+        holder.year.setText(movie.getRelease_date());
 
         if (movie.getPoster_path() != null) {
             //poster.setLayoutParams(new ListView.LayoutParams(120,150));
