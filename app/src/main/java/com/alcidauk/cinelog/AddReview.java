@@ -180,6 +180,12 @@ public class AddReview extends AppCompatActivity {
                 } else {
                     kino.setRating(rating_bar.getRating());
                     kino.setReview(review_text.getText().toString());
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                    String maxRating = prefs.getString("default_max_rate_value", "5");
+                    int maxRatingAsInt = Integer.parseInt(maxRating);
+                    kino.setMaxRating(maxRatingAsInt);
+
                     localKinoDao.save(kino);
                     localKinoDao.detachAll();
 

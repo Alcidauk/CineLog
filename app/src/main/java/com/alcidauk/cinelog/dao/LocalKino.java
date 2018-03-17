@@ -21,6 +21,7 @@ public class LocalKino {
     String poster_path;
 
     float rating;
+    float maxRating;
     String review;
     String overview;
     int year;
@@ -60,12 +61,13 @@ public class LocalKino {
         this.review_date = new Date();
     }
 
-    @Generated(hash = 1343504559)
-    public LocalKino(Long id, String poster_path, float rating, String review, String overview, int year,
-            @NotNull String title, String release_date, int movie_id, Date review_date) {
+    @Generated(hash = 924205549)
+    public LocalKino(Long id, String poster_path, float rating, float maxRating, String review, String overview, int year, @NotNull String title, String release_date,
+            int movie_id, Date review_date) {
         this.id = id;
         this.poster_path = poster_path;
         this.rating = rating;
+        this.maxRating = maxRating;
         this.review = review;
         this.overview = overview;
         this.year = year;
@@ -97,6 +99,14 @@ public class LocalKino {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public float getMaxRating() {
+        return maxRating;
+    }
+
+    public void setMaxRating(float maxRating) {
+        this.maxRating = maxRating;
     }
 
     public String getReview() {
