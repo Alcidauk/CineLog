@@ -123,11 +123,15 @@ public class KinoResultsAdapter extends BaseAdapter {
                 holder.poster.setImageResource(0);
         }
 
-        final LocalKino kino = new LocalKino(movie.title, year, null, movie.overview, year_i, movie.id);
-        TmdbKino kino1 = new TmdbKino();
-        kino1.setPoster_path(movie.poster_path);
-        kino1.setMovie_id(movie.id.longValue());
-        kino.setKino(kino1);
+        TmdbKino tmdbKino = new TmdbKino();
+        tmdbKino.setPoster_path(movie.poster_path);
+        tmdbKino.setMovie_id(movie.id.longValue());
+        tmdbKino.setOverview(movie.overview);
+        tmdbKino.setRelease_date(year);
+        tmdbKino.setYear(year_i);
+
+        final LocalKino kino = new LocalKino(movie.title, tmdbKino);
+
         final Integer m_id = movie.id;
         holder.toggle_review.setOnClickListener(new View.OnClickListener() {
             @Override

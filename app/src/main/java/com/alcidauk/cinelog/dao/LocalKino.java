@@ -55,7 +55,7 @@ public class LocalKino {
         this.kino = tmdbKino;
     }
 
-    public LocalKino(String title, String release_date, String poster_path, String overview, int year, int movie_id) {
+    public LocalKino(String title) {
         this.title = title;
         this.rating = 0f;
         this.review_date = new Date();
@@ -70,6 +70,11 @@ public class LocalKino {
         this.review = review;
         this.rating = rating;
         this.maxRating = maxRating;
+    }
+
+    public LocalKino(String title, TmdbKino tmdbKino) {
+        this.title = title;
+        kino = tmdbKino;
     }
 
     public Long getId() {

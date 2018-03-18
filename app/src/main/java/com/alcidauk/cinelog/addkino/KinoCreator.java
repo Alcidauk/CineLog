@@ -12,14 +12,7 @@ public class KinoCreator {
     }
 
     public LocalKino create(String name) {
-        LocalKino localKino = new LocalKino(
-                name,
-                null,
-                null,
-                null,
-                0,
-                0
-        );
+        LocalKino localKino = new LocalKino(name);
 
         localKinoRepository.create(localKino);
 

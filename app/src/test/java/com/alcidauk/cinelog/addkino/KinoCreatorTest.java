@@ -19,14 +19,8 @@ public class KinoCreatorTest {
 
     @Test
     public void createKino() throws Exception {
-        LocalKino kinoToCreate = new LocalKino(
-                "La belle aux bois dormants",
-                null,
-                null,
-                null,
-                0,
-                0
-        );
+        LocalKino kinoToCreate = new LocalKino("La belle aux bois dormants");
+
         assertEquals(
                 kinoToCreate,
                 new KinoCreator(localKinoRepository).create("La belle aux bois dormants")

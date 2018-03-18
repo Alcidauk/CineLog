@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.alcidauk.cinelog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.TmdbKino;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
@@ -60,7 +61,15 @@ public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Mo
                     }
 
                     System.out.println(year_i);
-                    LocalKino kino = new LocalKino(movies.get(position).title, year, movies.get(position).poster_path, movies.get(position).overview, year_i, movies.get(position).id);
+
+                    TmdbKino tmdbKino = new TmdbKino(
+                            movies.get(position).id.longValue(),
+                            movies.get(position).poster_path,
+                            movies.get(position).overview,
+                            year_i,
+                            year
+                    );
+                    LocalKino kino = new LocalKino(movies.get(position).title, tmdbKino);
                     intent.putExtra("kino", Parcels.wrap(kino));
                     addKino.startActivity(intent);
                 }

@@ -81,7 +81,6 @@ public class AddReview extends AppCompatActivity {
 
         rating_picker.setMinValue(0);
         rating_picker.setMaxValue(maxRating * 2);
-        rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
 
         rating_picker.setDisplayedValues(displayedValues);
 
@@ -96,9 +95,13 @@ public class AddReview extends AppCompatActivity {
             }
         });
 
+        if(kino.getRating() != null) {
+            rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
+            rating_bar.setRating(kino.getRating());
+        }
+
         rating_bar.setNumStars(maxRating);
         rating_bar.setStepSize(0.5f);
-        rating_bar.setRating(kino.getRating());
 
         if (kino.getReview() != null) {
             review_text.setText(kino.getReview());
