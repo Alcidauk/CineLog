@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
+import com.alcidauk.cinelog.dao.TmdbKino;
 import com.bumptech.glide.Glide;
 import com.github.zagum.switchicon.SwitchIconView;
 import com.uwetrottmann.tmdb2.entities.Movie;
@@ -122,7 +123,11 @@ public class KinoResultsAdapter extends BaseAdapter {
                 holder.poster.setImageResource(0);
         }
 
-        final LocalKino kino = new LocalKino(movie.title, year, movie.poster_path, movie.overview, year_i, movie.id);
+        final LocalKino kino = new LocalKino(movie.title, year, null, movie.overview, year_i, movie.id);
+        TmdbKino kino1 = new TmdbKino();
+        kino1.setPoster_path(movie.poster_path);
+        kino1.setMovie_id(movie.id.longValue());
+        kino.setKino(kino1);
         final Integer m_id = movie.id;
         holder.toggle_review.setOnClickListener(new View.OnClickListener() {
             @Override

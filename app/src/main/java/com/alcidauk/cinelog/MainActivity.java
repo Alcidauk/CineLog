@@ -318,11 +318,11 @@ class KinoListAdapter extends BaseAdapter {
         holder.title.setText(movie.getTitle());
         holder.year.setText(movie.getRelease_date());
 
-        if (movie.getPoster_path() != null) {
+        if (movie.getKino() != null && movie.getKino().getPoster_path() != null) {
             //poster.setLayoutParams(new ListView.LayoutParams(120,150));
             holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
             Glide.with(mContext)
-                    .load("https://image.tmdb.org/t/p/w185" + movie.getPoster_path())
+                    .load("https://image.tmdb.org/t/p/w185" + movie.getKino().getPoster_path())
                     .centerCrop()
                     //.placeholder(R.drawable.loading_spinner)
                     .crossFade()

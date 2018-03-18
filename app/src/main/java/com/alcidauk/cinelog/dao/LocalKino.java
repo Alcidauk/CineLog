@@ -4,9 +4,11 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.ToOne;
 import org.parceler.Parcel;
 
 import java.util.Date;
+import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by ryan on 10/05/17.
@@ -14,6 +16,11 @@ import java.util.Date;
 @Parcel
 @Entity
 public class LocalKino {
+
+    long tmdb_id;
+
+    @ToOne(joinProperty = "tmdb_id")
+    TmdbKino kino;
 
     @Id(autoincrement = true)
     Long id;
@@ -32,6 +39,17 @@ public class LocalKino {
     int movie_id;
 
     Date review_date;
+
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    /** Used for active entity operations. */
+    @Generated(hash = 458053940)
+    private transient LocalKinoDao myDao;
+
+    @Generated(hash = 1191362854)
+    private transient Long kino__resolvedKey;
 
 
     public LocalKino() {
@@ -61,9 +79,10 @@ public class LocalKino {
         this.review_date = new Date();
     }
 
-    @Generated(hash = 1321915703)
-    public LocalKino(Long id, String poster_path, Float rating, Integer maxRating, String review, String overview, int year, @NotNull String title, String release_date,
-            int movie_id, Date review_date) {
+    @Generated(hash = 1689429566)
+    public LocalKino(long tmdb_id, Long id, String poster_path, Float rating, Integer maxRating, String review, String overview, int year, @NotNull String title,
+            String release_date, int movie_id, Date review_date) {
+        this.tmdb_id = tmdb_id;
         this.id = id;
         this.poster_path = poster_path;
         this.rating = rating;
@@ -165,45 +184,90 @@ public class LocalKino {
         this.review_date = review_date;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        LocalKino localKino = (LocalKino) o;
-
-        if (year != localKino.year) return false;
-        if (movie_id != localKino.movie_id) return false;
-        if (id != null ? !id.equals(localKino.id) : localKino.id != null) return false;
-        if (poster_path != null ? !poster_path.equals(localKino.poster_path) : localKino.poster_path != null)
-            return false;
-        if (rating != null ? !rating.equals(localKino.rating) : localKino.rating != null)
-            return false;
-        if (maxRating != null ? !maxRating.equals(localKino.maxRating) : localKino.maxRating != null)
-            return false;
-        if (review != null ? !review.equals(localKino.review) : localKino.review != null)
-            return false;
-        if (overview != null ? !overview.equals(localKino.overview) : localKino.overview != null)
-            return false;
-        if (title != null ? !title.equals(localKino.title) : localKino.title != null) return false;
-        if (release_date != null ? !release_date.equals(localKino.release_date) : localKino.release_date != null)
-            return false;
-        return review_date != null ? review_date.equals(localKino.review_date) : localKino.review_date == null;
+    public Long getTmdb_id() {
+        return this.tmdb_id;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (poster_path != null ? poster_path.hashCode() : 0);
-        result = 31 * result + (rating != null ? rating.hashCode() : 0);
-        result = 31 * result + (maxRating != null ? maxRating.hashCode() : 0);
-        result = 31 * result + (review != null ? review.hashCode() : 0);
-        result = 31 * result + (overview != null ? overview.hashCode() : 0);
-        result = 31 * result + year;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (release_date != null ? release_date.hashCode() : 0);
-        result = 31 * result + movie_id;
-        result = 31 * result + (review_date != null ? review_date.hashCode() : 0);
-        return result;
+    public void setTmdb_id(Long tmdb_id) {
+        this.tmdb_id = tmdb_id;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1387996076)
+    public TmdbKino getKino() {
+        long __key = this.tmdb_id;
+        if (kino__resolvedKey == null || !kino__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            TmdbKinoDao targetDao = daoSession.getTmdbKinoDao();
+            TmdbKino kinoNew = targetDao.load(__key);
+            synchronized (this) {
+                kino = kinoNew;
+                kino__resolvedKey = __key;
+            }
+        }
+        return kino;
+    }
+
+    public void setTmdb_id(long tmdb_id) {
+        this.tmdb_id = tmdb_id;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1992277457)
+    public void setKino(@NotNull TmdbKino kino) {
+        if (kino == null) {
+            throw new DaoException("To-one property 'tmdb_id' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.kino = kino;
+            tmdb_id = kino.getMovie_id();
+            kino__resolvedKey = tmdb_id;
+        }
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 346087300)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getLocalKinoDao() : null;
     }
 }
