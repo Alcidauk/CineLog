@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //Tmdb tmdb;
-    //SearchService searchService;
-
     DaoSession daoSession;
     LocalKinoDao localKinoDao;
     Query<LocalKino> get_reverse;
@@ -78,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int RESULT_ADD_KINO = 2;
     private static final int RESULT_VIEW_KINO = 4;
 
-    private String API_KEY = "d6d6579b3a02efda2efde4585120d45e";
-
     private int LIST_VIEW_STATE = 1;
 
     @Override
@@ -90,18 +85,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-        //tmdb = new Tmdb(API_KEY);
-        //searchService = tmdb.searchService();
-
 
         daoSession = ((KinoApplication) getApplication()).getDaoSession();
         localKinoDao = daoSession.getLocalKinoDao();
@@ -122,10 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
-        //updateListView();
         createListView(LIST_VIEW_STATE);
         System.out.println("onStart");
-        //updateListView();
     }
 
     @Override
@@ -203,12 +184,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("click detected");
     }
 
-    private void updateListView() {
-        System.out.println("updateListView");
-        //kinos = get_reverse.list();
-        //kino_adapter.notifyDataSetChanged();
-    }
-
     private void createListView(int order) {
         System.out.println("createListView");
         if (kino_list != null) {
@@ -216,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             //date added
             switch (order) {
                 case 1:
-                    kinos = get_reverse.list(); //localKinoDao.loadAll();
+                    kinos = get_reverse.list();
                     break;
                 case 2:
                     kinos = localKinoDao.loadAll();
@@ -320,7 +295,6 @@ class KinoListAdapter extends BaseAdapter {
         //TODO remove it holder.year.setText(movie.getRelease_date());
 
         if (movie.getKino() != null && movie.getKino().getPoster_path() != null) {
-            //poster.setLayoutParams(new ListView.LayoutParams(120,150));
             holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
             Glide.with(mContext)
                     .load("https://image.tmdb.org/t/p/w185" + movie.getKino().getPoster_path())
@@ -334,7 +308,6 @@ class KinoListAdapter extends BaseAdapter {
                     // TODO set a default image
                     .load("https://www.texasforthem.org/wp-content/uploads/2016/03/Feral-Cat-1.jpg")
                     .centerCrop()
-                    //.placeholder(R.drawable.loading_spinner)
                     .crossFade()
                     .into(holder.poster);
         }
@@ -342,7 +315,7 @@ class KinoListAdapter extends BaseAdapter {
         holder.rating_bar.setStepSize(0.5f);
 
         int maxRating;
-        if(movie.getMaxRating() == null) {
+        if (movie.getMaxRating() == null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
             String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
             maxRating = Integer.parseInt(defaultMaxRateValue);
@@ -351,7 +324,7 @@ class KinoListAdapter extends BaseAdapter {
         }
         holder.rating_bar.setNumStars(maxRating);
 
-        if(movie.getRating() != null) {
+        if (movie.getRating() != null) {
             holder.rating_bar.setRating(movie.getRating());
         }
 

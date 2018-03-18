@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.alcidauk.cinelog.dao.DaoSession;
@@ -41,8 +40,6 @@ public class KinoResultsAdapter extends BaseAdapter {
     private int[] mWatchedData;
     private int[] mReveiewedData;
     private SimpleDateFormat sdf;
-    PopupWindow popup_window;
-    View popup_view;
     DaoSession daoSession;
     LocalKinoDao localKinoDao;
     TmdbKinoDao tmdbKinoDao;
@@ -63,8 +60,6 @@ public class KinoResultsAdapter extends BaseAdapter {
             tmdbKinoDao = daoSession.getTmdbKinoDao();
             movie_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Tmdb_id.eq(1)).limit(1).build();
             delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Tmdb_id.eq(1)).buildDelete();
-            //movie_review_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Movie_id.eq(1), localKinoDao.queryBuilder().or(LocalKinoDao.Properties.Rating.isNotNull(), LocalKinoDao.Properties.Review.isNotNull())).limit(1).build();
-            //movie_review_query = localKinoDao.queryBuilder().where(localKinoDao.queryBuilder().or(LocalKinoDao.Properties.Rating.isNotNull(), LocalKinoDao.Properties.Review.isNotNull())).limit(1).build();
         } else {
             mData = new ArrayList<>();
         }
@@ -115,12 +110,10 @@ public class KinoResultsAdapter extends BaseAdapter {
 
 
         if (movie.poster_path != null) {
-            //poster.setLayoutParams(new ListView.LayoutParams(120,150));
             holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
             Glide.with(mContext)
                     .load("https://image.tmdb.org/t/p/w185" + movie.poster_path)
                     .centerCrop()
-                    //.placeholder(R.drawable.loading_spinner)
                     .crossFade()
                     .into(holder.poster);
         } else {
@@ -152,9 +145,7 @@ public class KinoResultsAdapter extends BaseAdapter {
                     intent.putExtra("kino", Parcels.wrap(movies.get(0)));
                 }
 
-                //mContext.startActivity(intent);
                 ((Activity) mContext).startActivityForResult(intent, RESULT_ADD_REVIEW);
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -238,10 +229,8 @@ public class KinoResultsAdapter extends BaseAdapter {
             }
         });
 
-
         holder.toggle_watched.setFocusable(false);
         holder.toggle_review.setFocusable(false);
-
 
         return convertView;
     }

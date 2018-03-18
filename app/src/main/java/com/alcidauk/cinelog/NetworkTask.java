@@ -17,10 +17,6 @@ import java.util.List;
 
 import retrofit2.Call;
 
-/**
- * Created by alcidauk on 15/02/18.
- */
-
 public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Movie>> {
 
     private AddKino addKino;

@@ -25,7 +25,6 @@ import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
 
-import org.greenrobot.greendao.query.Query;
 import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
@@ -54,7 +53,6 @@ public class AddReview extends AppCompatActivity {
     LocalKino kino;
     DaoSession daoSession;
     LocalKinoDao localKinoDao;
-    Query<LocalKino> movie_id_query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +93,7 @@ public class AddReview extends AppCompatActivity {
             }
         });
 
-        if(kino.getRating() != null) {
+        if (kino.getRating() != null) {
             rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
             rating_bar.setRating(kino.getRating());
         }
@@ -116,21 +114,9 @@ public class AddReview extends AppCompatActivity {
             review_date.setText(review_date_as_string);
         }
 
-
         toolbar.setTitle("Add Review: " + kino.getTitle());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-*/
-
     }
 
     private int getValueToDisplay(String[] displayedValues, float rating) {
@@ -185,7 +171,7 @@ public class AddReview extends AppCompatActivity {
                     kino.setRating(rating_bar.getRating());
                     kino.setReview(review_text.getText().toString());
 
-                    if(kino.getMaxRating() == null) {
+                    if (kino.getMaxRating() == null) {
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                         String maxRating = prefs.getString("default_max_rate_value", "5");
                         int maxRatingAsInt = Integer.parseInt(maxRating);

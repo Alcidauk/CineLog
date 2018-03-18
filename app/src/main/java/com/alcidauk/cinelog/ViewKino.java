@@ -84,20 +84,10 @@ public class ViewKino extends AppCompatActivity {
         }
 
         rating.setNumStars(maxRating);
-        if(kino.getRating() != null) {
+        if (kino.getRating() != null) {
             rating.setRating(kino.getRating());
         }
         rating.setStepSize(0.5f);
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
     }
 
     @Nullable
@@ -114,11 +104,10 @@ public class ViewKino extends AppCompatActivity {
 
         TmdbKino tmdbKino = kino.getKino();
 
-        if(tmdbKino != null) {
+        if (tmdbKino != null) {
             Glide.with(this)
                     .load("https://image.tmdb.org/t/p/w185" + tmdbKino.getPoster_path())
                     .centerCrop()
-                    //.placeholder(R.drawable.loading_spinner)
                     .crossFade()
                     .into(poster);
             year.setText(tmdbKino.getRelease_date());
@@ -128,7 +117,7 @@ public class ViewKino extends AppCompatActivity {
         title.setText(kino.getTitle());
 
 
-        if(kino.getRating() != null) {
+        if (kino.getRating() != null) {
             rating.setRating(kino.getRating());
         }
         review.setText(kino.getReview());
@@ -149,8 +138,7 @@ public class ViewKino extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_ADD_REVIEW) {
             if (resultCode == Activity.RESULT_OK) {
-                //addNewLocation(data);
-                kino = (LocalKino) unwrapKino(data.getParcelableExtra("kino"));
+                kino = unwrapKino(data.getParcelableExtra("kino"));
                 editted = true;
                 System.out.println("Result Ok");
             }
@@ -164,20 +152,16 @@ public class ViewKino extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-
                 if (editted) {
                     Intent returnIntent = getIntent();
                     returnIntent.putExtra("kino", Parcels.wrap(kino));
                     returnIntent.putExtra("kino_position", position);
                     setResult(Activity.RESULT_OK, returnIntent);
                 }
-
                 onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
-
         }
     }
 

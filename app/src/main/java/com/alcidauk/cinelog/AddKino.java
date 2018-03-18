@@ -91,13 +91,6 @@ public class AddKino extends AppCompatActivity {
 
     private void startSearchTask() {
         if (isNetworkAvailable()) {
-            //@Query("query") String query,
-            //@Query("page") Integer page,
-            //@Query("language") String language,
-            //@Query("include_adult") Boolean includeAdult,
-            //@Query("year") Integer year,
-            //@Query("primary_release_year") Integer primaryReleaseYear,
-            //@Query("search_type") String searchType
             Call<MovieResultsPage> results = searchService.movie(kino_search.getText().toString(), 1, null, null, null, null, "ngram");
             NetworkTask searchTask = new NetworkTask(this);
             searchTask.execute(results);
