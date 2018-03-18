@@ -1,12 +1,15 @@
 package com.alcidauk.cinelog.exportdb;
 
 import com.alcidauk.cinelog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.TmdbKino;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -18,18 +21,26 @@ public class CsvExportWriterTest {
     @Mock
     private LocalKino aKino;
 
+    @Mock
+    private TmdbKino tmdbKino;
+
+    @Before
+    public void setUp() throws Exception {
+        doReturn(tmdbKino).when(aKino).getKino();
+    }
+
     @Test
     public void write() throws Exception {
         new CsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
-                aKino.getMovie_id(),
+                tmdbKino.getMovie_id(),
                 aKino.getTitle(),
-                aKino.getOverview(),
-                aKino.getYear(),
-                aKino.getPoster_path(),
+                tmdbKino.getOverview(),
+                tmdbKino.getYear(),
+                tmdbKino.getPoster_path(),
                 aKino.getRating(),
-                aKino.getRelease_date(),
+                tmdbKino.getRelease_date(),
                 aKino.getReview(),
                 aKino.getReview_date()
         );

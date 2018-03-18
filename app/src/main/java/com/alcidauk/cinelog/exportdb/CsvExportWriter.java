@@ -1,6 +1,7 @@
 package com.alcidauk.cinelog.exportdb;
 
 import com.alcidauk.cinelog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.TmdbKino;
 
 import java.io.IOException;
 
@@ -32,14 +33,16 @@ public class CsvExportWriter {
     }
 
     public void write(LocalKino localKino) throws IOException {
+        TmdbKino tmdbKino = localKino.getKino();
+
         csvPrinterWrapper.printRecord(
-                localKino.getMovie_id(),
+                tmdbKino.getMovie_id(),
                 localKino.getTitle(),
-                localKino.getOverview(),
-                localKino.getYear(),
-                localKino.getPoster_path(),
+                tmdbKino.getOverview(),
+                tmdbKino.getYear(),
+                tmdbKino.getPoster_path(),
                 localKino.getRating(),
-                localKino.getRelease_date(),
+                tmdbKino.getRelease_date(),
                 localKino.getReview(),
                 localKino.getReview_date()
         );

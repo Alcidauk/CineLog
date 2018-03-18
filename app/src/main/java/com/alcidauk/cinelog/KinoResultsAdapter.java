@@ -58,8 +58,8 @@ public class KinoResultsAdapter extends BaseAdapter {
 
             daoSession = ((KinoApplication) mContext.getApplicationContext()).getDaoSession();
             localKinoDao = daoSession.getLocalKinoDao();
-            movie_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Movie_id.eq(1)).limit(1).build();
-            delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Movie_id.eq(1)).buildDelete();
+            movie_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Tmdb_id.eq(1)).limit(1).build();
+            delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Tmdb_id.eq(1)).buildDelete();
             //movie_review_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Movie_id.eq(1), localKinoDao.queryBuilder().or(LocalKinoDao.Properties.Rating.isNotNull(), LocalKinoDao.Properties.Review.isNotNull())).limit(1).build();
             //movie_review_query = localKinoDao.queryBuilder().where(localKinoDao.queryBuilder().or(LocalKinoDao.Properties.Rating.isNotNull(), LocalKinoDao.Properties.Review.isNotNull())).limit(1).build();
         } else {
@@ -188,6 +188,7 @@ public class KinoResultsAdapter extends BaseAdapter {
                 final SwitchIconView v = (SwitchIconView) ((ViewGroup) view).getChildAt(0);
                 if (v.isIconEnabled()) {
                     System.out.println("is_watched");
+                    //TODO change what is done here: we don't want to remove from network reach list
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setMessage(R.string.delete_kino_dialog)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {

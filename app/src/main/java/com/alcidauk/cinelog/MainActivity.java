@@ -108,8 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
         get_reverse = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Id).build();
 
-        get_year_asc = localKinoDao.queryBuilder().orderAsc(LocalKinoDao.Properties.Year).build();
-        get_year_desc = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Year).build();
+        // TODO remove this sort
+        //get_year_asc = localKinoDao.queryBuilder().orderAsc(LocalKinoDao.Properties.Year).build();
+        //get_year_desc = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Year).build();
 
         get_rating_asc = localKinoDao.queryBuilder().orderAsc(LocalKinoDao.Properties.Rating).build();
         get_rating_desc = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Rating).build();
@@ -316,7 +317,7 @@ class KinoListAdapter extends BaseAdapter {
         LocalKino movie = mData.get(position);
 
         holder.title.setText(movie.getTitle());
-        holder.year.setText(movie.getRelease_date());
+        //TODO remove it holder.year.setText(movie.getRelease_date());
 
         if (movie.getKino() != null && movie.getKino().getPoster_path() != null) {
             //poster.setLayoutParams(new ListView.LayoutParams(120,150));

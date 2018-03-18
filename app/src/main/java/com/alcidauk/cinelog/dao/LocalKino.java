@@ -17,28 +17,21 @@ import org.greenrobot.greendao.DaoException;
 @Entity
 public class LocalKino {
 
-    long tmdb_id;
-
-    @ToOne(joinProperty = "tmdb_id")
-    TmdbKino kino;
-
     @Id(autoincrement = true)
     Long id;
 
-    String poster_path;
-
-    Float rating;
-    Integer maxRating;
-    String review;
-    String overview;
-    int year;
+    @ToOne(joinProperty = "tmdb_id")
+    TmdbKino kino;
+    long tmdb_id;
 
     @NotNull
     String title;
-    String release_date;
-    int movie_id;
 
     Date review_date;
+    String review;
+
+    Float rating;
+    Integer maxRating;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -51,49 +44,31 @@ public class LocalKino {
     @Generated(hash = 1191362854)
     private transient Long kino__resolvedKey;
 
-
     public LocalKino() {
     }
 
     public LocalKino(String poster_path, Float rating, String review, String overview, int year, String title, String release_date, int movie_id, Date review_date) {
-        this.poster_path = poster_path;
         this.rating = rating;
         this.review = review;
-        this.overview = overview;
-        this.year = year;
         this.title = title;
-        this.release_date = release_date;
-        this.movie_id = movie_id;
         this.review_date = review_date;
     }
 
     public LocalKino(String title, String release_date, String poster_path, String overview, int year, int movie_id) {
         this.title = title;
-        this.release_date = release_date;
-        this.poster_path = poster_path;
-        this.movie_id = movie_id;
         this.rating = 0f;
-        this.overview = overview;
-        this.year = year;
-        //this.review = "";
         this.review_date = new Date();
     }
 
-    @Generated(hash = 1689429566)
-    public LocalKino(long tmdb_id, Long id, String poster_path, Float rating, Integer maxRating, String review, String overview, int year, @NotNull String title,
-            String release_date, int movie_id, Date review_date) {
-        this.tmdb_id = tmdb_id;
+    @Generated(hash = 193728723)
+    public LocalKino(Long id, long tmdb_id, @NotNull String title, Date review_date, String review, Float rating, Integer maxRating) {
         this.id = id;
-        this.poster_path = poster_path;
+        this.tmdb_id = tmdb_id;
+        this.title = title;
+        this.review_date = review_date;
+        this.review = review;
         this.rating = rating;
         this.maxRating = maxRating;
-        this.review = review;
-        this.overview = overview;
-        this.year = year;
-        this.title = title;
-        this.release_date = release_date;
-        this.movie_id = movie_id;
-        this.review_date = review_date;
     }
 
     public Long getId() {
@@ -102,14 +77,6 @@ public class LocalKino {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getPoster_path() {
-        return this.poster_path;
-    }
-
-    public void setPoster_path(String poster_path) {
-        this.poster_path = poster_path;
     }
 
     public Float getRating() {
@@ -142,38 +109,6 @@ public class LocalKino {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getRelease_date() {
-        return this.release_date;
-    }
-
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
-    }
-
-    public int getMovie_id() {
-        return this.movie_id;
-    }
-
-    public void setMovie_id(int movie_id) {
-        this.movie_id = movie_id;
-    }
-
-    public String getOverview() {
-        return this.overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
-    public int getYear() {
-        return this.year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public Date getReview_date() {
