@@ -16,6 +16,7 @@ import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
 import com.alcidauk.cinelog.dao.TmdbKino;
+import com.alcidauk.cinelog.dao.TmdbKinoDao;
 import com.bumptech.glide.Glide;
 import com.github.zagum.switchicon.SwitchIconView;
 import com.uwetrottmann.tmdb2.entities.Movie;
@@ -44,6 +45,7 @@ public class KinoResultsAdapter extends BaseAdapter {
     View popup_view;
     DaoSession daoSession;
     LocalKinoDao localKinoDao;
+    TmdbKinoDao tmdbKinoDao;
     Query<LocalKino> movie_id_query;
     DeleteQuery<LocalKino> delete_by_id_query;
 
@@ -58,6 +60,7 @@ public class KinoResultsAdapter extends BaseAdapter {
 
             daoSession = ((KinoApplication) mContext.getApplicationContext()).getDaoSession();
             localKinoDao = daoSession.getLocalKinoDao();
+            tmdbKinoDao = daoSession.getTmdbKinoDao();
             movie_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Tmdb_id.eq(1)).limit(1).build();
             delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Tmdb_id.eq(1)).buildDelete();
             //movie_review_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Movie_id.eq(1), localKinoDao.queryBuilder().or(LocalKinoDao.Properties.Rating.isNotNull(), LocalKinoDao.Properties.Review.isNotNull())).limit(1).build();
@@ -81,6 +84,8 @@ public class KinoResultsAdapter extends BaseAdapter {
 
     // create a new RelativeView for each item referenced by the Adapter
     public View getView(final int position, View convertView, ViewGroup parent) {
+        // TODO clean that
+
         AddKino.ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.search_result_item, null);
@@ -123,7 +128,7 @@ public class KinoResultsAdapter extends BaseAdapter {
                 holder.poster.setImageResource(0);
         }
 
-        TmdbKino tmdbKino = new TmdbKino();
+        final TmdbKino tmdbKino = new TmdbKino();
         tmdbKino.setPoster_path(movie.poster_path);
         tmdbKino.setMovie_id(movie.id.longValue());
         tmdbKino.setOverview(movie.overview);
@@ -215,8 +220,14 @@ public class KinoResultsAdapter extends BaseAdapter {
                     builder.show();
                 } else {
                     try {
+                        tmdbKinoDao.insert(tmdbKino);
                         localKinoDao.insert(kino);
+
+                        kino.setKino(tmdbKino);
+                        localKinoDao.save(kino);
+
                         localKinoDao.detachAll();
+                        tmdbKinoDao.detachAll();
                         v.setIconEnabled(true);
                         mWatchedData[position] = 1;
                     } catch (SQLiteConstraintException e) {
