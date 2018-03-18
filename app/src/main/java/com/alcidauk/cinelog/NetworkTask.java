@@ -12,6 +12,7 @@ import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.parceler.Parcels;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -19,10 +20,10 @@ import retrofit2.Call;
 
 public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Movie>> {
 
-    private AddKino addKino;
+    private WeakReference<AddKino> addKino;
 
     public NetworkTask(AddKino addKino) {
-        this.addKino = addKino;
+        this.addKino = new WeakReference<>(addKino);
     }
 
     protected List<Movie> doInBackground(Call<MovieResultsPage>... results) {
@@ -44,8 +45,8 @@ public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Mo
     }
 
     private void populateListView(final List<Movie> movies) {
-        if (addKino.kino_results_list != null) {
-            addKino.kino_results_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        if (addKino.get().kino_results_list != null) {
+            addKino.get().kino_results_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Intent intent = new Intent(view.getContext(), ViewKino.class);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
@@ -67,12 +68,12 @@ public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Mo
                     );
                     LocalKino kino = new LocalKino(movies.get(position).title, tmdbKino);
                     intent.putExtra("kino", Parcels.wrap(kino));
-                    addKino.startActivity(intent);
+                    addKino.get().startActivity(intent);
                 }
             });
 
-            addKino.kino_results_list.setAdapter(new KinoResultsAdapter(addKino, movies));
-            addKino.kino_search_progress_bar.setVisibility(View.GONE);
+            addKino.get().kino_results_list.setAdapter(new KinoResultsAdapter(addKino.get(), movies));
+            addKino.get().kino_search_progress_bar.setVisibility(View.GONE);
         }
     }
 
@@ -83,11 +84,11 @@ public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Mo
 
         NetworkTask that = (NetworkTask) o;
 
-        return addKino != null ? addKino.equals(that.addKino) : that.addKino == null;
+        return addKino != null && addKino.get() != null ? addKino.get().equals(that.addKino.get()) : that.addKino == null;
     }
 
     @Override
     public int hashCode() {
-        return addKino != null ? addKino.hashCode() : 0;
+        return addKino.get() != null ? addKino.get().hashCode() : 0;
     }
 }
