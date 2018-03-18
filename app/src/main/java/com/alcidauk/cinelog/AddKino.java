@@ -10,10 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,17 +24,13 @@ import com.alcidauk.cinelog.db.LocalKinoRepository;
 import com.alcidauk.cinelog.tmdb.NetworkTaskManager;
 import com.alcidauk.cinelog.tmdb.TmdbServiceWrapper;
 import com.github.zagum.switchicon.SwitchIconView;
-import com.uwetrottmann.tmdb2.Tmdb;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-import com.uwetrottmann.tmdb2.services.SearchService;
 
-import java.util.ArrayList;
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
-import retrofit2.Call;
+import butterknife.OnTextChanged;
 
 public class AddKino extends AppCompatActivity {
 
@@ -53,6 +46,13 @@ public class AddKino extends AppCompatActivity {
     private TmdbServiceWrapper tmdbServiceWrapper;
     private NetworkTaskManager networkTaskManager;
 
+    private Handler handler;
+
+    private final static int TRIGGER_SERACH = 1;
+
+    // Where did 1000 come from? It's arbitrary, since I can't find average android typing speed.
+    private final static long SEARCH_TRIGGER_DELAY_IN_MS = 1000;
+
     static int RESULT_ADD_REVIEW = 6;
 
     @Override
@@ -62,13 +62,12 @@ public class AddKino extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
-        kino_search.addTextChangedListener(textWatcher);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tmdbServiceWrapper = new TmdbServiceWrapper();
         networkTaskManager = new NetworkTaskManager(this);
+
+        handler = new AddKinoHandler(new WeakReference<>(this));
     }
 
     @Override
@@ -97,53 +96,22 @@ public class AddKino extends AppCompatActivity {
         }
     }
 
-    private final int TRIGGER_SERACH = 1;
-    // Where did 1000 come from? It's arbitrary, since I can't find average android typing speed.
-    private final long SEARCH_TRIGGER_DELAY_IN_MS = 1000;
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == TRIGGER_SERACH) {
-                startSearchTask();
-            }
-        }
-    };
-
-    private TextWatcher textWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            System.out.println("onTextChanged");
-            System.out.println(start + " " + before + " " + count);
-
-            if (count > 0) {
-                kino_search_progress_bar.setVisibility(View.VISIBLE);
-                handler.removeMessages(TRIGGER_SERACH);
-                handler.sendEmptyMessageDelayed(TRIGGER_SERACH, SEARCH_TRIGGER_DELAY_IN_MS);
-            } else if (count == 0) {
-                clearListView();
-            }
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            System.out.println("beforeTextChanged");
-            System.out.println(start + " " + count + " " + after);
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            System.out.println("afterTextChanged");
-        }
-    };
-
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @SuppressWarnings("unused")
+    @OnTextChanged(R.id.kino_search)
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (count > 0) {
+            kino_search_progress_bar.setVisibility(View.VISIBLE);
+            handler.removeMessages(TRIGGER_SERACH);
+            handler.sendEmptyMessageDelayed(TRIGGER_SERACH, SEARCH_TRIGGER_DELAY_IN_MS);
+        } else if (count == 0) {
+            clearListView();
+        }
     }
 
     private void clearListView() {
@@ -152,17 +120,10 @@ public class AddKino extends AppCompatActivity {
         }
     }
 
-    @OnItemClick(R.id.kino_results)
-    public void onItemClick(AdapterView<?> parent, int position) {
-        System.out.println("click detected");
-    }
-
     @OnClick(R.id.kino_search_add_from_scratch)
     public void onClick(View view) {
         new KinoCreator(new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession())).create(kino_search.getText().toString());
-        System.out.println("coucou toi !");
     }
-
 
     static class ViewHolder {
         @BindView(R.id.kino_title)
@@ -182,8 +143,23 @@ public class AddKino extends AppCompatActivity {
         @BindView(R.id.switch_icon_watched)
         SwitchIconView switch_icon_watched;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
+        }
+    }
+
+    static class AddKinoHandler extends Handler {
+        private WeakReference<AddKino> addKino;
+
+        AddKinoHandler(WeakReference<AddKino> addKino) {
+            this.addKino = addKino;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == TRIGGER_SERACH) {
+                addKino.get().startSearchTask();
+            }
         }
     }
 }
