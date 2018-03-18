@@ -75,4 +75,19 @@ public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Mo
             addKino.kino_search_progress_bar.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NetworkTask that = (NetworkTask) o;
+
+        return addKino != null ? addKino.equals(that.addKino) : that.addKino == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return addKino != null ? addKino.hashCode() : 0;
+    }
 }

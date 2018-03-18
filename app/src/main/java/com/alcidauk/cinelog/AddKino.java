@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.alcidauk.cinelog.addkino.KinoCreator;
 import com.alcidauk.cinelog.db.LocalKinoRepository;
+import com.alcidauk.cinelog.tmdb.NetworkTaskManager;
 import com.alcidauk.cinelog.tmdb.TmdbServiceWrapper;
 import com.github.zagum.switchicon.SwitchIconView;
 import com.uwetrottmann.tmdb2.Tmdb;
@@ -50,9 +51,7 @@ public class AddKino extends AppCompatActivity {
     ProgressBar kino_search_progress_bar;
 
     private TmdbServiceWrapper tmdbServiceWrapper;
-
-    private ArrayList<NetworkTask> taskList;
-
+    private NetworkTaskManager networkTaskManager;
 
     static int RESULT_ADD_REVIEW = 6;
 
@@ -69,7 +68,7 @@ public class AddKino extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tmdbServiceWrapper = new TmdbServiceWrapper();
-        taskList = new ArrayList<>();
+        networkTaskManager = new NetworkTaskManager(this);
     }
 
     @Override
@@ -87,10 +86,9 @@ public class AddKino extends AppCompatActivity {
 
     private void startSearchTask() {
         if (isNetworkAvailable()) {
-            Call<MovieResultsPage> results = tmdbServiceWrapper.search(kino_search.getText().toString());
-            NetworkTask searchTask = new NetworkTask(this);
-            searchTask.execute(results);
-            taskList.add(searchTask);
+            networkTaskManager.createAndExecute(
+                    tmdbServiceWrapper.search(kino_search.getText().toString())
+            );
         } else {
             Toast t = Toast.makeText(getApplicationContext(),
                     "Error no network available.",
@@ -118,17 +116,12 @@ public class AddKino extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             System.out.println("onTextChanged");
             System.out.println(start + " " + before + " " + count);
-            for (NetworkTask task : taskList) {
-                task.cancel(true);
-            }
+
             if (count > 0) {
                 kino_search_progress_bar.setVisibility(View.VISIBLE);
                 handler.removeMessages(TRIGGER_SERACH);
                 handler.sendEmptyMessageDelayed(TRIGGER_SERACH, SEARCH_TRIGGER_DELAY_IN_MS);
             } else if (count == 0) {
-                for (NetworkTask task : taskList) {
-                    task.cancel(true);
-                }
                 clearListView();
             }
         }
