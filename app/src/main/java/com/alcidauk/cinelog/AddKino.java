@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.alcidauk.cinelog.addkino.KinoCreator;
 import com.alcidauk.cinelog.db.LocalKinoRepository;
+import com.alcidauk.cinelog.tmdb.TmdbServiceWrapper;
 import com.github.zagum.switchicon.SwitchIconView;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
@@ -48,12 +49,10 @@ public class AddKino extends AppCompatActivity {
     @BindView(R.id.kino_search_progress_bar)
     ProgressBar kino_search_progress_bar;
 
-    Tmdb tmdb;
-    SearchService searchService;
+    private TmdbServiceWrapper tmdbServiceWrapper;
 
     private ArrayList<NetworkTask> taskList;
 
-    private String API_KEY = "d6d6579b3a02efda2efde4585120d45e";
 
     static int RESULT_ADD_REVIEW = 6;
 
@@ -67,12 +66,9 @@ public class AddKino extends AppCompatActivity {
 
         kino_search.addTextChangedListener(textWatcher);
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tmdb = new Tmdb(API_KEY);
-        searchService = tmdb.searchService();
-
+        tmdbServiceWrapper = new TmdbServiceWrapper();
         taskList = new ArrayList<>();
     }
 
@@ -91,7 +87,7 @@ public class AddKino extends AppCompatActivity {
 
     private void startSearchTask() {
         if (isNetworkAvailable()) {
-            Call<MovieResultsPage> results = searchService.movie(kino_search.getText().toString(), 1, null, null, null, null, "ngram");
+            Call<MovieResultsPage> results = tmdbServiceWrapper.search(kino_search.getText().toString());
             NetworkTask searchTask = new NetworkTask(this);
             searchTask.execute(results);
             taskList.add(searchTask);
