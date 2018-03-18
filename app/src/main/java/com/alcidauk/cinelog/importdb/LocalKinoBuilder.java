@@ -3,6 +3,7 @@ package com.alcidauk.cinelog.importdb;
 import android.annotation.SuppressLint;
 
 import com.alcidauk.cinelog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.TmdbKino;
 
 import org.apache.commons.csv.CSVRecord;
 
@@ -14,16 +15,19 @@ class LocalKinoBuilder {
 
     LocalKino build(CSVRecord csvRecord) throws ImportException {
         try {
+            TmdbKino tmdbKino = new TmdbKino();
+            tmdbKino.setPoster_path(csvRecord.get("poster_path"));
+            tmdbKino.setMovie_id(formatLong(csvRecord.get("movie_id")));
+            tmdbKino.setOverview(csvRecord.get("overview"));
+            tmdbKino.setRelease_date(csvRecord.get("release_date"));
+            tmdbKino.setYear(formatInteger(csvRecord.get("year")));
+
             return new LocalKino(
-                    csvRecord.get("poster_path"),
                     formatFloat(csvRecord.get("rating")),
                     csvRecord.get("review"),
-                    csvRecord.get("overview"),
-                    formatInteger(csvRecord.get("year")),
                     csvRecord.get("title"),
-                    csvRecord.get("release_date"),
-                    formatInteger(csvRecord.get("movie_id")),
-                    formatDate(csvRecord.get("review_date"))
+                    formatDate(csvRecord.get("review_date")),
+                    tmdbKino
             );
         } catch (ParseException e) {
             throw new ImportException(String.format("Can't save import movie with name %s.", csvRecord.get("title")), e);
@@ -32,6 +36,10 @@ class LocalKinoBuilder {
 
     private int formatInteger(String integerToFormat) {
         return integerToFormat != null && !integerToFormat.isEmpty() ? Integer.parseInt(integerToFormat) : 0;
+    }
+
+    private long formatLong(String longToFormat) {
+        return longToFormat != null && !longToFormat.isEmpty() ? Long.parseLong(longToFormat) : 0;
     }
 
     @SuppressLint("SimpleDateFormat")

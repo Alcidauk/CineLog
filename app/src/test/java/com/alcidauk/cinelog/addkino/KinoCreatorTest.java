@@ -21,14 +21,11 @@ public class KinoCreatorTest {
     public void createKino() throws Exception {
         LocalKino kinoToCreate = new LocalKino(
                 "La belle aux bois dormants",
-                0f,
                 null,
-                null,
-                0,
                 null,
                 null,
                 0,
-                null
+                0
         );
         assertEquals(
                 kinoToCreate,

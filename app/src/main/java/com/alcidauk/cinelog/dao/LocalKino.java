@@ -47,11 +47,12 @@ public class LocalKino {
     public LocalKino() {
     }
 
-    public LocalKino(String poster_path, Float rating, String review, String overview, int year, String title, String release_date, int movie_id, Date review_date) {
+    public LocalKino(Float rating, String review, String title, Date review_date, TmdbKino tmdbKino) {
         this.rating = rating;
         this.review = review;
         this.title = title;
         this.review_date = review_date;
+        this.kino = tmdbKino;
     }
 
     public LocalKino(String title, String release_date, String poster_path, String overview, int year, int movie_id) {
@@ -197,6 +198,39 @@ public class LocalKino {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LocalKino localKino = (LocalKino) o;
+
+        if (tmdb_id != localKino.tmdb_id) return false;
+        if (id != null ? !id.equals(localKino.id) : localKino.id != null) return false;
+        if (kino != null ? !kino.equals(localKino.kino) : localKino.kino != null) return false;
+        if (title != null ? !title.equals(localKino.title) : localKino.title != null) return false;
+        if (review_date != null ? !review_date.equals(localKino.review_date) : localKino.review_date != null)
+            return false;
+        if (review != null ? !review.equals(localKino.review) : localKino.review != null)
+            return false;
+        if (rating != null ? !rating.equals(localKino.rating) : localKino.rating != null)
+            return false;
+        return maxRating != null ? maxRating.equals(localKino.maxRating) : localKino.maxRating == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (kino != null ? kino.hashCode() : 0);
+        result = 31 * result + (int) (tmdb_id ^ (tmdb_id >>> 32));
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (review_date != null ? review_date.hashCode() : 0);
+        result = 31 * result + (review != null ? review.hashCode() : 0);
+        result = 31 * result + (rating != null ? rating.hashCode() : 0);
+        result = 31 * result + (maxRating != null ? maxRating.hashCode() : 0);
+        return result;
     }
 
     /** called by internal mechanisms, do not call yourself. */

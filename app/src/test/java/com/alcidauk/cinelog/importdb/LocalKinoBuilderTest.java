@@ -1,6 +1,7 @@
 package com.alcidauk.cinelog.importdb;
 
 import com.alcidauk.cinelog.dao.LocalKino;
+import com.alcidauk.cinelog.dao.TmdbKino;
 
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
@@ -9,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -36,17 +36,20 @@ public class LocalKinoBuilderTest {
         doReturn("review").when(csvRecord).get("review");
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
+        TmdbKino tmdbKino = new TmdbKino();
+        tmdbKino.setYear(2015);
+        tmdbKino.setRelease_date("date release");
+        tmdbKino.setOverview("overview");
+        tmdbKino.setMovie_id(24L);
+        tmdbKino.setPoster_path("poster path");
+
         assertEquals(
                 new LocalKino(
-                        "poster path",
-                        3,
+                        3f,
                         "review",
-                        "overview",
-                        2015,
                         "title",
-                        "date release",
-                        24,
-                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate))
+                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                        tmdbKino
                 ),
                 new LocalKinoBuilder().build(csvRecord)
         );
@@ -67,24 +70,27 @@ public class LocalKinoBuilderTest {
         doReturn("review").when(csvRecord).get("review");
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
+        TmdbKino tmdbKino = new TmdbKino();
+        tmdbKino.setYear(2015);
+        tmdbKino.setRelease_date("date release");
+        tmdbKino.setOverview("overview");
+        tmdbKino.setMovie_id(24L);
+        tmdbKino.setPoster_path("poster path");
+
         assertEquals(
                 new LocalKino(
-                        "poster path",
                         3.3f,
                         "review",
-                        "overview",
-                        2015,
                         "title",
-                        "date release",
-                        24,
-                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate))
+                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                        tmdbKino
                 ),
                 new LocalKinoBuilder().build(csvRecord)
         );
     }
 
     @Test
-    public void buildnull_onInteger() throws Exception {
+    public void buildnull_onLong() throws Exception {
         final Date reviewDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
@@ -98,18 +104,20 @@ public class LocalKinoBuilderTest {
         doReturn("review").when(csvRecord).get("review");
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
+        TmdbKino tmdbKino = new TmdbKino();
+        tmdbKino.setYear(2015);
+        tmdbKino.setRelease_date("date release");
+        tmdbKino.setOverview("overview");
+        tmdbKino.setMovie_id(0L);
+        tmdbKino.setPoster_path("poster path");
 
         assertEquals(
                 new LocalKino(
-                        "poster path",
                         3.3f,
                         "review",
-                        "overview",
-                        2015,
                         "title",
-                        "date release",
-                        0,
-                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate))
+                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                        tmdbKino
                 ),
                 new LocalKinoBuilder().build(csvRecord)
         );
@@ -130,18 +138,20 @@ public class LocalKinoBuilderTest {
         doReturn("review").when(csvRecord).get("review");
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
+        TmdbKino tmdbKino = new TmdbKino();
+        tmdbKino.setYear(2015);
+        tmdbKino.setRelease_date("date release");
+        tmdbKino.setOverview("overview");
+        tmdbKino.setMovie_id(24L);
+        tmdbKino.setPoster_path("poster path");
 
         assertEquals(
                 new LocalKino(
-                        "poster path",
                         0f,
                         "review",
-                        "overview",
-                        2015,
                         "title",
-                        "date release",
-                        24,
-                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate))
+                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                        tmdbKino
                 ),
                 new LocalKinoBuilder().build(csvRecord)
         );
