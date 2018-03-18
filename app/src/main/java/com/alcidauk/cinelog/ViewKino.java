@@ -84,7 +84,9 @@ public class ViewKino extends AppCompatActivity {
         }
 
         rating.setNumStars(maxRating);
-        rating.setRating(kino.getRating());
+        if(kino.getRating() != null) {
+            rating.setRating(kino.getRating());
+        }
         rating.setStepSize(0.5f);
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -126,7 +128,9 @@ public class ViewKino extends AppCompatActivity {
         title.setText(kino.getTitle());
 
 
-        rating.setRating(kino.getRating());
+        if(kino.getRating() != null) {
+            rating.setRating(kino.getRating());
+        }
         review.setText(kino.getReview());
         review_date.setText(getReviewDateAsString(kino.getReview_date()));
 
