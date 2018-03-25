@@ -7,6 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/kino_poster"
+        android:src="@drawable/noimage"
         android:maxWidth="120px"
         android:minWidth="120px"
         android:maxHeight="150px"

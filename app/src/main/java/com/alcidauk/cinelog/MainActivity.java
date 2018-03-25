@@ -294,20 +294,12 @@ class KinoListAdapter extends BaseAdapter {
         holder.title.setText(movie.getTitle());
         //TODO remove it holder.year.setText(movie.getRelease_date());
 
+        holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
         if (movie.getKino() != null && movie.getKino().getPoster_path() != null) {
-            holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
             Glide.with(mContext)
                     .load("https://image.tmdb.org/t/p/w185" + movie.getKino().getPoster_path())
                     .centerCrop()
                     //.placeholder(R.drawable.loading_spinner)
-                    .crossFade()
-                    .into(holder.poster);
-        } else {
-            holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-            Glide.with(mContext)
-                    // TODO set a default image
-                    .load("https://www.texasforthem.org/wp-content/uploads/2016/03/Feral-Cat-1.jpg")
-                    .centerCrop()
                     .crossFade()
                     .into(holder.poster);
         }
