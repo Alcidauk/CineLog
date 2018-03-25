@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.alcidauk.cinelog.addkino.KinoCreator;
 import com.alcidauk.cinelog.dao.LocalKino;
-import com.alcidauk.cinelog.dao.TmdbKino;
 import com.alcidauk.cinelog.db.LocalKinoRepository;
 import com.alcidauk.cinelog.tmdb.NetworkTaskManager;
 import com.alcidauk.cinelog.tmdb.TmdbServiceWrapper;
@@ -32,7 +31,6 @@ import com.uwetrottmann.tmdb2.entities.Movie;
 import org.parceler.Parcels;
 
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -138,25 +136,10 @@ public class AddKino extends AppCompatActivity {
             kino_results_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Intent intent = new Intent(view.getContext(), ViewKino.class);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-                    String year = "";
-                    int year_i = 0;
-                    if (movies.get(position).release_date != null) {
-                        year = sdf.format(movies.get(position).release_date);
-                        year_i = Integer.parseInt(year);
-                    }
 
-                    System.out.println(year_i);
-
-                    TmdbKino tmdbKino = new TmdbKino(
-                            movies.get(position).id.longValue(),
-                            movies.get(position).poster_path,
-                            movies.get(position).overview,
-                            year_i,
-                            year
-                    );
-                    LocalKino kino = new LocalKino(movies.get(position).title, tmdbKino);
+                    LocalKino kino = new KinoBuilderFromMovie().build(movies.get(position));
                     intent.putExtra("kino", Parcels.wrap(kino));
+
                     startActivity(intent);
                 }
             });
