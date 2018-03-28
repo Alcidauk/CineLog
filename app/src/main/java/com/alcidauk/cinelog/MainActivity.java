@@ -302,6 +302,9 @@ class KinoListAdapter extends BaseAdapter {
                     //.placeholder(R.drawable.loading_spinner)
                     .crossFade()
                     .into(holder.poster);
+        } else {
+            holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
+            holder.poster.setImageResource(R.drawable.noimage);
         }
 
         holder.rating_bar.setStepSize(0.5f);
