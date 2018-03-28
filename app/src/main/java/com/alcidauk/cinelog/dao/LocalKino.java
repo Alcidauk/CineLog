@@ -47,6 +47,16 @@ public class LocalKino {
     public LocalKino() {
     }
 
+    public LocalKino(Float rating, Integer maxRating, String review, String title, Date review_date, TmdbKino tmdbKino) {
+        this.rating = rating;
+        this.maxRating = maxRating;
+        this.review = review;
+        this.title = title;
+        this.review_date = review_date;
+        this.kino = tmdbKino;
+    }
+
+
     public LocalKino(Float rating, String review, String title, Date review_date, TmdbKino tmdbKino) {
         this.rating = rating;
         this.review = review;

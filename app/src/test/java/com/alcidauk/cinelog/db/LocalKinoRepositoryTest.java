@@ -48,6 +48,16 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
+    public void find() throws Exception {
+        doReturn(localKino).when(localKinoDao).load(4L);
+
+        assertEquals(
+                localKino,
+                new LocalKinoRepository(daoSession).find(4L)
+        );
+    }
+
+    @Test
     public void create() throws Exception {
         new LocalKinoRepository(daoSession).create(localKino);
 

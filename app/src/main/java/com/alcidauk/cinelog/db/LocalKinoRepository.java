@@ -25,4 +25,8 @@ public class LocalKinoRepository {
     public void create(LocalKino kinoToCreate) {
         localKinoDao.insert(kinoToCreate);
     }
+
+    public LocalKino find(long id) {
+        return localKinoDao.load(id);
+    }
 }
