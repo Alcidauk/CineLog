@@ -55,4 +55,8 @@ public class LocalKinoRepository {
 
         return localKinoQueryBuilder.build().list();
     }
+
+    public void delete(Long localKinoId) {
+        localKinoDao.deleteByKey(localKinoId);
+    }
 }

@@ -122,4 +122,12 @@ public class LocalKinoRepositoryTest {
 
         verify(localKinoDao).save(localKino);
     }
+
+    @Test
+    public void delete() throws Exception {
+        // TODO delete the TmdbKino if necessary too.
+        new LocalKinoRepository(daoSession).delete(5L);
+
+        verify(localKinoDao).deleteByKey(5L);
+    }
 }

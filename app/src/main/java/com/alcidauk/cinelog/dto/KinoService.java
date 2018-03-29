@@ -84,4 +84,8 @@ public class KinoService {
 
         return kinoDtos;
     }
+
+    public void deleteKino(KinoDto kinoDto) {
+        localKinoRepository.delete(kinoDto.getKinoId());
+    }
 }

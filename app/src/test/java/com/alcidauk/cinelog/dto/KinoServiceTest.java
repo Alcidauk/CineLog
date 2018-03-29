@@ -152,4 +152,14 @@ public class KinoServiceTest {
         verify(localKinoRepository).createOrUpdate(kinoToCreate);
         verify(tmdbKinoRepository).createOrUpdate(tmdbKino);
     }
+
+    @Test
+    public void deleteKino() throws Exception {
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(545L).when(kinoDto).getKinoId();
+
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).deleteKino(kinoDto);
+
+        verify(localKinoRepository).delete(545L);
+    }
 }
