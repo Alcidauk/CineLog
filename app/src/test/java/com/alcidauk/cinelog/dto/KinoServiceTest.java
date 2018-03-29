@@ -47,6 +47,53 @@ public class KinoServiceTest {
     }
 
     @Test
+    public void getKinoByTmdbMovieId() throws Exception {
+        LocalKino localKino = mock(LocalKino.class);
+
+        doReturn(localKino).when(localKinoRepository).findByMovieId(4L);
+        doReturn(kinoDto).when(kinoDtoBuilder).build(localKino);
+
+        assertEquals(
+                kinoDto,
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getKinoByTmdbMovieId(4L)
+        );
+    }
+
+    @Test
+    public void getKinosByRating() throws Exception {
+        LocalKino localKino = mock(LocalKino.class);
+        LocalKino anotherLocalKino = mock(LocalKino.class);
+
+        doReturn(Arrays.asList(localKino, anotherLocalKino)).when(localKinoRepository).findAllByRating(true);
+
+        KinoDto anotherKinoDto = mock(KinoDto.class);
+        doReturn(kinoDto).when(kinoDtoBuilder).build(localKino);
+        doReturn(anotherKinoDto).when(kinoDtoBuilder).build(anotherLocalKino);
+
+        assertEquals(
+                Arrays.asList(kinoDto, anotherKinoDto),
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getKinosByRating(true)
+        );
+    }
+
+    @Test
+    public void getKinosByRatingDesc() throws Exception {
+        LocalKino localKino = mock(LocalKino.class);
+        LocalKino anotherLocalKino = mock(LocalKino.class);
+
+        doReturn(Arrays.asList(localKino, anotherLocalKino)).when(localKinoRepository).findAllByRating(false);
+
+        KinoDto anotherKinoDto = mock(KinoDto.class);
+        doReturn(kinoDto).when(kinoDtoBuilder).build(localKino);
+        doReturn(anotherKinoDto).when(kinoDtoBuilder).build(anotherLocalKino);
+
+        assertEquals(
+                Arrays.asList(kinoDto, anotherKinoDto),
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getKinosByRating(false)
+        );
+    }
+
+    @Test
     public void getAllKinos() throws Exception {
         LocalKino localKino = mock(LocalKino.class);
         LocalKino anotherLocalKino = mock(LocalKino.class);

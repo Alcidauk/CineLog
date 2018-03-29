@@ -1,5 +1,6 @@
 package com.alcidauk.cinelog.dto;
 
+import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.TmdbKino;
 import com.alcidauk.cinelog.db.LocalKinoRepository;
@@ -15,8 +16,13 @@ public class KinoService {
     private final TmdbKinoRepository tmdbKinoRepository;
     private final KinoDtoBuilder kinoDtoBuilder;
 
+    public KinoService(DaoSession session) {
+        this.localKinoRepository = new LocalKinoRepository(session);
+        this.tmdbKinoRepository = new TmdbKinoRepository(session);
+        this.kinoDtoBuilder = new KinoDtoBuilder();
+    }
 
-    public KinoService(LocalKinoRepository localKinoRepository, TmdbKinoRepository tmdbKinoRepository, KinoDtoBuilder kinoDtoBuilder) {
+    KinoService(LocalKinoRepository localKinoRepository, TmdbKinoRepository tmdbKinoRepository, KinoDtoBuilder kinoDtoBuilder) {
         this.localKinoRepository = localKinoRepository;
         this.tmdbKinoRepository = tmdbKinoRepository;
         this.kinoDtoBuilder = kinoDtoBuilder;
@@ -31,12 +37,7 @@ public class KinoService {
     public List<KinoDto> getAllKinos() {
         List<LocalKino> localKinos = localKinoRepository.findAll();
 
-        List<KinoDto> kinoDtos = new ArrayList<>();
-        for (LocalKino localKino : localKinos) {
-            kinoDtos.add(kinoDtoBuilder.build(localKino));
-        }
-
-        return kinoDtos;
+        return buildKinos(localKinos);
     }
 
     public KinoDto createKino(KinoDto kinoDto) {
@@ -61,5 +62,25 @@ public class KinoService {
         tmdbKinoRepository.create(tmdbKino);
 
         return kinoDtoBuilder.build(localKino);
+    }
+
+    public KinoDto getKinoByTmdbMovieId(long tmdbMovieId) {
+        LocalKino byMovieId = localKinoRepository.findByMovieId(tmdbMovieId);
+        return byMovieId != null ? kinoDtoBuilder.build(byMovieId) : null;
+    }
+
+    public List<KinoDto> getKinosByRating(boolean asc) {
+        List<LocalKino> localKinos = localKinoRepository.findAllByRating(asc);
+
+        return buildKinos(localKinos);
+    }
+
+    private List<KinoDto> buildKinos(List<LocalKino> kinos){
+        List<KinoDto> kinoDtos = new ArrayList<>();
+        for (LocalKino localKino : kinos) {
+            kinoDtos.add(kinoDtoBuilder.build(localKino));
+        }
+
+        return kinoDtos;
     }
 }

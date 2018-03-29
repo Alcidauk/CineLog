@@ -4,6 +4,9 @@ import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
 
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.List;
 
 public class LocalKinoRepository {
@@ -28,5 +31,28 @@ public class LocalKinoRepository {
 
     public LocalKino find(long id) {
         return localKinoDao.load(id);
+    }
+
+    public LocalKino findByMovieId(long movieId) {
+        Query<LocalKino> localKinoQuery = localKinoDao.queryBuilder()
+                .where(LocalKinoDao.Properties.Tmdb_id.eq(movieId))
+                .limit(1)
+                .build();
+        List<LocalKino> localKinos = localKinoQuery.list();
+        return localKinos != null && localKinos.size() > 0 ? localKinos.get(0) : null;
+    }
+
+    public List<LocalKino> findAllByRating(boolean asc) {
+        QueryBuilder<LocalKino> localKinoQueryBuilder = localKinoDao.queryBuilder();
+
+        if (asc) {
+            localKinoQueryBuilder = localKinoQueryBuilder
+                    .orderAsc(LocalKinoDao.Properties.Rating);
+        } else {
+            localKinoQueryBuilder = localKinoQueryBuilder
+                    .orderDesc(LocalKinoDao.Properties.Rating);
+        }
+
+        return localKinoQueryBuilder.build().list();
     }
 }
