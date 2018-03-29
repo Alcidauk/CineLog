@@ -41,25 +41,25 @@ public class KinoService {
     }
 
     public KinoDto createKino(KinoDto kinoDto) {
+        LocalKino localKino = new LocalKino(
+                kinoDto.getKinoId(),
+                kinoDto.getTmdbKinoId(),
+                kinoDto.getTitle(),
+                kinoDto.getReview_date(),
+                kinoDto.getReview(),
+                kinoDto.getRating(),
+                kinoDto.getMaxRating()
+        );
+        localKinoRepository.createOrUpdate(localKino);
+
         TmdbKino tmdbKino = new TmdbKino(
-                null,
+                kinoDto.getTmdbKinoId(),
                 kinoDto.getPosterPath(),
                 kinoDto.getOverview(),
                 kinoDto.getYear(),
                 kinoDto.getReleaseDate()
         );
-
-        LocalKino localKino = new LocalKino(
-                kinoDto.getRating(),
-                kinoDto.getMaxRating(),
-                kinoDto.getReview(),
-                kinoDto.getTitle(),
-                kinoDto.getReview_date(),
-                tmdbKino
-        );
-
-        localKinoRepository.create(localKino);
-        tmdbKinoRepository.create(tmdbKino);
+        tmdbKinoRepository.createOrUpdate(tmdbKino);
 
         return kinoDtoBuilder.build(localKino);
     }

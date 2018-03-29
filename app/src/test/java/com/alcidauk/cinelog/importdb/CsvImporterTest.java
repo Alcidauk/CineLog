@@ -52,7 +52,7 @@ public class CsvImporterTest {
 
         new CsvImporter(fileReaderGetter, kinoImportCreator, localKinoRepository).importCsvFile();
 
-        verify(localKinoRepository).create(new ArrayList<LocalKino>() {{
+        verify(localKinoRepository).createOrUpdate(new ArrayList<LocalKino>() {{
             add(aLocalKino);
             add(anotherLocalKino);
         }});

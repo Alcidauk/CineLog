@@ -21,12 +21,12 @@ public class LocalKinoRepository {
         return localKinoDao.loadAll();
     }
 
-    public void create(List<LocalKino> localKinos) {
+    public void createOrUpdate(List<LocalKino> localKinos) {
         localKinoDao.insertInTx(localKinos);
     }
 
-    public void create(LocalKino kinoToCreate) {
-        localKinoDao.insert(kinoToCreate);
+    public void createOrUpdate(LocalKino kinoToCreate) {
+        localKinoDao.save(kinoToCreate);
     }
 
     public LocalKino find(long id) {

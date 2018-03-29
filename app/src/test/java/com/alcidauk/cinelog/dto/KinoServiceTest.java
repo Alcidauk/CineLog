@@ -149,7 +149,7 @@ public class KinoServiceTest {
                 new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).createKino(kinoDto)
         );
 
-        verify(localKinoRepository).create(kinoToCreate);
-        verify(tmdbKinoRepository).create(tmdbKino);
+        verify(localKinoRepository).createOrUpdate(kinoToCreate);
+        verify(tmdbKinoRepository).createOrUpdate(tmdbKino);
     }
 }

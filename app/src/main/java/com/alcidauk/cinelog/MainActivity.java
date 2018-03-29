@@ -276,7 +276,7 @@ class KinoListAdapter extends BaseAdapter {
         return 0;
     }
 
-    // create a new RelativeView for each item referenced by the Adapter
+    // createOrUpdate a new RelativeView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {

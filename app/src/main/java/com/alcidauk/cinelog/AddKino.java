@@ -129,7 +129,7 @@ public class AddKino extends AppCompatActivity {
     @OnClick(R.id.kino_search_add_from_scratch)
     public void onClick(View view) {
         // TODO make it work with KinoDto
-        // new KinoCreator(new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession())).create(kino_search.getText().toString());
+        // new KinoCreator(new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession())).createOrUpdate(kino_search.getText().toString());
     }
 
     public void populateListView(final List<Movie> movies) {

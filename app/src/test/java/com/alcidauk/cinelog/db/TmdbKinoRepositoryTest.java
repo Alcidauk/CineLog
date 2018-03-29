@@ -28,8 +28,8 @@ public class TmdbKinoRepositoryTest {
     public void create() throws Exception {
         doReturn(tmdbKinoDao).when(daoSession).getTmdbKinoDao();
 
-        new TmdbKinoRepository(daoSession).create(tmdbKino);
+        new TmdbKinoRepository(daoSession).createOrUpdate(tmdbKino);
 
-        verify(tmdbKinoDao).insert(tmdbKino);
+        verify(tmdbKinoDao).save(tmdbKino);
     }
 }

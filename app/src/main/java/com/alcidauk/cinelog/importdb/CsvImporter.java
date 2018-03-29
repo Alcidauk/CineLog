@@ -34,7 +34,7 @@ class CsvImporter {
         }
         List<LocalKino> kinos = kinoImportCreator.getKinos(fileReader);
 
-        localKinoRepository.create(kinos);
+        localKinoRepository.createOrUpdate(kinos);
     }
 
 }

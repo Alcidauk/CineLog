@@ -82,7 +82,7 @@ public class KinoResultsAdapter extends BaseAdapter {
         return 0;
     }
 
-    // create a new RelativeView for each item referenced by the Adapter
+    // createOrUpdate a new RelativeView for each item referenced by the Adapter
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO clean that
 

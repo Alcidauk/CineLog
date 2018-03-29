@@ -117,9 +117,9 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void create() throws Exception {
-        new LocalKinoRepository(daoSession).create(localKino);
+    public void createOrUpdate() throws Exception {
+        new LocalKinoRepository(daoSession).createOrUpdate(localKino);
 
-        verify(localKinoDao).insert(localKino);
+        verify(localKinoDao).save(localKino);
     }
 }

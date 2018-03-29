@@ -14,7 +14,7 @@ public class KinoCreator {
     public LocalKino create(String name) {
         LocalKino localKino = new LocalKino(name);
 
-        localKinoRepository.create(localKino);
+        localKinoRepository.createOrUpdate(localKino);
 
         return localKino;
     }

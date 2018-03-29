@@ -26,6 +26,6 @@ public class KinoCreatorTest {
                 new KinoCreator(localKinoRepository).create("La belle aux bois dormants")
         );
 
-        verify(localKinoRepository).create(kinoToCreate);
+        verify(localKinoRepository).createOrUpdate(kinoToCreate);
     }
 }

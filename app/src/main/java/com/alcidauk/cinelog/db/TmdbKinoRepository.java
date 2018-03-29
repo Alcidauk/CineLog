@@ -15,8 +15,8 @@ public class TmdbKinoRepository {
         this.tmdbKinoDao = daoSession.getTmdbKinoDao();
     }
 
-    public void create(TmdbKino tmdbKino) {
-        tmdbKinoDao.insert(tmdbKino);
+    public void createOrUpdate(TmdbKino tmdbKino) {
+        tmdbKinoDao.save(tmdbKino);
     }
 
 }
