@@ -41,9 +41,10 @@ public class KinoService {
     }
 
     public KinoDto createKino(KinoDto kinoDto) {
+        @SuppressWarnings("UnnecessaryUnboxing")
         LocalKino localKino = new LocalKino(
                 kinoDto.getKinoId(),
-                kinoDto.getTmdbKinoId(),
+                kinoDto.getTmdbKinoId() != null ? kinoDto.getTmdbKinoId().longValue() : 0L,
                 kinoDto.getTitle(),
                 kinoDto.getReview_date(),
                 kinoDto.getReview(),
