@@ -1,9 +1,6 @@
 package com.alcidauk.cinelog;
 
-import android.content.Intent;
-
-import com.alcidauk.cinelog.dao.LocalKino;
-import com.alcidauk.cinelog.dao.TmdbKino;
+import com.alcidauk.cinelog.dto.KinoDto;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
 import java.text.SimpleDateFormat;
@@ -11,7 +8,7 @@ import java.util.Locale;
 
 public class KinoBuilderFromMovie {
 
-    public LocalKino build(Movie movie) {
+    public KinoDto build(Movie movie) {
         // TODO take care of locale
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.ENGLISH);
 
@@ -22,14 +19,18 @@ public class KinoBuilderFromMovie {
             yearAsInt = Integer.parseInt(yearAsString);
         }
 
-        TmdbKino tmdbKino = new TmdbKino(
+        return new KinoDto(
+                null,
                 movie.id.longValue(),
+                movie.title,
+                null,
+                null,
+                null,
+                null,
                 movie.poster_path,
                 movie.overview,
                 yearAsInt,
                 yearAsString
         );
-
-        return new LocalKino(movie.title, tmdbKino);
     }
 }

@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
+import com.alcidauk.cinelog.dto.KinoDto;
+import com.alcidauk.cinelog.dto.KinoService;
 
 import org.parceler.Parcels;
 
@@ -50,9 +52,9 @@ public class AddReview extends AppCompatActivity {
     @BindView(R.id.rating_picker)
     NumberPicker rating_picker;
 
-    LocalKino kino;
-    DaoSession daoSession;
-    LocalKinoDao localKinoDao;
+    KinoDto kino;
+
+    private KinoService kinoService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,7 @@ public class AddReview extends AppCompatActivity {
         setContentView(R.layout.activity_add_review);
         ButterKnife.bind(this);
 
-
-        daoSession = ((KinoApplication) getApplicationContext()).getDaoSession();
-        localKinoDao = daoSession.getLocalKinoDao();
+        kinoService = new KinoService(((KinoApplication) getApplicationContext()).getDaoSession());
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
 
@@ -178,8 +178,8 @@ public class AddReview extends AppCompatActivity {
                         kino.setMaxRating(maxRatingAsInt);
                     }
 
-                    localKinoDao.save(kino);
-                    localKinoDao.detachAll();
+                    // TODO call a createOrUpdate instead
+                    kino = kinoService.createKino(kino);
 
                     Intent returnIntent = getIntent();
                     returnIntent.putExtra("kino", Parcels.wrap(kino));
@@ -221,7 +221,7 @@ public class AddReview extends AppCompatActivity {
             c.set(Calendar.MONTH, month);
             c.set(Calendar.DAY_OF_MONTH, day);
 
-            LocalKino kino = ((AddReview) getActivity()).kino;
+            KinoDto kino = ((AddReview) getActivity()).kino;
             kino.setReview_date(c.getTime());
             String review_date_as_string = null;
             if (kino.getReview_date() != null) {

@@ -26,6 +26,8 @@ import android.widget.TextView;
 import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
+import com.alcidauk.cinelog.dto.KinoDto;
+import com.alcidauk.cinelog.dto.KinoService;
 import com.alcidauk.cinelog.exportdb.ExportDb;
 import com.alcidauk.cinelog.importdb.ImportInDb;
 import com.alcidauk.cinelog.settings.SettingsActivity;
@@ -59,18 +61,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     DaoSession daoSession;
-    LocalKinoDao localKinoDao;
-    Query<LocalKino> get_reverse;
-    DeleteQuery<LocalKino> delete_by_id_query;
-    KinoListAdapter kino_adapter;
-    List<LocalKino> kinos;
 
+    DeleteQuery<LocalKino> delete_by_id_query;
+
+    KinoListAdapter kino_adapter;
+
+    List<KinoDto> kinos;
 
     Query<LocalKino> get_year_asc;
     Query<LocalKino> get_year_desc;
 
-    Query<LocalKino> get_rating_asc;
-    Query<LocalKino> get_rating_desc;
+    private KinoService kinoService;
 
     private static final int RESULT_ADD_KINO = 2;
     private static final int RESULT_VIEW_KINO = 4;
@@ -87,19 +88,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         daoSession = ((KinoApplication) getApplication()).getDaoSession();
-        localKinoDao = daoSession.getLocalKinoDao();
 
-        get_reverse = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Id).build();
+        kinoService = new KinoService(daoSession);
+
+        //get_reverse = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Id).build();
 
         // TODO remove this sort
         //get_year_asc = localKinoDao.queryBuilder().orderAsc(LocalKinoDao.Properties.Year).build();
         //get_year_desc = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Year).build();
 
-        get_rating_asc = localKinoDao.queryBuilder().orderAsc(LocalKinoDao.Properties.Rating).build();
-        get_rating_desc = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Rating).build();
-
-
-        delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Id.eq(1)).buildDelete();
+        //delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Id.eq(1)).buildDelete();
         createListView(1);
     }
 
@@ -122,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == RESULT_VIEW_KINO) {
             if (resultCode == Activity.RESULT_OK) {
                 int pos = data.getIntExtra("kino_position", -1);
-                kinos.set(pos, (LocalKino) Parcels.unwrap(data.getParcelableExtra("kino")));
+
+                kinos.set(pos, (KinoDto) Parcels.unwrap(data.getParcelableExtra("kino")));
                 kino_adapter.notifyDataSetChanged();
                 System.out.println("Result Ok");
             }
@@ -191,29 +190,29 @@ public class MainActivity extends AppCompatActivity {
             //date added
             switch (order) {
                 case 1:
-                    kinos = get_reverse.list();
+                    // TODO reimplement reverse
+                    kinos = kinoService.getAllKinos();
                     break;
                 case 2:
-                    kinos = localKinoDao.loadAll();
+                    kinos = kinoService.getAllKinos();
                     break;
                 case 3:
-                    kinos = get_rating_desc.list();
+                    kinos = kinoService.getKinosByRating(false);
                     break;
                 case 4:
-                    kinos = get_rating_asc.list();
+                    kinos = kinoService.getKinosByRating(true);
                     break;
                 case 5:
-                    kinos = get_year_desc.list();
+                    //kinos = get_year_desc.list();
                     break;
                 case 6:
-                    kinos = get_year_asc.list();
+                    //kinos = get_year_asc.list();
                     break;
                 default:
-                    kinos = localKinoDao.loadAll();
+                    kinos = kinoService.getAllKinos();
                     break;
             }
             LIST_VIEW_STATE = order;
-
 
             kino_adapter = new KinoListAdapter(this, kinos);
             kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -224,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Delete the kino
 
-                                    delete_by_id_query.setParameter(0, kinos.get(position).getId());
+                                    // TODO implement it delete_by_id_query.setParameter(0, kinos.get(position).getId());
                                     kinos.remove(position);
                                     kino_adapter.notifyDataSetChanged();
                                     delete_by_id_query.executeDeleteWithoutDetachingEntities();
@@ -258,9 +257,9 @@ public class MainActivity extends AppCompatActivity {
 class KinoListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<LocalKino> mData;
+    private List<KinoDto> mData;
 
-    public KinoListAdapter(Context c, List<LocalKino> v) {
+    public KinoListAdapter(Context c, List<KinoDto> v) {
         mContext = c;
         mData = v;
     }
@@ -289,15 +288,15 @@ class KinoListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        LocalKino movie = mData.get(position);
+        KinoDto movie = mData.get(position);
 
         holder.title.setText(movie.getTitle());
         //TODO remove it holder.year.setText(movie.getRelease_date());
 
         holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-        if (movie.getKino() != null && movie.getKino().getPoster_path() != null) {
+        if (movie.getPosterPath() != null) {
             Glide.with(mContext)
-                    .load("https://image.tmdb.org/t/p/w185" + movie.getKino().getPoster_path())
+                    .load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath())
                     .centerCrop()
                     //.placeholder(R.drawable.loading_spinner)
                     .crossFade()

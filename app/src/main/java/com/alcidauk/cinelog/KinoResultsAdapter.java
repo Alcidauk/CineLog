@@ -16,6 +16,9 @@ import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
 import com.alcidauk.cinelog.dao.TmdbKino;
 import com.alcidauk.cinelog.dao.TmdbKinoDao;
+import com.alcidauk.cinelog.db.LocalKinoRepository;
+import com.alcidauk.cinelog.dto.KinoDto;
+import com.alcidauk.cinelog.dto.KinoService;
 import com.bumptech.glide.Glide;
 import com.github.zagum.switchicon.SwitchIconView;
 import com.uwetrottmann.tmdb2.entities.Movie;
@@ -40,11 +43,11 @@ public class KinoResultsAdapter extends BaseAdapter {
     private int[] mWatchedData;
     private int[] mReveiewedData;
     private SimpleDateFormat sdf;
-    DaoSession daoSession;
-    LocalKinoDao localKinoDao;
-    TmdbKinoDao tmdbKinoDao;
-    Query<LocalKino> movie_id_query;
-    DeleteQuery<LocalKino> delete_by_id_query;
+
+    private DaoSession daoSession;
+    private DeleteQuery<LocalKino> delete_by_id_query;
+
+    private KinoService kinoService;
 
     public KinoResultsAdapter(Context c, List<Movie> v) {
         mContext = c;
@@ -56,10 +59,12 @@ public class KinoResultsAdapter extends BaseAdapter {
             sdf = new SimpleDateFormat("yyyy");
 
             daoSession = ((KinoApplication) mContext.getApplicationContext()).getDaoSession();
-            localKinoDao = daoSession.getLocalKinoDao();
-            tmdbKinoDao = daoSession.getTmdbKinoDao();
-            movie_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Tmdb_id.eq(1)).limit(1).build();
-            delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Tmdb_id.eq(1)).buildDelete();
+
+            delete_by_id_query = daoSession.getLocalKinoDao()
+                    .queryBuilder()
+                    .where(LocalKinoDao.Properties.Tmdb_id.eq(1)).buildDelete();
+
+            kinoService = new KinoService(daoSession);
         } else {
             mData = new ArrayList<>();
         }
@@ -121,14 +126,19 @@ public class KinoResultsAdapter extends BaseAdapter {
                 holder.poster.setImageResource(0);
         }
 
-        final TmdbKino tmdbKino = new TmdbKino();
-        tmdbKino.setPoster_path(movie.poster_path);
-        tmdbKino.setMovie_id(movie.id.longValue());
-        tmdbKino.setOverview(movie.overview);
-        tmdbKino.setRelease_date(year);
-        tmdbKino.setYear(year_i);
-
-        final LocalKino kino = new LocalKino(movie.title, tmdbKino);
+        final KinoDto kino = new KinoDto(
+                null,
+                movie.id.longValue(),
+                movie.title,
+                null,
+                null,
+                null,
+                null,
+                movie.poster_path,
+                movie.overview,
+                year_i,
+                year
+        );
 
         final Integer m_id = movie.id;
         holder.toggle_review.setOnClickListener(new View.OnClickListener() {
@@ -136,13 +146,12 @@ public class KinoResultsAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), AddReview.class);
 
-                movie_id_query.setParameter(0, m_id);
-                List<LocalKino> movies = movie_id_query.list();
+                KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(m_id);
 
-                if (movies.isEmpty()) {
+                if (kinoByTmdbMovieId == null) {
                     intent.putExtra("kino", Parcels.wrap(kino));
                 } else {
-                    intent.putExtra("kino", Parcels.wrap(movies.get(0)));
+                    intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
                 }
 
                 ((Activity) mContext).startActivityForResult(intent, RESULT_ADD_REVIEW);
@@ -161,20 +170,18 @@ public class KinoResultsAdapter extends BaseAdapter {
                 }
             }
         } else {
-            movie_id_query.setParameter(0, movie.id);
-            List<LocalKino> movies = movie_id_query.list();
-            if (!movies.isEmpty()) {
+            KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(movie.id);
+            if (kinoByTmdbMovieId != null) {
                 System.out.println("Result found");
                 mWatchedData[position] = 1;
                 holder.switch_icon_watched.setIconEnabled(true);
 
-                if (movies.get(0).getReview() != null || movies.get(0).getRating() != 0.0f) {
+                if (kinoByTmdbMovieId.getReview() != null || kinoByTmdbMovieId.getRating() != 0.0f) {
                     mReveiewedData[position] = 1;
                     holder.switch_icon_review.setIconEnabled(true);
                 } else {
                     mReveiewedData[position] = -1;
                 }
-
             } else {
                 mWatchedData[position] = -1;
             }
@@ -194,13 +201,14 @@ public class KinoResultsAdapter extends BaseAdapter {
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Delete the kino
-                                    delete_by_id_query.setParameter(0, movie_id);
+                                    // TODO reimplement it
+                                    /*delete_by_id_query.setParameter(0, movie_id);
                                     delete_by_id_query.executeDeleteWithoutDetachingEntities();
                                     daoSession.clear();
                                     v.setIconEnabled(false);
                                     tmp_review.setIconEnabled(false);
                                     mWatchedData[position] = -1;
-                                    mReveiewedData[position] = -1;
+                                    mReveiewedData[position] = -1;*/
                                 }
                             })
                             .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -211,14 +219,15 @@ public class KinoResultsAdapter extends BaseAdapter {
                     builder.show();
                 } else {
                     try {
-                        tmdbKinoDao.insert(tmdbKino);
+                        // TODO reimplement it
+                        /*tmdbKinoDao.insert(tmdbKino);
                         localKinoDao.insert(kino);
 
                         kino.setKino(tmdbKino);
                         localKinoDao.save(kino);
 
                         localKinoDao.detachAll();
-                        tmdbKinoDao.detachAll();
+                        tmdbKinoDao.detachAll();*/
                         v.setIconEnabled(true);
                         mWatchedData[position] = 1;
                     } catch (SQLiteConstraintException e) {

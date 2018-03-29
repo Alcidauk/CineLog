@@ -21,8 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcidauk.cinelog.addkino.KinoCreator;
-import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.db.LocalKinoRepository;
+import com.alcidauk.cinelog.dto.KinoDto;
 import com.alcidauk.cinelog.tmdb.NetworkTaskManager;
 import com.alcidauk.cinelog.tmdb.TmdbServiceWrapper;
 import com.github.zagum.switchicon.SwitchIconView;
@@ -128,7 +128,8 @@ public class AddKino extends AppCompatActivity {
 
     @OnClick(R.id.kino_search_add_from_scratch)
     public void onClick(View view) {
-        new KinoCreator(new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession())).create(kino_search.getText().toString());
+        // TODO make it work with KinoDto
+        // new KinoCreator(new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession())).create(kino_search.getText().toString());
     }
 
     public void populateListView(final List<Movie> movies) {
@@ -137,7 +138,7 @@ public class AddKino extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Intent intent = new Intent(view.getContext(), ViewKino.class);
 
-                    LocalKino kino = new KinoBuilderFromMovie().build(movies.get(position));
+                    KinoDto kino = new KinoBuilderFromMovie().build(movies.get(position));
                     intent.putExtra("kino", Parcels.wrap(kino));
 
                     startActivity(intent);

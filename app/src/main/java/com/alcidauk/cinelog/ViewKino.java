@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,8 +16,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.alcidauk.cinelog.dao.LocalKino;
-import com.alcidauk.cinelog.dao.TmdbKino;
+import com.alcidauk.cinelog.dto.KinoDto;
 import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
@@ -50,7 +49,7 @@ public class ViewKino extends AppCompatActivity {
     @BindView(R.id.view_review_date)
     TextView review_date;
 
-    LocalKino kino;
+    KinoDto kino;
     int position;
     boolean editted = false;
 
@@ -69,7 +68,7 @@ public class ViewKino extends AppCompatActivity {
         setContentView(R.layout.activity_view_kino);
         ButterKnife.bind(this);
 
-        kino = unwrapKino(getIntent().getParcelableExtra("kino"));
+        kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         position = getIntent().getIntExtra("kino_position", -1);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -90,29 +89,20 @@ public class ViewKino extends AppCompatActivity {
         rating.setStepSize(0.5f);
     }
 
-    @Nullable
-    private LocalKino unwrapKino(Parcelable kino) {
-        LocalKino unwrap = Parcels.unwrap(kino);
-
-        unwrap.__setDaoSession(((KinoApplication) getApplication()).getDaoSession());
-        return unwrap;
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
 
-        TmdbKino tmdbKino = kino.getKino();
-
-        if (tmdbKino != null) {
+        if (kino.getPosterPath() != null) {
             Glide.with(this)
-                    .load("https://image.tmdb.org/t/p/w185" + tmdbKino.getPoster_path())
+                    .load("https://image.tmdb.org/t/p/w185" + kino.getPosterPath())
                     .centerCrop()
                     .crossFade()
                     .into(poster);
-            year.setText(tmdbKino.getRelease_date());
-            overview.setText(tmdbKino.getOverview());
         }
+        year.setText(kino.getReleaseDate());
+        overview.setText(kino.getOverview());
+
 
         title.setText(kino.getTitle());
 
@@ -138,7 +128,7 @@ public class ViewKino extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_ADD_REVIEW) {
             if (resultCode == Activity.RESULT_OK) {
-                kino = unwrapKino(data.getParcelableExtra("kino"));
+                kino = Parcels.unwrap(data.getParcelableExtra("kino"));
                 editted = true;
                 System.out.println("Result Ok");
             }

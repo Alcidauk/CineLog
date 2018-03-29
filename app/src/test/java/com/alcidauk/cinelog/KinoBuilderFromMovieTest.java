@@ -1,7 +1,6 @@
 package com.alcidauk.cinelog;
 
-import com.alcidauk.cinelog.dao.LocalKino;
-import com.alcidauk.cinelog.dao.TmdbKino;
+import com.alcidauk.cinelog.dto.KinoDto;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
 import org.junit.Test;
@@ -25,20 +24,24 @@ public class KinoBuilderFromMovieTest {
         movie.poster_path = "a path to the poster";
         movie.overview = "an overview";
 
-        TmdbKino tmdbKino = new TmdbKino(
+        KinoDto kinoDto = new KinoDto(
+                null,
                 4562131L,
+                "a new title",
+                null,
+                null,
+                null,
+                null,
                 "a path to the poster",
                 "an overview",
                 1970,
                 "1970"
         );
-        LocalKino kino = new LocalKino("a new title", tmdbKino);
 
         assertEquals(
-                kino,
+                kinoDto,
                 new KinoBuilderFromMovie().build(movie)
         );
-
     }
 
     @Test(expected = NullPointerException.class)

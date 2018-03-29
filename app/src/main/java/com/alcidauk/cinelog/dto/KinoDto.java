@@ -1,7 +1,10 @@
 package com.alcidauk.cinelog.dto;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
+@Parcel
 public class KinoDto {
 
     private Long kinoId;
@@ -19,6 +22,9 @@ public class KinoDto {
     private String overview;
     private int year;
     private String releaseDate;
+
+    public KinoDto() {
+    }
 
     public KinoDto(Long kinoId, Long tmdbKinoId, String title, Date review_date, String review, Float rating, Integer maxRating, String posterPath, String overview, int year, String releaseDate) {
         this.kinoId = kinoId;
