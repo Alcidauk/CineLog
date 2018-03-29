@@ -114,6 +114,8 @@ public class KinoServiceTest {
     public void createKino() throws Exception {
         Date reviewDate = new Date();
 
+        doReturn(784L).when(kinoDto).getKinoId();
+        doReturn(4564321L).when(kinoDto).getTmdbKinoId();
         doReturn(5f).when(kinoDto).getRating();
         doReturn(10).when(kinoDto).getMaxRating();
         doReturn("an overview").when(kinoDto).getOverview();
@@ -125,7 +127,7 @@ public class KinoServiceTest {
         doReturn(reviewDate).when(kinoDto).getReview_date();
 
         TmdbKino tmdbKino = new TmdbKino(
-                null,
+                4564321L,
                 "a poster path",
                 "an overview",
                 1456,
@@ -133,12 +135,13 @@ public class KinoServiceTest {
         );
 
         LocalKino kinoToCreate = new LocalKino(
-                5f,
-                10,
-                "a review",
+                784L,
+                4564321L,
                 "a title",
                 reviewDate,
-                tmdbKino
+                "a review",
+                5f,
+                10
         );
 
         KinoDto createdKino = mock(KinoDto.class);
