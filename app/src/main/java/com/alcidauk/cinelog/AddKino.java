@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcidauk.cinelog.dto.KinoDto;
+import com.alcidauk.cinelog.dto.KinoService;
 import com.alcidauk.cinelog.tmdb.NetworkTaskManager;
 import com.alcidauk.cinelog.tmdb.TmdbServiceWrapper;
 import com.github.zagum.switchicon.SwitchIconView;
@@ -50,6 +51,8 @@ public class AddKino extends AppCompatActivity {
     private TmdbServiceWrapper tmdbServiceWrapper;
     private NetworkTaskManager networkTaskManager;
 
+    private KinoService kinoService;
+
     private Handler handler;
 
     private final static int TRIGGER_SERACH = 1;
@@ -70,6 +73,8 @@ public class AddKino extends AppCompatActivity {
 
         tmdbServiceWrapper = new TmdbServiceWrapper();
         networkTaskManager = new NetworkTaskManager(this);
+
+        kinoService = new KinoService(((KinoApplication) getApplication()).getDaoSession());
 
         handler = new AddKinoHandler(new WeakReference<>(this));
     }
@@ -126,8 +131,16 @@ public class AddKino extends AppCompatActivity {
 
     @OnClick(R.id.kino_search_add_from_scratch)
     public void onClick(View view) {
-        // TODO make it work with KinoDto
-        // new KinoCreator(new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession())).createOrUpdate(kino_search.getText().toString());
+        KinoDto kinoToCreate = new KinoDto();
+        kinoToCreate.setTitle(kino_search.getText().toString());
+        kinoService.createKino(kinoToCreate);
+
+        // TODO factorize
+        Intent intent = new Intent(view.getContext(), ViewKino.class);
+
+        intent.putExtra("kino", Parcels.wrap(kinoToCreate));
+
+        startActivity(intent);
     }
 
     public void populateListView(final List<Movie> movies) {
