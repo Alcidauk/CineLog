@@ -1,11 +1,8 @@
 package com.alcidauk.cinelog.db;
 
 import com.alcidauk.cinelog.dao.DaoSession;
-import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.TmdbKino;
 import com.alcidauk.cinelog.dao.TmdbKinoDao;
-
-import java.util.List;
 
 public class TmdbKinoRepository {
 
@@ -16,7 +13,10 @@ public class TmdbKinoRepository {
     }
 
     public void createOrUpdate(TmdbKino tmdbKino) {
-        tmdbKinoDao.save(tmdbKino);
+        tmdbKinoDao.insertOrReplace(tmdbKino);
     }
 
+    public TmdbKinoDao getTmdbKinoDao() {
+        return tmdbKinoDao;
+    }
 }

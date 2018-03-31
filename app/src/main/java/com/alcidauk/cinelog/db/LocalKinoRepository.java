@@ -26,7 +26,7 @@ public class LocalKinoRepository {
     }
 
     public void createOrUpdate(LocalKino kinoToCreate) {
-        localKinoDao.save(kinoToCreate);
+        localKinoDao.insertOrReplace(kinoToCreate);
     }
 
     public LocalKino find(long id) {

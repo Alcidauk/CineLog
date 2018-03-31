@@ -120,7 +120,7 @@ public class LocalKinoRepositoryTest {
     public void createOrUpdate() throws Exception {
         new LocalKinoRepository(daoSession).createOrUpdate(localKino);
 
-        verify(localKinoDao).save(localKino);
+        verify(localKinoDao).insertOrReplace(localKino);
     }
 
     @Test

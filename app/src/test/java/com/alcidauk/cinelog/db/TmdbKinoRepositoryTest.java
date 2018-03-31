@@ -30,6 +30,6 @@ public class TmdbKinoRepositoryTest {
 
         new TmdbKinoRepository(daoSession).createOrUpdate(tmdbKino);
 
-        verify(tmdbKinoDao).save(tmdbKino);
+        verify(tmdbKinoDao).insertOrReplace(tmdbKino);
     }
 }
