@@ -41,26 +41,29 @@ public class KinoService {
     }
 
     public KinoDto createKino(KinoDto kinoDto) {
-        TmdbKino tmdbKino = new TmdbKino(
+        //noinspection UnnecessaryUnboxing
+        LocalKino localKino = new LocalKino(
+                kinoDto.getKinoId(),
+                kinoDto.getTmdbKinoId() != null ? kinoDto.getTmdbKinoId().longValue() : 0L,
+                kinoDto.getTitle(),
+                kinoDto.getReview_date(),
+                kinoDto.getReview(),
+                kinoDto.getRating(),
+                kinoDto.getMaxRating()
+        );
+
+        if(kinoDto.getTmdbKinoId() != null) {
+            TmdbKino tmdbKino = new TmdbKino(
                     kinoDto.getTmdbKinoId(),
                     kinoDto.getPosterPath(),
                     kinoDto.getOverview(),
                     kinoDto.getYear(),
                     kinoDto.getReleaseDate()
             );
-        tmdbKinoRepository.createOrUpdate(tmdbKino);
+            tmdbKinoRepository.createOrUpdate(tmdbKino);
 
-        LocalKino localKino = new LocalKino(
-                    kinoDto.getKinoId(),
-                    kinoDto.getTmdbKinoId() != null ? kinoDto.getTmdbKinoId().longValue() : 0L,
-                    kinoDto.getTitle(),
-                    kinoDto.getReview_date(),
-                    kinoDto.getReview(),
-                    kinoDto.getRating(),
-                    kinoDto.getMaxRating()
-            );
-        localKino.setTmdb_id(kinoDto.getTmdbKinoId());
-        localKino.setKino(tmdbKino);
+            localKino.setKino(tmdbKino);
+        }
 
         localKinoRepository.createOrUpdate(localKino);
 
