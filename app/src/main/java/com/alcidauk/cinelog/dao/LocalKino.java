@@ -1,5 +1,6 @@
 package com.alcidauk.cinelog.dao;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -8,7 +9,6 @@ import org.greenrobot.greendao.annotation.ToOne;
 import org.parceler.Parcel;
 
 import java.util.Date;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by ryan on 10/05/17.
@@ -33,11 +33,15 @@ public class LocalKino {
     Float rating;
     Integer maxRating;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 458053940)
     private transient LocalKinoDao myDao;
 
@@ -143,7 +147,9 @@ public class LocalKino {
         this.tmdb_id = tmdb_id;
     }
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1387996076)
     public TmdbKino getKino() {
         long __key = this.tmdb_id;
@@ -166,7 +172,9 @@ public class LocalKino {
         this.tmdb_id = tmdb_id;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1992277457)
     public void setKino(@NotNull TmdbKino kino) {
         if (kino == null) {

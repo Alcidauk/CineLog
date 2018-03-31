@@ -23,9 +23,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
-import com.alcidauk.cinelog.dao.LocalKinoDao;
 import com.alcidauk.cinelog.dto.KinoDto;
 import com.alcidauk.cinelog.dto.KinoService;
 import com.alcidauk.cinelog.exportdb.ExportDb;
@@ -33,7 +31,6 @@ import com.alcidauk.cinelog.importdb.ImportInDb;
 import com.alcidauk.cinelog.settings.SettingsActivity;
 import com.bumptech.glide.Glide;
 
-import org.greenrobot.greendao.query.DeleteQuery;
 import org.greenrobot.greendao.query.Query;
 import org.parceler.Parcels;
 
@@ -60,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    DaoSession daoSession;
-
-    DeleteQuery<LocalKino> delete_by_id_query;
 
     KinoListAdapter kino_adapter;
 
@@ -87,9 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        daoSession = ((KinoApplication) getApplication()).getDaoSession();
-
-        kinoService = new KinoService(daoSession);
+        kinoService = new KinoService(((KinoApplication) getApplication()).getDaoSession());
 
         //get_reverse = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Id).build();
 
@@ -97,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         //get_year_asc = localKinoDao.queryBuilder().orderAsc(LocalKinoDao.Properties.Year).build();
         //get_year_desc = localKinoDao.queryBuilder().orderDesc(LocalKinoDao.Properties.Year).build();
 
-        //delete_by_id_query = localKinoDao.queryBuilder().where(LocalKinoDao.Properties.Id.eq(1)).buildDelete();
         createListView(1);
     }
 
@@ -222,12 +213,10 @@ public class MainActivity extends AppCompatActivity {
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Delete the kino
-
-                                    // TODO implement it delete_by_id_query.setParameter(0, kinos.get(position).getId());
                                     kinos.remove(position);
+                                    kinoService.deleteKino(kinos.get(position));
+
                                     kino_adapter.notifyDataSetChanged();
-                                    delete_by_id_query.executeDeleteWithoutDetachingEntities();
-                                    daoSession.clear();
                                 }
                             })
                             .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

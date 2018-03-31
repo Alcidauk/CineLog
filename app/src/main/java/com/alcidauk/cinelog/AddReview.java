@@ -21,9 +21,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alcidauk.cinelog.dao.DaoSession;
-import com.alcidauk.cinelog.dao.LocalKino;
-import com.alcidauk.cinelog.dao.LocalKinoDao;
 import com.alcidauk.cinelog.dto.KinoDto;
 import com.alcidauk.cinelog.dto.KinoService;
 

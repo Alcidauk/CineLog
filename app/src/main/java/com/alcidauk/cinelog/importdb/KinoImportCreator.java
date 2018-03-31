@@ -1,17 +1,12 @@
 package com.alcidauk.cinelog.importdb;
 
-import android.annotation.SuppressLint;
-
 import com.alcidauk.cinelog.dao.LocalKino;
 
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 class KinoImportCreator {
@@ -37,7 +32,7 @@ class KinoImportCreator {
 
         List<LocalKino> kinos = new ArrayList<>();
         for (CSVRecord csvRecord : csvRecords) {
-                kinos.add(localKinoBuilder.build(csvRecord));
+            kinos.add(localKinoBuilder.build(csvRecord));
         }
 
         return kinos;

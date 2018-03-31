@@ -14,9 +14,6 @@ import android.widget.RelativeLayout;
 import com.alcidauk.cinelog.dao.DaoSession;
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.LocalKinoDao;
-import com.alcidauk.cinelog.dao.TmdbKino;
-import com.alcidauk.cinelog.dao.TmdbKinoDao;
-import com.alcidauk.cinelog.db.LocalKinoRepository;
 import com.alcidauk.cinelog.dto.KinoDto;
 import com.alcidauk.cinelog.dto.KinoService;
 import com.bumptech.glide.Glide;
@@ -24,7 +21,6 @@ import com.github.zagum.switchicon.SwitchIconView;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
 import org.greenrobot.greendao.query.DeleteQuery;
-import org.greenrobot.greendao.query.Query;
 import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;

@@ -20,8 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alcidauk.cinelog.addkino.KinoCreator;
-import com.alcidauk.cinelog.db.LocalKinoRepository;
 import com.alcidauk.cinelog.dto.KinoDto;
 import com.alcidauk.cinelog.tmdb.NetworkTaskManager;
 import com.alcidauk.cinelog.tmdb.TmdbServiceWrapper;

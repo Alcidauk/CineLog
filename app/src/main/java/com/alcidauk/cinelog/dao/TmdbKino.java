@@ -1,9 +1,9 @@
 package com.alcidauk.cinelog.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.parceler.Parcel;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by alcidauk on 18/03/18.
