@@ -16,7 +16,7 @@ public class TmdbKinoRepository {
         tmdbKinoDao.insertOrReplace(tmdbKino);
     }
 
-    public TmdbKinoDao getTmdbKinoDao() {
-        return tmdbKinoDao;
+    public TmdbKino find(long id) {
+        return tmdbKinoDao.load(id);
     }
 }
