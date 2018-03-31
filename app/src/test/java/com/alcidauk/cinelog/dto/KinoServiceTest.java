@@ -143,6 +143,7 @@ public class KinoServiceTest {
                 5f,
                 10
         );
+        kinoToCreate.setKino(tmdbKino);
 
         KinoDto createdKino = mock(KinoDto.class);
         doReturn(createdKino).when(kinoDtoBuilder).build(kinoToCreate);

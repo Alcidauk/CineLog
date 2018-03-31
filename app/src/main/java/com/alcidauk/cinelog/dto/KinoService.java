@@ -41,26 +41,28 @@ public class KinoService {
     }
 
     public KinoDto createKino(KinoDto kinoDto) {
-        @SuppressWarnings("UnnecessaryUnboxing")
-        LocalKino localKino = new LocalKino(
-                kinoDto.getKinoId(),
-                kinoDto.getTmdbKinoId() != null ? kinoDto.getTmdbKinoId().longValue() : 0L,
-                kinoDto.getTitle(),
-                kinoDto.getReview_date(),
-                kinoDto.getReview(),
-                kinoDto.getRating(),
-                kinoDto.getMaxRating()
-        );
-        localKinoRepository.createOrUpdate(localKino);
-
         TmdbKino tmdbKino = new TmdbKino(
-                kinoDto.getTmdbKinoId(),
-                kinoDto.getPosterPath(),
-                kinoDto.getOverview(),
-                kinoDto.getYear(),
-                kinoDto.getReleaseDate()
-        );
+                    kinoDto.getTmdbKinoId(),
+                    kinoDto.getPosterPath(),
+                    kinoDto.getOverview(),
+                    kinoDto.getYear(),
+                    kinoDto.getReleaseDate()
+            );
         tmdbKinoRepository.createOrUpdate(tmdbKino);
+
+        LocalKino localKino = new LocalKino(
+                    kinoDto.getKinoId(),
+                    kinoDto.getTmdbKinoId() != null ? kinoDto.getTmdbKinoId().longValue() : 0L,
+                    kinoDto.getTitle(),
+                    kinoDto.getReview_date(),
+                    kinoDto.getReview(),
+                    kinoDto.getRating(),
+                    kinoDto.getMaxRating()
+            );
+        localKino.setTmdb_id(kinoDto.getTmdbKinoId());
+        localKino.setKino(tmdbKino);
+
+        localKinoRepository.createOrUpdate(localKino);
 
         return kinoDtoBuilder.build(localKino);
     }
@@ -76,7 +78,7 @@ public class KinoService {
         return buildKinos(localKinos);
     }
 
-    private List<KinoDto> buildKinos(List<LocalKino> kinos){
+    private List<KinoDto> buildKinos(List<LocalKino> kinos) {
         List<KinoDto> kinoDtos = new ArrayList<>();
         for (LocalKino localKino : kinos) {
             kinoDtos.add(kinoDtoBuilder.build(localKino));
