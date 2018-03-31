@@ -8,16 +8,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -213,8 +217,9 @@ public class MainActivity extends AppCompatActivity {
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Delete the kino
+                                    KinoDto kinoDto = kinos.get(position);
                                     kinos.remove(position);
-                                    kinoService.deleteKino(kinos.get(position));
+                                    kinoService.deleteKino(kinoDto);
 
                                     kino_adapter.notifyDataSetChanged();
                                 }
@@ -243,22 +248,13 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-class KinoListAdapter extends BaseAdapter {
+class KinoListAdapter extends ArrayAdapter<KinoDto> {
 
-    private Context mContext;
-    private List<KinoDto> mData;
+    private List<KinoDto> kinos;
 
-    public KinoListAdapter(Context c, List<KinoDto> v) {
-        mContext = c;
-        mData = v;
-    }
-
-    public int getCount() {
-        return mData.size();
-    }
-
-    public Object getItem(int position) {
-        return mData.get(position);
+    public KinoListAdapter(@NonNull Context context, @NonNull List<KinoDto> objects) {
+        super(context, R.layout.main_result_item, objects);
+        this.kinos = objects;
     }
 
     public long getItemId(int position) {
@@ -267,48 +263,48 @@ class KinoListAdapter extends BaseAdapter {
 
     // createOrUpdate a new RelativeView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.main_result_item, null);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
         }
 
-        KinoDto movie = mData.get(position);
+        KinoDto movie = getItem(position);
 
-        holder.title.setText(movie.getTitle());
-        //TODO remove it holder.year.setText(movie.getRelease_date());
+        ((TextView)convertView.findViewById(R.id.kino_title)).setText(movie.getTitle());
+        if(movie.getYear() != 0) {
+            ((TextView) convertView.findViewById(R.id.kino_year)).setText(String.valueOf(movie.getYear()));
+        } else {
+            ((TextView) convertView.findViewById(R.id.kino_year)).setText("");
+        }
 
-        holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
+        ImageView posterView = (ImageView) convertView.findViewById(R.id.kino_poster);
+        posterView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
         if (movie.getPosterPath() != null) {
-            Glide.with(mContext)
+            Glide.with(getContext())
                     .load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath())
                     .centerCrop()
                     //.placeholder(R.drawable.loading_spinner)
                     .crossFade()
-                    .into(holder.poster);
+                    .into(posterView);
         } else {
-            holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-            holder.poster.setImageResource(R.drawable.noimage);
+            posterView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
+            posterView.setImageResource(R.drawable.noimage);
         }
 
-        holder.rating_bar.setStepSize(0.5f);
+        RatingBar ratingBarView = (RatingBar) convertView.findViewById(R.id.kino_rating_bar_small);
+        ratingBarView.setStepSize(0.5f);
 
         int maxRating;
         if (movie.getMaxRating() == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
             maxRating = Integer.parseInt(defaultMaxRateValue);
         } else {
             maxRating = movie.getMaxRating();
         }
-        holder.rating_bar.setNumStars(maxRating);
+        ratingBarView.setNumStars(maxRating);
 
         if (movie.getRating() != null) {
-            holder.rating_bar.setRating(movie.getRating());
+            ratingBarView.setRating(movie.getRating());
         }
 
         return convertView;
