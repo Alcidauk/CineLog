@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Cinelog</string>
+    <string name="movie_title_input">Entrer un titre de film</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="title_activity_add_kino">Ajout d\'un film</string>
+    <string name="title_activity_view_kino">Revue d\'un film</string>
+
+    <string name="save">Enregistrer</string>
+    <string name="cancel">Annuler</string>
+    <string name="yes">Oui</string>
+
+    <string name="delete_kino_dialog">Supprimer ce film ?</string>
+
+    <string name="title_activity_add_review">Ajout d\'un avis</string>
+    <string name="review_hint">Entrer un avis ici.</string>
+
+
+    <string name="order">Ordre</string>
+    <string name="year">Année</string>
+    <string name="date_added">Date d\'ajout</string>
+    <string name="rating">Note</string>
+
+    <string name="newest_first">Le plus récent d\'abord</string>
+    <string name="oldest_first">Le plus ancien d\'abord</string>
+    <string name="highest_first">Du meilleur au moins bon</string>
+    <string name="lowest_first">Du moins bon au meilleur</string>
+    <string name="title_activity_export_db">Exporter les données</string>
+    <string name="export_db">Exporter les données en CSV</string>
+    <string name="export_db_label">Cliquer sur le bouton d\'export pour récupérer vos données au format CSV. L\'export pourra être réimporté plus tard dans l\'application.</string>
+    <string name="action_export">Exporter</string>
+    <string name="action_import">Importer</string>
+    <string name="title_activity_import_db">Import d\'un fichier CSV</string>
+    <string name="import_db">Importer des films</string>
+    <string name="import_db_label">Sélectionner un fichier CSV pour l\'importer dans l\'application</string>
+    <string name="add_from_scratch_label">Ajouter un avis vierge</string>
+    <string name="title_activity_settings">Paramètres</string>
+    <string name="default_tmdb_language_title">Langue des données du film (TmDb)</string>
+    <string name="default_maximum_rating">Note maximale pour un avis</string>
+    <string name="default_maximum_rating_summary">Choisir la note maximale possible pour les prochains avis</string>
+    <string name="default_maximum_rating_dialog">Choisir la note maximale possible pour les prochains avis</string>
+    <string name="general_preferences">Préférences générales</string>
+    <string name="general_preferences_summary">Gèrer les préférences générales de l\'application</string>
+
+
+</resources>

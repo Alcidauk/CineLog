@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="available_tmdb_languages_keys" >
+        <item>anglais</item>
+        <item>français</item>
+    </string-array>
+</resources>

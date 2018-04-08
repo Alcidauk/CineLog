@@ -3,14 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Common preferences">
+        android:title="@string/general_preferences">
 
         <EditTextPreference
             android:key="default_max_rate_value"
-            android:title="Default maximum rating"
-            android:summary="Enter the default maximal note you want to set to new movies"
-            android:dialogTitle="Type the maximum rating you want to set to new movies"
+            android:title="@string/default_maximum_rating"
+            android:summary="@string/default_maximum_rating_summary"
+            android:dialogTitle="@string/default_maximum_rating_dialog"
             android:inputType="number" />
+
+        <ListPreference
+            android:key="default_tmdb_language"
+            android:title="@string/default_tmdb_language_title"
+            android:defaultValue="5"
+            android:entries="@array/available_tmdb_languages_keys"
+            android:entryValues="@array/available_tmdb_languages_values"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
