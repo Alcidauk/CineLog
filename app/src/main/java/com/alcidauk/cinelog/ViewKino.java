@@ -32,19 +32,19 @@ public class ViewKino extends AppCompatActivity {
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
-    @BindView(R.id.view_poster)
+    @BindView(R.id.view_kino_tmdb_image_layout)
     ImageView poster;
-    @BindView(R.id.view_title)
+    @BindView(R.id.view_kino_tmdb_title)
     TextView title;
-    @BindView(R.id.view_year)
+    @BindView(R.id.view_kino_tmdb_year)
     TextView year;
-    @BindView(R.id.view_overview)
+    @BindView(R.id.view_kino_tmdb_overview)
     TextView overview;
-    @BindView(R.id.view_rating)
+    @BindView(R.id.view_kino_review_rating)
     RatingBar rating;
-    @BindView(R.id.view_review)
+    @BindView(R.id.view_kino_review_review)
     TextView review;
-    @BindView(R.id.view_review_date)
+    @BindView(R.id.view_kino_review_review_date)
     TextView review_date;
 
     KinoDto kino;
