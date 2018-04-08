@@ -1,5 +1,8 @@
 package com.alcidauk.cinelog.tmdb;
 
+import android.content.Context;
+
+import com.alcidauk.cinelog.PreferencesWrapper;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.services.SearchService;
 
@@ -25,15 +28,23 @@ public class TmdbServiceWrapperTest {
     @Mock
     private Call call;
 
+    @Mock
+    private PreferencesWrapper preferencesWrapper;
+
+    @Mock
+    private Context context;
+
     @Test
     public void search() throws Exception {
         doReturn(searchService).when(tmdb).searchService();
 
-        doReturn(call).when(searchService).movie("name", 1, null, null, null, null, "ngram");
+        doReturn("fr").when(preferencesWrapper).getStringPreference(context, "default_tmdb_language", "en");
+
+        doReturn(call).when(searchService).movie("name", 1, "fr", null, null, null, "ngram");
 
         assertEquals(
                 call,
-                new TmdbServiceWrapper(tmdb).search("name")
+                new TmdbServiceWrapper(tmdb, context, preferencesWrapper).search("name")
         );
     }
 }

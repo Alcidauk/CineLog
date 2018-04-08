@@ -71,7 +71,7 @@ public class AddKino extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tmdbServiceWrapper = new TmdbServiceWrapper();
+        tmdbServiceWrapper = new TmdbServiceWrapper(this);
         networkTaskManager = new NetworkTaskManager(this);
 
         kinoService = new KinoService(((KinoApplication) getApplication()).getDaoSession());
