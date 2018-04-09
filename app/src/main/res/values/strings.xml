@@ -41,5 +41,8 @@
     <string name="general_preferences">General preferences</string>
     <string name="general_preferences_summary">Set the global preferences of this app.</string>
     <string name="view_poster_review_layout_title">Review</string>
+    <string name="view_kino_review_rating_label_value">Movie rating</string>
+    <string name="view_kino_review_review_date_label_value">Review date</string>
+    <string name="view_kino_review_review_label_value">Review</string>
 
 </resources>

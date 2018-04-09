@@ -102,20 +102,47 @@
 
                     <RatingBar
                         android:id="@+id/view_kino_review_rating"
-                        style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:isIndicator="true" />
+                        android:isIndicator="true"
+                        style="?android:attr/ratingBarStyleSmall"/>
 
-                    <TextView
-                        android:id="@+id/view_kino_review_review"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/view_kino_review_review_date_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp">
+                        <TextView
+                            android:id="@+id/view_kino_review_review_date_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="@string/view_kino_review_review_date_label_value"/>
+                        <TextView
+                            android:id="@+id/view_kino_review_review_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            tools:ignore="RelativeOverlap" />
+                    </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/view_kino_review_review_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/view_kino_review_review_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/view_kino_review_review_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="@string/view_kino_review_review_label_value"/>
+                        <TextView
+                            android:id="@+id/view_kino_review_review"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
