@@ -6,7 +6,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/kino_poster"
+        android:id="@+id/main_result_kino_poster"
         android:src="@drawable/noimage"
         android:maxWidth="120px"
         android:minWidth="120px"
@@ -14,17 +14,16 @@
         android:minHeight="150px"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingRight="10px"/>
+        android:paddingRight="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/kino_title"
+        android:id="@+id/main_result_kino_title"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/kino_poster"
-        android:layout_toEndOf="@+id/kino_poster" />
+        android:layout_toEndOf="@+id/main_result_kino_poster" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,17 +31,16 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Large Text"
         android:textStyle="italic"
-        android:id="@+id/kino_year"
-        android:layout_toRightOf="@id/kino_poster"
-        android:layout_toEndOf="@id/kino_poster"
-        android:layout_below="@id/kino_title" />
+        android:id="@+id/main_result_kino_year"
+        android:layout_toEndOf="@id/main_result_kino_poster"
+        android:layout_below="@id/main_result_kino_title" />
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?android:attr/ratingBarStyleSmall"
-        android:id="@+id/kino_rating_bar_small"
+        android:id="@+id/main_result_kino_rating_bar_small"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@id/kino_poster"/>
+        android:layout_alignBottom="@id/main_result_kino_poster"/>
 
 </RelativeLayout>

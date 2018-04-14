@@ -267,62 +267,56 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
         }
 
+        TextView kinoTitleTextView = (TextView) convertView.findViewById(R.id.main_result_kino_title);
+        TextView kinoYearTextView = (TextView) convertView.findViewById(R.id.main_result_kino_year);
+        ImageView kinoPosterImageView = (ImageView) convertView.findViewById(R.id.main_result_kino_poster);
+        RatingBar kinoRatingRatingBar = (RatingBar) convertView.findViewById(R.id.main_result_kino_rating_bar_small);
+
         KinoDto movie = getItem(position);
 
-        ((TextView)convertView.findViewById(R.id.kino_title)).setText(movie.getTitle());
-        if(movie.getYear() != 0) {
-            ((TextView) convertView.findViewById(R.id.kino_year)).setText(String.valueOf(movie.getYear()));
-        } else {
-            ((TextView) convertView.findViewById(R.id.kino_year)).setText("");
-        }
+        if(movie != null) {
+            kinoTitleTextView.setText(movie.getTitle());
 
-        ImageView posterView = (ImageView) convertView.findViewById(R.id.kino_poster);
-        posterView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-        if (movie.getPosterPath() != null) {
-            Glide.with(getContext())
-                    .load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath())
-                    .centerCrop()
-                    //.placeholder(R.drawable.loading_spinner)
-                    .crossFade()
-                    .into(posterView);
-        } else {
-            posterView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-            posterView.setImageResource(R.drawable.noimage);
-        }
+            if (movie.getYear() != 0) {
+                kinoYearTextView.setText(String.valueOf(movie.getYear()));
+            } else {
+                kinoYearTextView.setText("");
+            }
 
-        RatingBar ratingBarView = (RatingBar) convertView.findViewById(R.id.kino_rating_bar_small);
-        ratingBarView.setStepSize(0.5f);
+            kinoPosterImageView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
+            if (movie.getPosterPath() != null) {
+                Glide.with(getContext())
+                        .load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath())
+                        .centerCrop()
+                        .crossFade()
+                        .into(kinoPosterImageView);
+            } else {
+                Glide.with(getContext())
+                        .load(R.drawable.noimage)
+                        .centerCrop()
+                        .crossFade()
+                        .into(kinoPosterImageView);
+            }
 
-        int maxRating;
-        if (movie.getMaxRating() == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
-            maxRating = Integer.parseInt(defaultMaxRateValue);
-        } else {
-            maxRating = movie.getMaxRating();
-        }
-        ratingBarView.setNumStars(maxRating);
+            kinoRatingRatingBar.setStepSize(0.5f);
 
-        if (movie.getRating() != null) {
-            ratingBarView.setRating(movie.getRating());
+            int maxRating;
+            if (movie.getMaxRating() == null) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+                maxRating = Integer.parseInt(defaultMaxRateValue);
+            } else {
+                maxRating = movie.getMaxRating();
+            }
+            kinoRatingRatingBar.setNumStars(maxRating);
+
+            if (movie.getRating() != null) {
+                kinoRatingRatingBar.setRating(movie.getRating());
+            } else {
+                kinoRatingRatingBar.setRating(0);
+            }
         }
 
         return convertView;
-    }
-
-
-    static class ViewHolder {
-        @BindView(R.id.kino_title)
-        TextView title;
-        @BindView(R.id.kino_year)
-        TextView year;
-        @BindView(R.id.kino_poster)
-        ImageView poster;
-        @BindView(R.id.kino_rating_bar_small)
-        RatingBar rating_bar;
-
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
     }
 }
