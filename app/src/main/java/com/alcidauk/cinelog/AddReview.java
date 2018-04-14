@@ -111,7 +111,6 @@ public class AddReview extends AppCompatActivity {
             review_date.setText(review_date_as_string);
         }
 
-        toolbar.setTitle("Add Review: " + kino.getTitle());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

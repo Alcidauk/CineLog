@@ -3,7 +3,7 @@
     <string name="movie_title_input">Entrer un titre de film</string>
     <string name="action_settings">Paramètres</string>
     <string name="title_activity_add_kino">Ajout d\'un film</string>
-    <string name="title_activity_view_kino">Revue d\'un film</string>
+    <string name="title_activity_view_kino">Revue du film</string>
 
     <string name="save">Enregistrer</string>
     <string name="cancel">Annuler</string>
@@ -11,7 +11,7 @@
 
     <string name="delete_kino_dialog">Supprimer ce film ?</string>
 
-    <string name="title_activity_add_review">Ajout d\'un avis</string>
+    <string name="title_activity_add_review">Modification de l\'avis</string>
     <string name="review_hint">Entrer un avis ici.</string>
 
 

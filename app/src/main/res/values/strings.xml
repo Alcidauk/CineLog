@@ -2,8 +2,8 @@
     <string name="app_name">Kinolog</string>
     <string name="movie_title_input">Enter movie title.</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_add_kino">AddKino</string>
-    <string name="title_activity_view_kino">ViewKino</string>
+    <string name="title_activity_add_kino">Add a review</string>
+    <string name="title_activity_view_kino">Review of the movie</string>
 
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
@@ -11,7 +11,7 @@
 
     <string name="delete_kino_dialog">Do you want to remove this kino?</string>
 
-    <string name="title_activity_add_review">AddReview</string>
+    <string name="title_activity_add_review">Review edition</string>
     <string name="review_hint">Enter your review here.</string>
 
 

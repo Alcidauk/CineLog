@@ -111,7 +111,6 @@ public class ViewKino extends AppCompatActivity {
         review.setText(kino.getReview());
         review_date.setText(getReviewDateAsString(kino.getReview_date()));
 
-        toolbar.setTitle(kino.getTitle());
         System.out.println("onStart()");
     }
 
