@@ -13,47 +13,92 @@
     tools:context=".AddReview"
     tools:showIn="@layout/activity_add_review">
 
-    <RatingBar
-        android:id="@+id/kino_rating_bar"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content" />
-
-    <NumberPicker
-        android:id="@+id/rating_picker"
-        android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/kino_rating_bar" />
-
-    <EditText
-        android:id="@+id/kino_review_text"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/view_kino_review_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rating_picker"
-        android:hint="@string/review_hint"
-        android:inputType="text|textMultiLine" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/kino_review_text"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/kino_review_date"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_weight="1"
-            android:hint="Enter the review date" />
+            android:id="@+id/view_kino_review_content_title_layout"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:text="@string/view_poster_review_layout_title" />
 
-        <Button
-            android:id="@+id/kino_review_date_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="showTimePickerDialog"
-            android:text="Changer" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/view_kino_review_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <RatingBar
+                android:id="@+id/kino_rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <NumberPicker
+                android:id="@+id/rating_picker"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/kino_rating_bar" />
+
+            <TextView
+                android:id="@+id/view_kino_review_review_date_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/view_kino_review_review_date_label_value"/>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/view_kino_review_review_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/kino_review_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:hint="Enter the review date"/>
+                <Button
+                    android:id="@+id/kino_review_date_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="showTimePickerDialog"
+                    android:text="Changer"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="RelativeOverlap"/>
+            </RelativeLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/view_kino_review_review_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/view_kino_review_review_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/view_kino_review_review_label_value"/>
+                <EditText
+                    android:id="@+id/kino_review_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/review_hint"
+                    android:inputType="text|textMultiLine" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
