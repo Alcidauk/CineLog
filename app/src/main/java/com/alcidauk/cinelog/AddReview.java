@@ -33,6 +33,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class AddReview extends AppCompatActivity {
 
@@ -144,44 +146,10 @@ public class AddReview extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_save, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                return true;
-            case R.id.action_save:
-                System.out.println("Saved");
-                if (rating_bar.getRating() == 0 && (review_text.getText().toString().equals("") || review_text.getText().toString().isEmpty())) {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "Error no review to save.",
-                            Toast.LENGTH_LONG);
-                    t.show();
-                } else {
-                    kino.setRating(rating_bar.getRating());
-                    kino.setReview(review_text.getText().toString());
-
-                    if (kino.getMaxRating() == null) {
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                        String maxRating = prefs.getString("default_max_rate_value", "5");
-                        int maxRatingAsInt = Integer.parseInt(maxRating);
-                        kino.setMaxRating(maxRatingAsInt);
-                    }
-
-                    // TODO call a createOrUpdate instead
-                    kino = kinoService.createKino(kino);
-
-                    Intent returnIntent = getIntent();
-                    returnIntent.putExtra("kino", Parcels.wrap(kino));
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
-                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -194,6 +162,34 @@ public class AddReview extends AppCompatActivity {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "timePicker");
 
+    }
+
+    @OnClick(R.id.fab_save)
+    public void onClick(){
+        if (rating_bar.getRating() == 0 && (review_text.getText().toString().equals("") || review_text.getText().toString().isEmpty())) {
+            Toast t = Toast.makeText(getApplicationContext(),
+                    "Error no review to save.",
+                    Toast.LENGTH_LONG);
+            t.show();
+        } else {
+            kino.setRating(rating_bar.getRating());
+            kino.setReview(review_text.getText().toString());
+
+            if (kino.getMaxRating() == null) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                String maxRating = prefs.getString("default_max_rate_value", "5");
+                int maxRatingAsInt = Integer.parseInt(maxRating);
+                kino.setMaxRating(maxRatingAsInt);
+            }
+
+            // TODO call a createOrUpdate instead
+            kino = kinoService.createKino(kino);
+
+            Intent returnIntent = getIntent();
+            returnIntent.putExtra("kino", Parcels.wrap(kino));
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
     }
 
     public static class DatePickerFragment extends DialogFragment
