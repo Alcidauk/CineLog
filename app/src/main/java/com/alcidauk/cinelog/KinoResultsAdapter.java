@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.alcidauk.cinelog.AddKino.RESULT_ADD_REVIEW;
+import static com.alcidauk.cinelog.AddKino.RESULT_EDIT_REVIEW;
 
 /**
  * Created by alcidauk on 15/02/18.
@@ -140,7 +140,7 @@ public class KinoResultsAdapter extends BaseAdapter {
         holder.toggle_review.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), AddReview.class);
+                Intent intent = new Intent(view.getContext(), EditReview.class);
 
                 KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(m_id);
 
@@ -150,7 +150,7 @@ public class KinoResultsAdapter extends BaseAdapter {
                     intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
                 }
 
-                ((Activity) mContext).startActivityForResult(intent, RESULT_ADD_REVIEW);
+                ((Activity) mContext).startActivityForResult(intent, RESULT_EDIT_REVIEW);
             }
         });
 

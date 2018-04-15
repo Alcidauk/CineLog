@@ -41,7 +41,7 @@
             android:label="@string/title_activity_view_kino"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddReview"
+            android:name=".EditReview"
             android:label="@string/title_activity_add_review"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity

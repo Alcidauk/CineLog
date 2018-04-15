@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -34,9 +33,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTextChanged;
 
-public class AddReview extends AppCompatActivity {
+public class EditReview extends AppCompatActivity {
 
     @BindView(R.id.kino_rating_bar)
     RatingBar rating_bar;
@@ -58,7 +56,7 @@ public class AddReview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_review);
+        setContentView(R.layout.activity_edit_review);
         ButterKnife.bind(this);
 
         kinoService = new KinoService(((KinoApplication) getApplicationContext()).getDaoSession());
@@ -213,14 +211,14 @@ public class AddReview extends AppCompatActivity {
             c.set(Calendar.MONTH, month);
             c.set(Calendar.DAY_OF_MONTH, day);
 
-            KinoDto kino = ((AddReview) getActivity()).kino;
+            KinoDto kino = ((EditReview) getActivity()).kino;
             kino.setReview_date(c.getTime());
             String review_date_as_string = null;
             if (kino.getReview_date() != null) {
                 review_date_as_string =
                         new SimpleDateFormat("dd/MM/yyyy").format(kino.getReview_date());
             }
-            ((AddReview) getActivity()).review_date.setText(review_date_as_string);
+            ((EditReview) getActivity()).review_date.setText(review_date_as_string);
             // Do something with the date chosen by the user
         }
     }

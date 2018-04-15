@@ -60,7 +60,7 @@ public class AddKino extends AppCompatActivity {
     // Where did 1000 come from? It's arbitrary, since I can't find average android typing speed.
     private final static long SEARCH_TRIGGER_DELAY_IN_MS = 1000;
 
-    static int RESULT_ADD_REVIEW = 6;
+    static int RESULT_EDIT_REVIEW = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class AddKino extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_ADD_REVIEW) {
+        if (requestCode == RESULT_EDIT_REVIEW) {
             if (resultCode == Activity.RESULT_OK) {
                 System.out.println("Result Ok");
                 startSearchTask();

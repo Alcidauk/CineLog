@@ -55,7 +55,7 @@ public class ViewKino extends AppCompatActivity {
 
     @OnClick(R.id.fab)
     public void onClick(View view) {
-        Intent intent = new Intent(this, AddReview.class);
+        Intent intent = new Intent(this, EditReview.class);
         intent.putExtra("kino", Parcels.wrap(kino));
         startActivityForResult(intent, RESULT_ADD_REVIEW);
     }
