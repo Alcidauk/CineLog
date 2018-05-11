@@ -43,6 +43,11 @@ public class EditReview extends AppCompatActivity {
     @BindView(R.id.kino_review_date)
     TextView review_date;
 
+    @BindView(R.id.view_kino_title_edit)
+    EditText kino_title;
+    @BindView(R.id.view_kino_title_readonly)
+    TextView kino_title_readonly;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -111,6 +116,16 @@ public class EditReview extends AppCompatActivity {
             review_date.setText(review_date_as_string);
         }
 
+        kino_title.setText(kino.getTitle());
+        kino_title_readonly.setText(kino.getTitle());
+        if(kino.getTmdbKinoId() != null){
+            kino_title.setVisibility(View.INVISIBLE);
+            kino_title_readonly.setVisibility(View.VISIBLE);
+        } else {
+            kino_title.setVisibility(View.VISIBLE);
+            kino_title_readonly.setVisibility(View.INVISIBLE);
+        }
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -172,6 +187,10 @@ public class EditReview extends AppCompatActivity {
         } else {
             kino.setRating(rating_bar.getRating());
             kino.setReview(review_text.getText().toString());
+
+            if(kino.getTmdbKinoId() == null){
+                kino.setTitle(kino_title.getText().toString());
+            }
 
             if (kino.getMaxRating() == null) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

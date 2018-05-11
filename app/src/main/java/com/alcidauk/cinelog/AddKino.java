@@ -136,7 +136,7 @@ public class AddKino extends AppCompatActivity {
         kinoService.createKino(kinoToCreate);
 
         // TODO factorize
-        Intent intent = new Intent(view.getContext(), ViewKino.class);
+        Intent intent = new Intent(view.getContext(), EditReview.class);
 
         intent.putExtra("kino", Parcels.wrap(kinoToCreate));
 
@@ -147,7 +147,7 @@ public class AddKino extends AppCompatActivity {
         if (kino_results_list != null) {
             kino_results_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
-                    Intent intent = new Intent(view.getContext(), ViewKino.class);
+                    Intent intent = new Intent(view.getContext(), ViewUnregisteredKino.class);
 
                     KinoDto kino = new KinoBuilderFromMovie().build(movies.get(position));
                     intent.putExtra("kino", Parcels.wrap(kino));

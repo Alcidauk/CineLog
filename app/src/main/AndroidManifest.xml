@@ -41,6 +41,10 @@
             android:label="@string/title_activity_view_kino"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ViewUnregisteredKino"
+            android:label="@string/title_activity_view_unregistered_kino"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".EditReview"
             android:label="@string/title_activity_add_review"
             android:theme="@style/AppTheme.NoActionBar"/>

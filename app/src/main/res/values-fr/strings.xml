@@ -5,13 +5,15 @@
     <string name="title_activity_add_kino">Ajout d\'un film</string>
     <string name="title_activity_view_kino">Revue du film</string>
 
+    <string name="kino_title">Titre</string>
+
     <string name="save">Enregistrer</string>
     <string name="cancel">Annuler</string>
     <string name="yes">Oui</string>
 
     <string name="delete_kino_dialog">Supprimer ce film ?</string>
 
-    <string name="title_activity_add_review">Modification de l\'avis</string>
+    <string name="title_activity_add_review">Édition de l\'avis</string>
     <string name="review_hint">Entrer un avis ici.</string>
 
 
@@ -32,7 +34,7 @@
     <string name="title_activity_import_db">Import d\'un fichier CSV</string>
     <string name="import_db">Importer des films</string>
     <string name="import_db_label">Sélectionner un fichier CSV pour l\'importer dans l\'application</string>
-    <string name="add_from_scratch_label">Ajouter un avis vierge</string>
+    <string name="add_from_scratch_label">Film non trouvé ?</string>
     <string name="title_activity_settings">Paramètres</string>
     <string name="default_tmdb_language_title">Langue des données du film (TmDb)</string>
     <string name="default_maximum_rating">Note maximale pour un avis</string>
@@ -44,6 +46,7 @@
     <string name="view_kino_review_rating_label_value">Note</string>
     <string name="view_kino_review_review_date_label_value">Date du visionnage</string>
     <string name="view_kino_review_review_label_value">Commentaire</string>
+    <string name="title_activity_view_unregistered_kino">Informations sur le film</string>
 
 
 </resources>
