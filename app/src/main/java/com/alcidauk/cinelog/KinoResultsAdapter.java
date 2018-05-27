@@ -95,8 +95,7 @@ public class KinoResultsAdapter extends BaseAdapter {
         Movie movie = mData.get(position);
 
         // default the icons to disabled
-        holder.switch_icon_watched.setIconEnabled(false);
-        holder.switch_icon_review.setIconEnabled(false);
+        holder.add_review_button.setEnabled(false);
 
         if (movie.title != null)
             holder.title.setText(movie.title);
@@ -137,7 +136,7 @@ public class KinoResultsAdapter extends BaseAdapter {
         );
 
         final Integer m_id = movie.id;
-        holder.toggle_review.setOnClickListener(new View.OnClickListener() {
+        holder.add_review_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EditReview.class);
@@ -158,11 +157,9 @@ public class KinoResultsAdapter extends BaseAdapter {
         int get_res = mWatchedData[position];
         if (get_res != 0) {
             if (get_res == 1) {
-                holder.switch_icon_watched.setIconEnabled(true);
-
                 get_res = mReveiewedData[position];
                 if (get_res == 1) {
-                    holder.switch_icon_review.setIconEnabled(true);
+                    holder.add_review_button.setEnabled(true);
                 }
             }
         } else {
@@ -170,11 +167,10 @@ public class KinoResultsAdapter extends BaseAdapter {
             if (kinoByTmdbMovieId != null) {
                 System.out.println("Result found");
                 mWatchedData[position] = 1;
-                holder.switch_icon_watched.setIconEnabled(true);
 
                 if (kinoByTmdbMovieId.getReview() != null || kinoByTmdbMovieId.getRating() != 0.0f) {
                     mReveiewedData[position] = 1;
-                    holder.switch_icon_review.setIconEnabled(true);
+                    holder.add_review_button.setEnabled(true);
                 } else {
                     mReveiewedData[position] = -1;
                 }
@@ -183,59 +179,7 @@ public class KinoResultsAdapter extends BaseAdapter {
             }
         }
 
-        final SwitchIconView tmp_review = holder.switch_icon_review;
-        final Integer movie_id = movie.id;
-        holder.toggle_watched.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final SwitchIconView v = (SwitchIconView) ((ViewGroup) view).getChildAt(0);
-                if (v.isIconEnabled()) {
-                    System.out.println("is_watched");
-                    //TODO change what is done here: we don't want to remove from network reach list
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setMessage(R.string.delete_kino_dialog)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // Delete the kino
-                                    // TODO reimplement it
-                                    /*delete_by_id_query.setParameter(0, movie_id);
-                                    delete_by_id_query.executeDeleteWithoutDetachingEntities();
-                                    daoSession.clear();
-                                    v.setIconEnabled(false);
-                                    tmp_review.setIconEnabled(false);
-                                    mWatchedData[position] = -1;
-                                    mReveiewedData[position] = -1;*/
-                                }
-                            })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // User cancelled the dialog
-                                }
-                            });
-                    builder.show();
-                } else {
-                    try {
-                        // TODO reimplement it
-                        /*tmdbKinoDao.insert(tmdbKino);
-                        localKinoDao.insert(kino);
-
-                        kino.setKino(tmdbKino);
-                        localKinoDao.save(kino);
-
-                        localKinoDao.detachAll();
-                        tmdbKinoDao.detachAll();*/
-                        v.setIconEnabled(true);
-                        mWatchedData[position] = 1;
-                    } catch (SQLiteConstraintException e) {
-                        System.out.println("exception caught: " + e.getMessage());
-                    }
-
-                }
-            }
-        });
-
-        holder.toggle_watched.setFocusable(false);
-        holder.toggle_review.setFocusable(false);
+        holder.add_review_button.setFocusable(false);
 
         return convertView;
     }

@@ -48,4 +48,6 @@
     <string name="view_kino_review_review_label_value">Review</string>
     <string name="title_activity_view_unregistered_kino">Movie informations</string>
 
+    <color name="white">#FFFFFF</color>
+
 </resources>

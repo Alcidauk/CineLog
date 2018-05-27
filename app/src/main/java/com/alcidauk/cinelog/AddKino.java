@@ -13,10 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -169,15 +171,11 @@ public class AddKino extends AppCompatActivity {
         @BindView(R.id.kino_poster)
         ImageView poster;
 
-        @BindView(R.id.toggle_watched)
-        LinearLayout toggle_watched;
-        @BindView(R.id.toggle_review)
-        LinearLayout toggle_review;
+        @BindView(R.id.add_review_button)
+        ImageButton add_review_button;
 
-        @BindView(R.id.switch_icon_review)
-        SwitchIconView switch_icon_review;
-        @BindView(R.id.switch_icon_watched)
-        SwitchIconView switch_icon_watched;
+        @BindView(R.id.rating_bar_review)
+        RatingBar rating_bar_review;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

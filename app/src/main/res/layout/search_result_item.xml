@@ -4,82 +4,47 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
+        android:id="@+id/kino_poster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/kino_poster"
-        android:maxWidth="120px"
-        android:minWidth="120px"
-        android:maxHeight="150px"
-        android:minHeight="150px"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingRight="10px"/>
+        android:maxHeight="40dp"
+        android:maxWidth="60dp"
+        android:minHeight="40dp"
+        android:minWidth="60dp"
+        android:paddingRight="5dp"
+        android:src="@drawable/noimage" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
         android:id="@+id/kino_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/kino_poster"
-        android:layout_toEndOf="@+id/kino_poster" />
+        android:layout_toEndOf="@+id/kino_poster"
+        android:text="Large Text"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Large Text"
-        android:textStyle="italic"
         android:id="@+id/kino_year"
-        android:layout_toRightOf="@id/kino_poster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/kino_title"
         android:layout_toEndOf="@id/kino_poster"
-        android:layout_below="@id/kino_title" />
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="italic" />
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/toggle_review">
-        <com.github.zagum.switchicon.SwitchIconView
-            android:id="@+id/switch_icon_review"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-
-            app:si_animation_duration="0"
-            app:si_disabled_alpha=".3"
-            app:si_disabled_color="#b7b7b7"
-            app:si_tint_color="@color/colorAccent"
-            app:si_enabled="false"
-            app:si_no_dash="true"
-            app:srcCompat="@drawable/pencil_3x"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/toggle_review"
-        android:id="@+id/toggle_watched">
-        <com.github.zagum.switchicon.SwitchIconView
-            android:id="@+id/switch_icon_watched"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-
-            app:si_animation_duration="0"
-            app:si_disabled_alpha=".3"
-            app:si_disabled_color="#b7b7b7"
-            app:si_tint_color="@color/colorAccent"
-            app:si_enabled="false"
-            app:si_no_dash="true"
-            app:srcCompat="@drawable/eye_3x"/>
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/add_review_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/add_kino"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>
-
-<!--
-app:si_tint_color="#ff3c00"
--->
