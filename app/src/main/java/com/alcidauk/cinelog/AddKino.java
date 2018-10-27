@@ -39,6 +39,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
+import static com.alcidauk.cinelog.MainActivity.RESULT_VIEW_KINO;
+
 public class AddKino extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
@@ -149,12 +151,21 @@ public class AddKino extends AppCompatActivity {
         if (kino_results_list != null) {
             kino_results_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
-                    Intent intent = new Intent(view.getContext(), ViewUnregisteredKino.class);
+                    Movie movie = movies.get(position);
 
-                    KinoDto kino = new KinoBuilderFromMovie().build(movies.get(position));
-                    intent.putExtra("kino", Parcels.wrap(kino));
+                    KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(movie.id);
+                    if(kinoByTmdbMovieId == null) {
+                        Intent intent = new Intent(view.getContext(), ViewUnregisteredKino.class);
+                        KinoDto kino = new KinoBuilderFromMovie().build(movie);
+                        intent.putExtra("kino", Parcels.wrap(kino));
 
-                    startActivity(intent);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(view.getContext(), ViewKino.class);
+                        intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
+                        intent.putExtra("kino_position", position);
+                        startActivityForResult(intent, RESULT_VIEW_KINO);
+                    }
                 }
             });
 

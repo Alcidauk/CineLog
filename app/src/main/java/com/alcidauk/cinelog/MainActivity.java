@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private KinoService kinoService;
 
     private static final int RESULT_ADD_KINO = 2;
-    private static final int RESULT_VIEW_KINO = 4;
+    static final int RESULT_VIEW_KINO = 4;
 
     private int LIST_VIEW_STATE = 1;
 
