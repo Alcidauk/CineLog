@@ -14,6 +14,7 @@
     <string name="delete_kino_dialog">Do you want to remove this kino?</string>
 
     <string name="title_activity_add_review">Review edition</string>
+    <string name="title_activity_add_review_creation">Review creation</string>
     <string name="review_hint">Enter your review here.</string>
 
 

@@ -110,6 +110,7 @@ public class KinoResultsAdapter extends ArrayAdapter<Movie> {
 
                 if (kinoByTmdbMovieId == null) {
                     intent.putExtra("kino", Parcels.wrap(kino));
+                    intent.putExtra("creation", true);
                 } else {
                     intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
                 }

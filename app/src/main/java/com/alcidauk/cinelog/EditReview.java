@@ -67,6 +67,9 @@ public class EditReview extends AppCompatActivity {
         kinoService = new KinoService(((KinoApplication) getApplicationContext()).getDaoSession());
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
+        if(getIntent().getBooleanExtra("creation", false)){
+            setTitle(getString(R.string.title_activity_add_review_creation));
+        }
 
         int maxRating;
         if (kino.getMaxRating() == null) {

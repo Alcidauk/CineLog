@@ -14,6 +14,7 @@
     <string name="delete_kino_dialog">Supprimer ce film ?</string>
 
     <string name="title_activity_add_review">Édition de l\'avis</string>
+    <string name="title_activity_add_review_creation">Ajout d\'un avis</string>
     <string name="review_hint">Entrer un avis ici.</string>
 
 
