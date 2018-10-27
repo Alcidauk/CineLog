@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_import:
                 startActivity(new Intent(this, ImportInDb.class));
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
