@@ -36,13 +36,13 @@ public class CsvExportWriter {
         TmdbKino tmdbKino = localKino.getKino();
 
         csvPrinterWrapper.printRecord(
-                tmdbKino.getMovie_id(),
+                tmdbKino != null ? tmdbKino.getMovie_id() : null,
                 localKino.getTitle(),
-                tmdbKino.getOverview(),
-                tmdbKino.getYear(),
-                tmdbKino.getPoster_path(),
+                tmdbKino != null ? tmdbKino.getOverview() : null,
+                tmdbKino != null ? tmdbKino.getYear() : null,
+                tmdbKino != null ? tmdbKino.getPoster_path() : null,
                 localKino.getRating(),
-                tmdbKino.getRelease_date(),
+                tmdbKino != null ? tmdbKino.getRelease_date() : null,
                 localKino.getReview(),
                 localKino.getReview_date()
         );
