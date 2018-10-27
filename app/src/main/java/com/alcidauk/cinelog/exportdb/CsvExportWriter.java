@@ -1,9 +1,12 @@
 package com.alcidauk.cinelog.exportdb;
 
+import android.annotation.SuppressLint;
+
 import com.alcidauk.cinelog.dao.LocalKino;
 import com.alcidauk.cinelog.dao.TmdbKino;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by alcidauk on 16/02/18.
@@ -35,6 +38,7 @@ public class CsvExportWriter {
     public void write(LocalKino localKino) throws IOException {
         TmdbKino tmdbKino = localKino.getKino();
 
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         csvPrinterWrapper.printRecord(
                 tmdbKino != null ? tmdbKino.getMovie_id() : null,
                 localKino.getTitle(),
@@ -44,7 +48,7 @@ public class CsvExportWriter {
                 localKino.getRating(),
                 tmdbKino != null ? tmdbKino.getRelease_date() : null,
                 localKino.getReview(),
-                localKino.getReview_date()
+                localKino.getReview_date() != null ? simpleDateFormat.format(localKino.getReview_date()) : null
         );
     }
 

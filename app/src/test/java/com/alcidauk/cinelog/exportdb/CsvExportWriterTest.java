@@ -9,6 +9,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -29,6 +32,10 @@ public class CsvExportWriterTest {
     public void write() throws Exception {
         doReturn(tmdbKino).when(aKino).getKino();
 
+        Date aDate = new Date();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(aDate).when(aKino).getReview_date();
+
         new CsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
@@ -40,7 +47,28 @@ public class CsvExportWriterTest {
                 aKino.getRating(),
                 tmdbKino.getRelease_date(),
                 aKino.getReview(),
-                aKino.getReview_date()
+                new SimpleDateFormat().format(aKino.getReview_date())
+        );
+    }
+
+    @Test
+    public void writeNullReviewDate() throws Exception {
+        doReturn(tmdbKino).when(aKino).getKino();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(null).when(aKino).getReview_date();
+
+        new CsvExportWriter(csvPrinterWrapper).write(aKino);
+
+        verify(csvPrinterWrapper).printRecord(
+                tmdbKino.getMovie_id(),
+                aKino.getTitle(),
+                tmdbKino.getOverview(),
+                tmdbKino.getYear(),
+                tmdbKino.getPoster_path(),
+                aKino.getRating(),
+                tmdbKino.getRelease_date(),
+                aKino.getReview(),
+                null
         );
     }
 

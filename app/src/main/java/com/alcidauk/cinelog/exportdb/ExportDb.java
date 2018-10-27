@@ -36,7 +36,7 @@ public class ExportDb extends AppCompatActivity {
 
     @OnClick(R.id.export_db_button)
     public void onClick(View view) {
-        Toast.makeText(getApplicationContext(), "Clicked !", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Export launched !", Toast.LENGTH_LONG).show();
 
         CsvExporter csvExporter;
         FileWriter fileWriter;
@@ -58,9 +58,13 @@ public class ExportDb extends AppCompatActivity {
 
         try {
             csvExporter.export();
+
+            Toast.makeText(getApplicationContext(), "Export succeeded !", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), "An error occured while exporting !", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
 

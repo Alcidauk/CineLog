@@ -13,7 +13,11 @@ class CSVPrinterWrapper {
     private CSVPrinter csvPrinter;
 
     public CSVPrinterWrapper(Appendable out, Class<? extends Enum<?>> headers) throws IOException {
-        this.csvPrinter = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(headers));
+        this.csvPrinter = new CSVPrinter(
+                out,
+                CSVFormat.DEFAULT
+                        .withHeader(headers)
+                        .withDelimiter('§'));
     }
 
     public void printRecord(Object... values) throws IOException {
