@@ -174,8 +174,8 @@ public class AddKino extends AppCompatActivity {
         @BindView(R.id.add_review_button)
         ImageButton add_review_button;
 
-        @BindView(R.id.rating_bar_review)
-        RatingBar rating_bar_review;
+        @BindView(R.id.kino_rating_bar_review)
+        RatingBar kino_rating_bar_review;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

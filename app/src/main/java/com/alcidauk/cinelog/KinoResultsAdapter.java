@@ -3,10 +3,17 @@ package com.alcidauk.cinelog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.alcidauk.cinelog.dto.KinoDto;
 import com.alcidauk.cinelog.dto.KinoService;
@@ -26,36 +33,16 @@ import static com.alcidauk.cinelog.AddKino.RESULT_EDIT_REVIEW;
 /**
  * Created by alcidauk on 15/02/18.
  */
-public class KinoResultsAdapter extends BaseAdapter {
+public class KinoResultsAdapter extends ArrayAdapter<Movie> {
 
-    private Context context;
-    private List<Movie> movies;
     private SimpleDateFormat sdf;
-
-    private Map<Integer, Boolean> resultsStatuses;
 
     private KinoService kinoService;
 
     public KinoResultsAdapter(Context context, List<Movie> movies) {
-        this.context = context;
-        resultsStatuses = new HashMap<>();
-        if (movies != null) {
-            this.movies = movies;
-
-            sdf = new SimpleDateFormat("yyyy");
-
-            kinoService = new KinoService(((KinoApplication) ((AddKino) context).getApplication()).getDaoSession());
-        } else {
-            this.movies = new ArrayList<>();
-        }
-    }
-
-    public int getCount() {
-        return movies.size();
-    }
-
-    public Object getItem(int position) {
-        return movies.get(position);
+        super(context, R.layout.search_result_item, movies);
+        sdf = new SimpleDateFormat("yyyy");
+        kinoService = new KinoService(((KinoApplication) ((AddKino) context).getApplication()).getDaoSession());
     }
 
     public long getItemId(int position) {
@@ -64,44 +51,39 @@ public class KinoResultsAdapter extends BaseAdapter {
 
     // createOrUpdate a new RelativeView for each item referenced by the Adapter
     public View getView(final int position, View convertView, ViewGroup parent) {
-        // TODO clean that
-
-        AddKino.ViewHolder holder;
+        // TODO continue to clean that
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.search_result_item, null);
-            holder = new AddKino.ViewHolder(convertView);
-            convertView.setTag(holder);
-
-        } else {
-            holder = (AddKino.ViewHolder) convertView.getTag();
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.search_result_item, parent, false);
         }
 
-        Movie movie = movies.get(position);
+        RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.kino_rating_bar_review);
+        ImageButton addReviewButton = (ImageButton) convertView.findViewById(R.id.add_review_button);
+        TextView title = (TextView) convertView.findViewById(R.id.kino_title);
+        TextView yearTextView = (TextView) convertView.findViewById(R.id.kino_year);
+        ImageView posterImageView = (ImageView) convertView.findViewById(R.id.kino_poster);
 
-        // default the icons to disabled
-        holder.rating_bar_review.setEnabled(false);
-        holder.add_review_button.setVisibility(View.INVISIBLE);
+        Movie movie = getItem(position);
 
         if (movie.title != null) {
-            holder.title.setText(movie.title);
+            title.setText(movie.title);
         }
 
         String year = "";
         if (movie.release_date != null) {
             year = sdf.format(movie.release_date);
-            holder.year.setText(year);
+            yearTextView.setText(year);
         }
 
         if (movie.poster_path != null) {
-            holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-            Glide.with(context)
+            posterImageView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
+            Glide.with(getContext())
                     .load("https://image.tmdb.org/t/p/w185" + movie.poster_path)
                     .centerCrop()
                     .crossFade()
-                    .into(holder.poster);
+                    .into(posterImageView);
         } else {
-            if (holder.poster != null)
-                holder.poster.setImageResource(0);
+            if (posterImageView != null)
+                posterImageView.setImageResource(0);
         }
 
         final KinoDto kino = new KinoDto(
@@ -119,7 +101,7 @@ public class KinoResultsAdapter extends BaseAdapter {
         );
 
         final Integer m_id = movie.id;
-        holder.add_review_button.setOnClickListener(new View.OnClickListener() {
+        addReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EditReview.class);
@@ -132,30 +114,22 @@ public class KinoResultsAdapter extends BaseAdapter {
                     intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
                 }
 
-                ((Activity) context).startActivityForResult(intent, RESULT_EDIT_REVIEW);
+                ((Activity) getContext()).startActivityForResult(intent, RESULT_EDIT_REVIEW);
             }
         });
 
-        Boolean isReviewed = resultsStatuses.get(movie.id);
-        if (isReviewed == null) {
-            KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(movie.id);
-            if (kinoByTmdbMovieId != null) {
-                resultsStatuses.put(movie.id, true);
-                isReviewed = true;
-            } else {
-                resultsStatuses.put(movie.id, false);
-                isReviewed = false;
-            }
-        }
+        KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(movie.id);
+        if (kinoByTmdbMovieId != null) {
+            ratingBar.setRating(kinoByTmdbMovieId.getRating());
 
-        if (isReviewed) {
-            holder.rating_bar_review.setEnabled(true);
-            holder.rating_bar_review.setRating(kinoService.getKinoByTmdbMovieId(movie.id).getRating());
+            ratingBar.setVisibility(View.VISIBLE);
+            addReviewButton.setVisibility(View.INVISIBLE);
         } else {
-            holder.add_review_button.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.INVISIBLE);
+            addReviewButton.setVisibility(View.VISIBLE);
         }
 
-        holder.add_review_button.setFocusable(false);
+        addReviewButton.setFocusable(false);
 
         return convertView;
     }
