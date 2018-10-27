@@ -47,4 +47,12 @@
         android:src="@drawable/add_kino"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"/>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/ratingBarStyleSmall"
+        android:id="@+id/rating_bar_review"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

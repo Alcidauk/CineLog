@@ -1,31 +1,25 @@
 package com.alcidauk.cinelog;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 
-import com.alcidauk.cinelog.dao.DaoSession;
-import com.alcidauk.cinelog.dao.LocalKino;
-import com.alcidauk.cinelog.dao.LocalKinoDao;
 import com.alcidauk.cinelog.dto.KinoDto;
 import com.alcidauk.cinelog.dto.KinoService;
 import com.bumptech.glide.Glide;
-import com.github.zagum.switchicon.SwitchIconView;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
-import org.greenrobot.greendao.query.DeleteQuery;
 import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.alcidauk.cinelog.AddKino.RESULT_EDIT_REVIEW;
 
@@ -34,44 +28,34 @@ import static com.alcidauk.cinelog.AddKino.RESULT_EDIT_REVIEW;
  */
 public class KinoResultsAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private List<Movie> mData;
-    private int[] mWatchedData;
-    private int[] mReveiewedData;
+    private Context context;
+    private List<Movie> movies;
     private SimpleDateFormat sdf;
 
-    private DaoSession daoSession;
-    private DeleteQuery<LocalKino> delete_by_id_query;
+    private Map<Integer, Boolean> resultsStatuses;
 
     private KinoService kinoService;
 
-    public KinoResultsAdapter(Context c, List<Movie> v) {
-        mContext = c;
-        if (v != null) {
-            mData = v;
-            mWatchedData = new int[mData.size()];
-            mReveiewedData = new int[mData.size()];
+    public KinoResultsAdapter(Context context, List<Movie> movies) {
+        this.context = context;
+        resultsStatuses = new HashMap<>();
+        if (movies != null) {
+            this.movies = movies;
 
             sdf = new SimpleDateFormat("yyyy");
 
-            daoSession = ((KinoApplication) mContext.getApplicationContext()).getDaoSession();
-
-            delete_by_id_query = daoSession.getLocalKinoDao()
-                    .queryBuilder()
-                    .where(LocalKinoDao.Properties.Tmdb_id.eq(1)).buildDelete();
-
-            kinoService = new KinoService(daoSession);
+            kinoService = new KinoService(((KinoApplication) ((AddKino) context).getApplication()).getDaoSession());
         } else {
-            mData = new ArrayList<>();
+            this.movies = new ArrayList<>();
         }
     }
 
     public int getCount() {
-        return mData.size();
+        return movies.size();
     }
 
     public Object getItem(int position) {
-        return mData.get(position);
+        return movies.get(position);
     }
 
     public long getItemId(int position) {
@@ -84,7 +68,7 @@ public class KinoResultsAdapter extends BaseAdapter {
 
         AddKino.ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.search_result_item, null);
+            convertView = View.inflate(context, R.layout.search_result_item, null);
             holder = new AddKino.ViewHolder(convertView);
             convertView.setTag(holder);
 
@@ -92,26 +76,25 @@ public class KinoResultsAdapter extends BaseAdapter {
             holder = (AddKino.ViewHolder) convertView.getTag();
         }
 
-        Movie movie = mData.get(position);
+        Movie movie = movies.get(position);
 
         // default the icons to disabled
-        holder.add_review_button.setEnabled(false);
+        holder.rating_bar_review.setEnabled(false);
+        holder.add_review_button.setVisibility(View.INVISIBLE);
 
-        if (movie.title != null)
+        if (movie.title != null) {
             holder.title.setText(movie.title);
+        }
 
         String year = "";
-        int year_i = 0;
         if (movie.release_date != null) {
             year = sdf.format(movie.release_date);
             holder.year.setText(year);
-            year_i = Integer.parseInt(year);
         }
-
 
         if (movie.poster_path != null) {
             holder.poster.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-            Glide.with(mContext)
+            Glide.with(context)
                     .load("https://image.tmdb.org/t/p/w185" + movie.poster_path)
                     .centerCrop()
                     .crossFade()
@@ -131,7 +114,7 @@ public class KinoResultsAdapter extends BaseAdapter {
                 null,
                 movie.poster_path,
                 movie.overview,
-                year_i,
+                Integer.parseInt(year),
                 year
         );
 
@@ -149,34 +132,27 @@ public class KinoResultsAdapter extends BaseAdapter {
                     intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
                 }
 
-                ((Activity) mContext).startActivityForResult(intent, RESULT_EDIT_REVIEW);
+                ((Activity) context).startActivityForResult(intent, RESULT_EDIT_REVIEW);
             }
         });
 
-
-        int get_res = mWatchedData[position];
-        if (get_res != 0) {
-            if (get_res == 1) {
-                get_res = mReveiewedData[position];
-                if (get_res == 1) {
-                    holder.add_review_button.setEnabled(true);
-                }
-            }
-        } else {
+        Boolean isReviewed = resultsStatuses.get(movie.id);
+        if (isReviewed == null) {
             KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(movie.id);
             if (kinoByTmdbMovieId != null) {
-                System.out.println("Result found");
-                mWatchedData[position] = 1;
-
-                if (kinoByTmdbMovieId.getReview() != null || kinoByTmdbMovieId.getRating() != 0.0f) {
-                    mReveiewedData[position] = 1;
-                    holder.add_review_button.setEnabled(true);
-                } else {
-                    mReveiewedData[position] = -1;
-                }
+                resultsStatuses.put(movie.id, true);
+                isReviewed = true;
             } else {
-                mWatchedData[position] = -1;
+                resultsStatuses.put(movie.id, false);
+                isReviewed = false;
             }
+        }
+
+        if (isReviewed) {
+            holder.rating_bar_review.setEnabled(true);
+            holder.rating_bar_review.setRating(kinoService.getKinoByTmdbMovieId(movie.id).getRating());
+        } else {
+            holder.add_review_button.setVisibility(View.VISIBLE);
         }
 
         holder.add_review_button.setFocusable(false);
