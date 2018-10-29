@@ -22,7 +22,7 @@ public class CsvExportWriter {
         rating,
         release_date,
         review,
-        review_date;
+        review_date
     }
 
     private CSVPrinterWrapper csvPrinterWrapper;

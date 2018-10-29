@@ -17,6 +17,7 @@ class CSVPrinterWrapper {
                 out,
                 CSVFormat.DEFAULT
                         .withHeader(headers)
+                        .withQuote('`')
                         .withDelimiter('§'));
     }
 
