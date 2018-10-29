@@ -57,7 +57,7 @@ public class LocalKino {
         this.review = review;
         this.title = title;
         this.review_date = review_date;
-        this.kino = tmdbKino;
+        setKino(tmdbKino);
     }
 
 
@@ -66,7 +66,7 @@ public class LocalKino {
         this.review = review;
         this.title = title;
         this.review_date = review_date;
-        this.kino = tmdbKino;
+        setKino(tmdbKino);
     }
 
     public LocalKino(String title) {
@@ -88,7 +88,7 @@ public class LocalKino {
 
     public LocalKino(String title, TmdbKino tmdbKino) {
         this.title = title;
-        kino = tmdbKino;
+        setKino(tmdbKino);
     }
 
     public Long getId() {

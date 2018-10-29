@@ -21,7 +21,6 @@ public class LocalKinoRepository {
         return localKinoDao.loadAll();
     }
 
-    // TODO create tmdbkino if needed
     public void createOrUpdate(List<LocalKino> localKinos) {
         localKinoDao.insertInTx(localKinos);
     }
