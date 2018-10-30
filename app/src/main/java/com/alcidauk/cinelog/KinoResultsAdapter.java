@@ -96,7 +96,7 @@ public class KinoResultsAdapter extends ArrayAdapter<Movie> {
                 null,
                 movie.poster_path,
                 movie.overview,
-                Integer.parseInt(year),
+                year != null && !"".equals(year) ? Integer.parseInt(year) : 0,
                 year
         );
 
