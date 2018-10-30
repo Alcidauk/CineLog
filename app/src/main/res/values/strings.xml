@@ -5,6 +5,10 @@
     <string name="title_activity_add_kino">Add a review</string>
     <string name="title_activity_view_kino">Review of the movie</string>
 
+    <string name="title_fragment_movie">Movies</string>
+    <string name="title_fragment_serie">Series</string>
+
+
     <string name="kino_title">Title</string>
 
     <string name="save">Save</string>

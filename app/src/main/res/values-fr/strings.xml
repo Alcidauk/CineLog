@@ -5,6 +5,9 @@
     <string name="title_activity_add_kino">Ajout d\'un film</string>
     <string name="title_activity_view_kino">Revue du film</string>
 
+    <string name="title_fragment_movie">Films</string>
+    <string name="title_fragment_serie">Séries</string>
+
     <string name="kino_title">Titre</string>
 
     <string name="save">Enregistrer</string>
@@ -16,7 +19,6 @@
     <string name="title_activity_add_review">Édition de l\'avis</string>
     <string name="title_activity_add_review_creation">Ajout d\'un avis</string>
     <string name="review_hint">Entrer un avis ici.</string>
-
 
     <string name="order">Ordre</string>
     <string name="year">Année</string>

@@ -39,9 +39,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-import static com.alcidauk.cinelog.MainActivity.RESULT_VIEW_KINO;
-
 public class AddKino extends AppCompatActivity {
+
+    static final int RESULT_VIEW_KINO = 4;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
