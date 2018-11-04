@@ -1,5 +1,8 @@
 # CineLog
-A fork of KinoLog Android app with some extra functionnalities
+
+CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve the application by adding some extra functionnalities and with a slightly different UI.
+
+CineLog allows to review movies and to keep some informations of each reviewed movie.
 
 ## Used librairies
 
@@ -19,7 +22,7 @@ License: Apache2
 Source: https://github.com/johncarl81/parceler/
 License: Apache2
 
-  - tmdb-java
+  - Tmdb-java
 Source: https://github.com/UweTrottmann/tmdb-java
 License: https://en.wikipedia.org/wiki/Unlicense
 

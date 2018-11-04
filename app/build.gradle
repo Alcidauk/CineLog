@@ -57,9 +57,9 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.2'
     // https://mvnrepository.com/artifact/com.uwetrottmann.tmdb2/tmdb-java
     compile 'com.uwetrottmann.tmdb2:tmdb-java:1.6.0'
-
+    // Add import and export functionnalities
     compile 'org.apache.commons:commons-csv:1.5'
-
+    // Allow to implements app preferences
     compile 'com.android.support:preference-v7:25.3.1'
 
     testCompile 'junit:junit:4.12'
