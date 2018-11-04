@@ -17,7 +17,7 @@ public class TmdbServiceWrapper {
     private final Context context;
     private PreferencesWrapper preferencesWrapper;
 
-    private static final String API_KEY = "d6d6579b3a02efda2efde4585120d45e";
+    private static final String API_KEY = "da65d0969874404ac9ede3848f9c20ec";
 
     public TmdbServiceWrapper(Context context) {
         this(new Tmdb(API_KEY), context, new PreferencesWrapper());
