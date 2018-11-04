@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kinolog</string>
+    <string name="app_name">CineLog</string>
     <string name="movie_title_input">Enter movie title.</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_add_kino">Add a review</string>
