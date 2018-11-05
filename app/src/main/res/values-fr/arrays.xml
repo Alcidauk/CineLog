@@ -19,7 +19,12 @@
 -->
 <resources>
     <string-array name="available_tmdb_languages_keys" >
-        <item>anglais</item>
-        <item>français</item>
+        <item>Anglais</item>
+        <item>Français</item>
+    </string-array>
+
+    <string-array name="available_tmdb_languages_values">
+        <item>en</item>
+        <item>fr</item>
     </string-array>
 </resources>
