@@ -155,7 +155,6 @@ public class AddKino extends AppCompatActivity {
     public void onClick(View view) {
         KinoDto kinoToCreate = new KinoDto();
         kinoToCreate.setTitle(kino_search.getText().toString());
-        kinoService.createKino(kinoToCreate);
 
         // TODO factorize
         Intent intent = new Intent(view.getContext(), EditReview.class);
