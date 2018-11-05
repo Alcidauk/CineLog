@@ -3,6 +3,8 @@ package com.ulicae.cinelog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +76,11 @@ public class KinoResultsAdapter extends ArrayAdapter<Movie> {
         ImageView posterImageView = (ImageView) convertView.findViewById(R.id.kino_poster);
 
         Movie movie = getItem(position);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+        int maxRating = Integer.parseInt(defaultMaxRateValue);
+        ratingBar.setNumStars(maxRating);
 
         if (movie.title != null) {
             title.setText(movie.title);
