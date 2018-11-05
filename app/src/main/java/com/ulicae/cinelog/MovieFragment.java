@@ -25,9 +25,9 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.dto.KinoDto;
 import com.ulicae.cinelog.dto.KinoService;
-import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 

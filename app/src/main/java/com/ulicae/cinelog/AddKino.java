@@ -152,7 +152,7 @@ public class AddKino extends AppCompatActivity {
                     Movie movie = movies.get(position);
 
                     KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(movie.id);
-                    if(kinoByTmdbMovieId == null) {
+                    if (kinoByTmdbMovieId == null) {
                         Intent intent = new Intent(view.getContext(), ViewUnregisteredKino.class);
                         KinoDto kino = new KinoBuilderFromMovie().build(movie);
                         intent.putExtra("kino", Parcels.wrap(kino));

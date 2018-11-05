@@ -256,7 +256,9 @@ public class LocalKino {
         return result;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 346087300)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

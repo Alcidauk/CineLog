@@ -14,7 +14,8 @@ import butterknife.ButterKnife;
 
 public class SerieFragment extends Fragment {
 
-    public SerieFragment(){}
+    public SerieFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

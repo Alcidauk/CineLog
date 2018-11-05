@@ -4,24 +4,26 @@ import org.parceler.Parcel;
 
 import java.util.Date;
 
+// need to have weakerAccess to allow use of parcel
+@SuppressWarnings("WeakerAccess")
 @Parcel
 public class KinoDto {
 
-    private Long kinoId;
-    private Long tmdbKinoId;
+    Long kinoId;
+    Long tmdbKinoId;
 
-    private String title;
+    String title;
 
-    private Date review_date;
-    private String review;
+    Date review_date;
+    String review;
 
-    private Float rating;
-    private Integer maxRating;
+    Float rating;
+    Integer maxRating;
 
-    private String posterPath;
-    private String overview;
-    private int year;
-    private String releaseDate;
+    String posterPath;
+    String overview;
+    int year;
+    String releaseDate;
 
     public KinoDto() {
     }

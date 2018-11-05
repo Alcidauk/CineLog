@@ -52,7 +52,7 @@ public class KinoService {
                 kinoDto.getMaxRating()
         );
 
-        if(kinoDto.getTmdbKinoId() != null) {
+        if (kinoDto.getTmdbKinoId() != null) {
             TmdbKino tmdbKino = new TmdbKino(
                     kinoDto.getTmdbKinoId(),
                     kinoDto.getPosterPath(),

@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 
 public class PreferencesWrapper {
 
-    public String getStringPreference(Context context, String key, String defaultValue){
+    public String getStringPreference(Context context, String key, String defaultValue) {
         return getPreferenceManager(context).getString(key, defaultValue);
     }
 

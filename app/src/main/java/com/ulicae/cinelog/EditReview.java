@@ -67,7 +67,7 @@ public class EditReview extends AppCompatActivity {
         kinoService = new KinoService(((KinoApplication) getApplicationContext()).getDaoSession());
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
-        if(getIntent().getBooleanExtra("creation", false)){
+        if (getIntent().getBooleanExtra("creation", false)) {
             setTitle(getString(R.string.title_activity_add_review_creation));
         }
 
@@ -121,7 +121,7 @@ public class EditReview extends AppCompatActivity {
 
         kino_title.setText(kino.getTitle());
         kino_title_readonly.setText(kino.getTitle());
-        if(kino.getTmdbKinoId() != null){
+        if (kino.getTmdbKinoId() != null) {
             kino_title.setVisibility(View.INVISIBLE);
             kino_title_readonly.setVisibility(View.VISIBLE);
         } else {
@@ -181,7 +181,7 @@ public class EditReview extends AppCompatActivity {
     }
 
     @OnClick(R.id.fab_save)
-    public void onClick(){
+    public void onClick() {
         if (rating_bar.getRating() == 0 && (review_text.getText().toString().equals("") || review_text.getText().toString().isEmpty())) {
             Toast t = Toast.makeText(getApplicationContext(),
                     "Error no review to save.",
@@ -191,7 +191,7 @@ public class EditReview extends AppCompatActivity {
             kino.setRating(rating_bar.getRating());
             kino.setReview(review_text.getText().toString());
 
-            if(kino.getTmdbKinoId() == null){
+            if (kino.getTmdbKinoId() == null) {
                 kino.setTitle(kino_title.getText().toString());
             }
 
