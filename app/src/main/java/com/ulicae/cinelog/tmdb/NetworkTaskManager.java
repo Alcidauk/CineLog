@@ -45,6 +45,8 @@ public class NetworkTaskManager {
     }
 
     public void createAndExecute(Call<MovieResultsPage> call) {
+        cancelTasks();
+
         NetworkTask networkTask = networkTaskCreator.create(addKino);
 
         //noinspection unchecked
@@ -56,6 +58,8 @@ public class NetworkTaskManager {
         for (NetworkTask task : taskList) {
             task.cancel(true);
         }
+
+        taskList.clear();
     }
 
     public List<NetworkTask> getTaskList() {
