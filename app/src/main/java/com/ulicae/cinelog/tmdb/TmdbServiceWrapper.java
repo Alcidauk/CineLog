@@ -32,8 +32,8 @@ import retrofit2.Call;
  */
 public class TmdbServiceWrapper {
 
+    private Tmdb tmdb;
 
-    private SearchService searchService;
     private final Context context;
     private PreferencesWrapper preferencesWrapper;
 
@@ -44,13 +44,13 @@ public class TmdbServiceWrapper {
     }
 
     TmdbServiceWrapper(Tmdb tmdb, Context context, PreferencesWrapper preferencesWrapper) {
-        this.searchService = tmdb.searchService();
+        this.tmdb = tmdb;
         this.context = context;
         this.preferencesWrapper = preferencesWrapper;
     }
 
     public Call<MovieResultsPage> search(String name) {
-        return searchService.movie(
+        return tmdb.searchService().movie(
                 name,
                 1,
                 preferencesWrapper.getStringPreference(context, "default_tmdb_language", "en"),
