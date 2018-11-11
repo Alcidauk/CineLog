@@ -47,14 +47,24 @@
     <string name="oldest_first">Le plus ancien d\'abord</string>
     <string name="highest_first">Du meilleur au moins bon</string>
     <string name="lowest_first">Du moins bon au meilleur</string>
+
     <string name="title_activity_export_db">Exporter les données</string>
     <string name="export_db">Exporter les données en CSV</string>
     <string name="export_db_label">Cliquer sur le bouton d\'export pour récupérer vos données au format CSV. L\'export pourra être réimporté plus tard dans l\'application.</string>
     <string name="action_export">Exporter</string>
+    <string name="export_start_toast">Export démarré…</string>
+    <string name="export_succeeded_toast">… export terminé. Vérifiez les fichier export.csv généré à la racine du stockage.</string>
+    <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu. Vérifiez les permissions accordées à l\'application.</string>
+    <string name="export_permission_error_toast">Impossible d\'exporter sans autoriser la permission de stockage à CinéLog.</string>
+
     <string name="action_import">Importer</string>
     <string name="title_activity_import_db">Import d\'un fichier CSV</string>
     <string name="import_db">Importer des films</string>
     <string name="import_db_label">Sélectionner un fichier CSV pour l\'importer dans l\'application</string>
+    <string name="import_permission_error_toast">Impossible d\'importer sans autoriser la permission de stockage à CinéLog.</string>
+    <string name="import_error_toast">Une erreur est survenue durant l\'import des données.</string>
+    <string name="import_starting_toast">Import démarré…</string>
+
     <string name="add_from_scratch_label">Film non trouvé ?</string>
     <string name="title_activity_settings">Paramètres</string>
     <string name="default_tmdb_language_title">Langue des données du film (TmDb)</string>
@@ -69,10 +79,6 @@
     <string name="view_kino_review_review_label_value">Commentaire</string>
     <string name="title_activity_view_unregistered_kino">Informations sur le film</string>
     <string name="review_date_hint">Entrez la date du visionnage.</string>
-    <string name="export_start_toast">Export démarré…</string>
-    <string name="export_succeeded_toast">… export terminé. Vérifiez les fichier export.csv généré à la racine du stockage.</string>
-    <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu. Vérifiez les permissions accordées à l\'application.</string>
-    <string name="export_permission_error_toast">Impossible d\'exporter sans autoriser la permission de stockage à CinéLog.</string>
 
 
 </resources>

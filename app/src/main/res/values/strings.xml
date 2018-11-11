@@ -63,6 +63,10 @@
     <string name="title_activity_import_db">CSV File import</string>
     <string name="import_db">Import CSV file in database</string>
     <string name="import_db_label">Put a CSV file at the storage root, name it import.csv, and click the button. You\'ll then see your imported movie.</string>
+    <string name="import_permission_error_toast">Can\'t import since external storage reading is not allowed for CineLog.</string>
+    <string name="import_error_toast">An error occurred during data import.</string>
+    <string name="import_starting_toast">Import started…</string>
+
     <string name="add_from_scratch_label">Can\'t find a movie ?</string>
     <string name="title_activity_settings">Settings</string>
     <string name="default_tmdb_language_title">TmDb data language</string>
