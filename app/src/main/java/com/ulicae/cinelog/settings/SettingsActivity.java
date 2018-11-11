@@ -29,7 +29,6 @@ import butterknife.BindView;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-// TODO fix missing toolbar on this activity
 public class SettingsActivity extends PreferenceActivity {
 
     @BindView(R.id.toolbar)

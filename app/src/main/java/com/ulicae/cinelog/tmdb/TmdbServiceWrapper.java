@@ -36,28 +36,42 @@ public class TmdbServiceWrapper {
 
     private final Context context;
     private PreferencesWrapper preferencesWrapper;
+    private LocaleWrapper localeWrapper;
 
     private static final String API_KEY = "da65d0969874404ac9ede3848f9c20ec";
 
     public TmdbServiceWrapper(Context context) {
-        this(new Tmdb(API_KEY), context, new PreferencesWrapper());
+        this(new Tmdb(API_KEY), context, new PreferencesWrapper(), new LocaleWrapper());
     }
 
-    TmdbServiceWrapper(Tmdb tmdb, Context context, PreferencesWrapper preferencesWrapper) {
+    TmdbServiceWrapper(Tmdb tmdb, Context context, PreferencesWrapper preferencesWrapper, LocaleWrapper localeWrapper) {
         this.tmdb = tmdb;
         this.context = context;
         this.preferencesWrapper = preferencesWrapper;
+        this.localeWrapper = localeWrapper;
     }
 
     public Call<MovieResultsPage> search(String name) {
+        initSearchLanguageIfNeeded();
+
         return tmdb.searchService().movie(
                 name,
                 1,
-                preferencesWrapper.getStringPreference(context, "default_tmdb_language", "en"),
+                getTmdbPrefLanguage(),
                 null,
                 null,
                 null,
                 "ngram"
         );
+    }
+
+    void initSearchLanguageIfNeeded() {
+        if(getTmdbPrefLanguage() == null){
+            preferencesWrapper.setStringPreference(context,"default_tmdb_language", localeWrapper.getLanguage());
+        }
+    }
+
+    private String getTmdbPrefLanguage() {
+        return preferencesWrapper.getStringPreference(context, "default_tmdb_language", null);
     }
 }

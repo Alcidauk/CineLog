@@ -1,12 +1,9 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.tmdb;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import java.util.Locale;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
- *
  *
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
@@ -23,17 +20,9 @@ import android.preference.PreferenceManager;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class PreferencesWrapper {
+class LocaleWrapper {
 
-    public String getStringPreference(Context context, String key, String defaultValue) {
-        return getPreferenceManager(context).getString(key, defaultValue);
-    }
-
-    public void setStringPreference(Context context, String key, String defaultValue) {
-        getPreferenceManager(context).edit().putString(key, defaultValue).apply();
-    }
-
-    private SharedPreferences getPreferenceManager(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+    public String getLanguage(){
+        return Locale.getDefault().getLanguage();
     }
 }
