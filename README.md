@@ -1,5 +1,7 @@
 # CineLog
 
+<img src="https://f-droid.org/badge/get-it-on.png" height="75">
+
 CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve the application by adding some extra functionnalities and with a slightly different UI.
 
 CineLog allows to review movies and to keep some informations of each reviewed movie.
