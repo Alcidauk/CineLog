@@ -101,19 +101,6 @@ public class AddKino extends AppCompatActivity {
         handler = new AddKinoHandler(new WeakReference<>(this));
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_EDIT_REVIEW) {
-            if (resultCode == Activity.RESULT_OK) {
-                System.out.println("Result Ok");
-                startSearchTask();
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
-    }
-
     private void startSearchTask() {
         if (isNetworkAvailable()) {
             networkTaskManager.createAndExecute(
