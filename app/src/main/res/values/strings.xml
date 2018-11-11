@@ -51,12 +51,12 @@
     <string name="lowest_first">Lowest First</string>
     <string name="title_activity_export_db">Export data</string>
     <string name="export_db">Export data as CSV</string>
-    <string name="export_db_label">Click the button to export your data as a CSV file. You\'ll then be able to save it and import it later.</string>
+    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export.csv\' at storage root. You will be able to import this backup if you need it.</string>
     <string name="action_export">Export</string>
     <string name="action_import">Import</string>
     <string name="title_activity_import_db">CSV File import</string>
     <string name="import_db">Import CSV file in database</string>
-    <string name="import_db_label">Put a CSV file in CineLog directory and click the below button.</string>
+    <string name="import_db_label">Put a CSV file at the storage root, name it import.csv, and click the button. You\'ll then see your imported movie.</string>
     <string name="add_from_scratch_label">Can\'t find a movie ?</string>
     <string name="title_activity_settings">Settings</string>
     <string name="default_tmdb_language_title">TmDb data language</string>
@@ -70,6 +70,7 @@
     <string name="view_kino_review_review_date_label_value">Review date</string>
     <string name="view_kino_review_review_label_value">Review</string>
     <string name="title_activity_view_unregistered_kino">Movie informations</string>
+    <string name="review_date_hint">Enter the viewing date.</string>
 
     <color name="white">#FFFFFF</color>
 

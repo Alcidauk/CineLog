@@ -17,7 +17,7 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_name">Cinelog</string>
+    <string name="app_name">CinéLog</string>
     <string name="movie_title_input">Entrer un titre de film</string>
     <string name="action_settings">Paramètres</string>
     <string name="title_activity_add_kino">Ajout d\'un film</string>
@@ -62,12 +62,13 @@
     <string name="default_maximum_rating_summary">Choisir la note maximale possible pour les prochains avis</string>
     <string name="default_maximum_rating_dialog">Choisir la note maximale possible pour les prochains avis</string>
     <string name="general_preferences">Préférences générales</string>
-    <string name="general_preferences_summary">Gèrer les préférences générales de l\'application</string>
+    <string name="general_preferences_summary">Gérer les préférences générales de l\'application</string>
     <string name="view_poster_review_layout_title">Avis</string>
     <string name="view_kino_review_rating_label_value">Note</string>
     <string name="view_kino_review_review_date_label_value">Date du visionnage</string>
     <string name="view_kino_review_review_label_value">Commentaire</string>
     <string name="title_activity_view_unregistered_kino">Informations sur le film</string>
+    <string name="review_date_hint">Entrez la date du visionnage.</string>
 
 
 </resources>
