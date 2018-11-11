@@ -260,7 +260,6 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
         TextView kinoYearTextView = (TextView) convertView.findViewById(R.id.main_result_kino_year);
         ImageView kinoPosterImageView = (ImageView) convertView.findViewById(R.id.main_result_kino_poster);
         RatingBar kinoRatingRatingBar = (RatingBar) convertView.findViewById(R.id.main_result_kino_rating_bar_small);
-
         KinoDto movie = getItem(position);
 
         if (movie != null) {
@@ -287,16 +286,32 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
                         .into(kinoPosterImageView);
             }
 
-            kinoRatingRatingBar.setStepSize(0.5f);
+            initRating(convertView, kinoRatingRatingBar, movie);
+        }
 
-            int maxRating;
-            if (movie.getMaxRating() == null) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
-                maxRating = Integer.parseInt(defaultMaxRateValue);
-            } else {
-                maxRating = movie.getMaxRating();
-            }
+        return convertView;
+    }
+
+    private void initRating(View convertView, RatingBar kinoRatingRatingBar, KinoDto movie) {
+        TextView kinoRatingRatingBarAsText = (TextView) convertView.findViewById(R.id.main_result_kino_rating_bar_as_text);
+        TextView kinoRatingRatingBarMaxAsText = (TextView) convertView.findViewById(R.id.main_result_kino_rating_bar_max_as_text);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        int maxRating;
+        if (movie.getMaxRating() == null) {
+            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            maxRating = Integer.parseInt(defaultMaxRateValue);
+        } else {
+            maxRating = movie.getMaxRating();
+        }
+
+        if(maxRating <= 5) {
+            kinoRatingRatingBarAsText.setVisibility(View.INVISIBLE);
+            kinoRatingRatingBarMaxAsText.setVisibility(View.INVISIBLE);
+            kinoRatingRatingBar.setVisibility(View.VISIBLE);
+
+            kinoRatingRatingBar.setStepSize(0.5f);
             kinoRatingRatingBar.setNumStars(maxRating);
 
             if (movie.getRating() != null) {
@@ -304,9 +319,14 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
             } else {
                 kinoRatingRatingBar.setRating(0);
             }
-        }
+        } else {
+            kinoRatingRatingBar.setVisibility(View.INVISIBLE);
+            kinoRatingRatingBarAsText.setVisibility(View.VISIBLE);
+            kinoRatingRatingBarMaxAsText.setVisibility(View.VISIBLE);
 
-        return convertView;
+            kinoRatingRatingBarAsText.setText(String.format("%s", movie.getRating()));
+            kinoRatingRatingBarMaxAsText.setText(String.format("/%s", prefs.getString("default_max_rate_value", "5")));
+        }
     }
 
 }

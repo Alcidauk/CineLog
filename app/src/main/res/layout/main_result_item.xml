@@ -59,8 +59,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?android:attr/ratingBarStyleSmall"
+        android:theme="@style/RatingBar"
         android:id="@+id/main_result_kino_rating_bar_small"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@id/main_result_kino_poster"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/main_result_kino_poster">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/main_result_kino_rating_bar_as_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryLight"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/main_result_kino_rating_bar_max_as_text"/>
+    </LinearLayout>
+
 
 </RelativeLayout>
