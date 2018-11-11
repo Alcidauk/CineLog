@@ -44,12 +44,25 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp">
 
-            <RatingBar
-                android:id="@+id/view_kino_review_rating"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="true"
-                style="?android:attr/ratingBarStyleSmall"/>
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="5dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/view_kino_review_rating_as_text"/>
+                <RatingBar
+                    android:id="@+id/view_kino_review_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:theme="@style/RatingBar"/>
+            </LinearLayout>
 
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/view_kino_review_review_date_layout"
