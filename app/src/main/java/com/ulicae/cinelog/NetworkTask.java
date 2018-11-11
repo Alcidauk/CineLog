@@ -9,6 +9,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -42,10 +43,17 @@ public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Mo
         List<Movie> movies = null;
         try {
             if (!isCancelled()) {
-                movies = results[0].execute().body().results;
+                Response<MovieResultsPage> response = results[0].execute();
+
+                if(response != null && response.body() != null) {
+                    movies = response.body().results;
+                } else {
+                    cancel();
+                }
             }
         } catch (java.io.IOException e) {
-            return null;
+            // TODO deal with an error toast
+            cancel();
         }
         return movies;
     }
@@ -58,6 +66,11 @@ public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Mo
 
     private void populateListView(final List<Movie> movies) {
         addKino.get().populateListView(movies);
+    }
+
+    private void cancel() {
+        cancel(true);
+        addKino.get().clearListView();
     }
 
     @Override

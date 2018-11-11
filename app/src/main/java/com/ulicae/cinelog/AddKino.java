@@ -26,6 +26,7 @@ import com.ulicae.cinelog.dto.KinoService;
 import com.ulicae.cinelog.tmdb.NetworkTaskManager;
 import com.ulicae.cinelog.tmdb.TmdbServiceWrapper;
 import com.uwetrottmann.tmdb2.entities.Movie;
+import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.parceler.Parcels;
 
@@ -36,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import retrofit2.Call;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -103,9 +105,8 @@ public class AddKino extends AppCompatActivity {
 
     private void startSearchTask() {
         if (isNetworkAvailable()) {
-            networkTaskManager.createAndExecute(
-                    tmdbServiceWrapper.search(kino_search.getText().toString())
-            );
+            Call<MovieResultsPage> search = tmdbServiceWrapper.search(kino_search.getText().toString());
+            networkTaskManager.createAndExecute(search);
         } else {
             Toast t = Toast.makeText(getApplicationContext(),
                     "Error no network available.",
@@ -132,10 +133,11 @@ public class AddKino extends AppCompatActivity {
         }
     }
 
-    private void clearListView() {
-        if (kino_results_list != null) {
+    public void clearListView() {
+        if (kino_results_list != null && kino_results_list.getAdapter() != null) {
             kino_results_list.setAdapter(null);
         }
+        kino_search_progress_bar.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.kino_search_add_from_scratch)
