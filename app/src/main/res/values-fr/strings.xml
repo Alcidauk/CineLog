@@ -69,6 +69,10 @@
     <string name="view_kino_review_review_label_value">Commentaire</string>
     <string name="title_activity_view_unregistered_kino">Informations sur le film</string>
     <string name="review_date_hint">Entrez la date du visionnage.</string>
+    <string name="export_start_toast">Export démarré…</string>
+    <string name="export_succeeded_toast">… export terminé. Vérifiez les fichier export.csv généré à la racine du stockage.</string>
+    <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu. Vérifiez les permissions accordées à l\'application.</string>
+    <string name="export_permission_error_toast">Impossible d\'exporter sans autoriser la permission de stockage à CinéLog.</string>
 
 
 </resources>
