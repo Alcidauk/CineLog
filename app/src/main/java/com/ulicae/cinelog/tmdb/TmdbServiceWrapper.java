@@ -6,6 +6,7 @@ import android.content.Context;
 import com.ulicae.cinelog.PreferencesWrapper;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
+import com.uwetrottmann.tmdb2.entities.TvResultsPage;
 import com.uwetrottmann.tmdb2.services.SearchService;
 
 import retrofit2.Call;
@@ -64,6 +65,18 @@ public class TmdbServiceWrapper {
                 "ngram"
         );
     }
+
+    public Call<TvResultsPage> searchTv(String name) {
+        initSearchLanguageIfNeeded();
+
+        return tmdb.searchService().tv(
+                name,
+                1,
+                getTmdbPrefLanguage(),
+                null,
+                null
+        );    }
+
 
     void initSearchLanguageIfNeeded() {
         if(getTmdbPrefLanguage() == null){

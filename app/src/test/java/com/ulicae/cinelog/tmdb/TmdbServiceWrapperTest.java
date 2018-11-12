@@ -58,7 +58,7 @@ public class TmdbServiceWrapperTest {
     private Context context;
 
     @Test
-    public void search() throws Exception {
+    public void searchMovie() throws Exception {
         doReturn(searchService).when(tmdb).searchService();
 
         doReturn("fr").when(preferencesWrapper).getStringPreference(context, "default_tmdb_language", null);
@@ -68,6 +68,20 @@ public class TmdbServiceWrapperTest {
         assertEquals(
                 call,
                 new TmdbServiceWrapper(tmdb, context, preferencesWrapper, localeWrapper).search("name")
+        );
+    }
+
+    @Test
+    public void searchTv() throws Exception {
+        doReturn(searchService).when(tmdb).searchService();
+
+        doReturn("fr").when(preferencesWrapper).getStringPreference(context, "default_tmdb_language", null);
+
+        doReturn(call).when(searchService).tv("name", 1, "fr", null, null);
+
+        assertEquals(
+                call,
+                new TmdbServiceWrapper(tmdb, context, preferencesWrapper, localeWrapper).searchTv("name")
         );
     }
 
