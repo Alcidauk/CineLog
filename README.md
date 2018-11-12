@@ -1,10 +1,12 @@
 # CineLog
 
-<img src="https://f-droid.org/badge/get-it-on.png" height="75">
-
 CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve the application by adding some extra functionnalities and with a slightly different UI.
 
 CineLog allows to review movies and to keep some informations of each reviewed movie.
+
+[<img src="https://f-droid.org/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.ulicae.cinelog/)
 
 # Licence
 
@@ -53,4 +55,3 @@ License: https://github.com/bumptech/glide/blob/master/LICENSE
  - Apache Commons CSV
 Source: http://commons.apache.org/proper/commons-csv/source-repository.html
 License: http://www.apache.org/licenses/
-
