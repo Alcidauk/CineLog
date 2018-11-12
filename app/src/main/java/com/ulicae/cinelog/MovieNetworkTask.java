@@ -31,11 +31,11 @@ import retrofit2.Response;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Movie>> {
+public class MovieNetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Movie>> {
 
     private WeakReference<AddKino> addKino;
 
-    public NetworkTask(AddKino addKino) {
+    public MovieNetworkTask(AddKino addKino) {
         this.addKino = new WeakReference<>(addKino);
     }
 
@@ -78,7 +78,7 @@ public class NetworkTask extends AsyncTask<Call<MovieResultsPage>, Void, List<Mo
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        NetworkTask that = (NetworkTask) o;
+        MovieNetworkTask that = (MovieNetworkTask) o;
 
         return addKino != null && addKino.get() != null ? addKino.get().equals(that.addKino.get()) : that.addKino == null;
     }

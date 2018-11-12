@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.tmdb;
 
 import com.ulicae.cinelog.AddKino;
-import com.ulicae.cinelog.NetworkTask;
+import com.ulicae.cinelog.MovieNetworkTask;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +38,7 @@ public class NetworkTaskCreatorTest {
     @Test
     public void create() throws Exception {
         assertEquals(
-                new NetworkTask(addKino),
+                new MovieNetworkTask(addKino),
                 new NetworkTaskCreator().create(addKino)
         );
     }

@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.tmdb;
 
 import com.ulicae.cinelog.AddKino;
-import com.ulicae.cinelog.NetworkTask;
+import com.ulicae.cinelog.MovieNetworkTask;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class NetworkTaskManager {
 
     private AddKino addKino;
     private NetworkTaskCreator networkTaskCreator;
-    private List<NetworkTask> taskList;
+    private List<MovieNetworkTask> taskList;
 
     public NetworkTaskManager(AddKino addKino) {
         this(addKino, new NetworkTaskCreator());
@@ -47,7 +47,7 @@ public class NetworkTaskManager {
     public void createAndExecute(Call<MovieResultsPage> call) {
         cancelTasks();
 
-        NetworkTask networkTask = networkTaskCreator.create(addKino);
+        MovieNetworkTask networkTask = networkTaskCreator.create(addKino);
 
         //noinspection unchecked
         networkTask.execute(call);
@@ -55,18 +55,18 @@ public class NetworkTaskManager {
     }
 
     public void cancelTasks() {
-        for (NetworkTask task : taskList) {
+        for (MovieNetworkTask task : taskList) {
             task.cancel(true);
         }
 
         taskList.clear();
     }
 
-    public List<NetworkTask> getTaskList() {
+    public List<MovieNetworkTask> getTaskList() {
         return taskList;
     }
 
-    public void setTaskList(List<NetworkTask> taskList) {
+    public void setTaskList(List<MovieNetworkTask> taskList) {
         this.taskList = taskList;
     }
 }

@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.tmdb;
 
 import com.ulicae.cinelog.AddKino;
-import com.ulicae.cinelog.NetworkTask;
+import com.ulicae.cinelog.MovieNetworkTask;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class NetworkTaskManagerTest {
     private Call<MovieResultsPage> call;
 
     @Mock
-    private NetworkTask networkTask;
+    private MovieNetworkTask networkTask;
 
     @Test
     public void createAndExecute() throws Exception {
@@ -62,7 +62,7 @@ public class NetworkTaskManagerTest {
         //noinspection unchecked
         verify(networkTask).execute(call);
         assertEquals(
-                new ArrayList<NetworkTask>() {{
+                new ArrayList<MovieNetworkTask>() {{
                     add(networkTask);
                 }},
                 networkTaskManager.getTaskList()
@@ -73,10 +73,10 @@ public class NetworkTaskManagerTest {
     public void createAndExecute_verifyEmptyTasks() throws Exception {
         doReturn(networkTask).when(networkTaskCreator).create(addKino);
 
-        final NetworkTask anotherNetworkTask = mock(NetworkTask.class);
+        final MovieNetworkTask anotherNetworkTask = mock(MovieNetworkTask.class);
 
         NetworkTaskManager networkTaskManager = new NetworkTaskManager(addKino, networkTaskCreator);
-        networkTaskManager.setTaskList(new ArrayList<NetworkTask>() {{
+        networkTaskManager.setTaskList(new ArrayList<MovieNetworkTask>() {{
             add(anotherNetworkTask);
         }});
 
@@ -85,7 +85,7 @@ public class NetworkTaskManagerTest {
         //noinspection unchecked
         verify(networkTask).execute(call);
         assertEquals(
-                new ArrayList<NetworkTask>() {{
+                new ArrayList<MovieNetworkTask>() {{
                     add(networkTask);
                 }},
                 networkTaskManager.getTaskList()
@@ -94,11 +94,11 @@ public class NetworkTaskManagerTest {
 
     @Test
     public void cancelTasks() throws Exception {
-        final NetworkTask anotherNetworkTask = mock(NetworkTask.class);
+        final MovieNetworkTask anotherNetworkTask = mock(MovieNetworkTask.class);
 
         NetworkTaskManager networkTaskManager = new NetworkTaskManager(addKino, networkTaskCreator);
         networkTaskManager.setTaskList(
-                new ArrayList<NetworkTask>() {{
+                new ArrayList<MovieNetworkTask>() {{
                     add(networkTask);
                     add(anotherNetworkTask);
                 }}

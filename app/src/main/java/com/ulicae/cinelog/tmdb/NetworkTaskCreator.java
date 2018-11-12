@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.tmdb;
 
 import com.ulicae.cinelog.AddKino;
-import com.ulicae.cinelog.NetworkTask;
+import com.ulicae.cinelog.MovieNetworkTask;
 
 
 /**
@@ -24,7 +24,7 @@ import com.ulicae.cinelog.NetworkTask;
  *
  */
 class NetworkTaskCreator {
-    public NetworkTask create(AddKino addKino) {
-        return new NetworkTask(addKino);
+    public MovieNetworkTask create(AddKino addKino) {
+        return new MovieNetworkTask(addKino);
     }
 }
