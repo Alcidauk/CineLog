@@ -1,7 +1,6 @@
 package com.ulicae.cinelog.tmdb;
 
 import com.ulicae.cinelog.AddKino;
-import com.ulicae.cinelog.MovieNetworkTask;
 
 
 /**

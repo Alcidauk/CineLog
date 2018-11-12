@@ -1,7 +1,6 @@
 package com.ulicae.cinelog.tmdb;
 
 import com.ulicae.cinelog.AddKino;
-import com.ulicae.cinelog.MovieNetworkTask;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import java.util.ArrayList;

@@ -1,7 +1,8 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.tmdb;
 
 import android.os.AsyncTask;
 
+import com.ulicae.cinelog.AddKino;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
