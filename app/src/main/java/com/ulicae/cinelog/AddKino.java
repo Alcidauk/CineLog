@@ -1,6 +1,5 @@
 package com.ulicae.cinelog;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -23,8 +22,10 @@ import android.widget.Toast;
 
 import com.ulicae.cinelog.dto.KinoDto;
 import com.ulicae.cinelog.dto.KinoService;
-import com.ulicae.cinelog.tmdb.NetworkTaskManager;
+import com.ulicae.cinelog.tmdb.networktask.MovieNetworkTaskCreator;
+import com.ulicae.cinelog.tmdb.networktask.NetworkTaskManager;
 import com.ulicae.cinelog.tmdb.TmdbServiceWrapper;
+import com.ulicae.cinelog.tmdb.networktask.TvNetworkTaskCreator;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
@@ -96,7 +97,7 @@ public class AddKino extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tmdbServiceWrapper = new TmdbServiceWrapper(this);
-        networkTaskManager = new NetworkTaskManager(this);
+        networkTaskManager = new NetworkTaskManager(this, new MovieNetworkTaskCreator());
 
         kinoService = new KinoService(((KinoApplication) getApplication()).getDaoSession());
 
@@ -105,6 +106,10 @@ public class AddKino extends AppCompatActivity {
 
     private void startSearchTask() {
         if (isNetworkAvailable()) {
+            new NetworkTaskManager(this, new TvNetworkTaskCreator()).createAndExecute(
+                    tmdbServiceWrapper.searchTv(kino_search.getText().toString())
+            );
+
             Call<MovieResultsPage> search = tmdbServiceWrapper.search(kino_search.getText().toString());
             networkTaskManager.createAndExecute(search);
         } else {

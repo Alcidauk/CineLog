@@ -1,6 +1,11 @@
-package com.ulicae.cinelog.tmdb;
+package com.ulicae.cinelog.tmdb.networktask;
+
+import android.os.AsyncTask;
 
 import com.ulicae.cinelog.AddKino;
+import com.ulicae.cinelog.tmdb.networktask.MovieNetworkTask;
+import com.ulicae.cinelog.tmdb.networktask.MovieNetworkTaskCreator;
+import com.ulicae.cinelog.tmdb.networktask.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.junit.Test;
@@ -40,7 +45,7 @@ import static org.mockito.Mockito.verify;
 public class NetworkTaskManagerTest {
 
     @Mock
-    private NetworkTaskCreator networkTaskCreator;
+    private MovieNetworkTaskCreator networkTaskCreator;
 
     @Mock
     private AddKino addKino;
@@ -75,7 +80,7 @@ public class NetworkTaskManagerTest {
         final MovieNetworkTask anotherNetworkTask = mock(MovieNetworkTask.class);
 
         NetworkTaskManager networkTaskManager = new NetworkTaskManager(addKino, networkTaskCreator);
-        networkTaskManager.setTaskList(new ArrayList<MovieNetworkTask>() {{
+        networkTaskManager.setTaskList(new ArrayList<AsyncTask>() {{
             add(anotherNetworkTask);
         }});
 
@@ -97,7 +102,7 @@ public class NetworkTaskManagerTest {
 
         NetworkTaskManager networkTaskManager = new NetworkTaskManager(addKino, networkTaskCreator);
         networkTaskManager.setTaskList(
-                new ArrayList<MovieNetworkTask>() {{
+                new ArrayList<AsyncTask>() {{
                     add(networkTask);
                     add(anotherNetworkTask);
                 }}
