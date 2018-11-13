@@ -114,7 +114,7 @@ public class AddKino extends AppCompatActivity {
             networkTaskManager.createAndExecute(search);
         } else {
             Toast t = Toast.makeText(getApplicationContext(),
-                    "Error no network available.",
+                    getString(R.string.addkino_error_no_network),
                     Toast.LENGTH_LONG);
             t.show();
         }

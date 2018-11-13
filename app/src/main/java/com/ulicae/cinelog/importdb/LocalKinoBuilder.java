@@ -1,7 +1,9 @@
 package com.ulicae.cinelog.importdb;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.dao.LocalKino;
 import com.ulicae.cinelog.dao.TmdbKino;
 
@@ -32,6 +34,12 @@ import java.util.Date;
  */
 class LocalKinoBuilder {
 
+    private Context context;
+
+    public LocalKinoBuilder(Context context) {
+        this.context = context;
+    }
+
     LocalKino build(CSVRecord csvRecord) throws ImportException {
         try {
             TmdbKino tmdbKino = new TmdbKino();
@@ -49,7 +57,7 @@ class LocalKinoBuilder {
                     tmdbKino
             );
         } catch (ParseException e) {
-            throw new ImportException(String.format("Can't save import movie with name %s.", csvRecord.get("title")), e);
+            throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);
         }
     }
 

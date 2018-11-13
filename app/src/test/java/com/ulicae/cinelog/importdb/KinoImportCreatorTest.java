@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.importdb;
 
+import android.content.Context;
+
 import com.ulicae.cinelog.dao.LocalKino;
 
 import org.apache.commons.csv.CSVRecord;
@@ -54,6 +56,9 @@ public class KinoImportCreatorTest {
     @Mock
     private LocalKinoBuilder localKinoBuilder;
 
+    @Mock
+    private Context context;
+
     @Test
     public void getKinos() throws Exception {
         doReturn(new ArrayList<CSVRecord>() {{
@@ -64,7 +69,7 @@ public class KinoImportCreatorTest {
 
         assertEquals(
                 Collections.singletonList(localKino),
-                new KinoImportCreator(csvFormatWrapper, localKinoBuilder).getKinos(fileReader)
+                new KinoImportCreator(csvFormatWrapper, localKinoBuilder, context).getKinos(fileReader)
         );
     }
 
@@ -74,7 +79,7 @@ public class KinoImportCreatorTest {
 
         assertEquals(
                 Collections.singletonList(localKino),
-                new KinoImportCreator(csvFormatWrapper, localKinoBuilder).getKinos(fileReader)
+                new KinoImportCreator(csvFormatWrapper, localKinoBuilder, context).getKinos(fileReader)
         );
     }
 

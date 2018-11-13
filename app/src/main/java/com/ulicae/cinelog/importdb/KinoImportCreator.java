@@ -1,5 +1,8 @@
 package com.ulicae.cinelog.importdb;
 
+import android.content.Context;
+
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.dao.LocalKino;
 
 import org.apache.commons.csv.CSVRecord;
@@ -31,14 +34,16 @@ import java.util.List;
 class KinoImportCreator {
     private CSVFormatWrapper csvFormatWrapper;
     private LocalKinoBuilder localKinoBuilder;
+    private Context context;
 
-    KinoImportCreator() {
-        this(new CSVFormatWrapper(), new LocalKinoBuilder());
+    KinoImportCreator(Context context) {
+        this(new CSVFormatWrapper(), new LocalKinoBuilder(context), context);
     }
 
-    KinoImportCreator(CSVFormatWrapper csvFormatWrapper, LocalKinoBuilder localKinoBuilder) {
+    KinoImportCreator(CSVFormatWrapper csvFormatWrapper, LocalKinoBuilder localKinoBuilder, Context context) {
         this.csvFormatWrapper = csvFormatWrapper;
         this.localKinoBuilder = localKinoBuilder;
+        this.context = context;
     }
 
     List<LocalKino> getKinos(FileReader fileReader) throws ImportException {
@@ -46,7 +51,7 @@ class KinoImportCreator {
         try {
             csvRecords = csvFormatWrapper.parse(fileReader);
         } catch (IOException e) {
-            throw new ImportException("Error while parsing CSV file. Please verify it.", e);
+            throw new ImportException(context.getString(R.string.import_parsing_error_toast), e);
         }
 
         List<LocalKino> kinos = new ArrayList<>();

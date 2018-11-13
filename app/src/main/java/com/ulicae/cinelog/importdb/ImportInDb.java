@@ -58,7 +58,7 @@ public class ImportInDb extends AppCompatActivity {
         if (writeStoragePermission != null && writeStoragePermission) {
             Toast.makeText(getApplicationContext(), getString(R.string.import_starting_toast), Toast.LENGTH_LONG).show();
             try {
-                new CsvImporter(((KinoApplication) getApplication()).getDaoSession()).importCsvFile();
+                new CsvImporter(((KinoApplication) getApplication()).getDaoSession(), this).importCsvFile();
             } catch (ImportException e) {
                 Toast.makeText(getApplicationContext(), getString(R.string.import_error_toast), Toast.LENGTH_LONG).show();
             }

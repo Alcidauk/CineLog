@@ -1,5 +1,8 @@
 package com.ulicae.cinelog.importdb;
 
+import android.content.Context;
+
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.dao.DaoSession;
 import com.ulicae.cinelog.dao.LocalKino;
 import com.ulicae.cinelog.db.LocalKinoRepository;
@@ -7,6 +10,9 @@ import com.ulicae.cinelog.db.LocalKinoRepository;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+
+import static android.provider.Settings.Global.getString;
+
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -31,16 +37,18 @@ class CsvImporter {
     private FileReaderGetter fileReaderGetter;
     private final KinoImportCreator kinoImportCreator;
     private LocalKinoRepository localKinoRepository;
+    private Context context;
 
     @SuppressWarnings("WeakerAccess")
-    public CsvImporter(DaoSession daoSession) {
-        this(new FileReaderGetter(), new KinoImportCreator(), new LocalKinoRepository(daoSession));
+    public CsvImporter(DaoSession daoSession, Context context) {
+        this(new FileReaderGetter(), new KinoImportCreator(context), new LocalKinoRepository(daoSession), context);
     }
 
-    CsvImporter(FileReaderGetter fileReaderGetter, KinoImportCreator kinoImportCreator, LocalKinoRepository localKinoRepository) {
+    CsvImporter(FileReaderGetter fileReaderGetter, KinoImportCreator kinoImportCreator, LocalKinoRepository localKinoRepository, Context context) {
         this.fileReaderGetter = fileReaderGetter;
         this.kinoImportCreator = kinoImportCreator;
         this.localKinoRepository = localKinoRepository;
+        this.context = context;
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -49,7 +57,7 @@ class CsvImporter {
         try {
             fileReader = fileReaderGetter.get("import.csv");
         } catch (IOException e) {
-            throw new ImportException("Can't open CSV file. It must be named import.csv and be placed at storage root directory", e);
+            throw new ImportException(context.getString(R.string.import_io_error_toast), e);
         }
         List<LocalKino> kinos = kinoImportCreator.getKinos(fileReader);
 

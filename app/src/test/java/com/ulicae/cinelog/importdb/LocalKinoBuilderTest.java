@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.importdb;
 
+import android.content.Context;
+
 import com.ulicae.cinelog.dao.LocalKino;
 import com.ulicae.cinelog.dao.TmdbKino;
 
@@ -40,6 +42,9 @@ public class LocalKinoBuilderTest {
     @Mock
     private CSVRecord csvRecord;
 
+    @Mock
+    private Context context;
+
     @Test
     public void build() throws Exception {
         final Date reviewDate = new Date();
@@ -70,7 +75,7 @@ public class LocalKinoBuilderTest {
                         simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
                         tmdbKino
                 ),
-                new LocalKinoBuilder().build(csvRecord)
+                new LocalKinoBuilder(context).build(csvRecord)
         );
     }
 
@@ -104,7 +109,7 @@ public class LocalKinoBuilderTest {
                         simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
                         tmdbKino
                 ),
-                new LocalKinoBuilder().build(csvRecord)
+                new LocalKinoBuilder(context).build(csvRecord)
         );
     }
 
@@ -138,7 +143,7 @@ public class LocalKinoBuilderTest {
                         simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
                         tmdbKino
                 ),
-                new LocalKinoBuilder().build(csvRecord)
+                new LocalKinoBuilder(context).build(csvRecord)
         );
     }
 
@@ -172,7 +177,7 @@ public class LocalKinoBuilderTest {
                         simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
                         tmdbKino
                 ),
-                new LocalKinoBuilder().build(csvRecord)
+                new LocalKinoBuilder(context).build(csvRecord)
         );
     }
 

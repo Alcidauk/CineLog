@@ -1,6 +1,7 @@
 package com.ulicae.cinelog.importdb;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.ulicae.cinelog.dao.LocalKino;
 import com.ulicae.cinelog.db.LocalKinoRepository;
@@ -44,9 +45,6 @@ public class CsvImporterTest {
     private FileReader fileReader;
 
     @Mock
-    private Activity activity;
-
-    @Mock
     private KinoImportCreator kinoImportCreator;
 
     @Mock
@@ -57,6 +55,9 @@ public class CsvImporterTest {
     @Mock
     private LocalKino anotherLocalKino;
 
+    @Mock
+    private Context context;
+
     @Test
     public void importCsvFile() throws Exception {
         doReturn(fileReader).when(fileReaderGetter).get("import.csv");
@@ -66,7 +67,7 @@ public class CsvImporterTest {
             add(anotherLocalKino);
         }}).when(kinoImportCreator).getKinos(fileReader);
 
-        new CsvImporter(fileReaderGetter, kinoImportCreator, localKinoRepository).importCsvFile();
+        new CsvImporter(fileReaderGetter, kinoImportCreator, localKinoRepository, context).importCsvFile();
 
         verify(localKinoRepository).createOrUpdate(new ArrayList<LocalKino>() {{
             add(aLocalKino);

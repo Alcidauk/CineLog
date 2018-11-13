@@ -204,7 +204,7 @@ public class EditReview extends AppCompatActivity {
     public void onClick() {
         if (rating_bar.getRating() == 0 && (review_text.getText().toString().equals("") || review_text.getText().toString().isEmpty())) {
             Toast t = Toast.makeText(getApplicationContext(),
-                    "Error no review to save.",
+                    getString(R.string.addkino_error_no_review_entered),
                     Toast.LENGTH_LONG);
             t.show();
         } else {

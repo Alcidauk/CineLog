@@ -32,7 +32,7 @@ public class FileReaderGetter {
 
         File child = new File(dataDirectory, name);
         if (!child.exists()) {
-            throw new IOException("Can't find import CSV file.");
+            throw new IOException();
         }
 
         return new FileReader(child);
