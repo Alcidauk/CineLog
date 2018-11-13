@@ -81,5 +81,6 @@
     <string name="view_kino_review_review_label_value">Rezension</string>
     <string name="title_activity_view_unregistered_kino">Film Informationen</string>
     <string name="review_date_hint">Trage ein wann du den Film gesehen hast.</string>
+    <string name="review_change_reviewdate">_NOTTRANSLATED_Modify</string>
 
 </resources>

@@ -127,7 +127,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
                         android:onClick="showTimePickerDialog"
-                        android:text="Changer"
+                        android:text="@string/review_change_reviewdate"
                         tools:ignore="RelativeOverlap" />
                 </RelativeLayout>
 
