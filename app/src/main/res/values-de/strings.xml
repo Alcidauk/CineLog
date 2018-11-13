@@ -1,0 +1,87 @@
+<!--
+ CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
+
+ This file is part of CineLog.
+ CineLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ CineLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_name">CineLog</string>
+    <string name="movie_title_input">Film Titel hinzufügen.</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="title_activity_add_kino">Füge eine Rezension hinzu</string>
+    <string name="title_activity_view_kino">Rezension des Filmes</string>
+
+    <string name="title_fragment_movie">Filme</string>
+    <string name="title_fragment_serie">Serien</string>
+
+
+    <string name="kino_title">Titel</string>
+
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="yes">Ja</string>
+
+    <string name="delete_kino_dialog">Willst du diesen Film entfernen?</string>
+
+    <string name="title_activity_add_review">Version der Rezension</string>
+    <string name="title_activity_add_review_creation">Rezension schreiben</string>
+    <string name="review_hint">Füge deine Rezension hier hinzu</string>
+
+
+    <string name="order">Sortieren</string>
+    <string name="year">Jahr</string>
+    <string name="date_added">Datum hinzugefügt</string>
+    <string name="rating">Bewertung</string>
+
+    <string name="newest_first">Neuste zuerst</string>
+    <string name="oldest_first">älteste zuerst</string>
+    <string name="highest_first">Höchste zuerst</string>
+    <string name="lowest_first">Niedrigste zuerst</string>
+
+    <string name="title_activity_export_db">Daten exportieren</string>
+    <string name="export_db">Daten als CSV exportieren</string>
+    <string name="export_db_label">Drücke den Button um deine Daten als CSV zu exportieren. Du kannst sie speichern und später wieder importieren.</string>
+    <string name="action_export">Exportieren</string>
+    <string name="export_start_toast">Export gestartet...</string>
+    <string name="export_succeeded_toast">... exportieren erfolgreich. Siehe export.csv Datei im Stammverzeichnis.</string>
+    <string name="export_io_error_toast">Beim Export ist ein I/O Fehler aufgetreten. Überprüfen Sie Ihre Berechtigungen.</string>
+    <string name="export_permission_error_toast">Export nicht möglich, das Schreiben auf externen Speicher ist CineLog nicht gestattet.</string>
+
+    <string name="action_import">Importieren</string>
+    <string name="title_activity_import_db">CSV Datei importieren</string>
+    <string name="import_db">CSV Datei in Datenbank importieren.</string>
+    <string name="import_db_label">Lege eine CSV Datei in den CineLog Ordner und drücke den importieren Button.</string>
+    <string name="import_permission_error_toast">Es kann nicht importiert werden das lesen des externen Speichers ist für CineLog nicht erlaubt.</string>
+    <string name="import_error_toast">Beim importieren der Daten ist ein Fehler aufgetreten.</string>
+    <string name="import_starting_toast">Import gestartet...</string>
+
+    <string name="add_from_scratch_label">Film wurde nicht gefunden?</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="default_tmdb_language_title">TmDb Datenbank Sprache</string>
+    <string name="default_maximum_rating">Maximales Rating verfügbar in den Reviews</string>
+    <string name="default_maximum_rating_summary">Geben Sie die maximale Standard Note ein, die Sie für neue Filme festlegen möchten.</string>
+    <string name="default_maximum_rating_dialog">Setze die maximal Bewertung für neue Filme</string>
+    <string name="general_preferences">Allgemeine Einstellungen</string>
+    <string name="general_preferences_summary">Setzen der globalen Einstellungen für diese App.</string>
+    <string name="view_poster_review_layout_title">Rezension</string>
+    <string name="view_kino_review_rating_label_value">Film Bewertung</string>
+    <string name="view_kino_review_review_date_label_value">Datum der Rezension</string>
+    <string name="view_kino_review_review_label_value">Rezension</string>
+    <string name="title_activity_view_unregistered_kino">Film Informationen</string>
+    <string name="review_date_hint">Trage ein wann du den Film gesehen hast.</string>
+
+    <color name="white">#FFFFFF</color>
+
+</resources>
