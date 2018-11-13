@@ -60,7 +60,8 @@ public class ImportInDb extends AppCompatActivity {
             try {
                 new CsvImporter(((KinoApplication) getApplication()).getDaoSession(), this).importCsvFile();
             } catch (ImportException e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.import_error_toast), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.import_error_toast), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.import_permission_error_toast), Toast.LENGTH_LONG).show();
