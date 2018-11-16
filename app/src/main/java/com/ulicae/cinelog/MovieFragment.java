@@ -187,10 +187,10 @@ public class MovieFragment extends Fragment {
                     kinos = kinoService.getKinosByRating(true);
                     break;
                 case 5:
-                    //kinos = get_year_desc.list();
+                    kinos = kinoService.getKinosByYear(false);
                     break;
                 case 6:
-                    //kinos = get_year_asc.list();
+                    kinos = kinoService.getKinosByYear(true);
                     break;
                 default:
                     kinos = kinoService.getAllKinos();

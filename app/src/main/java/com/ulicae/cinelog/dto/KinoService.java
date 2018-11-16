@@ -111,4 +111,10 @@ public class KinoService {
     public void deleteKino(KinoDto kinoDto) {
         localKinoRepository.delete(kinoDto.getKinoId());
     }
+
+    public List<KinoDto> getKinosByYear(boolean asc) {
+        List<LocalKino> localKinos = localKinoRepository.findAllByYear(asc);
+
+        return buildKinos(localKinos);
+    }
 }

@@ -3,6 +3,8 @@ package com.ulicae.cinelog.db;
 import com.ulicae.cinelog.dao.DaoSession;
 import com.ulicae.cinelog.dao.LocalKino;
 import com.ulicae.cinelog.dao.LocalKinoDao;
+import com.ulicae.cinelog.dao.TmdbKino;
+import com.ulicae.cinelog.dao.TmdbKinoDao;
 
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -60,7 +62,7 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void findAllByYearAsc() throws Exception {
+    public void findAllByRatingAsc() throws Exception {
         QueryBuilder queryBuilder = mock(QueryBuilder.class);
         doReturn(queryBuilder).when(localKinoDao).queryBuilder();
         doReturn(queryBuilder).when(queryBuilder).orderAsc(LocalKinoDao.Properties.Rating);
@@ -77,7 +79,7 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void findAllByYearDesc() throws Exception {
+    public void findAllByRatingDesc() throws Exception {
         QueryBuilder queryBuilder = mock(QueryBuilder.class);
         doReturn(queryBuilder).when(localKinoDao).queryBuilder();
         doReturn(queryBuilder).when(queryBuilder).orderDesc(LocalKinoDao.Properties.Rating);
@@ -90,6 +92,60 @@ public class LocalKinoRepositoryTest {
         assertEquals(
                 Arrays.asList(localKino),
                 new LocalKinoRepository(daoSession).findAllByRating(false)
+        );
+    }
+
+    @Test
+    public void findAllByYearAsc() throws Exception {
+        TmdbKino oldTmdbKino = mock(TmdbKino.class);
+        TmdbKino recentTmdbKino = mock(TmdbKino.class);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(1987).when(oldTmdbKino).getYear();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(2012).when(recentTmdbKino).getYear();
+
+        LocalKino oldLocalKino = mock(LocalKino.class);
+        doReturn(recentTmdbKino).when(localKino).getKino();
+        doReturn(oldTmdbKino).when(oldLocalKino).getKino();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(localKino, oldLocalKino)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(oldLocalKino, localKino),
+                new LocalKinoRepository(daoSession).findAllByYear(true)
+        );
+    }
+
+    @Test
+    public void findAllByYearDesc() throws Exception {
+        TmdbKino oldTmdbKino = mock(TmdbKino.class);
+        TmdbKino recentTmdbKino = mock(TmdbKino.class);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(1987).when(oldTmdbKino).getYear();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(2012).when(recentTmdbKino).getYear();
+
+        LocalKino oldLocalKino = mock(LocalKino.class);
+        doReturn(recentTmdbKino).when(localKino).getKino();
+        doReturn(oldTmdbKino).when(oldLocalKino).getKino();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(localKino, oldLocalKino)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(localKino, oldLocalKino),
+                new LocalKinoRepository(daoSession).findAllByYear(false)
         );
     }
 

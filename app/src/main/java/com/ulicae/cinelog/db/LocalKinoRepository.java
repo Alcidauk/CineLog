@@ -7,26 +7,27 @@ import com.ulicae.cinelog.dao.LocalKinoDao;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 public class LocalKinoRepository {
 
@@ -77,5 +78,30 @@ public class LocalKinoRepository {
 
     public void delete(Long localKinoId) {
         localKinoDao.deleteByKey(localKinoId);
+    }
+
+    public List<LocalKino> findAllByYear(final boolean asc) {
+        QueryBuilder.LOG_SQL = true;
+        QueryBuilder.LOG_VALUES = true;
+
+        QueryBuilder<LocalKino> localKinoQueryBuilder = localKinoDao.queryBuilder();
+
+        List<LocalKino> list = localKinoQueryBuilder.build().list();
+
+        Collections.sort(list, new Comparator<LocalKino>() {
+            @Override
+            public int compare(LocalKino o1, LocalKino o2) {
+                int o1year = o1.getKino() != null ? o1.getKino().getYear() : 0;
+                int o2year = o2.getKino() != null ? o2.getKino().getYear() : 0;
+
+                if(asc) {
+                    return o1year < o2year ? -1 : 1;
+                } else {
+                    return o1year < o2year ? 1 : -1;
+                }
+            }
+        });
+
+        return list;
     }
 }
