@@ -54,8 +54,8 @@
     <string name="export_db">Daten als CSV exportieren</string>
     <string name="export_db_label">Drücke den Button um deine Daten als CSV zu exportieren. Du kannst sie speichern und später wieder importieren.</string>
     <string name="action_export">Exportieren</string>
-    <string name="export_start_toast">Export gestartet...</string>
-    <string name="export_succeeded_toast">... exportieren erfolgreich. Siehe export.csv Datei im Stammverzeichnis.</string>
+    <string name="export_start_toast">Export gestartet…</string>
+    <string name="export_succeeded_toast">… exportieren erfolgreich. Siehe export.csv Datei im Stammverzeichnis.</string>
     <string name="export_io_error_toast">Beim Export ist ein I/O Fehler aufgetreten. Überprüfen Sie Ihre Berechtigungen.</string>
     <string name="export_permission_error_toast">Export nicht möglich, das Schreiben auf externen Speicher ist CineLog nicht gestattet.</string>
 
@@ -68,7 +68,8 @@
     <string name="import_io_error_toast">_NOTTRANSLATED_An error occurred while trying to find import.csv file. Verify it is located at the root storage and that you have required permissions.</string>
     <string name="import_parsing_error_toast">_NOTTRANSLATED_Error while parsing CSV file. Please verify it.</string>
     <string name="import_parsing_line_error_toast">_NOTTRANSLATED_Can\'t save import movie with name %s.</string>
-    <string name="import_starting_toast">Import gestartet...</string>
+    <string name="import_starting_toast">Import gestartet…</string>
+    <string name="import_ending_toast">… import erfolgreich !</string>
 
     <string name="add_from_scratch_label">Film wurde nicht gefunden?</string>
     <string name="title_activity_settings">Einstellungen</string>

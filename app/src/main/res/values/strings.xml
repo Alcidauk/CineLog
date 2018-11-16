@@ -69,6 +69,7 @@
     <string name="import_parsing_error_toast">Error while parsing CSV file. Please verify it.</string>
     <string name="import_parsing_line_error_toast">Can\'t save import movie with name %s.</string>
     <string name="import_starting_toast">Import started…</string>
+    <string name="import_ending_toast">… import ended !</string>
 
     <string name="add_from_scratch_label">Can\'t find a movie ?</string>
     <string name="title_activity_settings">Settings</string>
