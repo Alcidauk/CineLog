@@ -40,7 +40,7 @@
 
     <string name="order">Ordre</string>
     <string name="year">Année de sortie</string>
-    <string name="date_added">Date de revue</string>
+    <string name="date_added">Date de visionnage</string>
     <string name="rating">Note</string>
 
     <string name="newest_first">Le plus récent d\'abord</string>
