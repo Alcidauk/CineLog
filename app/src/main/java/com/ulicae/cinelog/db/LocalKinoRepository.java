@@ -4,6 +4,7 @@ import com.ulicae.cinelog.dao.DaoSession;
 import com.ulicae.cinelog.dao.LocalKino;
 import com.ulicae.cinelog.dao.LocalKinoDao;
 
+import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -37,12 +38,16 @@ public class LocalKinoRepository {
         this.localKinoDao = daoSession.getLocalKinoDao();
     }
 
-    public List<LocalKino> findAll() {
-        return localKinoDao.loadAll();
-    }
-
     public void createOrUpdate(LocalKino kinoToCreate) {
         localKinoDao.insertOrReplace(kinoToCreate);
+    }
+
+    public void delete(Long localKinoId) {
+        localKinoDao.deleteByKey(localKinoId);
+    }
+
+    public List<LocalKino> findAll() {
+        return localKinoDao.loadAll();
     }
 
     public LocalKino find(long id) {
@@ -59,21 +64,7 @@ public class LocalKinoRepository {
     }
 
     public List<LocalKino> findAllByRating(boolean asc) {
-        QueryBuilder<LocalKino> localKinoQueryBuilder = localKinoDao.queryBuilder();
-
-        if (asc) {
-            localKinoQueryBuilder = localKinoQueryBuilder
-                    .orderAsc(LocalKinoDao.Properties.Rating);
-        } else {
-            localKinoQueryBuilder = localKinoQueryBuilder
-                    .orderDesc(LocalKinoDao.Properties.Rating);
-        }
-
-        return localKinoQueryBuilder.build().list();
-    }
-
-    public void delete(Long localKinoId) {
-        localKinoDao.deleteByKey(localKinoId);
+        return queryOrderBy(asc, LocalKinoDao.Properties.Rating);
     }
 
     public List<LocalKino> findAllByYear(final boolean asc) {
@@ -99,5 +90,23 @@ public class LocalKinoRepository {
         });
 
         return list;
+    }
+
+    public List<LocalKino> findAllByReviewDate(boolean asc) {
+        return queryOrderBy(asc, LocalKinoDao.Properties.Review_date);
+    }
+
+    private List<LocalKino> queryOrderBy(boolean asc, Property property) {
+        QueryBuilder<LocalKino> localKinoQueryBuilder = localKinoDao.queryBuilder();
+
+        if (asc) {
+            localKinoQueryBuilder = localKinoQueryBuilder
+                    .orderAsc(property);
+        } else {
+            localKinoQueryBuilder = localKinoQueryBuilder
+                    .orderDesc(property);
+        }
+
+        return localKinoQueryBuilder.build().list();
     }
 }

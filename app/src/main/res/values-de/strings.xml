@@ -41,8 +41,8 @@
 
 
     <string name="order">Sortieren</string>
-    <string name="year">Jahr</string>
-    <string name="date_added">Datum hinzugefügt</string>
+    <string name="year">_NOTTRANSLATED_Release year</string>
+    <string name="date_added">_NOTTRANSLATED_Review date</string>
     <string name="rating">Bewertung</string>
 
     <string name="newest_first">Neuste zuerst</string>

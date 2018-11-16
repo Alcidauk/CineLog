@@ -17,6 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -92,6 +93,41 @@ public class LocalKinoRepositoryTest {
         assertEquals(
                 Arrays.asList(localKino),
                 new LocalKinoRepository(daoSession).findAllByRating(false)
+        );
+    }
+
+
+    @Test
+    public void findAllByReviewDateAsc() throws Exception {
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+        doReturn(queryBuilder).when(queryBuilder).orderAsc(LocalKinoDao.Properties.Review_date);
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Collections.singletonList(localKino)).when(query).list();
+
+        assertEquals(
+                Collections.singletonList(localKino),
+                new LocalKinoRepository(daoSession).findAllByReviewDate(true)
+        );
+    }
+
+    @Test
+    public void findAllByReviewDateDesc() throws Exception {
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+        doReturn(queryBuilder).when(queryBuilder).orderDesc(LocalKinoDao.Properties.Review_date);
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Collections.singletonList(localKino)).when(query).list();
+
+        assertEquals(
+                Collections.singletonList(localKino),
+                new LocalKinoRepository(daoSession).findAllByReviewDate(false)
         );
     }
 

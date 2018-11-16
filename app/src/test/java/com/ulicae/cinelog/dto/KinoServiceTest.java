@@ -113,6 +113,40 @@ public class KinoServiceTest {
     }
 
     @Test
+    public void getKinosByReviewDateAsc() throws Exception {
+        LocalKino localKino = mock(LocalKino.class);
+        LocalKino anotherLocalKino = mock(LocalKino.class);
+
+        doReturn(Arrays.asList(localKino, anotherLocalKino)).when(localKinoRepository).findAllByReviewDate(true);
+
+        KinoDto anotherKinoDto = mock(KinoDto.class);
+        doReturn(kinoDto).when(kinoDtoBuilder).build(localKino);
+        doReturn(anotherKinoDto).when(kinoDtoBuilder).build(anotherLocalKino);
+
+        assertEquals(
+                Arrays.asList(kinoDto, anotherKinoDto),
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getKinosByReviewDate(true)
+        );
+    }
+
+    @Test
+    public void getKinosByReviewDateDesc() throws Exception {
+        LocalKino localKino = mock(LocalKino.class);
+        LocalKino anotherLocalKino = mock(LocalKino.class);
+
+        doReturn(Arrays.asList(localKino, anotherLocalKino)).when(localKinoRepository).findAllByReviewDate(false);
+
+        KinoDto anotherKinoDto = mock(KinoDto.class);
+        doReturn(kinoDto).when(kinoDtoBuilder).build(localKino);
+        doReturn(anotherKinoDto).when(kinoDtoBuilder).build(anotherLocalKino);
+
+        assertEquals(
+                Arrays.asList(kinoDto, anotherKinoDto),
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getKinosByReviewDate(false)
+        );
+    }
+
+    @Test
     public void getKinosByYear() throws Exception {
         LocalKino localKino = mock(LocalKino.class);
         LocalKino anotherLocalKino = mock(LocalKino.class);

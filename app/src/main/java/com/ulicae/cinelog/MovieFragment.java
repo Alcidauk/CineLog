@@ -174,11 +174,10 @@ public class MovieFragment extends Fragment {
             //date added
             switch (order) {
                 case 1:
-                    // TODO reimplement reverse
-                    kinos = kinoService.getAllKinos();
+                    kinos = kinoService.getKinosByReviewDate(false);
                     break;
                 case 2:
-                    kinos = kinoService.getAllKinos();
+                    kinos = kinoService.getKinosByReviewDate(true);
                     break;
                 case 3:
                     kinos = kinoService.getKinosByRating(false);

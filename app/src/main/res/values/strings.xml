@@ -41,8 +41,8 @@
 
 
     <string name="order">Order</string>
-    <string name="year">Year</string>
-    <string name="date_added">Date added</string>
+    <string name="year">Release year</string>
+    <string name="date_added">Review date</string>
     <string name="rating">Rating</string>
 
     <string name="newest_first">Newest First</string>

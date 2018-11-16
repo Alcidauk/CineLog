@@ -104,6 +104,18 @@ public class KinoService {
         return buildKinos(localKinos);
     }
 
+    public List<KinoDto> getKinosByYear(boolean asc) {
+        List<LocalKino> localKinos = localKinoRepository.findAllByYear(asc);
+
+        return buildKinos(localKinos);
+    }
+
+    public List<KinoDto> getKinosByReviewDate(boolean asc) {
+        List<LocalKino> localKinos = localKinoRepository.findAllByReviewDate(asc);
+
+        return buildKinos(localKinos);
+    }
+
     private List<KinoDto> buildKinos(List<LocalKino> kinos) {
         List<KinoDto> kinoDtos = new ArrayList<>();
         for (LocalKino localKino : kinos) {
@@ -115,11 +127,5 @@ public class KinoService {
 
     public void deleteKino(KinoDto kinoDto) {
         localKinoRepository.delete(kinoDto.getKinoId());
-    }
-
-    public List<KinoDto> getKinosByYear(boolean asc) {
-        List<LocalKino> localKinos = localKinoRepository.findAllByYear(asc);
-
-        return buildKinos(localKinos);
     }
 }
