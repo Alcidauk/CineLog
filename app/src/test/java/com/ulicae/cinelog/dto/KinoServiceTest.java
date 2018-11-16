@@ -203,7 +203,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 createdKino,
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).createKino(kinoDto)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).createOrUpdateKino(kinoDto)
         );
 
         verify(localKinoRepository).createOrUpdate(kinoToCreate);

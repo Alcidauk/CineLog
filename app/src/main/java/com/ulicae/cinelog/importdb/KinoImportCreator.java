@@ -3,7 +3,7 @@ package com.ulicae.cinelog.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.dao.LocalKino;
+import com.ulicae.cinelog.dto.KinoDto;
 
 import org.apache.commons.csv.CSVRecord;
 
@@ -14,22 +14,21 @@ import java.util.List;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 class KinoImportCreator {
     private CSVFormatWrapper csvFormatWrapper;
@@ -46,7 +45,7 @@ class KinoImportCreator {
         this.context = context;
     }
 
-    List<LocalKino> getKinos(FileReader fileReader) throws ImportException {
+    List<KinoDto> getKinos(FileReader fileReader) throws ImportException {
         Iterable<CSVRecord> csvRecords;
         try {
             csvRecords = csvFormatWrapper.parse(fileReader);
@@ -54,7 +53,7 @@ class KinoImportCreator {
             throw new ImportException(context.getString(R.string.import_parsing_error_toast), e);
         }
 
-        List<LocalKino> kinos = new ArrayList<>();
+        List<KinoDto> kinos = new ArrayList<>();
         for (CSVRecord csvRecord : csvRecords) {
             kinos.add(localKinoBuilder.build(csvRecord));
         }

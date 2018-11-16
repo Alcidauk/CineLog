@@ -2,8 +2,7 @@ package com.ulicae.cinelog.importdb;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.dao.LocalKino;
-import com.ulicae.cinelog.dao.TmdbKino;
+import com.ulicae.cinelog.dto.KinoDto;
 
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
@@ -19,22 +18,21 @@ import static org.mockito.Mockito.doReturn;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class LocalKinoBuilderTest {
@@ -60,21 +58,22 @@ public class LocalKinoBuilderTest {
         doReturn("review").when(csvRecord).get("review");
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
-        TmdbKino tmdbKino = new TmdbKino();
-        tmdbKino.setYear(2015);
-        tmdbKino.setRelease_date("date release");
-        tmdbKino.setOverview("overview");
-        tmdbKino.setMovie_id(24L);
-        tmdbKino.setPoster_path("poster path");
+        KinoDto kinoDto = new KinoDto(
+                null,
+                24L,
+                "title",
+                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                "review",
+                3f,
+                5,
+                "poster path",
+                "overview",
+                2015,
+                "date release"
+        );
 
         assertEquals(
-                new LocalKino(
-                        3f,
-                        "review",
-                        "title",
-                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
-                        tmdbKino
-                ),
+                kinoDto,
                 new LocalKinoBuilder(context).build(csvRecord)
         );
     }
@@ -94,21 +93,22 @@ public class LocalKinoBuilderTest {
         doReturn("review").when(csvRecord).get("review");
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
-        TmdbKino tmdbKino = new TmdbKino();
-        tmdbKino.setYear(2015);
-        tmdbKino.setRelease_date("date release");
-        tmdbKino.setOverview("overview");
-        tmdbKino.setMovie_id(24L);
-        tmdbKino.setPoster_path("poster path");
+        KinoDto kinoDto = new KinoDto(
+                null,
+                24L,
+                "title",
+                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                "review",
+                3.3f,
+                5,
+                "poster path",
+                "overview",
+                2015,
+                "date release"
+        );
 
         assertEquals(
-                new LocalKino(
-                        3.3f,
-                        "review",
-                        "title",
-                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
-                        tmdbKino
-                ),
+                kinoDto,
                 new LocalKinoBuilder(context).build(csvRecord)
         );
     }
@@ -128,21 +128,22 @@ public class LocalKinoBuilderTest {
         doReturn("review").when(csvRecord).get("review");
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
-        TmdbKino tmdbKino = new TmdbKino();
-        tmdbKino.setYear(2015);
-        tmdbKino.setRelease_date("date release");
-        tmdbKino.setOverview("overview");
-        tmdbKino.setMovie_id(0L);
-        tmdbKino.setPoster_path("poster path");
+        KinoDto kinoDto = new KinoDto(
+                null,
+                0L,
+                "title",
+                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                "review",
+                3.3f,
+                5,
+                "poster path",
+                "overview",
+                2015,
+                "date release"
+        );
 
         assertEquals(
-                new LocalKino(
-                        3.3f,
-                        "review",
-                        "title",
-                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
-                        tmdbKino
-                ),
+                kinoDto,
                 new LocalKinoBuilder(context).build(csvRecord)
         );
     }
@@ -162,21 +163,23 @@ public class LocalKinoBuilderTest {
         doReturn("review").when(csvRecord).get("review");
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
-        TmdbKino tmdbKino = new TmdbKino();
-        tmdbKino.setYear(2015);
-        tmdbKino.setRelease_date("date release");
-        tmdbKino.setOverview("overview");
-        tmdbKino.setMovie_id(24L);
-        tmdbKino.setPoster_path("poster path");
+
+        KinoDto kinoDto = new KinoDto(
+                null,
+                24L,
+                "title",
+                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                "review",
+                0f,
+                5,
+                "poster path",
+                "overview",
+                2015,
+                "date release"
+        );
 
         assertEquals(
-                new LocalKino(
-                        0f,
-                        "review",
-                        "title",
-                        simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
-                        tmdbKino
-                ),
+                kinoDto,
                 new LocalKinoBuilder(context).build(csvRecord)
         );
     }

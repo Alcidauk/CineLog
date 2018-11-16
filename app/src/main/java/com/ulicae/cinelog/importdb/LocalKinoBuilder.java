@@ -4,8 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.dao.LocalKino;
-import com.ulicae.cinelog.dao.TmdbKino;
+import com.ulicae.cinelog.dto.KinoDto;
 
 import org.apache.commons.csv.CSVRecord;
 
@@ -15,22 +14,21 @@ import java.util.Date;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 class LocalKinoBuilder {
 
@@ -40,21 +38,20 @@ class LocalKinoBuilder {
         this.context = context;
     }
 
-    LocalKino build(CSVRecord csvRecord) throws ImportException {
+    KinoDto build(CSVRecord csvRecord) throws ImportException {
         try {
-            TmdbKino tmdbKino = new TmdbKino();
-            tmdbKino.setPoster_path(csvRecord.get("poster_path"));
-            tmdbKino.setMovie_id(formatLong(csvRecord.get("movie_id")));
-            tmdbKino.setOverview(csvRecord.get("overview"));
-            tmdbKino.setRelease_date(csvRecord.get("release_date"));
-            tmdbKino.setYear(formatInteger(csvRecord.get("year")));
-
-            return new LocalKino(
-                    formatFloat(csvRecord.get("rating")),
-                    csvRecord.get("review"),
+            return new KinoDto(
+                    null,
+                    formatLong(csvRecord.get("movie_id")),
                     csvRecord.get("title"),
                     formatDate(csvRecord.get("review_date")),
-                    tmdbKino
+                    csvRecord.get("review"),
+                    formatFloat(csvRecord.get("rating")),
+                    5,
+                    csvRecord.get("poster_path"),
+                    csvRecord.get("overview"),
+                    formatInteger(csvRecord.get("year")),
+                    csvRecord.get("release_date")
             );
         } catch (ParseException e) {
             throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);

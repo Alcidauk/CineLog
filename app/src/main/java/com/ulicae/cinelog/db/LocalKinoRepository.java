@@ -41,10 +41,6 @@ public class LocalKinoRepository {
         return localKinoDao.loadAll();
     }
 
-    public void createOrUpdate(List<LocalKino> localKinos) {
-        localKinoDao.insertInTx(localKinos);
-    }
-
     public void createOrUpdate(LocalKino kinoToCreate) {
         localKinoDao.insertOrReplace(kinoToCreate);
     }

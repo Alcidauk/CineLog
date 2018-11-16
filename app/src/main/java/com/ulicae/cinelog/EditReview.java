@@ -223,7 +223,7 @@ public class EditReview extends AppCompatActivity {
             }
 
             // TODO call a createOrUpdate instead
-            kino = kinoService.createKino(kino);
+            kino = kinoService.createOrUpdateKino(kino);
 
             Intent returnIntent = getIntent();
             returnIntent.putExtra("kino", Parcels.wrap(kino));
