@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.dao;
+package com.ulicae.cinelog.data.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -26,28 +26,30 @@ import org.parceler.Parcel;
  */
 @Parcel
 @Entity
-public class TmdbKino {
+public class TmdbSerie {
 
     @Id
-    Long movie_id;
+    Long serie_id;
 
     String poster_path;
     String overview;
     int year;
     String release_date;
 
-    @Generated(hash = 226405629)
-    public TmdbKino(Long movie_id, String poster_path, String overview, int year, String release_date) {
-        this.movie_id = movie_id;
+
+    @Generated(hash = 118982129)
+    public TmdbSerie(Long serie_id, String poster_path, String overview, int year, String release_date) {
+        this.serie_id = serie_id;
         this.poster_path = poster_path;
         this.overview = overview;
         this.year = year;
         this.release_date = release_date;
     }
 
-    @Generated(hash = 1879968548)
-    public TmdbKino() {
+    @Generated(hash = 962756978)
+    public TmdbSerie() {
     }
+    
 
     public String getPoster_path() {
         return poster_path;
@@ -81,12 +83,12 @@ public class TmdbKino {
         this.release_date = release_date;
     }
 
-    public Long getMovie_id() {
-        return this.movie_id;
+    public Long getSerie_id() {
+        return this.serie_id;
     }
 
-    public void setMovie_id(Long movie_id) {
-        this.movie_id = movie_id;
+    public void setSerie_id(Long serie_id) {
+        this.serie_id = serie_id;
     }
 
     @Override
@@ -94,10 +96,10 @@ public class TmdbKino {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TmdbKino tmdbKino = (TmdbKino) o;
+        TmdbSerie tmdbKino = (TmdbSerie) o;
 
         if (year != tmdbKino.year) return false;
-        if (movie_id != null ? !movie_id.equals(tmdbKino.movie_id) : tmdbKino.movie_id != null)
+        if (serie_id != null ? !serie_id.equals(tmdbKino.serie_id) : tmdbKino.serie_id != null)
             return false;
         if (poster_path != null ? !poster_path.equals(tmdbKino.poster_path) : tmdbKino.poster_path != null)
             return false;
@@ -108,7 +110,7 @@ public class TmdbKino {
 
     @Override
     public int hashCode() {
-        int result = movie_id != null ? movie_id.hashCode() : 0;
+        int result = serie_id != null ? serie_id.hashCode() : 0;
         result = 31 * result + (poster_path != null ? poster_path.hashCode() : 0);
         result = 31 * result + (overview != null ? overview.hashCode() : 0);
         result = 31 * result + year;

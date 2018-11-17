@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.exportdb;
 
-import com.ulicae.cinelog.dao.LocalKino;
-import com.ulicae.cinelog.db.LocalKinoRepository;
+import com.ulicae.cinelog.data.dao.LocalKino;
+import com.ulicae.cinelog.data.db.LocalKinoRepository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

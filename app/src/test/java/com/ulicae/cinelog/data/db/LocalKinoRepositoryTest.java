@@ -1,10 +1,9 @@
-package com.ulicae.cinelog.db;
+package com.ulicae.cinelog.data.db;
 
-import com.ulicae.cinelog.dao.DaoSession;
-import com.ulicae.cinelog.dao.LocalKino;
-import com.ulicae.cinelog.dao.LocalKinoDao;
-import com.ulicae.cinelog.dao.TmdbKino;
-import com.ulicae.cinelog.dao.TmdbKinoDao;
+import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.LocalKino;
+import com.ulicae.cinelog.data.dao.LocalKinoDao;
+import com.ulicae.cinelog.data.dao.TmdbKino;
 
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;

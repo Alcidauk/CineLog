@@ -2,8 +2,8 @@ package com.ulicae.cinelog.exportdb;
 
 import android.annotation.SuppressLint;
 
-import com.ulicae.cinelog.dao.LocalKino;
-import com.ulicae.cinelog.dao.TmdbKino;
+import com.ulicae.cinelog.data.dao.LocalKino;
+import com.ulicae.cinelog.data.dao.TmdbKino;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

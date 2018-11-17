@@ -1,10 +1,10 @@
 package com.ulicae.cinelog.dto;
 
-import com.ulicae.cinelog.dao.DaoSession;
-import com.ulicae.cinelog.dao.LocalKino;
-import com.ulicae.cinelog.dao.TmdbKino;
-import com.ulicae.cinelog.db.LocalKinoRepository;
-import com.ulicae.cinelog.db.TmdbKinoRepository;
+import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.LocalKino;
+import com.ulicae.cinelog.data.dao.TmdbKino;
+import com.ulicae.cinelog.data.db.LocalKinoRepository;
+import com.ulicae.cinelog.data.db.TmdbKinoRepository;
 
 import java.util.ArrayList;
 import java.util.List;

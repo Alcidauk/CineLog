@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.db.LocalKinoRepository;
+import com.ulicae.cinelog.data.db.LocalKinoRepository;
 
 import java.io.FileWriter;
 import java.io.IOException;

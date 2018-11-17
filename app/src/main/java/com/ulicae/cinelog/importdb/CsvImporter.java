@@ -3,7 +3,7 @@ package com.ulicae.cinelog.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.dto.KinoDto;
 import com.ulicae.cinelog.dto.KinoService;
 

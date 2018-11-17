@@ -1,8 +1,8 @@
-package com.ulicae.cinelog.db;
+package com.ulicae.cinelog.data.db;
 
-import com.ulicae.cinelog.dao.DaoSession;
-import com.ulicae.cinelog.dao.TmdbKino;
-import com.ulicae.cinelog.dao.TmdbKinoDao;
+import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.TmdbKino;
+import com.ulicae.cinelog.data.dao.TmdbKinoDao;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

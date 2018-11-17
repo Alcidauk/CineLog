@@ -3,8 +3,8 @@ package com.ulicae.cinelog;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ulicae.cinelog.dao.DaoMaster;
-import com.ulicae.cinelog.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.DaoMaster;
+import com.ulicae.cinelog.data.dao.DaoSession;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

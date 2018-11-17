@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.dao;
+package com.ulicae.cinelog.data.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
