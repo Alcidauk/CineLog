@@ -20,3 +20,7 @@ Permissions:
     <li>READ_EXTERNAL_STORAGE to read files to import</li>
     <li>WRITE_EXTERNAL_STORAGE to export database as a CSV file</li>
 </ul>
+
+Translations:
+
+A huge thank you to ApoRes1337 that wrote german translation.

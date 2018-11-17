@@ -20,3 +20,7 @@ Permissions:
     <li>READ_EXTERNAL_STORAGE pour lire un fichier CSV à importer</li>
     <li>WRITE_EXTERNAL_STORAGE pour exporter votre base de données au format CSV sur votre appareil</li>
 </ul>
+
+Translations:
+
+Merci à ApoRes1337 pour la traduction allemande de l'application.
