@@ -18,10 +18,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.AddKino;
-import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.dto.KinoDto;
-import com.ulicae.cinelog.dto.KinoService;
+import com.ulicae.cinelog.data.KinoService;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
 import org.parceler.Parcels;

@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.data.db;
 
+import com.ulicae.cinelog.data.LocalKinoRepository;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dao.LocalKinoDao;

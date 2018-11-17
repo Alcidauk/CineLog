@@ -31,7 +31,7 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.AddKino;
 import com.ulicae.cinelog.android.activities.ViewKino;
 import com.ulicae.cinelog.dto.KinoDto;
-import com.ulicae.cinelog.dto.KinoService;
+import com.ulicae.cinelog.data.KinoService;
 
 import org.parceler.Parcels;
 

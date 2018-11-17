@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.db;
+package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.LocalKino;
