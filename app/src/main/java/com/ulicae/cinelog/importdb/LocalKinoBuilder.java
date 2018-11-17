@@ -3,6 +3,7 @@ package com.ulicae.cinelog.importdb;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.ulicae.cinelog.PreferencesWrapper;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.dto.KinoDto;
 
@@ -33,9 +34,15 @@ import java.util.Date;
 class LocalKinoBuilder {
 
     private Context context;
+    private PreferencesWrapper preferencesWrapper;
 
     public LocalKinoBuilder(Context context) {
+        this(context, new PreferencesWrapper());
+    }
+
+    public LocalKinoBuilder(Context context, PreferencesWrapper preferencesWrapper) {
         this.context = context;
+        this.preferencesWrapper = preferencesWrapper;
     }
 
     KinoDto build(CSVRecord csvRecord) throws ImportException {
@@ -47,7 +54,7 @@ class LocalKinoBuilder {
                     formatDate(csvRecord.get("review_date")),
                     csvRecord.get("review"),
                     formatFloat(csvRecord.get("rating")),
-                    5,
+                    getMaxRating(csvRecord),
                     csvRecord.get("poster_path"),
                     csvRecord.get("overview"),
                     formatInteger(csvRecord.get("year")),
@@ -56,6 +63,12 @@ class LocalKinoBuilder {
         } catch (ParseException e) {
             throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);
         }
+    }
+
+    private int getMaxRating(CSVRecord csvRecord) {
+        return csvRecord.isMapped("max_rating") ?
+                formatInteger(csvRecord.get("max_rating")) :
+                formatInteger(preferencesWrapper.getStringPreference(context, "default_max_rate_value", "5"));
     }
 
     private int formatInteger(String integerToFormat) {

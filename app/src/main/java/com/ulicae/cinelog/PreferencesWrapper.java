@@ -29,6 +29,10 @@ public class PreferencesWrapper {
         return getPreferenceManager(context).getString(key, defaultValue);
     }
 
+    public int getIntegerPreference(Context context, String key, int defaultValue) {
+        return getPreferenceManager(context).getInt(key, defaultValue);
+    }
+
     public void setStringPreference(Context context, String key, String defaultValue) {
         getPreferenceManager(context).edit().putString(key, defaultValue).apply();
     }

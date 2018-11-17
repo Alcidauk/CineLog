@@ -64,7 +64,8 @@ public class CsvExportWriterTest {
                 aKino.getRating(),
                 tmdbKino.getRelease_date(),
                 aKino.getReview(),
-                new SimpleDateFormat().format(aKino.getReview_date())
+                new SimpleDateFormat().format(aKino.getReview_date()),
+                aKino.getMaxRating()
         );
     }
 
@@ -85,7 +86,8 @@ public class CsvExportWriterTest {
                 aKino.getRating(),
                 tmdbKino.getRelease_date(),
                 aKino.getReview(),
-                null
+                null,
+                aKino.getMaxRating()
         );
     }
 
@@ -104,7 +106,8 @@ public class CsvExportWriterTest {
                 aKino.getRating(),
                 null,
                 aKino.getReview(),
-                aKino.getReview_date()
+                aKino.getReview_date(),
+                aKino.getMaxRating()
         );
     }
 

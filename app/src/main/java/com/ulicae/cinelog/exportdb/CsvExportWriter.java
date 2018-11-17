@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
  */
 public class CsvExportWriter {
 
+
     public enum Headers {
         movie_id,
         title,
@@ -38,7 +39,8 @@ public class CsvExportWriter {
         rating,
         release_date,
         review,
-        review_date
+        review_date,
+        max_rating
     }
 
     private CSVPrinterWrapper csvPrinterWrapper;
@@ -64,7 +66,8 @@ public class CsvExportWriter {
                 localKino.getRating(),
                 tmdbKino != null ? tmdbKino.getRelease_date() : null,
                 localKino.getReview(),
-                localKino.getReview_date() != null ? simpleDateFormat.format(localKino.getReview_date()) : null
+                localKino.getReview_date() != null ? simpleDateFormat.format(localKino.getReview_date()) : null,
+                localKino.getMaxRating()
         );
     }
 

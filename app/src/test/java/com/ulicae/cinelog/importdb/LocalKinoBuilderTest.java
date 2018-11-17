@@ -2,6 +2,7 @@ package com.ulicae.cinelog.importdb;
 
 import android.content.Context;
 
+import com.ulicae.cinelog.PreferencesWrapper;
 import com.ulicae.cinelog.dto.KinoDto;
 
 import org.apache.commons.csv.CSVRecord;
@@ -43,8 +44,162 @@ public class LocalKinoBuilderTest {
     @Mock
     private Context context;
 
+    @Mock
+    private PreferencesWrapper preferencesWrapper;
+
     @Test
     public void build() throws Exception {
+        final Date reviewDate = new Date();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+
+        doReturn("24").when(csvRecord).get("movie_id");
+        doReturn("title").when(csvRecord).get("title");
+        doReturn("overview").when(csvRecord).get("overview");
+        doReturn("2015").when(csvRecord).get("year");
+        doReturn("poster path").when(csvRecord).get("poster_path");
+        doReturn("3").when(csvRecord).get("rating");
+        doReturn("date release").when(csvRecord).get("release_date");
+        doReturn("review").when(csvRecord).get("review");
+        doReturn(true).when(csvRecord).isMapped("max_rating");
+        doReturn("5").when(csvRecord).get("max_rating");
+        doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
+
+        KinoDto kinoDto = new KinoDto(
+                null,
+                24L,
+                "title",
+                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                "review",
+                3f,
+                5,
+                "poster path",
+                "overview",
+                2015,
+                "date release"
+        );
+
+        assertEquals(
+                kinoDto,
+                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+        );
+    }
+
+    @Test
+    public void build_specialFormats() throws Exception {
+        final Date reviewDate = new Date();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+
+        doReturn("24").when(csvRecord).get("movie_id");
+        doReturn("title").when(csvRecord).get("title");
+        doReturn("overview").when(csvRecord).get("overview");
+        doReturn("2015").when(csvRecord).get("year");
+        doReturn("poster path").when(csvRecord).get("poster_path");
+        doReturn("3,3").when(csvRecord).get("rating");
+        doReturn("date release").when(csvRecord).get("release_date");
+        doReturn("review").when(csvRecord).get("review");
+        doReturn(true).when(csvRecord).isMapped("max_rating");
+        doReturn("10").when(csvRecord).get("max_rating");
+        doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
+
+        KinoDto kinoDto = new KinoDto(
+                null,
+                24L,
+                "title",
+                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                "review",
+                3.3f,
+                10,
+                "poster path",
+                "overview",
+                2015,
+                "date release"
+        );
+
+        assertEquals(
+                kinoDto,
+                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+        );
+    }
+
+    @Test
+    public void buildnull_onLong() throws Exception {
+        final Date reviewDate = new Date();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+
+        doReturn(null).when(csvRecord).get("movie_id");
+        doReturn("title").when(csvRecord).get("title");
+        doReturn("overview").when(csvRecord).get("overview");
+        doReturn("2015").when(csvRecord).get("year");
+        doReturn("poster path").when(csvRecord).get("poster_path");
+        doReturn("3,3").when(csvRecord).get("rating");
+        doReturn("date release").when(csvRecord).get("release_date");
+        doReturn("review").when(csvRecord).get("review");
+        doReturn(true).when(csvRecord).isMapped("max_rating");
+        doReturn("5").when(csvRecord).get("max_rating");
+        doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
+
+        KinoDto kinoDto = new KinoDto(
+                null,
+                0L,
+                "title",
+                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                "review",
+                3.3f,
+                5,
+                "poster path",
+                "overview",
+                2015,
+                "date release"
+        );
+
+        assertEquals(
+                kinoDto,
+                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+        );
+    }
+
+    @Test
+    public void buildnull_onFloat() throws Exception {
+        final Date reviewDate = new Date();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+
+        doReturn("24").when(csvRecord).get("movie_id");
+        doReturn("title").when(csvRecord).get("title");
+        doReturn("overview").when(csvRecord).get("overview");
+        doReturn("2015").when(csvRecord).get("year");
+        doReturn("poster path").when(csvRecord).get("poster_path");
+        doReturn(null).when(csvRecord).get("rating");
+        doReturn("date release").when(csvRecord).get("release_date");
+        doReturn("review").when(csvRecord).get("review");
+        doReturn(true).when(csvRecord).isMapped("max_rating");
+        doReturn("5").when(csvRecord).get("max_rating");
+        doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
+
+
+        KinoDto kinoDto = new KinoDto(
+                null,
+                24L,
+                "title",
+                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
+                "review",
+                0f,
+                5,
+                "poster path",
+                "overview",
+                2015,
+                "date release"
+        );
+
+        assertEquals(
+                kinoDto,
+                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+        );
+    }
+
+    @Test
+    public void build_missingMaxRating() throws Exception {
+        doReturn("10").when(preferencesWrapper).getStringPreference(context, "default_max_rate_value", "5");
+
         final Date reviewDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
@@ -65,7 +220,7 @@ public class LocalKinoBuilderTest {
                 simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
                 "review",
                 3f,
-                5,
+                10,
                 "poster path",
                 "overview",
                 2015,
@@ -74,113 +229,7 @@ public class LocalKinoBuilderTest {
 
         assertEquals(
                 kinoDto,
-                new LocalKinoBuilder(context).build(csvRecord)
-        );
-    }
-
-    @Test
-    public void build_specialFormats() throws Exception {
-        final Date reviewDate = new Date();
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-
-        doReturn("24").when(csvRecord).get("movie_id");
-        doReturn("title").when(csvRecord).get("title");
-        doReturn("overview").when(csvRecord).get("overview");
-        doReturn("2015").when(csvRecord).get("year");
-        doReturn("poster path").when(csvRecord).get("poster_path");
-        doReturn("3,3").when(csvRecord).get("rating");
-        doReturn("date release").when(csvRecord).get("release_date");
-        doReturn("review").when(csvRecord).get("review");
-        doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
-
-        KinoDto kinoDto = new KinoDto(
-                null,
-                24L,
-                "title",
-                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
-                "review",
-                3.3f,
-                5,
-                "poster path",
-                "overview",
-                2015,
-                "date release"
-        );
-
-        assertEquals(
-                kinoDto,
-                new LocalKinoBuilder(context).build(csvRecord)
-        );
-    }
-
-    @Test
-    public void buildnull_onLong() throws Exception {
-        final Date reviewDate = new Date();
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-
-        doReturn(null).when(csvRecord).get("movie_id");
-        doReturn("title").when(csvRecord).get("title");
-        doReturn("overview").when(csvRecord).get("overview");
-        doReturn("2015").when(csvRecord).get("year");
-        doReturn("poster path").when(csvRecord).get("poster_path");
-        doReturn("3,3").when(csvRecord).get("rating");
-        doReturn("date release").when(csvRecord).get("release_date");
-        doReturn("review").when(csvRecord).get("review");
-        doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
-
-        KinoDto kinoDto = new KinoDto(
-                null,
-                0L,
-                "title",
-                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
-                "review",
-                3.3f,
-                5,
-                "poster path",
-                "overview",
-                2015,
-                "date release"
-        );
-
-        assertEquals(
-                kinoDto,
-                new LocalKinoBuilder(context).build(csvRecord)
-        );
-    }
-
-    @Test
-    public void buildnull_onFloat() throws Exception {
-        final Date reviewDate = new Date();
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-
-        doReturn("24").when(csvRecord).get("movie_id");
-        doReturn("title").when(csvRecord).get("title");
-        doReturn("overview").when(csvRecord).get("overview");
-        doReturn("2015").when(csvRecord).get("year");
-        doReturn("poster path").when(csvRecord).get("poster_path");
-        doReturn(null).when(csvRecord).get("rating");
-        doReturn("date release").when(csvRecord).get("release_date");
-        doReturn("review").when(csvRecord).get("review");
-        doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
-
-
-        KinoDto kinoDto = new KinoDto(
-                null,
-                24L,
-                "title",
-                simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
-                "review",
-                0f,
-                5,
-                "poster path",
-                "overview",
-                2015,
-                "date release"
-        );
-
-        assertEquals(
-                kinoDto,
-                new LocalKinoBuilder(context).build(csvRecord)
+                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
         );
     }
 
