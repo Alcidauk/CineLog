@@ -22,6 +22,7 @@ import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +48,7 @@ import butterknife.OnClick;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 public class ViewKino extends AppCompatActivity {
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fab)
@@ -75,13 +77,6 @@ public class ViewKino extends AppCompatActivity {
 
     private static final int RESULT_ADD_REVIEW = 3;
 
-    @OnClick(R.id.fab)
-    public void onClick(View view) {
-        Intent intent = new Intent(this, EditReview.class);
-        intent.putExtra("kino", Parcels.wrap(kino));
-        startActivityForResult(intent, RESULT_ADD_REVIEW);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +86,7 @@ public class ViewKino extends AppCompatActivity {
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         position = getIntent().getIntExtra("kino_position", -1);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         int maxRating;
         if (kino.getMaxRating() == null) {
@@ -101,20 +96,14 @@ public class ViewKino extends AppCompatActivity {
         } else {
             maxRating = kino.getMaxRating();
         }
-
         rating.setNumStars(maxRating);
-        if (kino.getRating() != null) {
-            rating.setRating(kino.getRating());
-        }
-        rating.setStepSize(0.5f);
-
-        ratingAsText.setText(String.format("%s", kino.getRating()));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        title.setText(kino.getTitle());
         if (kino.getPosterPath() != null) {
             Glide.with(this)
                     .load("https://image.tmdb.org/t/p/w185" + kino.getPosterPath())
@@ -125,17 +114,22 @@ public class ViewKino extends AppCompatActivity {
         year.setText(kino.getReleaseDate());
         overview.setText(kino.getOverview());
 
-
-        title.setText(kino.getTitle());
-
-
         if (kino.getRating() != null) {
             rating.setRating(kino.getRating());
         }
+        rating.setStepSize(0.5f);
+
+        ratingAsText.setText(String.format("%s", kino.getRating()));
+
         review.setText(kino.getReview());
         review_date.setText(getReviewDateAsString(kino.getReview_date()));
+    }
 
-        System.out.println("onStart()");
+    @OnClick(R.id.fab)
+    public void onClick(View view) {
+        Intent intent = new Intent(this, EditReview.class);
+        intent.putExtra("kino", Parcels.wrap(kino));
+        startActivityForResult(intent, RESULT_ADD_REVIEW);
     }
 
     private String getReviewDateAsString(Date review_date) {
