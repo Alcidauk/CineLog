@@ -3,7 +3,7 @@ package com.ulicae.cinelog.io.importdb;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.ulicae.cinelog.PreferencesWrapper;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.dto.KinoDto;
 

@@ -1,4 +1,4 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ulicae.cinelog.android.activities.fragments.MovieFragment;
+import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.fragments.SerieFragment;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
-import com.ulicae.cinelog.settings.SettingsActivity;
+import com.ulicae.cinelog.android.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

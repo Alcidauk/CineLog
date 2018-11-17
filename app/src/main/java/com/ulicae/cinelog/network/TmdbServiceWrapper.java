@@ -3,7 +3,7 @@ package com.ulicae.cinelog.network;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.PreferencesWrapper;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.utils.LocaleWrapper;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;

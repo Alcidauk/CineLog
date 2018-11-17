@@ -1,7 +1,9 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.android.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.ulicae.cinelog.R;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

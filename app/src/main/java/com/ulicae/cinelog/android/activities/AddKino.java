@@ -1,4 +1,4 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.android.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.network.KinoBuilderFromMovie;
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.dto.KinoDto;
 import com.ulicae.cinelog.dto.KinoService;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
@@ -85,7 +88,7 @@ public class AddKino extends AppCompatActivity {
     // Where did 1000 come from? It's arbitrary, since I can't find average android typing speed.
     private final static long SEARCH_TRIGGER_DELAY_IN_MS = 1000;
 
-    static int RESULT_EDIT_REVIEW = 6;
+    public static int RESULT_EDIT_REVIEW = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.network;
 
 import com.ulicae.cinelog.dto.KinoDto;
 import com.uwetrottmann.tmdb2.entities.Movie;

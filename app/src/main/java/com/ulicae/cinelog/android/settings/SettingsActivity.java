@@ -1,9 +1,14 @@
-package com.ulicae.cinelog.settings;
+package com.ulicae.cinelog.android.settings;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+import android.preference.PreferenceActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.ulicae.cinelog.R;
+
+import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -24,15 +29,27 @@ import com.ulicae.cinelog.R;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsActivity extends PreferenceActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.app_preferences);
+    /**
+     * Populate the activity with the top-level headers.
+     */
+    @Override
+    public void onBuildHeaders(List<Header> target) {
+        loadHeadersFromResource(R.xml.preference_headers, target);
+    }
+
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        return SettingsFragment.class.getName().equals(fragmentName);
     }
 
 }
-

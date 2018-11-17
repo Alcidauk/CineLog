@@ -1,4 +1,4 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

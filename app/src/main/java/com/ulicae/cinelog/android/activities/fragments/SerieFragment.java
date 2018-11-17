@@ -1,14 +1,14 @@
-package com.ulicae.cinelog.settings;
+package com.ulicae.cinelog.android.activities.fragments;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.ulicae.cinelog.R;
 
-import java.util.List;
-
-import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -29,27 +29,22 @@ import butterknife.BindView;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class SettingsActivity extends PreferenceActivity {
+public class SerieFragment extends Fragment {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    public SerieFragment() {
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    /**
-     * Populate the activity with the top-level headers.
-     */
     @Override
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.preference_headers, target);
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_serie, container, false);
+        ButterKnife.bind(this, view);
 
-    @Override
-    protected boolean isValidFragment(String fragmentName) {
-        return SettingsFragment.class.getName().equals(fragmentName);
+        return view;
     }
 
 }

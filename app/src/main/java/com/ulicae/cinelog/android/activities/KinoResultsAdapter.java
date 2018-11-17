@@ -1,4 +1,4 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.android.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.AddKino;
+import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.dto.KinoDto;
 import com.ulicae.cinelog.dto.KinoService;
 import com.uwetrottmann.tmdb2.entities.Movie;
@@ -25,7 +29,7 @@ import org.parceler.Parcels;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import static com.ulicae.cinelog.AddKino.RESULT_EDIT_REVIEW;
+import static com.ulicae.cinelog.android.activities.AddKino.RESULT_EDIT_REVIEW;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

@@ -2,7 +2,7 @@ package com.ulicae.cinelog.io.importdb;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.PreferencesWrapper;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.dto.KinoDto;
 
 import org.apache.commons.csv.CSVRecord;

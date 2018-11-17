@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.network.task;
 
-import com.ulicae.cinelog.AddKino;
+import com.ulicae.cinelog.android.activities.AddKino;
 
 
 /**

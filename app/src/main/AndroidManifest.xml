@@ -35,7 +35,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".android.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -44,53 +44,53 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Search" />
+        <activity android:name=".android.activities.Search" />
         <activity
-            android:name=".AddKino"
+            android:name=".android.activities.AddKino"
             android:label="@string/title_activity_add_kino"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".android.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".android.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ViewKino"
+            android:name=".android.activities.ViewKino"
             android:label="@string/title_activity_view_kino"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ViewUnregisteredKino"
+            android:name=".android.activities.ViewUnregisteredKino"
             android:label="@string/title_activity_view_unregistered_kino"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".EditReview"
+            android:name=".android.activities.EditReview"
             android:label="@string/title_activity_add_review"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".io.exportdb.ExportDb"
             android:label="@string/title_activity_export_db"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".android.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".android.activities.MainActivity" />
         </activity>
         <activity
             android:name=".io.importdb.ImportInDb"
             android:label="@string/title_activity_import_db"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".android.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".android.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name=".android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".android.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".android.activities.MainActivity" />
         </activity>
     </application>
 

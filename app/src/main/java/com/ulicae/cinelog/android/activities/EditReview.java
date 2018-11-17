@@ -1,4 +1,4 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.android.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -20,6 +20,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.dto.KinoDto;
 import com.ulicae.cinelog.dto.KinoService;
 

@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.AddKino;
+import com.ulicae.cinelog.android.activities.AddKino;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.junit.Test;

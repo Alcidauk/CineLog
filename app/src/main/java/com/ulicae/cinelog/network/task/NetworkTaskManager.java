@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.AddKino;
+import com.ulicae.cinelog.android.activities.AddKino;
 
 import java.util.ArrayList;
 import java.util.List;

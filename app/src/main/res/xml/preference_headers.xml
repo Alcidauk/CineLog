@@ -18,7 +18,7 @@
 <preference-headers
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <header android:fragment="com.ulicae.cinelog.settings.SettingsFragment"
+    <header android:fragment="com.ulicae.cinelog.android.settings.SettingsFragment"
         android:title="@string/general_preferences"
         android:summary="@string/general_preferences_summary" />
 

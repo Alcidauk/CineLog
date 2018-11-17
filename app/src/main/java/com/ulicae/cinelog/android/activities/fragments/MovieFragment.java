@@ -1,4 +1,4 @@
-package com.ulicae.cinelog;
+package com.ulicae.cinelog.android.activities.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +26,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.AddKino;
+import com.ulicae.cinelog.android.activities.ViewKino;
 import com.ulicae.cinelog.dto.KinoDto;
 import com.ulicae.cinelog.dto.KinoService;
 
