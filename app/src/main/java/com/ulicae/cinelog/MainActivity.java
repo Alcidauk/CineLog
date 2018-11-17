@@ -12,8 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.ulicae.cinelog.exportdb.ExportDb;
-import com.ulicae.cinelog.importdb.ImportInDb;
+import com.ulicae.cinelog.io.exportdb.ExportDb;
+import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.settings.SettingsActivity;
 
 import java.util.ArrayList;

@@ -67,7 +67,7 @@
             android:label="@string/title_activity_add_review"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".exportdb.ExportDb"
+            android:name=".io.exportdb.ExportDb"
             android:label="@string/title_activity_export_db"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -76,7 +76,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".importdb.ImportInDb"
+            android:name=".io.importdb.ImportInDb"
             android:label="@string/title_activity_import_db"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

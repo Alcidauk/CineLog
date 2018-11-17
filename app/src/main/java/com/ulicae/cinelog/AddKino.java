@@ -22,10 +22,10 @@ import android.widget.Toast;
 
 import com.ulicae.cinelog.dto.KinoDto;
 import com.ulicae.cinelog.dto.KinoService;
-import com.ulicae.cinelog.tmdb.networktask.MovieNetworkTaskCreator;
-import com.ulicae.cinelog.tmdb.networktask.NetworkTaskManager;
-import com.ulicae.cinelog.tmdb.TmdbServiceWrapper;
-import com.ulicae.cinelog.tmdb.networktask.TvNetworkTaskCreator;
+import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
+import com.ulicae.cinelog.network.task.NetworkTaskManager;
+import com.ulicae.cinelog.network.TmdbServiceWrapper;
+import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
