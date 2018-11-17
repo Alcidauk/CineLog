@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.dto;
+package com.ulicae.cinelog.data.dto;
 
 import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dao.TmdbKino;

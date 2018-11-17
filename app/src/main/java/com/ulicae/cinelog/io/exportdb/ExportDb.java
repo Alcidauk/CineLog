@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.LocalKinoRepository;
+import com.ulicae.cinelog.data.KinoService;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -75,7 +75,7 @@ public class ExportDb extends AppCompatActivity {
             }
             try {
                 csvExporter = new CsvExporter(
-                        new LocalKinoRepository(((KinoApplication) getApplication()).getDaoSession()),
+                        new KinoService(((KinoApplication) getApplication()).getDaoSession()),
                         fileWriter
                 );
             } catch (IOException e) {

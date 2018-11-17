@@ -30,31 +30,31 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class LocalKinoRepository {
+class LocalKinoRepository {
 
     private LocalKinoDao localKinoDao;
 
-    public LocalKinoRepository(DaoSession daoSession) {
+    LocalKinoRepository(DaoSession daoSession) {
         this.localKinoDao = daoSession.getLocalKinoDao();
     }
 
-    public void createOrUpdate(LocalKino kinoToCreate) {
+    void createOrUpdate(LocalKino kinoToCreate) {
         localKinoDao.insertOrReplace(kinoToCreate);
     }
 
-    public void delete(Long localKinoId) {
+    void delete(Long localKinoId) {
         localKinoDao.deleteByKey(localKinoId);
     }
 
-    public List<LocalKino> findAll() {
+    List<LocalKino> findAll() {
         return localKinoDao.loadAll();
     }
 
-    public LocalKino find(long id) {
+    LocalKino find(long id) {
         return localKinoDao.load(id);
     }
 
-    public LocalKino findByMovieId(long movieId) {
+    LocalKino findByMovieId(long movieId) {
         Query<LocalKino> localKinoQuery = localKinoDao.queryBuilder()
                 .where(LocalKinoDao.Properties.Tmdb_id.eq(movieId))
                 .limit(1)
@@ -63,11 +63,11 @@ public class LocalKinoRepository {
         return localKinos != null && localKinos.size() > 0 ? localKinos.get(0) : null;
     }
 
-    public List<LocalKino> findAllByRating(boolean asc) {
+    List<LocalKino> findAllByRating(boolean asc) {
         return queryOrderBy(asc, LocalKinoDao.Properties.Rating);
     }
 
-    public List<LocalKino> findAllByYear(final boolean asc) {
+    List<LocalKino> findAllByYear(final boolean asc) {
         QueryBuilder.LOG_SQL = true;
         QueryBuilder.LOG_VALUES = true;
 
@@ -92,7 +92,7 @@ public class LocalKinoRepository {
         return list;
     }
 
-    public List<LocalKino> findAllByReviewDate(boolean asc) {
+    List<LocalKino> findAllByReviewDate(boolean asc) {
         return queryOrderBy(asc, LocalKinoDao.Properties.Review_date);
     }
 

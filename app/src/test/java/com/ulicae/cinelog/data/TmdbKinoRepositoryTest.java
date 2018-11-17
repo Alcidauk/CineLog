@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.db;
+package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.TmdbKinoRepository;
 import com.ulicae.cinelog.data.dao.DaoSession;

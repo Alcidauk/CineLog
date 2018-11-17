@@ -23,19 +23,19 @@ import com.ulicae.cinelog.data.dao.TmdbKinoDao;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class TmdbKinoRepository {
+class TmdbKinoRepository {
 
     private TmdbKinoDao tmdbKinoDao;
 
-    public TmdbKinoRepository(DaoSession daoSession) {
+    TmdbKinoRepository(DaoSession daoSession) {
         this.tmdbKinoDao = daoSession.getTmdbKinoDao();
     }
 
-    public void createOrUpdate(TmdbKino tmdbKino) {
+    void createOrUpdate(TmdbKino tmdbKino) {
         tmdbKinoDao.insertOrReplace(tmdbKino);
     }
 
-    public TmdbKino find(long id) {
+    TmdbKino find(long id) {
         return tmdbKinoDao.load(id);
     }
 }

@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.dto;
+package com.ulicae.cinelog.data.dto;
 
 import org.parceler.Parcel;
 

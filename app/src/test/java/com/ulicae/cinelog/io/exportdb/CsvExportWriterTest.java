@@ -1,7 +1,6 @@
 package com.ulicae.cinelog.io.exportdb;
 
-import com.ulicae.cinelog.data.dao.LocalKino;
-import com.ulicae.cinelog.data.dao.TmdbKino;
+import com.ulicae.cinelog.data.dto.KinoDto;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,74 +39,70 @@ public class CsvExportWriterTest {
     private CSVPrinterWrapper csvPrinterWrapper;
 
     @Mock
-    private LocalKino aKino;
-
-    @Mock
-    private TmdbKino tmdbKino;
+    private KinoDto aKino;
 
     @Test
     public void write() throws Exception {
-        doReturn(tmdbKino).when(aKino).getKino();
-
         Date aDate = new Date();
-        //noinspection ResultOfMethodCallIgnored
-        doReturn(aDate).when(aKino).getReview_date();
+        aKino = new KinoDto(
+               24L,
+               25L,
+               "a title",
+                aDate,
+                "a review",
+                2.4f,
+                5,
+                "/path",
+                "an overview",
+                1984,
+                "2012"
+        );
 
         new CsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
-                tmdbKino.getMovie_id(),
-                aKino.getTitle(),
-                tmdbKino.getOverview(),
-                tmdbKino.getYear(),
-                tmdbKino.getPoster_path(),
-                aKino.getRating(),
-                tmdbKino.getRelease_date(),
-                aKino.getReview(),
-                new SimpleDateFormat().format(aKino.getReview_date()),
-                aKino.getMaxRating()
+                25L,
+                "a title",
+                "an overview",
+                1984,
+                "/path",
+                2.4f,
+                "2012",
+                "a review",
+                new SimpleDateFormat().format(aDate),
+                5
         );
     }
 
     @Test
     public void writeNullReviewDate() throws Exception {
-        doReturn(tmdbKino).when(aKino).getKino();
-        //noinspection ResultOfMethodCallIgnored
-        doReturn(null).when(aKino).getReview_date();
-
-        new CsvExportWriter(csvPrinterWrapper).write(aKino);
-
-        verify(csvPrinterWrapper).printRecord(
-                tmdbKino.getMovie_id(),
-                aKino.getTitle(),
-                tmdbKino.getOverview(),
-                tmdbKino.getYear(),
-                tmdbKino.getPoster_path(),
-                aKino.getRating(),
-                tmdbKino.getRelease_date(),
-                aKino.getReview(),
+        aKino = new KinoDto(
+                24L,
+                25L,
+                "a title",
                 null,
-                aKino.getMaxRating()
+                "a review",
+                2.4f,
+                5,
+                "/path",
+                "an overview",
+                1984,
+                "2012"
         );
-    }
-
-    @Test
-    public void writeNullTmdbKino() throws Exception {
-        doReturn(null).when(aKino).getKino();
 
         new CsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
+                25L,
+                "a title",
+                "an overview",
+                1984,
+                "/path",
+                2.4f,
+                "2012",
+                "a review",
                 null,
-                aKino.getTitle(),
-                null,
-                null,
-                null,
-                aKino.getRating(),
-                null,
-                aKino.getReview(),
-                aKino.getReview_date(),
-                aKino.getMaxRating()
+                5
         );
     }
 

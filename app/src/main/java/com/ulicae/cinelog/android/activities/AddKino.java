@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.network.KinoBuilderFromMovie;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;

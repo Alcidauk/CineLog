@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.io.exportdb;
 
-import com.ulicae.cinelog.data.dao.LocalKino;
-import com.ulicae.cinelog.data.LocalKinoRepository;
+import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.data.dto.KinoDto;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,43 +16,42 @@ import static org.mockito.Mockito.verify;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class CsvExporterTest {
 
     @Mock
-    private LocalKinoRepository localKinoRepository;
+    private KinoService kinoService;
 
     @Mock
     private CsvExportWriter csvExportWriter;
 
     @Test
     public void export() throws Exception {
-        final LocalKino aKino = mock(LocalKino.class);
-        final LocalKino anotherKino = mock(LocalKino.class);
-        ArrayList<LocalKino> kinos = new ArrayList<LocalKino>() {{
+        final KinoDto aKino = mock(KinoDto.class);
+        final KinoDto anotherKino = mock(KinoDto.class);
+        ArrayList<KinoDto> kinos = new ArrayList<KinoDto>() {{
             add(aKino);
             add(anotherKino);
         }};
-        doReturn(kinos).when(localKinoRepository).findAll();
+        doReturn(kinos).when(kinoService).getAllKinos();
 
-        new CsvExporter(localKinoRepository, csvExportWriter).export();
+        new CsvExporter(kinoService, csvExportWriter).export();
 
         verify(csvExportWriter).write(aKino);
         verify(csvExportWriter).write(anotherKino);

@@ -3,8 +3,8 @@ package com.ulicae.cinelog.data;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dao.TmdbKino;
-import com.ulicae.cinelog.dto.KinoDto;
-import com.ulicae.cinelog.dto.KinoDtoBuilder;
+import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.KinoDtoBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

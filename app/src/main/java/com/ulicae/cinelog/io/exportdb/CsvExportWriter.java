@@ -2,8 +2,7 @@ package com.ulicae.cinelog.io.exportdb;
 
 import android.annotation.SuppressLint;
 
-import com.ulicae.cinelog.data.dao.LocalKino;
-import com.ulicae.cinelog.data.dao.TmdbKino;
+import com.ulicae.cinelog.data.dto.KinoDto;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -53,21 +52,19 @@ public class CsvExportWriter {
         this.csvPrinterWrapper = csvPrinterWrapper;
     }
 
-    public void write(LocalKino localKino) throws IOException {
-        TmdbKino tmdbKino = localKino.getKino();
-
+    public void write(KinoDto kinoDto) throws IOException {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         csvPrinterWrapper.printRecord(
-                tmdbKino != null ? tmdbKino.getMovie_id() : null,
-                localKino.getTitle(),
-                tmdbKino != null ? tmdbKino.getOverview() : null,
-                tmdbKino != null ? tmdbKino.getYear() : null,
-                tmdbKino != null ? tmdbKino.getPoster_path() : null,
-                localKino.getRating(),
-                tmdbKino != null ? tmdbKino.getRelease_date() : null,
-                localKino.getReview(),
-                localKino.getReview_date() != null ? simpleDateFormat.format(localKino.getReview_date()) : null,
-                localKino.getMaxRating()
+                kinoDto.getTmdbKinoId(),
+                kinoDto.getTitle(),
+                kinoDto.getOverview(),
+                kinoDto.getYear(),
+                kinoDto.getPosterPath(),
+                kinoDto.getRating(),
+                kinoDto.getReleaseDate(),
+                kinoDto.getReview(),
+                kinoDto.getReview_date() != null ? simpleDateFormat.format(kinoDto.getReview_date()) : null,
+                kinoDto.getMaxRating()
         );
     }
 
