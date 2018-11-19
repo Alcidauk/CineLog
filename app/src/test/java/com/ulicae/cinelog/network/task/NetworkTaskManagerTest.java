@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.activities.AddKino;
+import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class NetworkTaskManagerTest {
     private MovieNetworkTaskCreator networkTaskCreator;
 
     @Mock
-    private AddKino addKino;
+    private AddReviewActivity addReviewActivity;
 
     @Mock
     private Call<MovieResultsPage> call;
@@ -55,9 +55,9 @@ public class NetworkTaskManagerTest {
 
     @Test
     public void createAndExecute() throws Exception {
-        doReturn(networkTask).when(networkTaskCreator).create(addKino);
+        doReturn(networkTask).when(networkTaskCreator).create(addReviewActivity);
 
-        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addKino, networkTaskCreator);
+        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addReviewActivity, networkTaskCreator);
         networkTaskManager.createAndExecute(call);
 
         //noinspection unchecked
@@ -72,11 +72,11 @@ public class NetworkTaskManagerTest {
 
     @Test
     public void createAndExecute_verifyEmptyTasks() throws Exception {
-        doReturn(networkTask).when(networkTaskCreator).create(addKino);
+        doReturn(networkTask).when(networkTaskCreator).create(addReviewActivity);
 
         final MovieNetworkTask anotherNetworkTask = mock(MovieNetworkTask.class);
 
-        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addKino, networkTaskCreator);
+        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addReviewActivity, networkTaskCreator);
         networkTaskManager.setTaskList(new ArrayList<AsyncTask>() {{
             add(anotherNetworkTask);
         }});
@@ -97,7 +97,7 @@ public class NetworkTaskManagerTest {
     public void cancelTasks() throws Exception {
         final MovieNetworkTask anotherNetworkTask = mock(MovieNetworkTask.class);
 
-        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addKino, networkTaskCreator);
+        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addReviewActivity, networkTaskCreator);
         networkTaskManager.setTaskList(
                 new ArrayList<AsyncTask>() {{
                     add(networkTask);

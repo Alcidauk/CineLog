@@ -1,13 +1,21 @@
 package com.ulicae.cinelog.android.activities.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
+import com.ulicae.cinelog.data.dto.KinoDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -29,14 +37,19 @@ import butterknife.ButterKnife;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class SerieFragment extends Fragment {
+public class SerieFragment extends ListFragment {
+
+    FloatingActionButton fab;
+
+    @BindView(R.id.kino_list)
+    ListView kino_list;
 
     public SerieFragment() {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void createService() {
+
     }
 
     @Override
@@ -44,7 +57,38 @@ public class SerieFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_serie, container, false);
         ButterKnife.bind(this, view);
 
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddSerieActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    protected List<KinoDto> getResults(int order) {
+        /*switch (order) {
+            case 1:
+                return ((KinoService) service).getKinosByReviewDate(false);
+            case 2:
+                return ((KinoService) service).getKinosByReviewDate(true);
+            case 3:
+                return ((KinoService) service).getKinosByRating(false);
+            case 4:
+                return ((KinoService) service).getKinosByRating(true);
+            case 5:
+                return ((KinoService) service).getKinosByYear(false);
+            case 6:
+                return ((KinoService) service).getKinosByYear(true);
+            default:
+                return ((KinoService) service).getAllKinos();
+        }*/
+
+        return new ArrayList<>();
     }
 
 }

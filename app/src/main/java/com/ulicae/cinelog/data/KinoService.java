@@ -27,7 +27,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class KinoService {
+public class KinoService implements DataService {
 
     private final LocalKinoRepository localKinoRepository;
     private final TmdbKinoRepository tmdbKinoRepository;
@@ -125,7 +125,7 @@ public class KinoService {
         return kinoDtos;
     }
 
-    public void deleteKino(KinoDto kinoDto) {
+    public void delete(KinoDto kinoDto) {
         localKinoRepository.delete(kinoDto.getKinoId());
     }
 }

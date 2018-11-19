@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.activities.AddKino;
+import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -22,8 +22,8 @@ import com.ulicae.cinelog.android.activities.AddKino;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface NetworkTaskCreator<T extends AsyncTask> {
+public interface NetworkTaskCreator<T extends AsyncTask, E> {
 
-    T create(AddKino addKino);
+    T create(AddReviewActivity<E> addKino);
 
 }

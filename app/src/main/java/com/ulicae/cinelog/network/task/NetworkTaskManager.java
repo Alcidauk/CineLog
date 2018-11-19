@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.activities.AddKino;
+import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +29,12 @@ import retrofit2.Call;
  */
 public class NetworkTaskManager {
 
-    private AddKino addKino;
+    private AddReviewActivity addReviewActivity;
     private NetworkTaskCreator networkTaskCreator;
     private List<AsyncTask> taskList;
 
-    public NetworkTaskManager(AddKino addKino, NetworkTaskCreator networkTaskCreator) {
-        this.addKino = addKino;
+    public NetworkTaskManager(AddReviewActivity addReviewActivity, NetworkTaskCreator networkTaskCreator) {
+        this.addReviewActivity = addReviewActivity;
         this.networkTaskCreator = networkTaskCreator;
         this.taskList = new ArrayList<>();
     }
@@ -42,7 +42,7 @@ public class NetworkTaskManager {
     public void createAndExecute(Call... call) {
         cancelTasks();
 
-        AsyncTask networkTask = networkTaskCreator.create(addKino);
+        AsyncTask networkTask = networkTaskCreator.create(addReviewActivity);
 
         //noinspection unchecked
         networkTask.execute(call);

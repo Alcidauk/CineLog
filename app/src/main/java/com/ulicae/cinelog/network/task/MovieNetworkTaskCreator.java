@@ -1,6 +1,7 @@
 package com.ulicae.cinelog.network.task;
 
-import com.ulicae.cinelog.android.activities.AddKino;
+import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
+import com.uwetrottmann.tmdb2.entities.Movie;
 
 
 /**
@@ -21,8 +22,8 @@ import com.ulicae.cinelog.android.activities.AddKino;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MovieNetworkTaskCreator implements NetworkTaskCreator<MovieNetworkTask> {
-    public MovieNetworkTask create(AddKino addKino) {
-        return new MovieNetworkTask(addKino);
+public class MovieNetworkTaskCreator implements NetworkTaskCreator<MovieNetworkTask, Movie> {
+    public MovieNetworkTask create(AddReviewActivity<Movie> addReviewActivity) {
+        return new MovieNetworkTask(addReviewActivity);
     }
 }

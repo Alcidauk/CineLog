@@ -249,7 +249,7 @@ public class KinoServiceTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(545L).when(kinoDto).getKinoId();
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).deleteKino(kinoDto);
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).delete(kinoDto);
 
         verify(localKinoRepository).delete(545L);
     }

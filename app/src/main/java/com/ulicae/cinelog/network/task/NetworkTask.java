@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.activities.AddKino;
+import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
 import com.uwetrottmann.tmdb2.entities.BaseResultsPage;
 
 import java.lang.ref.WeakReference;
@@ -31,10 +31,10 @@ import retrofit2.Response;
  */
 public abstract class NetworkTask<T extends BaseResultsPage, D> extends AsyncTask<Call<T>, Void, List<D>> {
 
-    private WeakReference<AddKino> addKino;
+    private WeakReference<AddReviewActivity> addReviewActivityWeakReference;
 
-    NetworkTask(AddKino addKino) {
-        this.addKino = new WeakReference<>(addKino);
+    NetworkTask(AddReviewActivity addReviewActivityWeakReference) {
+        this.addReviewActivityWeakReference = new WeakReference<>(addReviewActivityWeakReference);
     }
 
     protected List<D> doInBackground(Call<T>... results) {
@@ -68,10 +68,10 @@ public abstract class NetworkTask<T extends BaseResultsPage, D> extends AsyncTas
 
     private void cancel() {
         cancel(true);
-        addKino.get().clearListView();
+        addReviewActivityWeakReference.get().clearListView();
     }
 
-    public WeakReference<AddKino> getAddKino() {
-        return addKino;
+    public WeakReference<AddReviewActivity> getAddReviewActivityWeakReference() {
+        return addReviewActivityWeakReference;
     }
 }

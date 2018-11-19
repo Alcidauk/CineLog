@@ -46,8 +46,17 @@
         </activity>
         <activity android:name=".android.activities.Search" />
         <activity
-            android:name=".android.activities.AddKino"
+            android:name=".android.activities.add.AddKino"
             android:label="@string/title_activity_add_kino"
+            android:parentActivityName=".android.activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".android.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".android.activities.add.AddSerieActivity"
+            android:label="@string/title_activity_add_serie"
             android:parentActivityName=".android.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
