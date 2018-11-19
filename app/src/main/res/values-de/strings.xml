@@ -41,8 +41,8 @@
 
 
     <string name="order">Sortieren</string>
-    <string name="year">_NOTTRANSLATED_Release year</string>
-    <string name="date_added">_NOTTRANSLATED_Viewing date</string>
+    <string name="year">Erscheinungsjahr</string>
+    <string name="date_added">Gesehen am</string>
     <string name="rating">Bewertung</string>
 
     <string name="newest_first">Neuste zuerst</string>
@@ -65,9 +65,9 @@
     <string name="import_db_label">Lege eine CSV Datei in den CineLog Ordner und drücke den importieren Button.</string>
     <string name="import_permission_error_toast">Es kann nicht importiert werden das lesen des externen Speichers ist für CineLog nicht erlaubt.</string>
     <string name="import_error_toast">Beim importieren der Daten ist ein Fehler aufgetreten.</string>
-    <string name="import_io_error_toast">_NOTTRANSLATED_An error occurred while trying to find import.csv file. Verify it is located at the root storage and that you have required permissions.</string>
-    <string name="import_parsing_error_toast">_NOTTRANSLATED_Error while parsing CSV file. Please verify it.</string>
-    <string name="import_parsing_line_error_toast">_NOTTRANSLATED_Can\'t save import movie with name %s.</string>
+    <string name="import_io_error_toast">Beim Suchen der Datei "import.csv" ist ein Fehler aufgetreten. Stellen Sie sicher, dass die Datei sich im Hauptverzeichnis befindet, und dass Sie über die erforderlichen Berechtigungen verfügen.</string>
+    <string name="import_parsing_error_toast">Fehler beim parsen der .CSV Datei. Bitte überprüfen sie die Datei.</string>
+    <string name="import_parsing_line_error_toast">Importierter Film kann nicht gespeichert werden mit dem Namen %s.</string>
     <string name="import_starting_toast">Import gestartet…</string>
     <string name="import_ending_toast">… import erfolgreich !</string>
 
@@ -85,8 +85,8 @@
     <string name="view_kino_review_review_label_value">Rezension</string>
     <string name="title_activity_view_unregistered_kino">Film Informationen</string>
     <string name="review_date_hint">Trage ein wann du den Film gesehen hast.</string>
-    <string name="review_change_reviewdate">_NOTTRANSLATED_Modify</string>
-    <string name="addkino_error_no_network">_NOTTRANSLATED_Can\'t reach network.</string>
-    <string name="addkino_error_no_review_entered">_NOTTRANSLATED_Please add a rating or a review.</string>
+    <string name="review_change_reviewdate">modifizieren</string>
+    <string name="addkino_error_no_network">Keine Netzwerkverbindung.</string>
+    <string name="addkino_error_no_review_entered">Bitte fügen sie eine Bewertung oder eine Rezension hinzu.</string>
 
 </resources>
