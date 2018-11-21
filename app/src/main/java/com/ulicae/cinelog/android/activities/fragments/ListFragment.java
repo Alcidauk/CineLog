@@ -27,8 +27,6 @@ import butterknife.BindView;
 
 public abstract class ListFragment extends Fragment {
 
-    FloatingActionButton fab;
-
     @BindView(R.id.kino_list)
     ListView kino_list;
 

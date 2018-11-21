@@ -40,8 +40,6 @@ import butterknife.ButterKnife;
  */
 public class MovieFragment extends ListFragment {
 
-    FloatingActionButton fab;
-
     @BindView(R.id.kino_list)
     ListView kino_list;
 
@@ -54,15 +52,6 @@ public class MovieFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
         ButterKnife.bind(this, view);
-
-        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddKino.class);
-                startActivity(intent);
-            }
-        });
 
         return view;
     }
