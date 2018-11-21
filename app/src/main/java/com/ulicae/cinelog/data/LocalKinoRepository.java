@@ -30,32 +30,14 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class LocalKinoRepository {
-
-    private LocalKinoDao localKinoDao;
-
+class LocalKinoRepository extends ReviewObjectRepository<LocalKinoDao, LocalKino> {
+    
     LocalKinoRepository(DaoSession daoSession) {
-        this.localKinoDao = daoSession.getLocalKinoDao();
-    }
-
-    void createOrUpdate(LocalKino kinoToCreate) {
-        localKinoDao.insertOrReplace(kinoToCreate);
-    }
-
-    void delete(Long localKinoId) {
-        localKinoDao.deleteByKey(localKinoId);
-    }
-
-    List<LocalKino> findAll() {
-        return localKinoDao.loadAll();
-    }
-
-    LocalKino find(long id) {
-        return localKinoDao.load(id);
+        super(daoSession.getLocalKinoDao());
     }
 
     LocalKino findByMovieId(long movieId) {
-        Query<LocalKino> localKinoQuery = localKinoDao.queryBuilder()
+        Query<LocalKino> localKinoQuery = dao.queryBuilder()
                 .where(LocalKinoDao.Properties.Tmdb_id.eq(movieId))
                 .limit(1)
                 .build();
@@ -71,7 +53,7 @@ class LocalKinoRepository {
         QueryBuilder.LOG_SQL = true;
         QueryBuilder.LOG_VALUES = true;
 
-        QueryBuilder<LocalKino> localKinoQueryBuilder = localKinoDao.queryBuilder();
+        QueryBuilder<LocalKino> localKinoQueryBuilder = dao.queryBuilder();
 
         List<LocalKino> list = localKinoQueryBuilder.build().list();
 
@@ -97,7 +79,7 @@ class LocalKinoRepository {
     }
 
     private List<LocalKino> queryOrderBy(boolean asc, Property property) {
-        QueryBuilder<LocalKino> localKinoQueryBuilder = localKinoDao.queryBuilder();
+        QueryBuilder<LocalKino> localKinoQueryBuilder = dao.queryBuilder();
 
         if (asc) {
             localKinoQueryBuilder = localKinoQueryBuilder
