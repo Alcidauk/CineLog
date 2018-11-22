@@ -8,6 +8,8 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
 
+import java.util.Objects;
+
 /**
  * CineLog Copyright 2018 Pierre Rognon
  *
@@ -49,6 +51,12 @@ public class SerieReview {
     /** Used for active entity operations. */
     @Generated(hash = 147306189)
     private transient SerieReviewDao myDao;
+
+    public SerieReview(Long id, TmdbSerie serie, Review review) {
+        this.id = id;
+        setSerie(serie);
+        setReview(review);
+    }
 
     @Generated(hash = 1176680609)
     public SerieReview(Long id, long tmdb_id, long review_id) {
@@ -176,11 +184,26 @@ public class SerieReview {
         }
         myDao.update(this);
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SerieReview that = (SerieReview) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(serie, that.serie) &&
+                Objects.equals(review, that.review);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, serie, review);
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 657109801)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getSerieReviewDao() : null;
     }
-
 }

@@ -6,6 +6,8 @@ import org.greenrobot.greendao.annotation.NotNull;
 import org.parceler.Parcel;
 
 import java.util.Date;
+import java.util.Objects;
+
 import org.greenrobot.greendao.annotation.Generated;
 
 /**
@@ -91,5 +93,24 @@ public class Review {
     }
     public void setMaxRating(Integer maxRating) {
         this.maxRating = maxRating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review1 = (Review) o;
+        return Objects.equals(id, review1.id) &&
+                Objects.equals(title, review1.title) &&
+                Objects.equals(review_date, review1.review_date) &&
+                Objects.equals(review, review1.review) &&
+                Objects.equals(rating, review1.rating) &&
+                Objects.equals(maxRating, review1.maxRating);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, title, review_date, review, rating, maxRating);
     }
 }

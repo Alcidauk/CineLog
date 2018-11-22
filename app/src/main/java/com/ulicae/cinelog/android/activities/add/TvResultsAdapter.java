@@ -1,26 +1,35 @@
 package com.ulicae.cinelog.android.activities.add;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.KinoService;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.android.activities.ViewKino;
+import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
+import com.ulicae.cinelog.data.SerieService;
+import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.network.SerieBuilderFromMovie;
 import com.uwetrottmann.tmdb2.entities.TvShow;
+
+import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import static com.ulicae.cinelog.android.activities.add.AddSerieActivity.RESULT_VIEW_KINO;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -45,11 +54,13 @@ public class TvResultsAdapter extends ArrayAdapter<TvShow> {
 
     private SimpleDateFormat sdf;
 
-    private KinoService kinoService;
+    private SerieService serieService;
 
     public TvResultsAdapter(Context context, List<TvShow> tvShows) {
         super(context, R.layout.search_result_item, tvShows);
         sdf = new SimpleDateFormat("yyyy");
+
+        serieService = new SerieService(((KinoApplication) ((AddSerieActivity) context).getApplication()).getDaoSession());
     }
 
     public long getItemId(int position) {
@@ -69,7 +80,7 @@ public class TvResultsAdapter extends ArrayAdapter<TvShow> {
         TextView yearTextView = (TextView) convertView.findViewById(R.id.kino_year);
         ImageView posterImageView = (ImageView) convertView.findViewById(R.id.kino_poster);
 
-        TvShow tvShow = getItem(position);
+        final TvShow tvShow = getItem(position);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
@@ -98,7 +109,27 @@ public class TvResultsAdapter extends ArrayAdapter<TvShow> {
                 posterImageView.setImageResource(0);
         }
 
-        final KinoDto kino = new KinoDto(
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SerieDto kinoByTmdbMovieId = serieService.getByTmdbMovieId(tvShow.id);
+                if (kinoByTmdbMovieId == null) {
+                    Intent intent = new Intent(getContext(), ViewUnregisteredKino.class);
+                    SerieDto kino = new SerieBuilderFromMovie().build(tvShow);
+                    intent.putExtra("kino", Parcels.wrap(kino));
+
+                    getContext().startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getContext(), ViewKino.class);
+                    intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
+                    intent.putExtra("kino_position", position);
+                    ((AppCompatActivity) getContext()).startActivityForResult(intent, RESULT_VIEW_KINO);
+                }
+            }
+        });
+
+        /*
+                final KinoDto kino = new KinoDto(
                 null,
                 tvShow.id.longValue(),
                 tvShow.name,
@@ -112,13 +143,13 @@ public class TvResultsAdapter extends ArrayAdapter<TvShow> {
                 year
         );
 
-        /*final Integer m_id = tvShow.id;
+        final Integer m_id = tvShow.id;
         addReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EditReview.class);
 
-                KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(m_id);
+                KinoDto kinoByTmdbMovieId = serieService.getKinoByTmdbMovieId(m_id);
 
                 if (kinoByTmdbMovieId == null) {
                     intent.putExtra("kino", Parcels.wrap(kino));
@@ -131,7 +162,7 @@ public class TvResultsAdapter extends ArrayAdapter<TvShow> {
             }
         });
 
-        KinoDto kinoByTmdbMovieId = kinoService.getKinoByTmdbMovieId(tvShow.id);
+        KinoDto kinoByTmdbMovieId = serieService.getKinoByTmdbMovieId(tvShow.id);
         if (kinoByTmdbMovieId != null) {
             ratingBar.setRating(kinoByTmdbMovieId.getRating());
 

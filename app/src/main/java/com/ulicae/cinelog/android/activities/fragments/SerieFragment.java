@@ -1,15 +1,14 @@
 package com.ulicae.cinelog.android.activities.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
+import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class SerieFragment extends ListFragment {
 
     @Override
     protected void createService() {
-
+        service = new SerieService(((KinoApplication) getActivity().getApplication()).getDaoSession());
     }
 
     @Override
@@ -60,8 +59,8 @@ public class SerieFragment extends ListFragment {
 
     @Override
     protected List<KinoDto> getResults(int order) {
-        /*switch (order) {
-            case 1:
+        switch (order) {
+           /* case 1:
                 return ((KinoService) service).getKinosByReviewDate(false);
             case 2:
                 return ((KinoService) service).getKinosByReviewDate(true);
@@ -72,10 +71,10 @@ public class SerieFragment extends ListFragment {
             case 5:
                 return ((KinoService) service).getKinosByYear(false);
             case 6:
-                return ((KinoService) service).getKinosByYear(true);
-            default:
-                return ((KinoService) service).getAllKinos();
-        }*/
+                return ((KinoService) service).getKinosByYear(true);*/
+           // default:
+            //    return ((SerieService) service).getAll();
+        }
 
         return new ArrayList<>();
     }
