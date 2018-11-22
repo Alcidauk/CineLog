@@ -1,8 +1,8 @@
 package com.ulicae.cinelog.data;
 
-import org.greenrobot.greendao.AbstractDao;
-
-import java.util.List;
+import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.Review;
+import com.ulicae.cinelog.data.dao.ReviewDao;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -22,27 +22,9 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class ReviewObjectRepository<T extends AbstractDao<E, Long>, E> {
+class ReviewRepository extends CrudRepository<ReviewDao, Review> {
 
-    protected T dao;
-
-    ReviewObjectRepository(T dao) {
-        this.dao = dao;
-    }
-
-    void createOrUpdate(E objectToCreate) {
-        dao.insertOrReplace(objectToCreate);
-    }
-
-    void delete(Long id) {
-        dao.deleteByKey(id);
-    }
-
-    List<E> findAll() {
-        return dao.loadAll();
-    }
-
-    E find(long id) {
-        return dao.load(id);
+    ReviewRepository(DaoSession daoSession) {
+        super(daoSession.getReviewDao());
     }
 }

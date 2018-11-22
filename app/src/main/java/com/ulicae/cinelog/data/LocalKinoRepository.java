@@ -30,7 +30,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class LocalKinoRepository extends ReviewObjectRepository<LocalKinoDao, LocalKino> {
+class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino> {
     
     LocalKinoRepository(DaoSession daoSession) {
         super(daoSession.getLocalKinoDao());
