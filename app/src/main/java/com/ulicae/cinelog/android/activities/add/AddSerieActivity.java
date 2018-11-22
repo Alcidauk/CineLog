@@ -1,15 +1,24 @@
 package com.ulicae.cinelog.android.activities.add;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.ViewKino;
+import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
 import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.data.SerieService;
+import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.network.SerieBuilderFromMovie;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
 import com.uwetrottmann.tmdb2.entities.TvResultsPage;
 import com.uwetrottmann.tmdb2.entities.TvShow;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -44,7 +53,12 @@ public class AddSerieActivity extends AddReviewActivity<TvShow> {
         super.onCreate(savedInstanceState);
 
         networkTaskManager = new NetworkTaskManager(this, new TvNetworkTaskCreator());
-        dataService = new KinoService(((KinoApplication) getApplication()).getDaoSession());
+        dataService = new SerieService(((KinoApplication) getApplication()).getDaoSession());
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_add_serie;
     }
 
     @Override
@@ -68,26 +82,6 @@ public class AddSerieActivity extends AddReviewActivity<TvShow> {
 
     public void populateListView(final List<TvShow> tvShows) {
         if (kino_results_list != null) {
-            /*kino_results_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
-                    Movie movie = movies.get(position);
-
-                    KinoDto kinoByTmdbMovieId = ((KinoService) dataService).getKinoByTmdbMovieId(movie.id);
-                    if (kinoByTmdbMovieId == null) {
-                        Intent intent = new Intent(view.getContext(), ViewUnregisteredKino.class);
-                        KinoDto kino = new KinoBuilderFromMovie().build(movie);
-                        intent.putExtra("kino", Parcels.wrap(kino));
-
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(view.getContext(), ViewKino.class);
-                        intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
-                        intent.putExtra("kino_position", position);
-                        startActivityForResult(intent, RESULT_VIEW_KINO);
-                    }
-                }
-            });*/
-
             kino_results_list.setAdapter(new TvResultsAdapter(this, tvShows));
             kino_search_progress_bar.setVisibility(View.GONE);
         }

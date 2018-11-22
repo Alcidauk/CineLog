@@ -57,6 +57,11 @@ public class AddKino extends AddReviewActivity<Movie> {
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_add_kino;
+    }
+
+    @Override
     protected void executeTask(String textToSearch) {
         Call<MovieResultsPage> search = tmdbServiceWrapper.search(kino_search.getText().toString());
         networkTaskManager.createAndExecute(search);

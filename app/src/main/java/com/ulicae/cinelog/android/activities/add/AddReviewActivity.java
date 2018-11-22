@@ -60,7 +60,7 @@ public abstract class AddReviewActivity<T> extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_kino);
+        setContentView(getContentView());
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -70,6 +70,8 @@ public abstract class AddReviewActivity<T> extends AppCompatActivity {
 
         handler = new AddReviewHandler(new WeakReference<AddReviewActivity>(this));
     }
+
+    protected abstract int getContentView();
 
     private void startSearchTask() {
         if (isNetworkAvailable()) {
