@@ -54,7 +54,9 @@ public class SerieReview {
 
     public SerieReview(Long id, TmdbSerie serie, Review review) {
         this.id = id;
-        setSerie(serie);
+        if(serie != null) {
+            setSerie(serie);
+        }
         setReview(review);
     }
 

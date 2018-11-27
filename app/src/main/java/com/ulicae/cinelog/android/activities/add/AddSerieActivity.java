@@ -3,16 +3,12 @@ package com.ulicae.cinelog.android.activities.add;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.ViewKino;
-import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
-import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.network.SerieBuilderFromMovie;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
 import com.uwetrottmann.tmdb2.entities.TvResultsPage;
@@ -69,15 +65,15 @@ public class AddSerieActivity extends AddReviewActivity<TvShow> {
 
     @OnClick(R.id.kino_search_add_from_scratch)
     public void onClick(View view) {
-        /*KinoDto kinoToCreate = new KinoDto();
-        kinoToCreate.setTitle(kino_search.getText().toString());
+        SerieDto serieDto = new SerieDto();
+        serieDto.setTitle(kino_search.getText().toString());
 
-        // TODO factorize
         Intent intent = new Intent(view.getContext(), EditReview.class);
 
-        intent.putExtra("kino", Parcels.wrap(kinoToCreate));
+        intent.putExtra("kino", Parcels.wrap(serieDto));
+        intent.putExtra("dtoType", "serie");
 
-        startActivity(intent);*/
+        startActivity(intent);
     }
 
     public void populateListView(final List<TvShow> tvShows) {
