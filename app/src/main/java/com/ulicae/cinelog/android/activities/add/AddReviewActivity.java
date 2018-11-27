@@ -113,25 +113,6 @@ public abstract class AddReviewActivity<T> extends AppCompatActivity {
 
     public abstract void populateListView(final List<T> movies);
 
-    static class ViewHolder {
-        @BindView(R.id.kino_title)
-        TextView title;
-        @BindView(R.id.kino_year)
-        TextView year;
-        @BindView(R.id.kino_poster)
-        ImageView poster;
-
-        @BindView(R.id.add_review_button)
-        ImageButton add_review_button;
-
-        @BindView(R.id.kino_rating_bar_review)
-        RatingBar kino_rating_bar_review;
-
-        ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-    }
-
     static class AddReviewHandler extends Handler {
         private WeakReference<AddReviewActivity> addKino;
 
