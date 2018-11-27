@@ -83,6 +83,8 @@ public class ViewKino extends AppCompatActivity {
         setContentView(R.layout.activity_view_kino);
         ButterKnife.bind(this);
 
+        configureLabels(getIntent().getStringExtra("dtoType"));
+
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         position = getIntent().getIntExtra("kino_position", -1);
         setSupportActionBar(toolbar);
@@ -97,6 +99,12 @@ public class ViewKino extends AppCompatActivity {
             maxRating = kino.getMaxRating();
         }
         rating.setNumStars(maxRating);
+    }
+
+    private void configureLabels(String dtoType) {
+        if(dtoType.equals("serie")){
+            setTitle(R.string.title_activity_view_serie);
+        }
     }
 
     @Override

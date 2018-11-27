@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.ulicae.cinelog.KinoApplication;
@@ -47,6 +48,8 @@ public class AddSerieActivity extends AddReviewActivity<TvShow> {
 
     static final int RESULT_VIEW_KINO = 4;
 
+    @BindView(R.id.kino_search)
+    EditText kinoSearchEditText;
 
     @BindView(R.id.kino_search_add_from_scratch)
     Button addFromScratchButton;
@@ -59,6 +62,7 @@ public class AddSerieActivity extends AddReviewActivity<TvShow> {
         dataService = new SerieService(((KinoApplication) getApplication()).getDaoSession());
 
         addFromScratchButton.setText(getString(R.string.add_serie_from_scratch_label));
+        kinoSearchEditText.setHint(getString(R.string.serie_title_hint));
     }
 
     @Override

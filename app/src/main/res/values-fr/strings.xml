@@ -70,7 +70,6 @@
     <string name="import_ending_toast">… import terminé !</string>
 
     <string name="add_from_scratch_label">Film non trouvé ?</string>
-    <string name="add_serie_from_scratch_label">Série non trouvée ?</string>
     <string name="title_activity_settings">Paramètres</string>
     <string name="default_tmdb_language_title">Langue des données du film (TmDb)</string>
     <string name="default_maximum_rating">Note maximale pour un avis</string>
@@ -88,4 +87,9 @@
     <string name="addkino_error_no_network">Impossible de se connecter aux Internets :-(</string>
     <string name="addkino_error_no_review_entered">Donnez une note ou entrez un commentaire pour pouvoir sauvegarder l\'avis.</string>
 
+    <string name="title_activity_add_serie">Ajouter une revue de série</string>
+    <string name="add_serie_from_scratch_label">Série non trouvée ?</string>
+    <string name="serie_title_hint">Entrer un titre de série.</string>
+    <string name="title_activity_view_unregistered_serie">Informations sur la série</string>
+    <string name="title_activity_view_serie">Revue de la série</string>
 </resources>

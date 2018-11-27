@@ -62,14 +62,6 @@ public class ViewUnregisteredKino extends AppCompatActivity {
 
     private static final int RESULT_ADD_REVIEW = 3;
 
-    @OnClick(R.id.fab)
-    public void onClick(View view) {
-        Intent intent = new Intent(this, EditReview.class);
-        intent.putExtra("kino", Parcels.wrap(kino));
-        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-        startActivityForResult(intent, RESULT_ADD_REVIEW);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +70,26 @@ public class ViewUnregisteredKino extends AppCompatActivity {
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         position = getIntent().getIntExtra("kino_position", -1);
+
+        configureLabels(getIntent().getStringExtra("dtoType"));
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void configureLabels(String dtoType) {
+        if(dtoType.equals("serie")){
+            setTitle(R.string.title_activity_view_unregistered_serie);
+        }
+    }
+
+    @OnClick(R.id.fab)
+    public void onClick(View view) {
+        Intent intent = new Intent(this, EditReview.class);
+        intent.putExtra("kino", Parcels.wrap(kino));
+        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
+
+        startActivityForResult(intent, RESULT_ADD_REVIEW);
     }
 
     @Override
