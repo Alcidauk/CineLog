@@ -56,6 +56,8 @@ public class KinoResultsAdapter extends ItemResultAdapter<Movie> {
 
         KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
 
+        intent.putExtra("dtoType", "kino");
+
         if (kinoByTmdbMovieId == null) {
             intent.putExtra("kino", Parcels.wrap(kinoDto));
             intent.putExtra("creation", true);
@@ -71,11 +73,13 @@ public class KinoResultsAdapter extends ItemResultAdapter<Movie> {
         KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(kinoDto.getTmdbKinoId());
         if (kinoByTmdbMovieId == null) {
             Intent intent = new Intent(getContext(), ViewUnregisteredKino.class);
+            intent.putExtra("dtoType", "kino");
             intent.putExtra("kino", Parcels.wrap(kinoDto));
 
             getContext().startActivity(intent);
         } else {
             Intent intent = new Intent(getContext(), ViewKino.class);
+            intent.putExtra("dtoType", "kino");
             intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
             intent.putExtra("kino_position", position);
             ((AppCompatActivity) getContext()).startActivityForResult(intent, RESULT_VIEW_KINO);

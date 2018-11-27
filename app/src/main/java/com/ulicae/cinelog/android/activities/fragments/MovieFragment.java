@@ -1,8 +1,6 @@
 package com.ulicae.cinelog.android.activities.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +8,6 @@ import android.widget.ListView;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.add.AddKino;
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
@@ -46,6 +43,11 @@ public class MovieFragment extends ListFragment {
     @Override
     protected void createService() {
         service = new KinoService(((KinoApplication) getActivity().getApplication()).getDaoSession());
+    }
+
+    @Override
+    protected String getDtoType() {
+        return "kino";
     }
 
     @Override

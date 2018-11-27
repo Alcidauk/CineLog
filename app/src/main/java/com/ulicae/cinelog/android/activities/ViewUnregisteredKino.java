@@ -66,6 +66,7 @@ public class ViewUnregisteredKino extends AppCompatActivity {
     public void onClick(View view) {
         Intent intent = new Intent(this, EditReview.class);
         intent.putExtra("kino", Parcels.wrap(kino));
+        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
         startActivityForResult(intent, RESULT_ADD_REVIEW);
     }
 
@@ -118,6 +119,7 @@ public class ViewUnregisteredKino extends AppCompatActivity {
             case android.R.id.home:
                 if (editted) {
                     Intent returnIntent = getIntent();
+                    returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
                     returnIntent.putExtra("kino", Parcels.wrap(kino));
                     returnIntent.putExtra("kino_position", position);
                     setResult(Activity.RESULT_OK, returnIntent);

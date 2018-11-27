@@ -128,6 +128,7 @@ public class ViewKino extends AppCompatActivity {
     @OnClick(R.id.fab)
     public void onClick(View view) {
         Intent intent = new Intent(this, EditReview.class);
+        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
         intent.putExtra("kino", Parcels.wrap(kino));
         startActivityForResult(intent, RESULT_ADD_REVIEW);
     }
@@ -159,6 +160,7 @@ public class ViewKino extends AppCompatActivity {
             case android.R.id.home:
                 if (editted) {
                     Intent returnIntent = getIntent();
+                    returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
                     returnIntent.putExtra("kino", Parcels.wrap(kino));
                     returnIntent.putExtra("kino_position", position);
                     setResult(Activity.RESULT_OK, returnIntent);

@@ -10,6 +10,7 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,11 @@ public class SerieFragment extends ListFragment {
     }
 
     @Override
+    protected String getDtoType() {
+        return "serie";
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_serie, container, false);
         ButterKnife.bind(this, view);
@@ -72,11 +78,10 @@ public class SerieFragment extends ListFragment {
                 return ((KinoService) service).getKinosByYear(false);
             case 6:
                 return ((KinoService) service).getKinosByYear(true);*/
-           // default:
-            //    return ((SerieService) service).getAll();
+            default:
+                List<SerieDto> serieDtos = ((SerieService) service).getAll();
+                return new ArrayList<KinoDto>(serieDtos);
         }
-
-        return new ArrayList<>();
     }
 
 }

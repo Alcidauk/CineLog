@@ -2,10 +2,12 @@ package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 
-public interface DataService {
+public interface DataService<T extends KinoDto> {
 
-    void delete(KinoDto kinoDto);
+    void delete(T dtoObject);
 
-    KinoDto getWithTmdbId(long tmdbId);
+    T getWithTmdbId(long tmdbId);
+
+    T createOrUpdate(T dtoObject);
 
 }

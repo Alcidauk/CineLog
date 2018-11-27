@@ -30,7 +30,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieService implements DataService {
+public class SerieService implements DataService<SerieDto> {
 
     private final SerieReviewRepository serieReviewRepository;
     private ReviewRepository reviewRepository;
@@ -47,6 +47,7 @@ public class SerieService implements DataService {
     public SerieService(DaoSession daoSession) {
         this.serieReviewRepository = new SerieReviewRepository(daoSession);
         this.tmdbSerieRepository = new TmdbSerieRepository(daoSession);
+        this.reviewRepository = new ReviewRepository(daoSession);
         this.serieKinoDtoBuilder = new SerieKinoDtoBuilder();
     }
 
@@ -63,10 +64,11 @@ public class SerieService implements DataService {
     }
 
     @Override
-    public void delete(KinoDto kinoDto) {
-        serieReviewRepository.delete(kinoDto.getKinoId());
+    public void delete(SerieDto serieDto) {
+        serieReviewRepository.delete(serieDto.getKinoId());
     }
 
+    @Override
     public SerieDto createOrUpdate(SerieDto serieDto) {
         Review review = null;
         if(serieDto.getReviewId() != null ||

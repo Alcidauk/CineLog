@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -135,6 +134,7 @@ public abstract class ListFragment extends Fragment {
                     Intent intent = new Intent(view.getContext(), ViewKino.class);
                     intent.putExtra("kino", Parcels.wrap(kinos.get(position)));
                     intent.putExtra("kino_position", position);
+                    intent.putExtra("dtoType", getDtoType());
                     startActivityForResult(intent, RESULT_VIEW_KINO);
                 }
             });
@@ -143,6 +143,8 @@ public abstract class ListFragment extends Fragment {
             kino_list.setAdapter(kino_adapter);
         }
     }
+
+    protected abstract String getDtoType();
 
     protected abstract List<KinoDto> getResults(int order);
 }

@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.data.DataService;
+import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.KinoService;
 
@@ -78,7 +80,7 @@ public class EditReview extends AppCompatActivity {
 
     KinoDto kino;
 
-    private KinoService kinoService;
+    private DataService dtoService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,8 @@ public class EditReview extends AppCompatActivity {
         setContentView(R.layout.activity_edit_review);
         ButterKnife.bind(this);
 
-        kinoService = new KinoService(((KinoApplication) getApplicationContext()).getDaoSession());
+        String dtoType = getIntent().getStringExtra("dtoType");
+        dtoService = new ServiceFactory().create(dtoType, ((KinoApplication) getApplicationContext()).getDaoSession());
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         if (getIntent().getBooleanExtra("creation", false)) {
@@ -224,8 +227,8 @@ public class EditReview extends AppCompatActivity {
                 kino.setMaxRating(maxRatingAsInt);
             }
 
-            // TODO call a createOrUpdate instead
-            kino = kinoService.createOrUpdateKino(kino);
+            //noinspection unchecked
+            kino = dtoService.createOrUpdate(kino);
 
             Intent returnIntent = getIntent();
             returnIntent.putExtra("kino", Parcels.wrap(kino));
