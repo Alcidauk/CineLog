@@ -56,7 +56,7 @@ public class SerieService implements DataService {
         return serieKinoDtoBuilder.build(review);
     }
 
-    public SerieDto getByTmdbMovieId(long movieId) {
+    public SerieDto getWithTmdbId(long movieId) {
         SerieReview review = serieReviewRepository.findByMovieId(movieId);
 
         return review != null ? serieKinoDtoBuilder.build(review) : null;

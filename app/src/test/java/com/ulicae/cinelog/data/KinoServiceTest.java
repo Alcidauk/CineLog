@@ -74,7 +74,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 kinoDto,
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getKinoByTmdbMovieId(4L)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getWithTmdbId(4L)
         );
     }
 

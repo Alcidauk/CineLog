@@ -3,7 +3,6 @@ package com.ulicae.cinelog.data;
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
 
@@ -13,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -80,7 +78,7 @@ public class SerieServiceTest {
 
         assertEquals(
                 serieDto,
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, kinoDtoBuilder).getByTmdbMovieId(4L)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, kinoDtoBuilder).getWithTmdbId(4L)
         );
     }
 

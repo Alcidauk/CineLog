@@ -93,8 +93,8 @@ public class KinoService implements DataService {
         return kinoDtoBuilder.build(localKino);
     }
 
-    public KinoDto getKinoByTmdbMovieId(long tmdbMovieId) {
-        LocalKino byMovieId = localKinoRepository.findByMovieId(tmdbMovieId);
+    public KinoDto getWithTmdbId(long tmdbId) {
+        LocalKino byMovieId = localKinoRepository.findByMovieId(tmdbId);
         return byMovieId != null ? kinoDtoBuilder.build(byMovieId) : null;
     }
 

@@ -25,7 +25,7 @@ import java.util.Locale;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class KinoBuilderFromMovie {
+public class KinoBuilderFromMovie implements DtoBuilderFromTmdbObject<Movie> {
 
     public KinoDto build(Movie movie) {
         // TODO take care of locale

@@ -24,7 +24,7 @@ import java.util.Locale;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieBuilderFromMovie {
+public class SerieBuilderFromMovie implements DtoBuilderFromTmdbObject<TvShow> {
 
     public SerieDto build(TvShow tvShow) {
         // TODO take care of locale
