@@ -70,6 +70,7 @@
     <string name="import_ending_toast">… import terminé !</string>
 
     <string name="add_from_scratch_label">Film non trouvé ?</string>
+    <string name="add_serie_from_scratch_label">Série non trouvée ?</string>
     <string name="title_activity_settings">Paramètres</string>
     <string name="default_tmdb_language_title">Langue des données du film (TmDb)</string>
     <string name="default_maximum_rating">Note maximale pour un avis</string>

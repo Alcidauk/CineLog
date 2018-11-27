@@ -71,7 +71,8 @@
     <string name="import_starting_toast">Import started…</string>
     <string name="import_ending_toast">… import ended !</string>
 
-    <string name="add_from_scratch_label">Can\'t find a movie ?</string>
+    <string name="add_from_scratch_label">Can\'t find the movie ?</string>
+    <string name="add_serie_from_scratch_label">Can\'t find the serie ?</string>
     <string name="title_activity_settings">Settings</string>
     <string name="default_tmdb_language_title">TmDb data language</string>
     <string name="default_maximum_rating">Maximum rating available in reviews</string>
