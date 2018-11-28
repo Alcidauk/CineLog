@@ -114,6 +114,10 @@ public class SerieService implements DataService<SerieDto> {
         return buildKinos(serieReviewRepository.findAll());
     }
 
+    public List<SerieDto> getAllByRating(boolean asc) {
+        return buildKinos(serieReviewRepository.findAllByRating(asc));
+    }
+
     private List<SerieDto> buildKinos(List<SerieReview> kinos) {
         List<SerieDto> kinoDtos = new ArrayList<>();
         for (SerieReview serieReview : kinos) {
@@ -122,5 +126,4 @@ public class SerieService implements DataService<SerieDto> {
 
         return kinoDtos;
     }
-
 }

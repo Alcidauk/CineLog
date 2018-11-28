@@ -1,8 +1,12 @@
 package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.LocalKino;
+import com.ulicae.cinelog.data.dao.LocalKinoDao;
+import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.SerieReviewDao;
+import com.ulicae.cinelog.data.dao.TmdbKino;
 
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -14,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,6 +63,69 @@ public class SerieReviewRepositoryTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(serieReviewDao).when(daoSession).getSerieReviewDao();
     }
+
+    @Test
+    public void findAllByRatingAsc() {
+        Review badReview = mock(Review.class);
+        Review betterReview = mock(Review.class);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(10.0f).when(badReview).getRating();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(30).when(badReview).getMaxRating();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(5.0f).when(betterReview).getRating();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(10).when(betterReview).getMaxRating();
+
+        SerieReview badSerieReview = mock(SerieReview.class);
+        doReturn(betterReview).when(serieReview).getReview();
+        doReturn(badReview).when(badSerieReview).getReview();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(serieReviewDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(serieReview, badSerieReview)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(badSerieReview, serieReview),
+                new SerieReviewRepository(daoSession).findAllByRating(true)
+        );
+    }
+
+    @Test
+    public void findAllByRatingDesc() {
+        Review badReview = mock(Review.class);
+        Review betterReview = mock(Review.class);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(10.0f).when(badReview).getRating();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(30).when(badReview).getMaxRating();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(5.0f).when(betterReview).getRating();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(10).when(betterReview).getMaxRating();
+
+        SerieReview badSerieReview = mock(SerieReview.class);
+        doReturn(betterReview).when(serieReview).getReview();
+        doReturn(badReview).when(badSerieReview).getReview();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(serieReviewDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(serieReview, badSerieReview)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(serieReview, badSerieReview),
+                new SerieReviewRepository(daoSession).findAllByRating(false)
+        );
+    }
+
 
     @Test
     public void findAll() {

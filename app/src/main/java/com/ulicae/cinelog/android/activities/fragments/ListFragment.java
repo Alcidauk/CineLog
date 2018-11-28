@@ -102,13 +102,6 @@ public abstract class ListFragment extends Fragment {
         }
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // TODO Add your menu entries here
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         createListView(item.getItemId());
@@ -133,6 +126,7 @@ public abstract class ListFragment extends Fragment {
                                     // Delete the kino
                                     KinoDto kinoDto = kinos.get(position);
                                     kinos.remove(position);
+                                    //noinspection unchecked
                                     service.delete(kinoDto);
 
                                     kino_adapter.notifyDataSetChanged();

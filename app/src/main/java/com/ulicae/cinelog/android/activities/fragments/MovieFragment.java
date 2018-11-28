@@ -2,6 +2,8 @@ package com.ulicae.cinelog.android.activities.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -56,6 +58,12 @@ public class MovieFragment extends ListFragment {
         ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_movie, menu);
     }
 
     @Override

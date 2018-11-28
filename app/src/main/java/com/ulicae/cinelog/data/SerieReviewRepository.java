@@ -5,7 +5,9 @@ import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.SerieReviewDao;
 
 import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,4 +43,18 @@ class SerieReviewRepository extends CrudRepository<SerieReviewDao, SerieReview> 
         return serieReviews != null && serieReviews.size() > 0 ? serieReviews.get(0) : null;
     }
 
+    public List<SerieReview> findAllByRating(boolean asc) {
+        QueryBuilder<SerieReview> localKinoQueryBuilder = dao.queryBuilder();
+
+        List<SerieReview> list = localKinoQueryBuilder.build().list();
+
+        Collections.sort(list, new RatingComparator());
+
+        if(asc){
+            return list;
+        }
+
+        Collections.reverse(list);
+        return list;
+    }
 }

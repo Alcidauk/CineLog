@@ -2,12 +2,15 @@ package com.ulicae.cinelog.android.activities.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
@@ -64,24 +67,35 @@ public class SerieFragment extends ListFragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_serie, menu);
+    }
+
+    @Override
     protected List<KinoDto> getResults(int order) {
+        List<SerieDto> fetchedDtos;
         switch (order) {
-           /* case 1:
+            /*case R.id.order_by_date_added_newest_first:
                 return ((KinoService) service).getKinosByReviewDate(false);
-            case 2:
-                return ((KinoService) service).getKinosByReviewDate(true);
-            case 3:
-                return ((KinoService) service).getKinosByRating(false);
-            case 4:
-                return ((KinoService) service).getKinosByRating(true);
-            case 5:
+            case R.id.order_by_date_added_oldest_first:
+                return ((KinoService) service).getKinosByReviewDate(true);*/
+            case R.id.order_by_rating_highest_first:
+                fetchedDtos = ((SerieService) service).getAllByRating(false);
+                break;
+            case R.id.order_by_rating_lowest_first:
+                fetchedDtos = ((SerieService) service).getAllByRating(true);
+                break;
+            /*case R.id.order_by_year_newest_first:
                 return ((KinoService) service).getKinosByYear(false);
-            case 6:
+            case R.id.order_by_year_oldest_first:
                 return ((KinoService) service).getKinosByYear(true);*/
             default:
-                List<SerieDto> serieDtos = ((SerieService) service).getAll();
-                return new ArrayList<KinoDto>(serieDtos);
+                fetchedDtos = ((SerieService) service).getAll();
+                break;
         }
+
+        return new ArrayList<KinoDto>(fetchedDtos);
     }
 
 }
