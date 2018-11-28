@@ -57,7 +57,7 @@ public class KinoService implements DataService<KinoDto> {
         return buildKinos(localKinos);
     }
 
-    public void createOrUpdateKinos(List<KinoDto> kinoDtos) {
+    public void createOrUpdateKinosWithTmdbId(List<KinoDto> kinoDtos) {
         for (KinoDto kinoDto : kinoDtos) {
             createOrUpdate(kinoDto);
         }

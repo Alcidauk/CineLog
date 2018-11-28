@@ -58,7 +58,7 @@ class CsvImporter {
         }
         List<KinoDto> kinos = kinoImportCreator.getKinos(fileReader);
 
-        kinoService.createOrUpdateKinos(kinos);
+        kinoService.createOrUpdateKinosWithTmdbId(kinos);
     }
 
 }
