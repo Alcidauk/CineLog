@@ -25,7 +25,6 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.DataService;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.KinoService;
 
 import org.parceler.Parcels;
 
@@ -41,22 +40,21 @@ import butterknife.OnClick;
 /**
  * CineLog Copyright 2018 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 public class EditReview extends AppCompatActivity {
 
@@ -230,11 +228,25 @@ public class EditReview extends AppCompatActivity {
             //noinspection unchecked
             kino = dtoService.createOrUpdate(kino);
 
+            redirect();
+        }
+    }
+
+    private void redirect() {
+        if(!getIntent().getBooleanExtra("creation", false)){
             Intent returnIntent = getIntent();
             returnIntent.putExtra("kino", Parcels.wrap(kino));
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
+        } else {
+            Intent returnIntent = new Intent(this, ViewKino.class);
+            returnIntent.putExtra("kino", Parcels.wrap(kino));
+            returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
+            returnIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(returnIntent);
         }
+
+        finish();
     }
 
     public static class DatePickerFragment extends DialogFragment
