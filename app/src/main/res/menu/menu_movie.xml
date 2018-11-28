@@ -26,6 +26,16 @@
         app:showAsAction="never"
         android:visible="true">
         <menu>
+            <item android:id="@+id/order_by_title"
+                android:title="@string/order_by_title" >
+                <menu>
+                    <item android:id="@+id/order_by_title_asc"
+                        android:title="@string/order_by_title_asc" />
+
+                    <item android:id="@+id/order_by_title_desc"
+                        android:title="@string/order_by_title_desc" />
+                </menu>
+            </item>
             <item android:id="@+id/order_by_rating"
                 android:title="@string/rating" >
                 <menu>

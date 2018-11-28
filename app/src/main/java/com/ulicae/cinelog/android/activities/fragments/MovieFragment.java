@@ -69,6 +69,10 @@ public class MovieFragment extends ListFragment {
     @Override
     protected List<KinoDto> getResults(int order) {
         switch (order) {
+            case R.id.order_by_title_asc:
+                return ((KinoService) service).getKinosByTitle(true);
+            case R.id.order_by_title_desc:
+                return ((KinoService) service).getKinosByTitle(false);
             case R.id.order_by_date_added_newest_first:
                 return ((KinoService) service).getKinosByReviewDate(false);
             case R.id.order_by_date_added_oldest_first:

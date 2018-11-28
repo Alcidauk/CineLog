@@ -42,11 +42,14 @@
     <string name="year">Année de sortie</string>
     <string name="date_added">Date de visionnage</string>
     <string name="rating">Note</string>
+    <string name="order_by_title">Titre</string>
 
     <string name="newest_first">Le plus récent d\'abord</string>
     <string name="oldest_first">Le plus ancien d\'abord</string>
     <string name="highest_first">Du meilleur au moins bon</string>
     <string name="lowest_first">Du moins bon au meilleur</string>
+    <string name="order_by_title_asc">De A à Z</string>
+    <string name="order_by_title_desc">De Z à A</string>
 
     <string name="title_activity_export_db">Exporter les données</string>
     <string name="export_db">Exporter les données en CSV</string>

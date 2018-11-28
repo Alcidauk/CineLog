@@ -8,9 +8,11 @@ import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -31,7 +33,7 @@ import java.util.List;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino> {
-    
+
     LocalKinoRepository(DaoSession daoSession) {
         super(daoSession.getLocalKinoDao());
     }
@@ -63,7 +65,7 @@ class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino> {
                 int o1year = o1.getKino() != null ? o1.getKino().getYear() : 0;
                 int o2year = o2.getKino() != null ? o2.getKino().getYear() : 0;
 
-                if(asc) {
+                if (asc) {
                     return o1year < o2year ? -1 : 1;
                 } else {
                     return o1year < o2year ? 1 : -1;
@@ -76,6 +78,32 @@ class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino> {
 
     List<LocalKino> findAllByReviewDate(boolean asc) {
         return queryOrderBy(asc, LocalKinoDao.Properties.Review_date);
+    }
+
+    public List<LocalKino> findAllByTitle(final boolean asc) {
+        QueryBuilder<LocalKino> localKinoQueryBuilder = dao.queryBuilder();
+
+        List<LocalKino> list = localKinoQueryBuilder.build().list();
+
+        Collections.sort(list, new Comparator<LocalKino>() {
+            @Override
+            public int compare(LocalKino o1, LocalKino o2) {
+                if (o1.getTitle() == null) {
+                    return -1;
+                } else if (o2.getTitle() == null) {
+                    return 1;
+                } else {
+                    // TODO take care of locale
+                    return Collator.getInstance().compare(o1.getTitle(), o2.getTitle());
+                }
+            }
+        });
+
+        if(!asc){
+            Collections.reverse(list);
+        }
+
+        return list;
     }
 
     private List<LocalKino> queryOrderBy(boolean asc, Property property) {

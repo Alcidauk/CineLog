@@ -44,11 +44,14 @@
     <string name="year">Release year</string>
     <string name="date_added">Viewing date</string>
     <string name="rating">Rating</string>
+    <string name="order_by_title">Title</string>
 
     <string name="newest_first">Newest First</string>
     <string name="oldest_first">Oldest First</string>
     <string name="highest_first">Highest First</string>
     <string name="lowest_first">Lowest First</string>
+    <string name="order_by_title_asc">Alphabetical order</string>
+    <string name="order_by_title_desc">Reversed alphabetical order</string>
 
     <string name="title_activity_export_db">Export data</string>
     <string name="export_db">Export data as CSV</string>

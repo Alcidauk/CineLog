@@ -116,6 +116,12 @@ public class KinoService implements DataService<KinoDto> {
         return buildKinos(localKinos);
     }
 
+    public List<KinoDto> getKinosByTitle(boolean asc) {
+        List<LocalKino> localKinos = localKinoRepository.findAllByTitle(asc);
+
+        return buildKinos(localKinos);
+    }
+
     private List<KinoDto> buildKinos(List<LocalKino> kinos) {
         List<KinoDto> kinoDtos = new ArrayList<>();
         for (LocalKino localKino : kinos) {

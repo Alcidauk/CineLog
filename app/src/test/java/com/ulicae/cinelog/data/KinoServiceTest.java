@@ -181,6 +181,40 @@ public class KinoServiceTest {
     }
 
     @Test
+    public void getKinosByTitleAsc() {
+        LocalKino localKino = mock(LocalKino.class);
+        LocalKino anotherLocalKino = mock(LocalKino.class);
+
+        doReturn(Arrays.asList(localKino, anotherLocalKino)).when(localKinoRepository).findAllByTitle(true);
+
+        KinoDto anotherKinoDto = mock(KinoDto.class);
+        doReturn(kinoDto).when(kinoDtoBuilder).build(localKino);
+        doReturn(anotherKinoDto).when(kinoDtoBuilder).build(anotherLocalKino);
+
+        assertEquals(
+                Arrays.asList(kinoDto, anotherKinoDto),
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getKinosByTitle(true)
+        );
+    }
+
+    @Test
+    public void getKinosByTitleDesc() {
+        LocalKino localKino = mock(LocalKino.class);
+        LocalKino anotherLocalKino = mock(LocalKino.class);
+
+        doReturn(Arrays.asList(localKino, anotherLocalKino)).when(localKinoRepository).findAllByTitle(false);
+
+        KinoDto anotherKinoDto = mock(KinoDto.class);
+        doReturn(kinoDto).when(kinoDtoBuilder).build(localKino);
+        doReturn(anotherKinoDto).when(kinoDtoBuilder).build(anotherLocalKino);
+
+        assertEquals(
+                Arrays.asList(kinoDto, anotherKinoDto),
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder).getKinosByTitle(false)
+        );
+    }
+
+    @Test
     public void getAllKinos() throws Exception {
         LocalKino localKino = mock(LocalKino.class);
         LocalKino anotherLocalKino = mock(LocalKino.class);

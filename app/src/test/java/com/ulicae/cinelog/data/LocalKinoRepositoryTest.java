@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.floatThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -57,12 +58,12 @@ public class LocalKinoRepositoryTest {
     private LocalKino localKino;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         doReturn(localKinoDao).when(daoSession).getLocalKinoDao();
     }
 
     @Test
-    public void findAllByRatingAsc() throws Exception {
+    public void findAllByRatingAsc() {
         QueryBuilder queryBuilder = mock(QueryBuilder.class);
         doReturn(queryBuilder).when(localKinoDao).queryBuilder();
         doReturn(queryBuilder).when(queryBuilder).orderAsc(LocalKinoDao.Properties.Rating);
@@ -79,7 +80,7 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void findAllByRatingDesc() throws Exception {
+    public void findAllByRatingDesc() {
         QueryBuilder queryBuilder = mock(QueryBuilder.class);
         doReturn(queryBuilder).when(localKinoDao).queryBuilder();
         doReturn(queryBuilder).when(queryBuilder).orderDesc(LocalKinoDao.Properties.Rating);
@@ -97,7 +98,7 @@ public class LocalKinoRepositoryTest {
 
 
     @Test
-    public void findAllByReviewDateAsc() throws Exception {
+    public void findAllByReviewDateAsc() {
         QueryBuilder queryBuilder = mock(QueryBuilder.class);
         doReturn(queryBuilder).when(localKinoDao).queryBuilder();
         doReturn(queryBuilder).when(queryBuilder).orderAsc(LocalKinoDao.Properties.Review_date);
@@ -114,7 +115,7 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void findAllByReviewDateDesc() throws Exception {
+    public void findAllByReviewDateDesc() {
         QueryBuilder queryBuilder = mock(QueryBuilder.class);
         doReturn(queryBuilder).when(localKinoDao).queryBuilder();
         doReturn(queryBuilder).when(queryBuilder).orderDesc(LocalKinoDao.Properties.Review_date);
@@ -131,7 +132,7 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void findAllByYearAsc() throws Exception {
+    public void findAllByYearAsc() {
         TmdbKino oldTmdbKino = mock(TmdbKino.class);
         TmdbKino recentTmdbKino = mock(TmdbKino.class);
         //noinspection ResultOfMethodCallIgnored
@@ -158,7 +159,7 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void findAllByYearDesc() throws Exception {
+    public void findAllByYearDesc() {
         TmdbKino oldTmdbKino = mock(TmdbKino.class);
         TmdbKino recentTmdbKino = mock(TmdbKino.class);
         //noinspection ResultOfMethodCallIgnored
@@ -185,7 +186,125 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void findAllByTitleAsc() {
+        LocalKino anotherKino = mock(LocalKino.class);
+        doReturn("Banane").when(localKino).getTitle();
+        doReturn("Poney").when(anotherKino).getTitle();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(localKino, anotherKino)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(localKino, anotherKino),
+                new LocalKinoRepository(daoSession).findAllByTitle(true)
+        );
+    }
+
+    @Test
+    public void findAllByTitleDesc() {
+        LocalKino anotherKino = mock(LocalKino.class);
+        doReturn("Banane").when(localKino).getTitle();
+        doReturn("Poney").when(anotherKino).getTitle();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(localKino, anotherKino)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(anotherKino, localKino),
+                new LocalKinoRepository(daoSession).findAllByTitle(false)
+        );
+    }
+
+    @Test
+    public void findAllByTitleAscNullO1() {
+        LocalKino anotherKino = mock(LocalKino.class);
+        doReturn(null).when(localKino).getTitle();
+        doReturn("Poney").when(anotherKino).getTitle();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(localKino, anotherKino)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(localKino, anotherKino),
+                new LocalKinoRepository(daoSession).findAllByTitle(true)
+        );
+    }
+
+    @Test
+    public void findAllByTitleAscNullO2() {
+        LocalKino anotherKino = mock(LocalKino.class);
+        doReturn(null).when(anotherKino).getTitle();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(localKino, anotherKino)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(anotherKino, localKino),
+                new LocalKinoRepository(daoSession).findAllByTitle(true)
+        );
+    }
+
+    @Test
+    public void findAllByTitleDescNullO1() {
+        LocalKino anotherKino = mock(LocalKino.class);
+        doReturn(null).when(localKino).getTitle();
+        doReturn("Poney").when(anotherKino).getTitle();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(localKino, anotherKino)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(anotherKino, localKino),
+                new LocalKinoRepository(daoSession).findAllByTitle(false)
+        );
+    }
+
+    @Test
+    public void findAllByTitleDescNullO2() {
+        LocalKino anotherKino = mock(LocalKino.class);
+        doReturn(null).when(anotherKino).getTitle();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(localKinoDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(localKino, anotherKino)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(localKino, anotherKino),
+                new LocalKinoRepository(daoSession).findAllByTitle(false)
+        );
+    }
+
+    @Test
+    public void findAll() {
         List<LocalKino> kinoList = new ArrayList<LocalKino>() {{
             add(localKino);
         }};
@@ -198,7 +317,7 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void find() throws Exception {
+    public void find() {
         doReturn(localKino).when(localKinoDao).load(4L);
 
         assertEquals(
@@ -208,7 +327,7 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void findByMovieId() throws Exception {
+    public void findByMovieId() {
         QueryBuilder queryBuilder = mock(QueryBuilder.class);
         doReturn(queryBuilder).when(localKinoDao).queryBuilder();
         doReturn(queryBuilder).when(queryBuilder).where(any(WhereCondition.class));//LocalKinoDao.Properties.Tmdb_id.eq(45));
@@ -227,14 +346,14 @@ public class LocalKinoRepositoryTest {
     }
 
     @Test
-    public void createOrUpdate() throws Exception {
+    public void createOrUpdate() {
         new LocalKinoRepository(daoSession).createOrUpdate(localKino);
 
         verify(localKinoDao).insertOrReplace(localKino);
     }
 
     @Test
-    public void delete() throws Exception {
+    public void delete() {
         // TODO delete the TmdbKino if necessary too.
         new LocalKinoRepository(daoSession).delete(5L);
 
