@@ -125,7 +125,7 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
             kinoRatingRatingBarMaxAsText.setVisibility(View.VISIBLE);
 
             kinoRatingRatingBarAsText.setText(String.format("%s", movie.getRating()));
-            kinoRatingRatingBarMaxAsText.setText(String.format("/%s", prefs.getString("default_max_rate_value", "5")));
+            kinoRatingRatingBarMaxAsText.setText(String.format("/%s", maxRating));
         }
     }
 
