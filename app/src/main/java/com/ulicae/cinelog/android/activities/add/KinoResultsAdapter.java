@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.android.activities.add;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +18,6 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import static com.ulicae.cinelog.android.activities.add.AddKino.RESULT_EDIT_REVIEW;
 import static com.ulicae.cinelog.android.activities.add.AddKino.RESULT_VIEW_KINO;
 
 /**
@@ -65,7 +63,7 @@ public class KinoResultsAdapter extends ItemResultAdapter<Movie> {
             intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
         }
 
-        ((Activity) getContext()).startActivityForResult(intent, RESULT_EDIT_REVIEW);
+        getContext().startActivity(intent);
     }
 
     @Override

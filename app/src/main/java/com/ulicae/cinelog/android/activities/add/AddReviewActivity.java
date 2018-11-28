@@ -55,8 +55,6 @@ public abstract class AddReviewActivity<T> extends AppCompatActivity {
     // Where did 1000 come from? It's arbitrary, since I can't find average android typing speed.
     private final static long SEARCH_TRIGGER_DELAY_IN_MS = 1000;
 
-    public static int RESULT_EDIT_REVIEW = 6;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
