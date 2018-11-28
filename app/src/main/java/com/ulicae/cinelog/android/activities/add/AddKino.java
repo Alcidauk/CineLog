@@ -68,10 +68,10 @@ public class AddKino extends AddReviewActivity<Movie> {
         KinoDto kinoToCreate = new KinoDto();
         kinoToCreate.setTitle(kino_search.getText().toString());
 
-        // TODO factorize
         Intent intent = new Intent(view.getContext(), EditReview.class);
 
         intent.putExtra("kino", Parcels.wrap(kinoToCreate));
+        intent.putExtra("dtoType", "kino");
 
         startActivity(intent);
     }
