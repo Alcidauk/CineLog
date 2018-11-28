@@ -5,6 +5,7 @@ import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dao.TmdbKino;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.KinoDtoBuilder;
+import com.ulicae.cinelog.utils.KinoDtoToDbBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class KinoService implements DataService<KinoDto> {
     private final LocalKinoRepository localKinoRepository;
     private final TmdbKinoRepository tmdbKinoRepository;
     private final KinoDtoBuilder kinoDtoBuilder;
+    private KinoDtoToDbBuilder kinoDtoToDbBuilder;
 
     public KinoService(DaoSession session) {
         this.localKinoRepository = new LocalKinoRepository(session);
@@ -39,10 +41,11 @@ public class KinoService implements DataService<KinoDto> {
         this.kinoDtoBuilder = new KinoDtoBuilder();
     }
 
-    KinoService(LocalKinoRepository localKinoRepository, TmdbKinoRepository tmdbKinoRepository, KinoDtoBuilder kinoDtoBuilder) {
+    KinoService(LocalKinoRepository localKinoRepository, TmdbKinoRepository tmdbKinoRepository, KinoDtoBuilder kinoDtoBuilder, KinoDtoToDbBuilder builder) {
         this.localKinoRepository = localKinoRepository;
         this.tmdbKinoRepository = tmdbKinoRepository;
         this.kinoDtoBuilder = kinoDtoBuilder;
+        kinoDtoToDbBuilder = builder;
     }
 
     public KinoDto getKino(long id) {
@@ -64,30 +67,9 @@ public class KinoService implements DataService<KinoDto> {
     }
 
     public KinoDto createOrUpdate(KinoDto kinoDto) {
-        //noinspection UnnecessaryUnboxing
-        LocalKino localKino = new LocalKino(
-                kinoDto.getKinoId(),
-                kinoDto.getTmdbKinoId() != null ? kinoDto.getTmdbKinoId().longValue() : 0L,
-                kinoDto.getTitle(),
-                kinoDto.getReview_date(),
-                kinoDto.getReview(),
-                kinoDto.getRating(),
-                kinoDto.getMaxRating()
-        );
+        LocalKino localKino = kinoDtoToDbBuilder.build(kinoDto);
 
-        if (kinoDto.getTmdbKinoId() != null) {
-            TmdbKino tmdbKino = new TmdbKino(
-                    kinoDto.getTmdbKinoId(),
-                    kinoDto.getPosterPath(),
-                    kinoDto.getOverview(),
-                    kinoDto.getYear(),
-                    kinoDto.getReleaseDate()
-            );
-            tmdbKinoRepository.createOrUpdate(tmdbKino);
-
-            localKino.setKino(tmdbKino);
-        }
-
+        tmdbKinoRepository.createOrUpdate(localKino.getKino());
         localKinoRepository.createOrUpdate(localKino);
 
         return kinoDtoBuilder.build(localKino);
