@@ -48,7 +48,7 @@ class LocalKinoBuilder {
     KinoDto build(CSVRecord csvRecord) throws ImportException {
         try {
             return new KinoDto(
-                    null,
+                    formatLong(getId(csvRecord)),
                     formatLong(csvRecord.get("movie_id")),
                     csvRecord.get("title"),
                     formatDate(csvRecord.get("review_date")),
@@ -63,6 +63,10 @@ class LocalKinoBuilder {
         } catch (ParseException e) {
             throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);
         }
+    }
+
+    private String getId(CSVRecord csvRecord) {
+        return csvRecord.isMapped("id") ? csvRecord.get("id") : null;
     }
 
     private int getMaxRating(CSVRecord csvRecord) {

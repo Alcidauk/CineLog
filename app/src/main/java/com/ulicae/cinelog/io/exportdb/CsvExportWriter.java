@@ -30,6 +30,7 @@ public class CsvExportWriter {
 
 
     public enum Headers {
+        id,
         movie_id,
         title,
         overview,
@@ -55,6 +56,7 @@ public class CsvExportWriter {
     public void write(KinoDto kinoDto) throws IOException {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         csvPrinterWrapper.printRecord(
+                kinoDto.getKinoId(),
                 kinoDto.getTmdbKinoId(),
                 kinoDto.getTitle(),
                 kinoDto.getOverview(),

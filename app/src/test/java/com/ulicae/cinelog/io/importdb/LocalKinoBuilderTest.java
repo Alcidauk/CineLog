@@ -52,6 +52,7 @@ public class LocalKinoBuilderTest {
         final Date reviewDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
+        doReturn("12").when(csvRecord).get("id");
         doReturn("24").when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -65,7 +66,7 @@ public class LocalKinoBuilderTest {
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
         KinoDto kinoDto = new KinoDto(
-                null,
+                12L,
                 24L,
                 "title",
                 simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
@@ -89,6 +90,7 @@ public class LocalKinoBuilderTest {
         final Date reviewDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
+        doReturn("12").when(csvRecord).get("id");
         doReturn("24").when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -102,7 +104,7 @@ public class LocalKinoBuilderTest {
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
         KinoDto kinoDto = new KinoDto(
-                null,
+                12L,
                 24L,
                 "title",
                 simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
@@ -126,6 +128,7 @@ public class LocalKinoBuilderTest {
         final Date reviewDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
+        doReturn("12").when(csvRecord).get("id");
         doReturn(null).when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -139,7 +142,7 @@ public class LocalKinoBuilderTest {
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
         KinoDto kinoDto = new KinoDto(
-                null,
+                12L,
                 0L,
                 "title",
                 simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
@@ -163,6 +166,7 @@ public class LocalKinoBuilderTest {
         final Date reviewDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
+        doReturn("12").when(csvRecord).get("id");
         doReturn("24").when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -177,7 +181,7 @@ public class LocalKinoBuilderTest {
 
 
         KinoDto kinoDto = new KinoDto(
-                null,
+                12L,
                 24L,
                 "title",
                 simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),
@@ -203,6 +207,7 @@ public class LocalKinoBuilderTest {
         final Date reviewDate = new Date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
+        doReturn("12").when(csvRecord).get("id");
         doReturn("24").when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -214,7 +219,7 @@ public class LocalKinoBuilderTest {
         doReturn(simpleDateFormat.format(reviewDate)).when(csvRecord).get("review_date");
 
         KinoDto kinoDto = new KinoDto(
-                null,
+                12L,
                 24L,
                 "title",
                 simpleDateFormat.parse(simpleDateFormat.format(reviewDate)),

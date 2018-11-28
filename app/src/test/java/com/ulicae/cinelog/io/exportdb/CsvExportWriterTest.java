@@ -61,6 +61,7 @@ public class CsvExportWriterTest {
         new CsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
+                24L,
                 25L,
                 "a title",
                 "an overview",
@@ -93,6 +94,7 @@ public class CsvExportWriterTest {
         new CsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
+                24L,
                 25L,
                 "a title",
                 "an overview",
