@@ -36,16 +36,14 @@ public class KinoService implements DataService<KinoDto> {
     private KinoDtoToDbBuilder kinoDtoToDbBuilder;
 
     public KinoService(DaoSession session) {
-        this.localKinoRepository = new LocalKinoRepository(session);
-        this.tmdbKinoRepository = new TmdbKinoRepository(session);
-        this.kinoDtoBuilder = new KinoDtoBuilder();
+        this(new LocalKinoRepository(session), new TmdbKinoRepository(session), new KinoDtoBuilder(), new KinoDtoToDbBuilder());
     }
 
     KinoService(LocalKinoRepository localKinoRepository, TmdbKinoRepository tmdbKinoRepository, KinoDtoBuilder kinoDtoBuilder, KinoDtoToDbBuilder builder) {
         this.localKinoRepository = localKinoRepository;
         this.tmdbKinoRepository = tmdbKinoRepository;
         this.kinoDtoBuilder = kinoDtoBuilder;
-        kinoDtoToDbBuilder = builder;
+        this.kinoDtoToDbBuilder = builder;
     }
 
     public KinoDto getKino(long id) {
@@ -62,6 +60,11 @@ public class KinoService implements DataService<KinoDto> {
 
     public void createOrUpdateKinosWithTmdbId(List<KinoDto> kinoDtos) {
         for (KinoDto kinoDto : kinoDtos) {
+            LocalKino existingKino = localKinoRepository.findByMovieId(kinoDto.getTmdbKinoId());
+            if(existingKino != null){
+                kinoDto.setKinoId(existingKino.getId());
+            }
+
             createOrUpdate(kinoDto);
         }
     }

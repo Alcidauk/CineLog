@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -247,6 +248,35 @@ public class KinoServiceTest {
                 createdKino,
                 new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdate(kinoDto)
         );
+
+        verify(localKinoRepository).createOrUpdate(kinoToCreate);
+        verify(tmdbKinoRepository).createOrUpdate(tmdbKino);
+    }
+
+    @Test
+    public void createOrUpdateKinosWithTmdbIdExisting() {
+        LocalKino kinoToCreate = mock(LocalKino.class);
+        TmdbKino tmdbKino = mock(TmdbKino.class);
+        doReturn(tmdbKino).when(kinoToCreate).getKino();
+
+        KinoDtoToDbBuilder builder = mock(KinoDtoToDbBuilder.class);
+        doReturn(kinoToCreate).when(builder).build(kinoDto);
+
+        KinoDto createdKino = mock(KinoDto.class);
+        doReturn(createdKino).when(kinoDtoBuilder).build(kinoToCreate);
+
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(34555L).when(kinoDto).getTmdbKinoId();
+
+        LocalKino existingKino = mock(LocalKino.class);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(22222L).when(existingKino).getId();
+
+        doReturn(existingKino).when(localKinoRepository).findByMovieId(34555L);
+
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateKinosWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+
+        verify(kinoDto).setKinoId(22222L);
 
         verify(localKinoRepository).createOrUpdate(kinoToCreate);
         verify(tmdbKinoRepository).createOrUpdate(tmdbKino);
