@@ -104,7 +104,9 @@ public abstract class ListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        createListView(item.getItemId());
+        if(!item.hasSubMenu()) {
+            createListView(item.getItemId());
+        }
 
         return super.onOptionsItemSelected(item);
     }
