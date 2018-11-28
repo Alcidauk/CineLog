@@ -17,6 +17,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -254,7 +255,7 @@ public class KinoServiceTest {
     }
 
     @Test
-    public void createOrUpdateKinosWithTmdbIdExisting() {
+    public void createOrUpdateKinosWithTmdbIdExistingWithoutId() {
         LocalKino kinoToCreate = mock(LocalKino.class);
         TmdbKino tmdbKino = mock(TmdbKino.class);
         doReturn(tmdbKino).when(kinoToCreate).getKino();
@@ -267,6 +268,8 @@ public class KinoServiceTest {
 
         //noinspection ResultOfMethodCallIgnored
         doReturn(34555L).when(kinoDto).getTmdbKinoId();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(null).when(kinoDto).getKinoId();
 
         LocalKino existingKino = mock(LocalKino.class);
         //noinspection ResultOfMethodCallIgnored
@@ -283,7 +286,57 @@ public class KinoServiceTest {
     }
 
     @Test
-    public void deleteKino() throws Exception {
+    public void createOrUpdateKinosWithTmdbIdExistingWithId() {
+        LocalKino kinoToCreate = mock(LocalKino.class);
+        TmdbKino tmdbKino = mock(TmdbKino.class);
+        doReturn(tmdbKino).when(kinoToCreate).getKino();
+
+        KinoDtoToDbBuilder builder = mock(KinoDtoToDbBuilder.class);
+        doReturn(kinoToCreate).when(builder).build(kinoDto);
+
+        KinoDto createdKino = mock(KinoDto.class);
+        doReturn(createdKino).when(kinoDtoBuilder).build(kinoToCreate);
+
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(15L).when(kinoDto).getKinoId();
+
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateKinosWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+
+        verify(kinoDto, never()).setKinoId(22222L);
+
+        verify(localKinoRepository).createOrUpdate(kinoToCreate);
+        verify(tmdbKinoRepository).createOrUpdate(tmdbKino);
+    }
+
+    @Test
+    public void createOrUpdateKinosWithTmdbIdNotExisting() {
+        LocalKino kinoToCreate = mock(LocalKino.class);
+        TmdbKino tmdbKino = mock(TmdbKino.class);
+        doReturn(tmdbKino).when(kinoToCreate).getKino();
+
+        KinoDtoToDbBuilder builder = mock(KinoDtoToDbBuilder.class);
+        doReturn(kinoToCreate).when(builder).build(kinoDto);
+
+        KinoDto createdKino = mock(KinoDto.class);
+        doReturn(createdKino).when(kinoDtoBuilder).build(kinoToCreate);
+
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(34555L).when(kinoDto).getTmdbKinoId();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(null).when(kinoDto).getKinoId();
+
+        doReturn(null).when(localKinoRepository).findByMovieId(34555L);
+
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateKinosWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+
+        verify(kinoDto, never()).setKinoId(22222L);
+
+        verify(localKinoRepository).createOrUpdate(kinoToCreate);
+        verify(tmdbKinoRepository).createOrUpdate(tmdbKino);
+    }
+
+    @Test
+    public void deleteKino() {
         //noinspection ResultOfMethodCallIgnored
         doReturn(545L).when(kinoDto).getKinoId();
 
