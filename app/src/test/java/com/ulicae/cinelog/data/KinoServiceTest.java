@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -252,6 +253,24 @@ public class KinoServiceTest {
 
         verify(localKinoRepository).createOrUpdate(kinoToCreate);
         verify(tmdbKinoRepository).createOrUpdate(tmdbKino);
+    }
+
+    @Test
+    public void createKinoNullTmdb() {
+        LocalKino kinoToCreate = mock(LocalKino.class);
+
+        KinoDtoToDbBuilder builder = mock(KinoDtoToDbBuilder.class);
+        doReturn(kinoToCreate).when(builder).build(kinoDto);
+
+        KinoDto createdKino = mock(KinoDto.class);
+        doReturn(createdKino).when(kinoDtoBuilder).build(kinoToCreate);
+
+        assertEquals(
+                createdKino,
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdate(kinoDto)
+        );
+
+        verify(localKinoRepository).createOrUpdate(kinoToCreate);
     }
 
     @Test

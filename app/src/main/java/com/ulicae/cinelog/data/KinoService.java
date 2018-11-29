@@ -74,8 +74,9 @@ public class KinoService implements DataService<KinoDto> {
     public KinoDto createOrUpdate(KinoDto kinoDto) {
         LocalKino localKino = kinoDtoToDbBuilder.build(kinoDto);
 
-        // TODO bug when creating empty film
-        tmdbKinoRepository.createOrUpdate(localKino.getKino());
+        if(kinoDto.getTmdbKinoId() != null) {
+            tmdbKinoRepository.createOrUpdate(localKino.getKino());
+        }
         localKinoRepository.createOrUpdate(localKino);
 
         return kinoDtoBuilder.build(localKino);
