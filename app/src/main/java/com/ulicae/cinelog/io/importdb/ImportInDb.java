@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +45,7 @@ public class ImportInDb extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new ThemeWrapper().setThemeWithPreferences(this);
 
         ActivityCompat.requestPermissions(ImportInDb.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 

@@ -1,7 +1,10 @@
 package com.ulicae.cinelog.android.settings;
 
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.widget.Toast;
 
 import com.ulicae.cinelog.R;
 
@@ -32,6 +35,15 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.app_preferences);
+
+        CheckBoxPreference listcheckBoxPreference = (CheckBoxPreference) findPreference("theme");
+        listcheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Toast.makeText(getActivity().getBaseContext(), getResources().getString(R.string.change_theme), Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
     }
 
 }

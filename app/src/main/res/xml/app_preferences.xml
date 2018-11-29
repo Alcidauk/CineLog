@@ -35,6 +35,11 @@
             android:defaultValue="5"
             android:entries="@array/available_tmdb_languages_keys"
             android:entryValues="@array/available_tmdb_languages_values"/>
+
+        <CheckBoxPreference
+            android:key="theme"
+            android:title="@string/theme"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

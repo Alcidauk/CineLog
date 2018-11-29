@@ -22,6 +22,7 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.DataService;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
+import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -76,6 +77,8 @@ public abstract class AddReviewActivity<T> extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new ThemeWrapper().setThemeWithPreferences(this);
+
         setContentView(getContentView());
         ButterKnife.bind(this);
 

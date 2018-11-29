@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class ExportDb extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new ThemeWrapper().setThemeWithPreferences(this);
 
         ActivityCompat.requestPermissions(ExportDb.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 

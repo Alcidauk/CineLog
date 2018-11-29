@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -25,9 +29,12 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.DataService;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,6 +90,8 @@ public class EditReview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new ThemeWrapper().setThemeWithPreferences(this);
+
         setContentView(R.layout.activity_edit_review);
         ButterKnife.bind(this);
 
@@ -200,7 +209,6 @@ public class EditReview extends AppCompatActivity {
     public void showTimePickerDialog(View view) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "timePicker");
-
     }
 
     @OnClick(R.id.fab_save)
@@ -264,7 +272,32 @@ public class EditReview extends AppCompatActivity {
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+            View view = super.onCreateView(inflater, container, savedInstanceState);
+
+            try {
+                if(R.style.AppThemeDark == getThemeId()) {
+                    getDialog().getContext().setTheme(R.style.DarkDialog);
+                }
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                // TODO error
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.export_io_error_toast), Toast.LENGTH_LONG).show();
+            }
+
+            return view;
+        }
+
+        private int getThemeId() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            Class<?> wrapper = Context.class;
+            Method method = wrapper.getMethod("getThemeResId");
+            method.setAccessible(true);
+            return (Integer) method.invoke(getActivity());
+        }
+
         public void onDateSet(DatePicker view, int year, int month, int day) {
+
             final Calendar c = Calendar.getInstance();
             c.set(Calendar.YEAR, year);
             c.set(Calendar.MONTH, month);

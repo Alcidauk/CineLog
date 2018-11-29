@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.ulicae.cinelog.data.dao.DaoMaster;
 import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.utils.ThemeWrapper;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -36,12 +37,13 @@ public class KinoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        new ThemeWrapper().setThemeWithPreferences(this);
+
 
         helper = new DaoMaster.DevOpenHelper(this, "notes-db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
-        // Required initialization logic here!
     }
 
     public DaoSession getDaoSession() {

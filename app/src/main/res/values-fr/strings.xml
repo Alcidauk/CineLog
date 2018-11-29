@@ -73,6 +73,7 @@
     <string name="import_ending_toast">… import terminé !</string>
 
     <string name="add_from_scratch_label">Film non trouvé ?</string>
+
     <string name="title_activity_settings">Paramètres</string>
     <string name="default_tmdb_language_title">Langue des données du film (TmDb)</string>
     <string name="default_maximum_rating">Note maximale pour un avis</string>
@@ -80,6 +81,9 @@
     <string name="default_maximum_rating_dialog">Choisir la note maximale possible pour les prochains avis</string>
     <string name="general_preferences">Préférences générales</string>
     <string name="general_preferences_summary">Gérer les préférences générales de l\'application</string>
+    <string name="theme">Thème sombre</string>
+    <string name="change_theme">Thème modifié. Redémarrez l\'application pour que les changements soient totalement appliqués.</string>
+
     <string name="view_poster_review_layout_title">Avis</string>
     <string name="view_kino_review_rating_label_value">Note</string>
     <string name="view_kino_review_review_date_label_value">Date du visionnage</string>

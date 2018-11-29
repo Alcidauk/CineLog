@@ -29,6 +29,10 @@ public class PreferencesWrapper {
         return getPreferenceManager(context).getString(key, defaultValue);
     }
 
+    public boolean getBooleanPreference(Context context, String key, boolean defaultValue) {
+        return getPreferenceManager(context).getBoolean(key, defaultValue);
+    }
+
     public int getIntegerPreference(Context context, String key, int defaultValue) {
         return getPreferenceManager(context).getInt(key, defaultValue);
     }

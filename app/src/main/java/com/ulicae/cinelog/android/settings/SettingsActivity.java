@@ -1,10 +1,12 @@
 package com.ulicae.cinelog.android.settings;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import java.util.List;
 
@@ -34,8 +36,14 @@ public class SettingsActivity extends PreferenceActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(new PreferencesWrapper().getBooleanPreference(getBaseContext(), "theme", false)){
+            setTheme(R.style.PrefsThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
     }
 

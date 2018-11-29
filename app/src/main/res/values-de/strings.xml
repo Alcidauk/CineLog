@@ -75,6 +75,7 @@
     <string name="import_ending_toast">… import erfolgreich !</string>
 
     <string name="add_from_scratch_label">Film wurde nicht gefunden?</string>
+
     <string name="title_activity_settings">Einstellungen</string>
     <string name="default_tmdb_language_title">TmDb Datenbank Sprache</string>
     <string name="default_maximum_rating">Maximales Rating verfügbar in den Reviews</string>
@@ -82,6 +83,9 @@
     <string name="default_maximum_rating_dialog">Setze die maximal Bewertung für neue Filme</string>
     <string name="general_preferences">Allgemeine Einstellungen</string>
     <string name="general_preferences_summary">Setzen der globalen Einstellungen für diese App.</string>
+    <string name="theme">Dark theme</string>
+    <string name="change_theme">Theme changed. Quit and come back in the app to see changes.</string>
+
     <string name="view_poster_review_layout_title">Rezension</string>
     <string name="view_kino_review_rating_label_value">Film Bewertung</string>
     <string name="view_kino_review_review_date_label_value">Datum der Rezension</string>

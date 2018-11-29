@@ -23,5 +23,9 @@
     <color name="colorPrimaryLight">#ffb3b3</color>
     <color name="colorAccent">#555555</color>
 
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackgroundDark">#555555</color>
+
     <color name="white">#FFFFFF</color>
+    <color name="lightGray">#D3D3D3</color>
 </resources>

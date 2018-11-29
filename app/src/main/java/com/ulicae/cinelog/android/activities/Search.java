@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.utils.ThemeWrapper;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -29,6 +30,8 @@ public class Search extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new ThemeWrapper().setThemeWithPreferences(this);
+
         setContentView(R.layout.activity_search);
     }
 
