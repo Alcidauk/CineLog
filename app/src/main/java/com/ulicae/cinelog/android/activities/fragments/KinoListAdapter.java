@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -60,6 +61,8 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
         TextView kinoYearTextView = (TextView) convertView.findViewById(R.id.main_result_kino_year);
         ImageView kinoPosterImageView = (ImageView) convertView.findViewById(R.id.main_result_kino_poster);
         RatingBar kinoRatingRatingBar = (RatingBar) convertView.findViewById(R.id.main_result_kino_rating_bar_small);
+        TextView kinoReviewDate = (TextView) convertView.findViewById(R.id.main_result_kino_review_date);
+        ImageView kinoReviewDateLogo = (ImageView) convertView.findViewById(R.id.main_result_kino_review_date_logo);
         KinoDto movie = getItem(position);
 
         if (movie != null) {
@@ -84,6 +87,14 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
                         .centerCrop()
                         .crossFade()
                         .into(kinoPosterImageView);
+            }
+
+            if(movie.getReview_date() != null){
+                kinoReviewDate.setText(new SimpleDateFormat("dd/MM/yy").format(movie.getReview_date()));
+                kinoReviewDateLogo.setVisibility(View.VISIBLE);
+            } else {
+                kinoReviewDate.setText("");
+                kinoReviewDateLogo.setVisibility(View.INVISIBLE);
             }
 
             initRating(convertView, kinoRatingRatingBar, movie);

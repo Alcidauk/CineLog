@@ -18,6 +18,7 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingEnd="5dp"
@@ -55,6 +56,30 @@
         android:layout_toEndOf="@id/main_result_kino_poster"
         android:layout_below="@id/main_result_kino_title" />
 
+    <ImageView
+        android:id="@+id/main_result_kino_review_date_logo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/round_eye_pink"
+        android:layout_toEndOf="@+id/main_result_kino_year"
+        android:layout_below="@id/main_result_kino_title"
+        android:layout_marginStart="10dp"
+        android:paddingTop="2dp"
+        tools:ignore="RtlSymmetry"/>
+
+    <TextView
+        android:id="@+id/main_result_kino_review_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="italic"
+        android:layout_toEndOf="@+id/main_result_kino_review_date_logo"
+        android:layout_below="@id/main_result_kino_title"
+        android:paddingEnd="5dp"
+        tools:ignore="RtlSymmetry" />
+
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,7 +87,8 @@
         android:theme="@style/RatingBar"
         android:id="@+id/main_result_kino_rating_bar_small"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@id/main_result_kino_poster"/>
+        android:layout_alignBottom="@id/main_result_kino_poster"
+        android:paddingBottom="4dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
