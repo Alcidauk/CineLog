@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.network;
 
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.uwetrottmann.tmdb2.entities.TvShow;
+import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -24,9 +24,9 @@ import java.util.Locale;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieBuilderFromMovie implements DtoBuilderFromTmdbObject<TvShow> {
+public class SerieBuilderFromMovie implements DtoBuilderFromTmdbObject<BaseTvShow> {
 
-    public SerieDto build(TvShow tvShow) {
+    public SerieDto build(BaseTvShow tvShow) {
         // TODO take care of locale
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.ENGLISH);
 

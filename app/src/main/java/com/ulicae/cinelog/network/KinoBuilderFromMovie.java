@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.network;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.uwetrottmann.tmdb2.entities.Movie;
+import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -25,9 +25,9 @@ import java.util.Locale;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class KinoBuilderFromMovie implements DtoBuilderFromTmdbObject<Movie> {
+public class KinoBuilderFromMovie implements DtoBuilderFromTmdbObject<BaseMovie> {
 
-    public KinoDto build(Movie movie) {
+    public KinoDto build(BaseMovie movie) {
         // TODO take care of locale
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.ENGLISH);
 

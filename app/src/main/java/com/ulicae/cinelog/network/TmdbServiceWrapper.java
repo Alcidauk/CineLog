@@ -7,7 +7,7 @@ import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.utils.LocaleWrapper;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-import com.uwetrottmann.tmdb2.entities.TvResultsPage;
+import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 
 import retrofit2.Call;
 
@@ -66,7 +66,7 @@ public class TmdbServiceWrapper {
         );
     }
 
-    public Call<TvResultsPage> searchTv(String name) {
+    public Call<TvShowResultsPage> searchTv(String name) {
         initSearchLanguageIfNeeded();
 
         return tmdb.searchService().tv(

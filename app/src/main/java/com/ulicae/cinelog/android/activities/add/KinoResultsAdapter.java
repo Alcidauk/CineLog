@@ -12,7 +12,7 @@ import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.network.KinoBuilderFromMovie;
-import com.uwetrottmann.tmdb2.entities.Movie;
+import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import org.parceler.Parcels;
 
@@ -38,9 +38,9 @@ import static com.ulicae.cinelog.android.activities.add.AddKino.RESULT_VIEW_KINO
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class KinoResultsAdapter extends ItemResultAdapter<Movie> {
+public class KinoResultsAdapter extends ItemResultAdapter<BaseMovie> {
 
-    public KinoResultsAdapter(Context context, List<Movie> results) {
+    public KinoResultsAdapter(Context context, List<BaseMovie> results) {
         super(context,
                 results,
                 new KinoService(((KinoApplication) ((AddKino) context).getApplication()).getDaoSession()),

@@ -13,8 +13,8 @@ import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
-import com.uwetrottmann.tmdb2.entities.TvResultsPage;
-import com.uwetrottmann.tmdb2.entities.TvShow;
+import com.uwetrottmann.tmdb2.entities.BaseTvShow;
+import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 
 import org.parceler.Parcels;
 
@@ -43,7 +43,7 @@ import retrofit2.Call;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class AddSerieActivity extends AddReviewActivity<TvShow> {
+public class AddSerieActivity extends AddReviewActivity<BaseTvShow> {
 
     static final int RESULT_VIEW_KINO = 4;
 
@@ -71,7 +71,7 @@ public class AddSerieActivity extends AddReviewActivity<TvShow> {
 
     @Override
     protected void executeTask(String textToSearch) {
-        Call<TvResultsPage> search = tmdbServiceWrapper.searchTv(kino_search.getText().toString());
+        Call<TvShowResultsPage> search = tmdbServiceWrapper.searchTv(kino_search.getText().toString());
         networkTaskManager.createAndExecute(search);
     }
 
@@ -88,7 +88,7 @@ public class AddSerieActivity extends AddReviewActivity<TvShow> {
         startActivity(intent);
     }
 
-    public void populateListView(final List<TvShow> tvShows) {
+    public void populateListView(final List<BaseTvShow> tvShows) {
         if (kino_results_list != null) {
             kino_results_list.setAdapter(new TvResultsAdapter(this, tvShows));
             kino_search_progress_bar.setVisibility(View.GONE);

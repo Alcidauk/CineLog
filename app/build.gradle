@@ -56,7 +56,7 @@ dependencies {
     // GreenDAO ORM for database
     compile 'org.greenrobot:greendao:3.2.2'
     // https://mvnrepository.com/artifact/com.uwetrottmann.tmdb2/tmdb-java
-    compile 'com.uwetrottmann.tmdb2:tmdb-java:1.6.0'
+    compile 'com.uwetrottmann.tmdb2:tmdb-java:1.10.1'
     // Add import and export functionnalities
     compile 'org.apache.commons:commons-csv:1.5'
     // Allow to implements app preferences

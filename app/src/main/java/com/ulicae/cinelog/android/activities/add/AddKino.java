@@ -11,7 +11,7 @@ import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
-import com.uwetrottmann.tmdb2.entities.Movie;
+import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.parceler.Parcels;
@@ -40,7 +40,7 @@ import retrofit2.Call;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class AddKino extends AddReviewActivity<Movie> {
+public class AddKino extends AddReviewActivity<BaseMovie> {
 
     static final int RESULT_VIEW_KINO = 4;
 
@@ -76,7 +76,7 @@ public class AddKino extends AddReviewActivity<Movie> {
         startActivity(intent);
     }
 
-    public void populateListView(final List<Movie> movies) {
+    public void populateListView(final List<BaseMovie> movies) {
         if (kino_results_list != null) {
             kino_results_list.setAdapter(new KinoResultsAdapter(this, movies));
             kino_search_progress_bar.setVisibility(View.GONE);

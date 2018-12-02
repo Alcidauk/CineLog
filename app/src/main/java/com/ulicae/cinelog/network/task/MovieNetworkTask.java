@@ -2,6 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import com.ulicae.cinelog.android.activities.add.AddKino;
 import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
+import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
@@ -28,19 +29,19 @@ import retrofit2.Response;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MovieNetworkTask extends NetworkTask<MovieResultsPage, Movie> {
+public class MovieNetworkTask extends NetworkTask<MovieResultsPage, BaseMovie> {
 
     MovieNetworkTask(AddReviewActivity<Movie> addReviewActivity) {
         super(addReviewActivity);
     }
 
     @Override
-    List<Movie> getResults(Response<MovieResultsPage> response) {
+    List<BaseMovie> getResults(Response<MovieResultsPage> response) {
         return response.body().results;
     }
 
     @Override
-    void populateListView(List<Movie> movies) {
+    void populateListView(List<BaseMovie> movies) {
         ((AddKino) getAddReviewActivityWeakReference().get()).populateListView(movies);
     }
 }

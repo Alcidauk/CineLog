@@ -2,8 +2,9 @@ package com.ulicae.cinelog.network.task;
 
 import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
 import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
-import com.uwetrottmann.tmdb2.entities.TvResultsPage;
+import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.TvShow;
+import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 
 import java.util.List;
 
@@ -28,19 +29,19 @@ import retrofit2.Response;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TvNetworkTask extends NetworkTask<TvResultsPage, TvShow> {
+public class TvNetworkTask extends NetworkTask<TvShowResultsPage, BaseTvShow> {
 
     TvNetworkTask(AddReviewActivity<TvShow> addReviewActivity) {
         super(addReviewActivity);
     }
 
     @Override
-    List<TvShow> getResults(Response<TvResultsPage> response) {
+    List<BaseTvShow> getResults(Response<TvShowResultsPage> response) {
         return response.body().results;
     }
 
     @Override
-    void populateListView(List<TvShow> movies) {
+    void populateListView(List<BaseTvShow> movies) {
         ((AddSerieActivity) getAddReviewActivityWeakReference().get()).populateListView(movies);
     }
 }

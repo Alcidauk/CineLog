@@ -13,7 +13,7 @@ import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.network.SerieBuilderFromMovie;
-import com.uwetrottmann.tmdb2.entities.TvShow;
+import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 
 import org.parceler.Parcels;
 
@@ -40,9 +40,9 @@ import static com.ulicae.cinelog.android.activities.add.AddSerieActivity.RESULT_
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class TvResultsAdapter extends ItemResultAdapter<TvShow> {
+public class TvResultsAdapter extends ItemResultAdapter<BaseTvShow> {
 
-    public TvResultsAdapter(Context context, List<TvShow> results) {
+    public TvResultsAdapter(Context context, List<BaseTvShow> results) {
         super(context,
                 results,
                 new SerieService(((KinoApplication) ((AddSerieActivity) context).getApplication()).getDaoSession()),
