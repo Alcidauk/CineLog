@@ -23,6 +23,8 @@
 
     <ListView
         android:id="@+id/kino_list"
+        android:divider="@color/colorPrimaryLight"
+        android:dividerHeight="0.5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

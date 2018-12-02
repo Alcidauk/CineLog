@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  CineLog Copyright 2018 Pierre Rognon
 
  This file is part of CineLog.
@@ -17,12 +16,14 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-   <ListView
+    <ListView
         android:id="@+id/kino_list"
+        android:divider="@color/colorPrimaryLight"
+        android:dividerHeight="0.5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
