@@ -47,7 +47,7 @@ public class SerieBuilderFromMovie implements DtoBuilderFromTmdbObject<BaseTvSho
                 null,
                 null,
                 tvShow.poster_path,
-                null,
+                tvShow.overview,
                 yearAsInt,
                 yearAsString
         );
