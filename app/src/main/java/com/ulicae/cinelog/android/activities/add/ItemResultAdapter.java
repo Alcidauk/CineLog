@@ -107,22 +107,27 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
     protected abstract void viewDetails(KinoDto kinoDto, int position);
 
     private void populatePoster(KinoDto kinoDto, ItemViewHolder holder) {
+        holder.getPoster().setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
         if (kinoDto.getPosterPath() != null) {
-            holder.getPoster().setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
             Glide.with(getContext())
                     .load("https://image.tmdb.org/t/p/w185" + kinoDto.getPosterPath())
                     .centerCrop()
                     .crossFade()
                     .into(holder.getPoster());
         } else {
-            if (holder.getPoster() != null)
-                holder.getPoster().setImageResource(0);
+            Glide.with(getContext())
+                    .load(R.drawable.noimage)
+                    .centerCrop()
+                    .crossFade()
+                    .into(holder.getPoster());
         }
     }
 
     private void populateYear(KinoDto kinoDto, ItemViewHolder holder) {
-        if (kinoDto.getReleaseDate() != null) {
+        if (kinoDto.getReleaseDate() != null && !kinoDto.getReleaseDate().equals("")) {
             holder.getYear().setText(String.format("%d", kinoDto.getYear()));
+        } else {
+            holder.getYear().setText("");
         }
     }
 
