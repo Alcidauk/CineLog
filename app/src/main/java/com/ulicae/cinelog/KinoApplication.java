@@ -8,6 +8,8 @@ import com.ulicae.cinelog.data.dao.DaoMaster;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.io.exportdb.AutomaticExportException;
 import com.ulicae.cinelog.io.exportdb.AutomaticExporter;
+import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
+import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import java.io.IOException;
@@ -54,10 +56,20 @@ public class KinoApplication extends Application {
 
     private void verifyAutomaticSave() {
         try {
-            if(new AutomaticExporter(this).tryExport()){
-                Toast.makeText(getApplicationContext(), getString(R.string.automatic_save_toast), Toast.LENGTH_LONG).show();
+            if(new AutomaticExporter(this, new MovieCsvExporterFactory(this), "movie").tryExport()){
+                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_LONG).show();
             }
         } catch (AutomaticExportException e) {
+            Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_movie), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(e.getStringCode()), Toast.LENGTH_LONG).show();
+        }
+
+        try {
+            if(new AutomaticExporter(this, new SerieCsvExporterFactory(this), "serie").tryExport()){
+                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_serie_toast), Toast.LENGTH_LONG).show();
+            }
+        } catch (AutomaticExportException e) {
+            Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_serie), Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), getString(e.getStringCode()), Toast.LENGTH_LONG).show();
         }
     }

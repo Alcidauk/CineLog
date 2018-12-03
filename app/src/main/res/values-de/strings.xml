@@ -101,6 +101,13 @@
     <string name="serie_title_hint">Serie Titel hinzufügen.</string>
     <string name="title_activity_view_unregistered_serie">Serie Informationen</string>
     <string name="title_activity_view_serie">Rezension der Serie</string>
-    <string name="automatic_save">Automatic export to local storage</string>
 
+    <string name="automatic_save">Automatic export to local storage</string>
+    <string name="automatic_save_summary">An export will be done at each application start (one per day, keeping the last 10 exports)</string>
+    <string name="automatic_export_cant_get_next_export">Unable to get the next export file. Automatic export will not be done. Please verify allowed permissions.</string>
+    <string name="automatic_export_cant_export">Unable to generate automatic export. Please verify the allowed permissions.</string>
+    <string name="automatic_export_cant_export_movie">An error occurred during automatic save of movies.</string>
+    <string name="automatic_export_cant_export_serie">An error occurred during automatic save of series.</string>
+    <string name="automatic_export_movie_toast">Success of movies automatic save !</string>
+    <string name="automatic_export_serie_toast">Success of automatic save of series !</string>
 </resources>

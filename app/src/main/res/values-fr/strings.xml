@@ -99,5 +99,13 @@
     <string name="serie_title_hint">Entrer un titre de série.</string>
     <string name="title_activity_view_unregistered_serie">Informations sur la série</string>
     <string name="title_activity_view_serie">Revue de la série</string>
-    <string name="automatic_save">Automatic export to local storage</string>
+
+    <string name="automatic_save">Sauvegarde automatique sur le téléphone</string>
+    <string name="automatic_save_summary">Une sauvegarde CSV sera effectuée au premier démarrage de l\'application dans la journée (les 10 derniers exports sont conservés).</string>
+    <string name="automatic_export_cant_get_next_export">Impossible de déterminer le prochain export à effectuer. La sauvegarde automatique ne sera pas effectuée. Vérifiez les permissions associées à l\'application.</string>
+    <string name="automatic_export_cant_export">Impossible d\'effectuer la sauvegarde automatique. Vérifiez les permissions associées à l\'application.</string>
+    <string name="automatic_export_cant_export_movie">Impossible d\'effectuer la sauvegarde automatique des revues de films.</string>
+    <string name="automatic_export_cant_export_serie">Impossible d\'effectuer la sauvegarde automatique des revues de séries.</string>
+    <string name="automatic_export_movie_toast">Sauvegarde automatique des revues de films effectuée !</string>
+    <string name="automatic_export_serie_toast">Sauvegarde automatique des revues de séries effectuée !</string>
 </resources>

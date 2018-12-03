@@ -3,7 +3,7 @@ package com.ulicae.cinelog.io.exportdb;
 import android.app.Application;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
+import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;
 
 import java.io.FileWriter;
@@ -31,17 +31,17 @@ public class AutomaticExporter {
 
     private final ExportTreeManager exportTreeManager;
     private final BusinessPreferenceGetter businessPreferenceGetter;
-    private MovieCsvExporterFactory csvExporterFactory;
+    private ExporterFactory csvExporterFactory;
     private String subDir;
 
-    public AutomaticExporter(Application application) {
-        this(new ExportTreeManager(), new BusinessPreferenceGetter(application), new MovieCsvExporterFactory(application), "movie");
+    public AutomaticExporter(Application application, ExporterFactory exporterFactory, String subDir) {
+        this(new ExportTreeManager(), new BusinessPreferenceGetter(application), exporterFactory, subDir);
     }
 
-    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, MovieCsvExporterFactory movieCsvExporterFactory, String subDir) {
+    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, ExporterFactory exporterFactory, String subDir) {
         this.exportTreeManager = exportTreeManager;
         this.businessPreferenceGetter = businessPreferenceGetter;
-        this.csvExporterFactory = movieCsvExporterFactory;
+        this.csvExporterFactory = exporterFactory;
         this.subDir = subDir;
     }
 
