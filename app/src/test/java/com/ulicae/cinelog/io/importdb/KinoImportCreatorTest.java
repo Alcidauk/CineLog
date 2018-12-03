@@ -3,7 +3,7 @@ package com.ulicae.cinelog.io.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.io.importdb.builder.LocalKinoBuilder;
+import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;
 
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
@@ -54,7 +54,7 @@ public class KinoImportCreatorTest {
     private KinoDto kinoDto;
 
     @Mock
-    private LocalKinoBuilder localKinoBuilder;
+    private KinoDtoFromRecordBuilder kinoDtoFromRecordBuilder;
 
     @Mock
     private Context context;
@@ -65,11 +65,11 @@ public class KinoImportCreatorTest {
             add(record);
         }}).when(csvFormatWrapper).parse(fileReader);
 
-        doReturn(kinoDto).when(localKinoBuilder).build(record);
+        doReturn(kinoDto).when(kinoDtoFromRecordBuilder).build(record);
 
         assertEquals(
                 Collections.singletonList(kinoDto),
-                new KinoImportCreator(csvFormatWrapper, localKinoBuilder, context).getKinos(fileReader)
+                new KinoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getKinos(fileReader)
         );
     }
 
@@ -79,7 +79,7 @@ public class KinoImportCreatorTest {
 
         assertEquals(
                 Collections.singletonList(kinoDto),
-                new KinoImportCreator(csvFormatWrapper, localKinoBuilder, context).getKinos(fileReader)
+                new KinoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getKinos(fileReader)
         );
     }
 

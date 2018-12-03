@@ -1,8 +1,7 @@
-package com.ulicae.cinelog.io.importdb;
+package com.ulicae.cinelog.io.importdb.builder;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.io.importdb.builder.LocalKinoBuilder;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
@@ -37,7 +36,7 @@ import static org.mockito.Mockito.doReturn;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class LocalKinoBuilderTest {
+public class KinoDtoFromRecordBuilderTest {
 
     @Mock
     private CSVRecord csvRecord;
@@ -82,7 +81,7 @@ public class LocalKinoBuilderTest {
 
         assertEquals(
                 kinoDto,
-                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+                new KinoDtoFromRecordBuilder(context, preferencesWrapper).build(csvRecord)
         );
     }
 
@@ -120,7 +119,7 @@ public class LocalKinoBuilderTest {
 
         assertEquals(
                 kinoDto,
-                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+                new KinoDtoFromRecordBuilder(context, preferencesWrapper).build(csvRecord)
         );
     }
 
@@ -158,7 +157,7 @@ public class LocalKinoBuilderTest {
 
         assertEquals(
                 kinoDto,
-                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+                new KinoDtoFromRecordBuilder(context, preferencesWrapper).build(csvRecord)
         );
     }
 
@@ -197,7 +196,7 @@ public class LocalKinoBuilderTest {
 
         assertEquals(
                 kinoDto,
-                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+                new KinoDtoFromRecordBuilder(context, preferencesWrapper).build(csvRecord)
         );
     }
 
@@ -235,7 +234,7 @@ public class LocalKinoBuilderTest {
 
         assertEquals(
                 kinoDto,
-                new LocalKinoBuilder(context, preferencesWrapper).build(csvRecord)
+                new KinoDtoFromRecordBuilder(context, preferencesWrapper).build(csvRecord)
         );
     }
 

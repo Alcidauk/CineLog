@@ -32,18 +32,14 @@ import java.util.Date;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class LocalKinoBuilder implements DtoFromRecordBuilder<KinoDto>{
+public class KinoDtoFromRecordBuilder extends DtoFromRecordBuilder<KinoDto> {
 
-    private Context context;
-    private PreferencesWrapper preferencesWrapper;
-
-    public LocalKinoBuilder(Context context) {
-        this(context, new PreferencesWrapper());
+    public KinoDtoFromRecordBuilder(Context context) {
+        super(new PreferencesWrapper(), context);
     }
 
-    public LocalKinoBuilder(Context context, PreferencesWrapper preferencesWrapper) {
-        this.context = context;
-        this.preferencesWrapper = preferencesWrapper;
+    KinoDtoFromRecordBuilder(Context context, PreferencesWrapper preferencesWrapper) {
+        super(preferencesWrapper, context);
     }
 
     public KinoDto build(CSVRecord csvRecord) throws ImportException {
@@ -64,32 +60,5 @@ public class LocalKinoBuilder implements DtoFromRecordBuilder<KinoDto>{
         } catch (ParseException e) {
             throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);
         }
-    }
-
-    private String getId(CSVRecord csvRecord) {
-        return csvRecord.isMapped("id") ? csvRecord.get("id") : null;
-    }
-
-    private int getMaxRating(CSVRecord csvRecord) {
-        return csvRecord.isMapped("max_rating") ?
-                formatInteger(csvRecord.get("max_rating")) :
-                formatInteger(preferencesWrapper.getStringPreference(context, "default_max_rate_value", "5"));
-    }
-
-    private int formatInteger(String integerToFormat) {
-        return integerToFormat != null && !integerToFormat.isEmpty() ? Integer.parseInt(integerToFormat) : 0;
-    }
-
-    private long formatLong(String longToFormat) {
-        return longToFormat != null && !longToFormat.isEmpty() ? Long.parseLong(longToFormat) : 0;
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private Date formatDate(String dateToFormat) throws ParseException {
-        return dateToFormat != null && !dateToFormat.isEmpty() ? new SimpleDateFormat().parse(dateToFormat) : null;
-    }
-
-    private float formatFloat(String rating) {
-        return rating != null && !rating.isEmpty() ? Float.parseFloat(rating.replace(",", ".")) : 0f;
     }
 }

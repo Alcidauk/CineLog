@@ -12,7 +12,9 @@ import android.widget.Toast;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.KinoService;
-import com.ulicae.cinelog.io.importdb.builder.LocalKinoBuilder;
+import com.ulicae.cinelog.data.SerieService;
+import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;
+import com.ulicae.cinelog.io.importdb.builder.SerieDtoFromRecordBuilder;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import butterknife.BindView;
@@ -64,9 +66,14 @@ public class ImportInDb extends AppCompatActivity {
             try {
                 new CsvImporter<>(
                         new FileReaderGetter(),
-                        new KinoImportCreator<>(this, new LocalKinoBuilder(this)),
+                        new KinoImportCreator<>(this, new KinoDtoFromRecordBuilder(this)),
                         new KinoService(((KinoApplication) getApplication()).getDaoSession()),
                         this).importCsvFile("import_movies.csv");
+                new CsvImporter<>(
+                        new FileReaderGetter(),
+                        new KinoImportCreator<>(this, new SerieDtoFromRecordBuilder(this)),
+                        new SerieService(((KinoApplication) getApplication()).getDaoSession()),
+                        this).importCsvFile("import_series.csv");
             } catch (ImportException e) {
                 Toast.makeText(getApplicationContext(), getString(R.string.import_error_toast), Toast.LENGTH_SHORT).show();
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
