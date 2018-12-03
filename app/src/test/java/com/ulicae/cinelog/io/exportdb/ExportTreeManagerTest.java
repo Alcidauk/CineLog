@@ -106,4 +106,79 @@ public class ExportTreeManagerTest {
                 new ExportTreeManager(fileUtilsWrapper).getNextExportFile()
         );
     }
+
+    @Test
+    public void clean() {
+        doReturn(externalRoot).when(fileUtilsWrapper).getExternalStorageDirectory();
+        doReturn("/root").when(externalRoot).getAbsolutePath();
+
+        File saveRoot = mock(File.class);
+        doReturn(saveRoot).when(fileUtilsWrapper).getFile("/root/CineLog/saves");
+
+        File fileToRemove = mockFile(5L);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(new File[]{
+                fileToRemove,
+                mockFile(10L),
+                mockFile(24L),
+                mockFile(321L),
+                mockFile(4444444L),
+                mockFile(45L),
+                mockFile(456456L),
+                mockFile(1231321L),
+                mockFile(789453L),
+                mockFile(7777L),
+                mockFile(987987L)
+        }).when(saveRoot).listFiles();
+
+        new ExportTreeManager(fileUtilsWrapper).clean();
+
+        //noinspection ResultOfMethodCallIgnored
+        verify(fileToRemove).delete();
+    }
+
+    @Test
+    public void cleanNotEnoughFiles() {
+        doReturn(externalRoot).when(fileUtilsWrapper).getExternalStorageDirectory();
+        doReturn("/root").when(externalRoot).getAbsolutePath();
+
+        File saveRoot = mock(File.class);
+        doReturn(saveRoot).when(fileUtilsWrapper).getFile("/root/CineLog/saves");
+
+        File saveFile1 = mockFile(5L);
+        File saveFile2 = mockFile(5L);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(new File[]{
+                saveFile1,
+                saveFile2,
+        }).when(saveRoot).listFiles();
+
+        new ExportTreeManager(fileUtilsWrapper).clean();
+
+        //noinspection ResultOfMethodCallIgnored
+        verify(saveFile1, never()).delete();
+        //noinspection ResultOfMethodCallIgnored
+        verify(saveFile2, never()).delete();
+    }
+
+    @Test
+    public void cleanNoFiles() {
+        doReturn(externalRoot).when(fileUtilsWrapper).getExternalStorageDirectory();
+        doReturn("/root").when(externalRoot).getAbsolutePath();
+
+        File saveRoot = mock(File.class);
+        doReturn(saveRoot).when(fileUtilsWrapper).getFile("/root/CineLog/saves");
+
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(new File[]{}).when(saveRoot).listFiles();
+
+        new ExportTreeManager(fileUtilsWrapper).clean();
+    }
+
+    private File mockFile(long lastModified) {
+        File file = mock(File.class);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(lastModified).when(file).lastModified();
+        return file;
+    }
 }

@@ -63,6 +63,27 @@ class ExportTreeManager {
         return fileUtilsWrapper.getFileWriter(new File(buildExportFilePath()));
     }
 
+    void clean() {
+        File root = fileUtilsWrapper.getExternalStorageDirectory();
+
+        File saveRoot = fileUtilsWrapper.getFile(root.getAbsolutePath() + "/CineLog/saves");
+
+        File[] saveFiles = saveRoot.listFiles();
+        if(saveFiles.length > 10){
+            File oldestFile = null;
+            for (File saveFile : saveFiles) {
+                if(oldestFile == null || oldestFile.lastModified() > saveFile.lastModified()){
+                    oldestFile = saveFile;
+                }
+            }
+
+            if(oldestFile != null){
+                //noinspection ResultOfMethodCallIgnored
+                oldestFile.delete();
+            }
+        }
+    }
+
     @NonNull
     private String buildExportFilePath() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat todayDate = new SimpleDateFormat("yyyyMMdd");

@@ -56,6 +56,8 @@ public class AutomaticExporter {
 
                 try {
                     csvExporterFactory.getCsvExporter(nextExportFile).export();
+
+                    exportTreeManager.clean();
                 } catch (IOException e) {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_export);
                 }

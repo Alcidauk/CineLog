@@ -88,6 +88,8 @@ public class AutomaticExporterTest {
         doThrow(IOException.class).when(csvExporter).export();
 
         assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+
+        verify(exportTreeManager, never()).clean();
     }
 
     @Test
@@ -105,5 +107,6 @@ public class AutomaticExporterTest {
 
         verify(exportTreeManager).prepareTree();
         verify(csvExporter).export();
+        verify(exportTreeManager).clean();
     }
 }
