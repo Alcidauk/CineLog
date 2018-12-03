@@ -1,7 +1,6 @@
 package com.ulicae.cinelog.io.exportdb;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -10,22 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.KinoService;
-import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
-import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
+import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
 import com.ulicae.cinelog.utils.ThemeWrapper;
-
-import java.io.FileWriter;
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static java.lang.System.out;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -68,7 +59,8 @@ public class ExportDb extends AppCompatActivity {
     @OnClick(R.id.export_db_button)
     public void onClick(View view) {
         if (writeStoragePermission != null && writeStoragePermission) {
-            new SnapshotExporter(new MovieCsvExporterFactory(getApplication()), getApplication()).export();
+            new SnapshotExporter(new MovieCsvExporterFactory(getApplication()), getApplication()).export("export_movies.csv");
+            new SnapshotExporter(new SerieCsvExporterFactory(getApplication()), getApplication()).export("export_series.csv");
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.export_permission_error_toast), Toast.LENGTH_LONG).show();
         }

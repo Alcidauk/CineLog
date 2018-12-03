@@ -20,13 +20,13 @@ public class SnapshotExporter {
         this.application = application;
     }
 
-    public void export() {
+    public void export(String exportFilename) {
         showToast(R.string.export_start_toast);
 
         CsvExporter csvExporter;
         FileWriter fileWriter;
         try {
-            fileWriter = new FileWriterGetter().get("export.csv");
+            fileWriter = new FileWriterGetter().get(exportFilename);
         } catch (IOException e) {
             showToast(R.string.export_io_error_toast);
             return;
