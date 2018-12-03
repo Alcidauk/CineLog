@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import java.io.FileWriter;
@@ -76,9 +78,9 @@ public class ExportDb extends AppCompatActivity {
                 return;
             }
             try {
-                csvExporter = new CsvExporter(
+                csvExporter = new CsvExporter<>(
                         new KinoService(((KinoApplication) getApplication()).getDaoSession()),
-                        fileWriter
+                        new MovieCsvExportWriter(fileWriter)
                 );
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), getString(R.string.export_io_error_toast), Toast.LENGTH_LONG).show();

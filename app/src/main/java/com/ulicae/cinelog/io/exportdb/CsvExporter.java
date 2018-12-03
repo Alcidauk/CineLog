@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.io.exportdb;
 
-import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.data.DataService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
 
@@ -25,24 +25,20 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class CsvExporter {
-    private KinoService kinoService;
-    private final CsvExportWriter csvExportWriter;
+public class CsvExporter<T extends KinoDto> {
+    private DataService<T> service;
+    private CsvExportWriter<T> csvExportWriter;
 
-    public CsvExporter(KinoService kinoService, Appendable out) throws IOException {
-        this(kinoService, new CsvExportWriter(out));
-    }
-
-    CsvExporter(KinoService kinoService, CsvExportWriter csvExportWriter) {
-        this.kinoService = kinoService;
+    CsvExporter(DataService<T> service, CsvExportWriter<T> csvExportWriter) {
+        this.service = service;
         this.csvExportWriter = csvExportWriter;
     }
 
     public void export() throws IOException {
-        List<KinoDto> localKinoList = kinoService.getAll();
+        List<T> localKinoList = service.getAll();
 
-        for (KinoDto kinoDto : localKinoList) {
-            csvExportWriter.write(kinoDto);
+        for (T dto : localKinoList) {
+            csvExportWriter.write(dto);
         }
 
         csvExportWriter.endWriting();

@@ -26,49 +26,19 @@ import java.text.SimpleDateFormat;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class CsvExportWriter {
+public abstract class CsvExportWriter<T> {
 
+    CSVPrinterWrapper csvPrinterWrapper;
 
-    public enum Headers {
-        id,
-        movie_id,
-        title,
-        overview,
-        year,
-        poster_path,
-        rating,
-        release_date,
-        review,
-        review_date,
-        max_rating
-    }
-
-    private CSVPrinterWrapper csvPrinterWrapper;
-
-    public CsvExportWriter(Appendable out) throws IOException {
-        this(new CSVPrinterWrapper(out, Headers.class));
+    protected CsvExportWriter(Appendable out, Class<? extends Enum<?>> headers) throws IOException {
+        this(new CSVPrinterWrapper(out, headers));
     }
 
     CsvExportWriter(CSVPrinterWrapper csvPrinterWrapper) {
         this.csvPrinterWrapper = csvPrinterWrapper;
     }
 
-    public void write(KinoDto kinoDto) throws IOException {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-        csvPrinterWrapper.printRecord(
-                kinoDto.getKinoId(),
-                kinoDto.getTmdbKinoId(),
-                kinoDto.getTitle(),
-                kinoDto.getOverview(),
-                kinoDto.getYear(),
-                kinoDto.getPosterPath(),
-                kinoDto.getRating(),
-                kinoDto.getReleaseDate(),
-                kinoDto.getReview(),
-                kinoDto.getReview_date() != null ? simpleDateFormat.format(kinoDto.getReview_date()) : null,
-                kinoDto.getMaxRating()
-        );
-    }
+    public abstract void write(T dto) throws IOException;
 
     public void endWriting() throws IOException {
         csvPrinterWrapper.flush();

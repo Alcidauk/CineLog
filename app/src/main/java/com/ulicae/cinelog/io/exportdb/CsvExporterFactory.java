@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,15 +30,15 @@ import java.io.IOException;
 class CsvExporterFactory {
     private KinoService kinoService;
 
-    public CsvExporterFactory(Application application) {
+    CsvExporterFactory(Application application) {
         this(new KinoService(((KinoApplication) application).getDaoSession()));
     }
 
-    CsvExporterFactory(KinoService kinoService) {
+    private CsvExporterFactory(KinoService kinoService) {
         this.kinoService = kinoService;
     }
 
-    public CsvExporter getCsvExporter(FileWriter fileWriter) throws IOException {
-        return new CsvExporter(kinoService, fileWriter);
+    CsvExporter getCsvExporter(FileWriter fileWriter) throws IOException {
+        return new CsvExporter<>(kinoService, new MovieCsvExportWriter(fileWriter));
     }
 }
