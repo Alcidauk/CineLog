@@ -44,7 +44,7 @@ public class AutomaticExporterTest {
     public void tryExportNotEnabled() throws AutomaticExportException {
         doReturn(false).when(businessPreferenceGetter).getAutomaticExport();
 
-        assertFalse(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+        assertFalse(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory, "movie").tryExport());
 
         verify(exportTreeManager, never()).prepareTree();
     }
@@ -54,7 +54,7 @@ public class AutomaticExporterTest {
         doReturn(true).when(businessPreferenceGetter).getAutomaticExport();
         doReturn(false).when(exportTreeManager).isExportNeeded("movie");
 
-        assertFalse(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+        assertFalse(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory, "movie").tryExport());
 
         verify(exportTreeManager).prepareTree();
         verify(exportTreeManager, never()).getNextExportFile("movie");
@@ -70,7 +70,7 @@ public class AutomaticExporterTest {
 
         doThrow(IOException.class).when(exportTreeManager).getNextExportFile("movie");
 
-        new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
+        new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory, "movie").tryExport();
     }
 
     @Test
@@ -89,7 +89,7 @@ public class AutomaticExporterTest {
 
         doThrow(IOException.class).when(csvExporter).export();
 
-        assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+        assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory, "movie").tryExport());
 
         verify(exportTreeManager, never()).clean("movie");
     }
@@ -105,7 +105,7 @@ public class AutomaticExporterTest {
         CsvExporter csvExporter = mock(CsvExporter.class);
         doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
 
-        assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+        assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory, "movie").tryExport());
 
         verify(exportTreeManager).prepareTree();
         verify(csvExporter).export();

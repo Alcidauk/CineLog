@@ -32,25 +32,27 @@ public class AutomaticExporter {
     private final ExportTreeManager exportTreeManager;
     private final BusinessPreferenceGetter businessPreferenceGetter;
     private MovieCsvExporterFactory csvExporterFactory;
+    private String subDir;
 
     public AutomaticExporter(Application application) {
-        this(new ExportTreeManager(), new BusinessPreferenceGetter(application), new MovieCsvExporterFactory(application));
+        this(new ExportTreeManager(), new BusinessPreferenceGetter(application), new MovieCsvExporterFactory(application), "movie");
     }
 
-    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, MovieCsvExporterFactory movieCsvExporterFactory) {
+    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, MovieCsvExporterFactory movieCsvExporterFactory, String subDir) {
         this.exportTreeManager = exportTreeManager;
         this.businessPreferenceGetter = businessPreferenceGetter;
         this.csvExporterFactory = movieCsvExporterFactory;
+        this.subDir = subDir;
     }
 
     public boolean tryExport() throws AutomaticExportException {
         if (businessPreferenceGetter.getAutomaticExport()) {
             exportTreeManager.prepareTree();
 
-            if (exportTreeManager.isExportNeeded("movie")) {
+            if (exportTreeManager.isExportNeeded(subDir)) {
                 FileWriter nextExportFile;
                 try {
-                    nextExportFile = exportTreeManager.getNextExportFile("movie");
+                    nextExportFile = exportTreeManager.getNextExportFile(subDir);
                 } catch (IOException e) {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_get_next_export);
                 }
@@ -58,7 +60,7 @@ public class AutomaticExporter {
                 try {
                     csvExporterFactory.makeCsvExporter(nextExportFile).export();
 
-                    exportTreeManager.clean("movie");
+                    exportTreeManager.clean(subDir);
                 } catch (IOException e) {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_export);
                 }
