@@ -296,7 +296,7 @@ public class KinoServiceTest {
 
         doReturn(existingKino).when(localKinoRepository).findByMovieId(34555L);
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateKinosWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto).setKinoId(22222L);
 
@@ -319,7 +319,7 @@ public class KinoServiceTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(15L).when(kinoDto).getKinoId();
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateKinosWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto, never()).setKinoId(22222L);
 
@@ -346,7 +346,7 @@ public class KinoServiceTest {
 
         doReturn(null).when(localKinoRepository).findByMovieId(34555L);
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateKinosWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto, never()).setKinoId(22222L);
 

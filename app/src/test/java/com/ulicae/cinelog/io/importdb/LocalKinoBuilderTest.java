@@ -2,6 +2,7 @@ package com.ulicae.cinelog.io.importdb;
 
 import android.content.Context;
 
+import com.ulicae.cinelog.io.importdb.builder.LocalKinoBuilder;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.data.dto.KinoDto;
 

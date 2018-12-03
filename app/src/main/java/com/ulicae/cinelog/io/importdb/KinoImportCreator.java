@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.io.importdb.builder.DtoFromRecordBuilder;
+import com.ulicae.cinelog.io.importdb.builder.LocalKinoBuilder;
 
 import org.apache.commons.csv.CSVRecord;
 
@@ -30,22 +32,22 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class KinoImportCreator {
+class KinoImportCreator<Dto> {
     private CSVFormatWrapper csvFormatWrapper;
-    private LocalKinoBuilder localKinoBuilder;
+    private DtoFromRecordBuilder<Dto> dtoFromRecordBuilder;
     private Context context;
 
-    KinoImportCreator(Context context) {
-        this(new CSVFormatWrapper(), new LocalKinoBuilder(context), context);
+    KinoImportCreator(Context context, DtoFromRecordBuilder<Dto> builder) {
+        this(new CSVFormatWrapper(), builder, context);
     }
 
-    KinoImportCreator(CSVFormatWrapper csvFormatWrapper, LocalKinoBuilder localKinoBuilder, Context context) {
+    KinoImportCreator(CSVFormatWrapper csvFormatWrapper, DtoFromRecordBuilder<Dto> dtoFromRecordBuilder, Context context) {
         this.csvFormatWrapper = csvFormatWrapper;
-        this.localKinoBuilder = localKinoBuilder;
+        this.dtoFromRecordBuilder = dtoFromRecordBuilder;
         this.context = context;
     }
 
-    List<KinoDto> getKinos(FileReader fileReader) throws ImportException {
+    List<Dto> getKinos(FileReader fileReader) throws ImportException {
         Iterable<CSVRecord> csvRecords;
         try {
             csvRecords = csvFormatWrapper.parse(fileReader);
@@ -53,9 +55,9 @@ class KinoImportCreator {
             throw new ImportException(context.getString(R.string.import_parsing_error_toast), e);
         }
 
-        List<KinoDto> kinos = new ArrayList<>();
+        List<Dto> kinos = new ArrayList<>();
         for (CSVRecord csvRecord : csvRecords) {
-            kinos.add(localKinoBuilder.build(csvRecord));
+            kinos.add(dtoFromRecordBuilder.build(csvRecord));
         }
 
         return kinos;

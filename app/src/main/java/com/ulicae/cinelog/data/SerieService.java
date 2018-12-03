@@ -110,6 +110,11 @@ public class SerieService implements DataService<SerieDto> {
         return serieKinoDtoBuilder.build(serieReview);
     }
 
+    @Override
+    public void createOrUpdateWithTmdbId(List<SerieDto> kinoDtos) {
+
+    }
+
     public List<SerieDto> getAll() {
         return buildKinos(serieReviewRepository.findAll());
     }

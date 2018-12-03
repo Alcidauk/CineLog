@@ -3,9 +3,8 @@ package com.ulicae.cinelog.io.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.DataService;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.KinoService;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -30,35 +29,31 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class CsvImporter {
+class CsvImporter<Dto extends KinoDto> {
+
     private FileReaderGetter fileReaderGetter;
-    private final KinoImportCreator kinoImportCreator;
-    private KinoService kinoService;
+    private final KinoImportCreator<Dto> kinoImportCreator;
+    private DataService<Dto> dataService;
     private Context context;
 
-    @SuppressWarnings("WeakerAccess")
-    public CsvImporter(DaoSession daoSession, Context context) {
-        this(new FileReaderGetter(), new KinoImportCreator(context), new KinoService(daoSession), context);
-    }
-
-    CsvImporter(FileReaderGetter fileReaderGetter, KinoImportCreator kinoImportCreator, KinoService kinoService, Context context) {
+    public CsvImporter(FileReaderGetter fileReaderGetter, KinoImportCreator<Dto> kinoImportCreator, DataService<Dto> dataService, Context context) {
         this.fileReaderGetter = fileReaderGetter;
         this.kinoImportCreator = kinoImportCreator;
-        this.kinoService = kinoService;
+        this.dataService = dataService;
         this.context = context;
     }
 
     @SuppressWarnings("WeakerAccess")
-    public void importCsvFile() throws ImportException {
+    public void importCsvFile(String importFilename) throws ImportException {
         FileReader fileReader;
         try {
-            fileReader = fileReaderGetter.get("import.csv");
+            fileReader = fileReaderGetter.get(importFilename);
         } catch (IOException e) {
             throw new ImportException(context.getString(R.string.import_io_error_toast), e);
         }
-        List<KinoDto> kinos = kinoImportCreator.getKinos(fileReader);
+        List<Dto> kinos = kinoImportCreator.getKinos(fileReader);
 
-        kinoService.createOrUpdateKinosWithTmdbId(kinos);
+        dataService.createOrUpdateWithTmdbId(kinos);
     }
 
 }

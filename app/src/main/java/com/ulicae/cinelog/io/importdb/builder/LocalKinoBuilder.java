@@ -1,8 +1,9 @@
-package com.ulicae.cinelog.io.importdb;
+package com.ulicae.cinelog.io.importdb.builder;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.ulicae.cinelog.io.importdb.ImportException;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -31,7 +32,7 @@ import java.util.Date;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class LocalKinoBuilder {
+public class LocalKinoBuilder implements DtoFromRecordBuilder<KinoDto>{
 
     private Context context;
     private PreferencesWrapper preferencesWrapper;
@@ -45,7 +46,7 @@ class LocalKinoBuilder {
         this.preferencesWrapper = preferencesWrapper;
     }
 
-    KinoDto build(CSVRecord csvRecord) throws ImportException {
+    public KinoDto build(CSVRecord csvRecord) throws ImportException {
         try {
             return new KinoDto(
                     formatLong(getId(csvRecord)),

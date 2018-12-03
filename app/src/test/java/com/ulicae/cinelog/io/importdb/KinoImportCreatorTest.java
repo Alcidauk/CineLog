@@ -3,6 +3,7 @@ package com.ulicae.cinelog.io.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.io.importdb.builder.LocalKinoBuilder;
 
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;

@@ -58,7 +58,7 @@ public class KinoService implements DataService<KinoDto> {
         return buildKinos(localKinos);
     }
 
-    public void createOrUpdateKinosWithTmdbId(List<KinoDto> kinoDtos) {
+    public void createOrUpdateWithTmdbId(List<KinoDto> kinoDtos) {
         for (KinoDto kinoDto : kinoDtos) {
             if(kinoDto.getKinoId() == null) {
                 LocalKino existingKino = localKinoRepository.findByMovieId(kinoDto.getTmdbKinoId());

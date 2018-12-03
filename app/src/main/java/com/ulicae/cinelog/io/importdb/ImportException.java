@@ -19,9 +19,9 @@ package com.ulicae.cinelog.io.importdb;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-class ImportException extends Exception {
+public class ImportException extends Exception {
 
-    ImportException(String message, Throwable cause) {
+    public ImportException(String message, Throwable cause) {
         super(message, cause);
     }
 }

@@ -32,4 +32,5 @@ public interface DataService<T extends KinoDto> {
 
     T createOrUpdate(T dtoObject);
 
+    void createOrUpdateWithTmdbId(List<T> kinoDtos);
 }
