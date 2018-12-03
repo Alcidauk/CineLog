@@ -2,6 +2,7 @@ package com.ulicae.cinelog.io.exportdb;
 
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

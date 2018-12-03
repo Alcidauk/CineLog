@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.io.exportdb;
+package com.ulicae.cinelog.io.exportdb.writer;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;

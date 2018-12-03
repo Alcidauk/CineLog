@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.io.exportdb;
+package com.ulicae.cinelog.io.exportdb.writer;
 
 import android.annotation.SuppressLint;
 
