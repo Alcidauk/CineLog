@@ -32,20 +32,21 @@ import java.util.Date;
 class ExportTreeManager {
 
     private FileUtilsWrapper fileUtilsWrapper;
+    private String subDir;
 
-    ExportTreeManager() {
-        this(new FileUtilsWrapper());
+    ExportTreeManager(String subDir) {
+        this(new FileUtilsWrapper(), subDir);
     }
 
-    ExportTreeManager(FileUtilsWrapper fileUtilsWrapper) {
+    ExportTreeManager(FileUtilsWrapper fileUtilsWrapper, String subDir) {
         this.fileUtilsWrapper = fileUtilsWrapper;
+        this.subDir = subDir;
     }
 
     void prepareTree() {
         File root = fileUtilsWrapper.getExternalStorageDirectory();
 
-        createIfNotExist(root.getAbsolutePath() + "/CineLog/saves/movie");
-        createIfNotExist(root.getAbsolutePath() + "/CineLog/saves/serie");
+        createIfNotExist(String.format("%s/CineLog/saves/%s", root.getAbsolutePath(), subDir));
     }
 
     private void createIfNotExist(String path) {
@@ -56,15 +57,15 @@ class ExportTreeManager {
         }
     }
 
-    boolean isExportNeeded(String subDir) {
+    boolean isExportNeeded() {
         return !fileUtilsWrapper.getFile(buildExportFilePath(subDir)).exists();
     }
 
-    FileWriter getNextExportFile(String subDir) throws IOException {
+    FileWriter getNextExportFile() throws IOException {
         return fileUtilsWrapper.getFileWriter(new File(buildExportFilePath(subDir)));
     }
 
-    void clean(String subDir) {
+    void clean() {
         File root = fileUtilsWrapper.getExternalStorageDirectory();
 
         File saveRoot = fileUtilsWrapper.getFile(root.getAbsolutePath() + "/CineLog/saves/" + subDir);

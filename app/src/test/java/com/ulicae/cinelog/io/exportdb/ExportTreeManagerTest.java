@@ -38,68 +38,32 @@ public class ExportTreeManagerTest {
 
         File movieCinelogSaves = mock(File.class);
         doReturn(movieCinelogSaves).when(fileUtilsWrapper).getFile("/root/CineLog/saves/movie");
-        File serieCinelogSaves = mock(File.class);
-        doReturn(serieCinelogSaves).when(fileUtilsWrapper).getFile("/root/CineLog/saves/serie");
 
         //noinspection ResultOfMethodCallIgnored
         doReturn(false).when(movieCinelogSaves).exists();
-        //noinspection ResultOfMethodCallIgnored
-        doReturn(false).when(serieCinelogSaves).exists();
 
-        new ExportTreeManager(fileUtilsWrapper).prepareTree();
+        new ExportTreeManager(fileUtilsWrapper, "movie").prepareTree();
 
         //noinspection ResultOfMethodCallIgnored
         verify(movieCinelogSaves).mkdirs();
-        //noinspection ResultOfMethodCallIgnored
-        verify(serieCinelogSaves).mkdirs();
     }
 
     @Test
-    public void prepareTreeDoNotCreateMovies() {
+    public void prepareTreeDoNotCreate() {
         doReturn(externalRoot).when(fileUtilsWrapper).getExternalStorageDirectory();
         //noinspection ResultOfMethodCallIgnored
         doReturn("/root").when(externalRoot).getAbsolutePath();
 
         File movieCinelogSaves = mock(File.class);
         doReturn(movieCinelogSaves).when(fileUtilsWrapper).getFile("/root/CineLog/saves/movie");
-        File serieCinelogSaves = mock(File.class);
-        doReturn(serieCinelogSaves).when(fileUtilsWrapper).getFile("/root/CineLog/saves/serie");
 
         //noinspection ResultOfMethodCallIgnored
         doReturn(true).when(movieCinelogSaves).exists();
-        //noinspection ResultOfMethodCallIgnored
-        doReturn(false).when(serieCinelogSaves).exists();
 
-        new ExportTreeManager(fileUtilsWrapper).prepareTree();
+        new ExportTreeManager(fileUtilsWrapper, "movie").prepareTree();
 
         //noinspection ResultOfMethodCallIgnored
         verify(movieCinelogSaves, never()).mkdirs();
-        //noinspection ResultOfMethodCallIgnored
-        verify(serieCinelogSaves).mkdirs();
-    }
-
-    @Test
-    public void prepareTreeDoNotCreateSeries() {
-        doReturn(externalRoot).when(fileUtilsWrapper).getExternalStorageDirectory();
-        //noinspection ResultOfMethodCallIgnored
-        doReturn("/root").when(externalRoot).getAbsolutePath();
-
-        File movieCinelogSaves = mock(File.class);
-        doReturn(movieCinelogSaves).when(fileUtilsWrapper).getFile("/root/CineLog/saves/movie");
-        File serieCinelogSaves = mock(File.class);
-        doReturn(serieCinelogSaves).when(fileUtilsWrapper).getFile("/root/CineLog/saves/serie");
-
-        //noinspection ResultOfMethodCallIgnored
-        doReturn(false).when(movieCinelogSaves).exists();
-        //noinspection ResultOfMethodCallIgnored
-        doReturn(true).when(serieCinelogSaves).exists();
-
-        new ExportTreeManager(fileUtilsWrapper).prepareTree();
-
-        //noinspection ResultOfMethodCallIgnored
-        verify(movieCinelogSaves).mkdirs();
-        //noinspection ResultOfMethodCallIgnored
-        verify(serieCinelogSaves, never()).mkdirs();
     }
 
     @Test
@@ -115,7 +79,7 @@ public class ExportTreeManagerTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(false).when(file).exists();
 
-        assertTrue(new ExportTreeManager(fileUtilsWrapper).isExportNeeded("movie"));
+        assertTrue(new ExportTreeManager(fileUtilsWrapper, "movie").isExportNeeded());
     }
 
     @Test
@@ -129,7 +93,7 @@ public class ExportTreeManagerTest {
 
         doReturn(true).when(file).exists();
 
-        assertFalse(new ExportTreeManager(fileUtilsWrapper).isExportNeeded("movie"));
+        assertFalse(new ExportTreeManager(fileUtilsWrapper, "movie").isExportNeeded());
     }
 
     @Test
@@ -143,7 +107,7 @@ public class ExportTreeManagerTest {
 
         assertEquals(
                 fileWriter,
-                new ExportTreeManager(fileUtilsWrapper).getNextExportFile("movie")
+                new ExportTreeManager(fileUtilsWrapper, "movie").getNextExportFile()
         );
     }
 
@@ -171,7 +135,7 @@ public class ExportTreeManagerTest {
                 mockFile(987987L)
         }).when(saveRoot).listFiles();
 
-        new ExportTreeManager(fileUtilsWrapper).clean("movie");
+        new ExportTreeManager(fileUtilsWrapper, "movie").clean();
 
         //noinspection ResultOfMethodCallIgnored
         verify(fileToRemove).delete();
@@ -193,7 +157,7 @@ public class ExportTreeManagerTest {
                 saveFile2,
         }).when(saveRoot).listFiles();
 
-        new ExportTreeManager(fileUtilsWrapper).clean("movie");
+        new ExportTreeManager(fileUtilsWrapper, "movie").clean();
 
         //noinspection ResultOfMethodCallIgnored
         verify(saveFile1, never()).delete();
@@ -212,7 +176,7 @@ public class ExportTreeManagerTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(new File[]{}).when(saveRoot).listFiles();
 
-        new ExportTreeManager(fileUtilsWrapper).clean("movie");
+        new ExportTreeManager(fileUtilsWrapper, "movie").clean();
     }
 
     private File mockFile(long lastModified) {

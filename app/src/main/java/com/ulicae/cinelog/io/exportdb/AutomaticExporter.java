@@ -32,27 +32,25 @@ public class AutomaticExporter {
     private final ExportTreeManager exportTreeManager;
     private final BusinessPreferenceGetter businessPreferenceGetter;
     private ExporterFactory csvExporterFactory;
-    private String subDir;
 
     public AutomaticExporter(Application application, ExporterFactory exporterFactory, String subDir) {
-        this(new ExportTreeManager(), new BusinessPreferenceGetter(application), exporterFactory, subDir);
+        this(new ExportTreeManager(subDir), new BusinessPreferenceGetter(application), exporterFactory);
     }
 
-    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, ExporterFactory exporterFactory, String subDir) {
+    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, ExporterFactory exporterFactory) {
         this.exportTreeManager = exportTreeManager;
         this.businessPreferenceGetter = businessPreferenceGetter;
         this.csvExporterFactory = exporterFactory;
-        this.subDir = subDir;
     }
 
     public boolean tryExport() throws AutomaticExportException {
         if (businessPreferenceGetter.getAutomaticExport()) {
             exportTreeManager.prepareTree();
 
-            if (exportTreeManager.isExportNeeded(subDir)) {
+            if (exportTreeManager.isExportNeeded()) {
                 FileWriter nextExportFile;
                 try {
-                    nextExportFile = exportTreeManager.getNextExportFile(subDir);
+                    nextExportFile = exportTreeManager.getNextExportFile();
                 } catch (IOException e) {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_get_next_export);
                 }
@@ -60,7 +58,7 @@ public class AutomaticExporter {
                 try {
                     csvExporterFactory.makeCsvExporter(nextExportFile).export();
 
-                    exportTreeManager.clean(subDir);
+                    exportTreeManager.clean();
                 } catch (IOException e) {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_export);
                 }
