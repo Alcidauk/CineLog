@@ -1,13 +1,10 @@
 package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
-import com.ulicae.cinelog.data.dao.LocalKino;
-import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
-import com.ulicae.cinelog.data.dao.TmdbSerie;
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
+import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,19 +33,23 @@ public class SerieService implements DataService<SerieDto> {
     private ReviewRepository reviewRepository;
     private final TmdbSerieRepository tmdbSerieRepository;
     private final SerieKinoDtoBuilder serieKinoDtoBuilder;
+    private SerieDtoToDbBuilder dtoToDbBuilder;
 
-    public SerieService(SerieReviewRepository serieReviewRepository, ReviewRepository reviewRepository, TmdbSerieRepository tmdbSerieRepository, SerieKinoDtoBuilder serieKinoDtoBuilder) {
+    SerieService(SerieReviewRepository serieReviewRepository, ReviewRepository reviewRepository, TmdbSerieRepository tmdbSerieRepository, SerieKinoDtoBuilder serieKinoDtoBuilder, SerieDtoToDbBuilder dtoToDbBuilder) {
         this.serieReviewRepository = serieReviewRepository;
         this.reviewRepository = reviewRepository;
         this.tmdbSerieRepository = tmdbSerieRepository;
         this.serieKinoDtoBuilder = serieKinoDtoBuilder;
+        this.dtoToDbBuilder = dtoToDbBuilder;
     }
 
     public SerieService(DaoSession daoSession) {
-        this.serieReviewRepository = new SerieReviewRepository(daoSession);
-        this.tmdbSerieRepository = new TmdbSerieRepository(daoSession);
-        this.reviewRepository = new ReviewRepository(daoSession);
-        this.serieKinoDtoBuilder = new SerieKinoDtoBuilder();
+        this(new SerieReviewRepository(daoSession),
+                new ReviewRepository(daoSession),
+                new TmdbSerieRepository(daoSession),
+                new SerieKinoDtoBuilder(),
+                new SerieDtoToDbBuilder()
+        );
     }
 
     public SerieDto getReview(long id) {
@@ -70,49 +71,32 @@ public class SerieService implements DataService<SerieDto> {
 
     @Override
     public SerieDto createOrUpdate(SerieDto serieDto) {
-        Review review = null;
-        if(serieDto.getReviewId() != null ||
-                serieDto.getReview() != null ||
-                serieDto.getRating() != null ||
-                serieDto.getReview_date() != null){
-            review = new Review(
-                    serieDto.getReviewId(),
-                    serieDto.getTitle(),
-                    serieDto.getReview_date(),
-                    serieDto.getReview(),
-                    serieDto.getRating(),
-                    serieDto.getMaxRating()
-            );
+        SerieReview serieReview = dtoToDbBuilder.build(serieDto);
 
-            reviewRepository.createOrUpdate(review);
+        if (serieDto.getTmdbKinoId() != null) {
+            tmdbSerieRepository.createOrUpdate(serieReview.getSerie());
         }
 
-        TmdbSerie tmdbSerie = null;
-        if(serieDto.getTmdbKinoId() != null){
-            tmdbSerie = new TmdbSerie(
-                    serieDto.getTmdbKinoId(),
-                    serieDto.getPosterPath(),
-                    serieDto.getOverview(),
-                    serieDto.getYear(),
-                    serieDto.getReleaseDate()
-            );
+        reviewRepository.createOrUpdate(serieReview.getReview());
 
-            tmdbSerieRepository.createOrUpdate(tmdbSerie);
-        }
-
-        SerieReview serieReview = new SerieReview(
-                serieDto.getKinoId(),
-                tmdbSerie,
-                review
-        );
         serieReviewRepository.createOrUpdate(serieReview);
 
         return serieKinoDtoBuilder.build(serieReview);
     }
 
+    // TODO generic
     @Override
-    public void createOrUpdateWithTmdbId(List<SerieDto> kinoDtos) {
+    public void createOrUpdateWithTmdbId(List<SerieDto> serieDtos) {
+        for (SerieDto serieDto : serieDtos) {
+            if (serieDto.getKinoId() == null) {
+                SerieReview existingReview = serieReviewRepository.findByMovieId(serieDto.getTmdbKinoId());
+                if (existingReview != null) {
+                    serieDto.setKinoId(existingReview.getId());
+                }
+            }
 
+            createOrUpdate(serieDto);
+        }
     }
 
     public List<SerieDto> getAll() {
