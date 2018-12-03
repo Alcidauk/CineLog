@@ -35,7 +35,7 @@ import static org.mockito.Mockito.verify;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CsvExportWriterTest {
+public class MovieCsvExportWriterTest {
 
     @Mock
     private CSVPrinterWrapper csvPrinterWrapper;
@@ -60,7 +60,7 @@ public class CsvExportWriterTest {
                 "2012"
         );
 
-        new CsvExportWriter(csvPrinterWrapper).write(aKino);
+        new MovieCsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
                 24L,
@@ -93,7 +93,7 @@ public class CsvExportWriterTest {
                 "2012"
         );
 
-        new CsvExportWriter(csvPrinterWrapper).write(aKino);
+        new MovieCsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
                 24L,
@@ -112,7 +112,7 @@ public class CsvExportWriterTest {
 
     @Test
     public void endWriting() throws Exception {
-        new CsvExportWriter(csvPrinterWrapper).endWriting();
+        new MovieCsvExportWriter(csvPrinterWrapper).endWriting();
 
         verify(csvPrinterWrapper).flush();
         verify(csvPrinterWrapper).close();

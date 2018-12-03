@@ -30,16 +30,16 @@ public class AutomaticExporter {
 
     private final ExportTreeManager exportTreeManager;
     private final BusinessPreferenceGetter businessPreferenceGetter;
-    private CsvExporterFactory csvExporterFactory;
+    private MovieCsvExporterFactory csvExporterFactory;
 
     public AutomaticExporter(Application application) {
-        this(new ExportTreeManager(), new BusinessPreferenceGetter(application), new CsvExporterFactory(application));
+        this(new ExportTreeManager(), new BusinessPreferenceGetter(application), new MovieCsvExporterFactory(application));
     }
 
-    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, CsvExporterFactory csvExporterFactory) {
+    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, MovieCsvExporterFactory movieCsvExporterFactory) {
         this.exportTreeManager = exportTreeManager;
         this.businessPreferenceGetter = businessPreferenceGetter;
-        this.csvExporterFactory = csvExporterFactory;
+        this.csvExporterFactory = movieCsvExporterFactory;
     }
 
     public boolean tryExport() throws AutomaticExportException {

@@ -3,6 +3,7 @@ package com.ulicae.cinelog.io.exportdb.writer;
 import android.annotation.SuppressLint;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -26,11 +27,12 @@ import java.text.SimpleDateFormat;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class MovieCsvExportWriter extends CsvExportWriter<KinoDto> {
+public class SerieCsvExportWriter extends CsvExportWriter<SerieDto> {
 
     public enum Headers {
         id,
         movie_id,
+        review_id,
         title,
         overview,
         year,
@@ -42,28 +44,29 @@ public class MovieCsvExportWriter extends CsvExportWriter<KinoDto> {
         max_rating
     }
 
-    public MovieCsvExportWriter(Appendable out) throws IOException {
+    public SerieCsvExportWriter(Appendable out) throws IOException {
         super(out, Headers.class);
     }
 
-    MovieCsvExportWriter(CSVPrinterWrapper csvPrinterWrapper) {
+    SerieCsvExportWriter(CSVPrinterWrapper csvPrinterWrapper) {
         super(csvPrinterWrapper);
     }
 
-    public void write(KinoDto kinoDto) throws IOException {
+    public void write(SerieDto serieDto) throws IOException {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         csvPrinterWrapper.printRecord(
-                kinoDto.getKinoId(),
-                kinoDto.getTmdbKinoId(),
-                kinoDto.getTitle(),
-                kinoDto.getOverview(),
-                kinoDto.getYear(),
-                kinoDto.getPosterPath(),
-                kinoDto.getRating(),
-                kinoDto.getReleaseDate(),
-                kinoDto.getReview(),
-                kinoDto.getReview_date() != null ? simpleDateFormat.format(kinoDto.getReview_date()) : null,
-                kinoDto.getMaxRating()
+                serieDto.getKinoId(),
+                serieDto.getTmdbKinoId(),
+                serieDto.getReviewId(),
+                serieDto.getTitle(),
+                serieDto.getOverview(),
+                serieDto.getYear(),
+                serieDto.getPosterPath(),
+                serieDto.getRating(),
+                serieDto.getReleaseDate(),
+                serieDto.getReview(),
+                serieDto.getReview_date() != null ? simpleDateFormat.format(serieDto.getReview_date()) : null,
+                serieDto.getMaxRating()
         );
     }
 }

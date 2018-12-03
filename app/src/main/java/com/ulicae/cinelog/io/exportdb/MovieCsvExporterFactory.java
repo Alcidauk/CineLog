@@ -27,14 +27,14 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class CsvExporterFactory {
+class MovieCsvExporterFactory {
     private KinoService kinoService;
 
-    CsvExporterFactory(Application application) {
+    MovieCsvExporterFactory(Application application) {
         this(new KinoService(((KinoApplication) application).getDaoSession()));
     }
 
-    private CsvExporterFactory(KinoService kinoService) {
+    private MovieCsvExporterFactory(KinoService kinoService) {
         this.kinoService = kinoService;
     }
 

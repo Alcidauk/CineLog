@@ -33,7 +33,7 @@ public class AutomaticExporterTest {
     private BusinessPreferenceGetter businessPreferenceGetter;
 
     @Mock
-    private CsvExporterFactory csvExporterFactory;
+    private MovieCsvExporterFactory csvExporterFactory;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
