@@ -1,6 +1,8 @@
 package com.ulicae.cinelog.io.exportdb;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
+import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;
 
 import org.junit.Rule;
@@ -83,7 +85,7 @@ public class AutomaticExporterTest {
         doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
 
         CsvExporter csvExporter = mock(CsvExporter.class);
-        doReturn(csvExporter).when(csvExporterFactory).getCsvExporter(fileWriter);
+        doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
 
         doThrow(IOException.class).when(csvExporter).export();
 
@@ -101,7 +103,7 @@ public class AutomaticExporterTest {
         doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
 
         CsvExporter csvExporter = mock(CsvExporter.class);
-        doReturn(csvExporter).when(csvExporterFactory).getCsvExporter(fileWriter);
+        doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
 
         assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
 

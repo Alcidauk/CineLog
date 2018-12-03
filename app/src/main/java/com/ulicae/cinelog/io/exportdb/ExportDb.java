@@ -13,7 +13,8 @@ import android.widget.Toast;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.KinoService;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
+import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
@@ -67,33 +68,7 @@ public class ExportDb extends AppCompatActivity {
     @OnClick(R.id.export_db_button)
     public void onClick(View view) {
         if (writeStoragePermission != null && writeStoragePermission) {
-            Toast.makeText(getApplicationContext(), getString(R.string.export_start_toast), Toast.LENGTH_LONG).show();
-
-            CsvExporter csvExporter;
-            FileWriter fileWriter;
-            try {
-                fileWriter = new FileWriterGetter().get("export.csv");
-            } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.export_io_error_toast), Toast.LENGTH_LONG).show();
-                return;
-            }
-            try {
-                csvExporter = new CsvExporter<>(
-                        new KinoService(((KinoApplication) getApplication()).getDaoSession()),
-                        new MovieCsvExportWriter(fileWriter)
-                );
-            } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.export_io_error_toast), Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            try {
-                csvExporter.export();
-
-                Toast.makeText(getApplicationContext(), getString(R.string.export_succeeded_toast), Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.export_io_error_toast), Toast.LENGTH_LONG).show();
-            }
+            new SnapshotExporter(new MovieCsvExporterFactory(getApplication()), getApplication()).export();
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.export_permission_error_toast), Toast.LENGTH_LONG).show();
         }
@@ -109,13 +84,6 @@ public class ExportDb extends AppCompatActivity {
             }
         }
     }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        out.println("Gone !");
-    }
-
 
 }
 

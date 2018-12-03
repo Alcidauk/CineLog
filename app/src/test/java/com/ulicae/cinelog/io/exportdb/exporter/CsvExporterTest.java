@@ -1,7 +1,8 @@
-package com.ulicae.cinelog.io.exportdb;
+package com.ulicae.cinelog.io.exportdb.exporter;
 
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
 import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
 
 import org.junit.Test;

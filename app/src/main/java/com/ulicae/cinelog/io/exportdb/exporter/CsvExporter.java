@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.io.exportdb;
+package com.ulicae.cinelog.io.exportdb.exporter;
 
 import com.ulicae.cinelog.data.DataService;
 import com.ulicae.cinelog.data.dto.KinoDto;

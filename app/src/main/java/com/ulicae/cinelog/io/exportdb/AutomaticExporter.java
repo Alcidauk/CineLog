@@ -3,6 +3,7 @@ package com.ulicae.cinelog.io.exportdb;
 import android.app.Application;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;
 
 import java.io.FileWriter;
@@ -55,7 +56,7 @@ public class AutomaticExporter {
                 }
 
                 try {
-                    csvExporterFactory.getCsvExporter(nextExportFile).export();
+                    csvExporterFactory.makeCsvExporter(nextExportFile).export();
 
                     exportTreeManager.clean();
                 } catch (IOException e) {

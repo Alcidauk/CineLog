@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.io.exportdb;
+package com.ulicae.cinelog.io.exportdb.exporter;
 
 import android.app.Application;
 
@@ -27,10 +27,10 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class MovieCsvExporterFactory {
+public class MovieCsvExporterFactory implements ExporterFactory{
     private KinoService kinoService;
 
-    MovieCsvExporterFactory(Application application) {
+    public MovieCsvExporterFactory(Application application) {
         this(new KinoService(((KinoApplication) application).getDaoSession()));
     }
 
@@ -38,7 +38,7 @@ class MovieCsvExporterFactory {
         this.kinoService = kinoService;
     }
 
-    CsvExporter getCsvExporter(FileWriter fileWriter) throws IOException {
+    public CsvExporter makeCsvExporter(FileWriter fileWriter) throws IOException {
         return new CsvExporter<>(kinoService, new MovieCsvExportWriter(fileWriter));
     }
 }
