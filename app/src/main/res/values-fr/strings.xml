@@ -99,4 +99,5 @@
     <string name="serie_title_hint">Entrer un titre de série.</string>
     <string name="title_activity_view_unregistered_serie">Informations sur la série</string>
     <string name="title_activity_view_serie">Revue de la série</string>
+    <string name="automatic_save">Automatic export to local storage</string>
 </resources>

@@ -101,5 +101,6 @@
     <string name="serie_title_hint">Serie Titel hinzufügen.</string>
     <string name="title_activity_view_unregistered_serie">Serie Informationen</string>
     <string name="title_activity_view_serie">Rezension der Serie</string>
+    <string name="automatic_save">Automatic export to local storage</string>
 
 </resources>

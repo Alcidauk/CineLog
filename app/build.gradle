@@ -64,4 +64,5 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.13.0'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-junit', version: '2.0.0.0'
 }

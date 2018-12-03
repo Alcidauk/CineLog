@@ -40,6 +40,12 @@
             android:key="theme"
             android:title="@string/theme"
             android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="automatic_save"
+            android:title="@string/automatic_save"
+            android:summary="@string/automatic_save_summary"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
