@@ -230,7 +230,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getAllKinos()
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getAll()
         );
     }
 

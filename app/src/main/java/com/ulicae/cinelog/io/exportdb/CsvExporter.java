@@ -3,7 +3,6 @@ package com.ulicae.cinelog.io.exportdb;
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class CsvExporter {
     }
 
     public void export() throws IOException {
-        List<KinoDto> localKinoList = kinoService.getAllKinos();
+        List<KinoDto> localKinoList = kinoService.getAll();
 
         for (KinoDto kinoDto : localKinoList) {
             csvExportWriter.write(kinoDto);

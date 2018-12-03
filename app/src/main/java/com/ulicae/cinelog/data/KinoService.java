@@ -52,7 +52,7 @@ public class KinoService implements DataService<KinoDto> {
         return kinoDtoBuilder.build(kino);
     }
 
-    public List<KinoDto> getAllKinos() {
+    public List<KinoDto> getAll() {
         List<LocalKino> localKinos = localKinoRepository.findAll();
 
         return buildKinos(localKinos);

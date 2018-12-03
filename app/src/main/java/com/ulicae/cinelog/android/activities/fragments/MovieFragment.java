@@ -86,7 +86,7 @@ public class MovieFragment extends ListFragment {
             case R.id.order_by_year_oldest_first:
                 return ((KinoService) service).getKinosByYear(true);
             default:
-                return ((KinoService) service).getAllKinos();
+                return ((KinoService) service).getAll();
         }
     }
 }

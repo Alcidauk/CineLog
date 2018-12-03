@@ -2,6 +2,8 @@ package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 
+import java.util.List;
+
 /**
  * CineLog Copyright 2018 Pierre Rognon
  * <p>
@@ -21,6 +23,8 @@ import com.ulicae.cinelog.data.dto.KinoDto;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 public interface DataService<T extends KinoDto> {
+
+    List<T> getAll();
 
     void delete(T dtoObject);
 

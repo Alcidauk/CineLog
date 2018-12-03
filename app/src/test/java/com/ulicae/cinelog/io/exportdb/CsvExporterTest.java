@@ -49,7 +49,7 @@ public class CsvExporterTest {
             add(aKino);
             add(anotherKino);
         }};
-        doReturn(kinos).when(kinoService).getAllKinos();
+        doReturn(kinos).when(kinoService).getAll();
 
         new CsvExporter(kinoService, csvExportWriter).export();
 
