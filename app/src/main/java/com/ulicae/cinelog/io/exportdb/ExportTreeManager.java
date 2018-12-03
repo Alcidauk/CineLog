@@ -44,7 +44,8 @@ class ExportTreeManager {
     void prepareTree() {
         File root = fileUtilsWrapper.getExternalStorageDirectory();
 
-        createIfNotExist(root.getAbsolutePath() + "/CineLog/saves");
+        createIfNotExist(root.getAbsolutePath() + "/CineLog/saves/movie");
+        createIfNotExist(root.getAbsolutePath() + "/CineLog/saves/serie");
     }
 
     private void createIfNotExist(String path) {
@@ -55,18 +56,18 @@ class ExportTreeManager {
         }
     }
 
-    boolean isExportNeeded() {
-        return !fileUtilsWrapper.getFile(buildExportFilePath()).exists();
+    boolean isExportNeeded(String subDir) {
+        return !fileUtilsWrapper.getFile(buildExportFilePath(subDir)).exists();
     }
 
-    FileWriter getNextExportFile() throws IOException {
-        return fileUtilsWrapper.getFileWriter(new File(buildExportFilePath()));
+    FileWriter getNextExportFile(String subDir) throws IOException {
+        return fileUtilsWrapper.getFileWriter(new File(buildExportFilePath(subDir)));
     }
 
-    void clean() {
+    void clean(String subDir) {
         File root = fileUtilsWrapper.getExternalStorageDirectory();
 
-        File saveRoot = fileUtilsWrapper.getFile(root.getAbsolutePath() + "/CineLog/saves");
+        File saveRoot = fileUtilsWrapper.getFile(root.getAbsolutePath() + "/CineLog/saves/" + subDir);
 
         File[] saveFiles = saveRoot.listFiles();
         if(saveFiles.length > 10){
@@ -85,8 +86,12 @@ class ExportTreeManager {
     }
 
     @NonNull
-    private String buildExportFilePath() {
+    private String buildExportFilePath(String subDir) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat todayDate = new SimpleDateFormat("yyyyMMdd");
-        return fileUtilsWrapper.getExternalStorageDirectory().getAbsolutePath() + "/CineLog/saves/export" + todayDate.format(new Date()) + ".csv";
+        return String.format("%s/CineLog/saves/%s/export%s.csv",
+                fileUtilsWrapper.getExternalStorageDirectory().getAbsolutePath(),
+                subDir,
+                todayDate.format(new Date())
+        );
     }
 }

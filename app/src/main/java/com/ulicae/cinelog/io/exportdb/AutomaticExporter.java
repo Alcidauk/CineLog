@@ -47,10 +47,10 @@ public class AutomaticExporter {
         if (businessPreferenceGetter.getAutomaticExport()) {
             exportTreeManager.prepareTree();
 
-            if (exportTreeManager.isExportNeeded()) {
+            if (exportTreeManager.isExportNeeded("movie")) {
                 FileWriter nextExportFile;
                 try {
-                    nextExportFile = exportTreeManager.getNextExportFile();
+                    nextExportFile = exportTreeManager.getNextExportFile("movie");
                 } catch (IOException e) {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_get_next_export);
                 }
@@ -58,7 +58,7 @@ public class AutomaticExporter {
                 try {
                     csvExporterFactory.makeCsvExporter(nextExportFile).export();
 
-                    exportTreeManager.clean();
+                    exportTreeManager.clean("movie");
                 } catch (IOException e) {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_export);
                 }

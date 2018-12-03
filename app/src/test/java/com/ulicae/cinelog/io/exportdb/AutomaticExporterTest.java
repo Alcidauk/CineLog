@@ -52,12 +52,12 @@ public class AutomaticExporterTest {
     @Test
     public void tryExportNotNeeded() throws IOException, AutomaticExportException {
         doReturn(true).when(businessPreferenceGetter).getAutomaticExport();
-        doReturn(false).when(exportTreeManager).isExportNeeded();
+        doReturn(false).when(exportTreeManager).isExportNeeded("movie");
 
         assertFalse(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
 
         verify(exportTreeManager).prepareTree();
-        verify(exportTreeManager, never()).getNextExportFile();
+        verify(exportTreeManager, never()).getNextExportFile("movie");
     }
 
     @Test
@@ -66,9 +66,9 @@ public class AutomaticExporterTest {
         expectedException.expect(hasProperty("stringCode", is(R.string.automatic_export_cant_get_next_export)));
 
         doReturn(true).when(businessPreferenceGetter).getAutomaticExport();
-        doReturn(true).when(exportTreeManager).isExportNeeded();
+        doReturn(true).when(exportTreeManager).isExportNeeded("movie");
 
-        doThrow(IOException.class).when(exportTreeManager).getNextExportFile();
+        doThrow(IOException.class).when(exportTreeManager).getNextExportFile("movie");
 
         new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
     }
@@ -79,10 +79,10 @@ public class AutomaticExporterTest {
         expectedException.expect(hasProperty("stringCode", is(R.string.automatic_export_cant_export)));
 
         doReturn(true).when(businessPreferenceGetter).getAutomaticExport();
-        doReturn(true).when(exportTreeManager).isExportNeeded();
+        doReturn(true).when(exportTreeManager).isExportNeeded("movie");
 
         FileWriter fileWriter = mock(FileWriter.class);
-        doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
+        doReturn(fileWriter).when(exportTreeManager).getNextExportFile("movie");
 
         CsvExporter csvExporter = mock(CsvExporter.class);
         doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
@@ -91,16 +91,16 @@ public class AutomaticExporterTest {
 
         assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
 
-        verify(exportTreeManager, never()).clean();
+        verify(exportTreeManager, never()).clean("movie");
     }
 
     @Test
     public void tryExport() throws IOException, AutomaticExportException {
         doReturn(true).when(businessPreferenceGetter).getAutomaticExport();
-        doReturn(true).when(exportTreeManager).isExportNeeded();
+        doReturn(true).when(exportTreeManager).isExportNeeded("movie");
 
         FileWriter fileWriter = mock(FileWriter.class);
-        doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
+        doReturn(fileWriter).when(exportTreeManager).getNextExportFile("movie");
 
         CsvExporter csvExporter = mock(CsvExporter.class);
         doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
@@ -109,6 +109,6 @@ public class AutomaticExporterTest {
 
         verify(exportTreeManager).prepareTree();
         verify(csvExporter).export();
-        verify(exportTreeManager).clean();
+        verify(exportTreeManager).clean("movie");
     }
 }
