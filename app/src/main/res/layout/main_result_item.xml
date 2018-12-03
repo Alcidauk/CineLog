@@ -65,6 +65,7 @@
         android:layout_below="@id/main_result_kino_title"
         android:layout_marginStart="10dp"
         android:paddingTop="2dp"
+        android:paddingEnd="2dp"
         tools:ignore="RtlSymmetry"/>
 
     <TextView
@@ -74,7 +75,6 @@
         style="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorPrimaryDark"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textStyle="italic"
         android:layout_toEndOf="@+id/main_result_kino_review_date_logo"
         android:layout_below="@id/main_result_kino_title"
         android:paddingEnd="5dp"
