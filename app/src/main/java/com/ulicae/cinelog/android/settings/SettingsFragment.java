@@ -1,9 +1,12 @@
 package com.ulicae.cinelog.android.settings;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
 import com.ulicae.cinelog.R;
@@ -29,6 +32,8 @@ import com.ulicae.cinelog.R;
  */
 public class SettingsFragment extends PreferenceFragment {
 
+    private boolean writeStoragePermission;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,11 @@ public class SettingsFragment extends PreferenceFragment {
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.app_preferences);
 
+        configureThemePreference();
+        configureAutomaticExportPreference();
+    }
+
+    private void configureThemePreference() {
         CheckBoxPreference listcheckBoxPreference = (CheckBoxPreference) findPreference("theme");
         listcheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -44,6 +54,30 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
+    }
+
+    private void configureAutomaticExportPreference() {
+        CheckBoxPreference listcheckBoxPreference = (CheckBoxPreference) findPreference("automatic_save");
+        listcheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if((Boolean) newValue && !writeStoragePermission) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @SuppressWarnings("NullableProblems") String permissions[],
+                                           @SuppressWarnings("NullableProblems") int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                writeStoragePermission = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            }
+        }
     }
 
 }
