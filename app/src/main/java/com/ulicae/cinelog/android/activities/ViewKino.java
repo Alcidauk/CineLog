@@ -92,16 +92,6 @@ public class ViewKino extends AppCompatActivity {
         position = getIntent().getIntExtra("kino_position", -1);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-        int maxRating;
-        if (kino.getMaxRating() == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
-            maxRating = Integer.parseInt(defaultMaxRateValue);
-        } else {
-            maxRating = kino.getMaxRating();
-        }
-        rating.setNumStars(maxRating);
     }
 
     private void configureLabels(String dtoType) {
@@ -113,6 +103,17 @@ public class ViewKino extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        int maxRating;
+        if (kino.getMaxRating() == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            maxRating = Integer.parseInt(defaultMaxRateValue);
+        } else {
+            maxRating = kino.getMaxRating();
+        }
+        rating.setNumStars(maxRating);
+        rating.setStepSize(0.5f);
 
         title.setText(kino.getTitle());
         if (kino.getPosterPath() != null) {
@@ -128,7 +129,6 @@ public class ViewKino extends AppCompatActivity {
         if (kino.getRating() != null) {
             rating.setRating(kino.getRating());
         }
-        rating.setStepSize(0.5f);
 
         ratingAsText.setText(String.format("%s", kino.getRating()));
 
