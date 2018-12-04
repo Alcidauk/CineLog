@@ -112,6 +112,9 @@ public class EditReview extends AppCompatActivity {
             maxRating = kino.getMaxRating();
         }
 
+        rating_bar.setNumStars(maxRating);
+        rating_bar.setStepSize(0.5f);
+
         String[] displayedValues = getDisplayedValues(maxRating);
 
         rating_picker.setMinValue(0);
@@ -134,9 +137,6 @@ public class EditReview extends AppCompatActivity {
             rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
             rating_bar.setRating(kino.getRating());
         }
-
-        rating_bar.setNumStars(maxRating);
-        rating_bar.setStepSize(0.5f);
 
         if (kino.getReview() != null) {
             review_text.setText(kino.getReview());
