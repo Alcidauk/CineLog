@@ -1,15 +1,16 @@
-Rate and review films you saw. Build your own review database !
+Rate and review movies you saw. Build your own review database !
 
 Features:
 
 <ul>
-    <li>Search for films with [https://www.themoviedb.org/ tmdb.org] API;</li>
+    <li>Search for movies and series with [https://www.themoviedb.org/ tmdb.org] API;</li>
     <li>Choose tmdb language you want to use;</li>
-    <li>Add a review for films you found in a local database;</li>
-    <li>Can't find the film you're looking for ? Create a review without tmdb search;</li>
+    <li>Add a review for movies and series you found in a local database;</li>
+    <li>Can't find the movies you're looking for ? Create a review without tmdb search;</li>
     <li>Choose the maximum rating you want to use;</li>
-    <li>Export you're review database (CSV format);</li>
+    <li>Export your review database in CSV format;</li>
     <li>Import an existing review database;</li>
+    <li>Enable an automatic CSV backup (can then be synchronised with a cloud client).</li>
 </ul>
 
 Permissions:
@@ -23,4 +24,4 @@ Permissions:
 
 Translations:
 
-A huge thank you to ApoRes1337 that wrote german translation.
+A huge thank you to Christopher Bodtke that wrote german translation.
