@@ -17,11 +17,12 @@ public class SnapshotImporter {
         showToast(R.string.import_starting_toast, Toast.LENGTH_LONG);
         try {
             csvImporter.importCsvFile(importFilename);
+
+            showToast(R.string.import_ending_toast, Toast.LENGTH_LONG);
         } catch (ImportException e) {
             showToast(R.string.import_error_toast, Toast.LENGTH_SHORT, importFilename);
             showToast(e.getMessage(), Toast.LENGTH_LONG);
         }
-        showToast(R.string.import_ending_toast, Toast.LENGTH_LONG);
     }
 
     private void showToast(int messageId, int lengthLong, String... args) {
