@@ -65,7 +65,6 @@
     <string name="action_import">Import</string>
     <string name="title_activity_import_db">CSV File import</string>
     <string name="import_db">Import CSV file in database</string>
-    <!-- TODO update it since there are two files-->
     <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file at the storage root.</string>
     <string name="import_permission_error_toast">Can\'t import since external storage reading is not allowed for CineLog.</string>
     <string name="import_error_toast">An error occurred during data import of %s file.</string>
