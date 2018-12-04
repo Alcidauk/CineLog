@@ -76,6 +76,12 @@ public class SerieFragment extends ListFragment {
     protected List<KinoDto> getResults(int order) {
         List<SerieDto> fetchedDtos;
         switch (order) {
+            case R.id.order_by_title_asc:
+                fetchedDtos = ((SerieService) service).getAllByTitle(true);
+                break;
+            case R.id.order_by_title_desc:
+                fetchedDtos = ((SerieService) service).getAllByTitle(false);
+                break;
             /*case R.id.order_by_date_added_newest_first:
                 return ((KinoService) service).getKinosByReviewDate(false);
             case R.id.order_by_date_added_oldest_first:

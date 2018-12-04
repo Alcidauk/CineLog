@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -139,6 +140,40 @@ public class SerieServiceTest {
                     add(serieDto);
                 }},
                 new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder).getAllByRating(false)
+        );
+    }
+
+    @Test
+    public void getAllByTitleAsc() {
+        SerieReview serieReview = mock(SerieReview.class);
+        SerieReview anotherSerieReview = mock(SerieReview.class);
+
+        doReturn(Arrays.asList(serieReview, anotherSerieReview)).when(serieReviewRepository).findAllByTitle(true);
+
+        SerieDto anotherSerieDto = mock(SerieDto.class);
+        doReturn(serieDto).when(serieKinoDtoBuilder).build(serieReview);
+        doReturn(anotherSerieDto).when(serieKinoDtoBuilder).build(anotherSerieReview);
+
+        assertEquals(
+                Arrays.asList(serieDto, anotherSerieDto),
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder).getAllByTitle(true)
+        );
+    }
+
+    @Test
+    public void getAllByTitleDesc() {
+        SerieReview serieReview = mock(SerieReview.class);
+        SerieReview anotherSerieReview = mock(SerieReview.class);
+
+        doReturn(Arrays.asList(serieReview, anotherSerieReview)).when(serieReviewRepository).findAllByTitle(false);
+
+        SerieDto anotherSerieDto = mock(SerieDto.class);
+        doReturn(serieDto).when(serieKinoDtoBuilder).build(serieReview);
+        doReturn(anotherSerieDto).when(serieKinoDtoBuilder).build(anotherSerieReview);
+
+        assertEquals(
+                Arrays.asList(serieDto, anotherSerieDto),
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder).getAllByTitle(false)
         );
     }
 

@@ -2,6 +2,7 @@ package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.SerieReview;
+import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
@@ -105,6 +106,10 @@ public class SerieService implements DataService<SerieDto> {
 
     public List<SerieDto> getAllByRating(boolean asc) {
         return buildKinos(serieReviewRepository.findAllByRating(asc));
+    }
+
+    public List<SerieDto> getAllByTitle(boolean asc) {
+        return buildKinos(serieReviewRepository.findAllByTitle(asc));
     }
 
     private List<SerieDto> buildKinos(List<SerieReview> kinos) {

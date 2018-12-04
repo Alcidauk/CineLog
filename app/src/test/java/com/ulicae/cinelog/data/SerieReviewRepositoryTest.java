@@ -126,6 +126,60 @@ public class SerieReviewRepositoryTest {
         );
     }
 
+    @Test
+    public void findAllByTitleAsc() {
+        Review aReview = mock(Review.class);
+        Review anotherReview = mock(Review.class);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn("Banane").when(aReview).getTitle();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn("Pingouin").when(anotherReview).getTitle();
+
+        SerieReview aSerieReview = mock(SerieReview.class);
+        doReturn(anotherReview).when(serieReview).getReview();
+        doReturn(aReview).when(aSerieReview).getReview();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(serieReviewDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(serieReview, aSerieReview)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(aSerieReview, serieReview),
+                new SerieReviewRepository(daoSession).findAllByTitle(true)
+        );
+    }
+
+    @Test
+    public void findAllByTitleDesc() {
+        Review aReview = mock(Review.class);
+        Review anotherReview = mock(Review.class);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn("Banane").when(aReview).getTitle();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn("Pingouin").when(anotherReview).getTitle();
+
+        SerieReview aSerieReview = mock(SerieReview.class);
+        doReturn(anotherReview).when(serieReview).getReview();
+        doReturn(aReview).when(aSerieReview).getReview();
+
+        QueryBuilder queryBuilder = mock(QueryBuilder.class);
+        doReturn(queryBuilder).when(serieReviewDao).queryBuilder();
+
+        Query query = mock(Query.class);
+        doReturn(query).when(queryBuilder).build();
+
+        doReturn(Arrays.asList(serieReview, aSerieReview)).when(query).list();
+
+        assertEquals(
+                Arrays.asList(serieReview, aSerieReview),
+                new SerieReviewRepository(daoSession).findAllByTitle(false)
+        );
+    }
+
 
     @Test
     public void findAll() {

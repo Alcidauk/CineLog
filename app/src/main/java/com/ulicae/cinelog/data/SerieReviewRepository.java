@@ -1,13 +1,17 @@
 package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.LocalKino;
+import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.SerieReviewDao;
 
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.text.Collator;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -55,6 +59,35 @@ class SerieReviewRepository extends CrudRepository<SerieReviewDao, SerieReview> 
         }
 
         Collections.reverse(list);
+        return list;
+    }
+
+    public List<SerieReview> findAllByTitle(boolean asc) {
+        QueryBuilder<SerieReview> serieReviewQueryBuilder = dao.queryBuilder();
+
+        List<SerieReview> list = serieReviewQueryBuilder.build().list();
+
+        Collections.sort(list, new Comparator<SerieReview>() {
+            @Override
+            public int compare(SerieReview o1, SerieReview o2) {
+                Review review1 = o1.getReview();
+                Review review2 = o2.getReview();
+
+                if (review1 == null || review1.getTitle() == null) {
+                    return -1;
+                } else if (review2 == null || review2.getTitle() == null) {
+                    return 1;
+                } else {
+                    // TODO take care of locale
+                    return Collator.getInstance().compare(review1.getTitle(), review2.getTitle());
+                }
+            }
+        });
+
+        if(!asc){
+            Collections.reverse(list);
+        }
+
         return list;
     }
 }
