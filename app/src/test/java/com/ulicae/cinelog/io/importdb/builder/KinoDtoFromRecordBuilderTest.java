@@ -53,6 +53,7 @@ public class KinoDtoFromRecordBuilderTest {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
         doReturn("12").when(csvRecord).get("id");
+        doReturn(true).when(csvRecord).isMapped("id");
         doReturn("24").when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -91,6 +92,7 @@ public class KinoDtoFromRecordBuilderTest {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
         doReturn("12").when(csvRecord).get("id");
+        doReturn(true).when(csvRecord).isMapped("id");
         doReturn("24").when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -129,6 +131,7 @@ public class KinoDtoFromRecordBuilderTest {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
         doReturn("12").when(csvRecord).get("id");
+        doReturn(true).when(csvRecord).isMapped("id");
         doReturn(null).when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -167,6 +170,7 @@ public class KinoDtoFromRecordBuilderTest {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
         doReturn("12").when(csvRecord).get("id");
+        doReturn(true).when(csvRecord).isMapped("id");
         doReturn("24").when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
@@ -208,6 +212,7 @@ public class KinoDtoFromRecordBuilderTest {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
         doReturn("12").when(csvRecord).get("id");
+        doReturn(true).when(csvRecord).isMapped("id");
         doReturn("24").when(csvRecord).get("movie_id");
         doReturn("title").when(csvRecord).get("title");
         doReturn("overview").when(csvRecord).get("overview");
