@@ -33,7 +33,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="yes">Ja</string>
 
-    <string name="delete_kino_dialog">Willst du diesen Film entfernen?</string>
+    <string name="delete_kino_dialog">Willst du diese Rezension entfernen?</string>
 
     <string name="title_activity_add_review">Version der Rezension</string>
     <string name="title_activity_add_review_creation">Rezension schreiben</string>

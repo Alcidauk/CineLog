@@ -32,7 +32,7 @@
     <string name="cancel">Annuler</string>
     <string name="yes">Oui</string>
 
-    <string name="delete_kino_dialog">Supprimer ce film ?</string>
+    <string name="delete_kino_dialog">Supprimer cet avis ?</string>
 
     <string name="title_activity_add_review">Édition de l\'avis</string>
     <string name="title_activity_add_review_creation">Ajout d\'un avis</string>

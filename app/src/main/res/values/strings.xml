@@ -33,7 +33,7 @@
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
 
-    <string name="delete_kino_dialog">Do you want to remove this kino?</string>
+    <string name="delete_kino_dialog">Do you want to remove this review?</string>
 
     <string name="title_activity_add_review">Review edition</string>
     <string name="title_activity_add_review_creation">Review creation</string>
