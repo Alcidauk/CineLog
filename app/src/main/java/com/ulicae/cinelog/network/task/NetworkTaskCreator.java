@@ -3,6 +3,7 @@ package com.ulicae.cinelog.network.task;
 import android.os.AsyncTask;
 
 import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
+import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -22,7 +23,7 @@ import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface NetworkTaskCreator<T extends AsyncTask, E> {
+public interface NetworkTaskCreator<T extends AsyncTask, E extends BaseRatingObject> {
 
     T create(AddReviewActivity<E> addKino);
 

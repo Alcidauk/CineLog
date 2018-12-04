@@ -23,6 +23,7 @@ import com.ulicae.cinelog.data.DataService;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.utils.ThemeWrapper;
+import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -49,7 +50,7 @@ import butterknife.OnTextChanged;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class AddReviewActivity<T> extends AppCompatActivity {
+public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppCompatActivity {
 
     static final int RESULT_VIEW_KINO = 4;
 

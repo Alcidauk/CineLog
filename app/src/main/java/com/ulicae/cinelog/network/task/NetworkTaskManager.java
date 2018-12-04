@@ -3,6 +3,8 @@ package com.ulicae.cinelog.network.task;
 import android.os.AsyncTask;
 
 import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
+import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
+import com.uwetrottmann.tmdb2.entities.BaseResultsPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +29,13 @@ import retrofit2.Call;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class NetworkTaskManager {
+public class NetworkTaskManager<T extends BaseRatingObject> {
 
-    private AddReviewActivity addReviewActivity;
-    private NetworkTaskCreator networkTaskCreator;
+    private AddReviewActivity<T> addReviewActivity;
+    private NetworkTaskCreator<AsyncTask, T> networkTaskCreator;
     private List<AsyncTask> taskList;
 
-    public NetworkTaskManager(AddReviewActivity addReviewActivity, NetworkTaskCreator networkTaskCreator) {
+    public NetworkTaskManager(AddReviewActivity<T> addReviewActivity, NetworkTaskCreator<AsyncTask, T> networkTaskCreator) {
         this.addReviewActivity = addReviewActivity;
         this.networkTaskCreator = networkTaskCreator;
         this.taskList = new ArrayList<>();
