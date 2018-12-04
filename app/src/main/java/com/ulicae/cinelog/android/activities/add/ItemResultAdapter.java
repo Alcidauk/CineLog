@@ -79,12 +79,29 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
 
         KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
         if (kinoByTmdbMovieId != null) {
-            holder.getRatingBar().setRating(kinoByTmdbMovieId.getRating());
+            if(kinoByTmdbMovieId.getMaxRating() <= 5) {
+                holder.getRatingBar().setRating(kinoByTmdbMovieId.getRating());
 
-            holder.getRatingBar().setVisibility(View.VISIBLE);
+                holder.getRatingBarAsText().setVisibility(View.INVISIBLE);
+                holder.getRatingBarMaxAsText().setVisibility(View.INVISIBLE);
+
+                holder.getRatingBar().setVisibility(View.VISIBLE);
+            } else {
+                holder.getRatingBarAsText().setText(String.format("%s", kinoByTmdbMovieId.getRating()));
+                holder.getRatingBarMaxAsText().setText(String.format("/%s", kinoByTmdbMovieId.getMaxRating()));
+
+                holder.getRatingBarAsText().setVisibility(View.VISIBLE);
+                holder.getRatingBarMaxAsText().setVisibility(View.VISIBLE);
+
+                holder.getRatingBar().setVisibility(View.INVISIBLE);
+            }
+
             holder.getAddButton().setVisibility(View.INVISIBLE);
         } else {
             holder.getRatingBar().setVisibility(View.INVISIBLE);
+            holder.getRatingBarAsText().setVisibility(View.INVISIBLE);
+            holder.getRatingBarMaxAsText().setVisibility(View.INVISIBLE);
+
             holder.getAddButton().setVisibility(View.VISIBLE);
         }
 

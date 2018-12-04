@@ -71,6 +71,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?android:attr/ratingBarStyleSmall"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"/>
+        android:theme="@style/RatingBar"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/search_result_item_rating_bar_as_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/search_result_item_rating_bar_max_as_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryLight"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
 </RelativeLayout>

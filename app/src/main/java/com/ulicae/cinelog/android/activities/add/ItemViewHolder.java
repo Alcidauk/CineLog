@@ -44,6 +44,11 @@ public class ItemViewHolder {
     @BindView(R.id.kino_rating_bar_review)
     RatingBar kino_rating_bar_review;
 
+    @BindView(R.id.search_result_item_rating_bar_as_text)
+    TextView search_result_item_rating_bar_as_text;
+    @BindView(R.id.search_result_item_rating_bar_max_as_text)
+    TextView search_result_item_rating_bar_max_as_text;
+
     ItemViewHolder(View view) {
         ButterKnife.bind(this, view);
     }
@@ -68,4 +73,11 @@ public class ItemViewHolder {
         return kino_rating_bar_review;
     }
 
+    public TextView getRatingBarAsText() {
+        return search_result_item_rating_bar_as_text;
+    }
+
+    public TextView getRatingBarMaxAsText() {
+        return search_result_item_rating_bar_max_as_text;
+    }
 }
