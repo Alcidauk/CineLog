@@ -62,23 +62,23 @@ public class ImportInDb extends AppCompatActivity {
     @OnClick(R.id.import_db_button)
     public void onClick(View view) {
         if (writeStoragePermission != null && writeStoragePermission) {
-            Toast.makeText(getApplicationContext(), getString(R.string.import_starting_toast), Toast.LENGTH_LONG).show();
-            try {
-                new CsvImporter<>(
-                        new FileReaderGetter(),
-                        new KinoImportCreator<>(this, new KinoDtoFromRecordBuilder(this)),
-                        new KinoService(((KinoApplication) getApplication()).getDaoSession()),
-                        this).importCsvFile("import_movies.csv");
-                new CsvImporter<>(
-                        new FileReaderGetter(),
-                        new KinoImportCreator<>(this, new SerieDtoFromRecordBuilder(this)),
-                        new SerieService(((KinoApplication) getApplication()).getDaoSession()),
-                        this).importCsvFile("import_series.csv");
-            } catch (ImportException e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.import_error_toast), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-            Toast.makeText(getApplicationContext(), getString(R.string.import_ending_toast), Toast.LENGTH_LONG).show();
+            new SnapshotImporter(getApplication()).importFiles(
+                    "import_movies.csv",
+                    new CsvImporter<>(
+                            new FileReaderGetter(),
+                            new KinoImportCreator<>(this, new KinoDtoFromRecordBuilder(this)),
+                            new KinoService(((KinoApplication) getApplication()).getDaoSession()),
+                            this)
+            );
+
+            new SnapshotImporter(getApplication()).importFiles(
+                    "import_series.csv",
+                    new CsvImporter<>(
+                            new FileReaderGetter(),
+                            new KinoImportCreator<>(this, new SerieDtoFromRecordBuilder(this)),
+                            new SerieService(((KinoApplication) getApplication()).getDaoSession()),
+                            this)
+            );
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.import_permission_error_toast), Toast.LENGTH_LONG).show();
         }

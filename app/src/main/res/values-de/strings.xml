@@ -67,8 +67,8 @@
     <string name="import_db">CSV Datei in Datenbank importieren.</string>
     <string name="import_db_label">Lege eine CSV Datei in den CineLog Ordner und drücke den importieren Button.</string>
     <string name="import_permission_error_toast">Es kann nicht importiert werden das lesen des externen Speichers ist für CineLog nicht erlaubt.</string>
-    <string name="import_error_toast">Beim importieren der Daten ist ein Fehler aufgetreten.</string>
-    <string name="import_io_error_toast">Beim Suchen der Datei "import.csv" ist ein Fehler aufgetreten. Stellen Sie sicher, dass die Datei sich im Hauptverzeichnis befindet, und dass Sie über die erforderlichen Berechtigungen verfügen.</string>
+    <string name="import_error_toast">Beim importieren der Daten (%s) ist ein Fehler aufgetreten.</string>
+    <string name="import_io_error_toast">Beim Suchen der Datei "%s" ist ein Fehler aufgetreten. Stellen Sie sicher, dass die Datei sich im Hauptverzeichnis befindet, und dass Sie über die erforderlichen Berechtigungen verfügen.</string>
     <string name="import_parsing_error_toast">Fehler beim parsen der .CSV Datei. Bitte überprüfen sie die Datei.</string>
     <string name="import_parsing_line_error_toast">Importierter Film kann nicht gespeichert werden mit dem Namen %s.</string>
     <string name="import_starting_toast">Import gestartet…</string>

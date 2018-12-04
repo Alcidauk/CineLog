@@ -49,7 +49,7 @@ class CsvImporter<Dto extends KinoDto> {
         try {
             fileReader = fileReaderGetter.get(importFilename);
         } catch (IOException e) {
-            throw new ImportException(context.getString(R.string.import_io_error_toast), e);
+            throw new ImportException(context.getString(R.string.import_io_error_toast, importFilename), e);
         }
         List<Dto> kinos = kinoImportCreator.getKinos(fileReader);
 
