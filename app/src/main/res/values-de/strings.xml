@@ -58,14 +58,14 @@
     <string name="export_db_label">Drücke den Button um deine Daten als CSV zu exportieren. Du kannst sie speichern und später wieder importieren.</string>
     <string name="action_export">Exportieren</string>
     <string name="export_start_toast">Export gestartet…</string>
-    <string name="export_succeeded_toast">… exportieren erfolgreich. Siehe export.csv Datei im Stammverzeichnis.</string>
+    <string name="export_succeeded_toast">… exportieren erfolgreich. Siehe export_movies.csv und export_series.csv Datei im Stammverzeichnis.</string>
     <string name="export_io_error_toast">Beim Export ist ein I/O Fehler aufgetreten. Überprüfen Sie Ihre Berechtigungen.</string>
     <string name="export_permission_error_toast">Export nicht möglich, das Schreiben auf externen Speicher ist CineLog nicht gestattet.</string>
 
     <string name="action_import">Importieren</string>
     <string name="title_activity_import_db">CSV Datei importieren</string>
     <string name="import_db">CSV Datei in Datenbank importieren.</string>
-    <string name="import_db_label">Lege eine CSV Datei in den CineLog Ordner und drücke den importieren Button.</string>
+    <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file at the storage root.</string>
     <string name="import_permission_error_toast">Es kann nicht importiert werden das lesen des externen Speichers ist für CineLog nicht erlaubt.</string>
     <string name="import_error_toast">Beim importieren der Daten (%s) ist ein Fehler aufgetreten.</string>
     <string name="import_io_error_toast">Beim Suchen der Datei "%s" ist ein Fehler aufgetreten. Stellen Sie sicher, dass die Datei sich im Hauptverzeichnis befindet, und dass Sie über die erforderlichen Berechtigungen verfügen.</string>
