@@ -110,5 +110,9 @@
     <string name="automatic_export_cant_export_serie">An error occurred during automatic save of series.</string>
     <string name="automatic_export_movie_toast">Success of movies automatic save !</string>
     <string name="automatic_export_serie_toast">Success of automatic save of series !</string>
+    <string name="nav_reviews_space">Reviews</string>
+    <string name="nav_wishlist_space">Wishlist</string>
+    <string name="nav_title">Menu</string>
+    <string name="toolbar_subtitle_reviews">Reviews</string>
 
 </resources>

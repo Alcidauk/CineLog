@@ -2,12 +2,17 @@ package com.ulicae.cinelog.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -57,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.category_pager)
     ViewPager viewPager;
 
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
@@ -76,17 +84,56 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
-
-                if (fragment instanceof MovieFragment) {
-                    Intent intent = new Intent(getApplicationContext(), AddKino.class);
-                    startActivity(intent);
-                } else if (fragment instanceof SerieFragment) {
-                    Intent intent = new Intent(getApplicationContext(), AddSerieActivity.class);
-                    startActivity(intent);
-                }
+                setReviewFragment();
             }
         });
+
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.menu);
+            actionbar.setSubtitle(R.string.toolbar_subtitle_reviews);
+        }
+
+        configureDrawer();
+    }
+
+    private void configureDrawer() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        drawerLayout.closeDrawers();
+
+                        switch (menuItem.getItemId()){
+                            case 0:
+                                setReviewFragment();
+                                break;
+                            case 1:
+                                break;
+                        }
+
+                        return true;
+                    }
+                }
+        );
+    }
+
+    private void setReviewFragment() {
+        Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+
+        if (fragment instanceof MovieFragment) {
+            Intent intent = new Intent(getApplicationContext(), AddKino.class);
+            startActivity(intent);
+        } else if (fragment instanceof SerieFragment) {
+            Intent intent = new Intent(getApplicationContext(), AddSerieActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -104,6 +151,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);
