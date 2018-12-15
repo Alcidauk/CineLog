@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,13 +15,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.add.AddKino;
-import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
-import com.ulicae.cinelog.android.activities.fragments.MovieFragment;
-import com.ulicae.cinelog.android.activities.fragments.SerieFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
@@ -57,9 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.category_tabs)
-    TabLayout tabLayout;
-    @BindView(R.id.category_pager)
+    @BindView(R.id.space_pager)
     ViewPager viewPager;
 
     @BindView(R.id.drawer_layout)
@@ -78,22 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         setViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setReviewFragment();
-            }
-        });
 
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.menu);
-            actionbar.setSubtitle(R.string.toolbar_subtitle_reviews);
         }
 
         configureDrawer();
@@ -110,9 +92,8 @@ public class MainActivity extends AppCompatActivity {
                         // close drawer when item is tapped
                         drawerLayout.closeDrawers();
 
-                        switch (menuItem.getItemId()){
+                        switch (menuItem.getItemId()) {
                             case 0:
-                                setReviewFragment();
                                 break;
                             case 1:
                                 break;
@@ -122,18 +103,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-    }
-
-    private void setReviewFragment() {
-        Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
-
-        if (fragment instanceof MovieFragment) {
-            Intent intent = new Intent(getApplicationContext(), AddKino.class);
-            startActivity(intent);
-        } else if (fragment instanceof SerieFragment) {
-            Intent intent = new Intent(getApplicationContext(), AddSerieActivity.class);
-            startActivity(intent);
-        }
     }
 
     @Override
@@ -162,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MovieFragment(), getString(R.string.title_fragment_movie));
-        adapter.addFragment(new SerieFragment(), getString(R.string.title_fragment_serie));
+        adapter.addFragment(new ReviewListFragment(), getString(R.string.title_fragment_movie));
+        //adapter.addFragment(new SerieFragment(), getString(R.string.title_fragment_serie));
         viewPager.setAdapter(adapter);
     }
 
