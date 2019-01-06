@@ -76,7 +76,7 @@ public class ImportInDb extends AppCompatActivity {
                     new CsvImporter<>(
                             new FileReaderGetter(),
                             new KinoImportCreator<>(this, new SerieDtoFromRecordBuilder(this)),
-                            new SerieService(((KinoApplication) getApplication()).getDaoSession()),
+                            new SerieService(((KinoApplication) getApplication()).getDaoSession(), this),
                             this)
             );
         } else {

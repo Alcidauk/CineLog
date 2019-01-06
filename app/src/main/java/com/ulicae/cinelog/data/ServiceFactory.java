@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.data;
 
+import android.content.Context;
+
 import com.ulicae.cinelog.data.dao.DaoSession;
 
 /**
@@ -22,12 +24,18 @@ import com.ulicae.cinelog.data.dao.DaoSession;
  */
 public class ServiceFactory {
 
+    private Context context;
+
+    public ServiceFactory(Context baseContext) {
+        context = baseContext;
+    }
+
     public DataService create(String type, DaoSession daoSession) {
         switch (type){
             case "kino":
                 return new KinoService(daoSession);
             case "serie":
-                return new SerieService(daoSession);
+                return new SerieService(daoSession, context);
         }
 
         throw new NullPointerException("Unable to find a service for this type.");

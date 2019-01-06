@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.data;
 
+import android.content.Context;
+
 import com.ulicae.cinelog.data.dao.DaoSession;
 
 import org.junit.Test;
@@ -15,18 +17,21 @@ public class ServiceFactoryTest {
     @Mock
     private DaoSession daoSession;
 
+    @Mock
+    private Context context;
+
     @Test
     public void kinoService() {
-        assertTrue(new ServiceFactory().create("kino", daoSession) instanceof KinoService);
+        assertTrue(new ServiceFactory(context).create("kino", daoSession) instanceof KinoService);
     }
 
     @Test
     public void serieService() {
-        assertTrue(new ServiceFactory().create("serie", daoSession) instanceof SerieService);
+        assertTrue(new ServiceFactory(context).create("serie", daoSession) instanceof SerieService);
     }
 
     @Test(expected = NullPointerException.class)
     public void unexistingService() {
-        new ServiceFactory().create("banane", daoSession);
+        new ServiceFactory(context).create("banane", daoSession);
     }
 }

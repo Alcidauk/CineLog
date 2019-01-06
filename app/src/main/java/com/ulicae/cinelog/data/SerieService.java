@@ -1,12 +1,14 @@
 package com.ulicae.cinelog.data;
 
+import android.content.Context;
+
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
+import com.ulicae.cinelog.network.TmdbGetterService;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
 import java.util.ArrayList;
@@ -35,22 +37,24 @@ public class SerieService implements DataService<SerieDto> {
     private final SerieReviewRepository serieReviewRepository;
     private ReviewRepository reviewRepository;
     private final TmdbSerieRepository tmdbSerieRepository;
+    private TmdbGetterService tmdbGetterService;
     private final SerieKinoDtoBuilder serieKinoDtoBuilder;
     private SerieDtoToDbBuilder dtoToDbBuilder;
 
-    SerieService(SerieReviewRepository serieReviewRepository, ReviewRepository reviewRepository, TmdbSerieRepository tmdbSerieRepository, SerieKinoDtoBuilder serieKinoDtoBuilder, SerieDtoToDbBuilder dtoToDbBuilder) {
+    SerieService(SerieReviewRepository serieReviewRepository, ReviewRepository reviewRepository, TmdbSerieRepository tmdbSerieRepository, TmdbGetterService tmdbGetterService, SerieKinoDtoBuilder serieKinoDtoBuilder, SerieDtoToDbBuilder dtoToDbBuilder) {
         this.serieReviewRepository = serieReviewRepository;
         this.reviewRepository = reviewRepository;
         this.tmdbSerieRepository = tmdbSerieRepository;
+        this.tmdbGetterService = tmdbGetterService;
         this.serieKinoDtoBuilder = serieKinoDtoBuilder;
         this.dtoToDbBuilder = dtoToDbBuilder;
     }
 
-    public SerieService(DaoSession daoSession) {
+    public SerieService(DaoSession daoSession, Context context) {
         this(new SerieReviewRepository(daoSession),
                 new ReviewRepository(daoSession),
                 new TmdbSerieRepository(daoSession),
-                new SerieKinoDtoBuilder(),
+                new TmdbGetterService(context), new SerieKinoDtoBuilder(),
                 new SerieDtoToDbBuilder()
         );
     }
@@ -103,6 +107,24 @@ public class SerieService implements DataService<SerieDto> {
 
             createOrUpdate(serieDto);
         }
+    }
+
+    public void syncWithTmdb(int tmdbId) {
+        SerieReview serieReview = serieReviewRepository.findByMovieId(tmdbId);
+
+        SerieDto updatedDto = tmdbGetterService.getSerieWithTmdbId(tmdbId);
+
+        Review review = serieReview.getReview();
+        review.setTitle(updatedDto.getTitle());
+
+        TmdbSerie tmdbSerie = serieReview.getSerie();
+        tmdbSerie.setYear(updatedDto.getYear());
+        tmdbSerie.setPoster_path(updatedDto.getPosterPath());
+        tmdbSerie.setOverview(updatedDto.getOverview());
+        tmdbSerie.setRelease_date(updatedDto.getReleaseDate());
+
+        tmdbSerieRepository.createOrUpdate(tmdbSerie);
+        reviewRepository.createOrUpdate(review);
     }
 
     public List<SerieDto> getAll() {

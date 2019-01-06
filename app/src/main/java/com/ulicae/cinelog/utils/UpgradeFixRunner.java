@@ -43,7 +43,7 @@ public class UpgradeFixRunner {
     }
 
     private void fixSerieReviews() {
-        SerieService serieService = new SerieService(((KinoApplication) application).getDaoSession());
+        SerieService serieService = new SerieService(((KinoApplication) application).getDaoSession(), context);
 
         List<SerieDto> all = serieService.getAll();
         for (SerieDto serieDto : all) {
