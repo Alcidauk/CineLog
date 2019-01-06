@@ -1,3 +1,4 @@
+/*
 package com.ulicae.cinelog.network;
 
 import com.ulicae.cinelog.data.SerieService;
@@ -5,6 +6,7 @@ import com.ulicae.cinelog.data.SerieService;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class TmdbGetterServiceTest {
@@ -15,7 +17,8 @@ public class TmdbGetterServiceTest {
     @Mock
     private SerieService serieService;
 
-  /*  @Test
+  */
+/*  @Test
     public void getSerieDtoWithTmdbId() {
         //noinspection unchecked
         Call<TvShow> call = mock(Call.class);
@@ -25,6 +28,7 @@ public class TmdbGetterServiceTest {
 
         new TmdbGetterService(tmdbServiceWrapper).startSyncWithTmdb(serieService, serieReview,24L);
         // TODO test task is created and called
-    }*/
+    }*//*
 
-}
+
+}*/
