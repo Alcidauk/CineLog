@@ -22,6 +22,7 @@ import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.utils.ThemeWrapper;
+import com.ulicae.cinelog.utils.UpgradeFixRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        checkNeededFix();
+    }
+
+    private void checkNeededFix() {
+        new UpgradeFixRunner(getBaseContext(), getApplication()).runFixesIfNeeded();
     }
 
     @Override

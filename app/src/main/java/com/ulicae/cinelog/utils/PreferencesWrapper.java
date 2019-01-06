@@ -41,6 +41,10 @@ public class PreferencesWrapper {
         getPreferenceManager(context).edit().putString(key, defaultValue).apply();
     }
 
+    public void setIntegerPreference(Context context, String key, int defaultValue) {
+        getPreferenceManager(context).edit().putInt(key, defaultValue).apply();
+    }
+
     private SharedPreferences getPreferenceManager(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

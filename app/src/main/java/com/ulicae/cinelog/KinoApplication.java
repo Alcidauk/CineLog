@@ -13,8 +13,6 @@ import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
-import java.io.IOException;
-
 /**
  * CineLog Copyright 2018 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
