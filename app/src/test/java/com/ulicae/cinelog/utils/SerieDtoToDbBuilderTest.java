@@ -13,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.doReturn;
 
 
@@ -43,21 +44,39 @@ public class SerieDtoToDbBuilderTest {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    public void build() {
+    public void build_review() {
         Date reviewDate = new Date();
 
-        doReturn(784L).when(serieDto).getKinoId();
-        doReturn(4564321L).when(serieDto).getTmdbKinoId();
-        doReturn(32132L).when(serieDto).getReviewId();
+        doReturn(null).when(serieDto).getReviewId();
         doReturn(5f).when(serieDto).getRating();
         doReturn(10).when(serieDto).getMaxRating();
+        doReturn("a review").when(serieDto).getReview();
+        doReturn("a title").when(serieDto).getTitle();
+        doReturn(reviewDate).when(serieDto).getReview_date();
+
+        Review review = new Review(
+                null,
+                "a title",
+                reviewDate,
+                "a review",
+                5f,
+                10
+        );
+
+        assertEquals(
+                review,
+                new SerieDtoToDbBuilder().buildReview(serieDto)
+        );
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Test
+    public void build_tmdbserie() {
+        doReturn(4564321L).when(serieDto).getTmdbKinoId();;
         doReturn("an overview").when(serieDto).getOverview();
         doReturn("a poster path").when(serieDto).getPosterPath();
         doReturn("a release date").when(serieDto).getReleaseDate();
-        doReturn("a review").when(serieDto).getReview();
-        doReturn("a title").when(serieDto).getTitle();
         doReturn(1456).when(serieDto).getYear();
-        doReturn(reviewDate).when(serieDto).getReview_date();
 
         TmdbSerie tmdbSerie = new TmdbSerie(
                 4564321L,
@@ -66,25 +85,19 @@ public class SerieDtoToDbBuilderTest {
                 1456,
                 "a release date"
         );
-        Review review = new Review(
-                32132L,
-                "a title",
-                reviewDate,
-                "a review",
-                5f,
-                10
-        );
-
-        SerieReview serieReview = new SerieReview(
-                784L,
-                tmdbSerie,
-                review
-        );
 
         assertEquals(
-                serieReview,
-                new SerieDtoToDbBuilder().build(serieDto)
+                tmdbSerie,
+                new SerieDtoToDbBuilder().buildTmdbSerie(serieDto)
         );
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Test
+    public void build_tmdbserie_nullId() {
+        doReturn(null).when(serieDto).getTmdbKinoId();
+
+        assertNull(new SerieDtoToDbBuilder().buildTmdbSerie(serieDto));
     }
 
 }

@@ -1,7 +1,9 @@
 package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
+import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
@@ -72,14 +74,17 @@ public class SerieService implements DataService<SerieDto> {
 
     @Override
     public SerieDto createOrUpdate(SerieDto serieDto) {
-        SerieReview serieReview = dtoToDbBuilder.build(serieDto);
+        Review review = dtoToDbBuilder.buildReview(serieDto);
+        TmdbSerie tmdbSerie = dtoToDbBuilder.buildTmdbSerie(serieDto);
 
-        if (serieDto.getTmdbKinoId() != null) {
-            tmdbSerieRepository.createOrUpdate(serieReview.getSerie());
+        if(review != null){
+            reviewRepository.createOrUpdate(review);
+        }
+        if(tmdbSerie != null){
+            tmdbSerieRepository.createOrUpdate(tmdbSerie);
         }
 
-        reviewRepository.createOrUpdate(serieReview.getReview());
-
+        SerieReview serieReview = new SerieReview(serieDto.getKinoId(), tmdbSerie, review);
         serieReviewRepository.createOrUpdate(serieReview);
 
         return serieKinoDtoBuilder.build(serieReview);

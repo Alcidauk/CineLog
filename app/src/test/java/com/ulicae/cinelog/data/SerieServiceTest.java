@@ -1,14 +1,10 @@
 package com.ulicae.cinelog.data;
 
-import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
-import com.ulicae.cinelog.data.dao.TmdbKino;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
-import com.ulicae.cinelog.utils.KinoDtoToDbBuilder;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
 import org.junit.Test;
@@ -18,13 +14,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -189,41 +185,42 @@ public class SerieServiceTest {
 
     @Test
     public void createOrUpdateKino() {
-        SerieReview reviewToCreate = mock(SerieReview.class);
         TmdbSerie tmdbKino = mock(TmdbSerie.class);
-        doReturn(tmdbKino).when(reviewToCreate).getSerie();
+        doReturn(tmdbKino).when(toDbBuilder).buildTmdbSerie(serieDto);
 
         Review review = mock(Review.class);
-        doReturn(review).when(reviewToCreate).getReview();
+        doReturn(review).when(toDbBuilder).buildReview(serieDto);
 
-        doReturn(reviewToCreate).when(toDbBuilder).build(serieDto);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(12L).when(serieDto).getKinoId();
+
+        SerieReview serieReview = new SerieReview(12L, tmdbKino, review);
 
         SerieDto createdKino = mock(SerieDto.class);
-        doReturn(createdKino).when(serieKinoDtoBuilder).build(reviewToCreate);
+        doReturn(createdKino).when(serieKinoDtoBuilder).build(serieReview);
 
         assertEquals(
                 createdKino,
                 new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder).createOrUpdate(serieDto)
         );
 
-        verify(serieReviewRepository).createOrUpdate(reviewToCreate);
+        verify(serieReviewRepository).createOrUpdate(serieReview);
         verify(reviewRepository).createOrUpdate(review);
         verify(tmdbSerieRepository).createOrUpdate(tmdbKino);
     }
 
     @Test
-    public void createOrUpdateKinoNullTmdbId() {
-        SerieReview reviewToCreate = mock(SerieReview.class);
-
+    public void createOrUpdateSerieNullTmdbId() {
         Review review = mock(Review.class);
-        doReturn(review).when(reviewToCreate).getReview();
+        doReturn(review).when(toDbBuilder).buildReview(serieDto);
 
-        doReturn(reviewToCreate).when(toDbBuilder).build(serieDto);
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(45L).when(serieDto).getKinoId();
+
+        SerieReview reviewToCreate = new SerieReview(45L, null, review);
 
         SerieDto createdKino = mock(SerieDto.class);
         doReturn(createdKino).when(serieKinoDtoBuilder).build(reviewToCreate);
-
-        doReturn(null).when(serieDto).getTmdbKinoId();
 
         assertEquals(
                 createdKino,
@@ -236,27 +233,58 @@ public class SerieServiceTest {
     }
 
     @Test
-    public void createOrUpdateKinosWithTmdbIdExistingWithId() {
-        SerieReview reviewToCreate = mock(SerieReview.class);
+    public void createOrUpdateKinosNoExistingId() {
         TmdbSerie tmdbKino = mock(TmdbSerie.class);
-        doReturn(tmdbKino).when(reviewToCreate).getSerie();
+        doReturn(tmdbKino).when(toDbBuilder).buildTmdbSerie(serieDto);
 
-        doReturn(reviewToCreate).when(toDbBuilder).build(serieDto);
-
-        SerieDto createdSerieDto = mock(SerieDto.class);
-        doReturn(createdSerieDto).when(serieKinoDtoBuilder).build(reviewToCreate);
+        Review review = mock(Review.class);
+        doReturn(review).when(toDbBuilder).buildReview(serieDto);
 
         //noinspection ResultOfMethodCallIgnored
-        doReturn(15L).when(this.serieDto).getKinoId();
+        doReturn(12L).when(serieDto).getKinoId();
+
+        SerieReview serieReview = new SerieReview(12L, tmdbKino, review);
+
+        SerieDto createdKino = mock(SerieDto.class);
+        doReturn(createdKino).when(serieKinoDtoBuilder).build(serieReview);
 
         new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder)
                 .createOrUpdateWithTmdbId(new ArrayList<SerieDto>() {{
-                    add(SerieServiceTest.this.serieDto);
+                    add(serieDto);
                 }});
 
-        verify(serieDto, never()).setKinoId(22222L);
+        verify(serieDto, never()).setKinoId(12L);
 
-        verify(serieReviewRepository).createOrUpdate(reviewToCreate);
+        verify(serieReviewRepository).createOrUpdate(serieReview);
+        verify(tmdbSerieRepository).createOrUpdate(tmdbKino);
+    }
+
+    @Test
+    public void createOrUpdateKinosWithTmdbIdExistingWithId() {
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(null).when(serieDto).getKinoId();
+        //noinspection ResultOfMethodCallIgnored
+        doReturn(4561432L).when(serieDto).getTmdbKinoId();
+
+        TmdbSerie tmdbKino = mock(TmdbSerie.class);
+        doReturn(tmdbKino).when(toDbBuilder).buildTmdbSerie(serieDto);
+
+        Review review = mock(Review.class);
+        doReturn(review).when(toDbBuilder).buildReview(serieDto);
+
+        SerieReview serieReview = new SerieReview(null, tmdbKino, review);
+        SerieReview dbSerieReview = new SerieReview(24L, tmdbKino, review);
+
+        doReturn(dbSerieReview).when(serieReviewRepository).findByMovieId(4561432L);
+
+        new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder)
+                .createOrUpdateWithTmdbId(new ArrayList<SerieDto>() {{
+                    add(serieDto);
+                }});
+
+        verify(serieDto).setKinoId(24L);
+
+        verify(serieReviewRepository).createOrUpdate(serieReview);
         verify(tmdbSerieRepository).createOrUpdate(tmdbKino);
     }
 }
