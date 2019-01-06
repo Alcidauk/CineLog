@@ -7,19 +7,14 @@ import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
 import com.ulicae.cinelog.network.TmdbGetterService;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
-import com.uwetrottmann.tmdb2.entities.TvShow;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -302,6 +297,18 @@ public class SerieServiceTest {
         SerieReview serieReview = mock(SerieReview.class);
         doReturn(serieReview).when(serieReviewRepository).findByMovieId(24);
 
+        SerieService serieService = new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository,
+                tmdbGetterService, serieKinoDtoBuilder, toDbBuilder);
+        serieService.syncWithTmdb(24);
+
+        verify(tmdbGetterService).startSyncWithTmdb(serieService, serieReview, 24);
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Test
+    public void updateTmdbInfo() {
+        SerieReview serieReview = mock(SerieReview.class);
+
         TmdbSerie tmdbSerie = mock(TmdbSerie.class);
         doReturn(tmdbSerie).when(serieReview).getSerie();
         Review review = mock(Review.class);
@@ -314,10 +321,8 @@ public class SerieServiceTest {
         doReturn(2018).when(updatedDto).getYear();
         doReturn("Alala").when(updatedDto).getTitle();
 
-        doReturn(updatedDto).when(tmdbGetterService).getSerieWithTmdbId(24);
-
         new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository,
-                tmdbGetterService, serieKinoDtoBuilder, toDbBuilder).syncWithTmdb(24);
+                tmdbGetterService, serieKinoDtoBuilder, toDbBuilder).updateTmdbInfo(updatedDto, serieReview);
 
         verify(tmdbSerie).setOverview("Banane");
         verify(tmdbSerie).setPoster_path("Bleue");

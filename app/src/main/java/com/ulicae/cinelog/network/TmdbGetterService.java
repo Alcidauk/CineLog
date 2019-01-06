@@ -1,35 +1,30 @@
 package com.ulicae.cinelog.network;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.ulicae.cinelog.data.SerieService;
+import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.network.task.sync.SerieSyncNetworkTask;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 
-import java.io.IOException;
+import retrofit2.Call;
 
 public class TmdbGetterService {
 
     private TmdbServiceWrapper tmdbServiceWrapper;
-    private SerieBuilderFromMovie serieBuilderFromMovie;
 
     public TmdbGetterService(Context context) {
-        this(new TmdbServiceWrapper(context), new SerieBuilderFromMovie());
+        this(new TmdbServiceWrapper(context));
     }
 
-    TmdbGetterService(TmdbServiceWrapper tmdbServiceWrapper, SerieBuilderFromMovie serieBuilderFromMovie) {
+    TmdbGetterService(TmdbServiceWrapper tmdbServiceWrapper) {
         this.tmdbServiceWrapper = tmdbServiceWrapper;
-        this.serieBuilderFromMovie = serieBuilderFromMovie;
     }
 
-    public SerieDto getSerieWithTmdbId(int tmdbId) {
-        try {
-            TvShow tvShow = tmdbServiceWrapper.searchTvShowById(tmdbId).execute().body();
-            return serieBuilderFromMovie.build(tvShow);
-        } catch (IOException e) {
-            // TODO improve it
-            Log.i("tmdbGetter", "Unable to execute task.");
-            return null;
-        }
+    public void startSyncWithTmdb(SerieService serieService, SerieReview serieReview, long tmdbId) {
+        Call<TvShow> tvShowCall = tmdbServiceWrapper.searchTvShowById(Long.valueOf(tmdbId).intValue());
+        //noinspection unchecked
+        new SerieSyncNetworkTask(new SerieBuilderFromMovie(), serieReview, serieService).execute(tvShowCall);
     }
 }

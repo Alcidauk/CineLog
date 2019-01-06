@@ -53,6 +53,9 @@ public class UpgradeFixRunner {
                 serieService.createOrUpdate(serieDto);
                 Log.i("upgrade_fix", String.format("Creating own review for serie with id %s", serieDto.getTmdbKinoId()));
             }
+
+            serieService.syncWithTmdb(serieDto.getTmdbKinoId());
+            Log.i("upgrade_fix", String.format("Refreshing data of %s serie with tmdb online db", serieDto.getTmdbKinoId()));
         }
     }
 }

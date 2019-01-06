@@ -109,11 +109,13 @@ public class SerieService implements DataService<SerieDto> {
         }
     }
 
-    public void syncWithTmdb(int tmdbId) {
+    public void syncWithTmdb(long tmdbId) {
         SerieReview serieReview = serieReviewRepository.findByMovieId(tmdbId);
 
-        SerieDto updatedDto = tmdbGetterService.getSerieWithTmdbId(tmdbId);
+        tmdbGetterService.startSyncWithTmdb(this, serieReview, tmdbId);
+    }
 
+    public void updateTmdbInfo(SerieDto updatedDto, SerieReview serieReview){
         Review review = serieReview.getReview();
         review.setTitle(updatedDto.getTitle());
 
