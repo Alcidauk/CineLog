@@ -3,9 +3,11 @@ package com.ulicae.cinelog.utils;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ulicae.cinelog.BuildConfig;
 import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.SerieDto;
 
@@ -57,5 +59,7 @@ public class UpgradeFixRunner {
             serieService.syncWithTmdb(serieDto.getTmdbKinoId());
             Log.i("upgrade_fix", String.format("Refreshing data of %s serie with tmdb online db", serieDto.getTmdbKinoId()));
         }
+
+        Toast.makeText(application.getBaseContext(), application.getBaseContext().getString(R.string.restart_app_please), Toast.LENGTH_LONG).show();
     }
 }

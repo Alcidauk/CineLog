@@ -110,4 +110,5 @@
     <string name="automatic_export_cant_export_serie">An error occurred during automatic save of series.</string>
     <string name="automatic_export_movie_toast">Success of movies automatic save !</string>
     <string name="automatic_export_serie_toast">Success of automatic save of series !</string>
+    <string name="restart_app_please">Please restart the app to complete upgrade.</string>
 </resources>

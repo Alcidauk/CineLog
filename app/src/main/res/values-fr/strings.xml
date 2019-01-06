@@ -108,4 +108,6 @@
     <string name="automatic_export_cant_export_serie">Impossible d\'effectuer la sauvegarde automatique des revues de séries.</string>
     <string name="automatic_export_movie_toast">Sauvegarde automatique des revues de films effectuée !</string>
     <string name="automatic_export_serie_toast">Sauvegarde automatique des revues de séries effectuée !</string>
+
+    <string name="restart_app_please">Redémarrez l\'application pour terminer la mise à jour.</string>
 </resources>
