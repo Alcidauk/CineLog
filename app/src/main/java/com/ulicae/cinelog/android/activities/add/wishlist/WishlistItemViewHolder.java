@@ -37,9 +37,6 @@ public class WishlistItemViewHolder {
     @BindView(R.id.kino_poster)
     ImageView poster;
 
-    @BindView(R.id.add_to_wishlist_button)
-    ImageButton add_to_wishlist_button;
-
     WishlistItemViewHolder(View view) {
         ButterKnife.bind(this, view);
     }
@@ -56,7 +53,4 @@ public class WishlistItemViewHolder {
         return poster;
     }
 
-    public ImageButton getAdd_to_wishlist_button() {
-        return add_to_wishlist_button;
-    }
 }

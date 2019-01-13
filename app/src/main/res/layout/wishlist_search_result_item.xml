@@ -55,14 +55,4 @@
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="italic" />
-
-    <ImageButton
-        android:id="@+id/add_to_wishlist_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/add_kino"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

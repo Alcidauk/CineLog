@@ -66,8 +66,6 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
         populateYear(serieDataDto, holder);
         populatePoster(serieDataDto, holder);
 
-        populateAddButton(serieDataDto, holder);
-
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,16 +79,6 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
 
         return convertView;
     }
-
-    private void populateAddButton(final SerieDataDto serieDataDto, WishlistItemViewHolder holder) {
-        /*holder.getAddButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO go to kino unregistered view ? or a new activity
-            }
-        });*/
-    }
-
 
     private void populatePoster(SerieDataDto kinoDto, WishlistItemViewHolder holder) {
         holder.getPoster().setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
