@@ -33,10 +33,6 @@ public class TmdbSerie {
     @Id
     Long serie_id;
 
-    Integer tmdb_id;
-
-    String title;
-
     String poster_path;
     String overview;
     int year;
@@ -47,24 +43,14 @@ public class TmdbSerie {
     public TmdbSerie() {
     }
 
-    @Generated(hash = 1368066157)
-    public TmdbSerie(Long serie_id, Integer tmdb_id, String title, String poster_path,
-            String overview, int year, String release_date) {
+    @Generated(hash = 118982129)
+    public TmdbSerie(Long serie_id, String poster_path, String overview, int year,
+            String release_date) {
         this.serie_id = serie_id;
-        this.tmdb_id = tmdb_id;
-        this.title = title;
         this.poster_path = poster_path;
         this.overview = overview;
         this.year = year;
         this.release_date = release_date;
-    }
-
-    public Integer getTmdb_id() {
-        return tmdb_id;
-    }
-
-    public void setTmdb_id(Integer tmdb_id) {
-        this.tmdb_id = tmdb_id;
     }
 
     public String getPoster_path() {
@@ -107,14 +93,6 @@ public class TmdbSerie {
         this.serie_id = serie_id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -122,7 +100,6 @@ public class TmdbSerie {
         TmdbSerie tmdbSerie = (TmdbSerie) o;
         return year == tmdbSerie.year &&
                 Objects.equals(serie_id, tmdbSerie.serie_id) &&
-                Objects.equals(title, tmdbSerie.title) &&
                 Objects.equals(poster_path, tmdbSerie.poster_path) &&
                 Objects.equals(overview, tmdbSerie.overview) &&
                 Objects.equals(release_date, tmdbSerie.release_date);
@@ -131,6 +108,6 @@ public class TmdbSerie {
     @Override
     public int hashCode() {
 
-        return Objects.hash(serie_id, title, poster_path, overview, year, release_date);
+        return Objects.hash(serie_id, poster_path, overview, year, release_date);
     }
 }

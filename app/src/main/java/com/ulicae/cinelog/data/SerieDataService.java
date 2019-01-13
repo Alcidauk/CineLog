@@ -2,45 +2,56 @@ package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
+import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.SerieDataDto;
-import com.ulicae.cinelog.data.dto.data.TmdbSerieToSerieDataDtoBuilder;
+import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SerieDataService {
 
+    private final WishlistSerieRepository wishlistSerieRepository;
     private TmdbSerieRepository tmdbSerieRepository;
-    private TmdbSerieToSerieDataDtoBuilder tmdbSerieToSerieDataDtoBuilder;
+    private WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder;
 
     public SerieDataService(DaoSession daoSession) {
-        this(new TmdbSerieRepository(daoSession), new TmdbSerieToSerieDataDtoBuilder());
+        this(new WishlistSerieRepository(daoSession), new TmdbSerieRepository(daoSession), new WishlistSerieToSerieDataDtoBuilder());
     }
 
-    SerieDataService(TmdbSerieRepository tmdbSerieRepository, TmdbSerieToSerieDataDtoBuilder tmdbSerieToSerieDataDtoBuilder) {
+    SerieDataService(WishlistSerieRepository wishlistSerieRepository, TmdbSerieRepository tmdbSerieRepository, WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder) {
+        this.wishlistSerieRepository = wishlistSerieRepository;
         this.tmdbSerieRepository = tmdbSerieRepository;
-        this.tmdbSerieToSerieDataDtoBuilder = tmdbSerieToSerieDataDtoBuilder;
+        this.wishlistSerieToSerieDataDtoBuilder = wishlistSerieToSerieDataDtoBuilder;
     }
 
     public void createSerieData(SerieDataDto serieDataDto) {
-        TmdbSerie serieToCreate = new TmdbSerie(
-                serieDataDto.getId() != null ? serieDataDto.getId().longValue() : null,
-                serieDataDto.getTmdbId(),
-                "A movie",
-                "2125",
-                "an overview",
-                2015,
-                "A release date");
+        TmdbSerie tmdbSerie = null;
+        if (serieDataDto.getTmdbId() != null) {
+            tmdbSerie = new TmdbSerie(
+                    serieDataDto.getTmdbId() != null ? serieDataDto.getTmdbId().longValue() : null,
+                    serieDataDto.getPosterPath(),
+                    serieDataDto.getOverview(),
+                    serieDataDto.getFirstYear(),
+                    serieDataDto.getReleaseDate());
+            tmdbSerieRepository.createOrUpdate(tmdbSerie);
+        }
 
-        tmdbSerieRepository.createOrUpdate(serieToCreate);
+        WishlistSerie wishlistSerie = new WishlistSerie(
+                serieDataDto.getId(),
+                tmdbSerie,
+                serieDataDto.getTitle(),
+                null
+        );
+        wishlistSerieRepository.createOrUpdate(wishlistSerie);
     }
 
     public List<SerieDataDto> getAll() {
-        List<TmdbSerie> tmdbSeries = tmdbSerieRepository.findAll();
+        List<WishlistSerie> wishlistSeries = wishlistSerieRepository.findAll();
 
         List<SerieDataDto> serieDataDtos = new ArrayList<>();
-        for (TmdbSerie tmdbSerie : tmdbSeries) {
-            serieDataDtos.add(tmdbSerieToSerieDataDtoBuilder.build(tmdbSerie));
+        for (WishlistSerie wishlistSerie : wishlistSeries) {
+            serieDataDtos.add(wishlistSerieToSerieDataDtoBuilder.build(wishlistSerie));
         }
         return serieDataDtos;
     }

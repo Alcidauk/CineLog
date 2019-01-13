@@ -1,8 +1,9 @@
 package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.TmdbSerie;
+import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.SerieDataDto;
-import com.ulicae.cinelog.data.dto.data.TmdbSerieToSerieDataDtoBuilder;
+import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,46 +21,48 @@ import static org.mockito.Mockito.verify;
 public class SerieDataServiceTest {
 
     @Mock
+    private WishlistSerieRepository wishlistSerieRepository;
+
+    @Mock
     private TmdbSerieRepository tmdbSerieRepository;
 
     @Mock
-    private TmdbSerieToSerieDataDtoBuilder tmdbSerieToSerieDataDtoBuilder;
+    private WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder;
 
     @Test
     public void createSerieData() {
-        new SerieDataService(tmdbSerieRepository, tmdbSerieToSerieDataDtoBuilder).createSerieData(
-                new SerieDataDto(24, 264564, "A movie", "2125", "an overview", 2015, "A release date")
+        new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).createSerieData(
+                new SerieDataDto(24L, 264564, "A movie", "2125", "an overview", 2015, "A release date")
         );
 
-        verify(tmdbSerieRepository).createOrUpdate(
-                new TmdbSerie(24L, 264564, "A movie", "2125", "an overview", 2015, "A release date")
-        );
+        TmdbSerie tmdbSerie = new TmdbSerie(264564L, "2125", "an overview", 2015, "A release date");
+        WishlistSerie wishlistSerie = new WishlistSerie(24L, tmdbSerie, "A movie", null);
+
+        verify(tmdbSerieRepository).createOrUpdate(tmdbSerie);
+        verify(wishlistSerieRepository).createOrUpdate(wishlistSerie);
     }
 
     @Test
-    public void createSerieData_nullId() {
-        new SerieDataService(tmdbSerieRepository, tmdbSerieToSerieDataDtoBuilder).createSerieData(
-                new SerieDataDto(null, 264564, "A movie", "2125", "an overview", 2015, "A release date")
+    public void createSerieData_noTmdb() {
+        new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).createSerieData(
+                new SerieDataDto(24L, null, "A movie", "2125", "an overview", 2015, "A release date")
         );
 
-        verify(tmdbSerieRepository).createOrUpdate(
-                new TmdbSerie(null, 264564, "A movie", "2125", "an overview", 2015, "A release date")
-        );
+        WishlistSerie wishlistSerie = new WishlistSerie(24L, null, "A movie", null);
+        verify(wishlistSerieRepository).createOrUpdate(wishlistSerie);
     }
 
     @Test
     public void getAll() {
-        final TmdbSerie tmdbSerie = mock(TmdbSerie.class);
-        doReturn(new ArrayList<TmdbSerie>(){{add(tmdbSerie);}}).when(tmdbSerieRepository).findAll();
+        final WishlistSerie wishlistSerie = mock(WishlistSerie.class);
+        doReturn(new ArrayList<WishlistSerie>(){{add(wishlistSerie);}}).when(wishlistSerieRepository).findAll();
 
         final SerieDataDto serieDataDto = mock(SerieDataDto.class);
-        doReturn(serieDataDto).when(tmdbSerieToSerieDataDtoBuilder).build(tmdbSerie);
+        doReturn(serieDataDto).when(wishlistSerieToSerieDataDtoBuilder).build(wishlistSerie);
 
         assertEquals(
-                new ArrayList<SerieDataDto>() {{
-                    add(serieDataDto);
-                }},
-                new SerieDataService(tmdbSerieRepository, tmdbSerieToSerieDataDtoBuilder).getAll()
+                new ArrayList<SerieDataDto>() {{ add(serieDataDto); }},
+                new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getAll()
         );
     }
 }

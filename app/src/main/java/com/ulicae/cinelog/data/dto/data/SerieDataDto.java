@@ -7,7 +7,7 @@ import java.util.Objects;
 @Parcel
 public class SerieDataDto {
 
-    private Integer id;
+    private Long id;
     private Integer tmdbId;
 
     private String title;
@@ -28,7 +28,7 @@ public class SerieDataDto {
         this.title = title;
     }
 
-    public SerieDataDto(Integer id, Integer tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate) {
+    public SerieDataDto(Long id, Integer tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate) {
         this.id = id;
         this.tmdbId = tmdbId;
         this.title = title;
@@ -38,7 +38,7 @@ public class SerieDataDto {
         this.releaseDate = releaseDate;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -82,7 +82,7 @@ public class SerieDataDto {
         this.releaseDate = releaseDate;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -99,8 +99,9 @@ public class SerieDataDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SerieDataDto that = (SerieDataDto) o;
-        return id == that.id &&
-                firstYear == that.firstYear &&
+        return firstYear == that.firstYear &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(tmdbId, that.tmdbId) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(posterPath, that.posterPath) &&
                 Objects.equals(overview, that.overview) &&
@@ -110,6 +111,19 @@ public class SerieDataDto {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, title, posterPath, overview, firstYear, releaseDate);
+        return Objects.hash(id, tmdbId, title, posterPath, overview, firstYear, releaseDate);
+    }
+
+    @Override
+    public String toString() {
+        return "SerieDataDto{" +
+                "id=" + id +
+                ", tmdbId=" + tmdbId +
+                ", title='" + title + '\'' +
+                ", posterPath='" + posterPath + '\'' +
+                ", overview='" + overview + '\'' +
+                ", firstYear=" + firstYear +
+                ", releaseDate='" + releaseDate + '\'' +
+                '}';
     }
 }

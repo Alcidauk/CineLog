@@ -41,8 +41,6 @@ public class SerieDtoToDbBuilder {
         if (serieDto.getTmdbKinoId() != null) {
             return new TmdbSerie(
                     serieDto.getTmdbKinoId(),
-                    serieDto.getTmdbKinoId() != null ? (int) serieDto.getTmdbKinoId().longValue() : null,
-                    serieDto.getTitle(),
                     serieDto.getPosterPath(),
                     serieDto.getOverview(),
                     serieDto.getYear(),
