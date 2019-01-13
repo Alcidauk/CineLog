@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -132,6 +133,17 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
     }
 
     public abstract void populateListView(final List<T> movies);
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     static class AddReviewHandler extends Handler {
         private WeakReference<AddReviewActivity> addKino;
