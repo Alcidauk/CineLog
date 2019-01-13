@@ -114,5 +114,7 @@
     <string name="nav_wishlist_space">Wishlist</string>
     <string name="nav_title">Menu</string>
     <string name="toolbar_subtitle_reviews">Reviews</string>
+    <string name="toolbar_subtitle_wishlist">Wishlist</string>
+    <string name="wishlist_list_activity">Wishlist</string>
 
 </resources>

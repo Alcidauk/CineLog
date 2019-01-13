@@ -3,14 +3,19 @@ package com.ulicae.cinelog.android.activities.add;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.EditReview;
+import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
+import com.ulicae.cinelog.android.activities.add.wishlist.WishlistTvResultsAdapter;
+import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.data.SerieDataDto;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
@@ -53,9 +58,14 @@ public class AddSerieActivity extends AddReviewActivity<BaseTvShow> {
     @BindView(R.id.kino_search_add_from_scratch)
     Button addFromScratchButton;
 
+    private boolean toWishlist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // TODO constant with toWishlist
+        toWishlist = getIntent().getBooleanExtra("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new TvNetworkTaskCreator());
         dataService = new SerieService(((KinoApplication) getApplication()).getDaoSession());
@@ -77,20 +87,35 @@ public class AddSerieActivity extends AddReviewActivity<BaseTvShow> {
 
     @OnClick(R.id.kino_search_add_from_scratch)
     public void onClick(View view) {
-        SerieDto serieDto = new SerieDto();
-        serieDto.setTitle(kino_search.getText().toString());
+        Intent intent;
+        if (!toWishlist) {
+            SerieDto serieDto = new SerieDto();
+            serieDto.setTitle(kino_search.getText().toString());
 
-        Intent intent = new Intent(view.getContext(), EditReview.class);
-
-        intent.putExtra("kino", Parcels.wrap(serieDto));
-        intent.putExtra("dtoType", "serie");
+            intent = new Intent(view.getContext(), EditReview.class);
+            intent.putExtra("kino", Parcels.wrap(serieDto));
+            intent.putExtra("dtoType", "serie");
+        } else {
+            intent = new Intent(view.getContext(), ViewDataActivity.class);
+            intent.putExtra("dataDto", Parcels.wrap(
+                    new SerieDataDto(kino_search.getText().toString()))
+            );
+            intent.putExtra("isWishlist", true);
+        }
 
         startActivity(intent);
     }
 
     public void populateListView(final List<BaseTvShow> tvShows) {
+        ArrayAdapter<BaseTvShow> arrayAdapter;
+        if(!toWishlist){
+            arrayAdapter = new TvResultsAdapter(this, tvShows);
+        } else {
+            arrayAdapter = new WishlistTvResultsAdapter(this, tvShows);
+        }
+
         if (kino_results_list != null) {
-            kino_results_list.setAdapter(new TvResultsAdapter(this, tvShows));
+            kino_results_list.setAdapter(arrayAdapter);
             kino_search_progress_bar.setVisibility(View.GONE);
         }
     }

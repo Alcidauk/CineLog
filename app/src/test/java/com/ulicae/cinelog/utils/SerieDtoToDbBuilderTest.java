@@ -61,6 +61,8 @@ public class SerieDtoToDbBuilderTest {
 
         TmdbSerie tmdbSerie = new TmdbSerie(
                 4564321L,
+                4564321,
+                "a title",
                 "a poster path",
                 "an overview",
                 1456,

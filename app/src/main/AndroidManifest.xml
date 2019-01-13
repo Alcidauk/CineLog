@@ -45,6 +45,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".android.activities.WishlistActivity"
+            android:label="@string/wishlist_list_activity">
+        </activity>
         <activity android:name=".android.activities.Search" />
         <activity
             android:name=".android.activities.add.AddKino"
@@ -67,6 +71,9 @@
             android:label="@string/title_activity_view_kino"/>
         <activity
             android:name=".android.activities.ViewUnregisteredKino"
+            android:label="@string/title_activity_view_unregistered_kino"/>
+        <activity
+            android:name=".android.activities.view.ViewDataActivity"
             android:label="@string/title_activity_view_unregistered_kino"/>
         <activity
             android:name=".android.activities.EditReview"

@@ -23,6 +23,7 @@ import com.ulicae.cinelog.android.activities.add.AddKino;
 import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
 import com.ulicae.cinelog.android.activities.fragments.MovieFragment;
 import com.ulicae.cinelog.android.activities.fragments.SerieFragment;
+import com.ulicae.cinelog.android.activities.fragments.SerieWishlistFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
@@ -53,7 +54,7 @@ import butterknife.ButterKnife;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MainActivity extends AppCompatActivity {
+public class WishlistActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -92,46 +93,8 @@ public class MainActivity extends AppCompatActivity {
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.menu);
-            actionbar.setSubtitle(R.string.toolbar_subtitle_reviews);
+            actionbar.setSubtitle(R.string.toolbar_subtitle_wishlist);
         }
-
-        configureDrawer();
-    }
-
-    private void configureDrawer() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        drawerLayout.closeDrawers();
-
-                        switch (menuItem.getItemId()) {
-                            case R.id.nav_reviews:
-                                startActivity(getIntent());
-                                break;
-                            case R.id.nav_wishlist:
-                                Intent intent = new Intent(getApplicationContext(), WishlistActivity.class);
-                                startActivity(intent);
-                                break;
-                        }
-
-                        setViewPager(viewPager);
-
-                        fab.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                setReviewFragment();
-                            }
-                        });
-
-                        return true;
-                    }
-                }
-        );
     }
 
     private void setReviewFragment() {
@@ -144,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(getApplicationContext(), AddSerieActivity.class);
         }
 
-        intent.putExtra("toWishlist", false);
+        intent.putExtra("toWishlist", true);
 
         startActivity(intent);
     }
@@ -175,8 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MovieFragment(), getString(R.string.title_fragment_movie));
-        adapter.addFragment(new SerieFragment(), getString(R.string.title_fragment_serie));
+        adapter.addFragment(new SerieWishlistFragment(), getString(R.string.title_fragment_serie));
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

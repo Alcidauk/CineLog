@@ -5,6 +5,8 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.parceler.Parcel;
 
+import java.util.Objects;
+
 /**
  * CineLog Copyright 2018 Pierre Rognon
  *
@@ -31,25 +33,39 @@ public class TmdbSerie {
     @Id
     Long serie_id;
 
+    Integer tmdb_id;
+
+    String title;
+
     String poster_path;
     String overview;
     int year;
     String release_date;
 
 
-    @Generated(hash = 118982129)
-    public TmdbSerie(Long serie_id, String poster_path, String overview, int year, String release_date) {
+    @Generated(hash = 962756978)
+    public TmdbSerie() {
+    }
+
+    @Generated(hash = 1368066157)
+    public TmdbSerie(Long serie_id, Integer tmdb_id, String title, String poster_path,
+            String overview, int year, String release_date) {
         this.serie_id = serie_id;
+        this.tmdb_id = tmdb_id;
+        this.title = title;
         this.poster_path = poster_path;
         this.overview = overview;
         this.year = year;
         this.release_date = release_date;
     }
 
-    @Generated(hash = 962756978)
-    public TmdbSerie() {
+    public Integer getTmdb_id() {
+        return tmdb_id;
     }
-    
+
+    public void setTmdb_id(Integer tmdb_id) {
+        this.tmdb_id = tmdb_id;
+    }
 
     public String getPoster_path() {
         return poster_path;
@@ -91,30 +107,30 @@ public class TmdbSerie {
         this.serie_id = serie_id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        TmdbSerie tmdbKino = (TmdbSerie) o;
-
-        if (year != tmdbKino.year) return false;
-        if (serie_id != null ? !serie_id.equals(tmdbKino.serie_id) : tmdbKino.serie_id != null)
-            return false;
-        if (poster_path != null ? !poster_path.equals(tmdbKino.poster_path) : tmdbKino.poster_path != null)
-            return false;
-        if (overview != null ? !overview.equals(tmdbKino.overview) : tmdbKino.overview != null)
-            return false;
-        return release_date != null ? release_date.equals(tmdbKino.release_date) : tmdbKino.release_date == null;
+        TmdbSerie tmdbSerie = (TmdbSerie) o;
+        return year == tmdbSerie.year &&
+                Objects.equals(serie_id, tmdbSerie.serie_id) &&
+                Objects.equals(title, tmdbSerie.title) &&
+                Objects.equals(poster_path, tmdbSerie.poster_path) &&
+                Objects.equals(overview, tmdbSerie.overview) &&
+                Objects.equals(release_date, tmdbSerie.release_date);
     }
 
     @Override
     public int hashCode() {
-        int result = serie_id != null ? serie_id.hashCode() : 0;
-        result = 31 * result + (poster_path != null ? poster_path.hashCode() : 0);
-        result = 31 * result + (overview != null ? overview.hashCode() : 0);
-        result = 31 * result + year;
-        result = 31 * result + (release_date != null ? release_date.hashCode() : 0);
-        return result;
+
+        return Objects.hash(serie_id, title, poster_path, overview, year, release_date);
     }
 }
