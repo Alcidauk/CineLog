@@ -2,7 +2,9 @@ package com.ulicae.cinelog.data;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.DaoMaster;
+
+import org.greenrobot.greendao.database.Database;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -22,22 +24,14 @@ import com.ulicae.cinelog.data.dao.DaoSession;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ServiceFactory {
+public class ProdOpenHelper extends DaoMaster.OpenHelper {
 
-    private Context context;
-
-    public ServiceFactory(Context baseContext) {
-        context = baseContext;
+    public ProdOpenHelper(Context context, String name) {
+        super(context, name);
     }
 
-    public DataService create(String type, DaoSession daoSession) {
-        switch (type){
-            case "kino":
-                return new KinoService(daoSession);
-            case "serie":
-                return new SerieService(daoSession, context);
-        }
-
-        throw new NullPointerException("Unable to find a service for this type.");
+    @Override
+    public void onOpen(Database db) {
+        DaoMaster.createAllTables(db, true);
     }
 }

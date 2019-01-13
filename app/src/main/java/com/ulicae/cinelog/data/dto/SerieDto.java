@@ -41,6 +41,9 @@ public class SerieDto extends KinoDto {
         return reviewId;
     }
 
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
+    }
 
     @Override
     public boolean equals(Object o) {

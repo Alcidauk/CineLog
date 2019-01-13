@@ -68,7 +68,7 @@ public class AddSerieActivity extends AddReviewActivity<BaseTvShow> {
         toWishlist = getIntent().getBooleanExtra("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new TvNetworkTaskCreator());
-        dataService = new SerieService(((KinoApplication) getApplication()).getDaoSession());
+        dataService = new SerieService(((KinoApplication) getApplication()).getDaoSession(), getBaseContext());
 
         addFromScratchButton.setText(getString(R.string.add_serie_from_scratch_label));
         kinoSearchEditText.setHint(getString(R.string.serie_title_hint));

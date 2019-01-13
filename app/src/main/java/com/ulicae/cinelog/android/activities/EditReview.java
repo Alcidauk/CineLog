@@ -96,7 +96,7 @@ public class EditReview extends AppCompatActivity {
         ButterKnife.bind(this);
 
         String dtoType = getIntent().getStringExtra("dtoType");
-        dtoService = new ServiceFactory().create(dtoType, ((KinoApplication) getApplicationContext()).getDaoSession());
+        dtoService = new ServiceFactory(getBaseContext()).create(dtoType, ((KinoApplication) getApplicationContext()).getDaoSession());
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         if (getIntent().getBooleanExtra("creation", false)) {

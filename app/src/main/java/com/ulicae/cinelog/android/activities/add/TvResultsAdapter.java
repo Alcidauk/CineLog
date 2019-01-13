@@ -45,7 +45,7 @@ public class TvResultsAdapter extends ItemResultAdapter<BaseTvShow> {
     public TvResultsAdapter(Context context, List<BaseTvShow> results) {
         super(context,
                 results,
-                new SerieService(((KinoApplication) ((AddSerieActivity) context).getApplication()).getDaoSession()),
+                new SerieService(((KinoApplication) ((AddSerieActivity) context).getApplication()).getDaoSession(), context),
                 new SerieBuilderFromMovie());
     }
 

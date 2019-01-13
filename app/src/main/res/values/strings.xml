@@ -117,4 +117,6 @@
     <string name="toolbar_subtitle_wishlist">Wishlist</string>
     <string name="wishlist_list_activity">Wishlist</string>
 
+    <string name="restart_app_please">Please restart the app to complete upgrade.</string>
+
 </resources>

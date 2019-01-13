@@ -25,20 +25,21 @@ import com.ulicae.cinelog.data.dto.SerieDto;
  *
  */
 public class SerieDtoToDbBuilder {
-    public SerieReview build(SerieDto serieDto) {
-        //noinspection UnnecessaryUnboxing
-        Review review = new Review(
-                serieDto.getReviewId() != null ? serieDto.getReviewId().longValue() : 0L,
+
+    public Review buildReview(SerieDto serieDto) {
+        return new Review(
+                serieDto.getReviewId(),
                 serieDto.getTitle(),
                 serieDto.getReview_date(),
                 serieDto.getReview(),
                 serieDto.getRating(),
                 serieDto.getMaxRating()
         );
+    }
 
-        TmdbSerie tmdbSerie = null;
+    public TmdbSerie buildTmdbSerie(SerieDto serieDto) {
         if (serieDto.getTmdbKinoId() != null) {
-            tmdbSerie = new TmdbSerie(
+            return new TmdbSerie(
                     serieDto.getTmdbKinoId(),
                     serieDto.getTmdbKinoId() != null ? (int) serieDto.getTmdbKinoId().longValue() : null,
                     serieDto.getTitle(),
@@ -47,12 +48,8 @@ public class SerieDtoToDbBuilder {
                     serieDto.getYear(),
                     serieDto.getReleaseDate()
             );
+        } else {
+            return null;
         }
-
-        return new SerieReview(
-                serieDto.getKinoId(),
-                tmdbSerie,
-                review
-        );
     }
 }

@@ -57,7 +57,9 @@ public class SerieReview {
         if(serie != null) {
             setSerie(serie);
         }
-        setReview(review);
+        if(review != null) {
+            setReview(review);
+        }
     }
 
     @Generated(hash = 1176680609)

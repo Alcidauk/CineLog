@@ -31,7 +31,7 @@ public class SerieCsvExporterFactory implements ExporterFactory{
     private SerieService serieService;
 
     public SerieCsvExporterFactory(Application application) {
-        this(new SerieService(((KinoApplication) application).getDaoSession()));
+        this(new SerieService(((KinoApplication) application).getDaoSession(), application.getBaseContext()));
     }
 
     private SerieCsvExporterFactory(SerieService serieService) {

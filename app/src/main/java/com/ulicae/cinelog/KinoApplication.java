@@ -4,6 +4,7 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.ulicae.cinelog.data.ProdOpenHelper;
 import com.ulicae.cinelog.data.dao.DaoMaster;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.io.exportdb.AutomaticExportException;
@@ -11,8 +12,6 @@ import com.ulicae.cinelog.io.exportdb.AutomaticExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
 import com.ulicae.cinelog.utils.ThemeWrapper;
-
-import java.io.IOException;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -36,7 +35,7 @@ import java.io.IOException;
  */
 public class KinoApplication extends Application {
 
-    DaoMaster.DevOpenHelper helper;
+    ProdOpenHelper helper;
     SQLiteDatabase db;
     DaoMaster daoMaster;
     DaoSession daoSession;
@@ -46,7 +45,7 @@ public class KinoApplication extends Application {
         super.onCreate();
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        helper = new DaoMaster.DevOpenHelper(this, "notes-db", null);
+        helper = new ProdOpenHelper(this, "notes-db");
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();

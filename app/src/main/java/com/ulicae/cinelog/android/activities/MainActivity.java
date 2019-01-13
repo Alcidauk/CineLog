@@ -27,6 +27,7 @@ import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.utils.ThemeWrapper;
+import com.ulicae.cinelog.utils.UpgradeFixRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,17 +78,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        setViewPager(viewPager);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setReviewFragment();
-            }
-        });
-
-        setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
@@ -95,7 +85,31 @@ public class MainActivity extends AppCompatActivity {
             actionbar.setSubtitle(R.string.toolbar_subtitle_reviews);
         }
 
+        setViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+
+                Intent intent;
+                if (fragment instanceof MovieFragment) {
+                    intent = new Intent(getApplicationContext(), AddKino.class);
+                } else {
+                    intent = new Intent(getApplicationContext(), AddSerieActivity.class);
+                }
+
+                intent.putExtra("toWishlist", false);
+
+                startActivity(intent);
+            }
+        });
+
         configureDrawer();
+
+        checkNeededFix();
     }
 
     private void configureDrawer() {
@@ -134,19 +148,8 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    private void setReviewFragment() {
-        Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
-
-        Intent intent;
-        if (fragment instanceof MovieFragment) {
-            intent = new Intent(getApplicationContext(), AddKino.class);
-        } else {
-            intent = new Intent(getApplicationContext(), AddSerieActivity.class);
-        }
-
-        intent.putExtra("toWishlist", false);
-
-        startActivity(intent);
+    private void checkNeededFix() {
+        new UpgradeFixRunner(getBaseContext(), getApplication()).runFixesIfNeeded();
     }
 
     @Override
@@ -177,9 +180,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MovieFragment(), getString(R.string.title_fragment_movie));
         adapter.addFragment(new SerieFragment(), getString(R.string.title_fragment_serie));
-
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -6,6 +6,7 @@ import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.utils.LocaleWrapper;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.services.SearchService;
+import com.uwetrottmann.tmdb2.services.TvService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +48,9 @@ public class TmdbServiceWrapperTest {
     private SearchService searchService;
 
     @Mock
+    private TvService tvService;
+
+    @Mock
     private Call call;
 
     @Mock
@@ -83,6 +87,20 @@ public class TmdbServiceWrapperTest {
         assertEquals(
                 call,
                 new TmdbServiceWrapper(tmdb, context, preferencesWrapper, localeWrapper).searchTv("name")
+        );
+    }
+
+    @Test
+    public void searchTvShowById() {
+        doReturn(tvService).when(tmdb).tvService();
+
+        doReturn("fr").when(preferencesWrapper).getStringPreference(context, "default_tmdb_language", null);
+
+        doReturn(call).when(tvService).tv(15, "fr");
+
+        assertEquals(
+                call,
+                new TmdbServiceWrapper(tmdb, context, preferencesWrapper, localeWrapper).searchTvShowById(15)
         );
     }
 
