@@ -7,6 +7,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
 
+import java.util.Objects;
+
 @Entity
 public class WishlistMovie {
 
@@ -162,11 +164,28 @@ public class WishlistMovie {
         myDao.update(this);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WishlistMovie that = (WishlistMovie) o;
+        return tmdb_id == that.tmdb_id &&
+                Objects.equals(wishlist_movie_id, that.wishlist_movie_id) &&
+                Objects.equals(movie, that.movie) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(comment, that.comment);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(wishlist_movie_id, movie, tmdb_id, title, comment);
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1977406893)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getWishlistMovieDao() : null;
     }
-
 }
