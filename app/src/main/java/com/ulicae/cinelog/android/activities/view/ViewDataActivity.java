@@ -79,6 +79,10 @@ public class ViewDataActivity extends AppCompatActivity {
         serieDataDto = Parcels.unwrap(getIntent().getParcelableExtra("dataDto"));
         isWishlist = getIntent().getBooleanExtra("isWishlist", false);
 
+        if(serieDataDto.getId() != null){
+            fab.setVisibility(View.INVISIBLE);
+        }
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -91,11 +95,6 @@ public class ViewDataActivity extends AppCompatActivity {
                 serieDataService.createSerieData(serieDataDto);
             }
         }
-        /*Intent intent = new Intent(this, EditReview.class);
-        intent.putExtra("kino", Parcels.wrap(kino));
-        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-
-        startActivityForResult(intent, RESULT_ADD_REVIEW);*/
     }
 
     @Override
@@ -123,23 +122,5 @@ public class ViewDataActivity extends AppCompatActivity {
             }
         }
     }
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (editted) {
-                    Intent returnIntent = getIntent();
-                    returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-                    returnIntent.putExtra("kino", Parcels.wrap(kino));
-                    returnIntent.putExtra("kino_position", position);
-                    setResult(Activity.RESULT_OK, returnIntent);
-                }
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
 
 }
