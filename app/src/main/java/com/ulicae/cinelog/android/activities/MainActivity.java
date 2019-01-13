@@ -92,18 +92,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
-
-                Intent intent;
-                if (fragment instanceof MovieFragment) {
-                    intent = new Intent(getApplicationContext(), AddKino.class);
-                } else {
-                    intent = new Intent(getApplicationContext(), AddSerieActivity.class);
-                }
-
-                intent.putExtra("toWishlist", false);
-
-                startActivity(intent);
+                setReviewFragment();
             }
         });
 
@@ -146,6 +135,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void setReviewFragment() {
+        Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+
+        Intent intent;
+        if (fragment instanceof MovieFragment) {
+            intent = new Intent(getApplicationContext(), AddKino.class);
+        } else {
+            intent = new Intent(getApplicationContext(), AddSerieActivity.class);
+        }
+
+        intent.putExtra("toWishlist", false);
+
+        startActivity(intent);
     }
 
     private void checkNeededFix() {
