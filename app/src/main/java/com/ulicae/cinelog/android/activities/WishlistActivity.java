@@ -95,6 +95,41 @@ public class WishlistActivity extends AppCompatActivity {
             actionbar.setHomeAsUpIndicator(R.drawable.menu);
             actionbar.setSubtitle(R.string.toolbar_subtitle_wishlist);
         }
+
+        configureDrawer();
+    }
+
+    private void configureDrawer() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        drawerLayout.closeDrawers();
+
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_reviews:
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                break;
+                        }
+
+                        setViewPager(viewPager);
+
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                setReviewFragment();
+                            }
+                        });
+
+                        return true;
+                    }
+                }
+        );
     }
 
     private void setReviewFragment() {

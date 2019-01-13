@@ -113,9 +113,6 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
 
                         switch (menuItem.getItemId()) {
-                            case R.id.nav_reviews:
-                                startActivity(getIntent());
-                                break;
                             case R.id.nav_wishlist:
                                 Intent intent = new Intent(getApplicationContext(), WishlistActivity.class);
                                 startActivity(intent);
