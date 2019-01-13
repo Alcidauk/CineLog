@@ -74,6 +74,8 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
                 Intent intent = new Intent(getContext(), ViewDataActivity.class);
                 intent.putExtra("dataDto", Parcels.wrap(serieDataDto));
                 intent.putExtra("isWishlist", true);
+
+                getContext().startActivity(intent);
             }
         });
 
