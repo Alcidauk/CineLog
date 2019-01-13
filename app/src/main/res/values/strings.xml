@@ -118,5 +118,6 @@
     <string name="wishlist_list_activity">Wishlist</string>
 
     <string name="restart_app_please">Please restart the app to complete upgrade.</string>
+    <string name="wishlist_item_added">Added to wishlist !</string>
 
 </resources>

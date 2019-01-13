@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
@@ -93,6 +94,8 @@ public class ViewDataActivity extends AppCompatActivity {
             if(serieDataDto.getId() == null){
                 SerieDataService serieDataService = new SerieDataService(((KinoApplication) getApplicationContext()).getDaoSession());
                 serieDataService.createSerieData(serieDataDto);
+
+                Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -120,6 +123,17 @@ public class ViewDataActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 serieDataDto = Parcels.unwrap(data.getParcelableExtra("kino"));
             }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
