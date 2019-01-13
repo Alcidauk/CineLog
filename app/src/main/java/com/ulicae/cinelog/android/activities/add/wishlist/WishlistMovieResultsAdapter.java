@@ -12,9 +12,10 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.MovieToWishlistDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
-import com.uwetrottmann.tmdb2.entities.BaseTvShow;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.uwetrottmann.tmdb2.entities.Movie;
 
 import org.parceler.Parcels;
 
@@ -38,13 +39,14 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
+// TODO generic with WishlistTvResultsAdapter
+public class WishlistMovieResultsAdapter extends ArrayAdapter<Movie> {
 
-    private TvShowToSerieDataDtoBuilder tvShowToSerieDataDtoBuilder;
+    private MovieToWishlistDataDtoBuilder movieToWishlistDataDtoBuilder;
 
-    public WishlistTvResultsAdapter(Context context, List<BaseTvShow> results) {
+    public WishlistMovieResultsAdapter(Context context, List<Movie> results) {
         super(context, R.layout.search_result_item, results);
-        this.tvShowToSerieDataDtoBuilder = new TvShowToSerieDataDtoBuilder();
+        this.movieToWishlistDataDtoBuilder = new MovieToWishlistDataDtoBuilder();
     }
 
 
@@ -58,7 +60,7 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.wishlist_search_result_item, parent, false);
         }
 
-        final WishlistDataDto wishlistDataDto = tvShowToSerieDataDtoBuilder.build(getItem(position));
+        final WishlistDataDto wishlistDataDto = movieToWishlistDataDtoBuilder.build(getItem(position));
 
         WishlistItemViewHolder holder = new WishlistItemViewHolder(convertView);
 
@@ -80,11 +82,11 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
         return convertView;
     }
 
-    private void populatePoster(WishlistDataDto kinoDto, WishlistItemViewHolder holder) {
+    private void populatePoster(WishlistDataDto dataDto, WishlistItemViewHolder holder) {
         holder.getPoster().setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-        if (kinoDto.getPosterPath() != null) {
+        if (dataDto.getPosterPath() != null) {
             Glide.with(getContext())
-                    .load("https://image.tmdb.org/t/p/w185" + kinoDto.getPosterPath())
+                    .load("https://image.tmdb.org/t/p/w185" + dataDto.getPosterPath())
                     .centerCrop()
                     .crossFade()
                     .into(holder.getPoster());

@@ -3,22 +3,23 @@ package com.ulicae.cinelog.data.dto.data;
 import android.support.annotation.Nullable;
 
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
+import com.uwetrottmann.tmdb2.entities.Movie;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TvShowToSerieDataDtoBuilder {
+public class MovieToWishlistDataDtoBuilder {
 
-    public WishlistDataDto build(BaseTvShow tvShow) {
+    public WishlistDataDto build(Movie movie) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return new WishlistDataDto(
                 null,
-                tvShow.id,
-                tvShow.name,
-                tvShow.poster_path,
-                tvShow.overview,
-                getYear(tvShow.first_air_date),
-                tvShow.first_air_date != null ? dateFormat.format(tvShow.first_air_date) : null
+                movie.id,
+                movie.title,
+                movie.poster_path,
+                movie.overview,
+                getYear(movie.release_date),
+                movie.release_date != null ? dateFormat.format(movie.release_date) : null
         );
     }
 

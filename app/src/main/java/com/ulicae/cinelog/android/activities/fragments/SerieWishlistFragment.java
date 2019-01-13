@@ -18,8 +18,7 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.SerieDataService;
-import com.ulicae.cinelog.data.SerieService;
-import com.ulicae.cinelog.data.dto.data.SerieDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 
 import org.parceler.Parcels;
 
@@ -55,7 +54,7 @@ public class SerieWishlistFragment extends Fragment {
 
     WishlistListAdapter listAdapter;
 
-    List<SerieDataDto> dataDtos;
+    List<WishlistDataDto> dataDtos;
 
     protected SerieDataService service;
 
@@ -150,8 +149,8 @@ public class SerieWishlistFragment extends Fragment {
         inflater.inflate(R.menu.menu_serie, menu);
     }
 
-    protected List<SerieDataDto> getResults(int order) {
-        List<SerieDataDto> fetchedDtos;
+    protected List<WishlistDataDto> getResults(int order) {
+        List<WishlistDataDto> fetchedDtos;
         switch (order) {
             default:
                 fetchedDtos = service.getAll();

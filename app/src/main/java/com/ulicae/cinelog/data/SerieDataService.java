@@ -3,7 +3,7 @@ package com.ulicae.cinelog.data;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dao.WishlistSerie;
-import com.ulicae.cinelog.data.dto.data.SerieDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 
 import java.util.ArrayList;
@@ -25,31 +25,31 @@ public class SerieDataService {
         this.wishlistSerieToSerieDataDtoBuilder = wishlistSerieToSerieDataDtoBuilder;
     }
 
-    public void createSerieData(SerieDataDto serieDataDto) {
+    public void createSerieData(WishlistDataDto wishlistDataDto) {
         TmdbSerie tmdbSerie = null;
-        if (serieDataDto.getTmdbId() != null) {
+        if (wishlistDataDto.getTmdbId() != null) {
             tmdbSerie = new TmdbSerie(
-                    serieDataDto.getTmdbId() != null ? serieDataDto.getTmdbId().longValue() : null,
-                    serieDataDto.getPosterPath(),
-                    serieDataDto.getOverview(),
-                    serieDataDto.getFirstYear(),
-                    serieDataDto.getReleaseDate());
+                    wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null,
+                    wishlistDataDto.getPosterPath(),
+                    wishlistDataDto.getOverview(),
+                    wishlistDataDto.getFirstYear(),
+                    wishlistDataDto.getReleaseDate());
             tmdbSerieRepository.createOrUpdate(tmdbSerie);
         }
 
         WishlistSerie wishlistSerie = new WishlistSerie(
-                serieDataDto.getId(),
+                wishlistDataDto.getId(),
                 tmdbSerie,
-                serieDataDto.getTitle(),
+                wishlistDataDto.getTitle(),
                 null
         );
         wishlistSerieRepository.createOrUpdate(wishlistSerie);
     }
 
-    public List<SerieDataDto> getAll() {
+    public List<WishlistDataDto> getAll() {
         List<WishlistSerie> wishlistSeries = wishlistSerieRepository.findAll();
 
-        List<SerieDataDto> serieDataDtos = new ArrayList<>();
+        List<WishlistDataDto> serieDataDtos = new ArrayList<>();
         for (WishlistSerie wishlistSerie : wishlistSeries) {
             serieDataDtos.add(wishlistSerieToSerieDataDtoBuilder.build(wishlistSerie));
         }

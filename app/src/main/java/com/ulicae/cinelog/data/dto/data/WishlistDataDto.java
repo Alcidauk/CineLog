@@ -5,7 +5,7 @@ import org.parceler.Parcel;
 import java.util.Objects;
 
 @Parcel
-public class SerieDataDto {
+public class WishlistDataDto {
 
     private Long id;
     private Integer tmdbId;
@@ -21,14 +21,14 @@ public class SerieDataDto {
      * needed for Parcel
      */
     @SuppressWarnings({"unused", "WeakerAccess"})
-    public SerieDataDto() {
+    public WishlistDataDto() {
     }
 
-    public SerieDataDto(String title) {
+    public WishlistDataDto(String title) {
         this.title = title;
     }
 
-    public SerieDataDto(Long id, Integer tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate) {
+    public WishlistDataDto(Long id, Integer tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate) {
         this.id = id;
         this.tmdbId = tmdbId;
         this.title = title;
@@ -98,7 +98,7 @@ public class SerieDataDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SerieDataDto that = (SerieDataDto) o;
+        WishlistDataDto that = (WishlistDataDto) o;
         return firstYear == that.firstYear &&
                 Objects.equals(id, that.id) &&
                 Objects.equals(tmdbId, that.tmdbId) &&

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.data.SerieDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 
 import java.util.List;
 
@@ -34,9 +34,9 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class WishlistListAdapter extends ArrayAdapter<SerieDataDto> {
+class WishlistListAdapter extends ArrayAdapter<WishlistDataDto> {
 
-    WishlistListAdapter(@NonNull Context context, @NonNull List<SerieDataDto> objects) {
+    WishlistListAdapter(@NonNull Context context, @NonNull List<WishlistDataDto> objects) {
         super(context, R.layout.wishlist_item, objects);
     }
 
@@ -55,7 +55,7 @@ class WishlistListAdapter extends ArrayAdapter<SerieDataDto> {
         TextView kinoYearTextView = (TextView) convertView.findViewById(R.id.item_year);
         ImageView posterView = (ImageView) convertView.findViewById(R.id.item_poster);
 
-        SerieDataDto dataDto = getItem(position);
+        WishlistDataDto dataDto = getItem(position);
         if (dataDto != null) {
             kinoTitleTextView.setText(dataDto.getTitle());
 

@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WishlistSerieToSerieDataDtoBuilderTest {
+public class WishlistSerieToWishlistDataDtoBuilderTest {
 
     @Mock
     private WishlistSerie wishlistSerie;
@@ -34,7 +34,7 @@ public class WishlistSerieToSerieDataDtoBuilderTest {
         doReturn("a releaseDate").when(tmdbSerie).getRelease_date();
 
         assertEquals(
-                new SerieDataDto(
+                new WishlistDataDto(
                         456L,
                         456456456,
                         "Versailles",

@@ -15,11 +15,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.data.SerieDataService;
-import com.ulicae.cinelog.data.ServiceFactory;
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.data.SerieDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -64,7 +61,7 @@ public class ViewDataActivity extends AppCompatActivity {
     @BindView(R.id.view_kino_tmdb_overview)
     TextView overview;
 
-    private SerieDataDto serieDataDto;
+    private WishlistDataDto wishlistDataDto;
     private boolean isWishlist;
 
     private static final int RESULT_ADD_REVIEW = 3;
@@ -77,10 +74,10 @@ public class ViewDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_unregistered_kino);
         ButterKnife.bind(this);
 
-        serieDataDto = Parcels.unwrap(getIntent().getParcelableExtra("dataDto"));
+        wishlistDataDto = Parcels.unwrap(getIntent().getParcelableExtra("dataDto"));
         isWishlist = getIntent().getBooleanExtra("isWishlist", false);
 
-        if(serieDataDto.getId() != null){
+        if(wishlistDataDto.getId() != null){
             fab.setVisibility(View.INVISIBLE);
         }
 
@@ -91,9 +88,9 @@ public class ViewDataActivity extends AppCompatActivity {
     @OnClick(R.id.fab)
     public void onClick(View view) {
         if(isWishlist){
-            if(serieDataDto.getId() == null){
+            if(wishlistDataDto.getId() == null){
                 SerieDataService serieDataService = new SerieDataService(((KinoApplication) getApplicationContext()).getDaoSession());
-                serieDataService.createSerieData(serieDataDto);
+                serieDataService.createSerieData(wishlistDataDto);
 
                 Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
             }
@@ -104,24 +101,24 @@ public class ViewDataActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (serieDataDto.getPosterPath() != null) {
+        if (wishlistDataDto.getPosterPath() != null) {
             Glide.with(this)
-                    .load("https://image.tmdb.org/t/p/w185" + serieDataDto.getPosterPath())
+                    .load("https://image.tmdb.org/t/p/w185" + wishlistDataDto.getPosterPath())
                     .centerCrop()
                     .crossFade()
                     .into(poster);
         }
 
-        year.setText(serieDataDto.getReleaseDate());
-        overview.setText(serieDataDto.getOverview());
-        title.setText(serieDataDto.getTitle());
+        year.setText(wishlistDataDto.getReleaseDate());
+        overview.setText(wishlistDataDto.getOverview());
+        title.setText(wishlistDataDto.getTitle());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_ADD_REVIEW) {
             if (resultCode == Activity.RESULT_OK) {
-                serieDataDto = Parcels.unwrap(data.getParcelableExtra("kino"));
+                wishlistDataDto = Parcels.unwrap(data.getParcelableExtra("kino"));
             }
         }
     }
