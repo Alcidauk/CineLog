@@ -21,9 +21,7 @@ import android.view.View;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.add.AddKino;
 import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
-import com.ulicae.cinelog.android.activities.fragments.MovieFragment;
 import com.ulicae.cinelog.android.activities.fragments.MovieWishlistFragment;
-import com.ulicae.cinelog.android.activities.fragments.SerieFragment;
 import com.ulicae.cinelog.android.activities.fragments.SerieWishlistFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
@@ -94,7 +92,7 @@ public class WishlistActivity extends AppCompatActivity {
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.menu);
-            actionbar.setTitle(R.string.toolbar_subtitle_wishlist);
+            actionbar.setTitle(R.string.toolbar_title_wishlist);
             actionbar.setSubtitle(R.string.app_name);
         }
 
@@ -175,8 +173,8 @@ public class WishlistActivity extends AppCompatActivity {
 
     private void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MovieWishlistFragment(), getString(R.string.title_fragment_movie));
-        adapter.addFragment(new SerieWishlistFragment(), getString(R.string.title_fragment_serie));
+        adapter.addFragment(new MovieWishlistFragment(), getString(R.string.title_fragment_wishlist_movie));
+        adapter.addFragment(new SerieWishlistFragment(), getString(R.string.title_fragment_wishlist_serie));
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
