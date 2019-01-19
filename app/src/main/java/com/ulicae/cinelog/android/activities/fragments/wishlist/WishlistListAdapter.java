@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities.fragments;
+package com.ulicae.cinelog.android.activities.fragments.wishlist;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

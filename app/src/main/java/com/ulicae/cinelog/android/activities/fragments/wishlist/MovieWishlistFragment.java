@@ -1,59 +1,63 @@
-package com.ulicae.cinelog.android.activities.fragments;
+package com.ulicae.cinelog.android.activities.fragments.wishlist;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.ViewKino;
-import com.ulicae.cinelog.data.DataService;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
+import com.ulicae.cinelog.data.MovieDataService;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
- * <p>
- * <p>
+ *
+ *
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * <p>
+ *
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+ *
  */
-public abstract class ListFragment extends Fragment {
+public class MovieWishlistFragment extends Fragment {
 
     @BindView(R.id.kino_list)
     ListView kino_list;
 
-    KinoListAdapter kino_adapter;
+    WishlistListAdapter listAdapter;
 
-    List<KinoDto> kinos;
+    List<WishlistDataDto> dataDtos;
 
-    protected DataService service;
+    protected MovieDataService service;
 
-    private static final int RESULT_ADD_KINO = 2;
     static final int RESULT_VIEW_KINO = 4;
 
     private int LIST_VIEW_STATE = 1;
@@ -64,42 +68,16 @@ public abstract class ListFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        createService();
+        service = new MovieDataService(((KinoApplication) getActivity().getApplication()).getDaoSession());
 
         createListView(1);
     }
 
-    protected abstract void createService();
-
     @Override
     public void onStart() {
         super.onStart();
+
         createListView(LIST_VIEW_STATE);
-        System.out.println("onStart");
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_ADD_KINO) {
-            if (resultCode == Activity.RESULT_OK) {
-                System.out.println("Result Ok");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
-        if (requestCode == RESULT_VIEW_KINO) {
-            if (resultCode == Activity.RESULT_OK) {
-                int pos = data.getIntExtra("kino_position", -1);
-
-                kinos.set(pos, (KinoDto) Parcels.unwrap(data.getParcelableExtra("kino")));
-                kino_adapter.notifyDataSetChanged();
-                System.out.println("Result Ok");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
     }
 
     @Override
@@ -114,11 +92,11 @@ public abstract class ListFragment extends Fragment {
     private void createListView(int orderId) {
         if (kino_list != null) {
             //date added
-            kinos = getResults(orderId);
+            dataDtos = getResults(orderId);
 
             LIST_VIEW_STATE = orderId;
 
-            kino_adapter = new KinoListAdapter(getContext(), kinos);
+            listAdapter = new WishlistListAdapter(getContext(), dataDtos);
             kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 public boolean onItemLongClick(final AdapterView<?> view, View parent, final int position, long rowId) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -126,12 +104,13 @@ public abstract class ListFragment extends Fragment {
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Delete the kino
-                                    KinoDto kinoDto = kinos.get(position);
-                                    kinos.remove(position);
-                                    //noinspection unchecked
-                                    service.delete(kinoDto);
+                                    WishlistDataDto wishlistDataDto = dataDtos.get(position);
+                                    dataDtos.remove(position);
 
-                                    kino_adapter.notifyDataSetChanged();
+                                    //noinspection unchecked
+                                    service.delete(wishlistDataDto);
+
+                                    listAdapter.notifyDataSetChanged();
                                 }
                             })
                             .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -145,20 +124,41 @@ public abstract class ListFragment extends Fragment {
             });
             kino_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
-                    Intent intent = new Intent(view.getContext(), ViewKino.class);
-                    intent.putExtra("kino", Parcels.wrap(kinos.get(position)));
-                    intent.putExtra("kino_position", position);
-                    intent.putExtra("dtoType", getDtoType());
+                    Intent intent = new Intent(getContext(), ViewDataActivity.class);
+                    intent.putExtra("dataDto", Parcels.wrap(dataDtos.get(position)));
+                    intent.putExtra("isWishlist", true);
                     startActivityForResult(intent, RESULT_VIEW_KINO);
                 }
             });
 
-
-            kino_list.setAdapter(kino_adapter);
+            kino_list.setAdapter(listAdapter);
         }
     }
 
-    protected abstract String getDtoType();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_movie, container, false);
+        ButterKnife.bind(this, view);
 
-    protected abstract List<KinoDto> getResults(int order);
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // TODO right menu
+        inflater.inflate(R.menu.menu_movie, menu);
+    }
+
+    protected List<WishlistDataDto> getResults(int order) {
+        List<WishlistDataDto> fetchedDtos;
+        switch (order) {
+            default:
+                fetchedDtos = service.getAll();
+                break;
+        }
+
+        return new ArrayList<>(fetchedDtos);
+    }
+
 }

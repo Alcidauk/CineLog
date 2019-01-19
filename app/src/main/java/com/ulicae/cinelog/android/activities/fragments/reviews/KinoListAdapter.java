@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities.fragments;
+package com.ulicae.cinelog.android.activities.fragments.reviews;
 
 import android.content.Context;
 import android.content.SharedPreferences;
