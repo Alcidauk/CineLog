@@ -69,4 +69,14 @@ public class MovieDataServiceTest {
         );
     }
 
+    @Test
+    public void delete() {
+        // TODO remove the tmdb id at the same time if not linked to another entity
+        final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
+        doReturn(345L).when(wishlistDataDto).getId();
+
+        new MovieDataService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).delete(wishlistDataDto);
+
+        verify(wishlistMovieRepository).delete(345L);
+    }
 }

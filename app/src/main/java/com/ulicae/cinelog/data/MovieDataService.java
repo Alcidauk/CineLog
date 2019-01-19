@@ -60,6 +60,6 @@ public class MovieDataService {
     }
 
     public void delete(WishlistDataDto wishlistDataDto) {
-
+        wishlistMovieRepository.delete(wishlistDataDto.getId());
     }
 }

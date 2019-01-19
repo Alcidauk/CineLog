@@ -55,4 +55,8 @@ public class SerieDataService {
         }
         return serieDataDtos;
     }
+
+    public void delete(WishlistDataDto wishlistDataDto) {
+        wishlistSerieRepository.delete(wishlistDataDto.getId());
+    }
 }

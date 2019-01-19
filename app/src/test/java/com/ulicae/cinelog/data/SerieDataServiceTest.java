@@ -66,4 +66,15 @@ public class SerieDataServiceTest {
                 new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getAll()
         );
     }
+
+    @Test
+    public void delete() {
+        // TODO remove the tmdb id at the same time if not linked to another entity
+        final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
+        doReturn(345L).when(wishlistDataDto).getId();
+
+        new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).delete(wishlistDataDto);
+
+        verify(wishlistSerieRepository).delete(345L);
+    }
 }
