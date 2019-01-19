@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.services;
+package com.ulicae.cinelog.data.services.wishlist;
 
 import com.ulicae.cinelog.data.TmdbSerieRepository;
 import com.ulicae.cinelog.data.WishlistSerieRepository;
@@ -7,6 +7,7 @@ import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
+import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

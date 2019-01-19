@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.services;
+package com.ulicae.cinelog.data.services.wishlist;
 
 import com.ulicae.cinelog.data.TmdbKinoRepository;
 import com.ulicae.cinelog.data.WishlistMovieRepository;

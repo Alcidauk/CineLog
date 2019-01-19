@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.services.WishlistService;
+import com.ulicae.cinelog.data.services.wishlist.WishlistService;
 
 import org.parceler.Parcels;
 
