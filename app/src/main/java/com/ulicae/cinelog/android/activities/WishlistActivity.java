@@ -174,8 +174,8 @@ public class WishlistActivity extends AppCompatActivity {
 
     private void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new SerieWishlistFragment(), getString(R.string.title_fragment_serie));
         adapter.addFragment(new MovieWishlistFragment(), getString(R.string.title_fragment_movie));
+        adapter.addFragment(new SerieWishlistFragment(), getString(R.string.title_fragment_serie));
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
