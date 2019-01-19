@@ -15,6 +15,7 @@ import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.SerieService;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
@@ -97,7 +98,7 @@ public class AddSerieActivity extends AddReviewActivity<BaseTvShow> {
         } else {
             intent = new Intent(view.getContext(), ViewDataActivity.class);
             intent.putExtra("dataDto", Parcels.wrap(
-                    new WishlistDataDto(kino_search.getText().toString()))
+                    new WishlistDataDto(kino_search.getText().toString(), WishlistItemType.SERIE))
             );
             intent.putExtra("isWishlist", true);
         }

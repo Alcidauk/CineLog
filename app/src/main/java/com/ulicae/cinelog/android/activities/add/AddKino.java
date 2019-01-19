@@ -9,8 +9,12 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
+import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
@@ -71,13 +75,21 @@ public class AddKino extends AddReviewActivity<BaseMovie> {
 
     @OnClick(R.id.kino_search_add_from_scratch)
     public void onClick(View view) {
-        KinoDto kinoToCreate = new KinoDto();
-        kinoToCreate.setTitle(kino_search.getText().toString());
+        Intent intent;
+        if (!toWishlist) {
+            KinoDto kinoToCreate = new KinoDto();
+            kinoToCreate.setTitle(kino_search.getText().toString());
 
-        Intent intent = new Intent(view.getContext(), EditReview.class);
-
-        intent.putExtra("kino", Parcels.wrap(kinoToCreate));
-        intent.putExtra("dtoType", "kino");
+            intent = new Intent(view.getContext(), EditReview.class);
+            intent.putExtra("kino", Parcels.wrap(kinoToCreate));
+            intent.putExtra("dtoType", "kino");
+        } else {
+            intent = new Intent(view.getContext(), ViewDataActivity.class);
+            intent.putExtra("dataDto", Parcels.wrap(
+                    new WishlistDataDto(kino_search.getText().toString(), WishlistItemType.MOVIE))
+            );
+            intent.putExtra("isWishlist", true);
+        }
 
         startActivity(intent);
     }

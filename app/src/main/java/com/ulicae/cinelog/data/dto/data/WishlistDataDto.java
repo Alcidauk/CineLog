@@ -26,8 +26,9 @@ public class WishlistDataDto {
     public WishlistDataDto() {
     }
 
-    public WishlistDataDto(String title) {
+    public WishlistDataDto(String title, WishlistItemType wishlistItemType) {
         this.title = title;
+        this.wishlistItemType = wishlistItemType;
     }
 
     public WishlistDataDto(Long id, Integer tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate, WishlistItemType wishlistItemType) {
