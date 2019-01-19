@@ -32,13 +32,13 @@ import java.util.Locale;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino> {
+public class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino> {
 
-    LocalKinoRepository(DaoSession daoSession) {
+    public LocalKinoRepository(DaoSession daoSession) {
         super(daoSession.getLocalKinoDao());
     }
 
-    LocalKino findByMovieId(long movieId) {
+    public LocalKino findByMovieId(long movieId) {
         Query<LocalKino> localKinoQuery = dao.queryBuilder()
                 .where(LocalKinoDao.Properties.Tmdb_id.eq(movieId))
                 .limit(1)
@@ -47,11 +47,11 @@ class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino> {
         return localKinos != null && localKinos.size() > 0 ? localKinos.get(0) : null;
     }
 
-    List<LocalKino> findAllByRating(boolean asc) {
+    public List<LocalKino> findAllByRating(boolean asc) {
         return queryOrderBy(asc, LocalKinoDao.Properties.Rating);
     }
 
-    List<LocalKino> findAllByYear(final boolean asc) {
+    public List<LocalKino> findAllByYear(final boolean asc) {
         QueryBuilder.LOG_SQL = true;
         QueryBuilder.LOG_VALUES = true;
 
@@ -76,7 +76,7 @@ class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino> {
         return list;
     }
 
-    List<LocalKino> findAllByReviewDate(boolean asc) {
+    public List<LocalKino> findAllByReviewDate(boolean asc) {
         return queryOrderBy(asc, LocalKinoDao.Properties.Review_date);
     }
 

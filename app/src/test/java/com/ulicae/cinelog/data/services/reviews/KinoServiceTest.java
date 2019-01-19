@@ -1,9 +1,12 @@
-package com.ulicae.cinelog.data;
+package com.ulicae.cinelog.data.services.reviews;
 
+import com.ulicae.cinelog.data.LocalKinoRepository;
+import com.ulicae.cinelog.data.TmdbKinoRepository;
 import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dao.TmdbKino;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.KinoDtoBuilder;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.utils.KinoDtoToDbBuilder;
 
 import org.junit.Test;

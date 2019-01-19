@@ -3,7 +3,7 @@ package com.ulicae.cinelog.io.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.DataService;
+import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
 import java.io.FileReader;

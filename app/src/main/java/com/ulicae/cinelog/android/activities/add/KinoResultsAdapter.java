@@ -9,7 +9,7 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.ViewKino;
 import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
-import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.network.KinoBuilderFromMovie;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;

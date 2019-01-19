@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
 import java.util.List;

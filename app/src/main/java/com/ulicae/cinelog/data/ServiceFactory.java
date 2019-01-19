@@ -3,6 +3,8 @@ package com.ulicae.cinelog.data;
 import android.content.Context;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

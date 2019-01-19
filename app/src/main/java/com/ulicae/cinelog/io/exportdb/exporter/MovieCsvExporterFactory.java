@@ -3,7 +3,7 @@ package com.ulicae.cinelog.io.exportdb.exporter;
 import android.app.Application;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
 
 import java.io.FileWriter;

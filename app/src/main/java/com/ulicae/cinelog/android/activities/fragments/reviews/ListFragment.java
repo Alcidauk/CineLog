@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.ViewKino;
-import com.ulicae.cinelog.data.DataService;
+import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
 import org.parceler.Parcels;

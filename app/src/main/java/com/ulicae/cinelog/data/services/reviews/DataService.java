@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data;
+package com.ulicae.cinelog.data.services.reviews;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 

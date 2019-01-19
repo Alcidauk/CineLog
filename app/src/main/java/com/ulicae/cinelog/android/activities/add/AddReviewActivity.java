@@ -11,16 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.DataService;
+import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.utils.ThemeWrapper;

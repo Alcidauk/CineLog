@@ -3,7 +3,7 @@ package com.ulicae.cinelog.io.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.KinoService;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

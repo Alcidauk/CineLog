@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.DataService;
+import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.utils.ThemeWrapper;

@@ -3,6 +3,7 @@ package com.ulicae.cinelog.data;
 import android.content.Context;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
