@@ -1,11 +1,12 @@
-package com.ulicae.cinelog.data;
+package com.ulicae.cinelog.data.services;
 
+import com.ulicae.cinelog.data.TmdbKinoRepository;
+import com.ulicae.cinelog.data.WishlistMovieRepository;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.TmdbKino;
 import com.ulicae.cinelog.data.dao.WishlistMovie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistMovieToSerieDataDtoBuilder;
-import com.ulicae.cinelog.data.services.WishlistService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -30,19 +30,19 @@ public abstract class CrudRepository<T extends AbstractDao<E, Long>, E> {
         this.dao = dao;
     }
 
-    void createOrUpdate(E objectToCreate) {
+    public void createOrUpdate(E objectToCreate) {
         dao.insertOrReplace(objectToCreate);
     }
 
-    void delete(Long id) {
+    public void delete(Long id) {
         dao.deleteByKey(id);
     }
 
-    List<E> findAll() {
+    public List<E> findAll() {
         return dao.loadAll();
     }
 
-    E find(long id) {
+    public E find(long id) {
         return dao.load(id);
     }
 }

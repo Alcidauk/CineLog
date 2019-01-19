@@ -22,9 +22,9 @@ import com.ulicae.cinelog.data.dao.TmdbSerieDao;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class TmdbSerieRepository extends CrudRepository<TmdbSerieDao, TmdbSerie> {
+public class TmdbSerieRepository extends CrudRepository<TmdbSerieDao, TmdbSerie> {
 
-    TmdbSerieRepository(DaoSession daoSession) {
+    public TmdbSerieRepository(DaoSession daoSession) {
         super(daoSession.getTmdbSerieDao());
     }
 

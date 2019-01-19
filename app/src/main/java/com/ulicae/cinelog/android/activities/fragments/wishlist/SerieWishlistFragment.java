@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.SerieDataService;
+import com.ulicae.cinelog.data.services.SerieDataService;
 
 import butterknife.ButterKnife;
 

@@ -24,9 +24,9 @@ import com.ulicae.cinelog.data.dao.WishlistSerieDao;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class WishlistSerieRepository extends CrudRepository<WishlistSerieDao, WishlistSerie> {
+public class WishlistSerieRepository extends CrudRepository<WishlistSerieDao, WishlistSerie> {
 
-    WishlistSerieRepository(DaoSession daoSession) {
+    public WishlistSerieRepository(DaoSession daoSession) {
         super(daoSession.getWishlistSerieDao());
     }
 

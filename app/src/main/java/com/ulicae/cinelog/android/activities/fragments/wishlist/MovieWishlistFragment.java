@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.MovieDataService;
+import com.ulicae.cinelog.data.services.MovieDataService;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 
 import java.util.ArrayList;
