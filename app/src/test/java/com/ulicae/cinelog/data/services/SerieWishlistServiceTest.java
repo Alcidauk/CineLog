@@ -7,7 +7,6 @@ import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
-import com.ulicae.cinelog.data.services.SerieDataService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SerieDataServiceTest {
+public class SerieWishlistServiceTest {
 
     @Mock
     private WishlistSerieRepository wishlistSerieRepository;
@@ -35,7 +34,7 @@ public class SerieDataServiceTest {
 
     @Test
     public void createSerieData() {
-        new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).createSerieData(
+        new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).createSerieData(
                 new WishlistDataDto(24L, 264564, "A movie", "2125", "an overview", 2015, "A release date", WishlistItemType.SERIE)
         );
 
@@ -48,7 +47,7 @@ public class SerieDataServiceTest {
 
     @Test
     public void createSerieData_noTmdb() {
-        new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).createSerieData(
+        new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).createSerieData(
                 new WishlistDataDto(24L, null, "A movie", "2125", "an overview", 2015, "A release date", WishlistItemType.SERIE)
         );
 
@@ -66,7 +65,7 @@ public class SerieDataServiceTest {
 
         assertEquals(
                 new ArrayList<WishlistDataDto>() {{ add(wishlistDataDto); }},
-                new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getAll()
+                new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getAll()
         );
     }
 
@@ -76,7 +75,7 @@ public class SerieDataServiceTest {
         final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
         doReturn(345L).when(wishlistDataDto).getId();
 
-        new SerieDataService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).delete(wishlistDataDto);
+        new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).delete(wishlistDataDto);
 
         verify(wishlistSerieRepository).delete(345L);
     }

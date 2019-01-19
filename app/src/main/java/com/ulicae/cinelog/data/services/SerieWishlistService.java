@@ -11,17 +11,17 @@ import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerieDataService implements WishlistService {
+public class SerieWishlistService implements WishlistService {
 
     private final WishlistSerieRepository wishlistSerieRepository;
     private TmdbSerieRepository tmdbSerieRepository;
     private WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder;
 
-    public SerieDataService(DaoSession daoSession) {
+    public SerieWishlistService(DaoSession daoSession) {
         this(new WishlistSerieRepository(daoSession), new TmdbSerieRepository(daoSession), new WishlistSerieToSerieDataDtoBuilder());
     }
 
-    SerieDataService(WishlistSerieRepository wishlistSerieRepository, TmdbSerieRepository tmdbSerieRepository, WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder) {
+    SerieWishlistService(WishlistSerieRepository wishlistSerieRepository, TmdbSerieRepository tmdbSerieRepository, WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder) {
         this.wishlistSerieRepository = wishlistSerieRepository;
         this.tmdbSerieRepository = tmdbSerieRepository;
         this.wishlistSerieToSerieDataDtoBuilder = wishlistSerieToSerieDataDtoBuilder;

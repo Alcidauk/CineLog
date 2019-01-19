@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.SerieDataService;
+import com.ulicae.cinelog.data.services.SerieWishlistService;
 
 import butterknife.ButterKnife;
 
@@ -40,7 +40,7 @@ public class SerieWishlistFragment extends WishlistFragment {
 
         setHasOptionsMenu(true);
 
-        service = new SerieDataService(((KinoApplication) getActivity().getApplication()).getDaoSession());
+        service = new SerieWishlistService(((KinoApplication) getActivity().getApplication()).getDaoSession());
 
         createListView(1);
     }

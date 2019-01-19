@@ -7,7 +7,6 @@ import com.ulicae.cinelog.data.dao.WishlistMovie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistMovieToSerieDataDtoBuilder;
-import com.ulicae.cinelog.data.services.MovieDataService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MovieDataServiceTest {
+public class MovieWishlistServiceTest {
 
     @Mock
     private WishlistMovieRepository wishlistMovieRepository;
@@ -35,7 +34,7 @@ public class MovieDataServiceTest {
 
     @Test
     public void createMovieData() {
-        new MovieDataService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).createMovieData(
+        new MovieWishlistService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).createMovieData(
                 new WishlistDataDto(24L, 264564, "A movie", "2125", "an overview", 2015, "A release date", WishlistItemType.MOVIE)
         );
 
@@ -48,7 +47,7 @@ public class MovieDataServiceTest {
 
     @Test
     public void createMovieData_noTmdb() {
-        new MovieDataService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).createMovieData(
+        new MovieWishlistService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).createMovieData(
                 new WishlistDataDto(24L, null, "A movie", "2125", "an overview", 2015, "A release date", WishlistItemType.MOVIE)
         );
 
@@ -66,7 +65,7 @@ public class MovieDataServiceTest {
 
         assertEquals(
                 new ArrayList<WishlistDataDto>() {{ add(wishlistDataDto); }},
-                new MovieDataService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).getAll()
+                new MovieWishlistService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).getAll()
         );
     }
 
@@ -76,7 +75,7 @@ public class MovieDataServiceTest {
         final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
         doReturn(345L).when(wishlistDataDto).getId();
 
-        new MovieDataService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).delete(wishlistDataDto);
+        new MovieWishlistService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).delete(wishlistDataDto);
 
         verify(wishlistMovieRepository).delete(345L);
     }

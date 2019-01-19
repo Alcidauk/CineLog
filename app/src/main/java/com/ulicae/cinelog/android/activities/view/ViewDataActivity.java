@@ -15,8 +15,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.MovieDataService;
-import com.ulicae.cinelog.data.services.SerieDataService;
+import com.ulicae.cinelog.data.services.MovieWishlistService;
+import com.ulicae.cinelog.data.services.SerieWishlistService;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.utils.ThemeWrapper;
@@ -92,13 +92,13 @@ public class ViewDataActivity extends AppCompatActivity {
         if(isWishlist){
             if(wishlistDataDto.getId() == null){
                 if(wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
-                    SerieDataService serieDataService = new SerieDataService(((KinoApplication) getApplicationContext()).getDaoSession());
-                    serieDataService.createSerieData(wishlistDataDto);
+                    SerieWishlistService serieWishlistService = new SerieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
+                    serieWishlistService.createSerieData(wishlistDataDto);
 
                     Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
                 } else if(wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
-                    MovieDataService movieDataService = new MovieDataService(((KinoApplication) getApplicationContext()).getDaoSession());
-                    movieDataService.createMovieData(wishlistDataDto);
+                    MovieWishlistService movieWishlistService = new MovieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
+                    movieWishlistService.createMovieData(wishlistDataDto);
 
                     Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
                 }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.MovieDataService;
+import com.ulicae.cinelog.data.services.MovieWishlistService;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class MovieWishlistFragment extends WishlistFragment {
 
         setHasOptionsMenu(true);
 
-        service = new MovieDataService(((KinoApplication) getActivity().getApplication()).getDaoSession());
+        service = new MovieWishlistService(((KinoApplication) getActivity().getApplication()).getDaoSession());
 
         createListView(1);
     }
