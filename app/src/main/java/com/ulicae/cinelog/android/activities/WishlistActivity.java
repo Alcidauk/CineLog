@@ -94,7 +94,8 @@ public class WishlistActivity extends AppCompatActivity {
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.menu);
-            actionbar.setSubtitle(R.string.toolbar_subtitle_wishlist);
+            actionbar.setTitle(R.string.toolbar_subtitle_wishlist);
+            actionbar.setSubtitle(R.string.app_name);
         }
 
         configureDrawer();
