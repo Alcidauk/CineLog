@@ -137,7 +137,7 @@ public class WishlistActivity extends AppCompatActivity {
         Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
 
         Intent intent;
-        if (fragment instanceof MovieFragment) {
+        if (fragment instanceof MovieWishlistFragment) {
             intent = new Intent(getApplicationContext(), AddKino.class);
         } else {
             intent = new Intent(getApplicationContext(), AddSerieActivity.class);

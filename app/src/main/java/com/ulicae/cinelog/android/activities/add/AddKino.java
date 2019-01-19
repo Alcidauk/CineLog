@@ -9,14 +9,11 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
-import com.ulicae.cinelog.android.activities.add.wishlist.WishlistTvResultsAdapter;
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
-import com.uwetrottmann.tmdb2.entities.BaseTvShow;
-import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.parceler.Parcels;
