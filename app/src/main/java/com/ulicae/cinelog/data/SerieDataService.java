@@ -5,11 +5,12 @@ import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
+import com.ulicae.cinelog.data.services.WishlistService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerieDataService {
+public class SerieDataService implements WishlistService {
 
     private final WishlistSerieRepository wishlistSerieRepository;
     private TmdbSerieRepository tmdbSerieRepository;

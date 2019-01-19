@@ -2,17 +2,15 @@ package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.TmdbKino;
-import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dao.WishlistMovie;
-import com.ulicae.cinelog.data.dao.WishlistSerie;
-import com.ulicae.cinelog.data.dto.data.WishlistMovieToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
+import com.ulicae.cinelog.data.dto.data.WishlistMovieToSerieDataDtoBuilder;
+import com.ulicae.cinelog.data.services.WishlistService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDataService {
+public class MovieDataService implements WishlistService {
 
     private final WishlistMovieRepository wishlistMovieRepository;
     private TmdbKinoRepository tmdbKinoRepository;
