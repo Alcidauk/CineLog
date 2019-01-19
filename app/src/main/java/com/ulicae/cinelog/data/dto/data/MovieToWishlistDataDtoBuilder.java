@@ -2,6 +2,7 @@ package com.ulicae.cinelog.data.dto.data;
 
 import android.support.annotation.Nullable;
 
+import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
@@ -10,7 +11,7 @@ import java.util.Date;
 
 public class MovieToWishlistDataDtoBuilder {
 
-    public WishlistDataDto build(Movie movie) {
+    public WishlistDataDto build(BaseMovie movie) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return new WishlistDataDto(
                 null,
@@ -19,7 +20,8 @@ public class MovieToWishlistDataDtoBuilder {
                 movie.poster_path,
                 movie.overview,
                 getYear(movie.release_date),
-                movie.release_date != null ? dateFormat.format(movie.release_date) : null
+                movie.release_date != null ? dateFormat.format(movie.release_date) : null,
+                WishlistItemType.MOVIE
         );
     }
 

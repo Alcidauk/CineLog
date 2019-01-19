@@ -17,6 +17,8 @@ public class WishlistDataDto {
     private int firstYear;
     private String releaseDate;
 
+    private WishlistItemType wishlistItemType;
+
     /**
      * needed for Parcel
      */
@@ -28,7 +30,7 @@ public class WishlistDataDto {
         this.title = title;
     }
 
-    public WishlistDataDto(Long id, Integer tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate) {
+    public WishlistDataDto(Long id, Integer tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate, WishlistItemType wishlistItemType) {
         this.id = id;
         this.tmdbId = tmdbId;
         this.title = title;
@@ -36,6 +38,7 @@ public class WishlistDataDto {
         this.overview = overview;
         this.firstYear = firstYear;
         this.releaseDate = releaseDate;
+        this.wishlistItemType = wishlistItemType;
     }
 
     public Long getId() {
@@ -94,6 +97,14 @@ public class WishlistDataDto {
         this.tmdbId = tmdbId;
     }
 
+    public WishlistItemType getWishlistItemType() {
+        return wishlistItemType;
+    }
+
+    public void setWishlistItemType(WishlistItemType wishlistItemType) {
+        this.wishlistItemType = wishlistItemType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,25 +116,13 @@ public class WishlistDataDto {
                 Objects.equals(title, that.title) &&
                 Objects.equals(posterPath, that.posterPath) &&
                 Objects.equals(overview, that.overview) &&
-                Objects.equals(releaseDate, that.releaseDate);
+                Objects.equals(releaseDate, that.releaseDate) &&
+                wishlistItemType == that.wishlistItemType;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, tmdbId, title, posterPath, overview, firstYear, releaseDate);
-    }
-
-    @Override
-    public String toString() {
-        return "SerieDataDto{" +
-                "id=" + id +
-                ", tmdbId=" + tmdbId +
-                ", title='" + title + '\'' +
-                ", posterPath='" + posterPath + '\'' +
-                ", overview='" + overview + '\'' +
-                ", firstYear=" + firstYear +
-                ", releaseDate='" + releaseDate + '\'' +
-                '}';
+        return Objects.hash(id, tmdbId, title, posterPath, overview, firstYear, releaseDate, wishlistItemType);
     }
 }

@@ -3,15 +3,20 @@ package com.ulicae.cinelog.android.activities.add;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.EditReview;
+import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
+import com.ulicae.cinelog.android.activities.add.wishlist.WishlistTvResultsAdapter;
 import com.ulicae.cinelog.data.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
+import com.uwetrottmann.tmdb2.entities.BaseTvShow;
+import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.parceler.Parcels;
@@ -44,9 +49,13 @@ public class AddKino extends AddReviewActivity<BaseMovie> {
 
     static final int RESULT_VIEW_KINO = 4;
 
+    private boolean toWishlist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        toWishlist = getIntent().getBooleanExtra("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new MovieNetworkTaskCreator());
         dataService = new KinoService(((KinoApplication) getApplication()).getDaoSession());
@@ -77,8 +86,15 @@ public class AddKino extends AddReviewActivity<BaseMovie> {
     }
 
     public void populateListView(final List<BaseMovie> movies) {
+        ArrayAdapter<BaseMovie> arrayAdapter;
+        if(!toWishlist){
+            arrayAdapter = new KinoResultsAdapter(this, movies);
+        } else {
+            arrayAdapter = new WishlistMovieResultsAdapter(this, movies);
+        }
+
         if (kino_results_list != null) {
-            kino_results_list.setAdapter(new KinoResultsAdapter(this, movies));
+            kino_results_list.setAdapter(arrayAdapter);
             kino_search_progress_bar.setVisibility(View.GONE);
         }
     }

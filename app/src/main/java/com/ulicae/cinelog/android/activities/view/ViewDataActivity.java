@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.data.MovieDataService;
 import com.ulicae.cinelog.data.SerieDataService;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -89,10 +91,17 @@ public class ViewDataActivity extends AppCompatActivity {
     public void onClick(View view) {
         if(isWishlist){
             if(wishlistDataDto.getId() == null){
-                SerieDataService serieDataService = new SerieDataService(((KinoApplication) getApplicationContext()).getDaoSession());
-                serieDataService.createSerieData(wishlistDataDto);
+                if(wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
+                    SerieDataService serieDataService = new SerieDataService(((KinoApplication) getApplicationContext()).getDaoSession());
+                    serieDataService.createSerieData(wishlistDataDto);
 
-                Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
+                } else if(wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
+                    MovieDataService movieDataService = new MovieDataService(((KinoApplication) getApplicationContext()).getDaoSession());
+                    movieDataService.createMovieData(wishlistDataDto);
+
+                    Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
+                }
             }
         }
     }

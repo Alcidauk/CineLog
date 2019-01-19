@@ -14,7 +14,8 @@ public class WishlistMovieToSerieDataDtoBuilder {
                 movie != null ? movie.getPoster_path() : null,
                 movie != null ? movie.getOverview() : null,
                 movie != null ? movie.getYear() : 0,
-                movie != null ? movie.getRelease_date() : null
+                movie != null ? movie.getRelease_date() : null,
+                WishlistItemType.MOVIE
         );
     }
 }

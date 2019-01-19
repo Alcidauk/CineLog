@@ -15,6 +15,7 @@ import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.dto.data.MovieToWishlistDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
 import org.parceler.Parcels;
@@ -40,11 +41,11 @@ import java.util.List;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 // TODO generic with WishlistTvResultsAdapter
-public class WishlistMovieResultsAdapter extends ArrayAdapter<Movie> {
+public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
 
     private MovieToWishlistDataDtoBuilder movieToWishlistDataDtoBuilder;
 
-    public WishlistMovieResultsAdapter(Context context, List<Movie> results) {
+    public WishlistMovieResultsAdapter(Context context, List<BaseMovie> results) {
         super(context, R.layout.search_result_item, results);
         this.movieToWishlistDataDtoBuilder = new MovieToWishlistDataDtoBuilder();
     }

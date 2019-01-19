@@ -18,7 +18,8 @@ public class TvShowToSerieDataDtoBuilder {
                 tvShow.poster_path,
                 tvShow.overview,
                 getYear(tvShow.first_air_date),
-                tvShow.first_air_date != null ? dateFormat.format(tvShow.first_air_date) : null
+                tvShow.first_air_date != null ? dateFormat.format(tvShow.first_air_date) : null,
+                WishlistItemType.SERIE
         );
     }
 

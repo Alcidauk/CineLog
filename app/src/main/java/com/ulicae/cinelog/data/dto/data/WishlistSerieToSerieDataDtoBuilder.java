@@ -14,7 +14,8 @@ public class WishlistSerieToSerieDataDtoBuilder {
                 serie != null ? serie.getPoster_path() : null,
                 serie != null ? serie.getOverview() : null,
                 serie != null ? serie.getYear() : 0,
-                serie != null ? serie.getRelease_date() : null
+                serie != null ? serie.getRelease_date() : null,
+                WishlistItemType.SERIE
         );
     }
 }
