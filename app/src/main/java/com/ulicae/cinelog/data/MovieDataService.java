@@ -58,4 +58,8 @@ public class MovieDataService {
         }
         return serieDataDtos;
     }
+
+    public void delete(WishlistDataDto wishlistDataDto) {
+
+    }
 }

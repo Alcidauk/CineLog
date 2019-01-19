@@ -37,11 +37,12 @@ public class WishlistMovieToSerieDataDtoBuilderTest {
                 new WishlistDataDto(
                         456L,
                         456456456,
-                        "Versailles",
+                        "Elle",
                         "/poster/path",
                         "An overview",
                         2015,
-                        "a releaseDate"
+                        "a releaseDate",
+                        WishlistItemType.MOVIE
                 ),
                 new WishlistMovieToSerieDataDtoBuilder().build(wishlistMovie)
         );

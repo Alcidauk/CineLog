@@ -2,6 +2,7 @@ package com.ulicae.cinelog.data.dto;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class TvShowToWishlistDataDtoBuilderTest {
         tvShow.first_air_date = new SimpleDateFormat("dd/MM/yy").parse("01/10/2015");
 
         assertEquals(
-                new WishlistDataDto(null, 45, "Versailles", "45454545", "A magic castle", 2015, "01/10/2015"),
+                new WishlistDataDto(null, 45, "Versailles", "45454545", "A magic castle", 2015, "01/10/2015", WishlistItemType.SERIE),
                 new TvShowToSerieDataDtoBuilder().build(tvShow)
         );
     }
@@ -41,7 +42,7 @@ public class TvShowToWishlistDataDtoBuilderTest {
         tvShow.first_air_date = null;
 
         assertEquals(
-                new WishlistDataDto(null,45, "Versailles", "45454545", "A magic castle", 0, null),
+                new WishlistDataDto(null,45, "Versailles", "45454545", "A magic castle", 0, null, WishlistItemType.SERIE),
                 new TvShowToSerieDataDtoBuilder().build(tvShow)
         );
     }

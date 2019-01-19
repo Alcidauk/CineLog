@@ -41,7 +41,8 @@ public class WishlistSerieToWishlistDataDtoBuilderTest {
                         "/poster/path",
                         "An overview",
                         2015,
-                        "a releaseDate"
+                        "a releaseDate",
+                        WishlistItemType.SERIE
                 ),
                 new WishlistSerieToSerieDataDtoBuilder().build(wishlistSerie)
         );

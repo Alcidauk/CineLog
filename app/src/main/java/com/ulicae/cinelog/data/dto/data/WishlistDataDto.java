@@ -123,7 +123,20 @@ public class WishlistDataDto {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, tmdbId, title, posterPath, overview, firstYear, releaseDate, wishlistItemType);
+    }
+
+    @Override
+    public String toString() {
+        return "WishlistDataDto{" +
+                "id=" + id +
+                ", tmdbId=" + tmdbId +
+                ", title='" + title + '\'' +
+                ", posterPath='" + posterPath + '\'' +
+                ", overview='" + overview + '\'' +
+                ", firstYear=" + firstYear +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", wishlistItemType=" + wishlistItemType +
+                '}';
     }
 }

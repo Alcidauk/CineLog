@@ -5,6 +5,7 @@ import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dao.WishlistMovie;
 import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistMovieToSerieDataDtoBuilder;
 
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class MovieDataServiceTest {
     @Test
     public void createMovieData() {
         new MovieDataService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).createMovieData(
-                new WishlistDataDto(24L, 264564, "A movie", "2125", "an overview", 2015, "A release date")
+                new WishlistDataDto(24L, 264564, "A movie", "2125", "an overview", 2015, "A release date", WishlistItemType.MOVIE)
         );
 
         TmdbKino tmdbKino = new TmdbKino(264564L, "2125", "an overview", 2015, "A release date");
@@ -47,7 +48,7 @@ public class MovieDataServiceTest {
     @Test
     public void createMovieData_noTmdb() {
         new MovieDataService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).createMovieData(
-                new WishlistDataDto(24L, null, "A movie", "2125", "an overview", 2015, "A release date")
+                new WishlistDataDto(24L, null, "A movie", "2125", "an overview", 2015, "A release date", WishlistItemType.MOVIE)
         );
 
         WishlistMovie wishlistMovie = new WishlistMovie(24L, null, "A movie", null);

@@ -104,14 +104,14 @@ public class MovieWishlistFragment extends Fragment {
                     builder.setMessage(R.string.delete_kino_dialog)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    /*// Delete the kino
-                                    KinoDto kinoDto = dataDtos.get(position);
+                                    // Delete the kino
+                                    WishlistDataDto wishlistDataDto = dataDtos.get(position);
                                     dataDtos.remove(position);
-                                    //noinspection unchecked
-                                    service.delete(kinoDto);
 
-                                    kino_adapter.notifyDataSetChanged();*/
-                                    // TODO delete from wishlist
+                                    //noinspection unchecked
+                                    service.delete(wishlistDataDto);
+
+                                    listAdapter.notifyDataSetChanged();
                                 }
                             })
                             .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
