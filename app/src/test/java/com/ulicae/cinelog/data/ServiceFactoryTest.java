@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
+import com.ulicae.cinelog.data.services.reviews.SerieService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

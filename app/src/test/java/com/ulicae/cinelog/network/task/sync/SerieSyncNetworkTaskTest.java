@@ -1,11 +1,9 @@
 package com.ulicae.cinelog.network.task.sync;
 
-import com.ulicae.cinelog.data.SerieService;
+import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.network.SerieBuilderFromMovie;
-import com.ulicae.cinelog.network.TmdbGetterService;
-import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 
 import org.junit.Test;

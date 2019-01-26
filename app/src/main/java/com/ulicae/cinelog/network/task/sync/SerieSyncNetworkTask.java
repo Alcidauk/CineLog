@@ -3,7 +3,7 @@ package com.ulicae.cinelog.network.task.sync;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.ulicae.cinelog.data.SerieService;
+import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.network.SerieBuilderFromMovie;

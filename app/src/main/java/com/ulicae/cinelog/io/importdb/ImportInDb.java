@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
-import com.ulicae.cinelog.data.SerieService;
+import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.SerieDtoFromRecordBuilder;
 import com.ulicae.cinelog.utils.ThemeWrapper;

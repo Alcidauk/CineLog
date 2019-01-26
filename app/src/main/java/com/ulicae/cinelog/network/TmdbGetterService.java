@@ -2,9 +2,8 @@ package com.ulicae.cinelog.network;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.data.SerieService;
+import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.data.dao.SerieReview;
-import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.network.task.sync.SerieSyncNetworkTask;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 

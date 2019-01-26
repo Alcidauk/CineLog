@@ -32,7 +32,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class SerieReviewRepository extends CrudRepository<SerieReviewDao, SerieReview> {
+public class SerieReviewRepository extends CrudRepository<SerieReviewDao, SerieReview> {
 
     public SerieReviewRepository(DaoSession daoSession) {
         super(daoSession.getSerieReviewDao());

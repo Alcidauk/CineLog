@@ -1,10 +1,14 @@
-package com.ulicae.cinelog.data;
+package com.ulicae.cinelog.data.services.reviews;
 
+import com.ulicae.cinelog.data.ReviewRepository;
+import com.ulicae.cinelog.data.SerieReviewRepository;
+import com.ulicae.cinelog.data.TmdbSerieRepository;
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
+import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.network.TmdbGetterService;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 

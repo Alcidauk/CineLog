@@ -1,7 +1,10 @@
-package com.ulicae.cinelog.data;
+package com.ulicae.cinelog.data.services.reviews;
 
 import android.content.Context;
 
+import com.ulicae.cinelog.data.ReviewRepository;
+import com.ulicae.cinelog.data.SerieReviewRepository;
+import com.ulicae.cinelog.data.TmdbSerieRepository;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;

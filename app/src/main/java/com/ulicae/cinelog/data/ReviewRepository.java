@@ -22,9 +22,9 @@ import com.ulicae.cinelog.data.dao.ReviewDao;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class ReviewRepository extends CrudRepository<ReviewDao, Review> {
+public class ReviewRepository extends CrudRepository<ReviewDao, Review> {
 
-    ReviewRepository(DaoSession daoSession) {
+    public ReviewRepository(DaoSession daoSession) {
         super(daoSession.getReviewDao());
     }
 }
