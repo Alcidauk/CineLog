@@ -22,7 +22,10 @@ import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -123,7 +126,17 @@ public class ViewKino extends AppCompatActivity {
                     .crossFade()
                     .into(poster);
         }
-        year.setText(kino.getReleaseDate());
+        String releaseDateLocal = kino.getReleaseDate();
+        if(releaseDateLocal != null && !"".equals(releaseDateLocal)) {
+            SimpleDateFormat frenchSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+            try {
+                Date parsedDate = frenchSdf.parse(releaseDateLocal);
+                String formattedDate = DateFormat.getDateFormat(getBaseContext()).format(parsedDate);
+                year.setText(formattedDate);
+            } catch (ParseException ignored) {
+                year.setText(String.valueOf(kino.getYear()));
+            }
+        }
         overview.setText(kino.getOverview());
 
         if (kino.getRating() != null) {

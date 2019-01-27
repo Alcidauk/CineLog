@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +26,11 @@ import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -174,7 +180,18 @@ public class ViewDataActivity extends AppCompatActivity {
                     .into(poster);
         }
 
-        year.setText(wishlistDataDto.getReleaseDate());
+        // TODO extract it in a helper
+        String releaseDateLocal = wishlistDataDto.getReleaseDate();
+        if(releaseDateLocal != null && !"".equals(releaseDateLocal)) {
+            SimpleDateFormat frenchSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+            try {
+                Date parsedDate = frenchSdf.parse(releaseDateLocal);
+                String formattedDate = DateFormat.getDateFormat(getBaseContext()).format(parsedDate);
+                year.setText(formattedDate);
+            } catch (ParseException ignored) {
+                year.setText(String.valueOf(wishlistDataDto.getFirstYear()));
+            }
+        }
         overview.setText(wishlistDataDto.getOverview());
         title.setText(wishlistDataDto.getTitle());
     }
