@@ -87,10 +87,14 @@ public class EditReview extends AppCompatActivity {
 
     private DataService dtoService;
 
+    private WishlistItemDeleter wishlistItemDeleter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
+
+        wishlistItemDeleter = new WishlistItemDeleter(this);
 
         setContentView(R.layout.activity_edit_review);
         ButterKnife.bind(this);
@@ -235,6 +239,10 @@ public class EditReview extends AppCompatActivity {
 
             //noinspection unchecked
             kino = dtoService.createOrUpdate(kino);
+
+            if(getIntent().getBooleanExtra("fromWishlist", false)){
+                wishlistItemDeleter.deleteWishlistItem(kino.getTmdbKinoId(), getIntent().getStringExtra("dtoType"));
+            }
 
             redirect();
         }

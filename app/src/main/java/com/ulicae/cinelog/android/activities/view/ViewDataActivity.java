@@ -156,9 +156,9 @@ public class ViewDataActivity extends AppCompatActivity {
             intent.putExtra("dtoType", "kino");
         }
         intent.putExtra("creation", true);
+        intent.putExtra("fromWishlist", true);
         startActivity(intent);
 
-        // TODO remove if created the wishlist item
         finish();
     }
 
