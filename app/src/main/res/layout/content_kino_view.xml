@@ -44,7 +44,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/noimage" />
+                android:src="@drawable/noimage_purple"
+                style="@style/Widget.AppCompat.RatingBar.Small"/>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/view_kino_tmdb_title_layout"

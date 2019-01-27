@@ -18,10 +18,17 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <color name="colorPrimary">#ff7676</color>
-    <color name="colorPrimaryDark">#ff5151</color>
-    <color name="colorPrimaryLight">#ffb3b3</color>
-    <color name="colorAccent">#555555</color>
+    <color name="colorPrimary">#ab47bc</color>
+    <color name="colorPrimaryLight">#df78ef</color>
+    <color name="colorPrimaryDark">#790e8b</color>
+
+    <color name="colorSecondary">#673ab7</color>
+    <color name="colorSecondaryLight">#9a67ea</color>
+    <color name="colorSecondaryDark">#320b86</color>
+
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
+
 
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorBackgroundDark">#555555</color>

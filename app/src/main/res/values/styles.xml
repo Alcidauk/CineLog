@@ -19,13 +19,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimaryLight</item>
         <item name="android:colorBackground">@color/white</item>
-        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorPrimaryLight</item>
         <item name="android:textAppearanceButton">@style/ButtonTextAppearence</item>
 
         <item name="android:textColorPrimary">@android:color/black</item>
@@ -42,16 +42,17 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryLight</item>
         <item name="android:colorBackground">@color/colorBackgroundDark</item>
         <item name="colorButtonNormal">@color/colorPrimaryDark</item>
 
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/lightGray</item>
-        <item name="android:textColorTertiary">@color/lightGray</item>
-        <item name="android:textColorHint">@color/lightGray</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+        <item name="android:textColorTertiary">@color/secondaryTextColor</item>
+        <item name="android:textColorHint">@color/colorPrimaryLight</item>
 
-        <!--<item name="android:background">@color/colorBackgroundDark</item> works for options-->
+        <item name="android:ratingBarStyleSmall">@style/RatingBarDark</item>
+        <item name="android:ratingBarStyle">@style/RatingBarDark</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -66,9 +67,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+
+    <style name="RatingBarDark" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/colorPrimaryLight</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
     <style name="DarkDialog" parent="ThemeOverlay.AppCompat.Dialog">
@@ -85,15 +87,15 @@
 
     <style name="PrefsThemeDark" parent="AppTheme.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryLight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="colorButtonNormal">@color/colorPrimaryDark</item>
 
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/lightGray</item>
         <item name="android:textColorTertiary">@color/lightGray</item>
-        <item name="android:textColorHint">@color/lightGray</item>
+        <item name="android:textColorHint">@color/colorPrimaryLight</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -110,7 +112,7 @@
     <style name="PrefsTheme" parent="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimaryLight</item>
         <item name="android:colorBackground">@color/white</item>
 
         <item name="windowActionBar">false</item>

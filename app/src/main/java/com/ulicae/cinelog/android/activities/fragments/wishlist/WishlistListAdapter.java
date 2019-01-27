@@ -74,7 +74,7 @@ class WishlistListAdapter extends ArrayAdapter<WishlistDataDto> {
                         .into(posterView);
             } else {
                 Glide.with(getContext())
-                        .load(R.drawable.noimage)
+                        .load(R.drawable.noimage_purple)
                         .centerCrop()
                         .crossFade()
                         .into(posterView);

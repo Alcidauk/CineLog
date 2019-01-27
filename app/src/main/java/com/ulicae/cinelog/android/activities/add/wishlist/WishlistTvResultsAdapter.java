@@ -99,7 +99,7 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
                     .into(holder.getPoster());
         } else {
             Glide.with(getContext())
-                    .load(R.drawable.noimage)
+                    .load(R.drawable.noimage_purple)
                     .centerCrop()
                     .crossFade()
                     .into(holder.getPoster());

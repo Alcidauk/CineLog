@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="128dp"
-        android:src="@drawable/feature_graphic" />
+        android:src="@drawable/feature_graphic_purple" />
 
     <TextView
         android:layout_width="match_parent"

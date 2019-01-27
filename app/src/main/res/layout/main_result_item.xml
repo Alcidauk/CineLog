@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/main_result_kino_poster"
-        android:src="@drawable/noimage"
+        android:src="@drawable/noimage_purple"
         android:maxWidth="120px"
         android:minWidth="120px"
         android:maxHeight="150px"
@@ -60,7 +60,7 @@
         android:id="@+id/main_result_kino_review_date_logo"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/round_eye_pink"
+        android:src="@drawable/round_eye_purple"
         android:layout_toEndOf="@+id/main_result_kino_year"
         android:layout_below="@id/main_result_kino_title"
         android:layout_marginStart="10dp"
@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimary"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_toEndOf="@+id/main_result_kino_review_date_logo"
         android:layout_below="@id/main_result_kino_title"
@@ -83,8 +83,7 @@
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:attr/ratingBarStyleSmall"
-        android:theme="@style/RatingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
         android:id="@+id/main_result_kino_rating_bar_small"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@id/main_result_kino_poster"
@@ -98,7 +97,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimary"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/main_result_kino_rating_bar_as_text"/>
         <TextView

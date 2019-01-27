@@ -60,8 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:isIndicator="true"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:theme="@style/RatingBar"/>
+                    style="@style/Widget.AppCompat.RatingBar.Small"/>
             </LinearLayout>
 
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
