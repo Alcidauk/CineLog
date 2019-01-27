@@ -105,6 +105,8 @@ public class ViewDataActivity extends AppCompatActivity {
                 movieWishlistService.createMovieData(wishlistDataDto);
                 Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
             }
+
+            fab.setVisibility(View.INVISIBLE);
         } else {
             // TODO create review and remove from wishlist
         }
