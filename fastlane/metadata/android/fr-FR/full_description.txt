@@ -8,6 +8,7 @@ Fonctionnalités:
     <li>Créez un avis dans votre base de données à partir du film trouvé;</li>
     <li>Créez un avis sur un film inexistant dans la base tmdb;</li>
     <li>Choisissez votre échelle de notation;</li>
+    <li>Enregistrez les films que vous voulez voir;</li>
     <li>Exportez la base de données au format CSV;</li>
     <li>Importez une base de données existante au format CSV.</li>
     <li>Activez la sauvegarde locale automatique au format CSV (peut permettre une synchronisation avec un client cloud).</li>
