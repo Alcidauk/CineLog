@@ -10,11 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.dto.data.MovieToWishlistDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
@@ -44,10 +46,12 @@ import java.util.List;
 public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
 
     private MovieToWishlistDataDtoBuilder movieToWishlistDataDtoBuilder;
+    private MovieWishlistService movieWishlistService;
 
     public WishlistMovieResultsAdapter(Context context, List<BaseMovie> results) {
         super(context, R.layout.search_result_item, results);
         this.movieToWishlistDataDtoBuilder = new MovieToWishlistDataDtoBuilder();
+        this.movieWishlistService = new MovieWishlistService(((KinoApplication) context.getApplicationContext()).getDaoSession());
     }
 
 
@@ -61,7 +65,12 @@ public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.wishlist_search_result_item, parent, false);
         }
 
-        final WishlistDataDto wishlistDataDto = movieToWishlistDataDtoBuilder.build(getItem(position));
+        BaseMovie item = getItem(position);
+
+        WishlistDataDto wishlistDataDto = item != null ? movieWishlistService.getByTmdbId(item.id) : null;
+        if(wishlistDataDto == null) {
+            wishlistDataDto = movieToWishlistDataDtoBuilder.build(item);
+        }
 
         WishlistItemViewHolder holder = new WishlistItemViewHolder(convertView);
 
@@ -69,11 +78,12 @@ public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
         populateYear(wishlistDataDto, holder);
         populatePoster(wishlistDataDto, holder);
 
+        final WishlistDataDto finalWishlistDataDto = wishlistDataDto;
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ViewDataActivity.class);
-                intent.putExtra("dataDto", Parcels.wrap(wishlistDataDto));
+                intent.putExtra("dataDto", Parcels.wrap(finalWishlistDataDto));
 
                 getContext().startActivity(intent);
             }

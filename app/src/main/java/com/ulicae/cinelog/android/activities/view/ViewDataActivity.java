@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
@@ -64,6 +65,9 @@ public class ViewDataActivity extends AppCompatActivity {
 
     private WishlistDataDto wishlistDataDto;
 
+    private SerieWishlistService serieWishlistService;
+    private MovieWishlistService movieWishlistService;
+
     private static final int RESULT_ADD_REVIEW = 3;
 
     @Override
@@ -71,33 +75,38 @@ public class ViewDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
+        serieWishlistService = new SerieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
+        movieWishlistService = new MovieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
+
         setContentView(R.layout.activity_view_unregistered_kino);
         ButterKnife.bind(this);
 
         wishlistDataDto = Parcels.unwrap(getIntent().getParcelableExtra("dataDto"));
 
-        if (wishlistDataDto.getId() != null) {
-            fab.setVisibility(View.INVISIBLE);
-        }
+        configureFabButton();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void configureFabButton() {
+        if(wishlistDataDto.getId() != null){
+            fab.setImageResource(R.drawable.add_kino);
+        }
     }
 
     @OnClick(R.id.fab)
     public void onClick(View view) {
         if (wishlistDataDto.getId() == null) {
             if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
-                SerieWishlistService serieWishlistService = new SerieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
                 serieWishlistService.createSerieData(wishlistDataDto);
-
                 Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
             } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
-                MovieWishlistService movieWishlistService = new MovieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
                 movieWishlistService.createMovieData(wishlistDataDto);
-
                 Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
             }
+        } else {
+            // TODO create review and remove from wishlist
         }
     }
 
