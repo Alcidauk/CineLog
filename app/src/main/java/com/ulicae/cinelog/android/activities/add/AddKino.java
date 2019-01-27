@@ -87,7 +87,6 @@ public class AddKino extends AddReviewActivity<BaseMovie> {
             intent.putExtra("dataDto", Parcels.wrap(
                     new WishlistDataDto(kino_search.getText().toString(), WishlistItemType.MOVIE))
             );
-            intent.putExtra("isWishlist", true);
         }
 
         startActivity(intent);

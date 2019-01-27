@@ -89,7 +89,6 @@ public class WishlistFragment extends Fragment {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Intent intent = new Intent(getContext(), ViewDataActivity.class);
                     intent.putExtra("dataDto", Parcels.wrap(dataDtos.get(position)));
-                    intent.putExtra("isWishlist", true);
                     startActivityForResult(intent, RESULT_VIEW_KINO);
                 }
             });

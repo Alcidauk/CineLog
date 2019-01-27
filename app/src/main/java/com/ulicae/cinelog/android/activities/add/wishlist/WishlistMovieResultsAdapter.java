@@ -74,7 +74,6 @@ public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ViewDataActivity.class);
                 intent.putExtra("dataDto", Parcels.wrap(wishlistDataDto));
-                intent.putExtra("isWishlist", true);
 
                 getContext().startActivity(intent);
             }

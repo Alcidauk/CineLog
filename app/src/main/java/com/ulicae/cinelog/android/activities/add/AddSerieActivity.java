@@ -100,7 +100,6 @@ public class AddSerieActivity extends AddReviewActivity<BaseTvShow> {
             intent.putExtra("dataDto", Parcels.wrap(
                     new WishlistDataDto(kino_search.getText().toString(), WishlistItemType.SERIE))
             );
-            intent.putExtra("isWishlist", true);
         }
 
         startActivity(intent);

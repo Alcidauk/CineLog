@@ -30,22 +30,21 @@ import butterknife.OnClick;
 /**
  * CineLog Copyright 2019 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 public class ViewDataActivity extends AppCompatActivity {
 
@@ -64,7 +63,6 @@ public class ViewDataActivity extends AppCompatActivity {
     TextView overview;
 
     private WishlistDataDto wishlistDataDto;
-    private boolean isWishlist;
 
     private static final int RESULT_ADD_REVIEW = 3;
 
@@ -77,9 +75,8 @@ public class ViewDataActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         wishlistDataDto = Parcels.unwrap(getIntent().getParcelableExtra("dataDto"));
-        isWishlist = getIntent().getBooleanExtra("isWishlist", false);
 
-        if(wishlistDataDto.getId() != null){
+        if (wishlistDataDto.getId() != null) {
             fab.setVisibility(View.INVISIBLE);
         }
 
@@ -89,19 +86,17 @@ public class ViewDataActivity extends AppCompatActivity {
 
     @OnClick(R.id.fab)
     public void onClick(View view) {
-        if(isWishlist){
-            if(wishlistDataDto.getId() == null){
-                if(wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
-                    SerieWishlistService serieWishlistService = new SerieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
-                    serieWishlistService.createSerieData(wishlistDataDto);
+        if (wishlistDataDto.getId() == null) {
+            if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
+                SerieWishlistService serieWishlistService = new SerieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
+                serieWishlistService.createSerieData(wishlistDataDto);
 
-                    Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-                } else if(wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
-                    MovieWishlistService movieWishlistService = new MovieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
-                    movieWishlistService.createMovieData(wishlistDataDto);
+                Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
+            } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
+                MovieWishlistService movieWishlistService = new MovieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
+                movieWishlistService.createMovieData(wishlistDataDto);
 
-                    Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-                }
+                Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
             }
         }
     }
