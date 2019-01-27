@@ -1,10 +1,12 @@
 package com.ulicae.cinelog.data;
 
 import com.ulicae.cinelog.data.dao.DaoSession;
-import com.ulicae.cinelog.data.dao.TmdbSerie;
-import com.ulicae.cinelog.data.dao.TmdbSerieDao;
 import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dao.WishlistSerieDao;
+
+import org.greenrobot.greendao.query.Query;
+
+import java.util.List;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -30,4 +32,12 @@ public class WishlistSerieRepository extends CrudRepository<WishlistSerieDao, Wi
         super(daoSession.getWishlistSerieDao());
     }
 
+    public WishlistSerie findByTmdbId(long tmdbId) {
+        Query<WishlistSerie> wishlistSerieQuery = dao.queryBuilder()
+                .where(WishlistSerieDao.Properties.Tmdb_id.eq(tmdbId))
+                .limit(1)
+                .build();
+        List<WishlistSerie> wishlistSeries = wishlistSerieQuery.list();
+        return wishlistSeries != null && wishlistSeries.size() > 0 ? wishlistSeries.get(0) : null;
+    }
 }

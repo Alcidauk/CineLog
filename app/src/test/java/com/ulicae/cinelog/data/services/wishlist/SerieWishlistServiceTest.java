@@ -7,7 +7,6 @@ import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -69,6 +69,27 @@ public class SerieWishlistServiceTest {
                 new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getAll()
         );
     }
+
+    @Test
+    public void getByTmdbId() {
+        final WishlistSerie wishlistSerie = mock(WishlistSerie.class);
+        doReturn(wishlistSerie).when(wishlistSerieRepository).findByTmdbId(34455L);
+
+        final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
+        doReturn(wishlistDataDto).when(wishlistSerieToSerieDataDtoBuilder).build(wishlistSerie);
+
+        assertEquals(
+                wishlistDataDto,
+                new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getByTmdbId(34455)
+        );
+    }
+
+    @Test
+    public void getByTmdbId_noSerie() {
+        doReturn(null).when(wishlistSerieRepository).findByTmdbId(34455L);
+        assertNull( new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getByTmdbId(34455));
+    }
+
 
     @Test
     public void delete() {

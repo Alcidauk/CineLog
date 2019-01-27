@@ -82,6 +82,7 @@ public class SerieWishlistService implements WishlistService {
 
     @Override
     public WishlistDataDto getByTmdbId(Integer id) {
-        return null;
+        WishlistSerie wishlistSerie = wishlistSerieRepository.findByTmdbId(id);
+        return wishlistSerie != null ? wishlistSerieToSerieDataDtoBuilder.build(wishlistSerie) : null;
     }
 }
