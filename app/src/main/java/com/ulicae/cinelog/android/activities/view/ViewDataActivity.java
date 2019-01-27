@@ -15,11 +15,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.ServiceFactory;
-import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
+import com.ulicae.cinelog.android.activities.EditReview;
+import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
+import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -98,18 +100,66 @@ public class ViewDataActivity extends AppCompatActivity {
     @OnClick(R.id.fab)
     public void onClick(View view) {
         if (wishlistDataDto.getId() == null) {
-            if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
-                serieWishlistService.createSerieData(wishlistDataDto);
-                Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-            } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
-                movieWishlistService.createMovieData(wishlistDataDto);
-                Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-            }
-
-            fab.setVisibility(View.INVISIBLE);
+            addToWishlist();
         } else {
-            // TODO create review and remove from wishlist
+            startReviewCreationActivity();
         }
+    }
+
+    private void addToWishlist() {
+        if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
+            serieWishlistService.createSerieData(wishlistDataDto);
+            Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
+        } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
+            movieWishlistService.createMovieData(wishlistDataDto);
+            Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
+        }
+
+        fab.setVisibility(View.INVISIBLE);
+    }
+
+    private void startReviewCreationActivity() {
+        Intent intent = new Intent(this, EditReview.class);
+
+        if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
+            SerieDto serieDto = new SerieDto(
+                    null,
+                    wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null,
+                    null,
+                    wishlistDataDto.getTitle(),
+                    null,
+                    null,
+                    null,
+                    null,
+                    wishlistDataDto.getPosterPath(),
+                    wishlistDataDto.getOverview(),
+                    wishlistDataDto.getFirstYear(),
+                    wishlistDataDto.getReleaseDate()
+            );
+            intent.putExtra("kino", Parcels.wrap(serieDto));
+            intent.putExtra("dtoType", "serie");
+        } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
+            KinoDto kinoDto = new KinoDto(
+                    null,
+                    wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null,
+                    wishlistDataDto.getTitle(),
+                    null,
+                    null,
+                    null,
+                    null,
+                    wishlistDataDto.getPosterPath(),
+                    wishlistDataDto.getOverview(),
+                    wishlistDataDto.getFirstYear(),
+                    wishlistDataDto.getReleaseDate()
+            );
+            intent.putExtra("kino", Parcels.wrap(kinoDto));
+            intent.putExtra("dtoType", "kino");
+        }
+        intent.putExtra("creation", true);
+        startActivity(intent);
+
+        // TODO remove if created the wishlist item
+        finish();
     }
 
     @Override
