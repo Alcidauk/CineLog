@@ -47,7 +47,7 @@ public class UpgradeFixRunner {
 
         if (lastCodeVersionSaved != BuildConfig.VERSION_CODE) {
             try {
-                lookForFixes();
+                lookForFixes(lastCodeVersionSaved);
             } catch (Exception e) {
                 Log.i("upgrade_fix", "Unable to process with fixes. Won't upgrade preference version code.");
                 return;
@@ -56,8 +56,8 @@ public class UpgradeFixRunner {
         }
     }
 
-    private void lookForFixes() {
-        if (BuildConfig.VERSION_CODE == 19) {
+    private void lookForFixes(int lastCodeVersionSaved) {
+        if (lastCodeVersionSaved < 19 && BuildConfig.VERSION_CODE >= 19) {
             fixSerieReviews();
         }
     }
