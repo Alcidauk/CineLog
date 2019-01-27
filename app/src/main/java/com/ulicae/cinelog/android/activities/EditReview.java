@@ -240,8 +240,9 @@ public class EditReview extends AppCompatActivity {
             //noinspection unchecked
             kino = dtoService.createOrUpdate(kino);
 
-            if(getIntent().getBooleanExtra("fromWishlist", false)){
-                wishlistItemDeleter.deleteWishlistItem(kino.getTmdbKinoId(), getIntent().getStringExtra("dtoType"));
+            long wishlistId = getIntent().getLongExtra("wishlistId", 0L);
+            if(wishlistId != 0L){
+                wishlistItemDeleter.deleteWishlistItem(wishlistId, getIntent().getStringExtra("dtoType"));
             }
 
             redirect();

@@ -85,11 +85,24 @@ public class SerieWishlistServiceTest {
     }
 
     @Test
+    public void getById() {
+        final WishlistSerie wishlistSerie = mock(WishlistSerie.class);
+        doReturn(wishlistSerie).when(wishlistSerieRepository).find(34455L);
+
+        final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
+        doReturn(wishlistDataDto).when(wishlistSerieToSerieDataDtoBuilder).build(wishlistSerie);
+
+        assertEquals(
+                wishlistDataDto,
+                new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getById(34455L)
+        );
+    }
+
+    @Test
     public void getByTmdbId_noSerie() {
         doReturn(null).when(wishlistSerieRepository).findByTmdbId(34455L);
         assertNull( new SerieWishlistService(wishlistSerieRepository, tmdbSerieRepository, wishlistSerieToSerieDataDtoBuilder).getByTmdbId(34455));
     }
-
 
     @Test
     public void delete() {

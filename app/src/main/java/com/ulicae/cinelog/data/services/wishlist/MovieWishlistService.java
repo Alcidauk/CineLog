@@ -86,4 +86,10 @@ public class MovieWishlistService implements WishlistService {
         WishlistMovie wishlistMovie = wishlistMovieRepository.findByMovieId(id);
         return wishlistMovie != null ? wishlistMovieToSerieDataDtoBuilder.build(wishlistMovie) : null;
     }
+
+    @Override
+    public WishlistDataDto getById(Long id) {
+        WishlistMovie wishlistMovie = wishlistMovieRepository.find(id);
+        return wishlistMovie != null ? wishlistMovieToSerieDataDtoBuilder.build(wishlistMovie) : null;
+    }
 }

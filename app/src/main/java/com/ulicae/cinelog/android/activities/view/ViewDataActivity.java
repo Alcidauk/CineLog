@@ -156,7 +156,7 @@ public class ViewDataActivity extends AppCompatActivity {
             intent.putExtra("dtoType", "kino");
         }
         intent.putExtra("creation", true);
-        intent.putExtra("fromWishlist", true);
+        intent.putExtra("wishlistId", wishlistDataDto.getId());
         startActivity(intent);
 
         finish();

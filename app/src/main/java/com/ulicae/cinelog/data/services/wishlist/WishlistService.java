@@ -29,4 +29,6 @@ public interface WishlistService {
     void delete(WishlistDataDto wishlistDataDto);
 
     WishlistDataDto getByTmdbId(Integer id);
+
+    WishlistDataDto getById(Long id);
 }

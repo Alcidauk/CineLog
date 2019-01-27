@@ -45,7 +45,7 @@ public class WishlistItemDeleterTest {
 
     @Test
     public void deleteWishlistMovieItem() {
-        doReturn(wishlistDataDto).when(movieWishlistService).getByTmdbId(1564);
+        doReturn(wishlistDataDto).when(movieWishlistService).getById(1564L);
 
         new WishlistItemDeleter(serieWishlistService, movieWishlistService).deleteWishlistItem(1564L, "kino");
 
@@ -54,7 +54,7 @@ public class WishlistItemDeleterTest {
 
     @Test
     public void deleteWishlistSerieItem() {
-        doReturn(wishlistDataDto).when(serieWishlistService).getByTmdbId(1564);
+        doReturn(wishlistDataDto).when(serieWishlistService).getById(1564L);
 
         new WishlistItemDeleter(serieWishlistService, movieWishlistService).deleteWishlistItem(1564L, "serie");
 

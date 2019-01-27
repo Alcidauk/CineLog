@@ -42,12 +42,11 @@ class WishlistItemDeleter {
     }
 
     public void deleteWishlistItem(Long tmdbKinoId, String type) {
-        int intTmdbKinoId = tmdbKinoId.intValue();
         if("kino".equals(type)){
-            WishlistDataDto byTmdbId = movieWishlistService.getByTmdbId(intTmdbKinoId);
+            WishlistDataDto byTmdbId = movieWishlistService.getById(tmdbKinoId);
             movieWishlistService.delete(byTmdbId);
         } else {
-            WishlistDataDto byTmdbId = serieWishlistService.getByTmdbId(intTmdbKinoId);
+            WishlistDataDto byTmdbId = serieWishlistService.getById(tmdbKinoId);
             serieWishlistService.delete(byTmdbId);
         }
 

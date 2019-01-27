@@ -91,6 +91,20 @@ public class MovieWishlistServiceTest {
     }
 
     @Test
+    public void getById() {
+        final WishlistMovie wishlistMovie = mock(WishlistMovie.class);
+        doReturn(wishlistMovie).when(wishlistMovieRepository).find(34455L);
+
+        final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
+        doReturn(wishlistDataDto).when(wishlistMovieToSerieDataDtoBuilder).build(wishlistMovie);
+
+        assertEquals(
+                wishlistDataDto,
+                new MovieWishlistService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).getById(34455L)
+        );
+    }
+
+    @Test
     public void delete() {
         // TODO remove the tmdb id at the same time if not linked to another entity
         final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
