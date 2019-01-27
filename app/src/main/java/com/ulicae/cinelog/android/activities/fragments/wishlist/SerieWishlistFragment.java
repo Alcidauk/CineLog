@@ -56,7 +56,7 @@ public class SerieWishlistFragment extends WishlistFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_serie, menu);
+        inflater.inflate(R.menu.menu_wishlist, menu);
     }
 
 }

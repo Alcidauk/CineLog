@@ -59,8 +59,7 @@ public class MovieWishlistFragment extends WishlistFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        // TODO right menu
-        inflater.inflate(R.menu.menu_movie, menu);
+        inflater.inflate(R.menu.menu_wishlist, menu);
     }
 
     protected List<WishlistDataDto> getResults(int order) {
