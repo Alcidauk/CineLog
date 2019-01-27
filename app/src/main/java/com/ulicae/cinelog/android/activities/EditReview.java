@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,16 +27,15 @@ import android.widget.Toast;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -149,8 +149,7 @@ public class EditReview extends AppCompatActivity {
         if (kino.getReview_date() != null) {
             String review_date_as_string = null;
             if (kino.getReview_date() != null) {
-                review_date_as_string =
-                        new SimpleDateFormat("dd/MM/yyyy").format(kino.getReview_date());
+                review_date_as_string = DateFormat.getDateFormat(getBaseContext()).format(kino.getReview_date());
             }
             review_date.setText(review_date_as_string);
         }
@@ -316,8 +315,7 @@ public class EditReview extends AppCompatActivity {
             kino.setReview_date(c.getTime());
             String review_date_as_string = null;
             if (kino.getReview_date() != null) {
-                review_date_as_string =
-                        new SimpleDateFormat("dd/MM/yyyy").format(kino.getReview_date());
+                review_date_as_string = DateFormat.getDateFormat(getActivity().getBaseContext()).format(kino.getReview_date());
             }
             ((EditReview) getActivity()).review_date.setText(review_date_as_string);
             // Do something with the date chosen by the user

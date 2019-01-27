@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,7 +22,6 @@ import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -146,7 +146,7 @@ public class ViewKino extends AppCompatActivity {
 
     private String getReviewDateAsString(Date review_date) {
         if (review_date != null) {
-            return new SimpleDateFormat("dd/MM/yyyy").format(review_date);
+            return DateFormat.getDateFormat(getBaseContext()).format(review_date);
         }
         return null;
     }

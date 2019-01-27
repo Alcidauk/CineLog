@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -39,7 +39,6 @@ import java.util.List;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 class KinoListAdapter extends ArrayAdapter<KinoDto> {
-
     private List<KinoDto> kinos;
 
     public KinoListAdapter(@NonNull Context context, @NonNull List<KinoDto> objects) {
@@ -90,7 +89,7 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
             }
 
             if(movie.getReview_date() != null){
-                kinoReviewDate.setText(new SimpleDateFormat("dd/MM/yy").format(movie.getReview_date()));
+                kinoReviewDate.setText(DateFormat.getDateFormat(getContext()).format(movie.getReview_date()));
                 kinoReviewDateLogo.setVisibility(View.VISIBLE);
             } else {
                 kinoReviewDate.setText("");

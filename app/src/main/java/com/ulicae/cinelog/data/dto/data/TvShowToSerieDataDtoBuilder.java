@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.data.dto.data;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.Nullable;
 
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
@@ -10,7 +11,7 @@ import java.util.Date;
 public class TvShowToSerieDataDtoBuilder {
 
     public WishlistDataDto build(BaseTvShow tvShow) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return new WishlistDataDto(
                 null,
                 tvShow.id,
@@ -26,7 +27,7 @@ public class TvShowToSerieDataDtoBuilder {
     @Nullable
     private int getYear(Date firstAirDate) {
         if(firstAirDate != null) {
-            String date = new SimpleDateFormat("yyyy").format(firstAirDate);
+            @SuppressLint("SimpleDateFormat") String date = new SimpleDateFormat("yyyy").format(firstAirDate);
             return date != null ? Integer.parseInt(date) : 0;
         }
         return 0;
