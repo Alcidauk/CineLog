@@ -120,4 +120,6 @@
     <string name="restart_app_please">Redémarrez l\'application pour terminer la mise à jour.</string>
     <string name="title_fragment_wishlist_movie">Films à voir</string>
     <string name="title_fragment_wishlist_serie">Séries à voir</string>
+
+    <string name="unknown_year">Année inconnue</string>
 </resources>

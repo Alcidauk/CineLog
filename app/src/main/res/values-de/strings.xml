@@ -122,4 +122,6 @@
     <string name="restart_app_please">Please restart the app to complete upgrade.</string>
     <string name="title_fragment_wishlist_movie">Movies wishlist</string>
     <string name="title_fragment_wishlist_serie">Series wishlist</string>
+
+    <string name="unknown_year">Unknown release year</string>
 </resources>

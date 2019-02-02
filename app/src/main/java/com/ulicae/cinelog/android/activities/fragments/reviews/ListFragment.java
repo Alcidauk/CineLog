@@ -18,6 +18,7 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -116,20 +117,28 @@ public abstract class ListFragment extends Fragment {
 
             LIST_VIEW_STATE = orderId;
 
-            kino_adapter = new KinoListAdapter(getContext(), kinos);
+            List<Object> objects = new ArrayList<Object>(kinos);
+            if(orderId == R.id.order_by_date_added_newest_first || orderId == R.id.order_by_date_added_oldest_first) {
+               objects = new ReviewDateHeaderListTransformer(getContext(), kinos).transform();
+            }
+
+            kino_adapter = new KinoListAdapter(getContext(), objects);
+
+            final List<Object> finalObjects = objects;
             kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 public boolean onItemLongClick(final AdapterView<?> view, View parent, final int position, long rowId) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage(R.string.delete_kino_dialog)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    // Delete the kino
-                                    KinoDto kinoDto = kinos.get(position);
-                                    kinos.remove(position);
-                                    //noinspection unchecked
-                                    service.delete(kinoDto);
+                                    Object item = finalObjects.get(position);
+                                    if(item instanceof KinoDto) {
+                                        kinos.remove(position);
+                                        //noinspection unchecked
+                                        service.delete((KinoDto) item);
 
-                                    kino_adapter.notifyDataSetChanged();
+                                        kino_adapter.notifyDataSetChanged();
+                                    }
                                 }
                             })
                             .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -143,11 +152,14 @@ public abstract class ListFragment extends Fragment {
             });
             kino_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
-                    Intent intent = new Intent(view.getContext(), ViewKino.class);
-                    intent.putExtra("kino", Parcels.wrap(kinos.get(position)));
-                    intent.putExtra("kino_position", position);
-                    intent.putExtra("dtoType", getDtoType());
-                    startActivityForResult(intent, RESULT_VIEW_KINO);
+                    Object item = finalObjects.get(position);
+                    if(item instanceof KinoDto) {
+                        Intent intent = new Intent(view.getContext(), ViewKino.class);
+                        intent.putExtra("kino", Parcels.wrap(item));
+                        intent.putExtra("kino_position", position);
+                        intent.putExtra("dtoType", getDtoType());
+                        startActivityForResult(intent, RESULT_VIEW_KINO);
+                    }
                 }
             });
 

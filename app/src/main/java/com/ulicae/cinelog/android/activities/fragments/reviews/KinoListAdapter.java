@@ -38,12 +38,10 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class KinoListAdapter extends ArrayAdapter<KinoDto> {
-    private List<KinoDto> kinos;
+class KinoListAdapter extends ArrayAdapter<Object> {
 
-    public KinoListAdapter(@NonNull Context context, @NonNull List<KinoDto> objects) {
+    public KinoListAdapter(@NonNull Context context, @NonNull List<Object> objects) {
         super(context, R.layout.main_result_item, objects);
-        this.kinos = objects;
     }
 
     public long getItemId(int position) {
@@ -52,9 +50,17 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
 
     // createOrUpdate a new RelativeView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
+        Object object = getItem(position);
+        if (object instanceof String) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.header_result_item, parent, false);
+
+            TextView viewById = (TextView) convertView.findViewById(R.id.main_result_kino_title);
+            viewById.setText((String) object);
+
+            return convertView;
         }
+
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
 
         TextView kinoTitleTextView = (TextView) convertView.findViewById(R.id.main_result_kino_title);
         TextView kinoYearTextView = (TextView) convertView.findViewById(R.id.main_result_kino_year);
@@ -62,7 +68,7 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
         RatingBar kinoRatingRatingBar = (RatingBar) convertView.findViewById(R.id.main_result_kino_rating_bar_small);
         TextView kinoReviewDate = (TextView) convertView.findViewById(R.id.main_result_kino_review_date);
         ImageView kinoReviewDateLogo = (ImageView) convertView.findViewById(R.id.main_result_kino_review_date_logo);
-        KinoDto movie = getItem(position);
+        KinoDto movie = (KinoDto) object;
 
         if (movie != null) {
             kinoTitleTextView.setText(movie.getTitle());
@@ -88,7 +94,7 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
                         .into(kinoPosterImageView);
             }
 
-            if(movie.getReview_date() != null){
+            if (movie.getReview_date() != null) {
                 kinoReviewDate.setText(DateFormat.getDateFormat(getContext()).format(movie.getReview_date()));
                 kinoReviewDateLogo.setVisibility(View.VISIBLE);
             } else {
@@ -116,7 +122,7 @@ class KinoListAdapter extends ArrayAdapter<KinoDto> {
             maxRating = movie.getMaxRating();
         }
 
-        if(maxRating <= 5) {
+        if (maxRating <= 5) {
             kinoRatingRatingBarAsText.setVisibility(View.INVISIBLE);
             kinoRatingRatingBarMaxAsText.setVisibility(View.INVISIBLE);
             kinoRatingRatingBar.setVisibility(View.VISIBLE);
