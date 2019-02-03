@@ -119,7 +119,7 @@ public class ViewKino extends AppCompatActivity {
         rating.setStepSize(0.5f);
 
         title.setText(kino.getTitle());
-        if (kino.getPosterPath() != null) {
+        if (kino.getPosterPath() != null && !"".equals(kino.getPosterPath())) {
             Glide.with(this)
                     .load("https://image.tmdb.org/t/p/w185" + kino.getPosterPath())
                     .centerCrop()

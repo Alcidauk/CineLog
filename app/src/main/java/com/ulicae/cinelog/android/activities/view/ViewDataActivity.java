@@ -172,7 +172,7 @@ public class ViewDataActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (wishlistDataDto.getPosterPath() != null) {
+        if (wishlistDataDto.getPosterPath() != null && !"".equals(wishlistDataDto.getPosterPath())) {
             Glide.with(this)
                     .load("https://image.tmdb.org/t/p/w185" + wishlistDataDto.getPosterPath())
                     .centerCrop()

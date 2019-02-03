@@ -99,7 +99,7 @@ public class ViewUnregisteredKino extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (kino.getPosterPath() != null) {
+        if (kino.getPosterPath() != null && !"".equals(kino.getPosterPath())) {
             Glide.with(this)
                     .load("https://image.tmdb.org/t/p/w185" + kino.getPosterPath())
                     .centerCrop()

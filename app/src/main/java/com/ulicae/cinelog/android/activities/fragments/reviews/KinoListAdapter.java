@@ -80,7 +80,7 @@ class KinoListAdapter extends ArrayAdapter<Object> {
             }
 
             kinoPosterImageView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
-            if (movie.getPosterPath() != null) {
+            if (movie.getPosterPath() != null && !"".equals(movie.getPosterPath())) {
                 Glide.with(getContext())
                         .load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath())
                         .centerCrop()

@@ -27,11 +27,11 @@
         <item name="colorButtonNormal">@color/colorPrimary</item>
         <item name="android:textAppearanceButton">@style/AppTheme.Button</item>
 
-        <item name="backgroundColor">@color/lightenGray</item>
+        <item name="backgroundColor">@color/white</item>
         <item name="foregroundColor">@color/white</item>
 
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:textColorSecondary">@color/colorBackgroundDark</item>
+        <item name="android:textColorPrimary">@color/darkGray</item>
+        <item name="android:textColorSecondary">@color/darkGray</item>
         <item name="android:textColorTertiary">@color/colorBackgroundDark</item>
         <item name="android:textColorHint">@color/lightGray</item>
 
@@ -70,7 +70,7 @@
         <item name="android:textAppearanceButton">@style/AppTheme.ButtonDark</item>
 
         <item name="backgroundColor">@color/black</item>
-        <item name="foregroundColor">@color/darkGray</item>
+        <item name="foregroundColor">@color/darkerGray</item>
 
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/colorBackgroundDark</item>
@@ -97,8 +97,8 @@
     </style>
 
     <style name="DarkDialog" parent="ThemeOverlay.AppCompat.Dialog">
-        <item name="android:windowBackground">@color/darkGray</item>
-        <item name="android:colorBackground">@color/darkGray</item>
+        <item name="android:windowBackground">@color/darkerGray</item>
+        <item name="android:colorBackground">@color/darkerGray</item>
     </style>
 
     <style name="PrefsThemeDark" parent="AppTheme.NoActionBar">
@@ -115,17 +115,17 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="android:background">@color/darkGray</item>
-        <item name="android:colorBackground">@color/darkGray</item>
-        <item name="android:itemBackground">@color/darkGray</item>
-        <item name="android:windowBackground">@color/darkGray</item>
+        <item name="android:background">@color/darkerGray</item>
+        <item name="android:colorBackground">@color/darkerGray</item>
+        <item name="android:itemBackground">@color/darkerGray</item>
+        <item name="android:windowBackground">@color/darkerGray</item>
         <item name="android:textColor">@color/white</item>
 
         <item name="android:textColorAlertDialogListItem">@color/white</item>
     </style>
 
     <style name="AppTheme.ButtonDark" parent="TextAppearance.AppCompat.Button">
-        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textColor">@color/darkerGray</item>
     </style>
 
 </resources>

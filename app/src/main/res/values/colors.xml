@@ -37,5 +37,6 @@
     <color name="black">#000000</color>
     <color name="lightGray">#D3D3D3</color>
     <color name="lightenGray">#f0f0f0</color>
-    <color name="darkGray">#0f0f0f</color>
+    <color name="darkGray">#191919</color>
+    <color name="darkerGray">#0f0f0f</color>
 </resources>
