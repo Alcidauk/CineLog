@@ -17,7 +17,7 @@
     <string name="app_name">CineLog</string>
     <string name="movie_title_input">Ingrese título de la película.</string>
     <string name="action_settings">Ajustes</string>
-    <string name="title_activity_add_kino">Añadir una revisión</string>
+    <string name="title_activity_add_kino">Añadir una reseña</string>
     <string name="title_activity_view_kino">Revisión de la película</string>
 
     <string name="title_fragment_movie">Películas</string>
@@ -30,40 +30,40 @@
     <string name="cancel">Cancelar</string>
     <string name="yes">Sí</string>
 
-    <string name="delete_kino_dialog">Do you want to remove this review?</string>
+    <string name="delete_kino_dialog">¿Desea borrar esta reseña?</string>
 
-    <string name="title_activity_add_review">Review edition</string>
-    <string name="title_activity_add_review_creation">Review creation</string>
-    <string name="review_hint">Enter your review here.</string>
+    <string name="title_activity_add_review">Edición de reseñas</string>
+    <string name="title_activity_add_review_creation">Creación de reseñas</string>
+    <string name="review_hint">Ingrese su reseña aquí.</string>
 
 
-    <string name="order">Order</string>
-    <string name="year">Release year</string>
-    <string name="date_added">Viewing date</string>
-    <string name="rating">Rating</string>
-    <string name="order_by_title">Title</string>
+    <string name="order">Ordenar</string>
+    <string name="year">Año de lanzamiento</string>
+    <string name="date_added">Fecha de visionado</string>
+    <string name="rating">Calificación</string>
+    <string name="order_by_title">Título</string>
 
-    <string name="newest_first">Newest First</string>
-    <string name="oldest_first">Oldest First</string>
-    <string name="highest_first">Highest First</string>
-    <string name="lowest_first">Lowest First</string>
-    <string name="order_by_title_asc">Alphabetical order</string>
-    <string name="order_by_title_desc">Reversed alphabetical order</string>
+    <string name="newest_first">Lo reciente primero</string>
+    <string name="oldest_first">Lo antiguo primero</string>
+    <string name="highest_first">Lo más alto primero</string>
+    <string name="lowest_first">Lo más bajo primero</string>
+    <string name="order_by_title_asc">Orden alfabético</string>
+    <string name="order_by_title_desc">Orden alfabético inverso</string>
 
-    <string name="title_activity_export_db">Export data</string>
-    <string name="export_db">Export data as CSV</string>
-    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export_movies.csv\' and \'export_series.csv\' at storage root. You will be able to import this backup if you need it.</string>
-    <string name="action_export">Export</string>
-    <string name="export_start_toast">Export starting…</string>
-    <string name="export_succeeded_toast">… export succeeded. See export_movies.csv and export_series.csv files at storage root.</string>
-    <string name="export_io_error_toast">An I/O error occurred during export. Verify your permissions.</string>
-    <string name="export_permission_error_toast">Can\'t export since external storage writing is not allowed for CineLog.</string>
+    <string name="title_activity_export_db">Exportar datos</string>
+    <string name="export_db">Exportar datos como CSV</string>
+    <string name="export_db_label">Clic en el botón para exportar sus datos como archivo CSV. Será guardado como \'export_movies.csv\' y \'export_series.csv\' en el almacenamiento raíz. Podrá importar esta copia de seguridad si la necesita.</string>
+    <string name="action_export">Exportar</string>
+    <string name="export_start_toast">Iniciando exportación…</string>
+    <string name="export_succeeded_toast">… exportación terminada. Revise los archivos export_movies.csv y export_series.csv en el almacenamiento raíz.</string>
+    <string name="export_io_error_toast">Un problema I/O ocurrió durante la exportación. Compruebe sus permisos.</string>
+    <string name="export_permission_error_toast">No es posible exportar por falta de permisos de escritura del almacenamiento externo para CineLog.</string>
 
-    <string name="action_import">Import</string>
-    <string name="title_activity_import_db">CSV File import</string>
-    <string name="import_db">Import CSV file in database</string>
-    <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file at the storage root.</string>
-    <string name="import_permission_error_toast">Can\'t import since external storage reading is not allowed for CineLog.</string>
+    <string name="action_import">Importar</string>
+    <string name="title_activity_import_db">Importar archivo CSV</string>
+    <string name="import_db">Importar archivo CSV en la base de datos</string>
+    <string name="import_db_label">El proceso de importación de archivos recuperará películas de import_movies.csv y series de import_series.csv en el almacenamiento raíz.</string>
+    <string name="import_permission_error_toast">No es posible importar por falta de permisos de escritura del almacenamiento externo para CineLog.</string>
     <string name="import_error_toast">An error occurred during data import of %s file.</string>
     <string name="import_io_error_toast">An error occurred while trying to find %s file. Verify it is located at the root storage and that you have required permissions.</string>
     <string name="import_parsing_error_toast">Error while parsing CSV file. Please verify it.</string>
