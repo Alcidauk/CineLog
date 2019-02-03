@@ -1,0 +1,125 @@
+<!--
+ CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
+ This file is part of CineLog.
+ CineLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ CineLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_name">CineLog</string>
+    <string name="movie_title_input">Enter movie title.</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_add_kino">Add a review</string>
+    <string name="title_activity_view_kino">Review of the movie</string>
+
+    <string name="title_fragment_movie">Movies</string>
+    <string name="title_fragment_serie">Series</string>
+
+
+    <string name="kino_title">Title</string>
+
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+
+    <string name="delete_kino_dialog">Do you want to remove this review?</string>
+
+    <string name="title_activity_add_review">Review edition</string>
+    <string name="title_activity_add_review_creation">Review creation</string>
+    <string name="review_hint">Enter your review here.</string>
+
+
+    <string name="order">Order</string>
+    <string name="year">Release year</string>
+    <string name="date_added">Viewing date</string>
+    <string name="rating">Rating</string>
+    <string name="order_by_title">Title</string>
+
+    <string name="newest_first">Newest First</string>
+    <string name="oldest_first">Oldest First</string>
+    <string name="highest_first">Highest First</string>
+    <string name="lowest_first">Lowest First</string>
+    <string name="order_by_title_asc">Alphabetical order</string>
+    <string name="order_by_title_desc">Reversed alphabetical order</string>
+
+    <string name="title_activity_export_db">Export data</string>
+    <string name="export_db">Export data as CSV</string>
+    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export_movies.csv\' and \'export_series.csv\' at storage root. You will be able to import this backup if you need it.</string>
+    <string name="action_export">Export</string>
+    <string name="export_start_toast">Export starting…</string>
+    <string name="export_succeeded_toast">… export succeeded. See export_movies.csv and export_series.csv files at storage root.</string>
+    <string name="export_io_error_toast">An I/O error occurred during export. Verify your permissions.</string>
+    <string name="export_permission_error_toast">Can\'t export since external storage writing is not allowed for CineLog.</string>
+
+    <string name="action_import">Import</string>
+    <string name="title_activity_import_db">CSV File import</string>
+    <string name="import_db">Import CSV file in database</string>
+    <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file at the storage root.</string>
+    <string name="import_permission_error_toast">Can\'t import since external storage reading is not allowed for CineLog.</string>
+    <string name="import_error_toast">An error occurred during data import of %s file.</string>
+    <string name="import_io_error_toast">An error occurred while trying to find %s file. Verify it is located at the root storage and that you have required permissions.</string>
+    <string name="import_parsing_error_toast">Error while parsing CSV file. Please verify it.</string>
+    <string name="import_parsing_line_error_toast">Can\'t save import movie with name %s.</string>
+    <string name="import_starting_toast">Import started…</string>
+    <string name="import_ending_toast">… import ended !</string>
+
+    <string name="add_from_scratch_label">Can\'t find the movie ?</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="default_tmdb_language_title">TmDb data language</string>
+    <string name="default_maximum_rating">Maximum rating available in reviews</string>
+    <string name="default_maximum_rating_summary">Enter the default maximal note you want to set to new movies</string>
+    <string name="default_maximum_rating_dialog">Type the maximum rating you want to set to new movies</string>
+    <string name="general_preferences">General preferences</string>
+    <string name="general_preferences_summary">Set the global preferences of this app.</string>
+    <string name="theme">Dark theme</string>
+    <string name="change_theme">Theme changed. Restart the application to fully apply the theme.</string>
+
+    <string name="view_poster_review_layout_title">Review</string>
+    <string name="view_kino_review_rating_label_value">Movie rating</string>
+    <string name="view_kino_review_review_date_label_value">Review date</string>
+    <string name="view_kino_review_review_label_value">Review</string>
+    <string name="title_activity_view_unregistered_kino">Movie informations</string>
+    <string name="review_date_hint">Enter the viewing date.</string>
+    <string name="review_change_reviewdate">Modify</string>
+    <string name="addkino_error_no_network">Can\'t reach network.</string>
+    <string name="addkino_error_no_review_entered">Please add a rating or a review.</string>
+
+    <string name="title_activity_add_serie">Add serie</string>
+    <string name="add_serie_from_scratch_label">Can\'t find the serie ?</string>
+    <string name="serie_title_hint">Enter a serie title.</string>
+    <string name="title_activity_view_unregistered_serie">Serie informations</string>
+    <string name="title_activity_view_serie">Serie review</string>
+
+    <string name="automatic_save">Automatic export to local storage</string>
+    <string name="automatic_save_summary">An export will be done at each application start (one per day, keeping the last 10 exports)</string>
+    <string name="automatic_export_cant_get_next_export">Unable to get the next export file. Automatic export will not be done. Please verify allowed permissions.</string>
+    <string name="automatic_export_cant_export">Unable to generate automatic export. Please verify the allowed permissions.</string>
+    <string name="automatic_export_cant_export_movie">An error occurred during automatic save of movies.</string>
+    <string name="automatic_export_cant_export_serie">An error occurred during automatic save of series.</string>
+    <string name="automatic_export_movie_toast">Success of movies automatic save !</string>
+    <string name="automatic_export_serie_toast">Success of automatic save of series !</string>
+    <string name="nav_reviews_space">Reviews</string>
+    <string name="nav_wishlist_space">Wishlist</string>
+    <string name="nav_title">Menu</string>
+    <string name="toolbar_title_reviews">Reviews</string>
+    <string name="toolbar_title_wishlist">Wishlist</string>
+    <string name="wishlist_list_activity">Wishlist</string>
+    <string name="wishlist_item_added">Added to wishlist !</string>
+
+    <string name="title_fragment_wishlist_movie">Movies wishlist</string>
+    <string name="title_fragment_wishlist_serie">Series wishlist</string>
+
+    <string name="restart_app_please">Please restart the app to complete upgrade.</string>
+
+    <string name="unknown_year">Unknown release year</string>
+
+</resources>
