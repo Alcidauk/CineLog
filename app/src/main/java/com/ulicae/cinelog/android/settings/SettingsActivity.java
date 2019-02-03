@@ -41,8 +41,6 @@ public class SettingsActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         if(new PreferencesWrapper().getBooleanPreference(getBaseContext(), "theme", false)){
             setTheme(R.style.PrefsThemeDark);
-        } else {
-            setTheme(R.style.AppTheme);
         }
         super.onCreate(savedInstanceState);
     }

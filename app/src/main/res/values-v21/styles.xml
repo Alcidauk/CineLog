@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
  CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
 
  This file is part of CineLog.
  CineLog is free software: you can redistribute it and/or modify
@@ -15,16 +16,12 @@
  You should have received a copy of the GNU General Public License
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<resources>
 
-    <ListView
-        android:id="@+id/kino_list"
-        android:divider="@color/white"
-        android:dividerHeight="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <style name="AppTheme.RatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressTint">@color/colorPrimaryDark</item>
+        <item name="android:progressBackgroundTint">@color/colorPrimaryLight</item>
+        <item name="android:secondaryProgressTint">@color/colorSecondaryLight</item>
+    </style>
 
-</LinearLayout>
+</resources>

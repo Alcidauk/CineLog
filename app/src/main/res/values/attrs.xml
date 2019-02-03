@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="AppTheme">
+        <attr name="backgroundColor" format="color" />
+        <attr name="foregroundColor" format="color" />
+    </declare-styleable>
+</resources>

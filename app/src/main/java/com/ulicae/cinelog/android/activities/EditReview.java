@@ -293,7 +293,6 @@ public class EditReview extends AppCompatActivity {
                 // TODO error
                 Toast.makeText(getActivity().getApplicationContext(), getString(R.string.export_io_error_toast), Toast.LENGTH_LONG).show();
             }
-
             return view;
         }
 
