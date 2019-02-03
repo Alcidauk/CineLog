@@ -18,7 +18,7 @@
     <string name="movie_title_input">Ingrese título de la película.</string>
     <string name="action_settings">Ajustes</string>
     <string name="title_activity_add_kino">Añadir una reseña</string>
-    <string name="title_activity_view_kino">Revisión de la película</string>
+    <string name="title_activity_view_kino">Reseña de la película</string>
 
     <string name="title_fragment_movie">Películas</string>
     <string name="title_fragment_serie">Series</string>
