@@ -83,8 +83,8 @@
     <string name="theme">Tema oscuro</string>
     <string name="change_theme">Tema cambiado. Reinicie la aplicación para aplicar el tema por completo.</string>
 
-    <string name="view_poster_review_layout_title">Review</string>
-    <string name="view_kino_review_rating_label_value">Movie rating</string>
+    <string name="view_poster_review_layout_title">Reseña</string>
+    <string name="view_kino_review_rating_label_value">Calificación de la película</string>
     <string name="view_kino_review_review_date_label_value">Review date</string>
     <string name="view_kino_review_review_label_value">Review</string>
     <string name="title_activity_view_unregistered_kino">Movie informations</string>
@@ -93,30 +93,30 @@
     <string name="addkino_error_no_network">Can\'t reach network.</string>
     <string name="addkino_error_no_review_entered">Please add a rating or a review.</string>
 
-    <string name="title_activity_add_serie">Add serie</string>
-    <string name="add_serie_from_scratch_label">Can\'t find the serie ?</string>
-    <string name="serie_title_hint">Enter a serie title.</string>
-    <string name="title_activity_view_unregistered_serie">Serie informations</string>
-    <string name="title_activity_view_serie">Serie review</string>
+    <string name="title_activity_add_serie">Añadir serie</string>
+    <string name="add_serie_from_scratch_label">¿No puede añadir la serie?</string>
+    <string name="serie_title_hint">Ingrese un título de la serie.</string>
+    <string name="title_activity_view_unregistered_serie">Información de la serie</string>
+    <string name="title_activity_view_serie">Reseña de la serie</string>
 
-    <string name="automatic_save">Automatic export to local storage</string>
-    <string name="automatic_save_summary">An export will be done at each application start (one per day, keeping the last 10 exports)</string>
+    <string name="automatic_save">Exportar automáticamente al almacenamiento local</string>
+    <string name="automatic_save_summary">Se realizará una exportación en cada inicio de la aplicación (una por día, manteniendo las últimas 10 exportaciones)</string>
     <string name="automatic_export_cant_get_next_export">Unable to get the next export file. Automatic export will not be done. Please verify allowed permissions.</string>
     <string name="automatic_export_cant_export">Unable to generate automatic export. Please verify the allowed permissions.</string>
     <string name="automatic_export_cant_export_movie">An error occurred during automatic save of movies.</string>
     <string name="automatic_export_cant_export_serie">An error occurred during automatic save of series.</string>
-    <string name="automatic_export_movie_toast">Success of movies automatic save !</string>
-    <string name="automatic_export_serie_toast">Success of automatic save of series !</string>
-    <string name="nav_reviews_space">Reviews</string>
-    <string name="nav_wishlist_space">Wishlist</string>
-    <string name="nav_title">Menu</string>
+    <string name="automatic_export_movie_toast">¡Guardado automática de película completa!</string>
+    <string name="automatic_export_serie_toast">¡Guardado automática de serie completa!</string>
+    <string name="nav_reviews_space">Reseñas</string>
+    <string name="nav_wishlist_space">Pendientes</string>
+    <string name="nav_title">Menú</string>
     <string name="toolbar_title_reviews">Reviews</string>
-    <string name="toolbar_title_wishlist">Wishlist</string>
-    <string name="wishlist_list_activity">Wishlist</string>
-    <string name="wishlist_item_added">Added to wishlist !</string>
+    <string name="toolbar_title_wishlist">Lista de pendientes</string>
+    <string name="wishlist_list_activity">Lista de pendientes</string>
+    <string name="wishlist_item_added">¡Añadido a pendientes!</string>
 
-    <string name="title_fragment_wishlist_movie">Movies wishlist</string>
-    <string name="title_fragment_wishlist_serie">Series wishlist</string>
+    <string name="title_fragment_wishlist_movie">Películas pendientes</string>
+    <string name="title_fragment_wishlist_serie">Series pendientes</string>
 
     <string name="restart_app_please">Please restart the app to complete upgrade.</string>
 
