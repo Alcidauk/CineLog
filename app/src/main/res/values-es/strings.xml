@@ -15,20 +15,20 @@
 -->
 <resources>
     <string name="app_name">CineLog</string>
-    <string name="movie_title_input">Enter movie title.</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_add_kino">Add a review</string>
-    <string name="title_activity_view_kino">Review of the movie</string>
+    <string name="movie_title_input">Ingrese título de la película.</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="title_activity_add_kino">Añadir una revisión</string>
+    <string name="title_activity_view_kino">Revisión de la película</string>
 
-    <string name="title_fragment_movie">Movies</string>
+    <string name="title_fragment_movie">Películas</string>
     <string name="title_fragment_serie">Series</string>
 
 
-    <string name="kino_title">Title</string>
+    <string name="kino_title">Título</string>
 
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="yes">Yes</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="yes">Sí</string>
 
     <string name="delete_kino_dialog">Do you want to remove this review?</string>
 
