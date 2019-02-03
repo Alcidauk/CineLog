@@ -64,24 +64,24 @@
     <string name="import_db">Importar archivo CSV en la base de datos</string>
     <string name="import_db_label">El proceso de importación de archivos recuperará películas de import_movies.csv y series de import_series.csv en el almacenamiento raíz.</string>
     <string name="import_permission_error_toast">No es posible importar por falta de permisos de escritura del almacenamiento externo para CineLog.</string>
-    <string name="import_error_toast">An error occurred during data import of %s file.</string>
-    <string name="import_io_error_toast">An error occurred while trying to find %s file. Verify it is located at the root storage and that you have required permissions.</string>
-    <string name="import_parsing_error_toast">Error while parsing CSV file. Please verify it.</string>
-    <string name="import_parsing_line_error_toast">Can\'t save import movie with name %s.</string>
-    <string name="import_starting_toast">Import started…</string>
-    <string name="import_ending_toast">… import ended !</string>
+    <string name="import_error_toast">Un error ocurrió durante la importación de datos del archivo %s.</string>
+    <string name="import_io_error_toast">Un error ocurrió cuando se intentó buscar el archivo %s. Verifique si el archivo está en el almacenamiento raíz con los permisos de lectura adecuados.</string>
+    <string name="import_parsing_error_toast">Error al codificar el archivo CSV. Por favor, verifíquelo.</string>
+    <string name="import_parsing_line_error_toast">No es posible guartar la película importada con nombre %s.</string>
+    <string name="import_starting_toast">Importación iniciado…</string>
+    <string name="import_ending_toast">… importación terminada !</string>
 
-    <string name="add_from_scratch_label">Can\'t find the movie ?</string>
+    <string name="add_from_scratch_label">¿No encuentra la película?</string>
 
-    <string name="title_activity_settings">Settings</string>
-    <string name="default_tmdb_language_title">TmDb data language</string>
-    <string name="default_maximum_rating">Maximum rating available in reviews</string>
-    <string name="default_maximum_rating_summary">Enter the default maximal note you want to set to new movies</string>
-    <string name="default_maximum_rating_dialog">Type the maximum rating you want to set to new movies</string>
-    <string name="general_preferences">General preferences</string>
-    <string name="general_preferences_summary">Set the global preferences of this app.</string>
-    <string name="theme">Dark theme</string>
-    <string name="change_theme">Theme changed. Restart the application to fully apply the theme.</string>
+    <string name="title_activity_settings">Ajustes</string>
+    <string name="default_tmdb_language_title">Idioma de datos de TmDb</string>
+    <string name="default_maximum_rating">Máxima calificación disponible en la reseña</string>
+    <string name="default_maximum_rating_summary">Ingrese la máxima calificación por defecto al querer reseñar nuevas películas</string>
+    <string name="default_maximum_rating_dialog">Ingrese la máxima calificación al querer reseñar nuevas películas</string>
+    <string name="general_preferences">Preferencias generales</string>
+    <string name="general_preferences_summary">Establece los ajustes globales de la aplicación.</string>
+    <string name="theme">Tema oscuro</string>
+    <string name="change_theme">Tema cambiado. Reinicie la aplicación para aplicar el tema por completo.</string>
 
     <string name="view_poster_review_layout_title">Review</string>
     <string name="view_kino_review_rating_label_value">Movie rating</string>
