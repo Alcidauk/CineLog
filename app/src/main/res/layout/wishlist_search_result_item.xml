@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  CineLog Copyright 2019 Pierre Rognon
  kinolog Copyright (C) 2017  ryan rigby
 
@@ -18,41 +17,59 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/kino_poster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:maxHeight="40dp"
-        android:maxWidth="60dp"
-        android:minHeight="40dp"
-        android:minWidth="60dp"
-        android:paddingRight="5dp"
-        android:src="@drawable/noimage_purple" />
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/kino_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/kino_poster"
-        android:text="Large Text"
-        android:scrollHorizontally="true"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <android.support.v7.widget.CardView
+        app:cardElevation="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="3dp"
+        android:backgroundTint="?attr/foregroundColor">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/kino_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/kino_title"
-        android:layout_toEndOf="@id/kino_poster"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="italic" />
+            <ImageView
+                android:id="@+id/kino_poster"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/noimage_purple" />
+
+            <RelativeLayout
+                android:id="@+id/text_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toEndOf="@id/kino_poster">
+
+                <TextView
+                    android:id="@+id/kino_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/kino_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/kino_title"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="italic" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
 </RelativeLayout>

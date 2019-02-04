@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  CineLog Copyright 2018 Pierre Rognon
  kinolog Copyright (C) 2017  ryan rigby
 
@@ -18,79 +17,101 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/kino_poster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:maxHeight="40dp"
-        android:maxWidth="60dp"
-        android:minHeight="40dp"
-        android:minWidth="60dp"
-        android:paddingRight="5dp"
-        android:src="@drawable/noimage_purple"
-        style="@style/Widget.AppCompat.RatingBar.Small"/>
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/kino_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/kino_poster"
-        android:text="Large Text"
-        android:scrollHorizontally="true"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <android.support.v7.widget.CardView
+        app:cardElevation="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="3dp"
+        android:backgroundTint="?attr/foregroundColor">
 
-    <TextView
-        android:id="@+id/kino_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/kino_title"
-        android:layout_toEndOf="@id/kino_poster"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="italic" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/add_review_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/add_kino"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"/>
+            <ImageView
+                android:id="@+id/kino_poster"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/noimage_purple" />
 
-    <RatingBar
-        android:id="@+id/kino_rating_bar_review"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
+            <RelativeLayout
+                android:id="@+id/text_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toEndOf="@id/kino_poster">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true">
-        <TextView
-            android:id="@+id/search_result_item_rating_bar_as_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-        <TextView
-            android:id="@+id/search_result_item_rating_bar_max_as_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryLight"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/kino_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/kino_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/kino_title"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="italic" />
+
+                <ImageButton
+                    android:id="@+id/add_review_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/add_kino" />
+
+                <RatingBar
+                    android:id="@+id/kino_rating_bar_review"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/search_result_item_rating_bar_as_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/search_result_item_rating_bar_max_as_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorPrimaryLight" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
 </RelativeLayout>
