@@ -7,8 +7,10 @@ To achieve that, CineLog has review, wishlist, import and export (both manual an
 
 CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve KinoLog application by adding extra functionnalities with a slightly different UI.
 
-[![Get it on F-Droid](https://fdroid.gitlab.io/artwork/badge/get-it-on.png)](https://f-droid.org/packages/com.ulicae.cinelog/)
-
+[<img src="https://f-droid.org/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.ulicae.cinelog/)
+     
 # Thanks to...
 
  - Christopher Bodtke for the german translation
