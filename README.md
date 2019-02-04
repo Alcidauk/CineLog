@@ -1,16 +1,26 @@
+[<img src="https://img.shields.io/f-droid/v/com.ulicae.cinelog.svg"
+     alt="Last GitHub release"
+     height="80">]
+
 # CineLog
 
-CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve the application by adding some extra functionnalities and with a slightly different UI.
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid">](https://f-droid.org/packages/com.ulicae.cinelog/)
 
-CineLog allows to review movies and to keep some informations of each reviewed movie.
+CineLog is a review database Android app, with Android 4.4 (KitKat) and later versions. The purpose of this app is to help you reminding movies and series.
+To achieve that, CineLog has review, wishlist, import and export (both manual and automatic) features.
 
-[<img src="https://f-droid.org/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.ulicae.cinelog/)
+CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve KinoLog application by adding extra functionnalities with a slightly different UI.
+
+# Thanks to...
+
+ - Christopher Bodtke for the german translation
+ - Kerstin Maur for the icon and colors
 
 # Licence
 
-CineLog Copyright 2018 Pierre Rognon
+CineLog Copyright 2019 Pierre Rognon
+
 (forked from kinolog Copyright (C) 2017  ryan rigby. Parts of this program use Ryan Rigby's code)
 
 This program is free software: you can redistribute it and/or modify

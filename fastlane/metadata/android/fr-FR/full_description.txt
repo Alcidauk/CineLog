@@ -23,6 +23,8 @@ Permissions:
     <li>WRITE_EXTERNAL_STORAGE pour exporter votre base de données au format CSV sur votre appareil</li>
 </ul>
 
-Traductions:
+Remerciements:
 
 Merci à Christopher Bodtke pour la traduction allemande de l'application.
+
+Merci à Kertin Maur pour l'icône de l'application et la proposition de couleurs.

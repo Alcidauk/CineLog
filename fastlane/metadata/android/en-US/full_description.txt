@@ -23,6 +23,9 @@ Permissions:
     <li>WRITE_EXTERNAL_STORAGE to export database as a CSV file</li>
 </ul>
 
-Translations:
+Special thanks:
 
-A huge thank you to Christopher Bodtke that wrote german translation.
+To Christopher Bodtke that wrote german translation.
+
+To Kerstin Maur that kindly designed an icon for CineLog and suggested colors.
+
