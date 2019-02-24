@@ -26,6 +26,8 @@
     <color name="colorSecondaryLight">#9a67ea</color>
     <color name="colorSecondaryDark">#320b86</color>
 
+    <color name="colorSecondaryBackground">#f0f0f0</color>
+
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
 

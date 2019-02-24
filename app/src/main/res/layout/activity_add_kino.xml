@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="?attr/foregroundColor"
+    android:background="?attr/backgroundColor"
     tools:context=".android.activities.add.AddKino">
 
     <android.support.design.widget.AppBarLayout

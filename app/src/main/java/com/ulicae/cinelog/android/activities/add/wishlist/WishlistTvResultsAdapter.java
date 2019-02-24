@@ -90,7 +90,6 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
     }
 
     private void populatePoster(WishlistDataDto kinoDto, WishlistItemViewHolder holder) {
-        holder.getPoster().setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
         if (kinoDto.getPosterPath() != null) {
             Glide.with(getContext())
                     .load("https://image.tmdb.org/t/p/w185" + kinoDto.getPosterPath())

@@ -2,6 +2,7 @@ package com.ulicae.cinelog.android.activities.fragments.reviews;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.preference.PreferenceManager;
 import android.text.format.DateFormat;
@@ -14,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -60,7 +62,9 @@ class KinoListAdapter extends ArrayAdapter<Object> {
             return convertView;
         }
 
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
+        if(convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
+        }
 
         TextView kinoTitleTextView = (TextView) convertView.findViewById(R.id.main_result_kino_title);
         TextView kinoYearTextView = (TextView) convertView.findViewById(R.id.main_result_kino_year);
@@ -79,7 +83,6 @@ class KinoListAdapter extends ArrayAdapter<Object> {
                 kinoYearTextView.setText("");
             }
 
-            kinoPosterImageView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
             if (movie.getPosterPath() != null && !"".equals(movie.getPosterPath())) {
                 Glide.with(getContext())
                         .load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath())

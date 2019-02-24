@@ -65,7 +65,6 @@ class WishlistListAdapter extends ArrayAdapter<WishlistDataDto> {
                 kinoYearTextView.setText("");
             }
 
-            posterView.setLayoutParams(new RelativeLayout.LayoutParams(120, 150));
             if (dataDto.getPosterPath() != null) {
                 Glide.with(getContext())
                         .load("https://image.tmdb.org/t/p/w185" + dataDto.getPosterPath())
