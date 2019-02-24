@@ -14,6 +14,7 @@ CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve K
 # Thanks to...
 
  - Christopher Bodtke for the german translation
+ - Diego Sangunietti for the spanish translation
  - Kerstin Maur for the icon and colors
 
 # Licence

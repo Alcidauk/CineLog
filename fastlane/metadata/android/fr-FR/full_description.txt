@@ -26,5 +26,7 @@ Permissions:
 Remerciements:
 
 Merci à Christopher Bodtke pour la traduction allemande de l'application.
+Merci à Diego Sangunietti pour la traduction espagnole de l'application.
 
 Merci à Kertin Maur pour l'icône de l'application et la proposition de couleurs.
+
