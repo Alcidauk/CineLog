@@ -95,7 +95,6 @@
     <string name="review_date_hint">Entrez la date du visionnage.</string>
     <string name="review_change_reviewdate">Modifier</string>
     <string name="addkino_error_no_network">Impossible de se connecter aux Internets :-(</string>
-    <string name="addkino_error_no_review_entered">Donnez une note ou entrez un commentaire pour pouvoir sauvegarder l\'avis.</string>
 
     <string name="title_activity_add_serie">Ajouter une revue de série</string>
     <string name="add_serie_from_scratch_label">Série non trouvée ?</string>

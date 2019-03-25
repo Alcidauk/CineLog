@@ -96,7 +96,6 @@
     <string name="review_date_hint">Trage ein wann du den Film gesehen hast.</string>
     <string name="review_change_reviewdate">modifizieren</string>
     <string name="addkino_error_no_network">Keine Netzwerkverbindung.</string>
-    <string name="addkino_error_no_review_entered">Bitte fügen sie eine Bewertung oder eine Rezension hinzu.</string>
 
     <string name="title_activity_add_serie">Füge eine Rezension hinzu</string>
     <string name="add_serie_from_scratch_label">Serie wurde nicht gefunden?</string>

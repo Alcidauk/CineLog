@@ -18,10 +18,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,12 +65,11 @@ import butterknife.OnClick;
  */
 public class EditReview extends AppCompatActivity {
 
-    @BindView(R.id.kino_rating_bar)
-    RatingBar rating_bar;
+
     @BindView(R.id.kino_review_text)
     EditText review_text;
-    @BindView(R.id.kino_review_date)
-    TextView review_date;
+    @BindView(R.id.kino_review_date_button)
+    Button kino_review_date_button;
 
     @BindView(R.id.view_kino_title_edit)
     EditText kino_title;
@@ -80,6 +79,10 @@ public class EditReview extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.review_edit_rating_bar_as_text)
+    TextView review_edit_rating_bar_as_text;
+    @BindView(R.id.review_edit_rating_bar_max_as_text)
+    TextView review_edit_rating_bar_max_as_text;
     @BindView(R.id.rating_picker)
     NumberPicker rating_picker;
 
@@ -116,9 +119,6 @@ public class EditReview extends AppCompatActivity {
             maxRating = kino.getMaxRating();
         }
 
-        rating_bar.setNumStars(maxRating);
-        rating_bar.setStepSize(0.5f);
-
         String[] displayedValues = getDisplayedValues(maxRating);
 
         rating_picker.setMinValue(0);
@@ -131,16 +131,13 @@ public class EditReview extends AppCompatActivity {
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 String[] displayedValues = picker.getDisplayedValues();
                 float rating = Float.parseFloat(displayedValues[newVal]);
-                rating_bar.setRating(rating);
 
+                review_edit_rating_bar_as_text.setText(String.format("%s", rating));
                 kino.setRating(rating);
             }
         });
 
-        if (kino.getRating() != null) {
-            rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
-            rating_bar.setRating(kino.getRating());
-        }
+        initRating(displayedValues);
 
         if (kino.getReview() != null) {
             review_text.setText(kino.getReview());
@@ -151,7 +148,7 @@ public class EditReview extends AppCompatActivity {
             if (kino.getReview_date() != null) {
                 review_date_as_string = DateFormat.getDateFormat(getBaseContext()).format(kino.getReview_date());
             }
-            review_date.setText(review_date_as_string);
+            kino_review_date_button.setText(review_date_as_string);
         }
 
         kino_title.setText(kino.getTitle());
@@ -166,6 +163,25 @@ public class EditReview extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void initRating(String[] displayedValues) {
+        SharedPreferences prefs = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        int maxRating;
+        if (kino.getMaxRating() == null) {
+            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            maxRating = Integer.parseInt(defaultMaxRateValue);
+        } else {
+            maxRating = kino.getMaxRating();
+        }
+
+        if (kino.getRating() != null) {
+            rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
+            review_edit_rating_bar_as_text.setText(String.format("%s", kino.getRating()));
+        }
+
+        review_edit_rating_bar_max_as_text.setText(String.format("/%s", maxRating));
     }
 
     private int getValueToDisplay(String[] displayedValues, float rating) {
@@ -216,40 +232,33 @@ public class EditReview extends AppCompatActivity {
 
     @OnClick(R.id.fab_save)
     public void onClick() {
-        if (rating_bar.getRating() == 0 && (review_text.getText().toString().equals("") || review_text.getText().toString().isEmpty())) {
-            Toast t = Toast.makeText(getApplicationContext(),
-                    getString(R.string.addkino_error_no_review_entered),
-                    Toast.LENGTH_LONG);
-            t.show();
-        } else {
-            kino.setRating(rating_bar.getRating());
-            kino.setReview(review_text.getText().toString());
+        kino.setReview(review_text.getText().toString());
 
-            if (kino.getTmdbKinoId() == null) {
-                kino.setTitle(kino_title.getText().toString());
-            }
-
-            if (kino.getMaxRating() == null) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                String maxRating = prefs.getString("default_max_rate_value", "5");
-                int maxRatingAsInt = Integer.parseInt(maxRating);
-                kino.setMaxRating(maxRatingAsInt);
-            }
-
-            //noinspection unchecked
-            kino = dtoService.createOrUpdate(kino);
-
-            long wishlistId = getIntent().getLongExtra("wishlistId", 0L);
-            if(wishlistId != 0L){
-                wishlistItemDeleter.deleteWishlistItem(wishlistId, getIntent().getStringExtra("dtoType"));
-            }
-
-            redirect();
+        if (kino.getTmdbKinoId() == null) {
+            kino.setTitle(kino_title.getText().toString());
         }
+
+        if (kino.getMaxRating() == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String maxRating = prefs.getString("default_max_rate_value", "5");
+            int maxRatingAsInt = Integer.parseInt(maxRating);
+            kino.setMaxRating(maxRatingAsInt);
+        }
+
+        //noinspection unchecked
+        kino = dtoService.createOrUpdate(kino);
+
+        long wishlistId = getIntent().getLongExtra("wishlistId", 0L);
+        if (wishlistId != 0L) {
+            wishlistItemDeleter.deleteWishlistItem(wishlistId, getIntent().getStringExtra("dtoType"));
+        }
+
+        redirect();
+
     }
 
     private void redirect() {
-        if(!getIntent().getBooleanExtra("creation", false)){
+        if (!getIntent().getBooleanExtra("creation", false)) {
             Intent returnIntent = getIntent();
             returnIntent.putExtra("kino", Parcels.wrap(kino));
             setResult(Activity.RESULT_OK, returnIntent);
@@ -286,7 +295,7 @@ public class EditReview extends AppCompatActivity {
             View view = super.onCreateView(inflater, container, savedInstanceState);
 
             try {
-                if(R.style.AppThemeDark == getThemeId()) {
+                if (R.style.AppThemeDark == getThemeId()) {
                     getDialog().getContext().setTheme(R.style.DarkDialog);
                 }
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -316,7 +325,7 @@ public class EditReview extends AppCompatActivity {
             if (kino.getReview_date() != null) {
                 review_date_as_string = DateFormat.getDateFormat(getActivity().getBaseContext()).format(kino.getReview_date());
             }
-            ((EditReview) getActivity()).review_date.setText(review_date_as_string);
+            ((EditReview) getActivity()).kino_review_date_button.setText(review_date_as_string);
             // Do something with the date chosen by the user
         }
     }

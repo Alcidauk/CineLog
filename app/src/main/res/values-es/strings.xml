@@ -94,7 +94,6 @@
     <string name="review_date_hint">Ingrese la fecha de visionado.</string>
     <string name="review_change_reviewdate">Modificar</string>
     <string name="addkino_error_no_network">No se pudo conectar a la red.</string>
-    <string name="addkino_error_no_review_entered">Por favor añada una calificación o reseña.</string>
 
     <string name="title_activity_add_serie">Añadir serie</string>
     <string name="add_serie_from_scratch_label">¿No puede añadir la serie?</string>

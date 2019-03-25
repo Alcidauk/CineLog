@@ -97,7 +97,6 @@
     <string name="review_date_hint">Enter the viewing date.</string>
     <string name="review_change_reviewdate">Modify</string>
     <string name="addkino_error_no_network">Can\'t reach network.</string>
-    <string name="addkino_error_no_review_entered">Please add a rating or a review.</string>
 
     <string name="title_activity_add_serie">Add serie</string>
     <string name="add_serie_from_scratch_label">Can\'t find the serie ?</string>
