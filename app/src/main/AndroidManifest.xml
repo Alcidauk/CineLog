@@ -76,7 +76,8 @@
             android:label="@string/title_activity_view_unregistered_kino"/>
         <activity
             android:name=".android.activities.EditReview"
-            android:label="@string/title_activity_add_review"/>
+            android:label="@string/title_activity_add_review"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".io.exportdb.ExportDb"
             android:label="@string/title_activity_export_db"
