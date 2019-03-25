@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  CineLog Copyright 2018 Pierre Rognon
  kinolog Copyright (C) 2017  ryan rigby
 
@@ -18,21 +17,22 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/view_kino_tmdb_layout"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp">
+        android:animateLayoutChanges="true"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="1dp"
+        app:cardMaxElevation="1dp">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/view_kino_tmdb_image_title_layout"
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:gravity="center"
@@ -40,43 +40,71 @@
 
             <ImageView
                 android:id="@+id/view_kino_tmdb_image_layout"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/noimage_purple"
-                style="@style/Widget.AppCompat.RatingBar.Small"/>
+                android:animateLayoutChanges="true" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/view_kino_tmdb_title_layout"
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/view_kino_tmdb_title"
-                    style="@style/TextAppearance.AppCompat.Large"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center" />
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/view_kino_tmdb_year"
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center" />
+                    <TextView
+                        android:id="@+id/view_kino_tmdb_title"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:maxLines="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/view_kino_tmdb_year"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center" />
+
+
+                    <TextView
+                        android:id="@+id/view_kino_tmdb_overview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:ellipsize="end"
+                        android:maxLines="4"
+                        android:paddingTop="7dp"
+                        android:fadingEdgeLength="25dp"
+                        android:requiresFadingEdge="vertical"
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/view_kino_tmdb_overview_more_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="@string/view_kino_overview_see_more" />
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/view_kino_tmdb_overview"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:textAlignment="center" />
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 
 </LinearLayout>

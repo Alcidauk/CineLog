@@ -90,6 +90,8 @@
     <string name="view_kino_review_rating_label_value">Film Bewertung</string>
     <string name="view_kino_review_review_date_label_value">Datum der Rezension</string>
     <string name="view_kino_review_review_label_value">Rezension</string>
+    <string name="view_kino_overview_see_more">See more</string>
+    <string name="view_kino_overview_see_less">Resume</string>
     <string name="title_activity_view_unregistered_kino">Film Informationen</string>
     <string name="review_date_hint">Trage ein wann du den Film gesehen hast.</string>
     <string name="review_change_reviewdate">modifizieren</string>

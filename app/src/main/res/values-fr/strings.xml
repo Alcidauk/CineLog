@@ -88,6 +88,9 @@
     <string name="view_kino_review_rating_label_value">Note</string>
     <string name="view_kino_review_review_date_label_value">Date du visionnage</string>
     <string name="view_kino_review_review_label_value">Commentaire</string>
+    <string name="view_kino_overview_see_more">Voir plus</string>
+    <string name="view_kino_overview_see_less">Retour</string>
+
     <string name="title_activity_view_unregistered_kino">Informations sur le film</string>
     <string name="review_date_hint">Entrez la date du visionnage.</string>
     <string name="review_change_reviewdate">Modifier</string>

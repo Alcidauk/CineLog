@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  CineLog Copyright 2018 Pierre Rognon
  kinolog Copyright (C) 2017  ryan rigby
 
@@ -19,90 +18,97 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/view_kino_review_content_title_layout"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:text="@string/view_poster_review_layout_title" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/view_kino_review_layout"
+        android:id="@+id/view_kino_review_content_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
 
-        <TextView
-            android:id="@+id/view_kino_review_content_title_layout"
-            style="?android:attr/listSeparatorTextViewStyle"
-            android:text="@string/view_poster_review_layout_title" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/view_kino_review_content_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight=".60"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:padding="7dp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/view_kino_review_rating_as_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="5dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/view_kino_review_rating_as_text"/>
-                <RatingBar
-                    android:id="@+id/view_kino_review_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:isIndicator="true"
-                    style="@style/Widget.AppCompat.RatingBar.Small"/>
-            </LinearLayout>
+                android:paddingEnd="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimaryDark"
+                tools:ignore="RtlSymmetry" />
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/view_kino_review_review_date_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-                <TextView
-                    android:id="@+id/view_kino_review_review_date_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?android:textAppearanceSmall"
-                    android:textStyle="bold"
-                    android:text="@string/view_kino_review_review_date_label_value"/>
-                <TextView
-                    android:id="@+id/view_kino_review_review_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    style="?android:textAppearanceSmall"
-                    tools:ignore="RelativeOverlap" />
-            </RelativeLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/view_kino_review_review_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/view_kino_review_review_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="@string/view_kino_review_review_label_value"/>
-                <TextView
-                    android:id="@+id/view_kino_review_review"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
+            <RatingBar
+                android:id="@+id/view_kino_review_rating"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true" />
         </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/view_kino_review_review_date_layout"
+            android:layout_width="0dp"
+            android:layout_weight=".40"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/view_kino_review_review_date_label"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view_kino_review_review_date_label_value"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/view_kino_review_review_date"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="RelativeOverlap" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/view_kino_review_review_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="7dp">
+
+        <TextView
+            android:id="@+id/view_kino_review_review_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view_kino_review_review_label_value"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/view_kino_review_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Banane"/>
     </LinearLayout>
 
 </LinearLayout>

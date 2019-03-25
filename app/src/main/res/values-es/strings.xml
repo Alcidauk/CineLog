@@ -87,6 +87,9 @@
     <string name="view_kino_review_rating_label_value">Calificación de la película</string>
     <string name="view_kino_review_review_date_label_value">Fecha de reseña</string>
     <string name="view_kino_review_review_label_value">Reseña</string>
+    <string name="view_kino_overview_see_more">See more</string>
+    <string name="view_kino_overview_see_less">Resume</string>
+
     <string name="title_activity_view_unregistered_kino">Información de la Película</string>
     <string name="review_date_hint">Ingrese la fecha de visionado.</string>
     <string name="review_change_reviewdate">Modificar</string>

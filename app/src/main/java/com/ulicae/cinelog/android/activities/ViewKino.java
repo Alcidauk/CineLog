@@ -8,10 +8,15 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -72,8 +77,13 @@ public class ViewKino extends AppCompatActivity {
     TextView ratingAsText;
     @BindView(R.id.view_kino_review_review)
     TextView review;
+    @BindView(R.id.view_kino_review_review_label)
+    TextView reviewLabel;
     @BindView(R.id.view_kino_review_review_date)
     TextView review_date;
+
+    @BindView(R.id.view_kino_tmdb_overview_more_button)
+    Button overview_more_button;
 
     KinoDto kino;
     int position;
@@ -138,6 +148,9 @@ public class ViewKino extends AppCompatActivity {
             }
         }
         overview.setText(kino.getOverview());
+        if(kino.getOverview() == null || "".equals(kino.getOverview())){
+            overview_more_button.setVisibility(View.INVISIBLE);
+        }
 
         if (kino.getRating() != null) {
             rating.setRating(kino.getRating());
@@ -145,8 +158,48 @@ public class ViewKino extends AppCompatActivity {
 
         ratingAsText.setText(String.format("%s", kino.getRating()));
 
-        review.setText(kino.getReview());
+        if(kino.getReview() == null || "".equals(kino.getReview())) {
+            review.setVisibility(View.INVISIBLE);
+            reviewLabel.setVisibility(View.INVISIBLE);
+        } else {
+            review.setVisibility(View.VISIBLE);
+            reviewLabel.setVisibility(View.VISIBLE);
+
+            review.setText(kino.getReview());
+        }
         review_date.setText(getReviewDateAsString(kino.getReview_date()));
+    }
+
+    @OnClick(R.id.view_kino_tmdb_overview_more_button)
+    public void onToggleOverview(View view) {
+        if(poster.getVisibility() == View.VISIBLE){
+            poster.setVisibility(View.GONE);
+            overview_more_button.setText(R.string.view_kino_overview_see_less);
+
+            overview.setEllipsize(null);
+            overview.setMaxLines(Integer.MAX_VALUE);
+            title.setEllipsize(null);
+            title.setMaxLines(Integer.MAX_VALUE);
+
+            LinearLayout layout = (LinearLayout) findViewById(R.id.view_kino_tmdb_image_title_layout);
+            ViewGroup.LayoutParams params = layout.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            layout.setLayoutParams(params);
+        } else {
+            poster.setVisibility(View.VISIBLE);
+            overview_more_button.setText(R.string.view_kino_overview_see_more);
+
+            overview.setEllipsize(TextUtils.TruncateAt.END);
+            overview.setMaxLines(4);
+            title.setEllipsize(TextUtils.TruncateAt.END);
+            title.setMaxLines(2);
+
+            LinearLayout layout = (LinearLayout) findViewById(R.id.view_kino_tmdb_image_title_layout);
+            ViewGroup.LayoutParams params = layout.getLayoutParams();
+            params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                    200, getResources().getDisplayMetrics());
+            layout.setLayoutParams(params);
+        }
     }
 
     @OnClick(R.id.fab)

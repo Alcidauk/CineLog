@@ -90,6 +90,9 @@
     <string name="view_kino_review_rating_label_value">Movie rating</string>
     <string name="view_kino_review_review_date_label_value">Review date</string>
     <string name="view_kino_review_review_label_value">Review</string>
+    <string name="view_kino_overview_see_more">See more</string>
+    <string name="view_kino_overview_see_less">Resume</string>
+
     <string name="title_activity_view_unregistered_kino">Movie informations</string>
     <string name="review_date_hint">Enter the viewing date.</string>
     <string name="review_change_reviewdate">Modify</string>
