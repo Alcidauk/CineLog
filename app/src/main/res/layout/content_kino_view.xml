@@ -69,9 +69,10 @@
                         android:id="@+id/view_kino_tmdb_title"
                         style="@style/TextAppearance.AppCompat.Large"
                         android:maxLines="2"
+                        android:ellipsize="end"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
+                        android:textAlignment="textStart"
                         android:textStyle="bold" />
 
                     <TextView
@@ -79,7 +80,7 @@
                         style="@style/TextAppearance.AppCompat.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center" />
+                        android:textAlignment="textStart" />
 
 
                     <TextView
@@ -92,7 +93,7 @@
                         android:paddingTop="7dp"
                         android:fadingEdgeLength="25dp"
                         android:requiresFadingEdge="vertical"
-                        android:textAlignment="center"/>
+                        android:textAlignment="gravity"/>
 
                 </LinearLayout>
 
@@ -100,6 +101,7 @@
                     android:id="@+id/view_kino_tmdb_overview_more_button"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_gravity="end"
                     android:text="@string/view_kino_overview_see_more" />
             </LinearLayout>
         </LinearLayout>
