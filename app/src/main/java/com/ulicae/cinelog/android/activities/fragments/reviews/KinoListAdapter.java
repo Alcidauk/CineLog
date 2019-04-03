@@ -62,9 +62,9 @@ class KinoListAdapter extends ArrayAdapter<Object> {
             return convertView;
         }
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
-        }
+        // don't make it conditional => since we can have strings, we must inflate for all items.
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
+
 
         TextView kinoTitleTextView = (TextView) convertView.findViewById(R.id.main_result_kino_title);
         TextView kinoYearTextView = (TextView) convertView.findViewById(R.id.main_result_kino_year);
