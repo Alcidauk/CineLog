@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
@@ -117,27 +118,20 @@ public abstract class ListFragment extends Fragment {
 
             LIST_VIEW_STATE = orderId;
 
-            List<Object> objects = new ArrayList<Object>(kinos);
-            if(orderId == R.id.order_by_date_added_newest_first || orderId == R.id.order_by_date_added_oldest_first) {
-               objects = new ReviewDateHeaderListTransformer(getContext(), kinos).transform();
-            }
-
-            kino_adapter = new KinoListAdapter(getContext(), objects);
-
-            final List<Object> finalObjects = objects;
+            final List<Object> objects = initialiseAdapter(orderId);
             kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 public boolean onItemLongClick(final AdapterView<?> view, View parent, final int position, long rowId) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage(R.string.delete_kino_dialog)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Object item = finalObjects.get(position);
+                                    Object item = objects.get(position);
                                     if(item instanceof KinoDto) {
-                                        kinos.remove(position);
+                                        objects.remove(position);
                                         //noinspection unchecked
                                         service.delete((KinoDto) item);
 
-                                        kino_adapter.notifyDataSetChanged();
+                                        kino_adapter.notifyDataSetInvalidated();
                                     }
                                 }
                             })
@@ -152,7 +146,7 @@ public abstract class ListFragment extends Fragment {
             });
             kino_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
-                    Object item = finalObjects.get(position);
+                    Object item = objects.get(position);
                     if(item instanceof KinoDto) {
                         Intent intent = new Intent(view.getContext(), ViewKino.class);
                         intent.putExtra("kino", Parcels.wrap(item));
@@ -166,6 +160,17 @@ public abstract class ListFragment extends Fragment {
 
             kino_list.setAdapter(kino_adapter);
         }
+    }
+
+    @NonNull
+    private List<Object> initialiseAdapter(int orderId) {
+        List<Object> objects = new ArrayList<Object>(kinos);
+        if(orderId == R.id.order_by_date_added_newest_first || orderId == R.id.order_by_date_added_oldest_first) {
+           objects = new ReviewDateHeaderListTransformer(getContext(), kinos).transform();
+        }
+
+        kino_adapter = new KinoListAdapter(getContext(), objects);
+        return objects;
     }
 
     protected abstract String getDtoType();
