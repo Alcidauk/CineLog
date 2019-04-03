@@ -26,8 +26,13 @@ import java.io.IOException;
  */
 public class FileUtilsWrapper {
 
-    public File getExternalStorageDirectory(){
-        return Environment.getExternalStorageDirectory();
+    public File getCineLogRoot(){
+        File cineLogRoot = new File(Environment.getExternalStorageDirectory(), "CineLog");
+        if(!cineLogRoot.exists()){
+            //noinspection ResultOfMethodCallIgnored
+            cineLogRoot.mkdir();
+        }
+        return cineLogRoot;
     }
 
     public File getFile(String path) {

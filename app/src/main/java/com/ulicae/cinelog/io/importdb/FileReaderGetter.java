@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.io.importdb;
 
-import android.os.Environment;
+import com.ulicae.cinelog.utils.FileUtilsWrapper;
 
 import java.io.File;
 import java.io.FileReader;
@@ -27,10 +27,14 @@ import java.io.IOException;
  */
 public class FileReaderGetter {
 
-    public FileReader get(String name) throws IOException {
-        File dataDirectory = Environment.getExternalStorageDirectory();
+    private FileUtilsWrapper fileUtilsWrapper;
 
-        File child = new File(dataDirectory, name);
+    FileReaderGetter(){
+        this.fileUtilsWrapper = new FileUtilsWrapper();
+    }
+
+    public FileReader get(String name) throws IOException {
+        File child = new File(fileUtilsWrapper.getCineLogRoot(), name);
         if (!child.exists()) {
             throw new IOException();
         }

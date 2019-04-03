@@ -44,9 +44,9 @@ class ExportTreeManager {
     }
 
     void prepareTree() {
-        File root = fileUtilsWrapper.getExternalStorageDirectory();
+        File root = fileUtilsWrapper.getCineLogRoot();
 
-        createIfNotExist(String.format("%s/CineLog/saves/%s", root.getAbsolutePath(), subDir));
+        createIfNotExist(String.format("%s/saves/%s", root.getAbsolutePath(), subDir));
     }
 
     private void createIfNotExist(String path) {
@@ -66,9 +66,9 @@ class ExportTreeManager {
     }
 
     void clean() {
-        File root = fileUtilsWrapper.getExternalStorageDirectory();
+        File root = fileUtilsWrapper.getCineLogRoot();
 
-        File saveRoot = fileUtilsWrapper.getFile(root.getAbsolutePath() + "/CineLog/saves/" + subDir);
+        File saveRoot = fileUtilsWrapper.getFile(root.getAbsolutePath() + "/saves/" + subDir);
 
         File[] saveFiles = saveRoot.listFiles();
         if(saveFiles.length > 10){
@@ -89,8 +89,8 @@ class ExportTreeManager {
     @NonNull
     private String buildExportFilePath(String subDir) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat todayDate = new SimpleDateFormat("yyyyMMdd");
-        return String.format("%s/CineLog/saves/%s/export%s.csv",
-                fileUtilsWrapper.getExternalStorageDirectory().getAbsolutePath(),
+        return String.format("%s/saves/%s/export%s.csv",
+                fileUtilsWrapper.getCineLogRoot().getAbsolutePath(),
                 subDir,
                 todayDate.format(new Date())
         );

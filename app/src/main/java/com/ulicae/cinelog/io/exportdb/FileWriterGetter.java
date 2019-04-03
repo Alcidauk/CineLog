@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.io.exportdb;
 
-import android.os.Environment;
+import com.ulicae.cinelog.utils.FileUtilsWrapper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,9 +27,13 @@ import java.io.IOException;
  */
 public class FileWriterGetter {
 
-    public FileWriter get(String name) throws IOException {
-        File dataDirectory = Environment.getExternalStorageDirectory();
+    private FileUtilsWrapper fileUtilsWrapper;
 
-        return new FileWriter(new File(dataDirectory, name));
+    FileWriterGetter(){
+        this.fileUtilsWrapper = new FileUtilsWrapper();
+    }
+
+    public FileWriter get(String name) throws IOException {
+        return new FileWriter(new File(fileUtilsWrapper.getCineLogRoot(), name));
     }
 }
