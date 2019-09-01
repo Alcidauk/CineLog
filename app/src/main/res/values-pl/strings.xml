@@ -1,0 +1,130 @@
+<!--
+ CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
+
+ This file is part of CineLog.
+ CineLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ CineLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_name">CineLog</string>
+    <string name="movie_title_input">Wprowadź tytuł filmu</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="title_activity_add_kino">Dodaj film</string>
+    <string name="title_activity_view_kino">Recenzja filmu</string>
+
+    <string name="title_fragment_movie">Filmy</string>
+    <string name="title_fragment_serie">Seriale</string>
+
+
+    <string name="kino_title">Tytuł</string>
+
+    <string name="save">Zapisz</string>
+    <string name="cancel">Anuluj</string>
+    <string name="yes">Tak</string>
+
+    <string name="delete_kino_dialog">Czy chcesz usunąć tę recenzję?</string>
+
+    <string name="title_activity_add_review">Edycja recenzji</string>
+    <string name="title_activity_add_review_creation">Tworzenie recenzji</string>
+    <string name="review_hint">Tutaj wpisz swoją recenzję</string>
+
+
+    <string name="order">Sortowanie</string>
+    <string name="year">Rok wydania</string>
+    <string name="date_added">Data obejrzenia</string>
+    <string name="rating">Ocena</string>
+    <string name="order_by_title">Tytuł</string>
+
+    <string name="newest_first">Najpierw najnowsze</string>
+    <string name="oldest_first">Najpierw najstarsze</string>
+    <string name="highest_first">Malejąco</string>
+    <string name="lowest_first">Rosnąco</string>
+    <string name="order_by_title_asc">A-Z</string>
+    <string name="order_by_title_desc">Z-A</string>
+
+    <string name="title_activity_export_db">Eksport danych</string>
+    <string name="export_db">Wyeksportuj dane</string>
+	<string name="export_db_label">Naciśnij poniższy przycisk, aby wyeksportować swoje recenzje do pliku CSV. Dane zostaną zapisane w katalogu głównym pamięci zewnętrznej, w plikach „export_movies.csv” i „export_series.csv”.</string>
+    <string name="action_export">Eksport</string>
+    <string name="export_start_toast">Eksport rozpoczęty…</string>
+	<string name="export_succeeded_toast">Pomyślnie wyeksportowano recenzje do plików „export_movies.csv” i „export_series.csv”.</string>
+	<string name="export_io_error_toast">Błąd wejścia/wyjścia podczas eksportu. Sprawdź uprawnienia aplikacji.</string>
+    <string name="export_permission_error_toast">Nie można wyeksportować danych, ponieważ CineLog nie posiada uprawnień do zapisu w pamięci zewnętrznej.</string>
+
+    <string name="action_import">Import</string>
+    <string name="title_activity_import_db">Import danych</string>
+	<string name="import_db">Zaimportuj dane</string>
+	<string name="import_db_label">Naciśnij poniższy przycisk, aby zaimportować recenzje filmów i seriali z plików „import_movies.csv” i „import_series.csv”. Pliki te powinny znajdować się w katalogu głównym pamięci zewnętrznej.</string>
+	<string name="import_permission_error_toast">Nie można zaimportować danych, ponieważ CineLog nie posiada uprawnień do odczytu z pamięci zewnętrznej.</string>
+	<string name="import_error_toast">Błąd podczas importowania danych z pliku „%s”.</string>
+	<string name="import_io_error_toast">Błąd podczas próby znalezienia pliku „%s”. Sprawdź czy znajduje się on w katalogu głównym pamięci zewnętrznej i czy CineLog posiada wystarczające uprawnienia.</string>
+	<string name="import_parsing_error_toast">Błąd podczas analizowania pliku CSV. Sprawdź spójność importowanego pliku.</string>
+    <string name="import_parsing_line_error_toast">Nie można zapisać importowanego filmu „%s”.</string>
+    <string name="import_starting_toast">Import rozpoczęty…</string>
+    <string name="import_ending_toast">Import zakończony</string>
+
+    <string name="add_from_scratch_label">Nie możesz znaleźć filmu?</string>
+
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="default_tmdb_language_title">Język danych z serwisu TMDb</string>
+    <string name="default_maximum_rating">Najwyższa ocena dostępna podczas recenzowania</string>
+    <string name="default_maximum_rating_summary">Podaj domyślną ocenę filmów i seriali</string>
+    <string name="default_maximum_rating_dialog">Podaj najwyższą ocenę, jaką będą mogły otrzymać filmy i seriale</string>
+    <string name="general_preferences">Ogólne preferencje</string>
+    <string name="general_preferences_summary">Zmień globalne ustawienia aplikacji</string>
+    <string name="theme">Ciemny motyw</string>
+    <string name="change_theme">Motyw zmieniony. Uruchom ponownie aplikację, aby w pełni go zastosować.</string>
+
+    <string name="view_poster_review_layout_title">Recenzja</string>
+    <string name="view_kino_review_rating_label_value">Ocena filmu</string>
+    <string name="view_kino_review_review_date_label_value">Data obejrzenia</string>
+    <string name="view_kino_review_review_label_value">Recenzja</string>
+    <string name="view_kino_overview_see_more">Więcej</string>
+    <string name="view_kino_overview_see_less">Mniej</string>
+
+    <string name="title_activity_view_unregistered_kino">Informacje o filmie</string>
+    <string name="review_date_hint">Wprowadź datę obejrzenia</string>
+    <string name="review_change_reviewdate">Zmień</string>
+    <string name="addkino_error_no_network">Brak dostępu do Internetu</string>
+
+	<string name="title_activity_add_serie">Dodaj serial</string>
+    <string name="add_serie_from_scratch_label">Nie możesz znaleźć serialu?</string>
+    <string name="serie_title_hint">Wprowadź tytuł serialu</string>
+    <string name="title_activity_view_unregistered_serie">Informacje o serialu</string>
+    <string name="title_activity_view_serie">Recenzja serialu</string>
+
+	<string name="automatic_save">Automatyczny eksport do pamięci zewnętrznej</string>
+	<string name="automatic_save_summary">Eksport będzie wykonywany raz dziennie, po uruchomieniu aplikacji. Zostanie zachowane ostatnie 10 kopii.</string>
+	<string name="automatic_export_cant_get_next_export">Nie można było wczytać następnego pliku eksportu. Automatyczny eksport nie zostanie wykonany. Sprawdź uprawnienia aplikacji.</string>
+	<string name="automatic_export_cant_export">Nie można było wykonać automatycznego eksportu. Sprawdź uprawnienia aplikacji.</string>
+	<string name="automatic_export_cant_export_movie">Błąd podczas automatycznego eksportu filmów.</string>
+	<string name="automatic_export_cant_export_serie">Błąd podczas automatycznego eksportu seriali.</string>
+	<string name="automatic_export_movie_toast">Automatyczny eksport filmów powiódł się.</string>
+	<string name="automatic_export_serie_toast">Automatyczny eksport seriali powiódł się.</string>
+    <string name="nav_reviews_space">Recenzje</string>
+    <string name="nav_wishlist_space">Do obejrzenia</string>
+    <string name="nav_title">Menu</string>
+    <string name="toolbar_title_reviews">Recenzje</string>
+    <string name="toolbar_title_wishlist">Do obejrzenia</string>
+    <string name="wishlist_list_activity">Do obejrzenia</string>
+    <string name="wishlist_item_added">Dodano do obejrzenia</string>
+
+    <string name="title_fragment_wishlist_movie">Filmy</string>
+    <string name="title_fragment_wishlist_serie">Seriale</string>
+
+    <string name="restart_app_please">Uruchom ponownie aplikację, aby ukończyć aktualizację.</string>
+
+    <string name="unknown_year">Rok wydania nieznany</string>
+
+</resources>
