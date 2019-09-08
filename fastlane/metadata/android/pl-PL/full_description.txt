@@ -1,0 +1,31 @@
+Recenzuj i oceniaj obejrzane filmy i seriale. Stwórz swój własny katalog recenzji!
+
+Cechy:
+
+<ul>
+    <li>Szukaj filmów i seriali za pomocą serwisu <a href="https://www.themoviedb.org/">TMDb</a>.</li>
+    <li>Wybierz język danych pobieranych z serwisu TMDb.</li>
+    <li>Dodawaj recenzje do filmów i seriali.</li>
+    <li>Nie możesz znaleźć szukanego filmu? Utwórz recenzję bez użycia TMDb.</li>
+    <li>Ustaw najwyższą ocenę, jaką może otrzymać recenzowany film lub serial.</li>
+    <li>Dodawaj filmy i seriale do obejrzenia.</li>
+    <li>Wyeksportuj swój katalog recenzji do pliku CSV.</li>
+    <li>Zaimportuj istniejący katalog recenzji.</li>
+    <li>Włącz automatyczne tworzenie kopii zapasowej (można użyć do synchronizacji recenzji).</li>
+</ul>
+
+Uprawnienia:
+
+<ul>
+    <li>INTERNET – wyszukiwanie filmów i seriali w serwisie TMDb.</li>
+    <li>ACCESS_NETWORK_STATE – sprawdzanie dostępności Internetu.</li>
+    <li>READ_EXTERNAL_STORAGE – wczytywanie importowanych plików.</li>
+    <li>WRITE_EXTERNAL_STORAGE – eksportowanie bazy danych do pliku CSV.</li>
+</ul>
+
+Specjalne podziękowania:
+
+Dla Christopher Bodtke, który dodał niemieckie tłumaczenie.
+Dla Diego Sangunietti, który dodał hiszpańskie tłumaczenie.
+
+Dla Kerstin Maur, która życzliwie zaprojektowała ikonę i zaproponowała schemat kolorów dla CineLog.

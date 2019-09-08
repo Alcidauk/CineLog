@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
+
+ This file is part of CineLog.
+ CineLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ CineLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string-array name="available_tmdb_languages_keys">
+        <item>Afar</item>
+        <item>Afrikaans</item>
+        <item>Akan</item>
+        <item>Aragonese</item>
+        <item>Assamese</item>
+        <item>Avaric</item>
+        <item>Avestan</item>
+        <item>Aymara</item>
+        <item>Azerbaijani</item>
+        <item>Bashkir</item>
+        <item>Bambara</item>
+        <item>Bislama</item>
+        <item>Tibetan</item>
+        <item>Breton</item>
+        <item>Catalan</item>
+        <item>Czech</item>
+        <item>Chechen</item>
+        <item>Slavic</item>
+        <item>Chuvash</item>
+        <item>Cornish</item>
+        <item>Corsican</item>
+        <item>Cree</item>
+        <item>Welsh</item>
+        <item>Danish</item>
+        <item>German</item>
+        <item>Divehi</item>
+        <item>Dzongkha</item>
+        <item>Esperanto</item>
+        <item>Estonian</item>
+        <item>Basque</item>
+        <item>Faroese</item>
+        <item>Fijian</item>
+        <item>Finnish</item>
+        <item>French</item>
+        <item>Frisian</item>
+        <item>Fulah</item>
+        <item>Gaelic</item>
+        <item>Irish</item>
+        <item>Galician</item>
+        <item>Manx</item>
+        <item>Guarani</item>
+        <item>Gujarati</item>
+        <item>Haitian; Haitian Creole</item>
+        <item>Hausa</item>
+        <item>Serbo-Croatian</item>
+        <item>Herero</item>
+        <item>Hiri Motu</item>
+        <item>Croatian</item>
+        <item>Hungarian</item>
+        <item>Igbo</item>
+        <item>Ido</item>
+        <item>Yi</item>
+        <item>Inuktitut</item>
+        <item>Interlingue</item>
+        <item>Interlingua</item>
+        <item>Indonesian</item>
+        <item>Inupiaq</item>
+        <item>Icelandic</item>
+        <item>Italian</item>
+        <item>Javanese</item>
+        <item>Japanese</item>
+        <item>Kalaallisut</item>
+        <item>Kannada</item>
+        <item>Kashmiri</item>
+        <item>Kanuri</item>
+        <item>Kazakh</item>
+        <item>Khmer</item>
+        <item>Kikuyu</item>
+        <item>Kinyarwanda</item>
+        <item>Kirghiz</item>
+        <item>Komi</item>
+        <item>Kongo</item>
+        <item>Korean</item>
+        <item>Kuanyama</item>
+        <item>Kurdish</item>
+        <item>Lao</item>
+        <item>Latin</item>
+        <item>Latvian</item>
+        <item>Limburgish</item>
+        <item>Lingala</item>
+        <item>Lithuanian</item>
+        <item>Letzeburgesch</item>
+        <item>Luba-Katanga</item>
+        <item>Ganda</item>
+        <item>Marshall</item>
+        <item>Malayalam</item>
+        <item>Marathi</item>
+        <item>Malagasy</item>
+        <item>Maltese</item>
+        <item>Moldavian</item>
+        <item>Mongolian</item>
+        <item>Maori</item>
+        <item>Malay</item>
+        <item>Burmese</item>
+        <item>Nauru</item>
+        <item>Navajo</item>
+        <item>Ndebele</item>
+        <item>Ndebele</item>
+        <item>Ndonga</item>
+        <item>Nepali</item>
+        <item>Dutch</item>
+        <item>Norwegian Nynorsk</item>
+        <item>Norwegian Bokmål</item>
+        <item>Norwegian</item>
+        <item>Chichewa; Nyanja</item>
+        <item>Occitan</item>
+        <item>Ojibwa</item>
+        <item>Oriya</item>
+        <item>Oromo</item>
+        <item>Ossetian; Ossetic</item>
+        <item>Pali</item>
+        <item>Polish</item>
+        <item>Portuguese</item>
+        <item>Quechua</item>
+        <item>Raeto-Romance</item>
+        <item>Romanian</item>
+        <item>Rundi</item>
+        <item>Russian</item>
+        <item>Sango</item>
+        <item>Sanskrit</item>
+        <item>Sinhalese</item>
+        <item>Slovak</item>
+        <item>Slovenian</item>
+        <item>Northern Sami</item>
+        <item>Samoan</item>
+        <item>Shona</item>
+        <item>Sindhi</item>
+        <item>Somali</item>
+        <item>Sotho</item>
+        <item>Spanish</item>
+        <item>Albanian</item>
+        <item>Sardinian</item>
+        <item>Serbian</item>
+        <item>Swati</item>
+        <item>Sundanese</item>
+        <item>Swahili</item>
+        <item>Swedish</item>
+        <item>Tahitian</item>
+        <item>Tamil</item>
+        <item>Tatar</item>
+        <item>Telugu</item>
+        <item>Tajik</item>
+        <item>Tagalog</item>
+        <item>Thai</item>
+        <item>Tigrinya</item>
+        <item>Tonga</item>
+        <item>Tswana</item>
+        <item>Tsonga</item>
+        <item>Turkmen</item>
+        <item>Turkish</item>
+        <item>Twi</item>
+        <item>Uighur</item>
+        <item>Ukrainian</item>
+        <item>Urdu</item>
+        <item>Uzbek</item>
+        <item>Venda</item>
+        <item>Vietnamese</item>
+        <item>Volapük</item>
+        <item>Walloon</item>
+        <item>Wolof</item>
+        <item>Xhosa</item>
+        <item>Yiddish</item>
+        <item>Zhuang</item>
+        <item>Zulu</item>
+        <item>Abkhazian</item>
+        <item>Mandarin</item>
+        <item>Pushto</item>
+        <item>Amharic</item>
+        <item>Arabic</item>
+        <item>Bulgarian</item>
+        <item>Cantonese</item>
+        <item>Macedonian</item>
+        <item>Greek</item>
+        <item>Persian</item>
+        <item>Hebrew</item>
+        <item>Hindi</item>
+        <item>Armenian</item>
+        <item>English</item>
+        <item>Ewe</item>
+        <item>Georgian</item>
+        <item>Punjabi</item>
+        <item>Bengali</item>
+        <item>Bosnian</item>
+        <item>Chamorro</item>
+        <item>Belarusian</item>
+        <item>Yoruba</item>
+    </string-array>
+
+</resources>
