@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.util.List;
 
@@ -67,7 +67,8 @@ class WishlistListAdapter extends ArrayAdapter<WishlistDataDto> {
 
             if (dataDto.getPosterPath() != null) {
                 Glide.with(getContext())
-                        .load("https://image.tmdb.org/t/p/w185" + dataDto.getPosterPath())
+                        .load(new ImageCacheDownloader(dataDto.getPosterPath())
+                                .getPosterFinder().getImage(dataDto.getPosterPath()))
                         .centerCrop()
                         .crossFade()
                         .into(posterView);

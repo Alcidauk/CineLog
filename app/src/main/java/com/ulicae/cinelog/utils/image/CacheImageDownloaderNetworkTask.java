@@ -1,12 +1,17 @@
-package com.ulicae.cinelog.utils;
+package com.ulicae.cinelog.utils.image;
 
-import android.os.Environment;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.ulicae.cinelog.utils.image.ImageCacheDownloader.BASE_URL;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -26,31 +31,24 @@ import java.net.URL;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class FileUtilsWrapper {
+class CacheImageDownloaderNetworkTask extends AsyncTask<Void, Void, Void> {
 
-    public File getCineLogRoot() {
-        return getAndCreateFile(Environment.getExternalStorageDirectory() +  "/CineLog");
+    private String imagePath;
+
+    CacheImageDownloaderNetworkTask(String imagePath) {
+        this.imagePath = imagePath;
     }
 
-    public File getCineLogPosterCache() {
-        File root = getCineLogRoot();
-        return getAndCreateFile(root.getAbsolutePath() + "/cache/posters");
-    }
-
-    public File getFile(String path) {
-        return new File(path);
-    }
-
-    public FileWriter getFileWriter(File file) throws IOException {
-        return new FileWriter(file);
-    }
-
-    private File getAndCreateFile(String path){
-        File file = new File(path);
-        if (!file.exists()) {
+    @Override
+    protected Void doInBackground(Void... voids) {
+        File fileToWrite = new ImageCacheFinder().getImage(imagePath);
+        try {
+            FileUtils.copyURLToFile(new URL(BASE_URL + imagePath), fileToWrite);
+        } catch (IOException e) {
             //noinspection ResultOfMethodCallIgnored
-            file.mkdirs();
+            fileToWrite.delete();
         }
-        return file;
+
+        return null;
     }
 }

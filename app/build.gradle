@@ -60,6 +60,8 @@ dependencies {
     compile 'com.uwetrottmann.tmdb2:tmdb-java:1.10.1'
     // Add import and export functionnalities
     compile 'org.apache.commons:commons-csv:1.5'
+    compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+
     // Allow to implements app preferences
     compile 'com.android.support:preference-v7:25.3.1'
 

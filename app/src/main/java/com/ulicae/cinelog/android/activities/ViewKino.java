@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -131,7 +132,8 @@ public class ViewKino extends AppCompatActivity {
         title.setText(kino.getTitle());
         if (kino.getPosterPath() != null && !"".equals(kino.getPosterPath())) {
             Glide.with(this)
-                    .load("https://image.tmdb.org/t/p/w185" + kino.getPosterPath())
+                    .load(new ImageCacheDownloader(kino.getPosterPath())
+                            .getPosterFinder().getImage(kino.getPosterPath()))
                     .centerCrop()
                     .crossFade()
                     .into(poster);

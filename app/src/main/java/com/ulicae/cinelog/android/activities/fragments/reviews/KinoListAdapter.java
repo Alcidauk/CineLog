@@ -2,7 +2,6 @@ package com.ulicae.cinelog.android.activities.fragments.reviews;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.preference.PreferenceManager;
 import android.text.format.DateFormat;
@@ -12,13 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.util.List;
 
@@ -85,7 +83,8 @@ class KinoListAdapter extends ArrayAdapter<Object> {
 
             if (movie.getPosterPath() != null && !"".equals(movie.getPosterPath())) {
                 Glide.with(getContext())
-                        .load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath())
+                        .load(new ImageCacheDownloader(movie.getPosterPath())
+                                .getPosterFinder().getImage(movie.getPosterPath()))
                         .centerCrop()
                         .crossFade()
                         .into(kinoPosterImageView);
