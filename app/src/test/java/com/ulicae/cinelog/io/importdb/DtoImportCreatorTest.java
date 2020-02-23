@@ -39,7 +39,7 @@ import static org.mockito.Mockito.doThrow;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class KinoImportCreatorTest {
+public class DtoImportCreatorTest {
 
     @Mock
     private CSVFormatWrapper csvFormatWrapper;
@@ -69,7 +69,7 @@ public class KinoImportCreatorTest {
 
         assertEquals(
                 Collections.singletonList(kinoDto),
-                new KinoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getKinos(fileReader)
+                new DtoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getKinos(fileReader)
         );
     }
 
@@ -79,7 +79,7 @@ public class KinoImportCreatorTest {
 
         assertEquals(
                 Collections.singletonList(kinoDto),
-                new KinoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getKinos(fileReader)
+                new DtoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getKinos(fileReader)
         );
     }
 

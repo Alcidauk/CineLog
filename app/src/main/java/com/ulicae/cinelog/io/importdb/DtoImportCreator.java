@@ -30,16 +30,16 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class KinoImportCreator<Dto> {
+class DtoImportCreator<Dto> {
     private CSVFormatWrapper csvFormatWrapper;
     private DtoFromRecordBuilder<Dto> dtoFromRecordBuilder;
     private Context context;
 
-    KinoImportCreator(Context context, DtoFromRecordBuilder<Dto> builder) {
+    DtoImportCreator(Context context, DtoFromRecordBuilder<Dto> builder) {
         this(new CSVFormatWrapper(), builder, context);
     }
 
-    KinoImportCreator(CSVFormatWrapper csvFormatWrapper, DtoFromRecordBuilder<Dto> dtoFromRecordBuilder, Context context) {
+    DtoImportCreator(CSVFormatWrapper csvFormatWrapper, DtoFromRecordBuilder<Dto> dtoFromRecordBuilder, Context context) {
         this.csvFormatWrapper = csvFormatWrapper;
         this.dtoFromRecordBuilder = dtoFromRecordBuilder;
         this.context = context;

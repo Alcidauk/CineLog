@@ -3,8 +3,8 @@ package com.ulicae.cinelog.io.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.data.dto.KinoDto;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,16 +29,16 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class CsvImporter<Dto extends KinoDto> {
+class CsvImporter<Dto extends ItemDto> {
 
     private FileReaderGetter fileReaderGetter;
-    private final KinoImportCreator<Dto> kinoImportCreator;
+    private final DtoImportCreator<Dto> dtoImportCreator;
     private DataService<Dto> dataService;
     private Context context;
 
-    public CsvImporter(FileReaderGetter fileReaderGetter, KinoImportCreator<Dto> kinoImportCreator, DataService<Dto> dataService, Context context) {
+    public CsvImporter(FileReaderGetter fileReaderGetter, DtoImportCreator<Dto> dtoImportCreator, DataService<Dto> dataService, Context context) {
         this.fileReaderGetter = fileReaderGetter;
-        this.kinoImportCreator = kinoImportCreator;
+        this.dtoImportCreator = dtoImportCreator;
         this.dataService = dataService;
         this.context = context;
     }
@@ -51,7 +51,7 @@ class CsvImporter<Dto extends KinoDto> {
         } catch (IOException e) {
             throw new ImportException(context.getString(R.string.import_io_error_toast, importFilename), e);
         }
-        List<Dto> kinos = kinoImportCreator.getKinos(fileReader);
+        List<Dto> kinos = dtoImportCreator.getKinos(fileReader);
 
         dataService.createOrUpdateWithTmdbId(kinos);
     }

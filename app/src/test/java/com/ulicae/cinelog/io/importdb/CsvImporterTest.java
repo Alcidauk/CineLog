@@ -43,7 +43,7 @@ public class CsvImporterTest {
     private FileReader fileReader;
 
     @Mock
-    private KinoImportCreator kinoImportCreator;
+    private DtoImportCreator dtoImportCreator;
 
     @Mock
     private KinoService kinoService;
@@ -63,9 +63,9 @@ public class CsvImporterTest {
         doReturn(new ArrayList<KinoDto>() {{
             add(aLocalKino);
             add(anotherLocalKino);
-        }}).when(kinoImportCreator).getKinos(fileReader);
+        }}).when(dtoImportCreator).getKinos(fileReader);
 
-        new CsvImporter(fileReaderGetter, kinoImportCreator, kinoService, context).importCsvFile("import.csv");
+        new CsvImporter(fileReaderGetter, dtoImportCreator, kinoService, context).importCsvFile("import.csv");
 
         verify(kinoService).createOrUpdateWithTmdbId(new ArrayList<KinoDto>() {{
             add(aLocalKino);

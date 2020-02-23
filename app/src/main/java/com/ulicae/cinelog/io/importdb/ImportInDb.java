@@ -13,8 +13,11 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
+import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
+import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.SerieDtoFromRecordBuilder;
+import com.ulicae.cinelog.io.importdb.builder.WishlistDtoFromRecordBuilder;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import butterknife.BindView;
@@ -66,7 +69,7 @@ public class ImportInDb extends AppCompatActivity {
                     "import_movies.csv",
                     new CsvImporter<>(
                             new FileReaderGetter(),
-                            new KinoImportCreator<>(this, new KinoDtoFromRecordBuilder(this)),
+                            new DtoImportCreator<>(this, new KinoDtoFromRecordBuilder(this)),
                             new KinoService(((KinoApplication) getApplication()).getDaoSession()),
                             this)
             );
@@ -75,8 +78,26 @@ public class ImportInDb extends AppCompatActivity {
                     "import_series.csv",
                     new CsvImporter<>(
                             new FileReaderGetter(),
-                            new KinoImportCreator<>(this, new SerieDtoFromRecordBuilder(this)),
+                            new DtoImportCreator<>(this, new SerieDtoFromRecordBuilder(this)),
                             new SerieService(((KinoApplication) getApplication()).getDaoSession(), this),
+                            this)
+            );
+
+            new SnapshotImporter(getApplication()).importFiles(
+                    "import_wishlist_series.csv",
+                    new CsvImporter<>(
+                            new FileReaderGetter(),
+                            new DtoImportCreator<>(this, new WishlistDtoFromRecordBuilder(this)),
+                            new MovieWishlistService(((KinoApplication) getApplication()).getDaoSession()),
+                            this)
+            );
+
+            new SnapshotImporter(getApplication()).importFiles(
+                    "import_wishlist_movies.csv",
+                    new CsvImporter<>(
+                            new FileReaderGetter(),
+                            new DtoImportCreator<>(this, new WishlistDtoFromRecordBuilder(this)),
+                            new SerieWishlistService(((KinoApplication) getApplication()).getDaoSession()),
                             this)
             );
         } else {
