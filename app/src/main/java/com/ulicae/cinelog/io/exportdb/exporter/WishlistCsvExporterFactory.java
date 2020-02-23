@@ -1,11 +1,10 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
+import com.ulicae.cinelog.data.services.wishlist.WishlistService;
+import com.ulicae.cinelog.io.exportdb.writer.WishlistCsvExportWriter;
 
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * CineLog Copyright 2020 Pierre Rognon
@@ -25,22 +24,14 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class CsvExporter<T extends ItemDto> {
-    private DataService<T> service;
-    private CsvExportWriter<T> csvExportWriter;
+public class WishlistCsvExporterFactory implements ExporterFactory{
+    private WishlistService wishlistService;
 
-    CsvExporter(DataService<T> service, CsvExportWriter<T> csvExportWriter) {
-        this.service = service;
-        this.csvExportWriter = csvExportWriter;
+    public WishlistCsvExporterFactory(WishlistService wishlistService) {
+        this.wishlistService = wishlistService;
     }
 
-    public void export() throws IOException {
-        List<T> localKinoList = service.getAll();
-
-        for (T dto : localKinoList) {
-            csvExportWriter.write(dto);
-        }
-
-        csvExportWriter.endWriting();
+    public CsvExporter makeCsvExporter(FileWriter fileWriter) throws IOException {
+        return new CsvExporter<>(wishlistService, new WishlistCsvExportWriter(fileWriter));
     }
 }

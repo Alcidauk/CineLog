@@ -26,7 +26,7 @@ import java.util.Date;
 // need to have weakerAccess to allow use of parcel
 @SuppressWarnings("WeakerAccess")
 @Parcel
-public class KinoDto {
+public class KinoDto implements ItemDto {
 
     Long kinoId;
     Long tmdbKinoId;

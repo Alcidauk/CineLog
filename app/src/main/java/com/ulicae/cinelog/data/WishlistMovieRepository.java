@@ -36,7 +36,7 @@ public class WishlistMovieRepository extends CrudRepository<WishlistMovieDao, Wi
         super(daoSession.getWishlistMovieDao());
     }
 
-    public WishlistMovie findByMovieId(long movieId) {
+    public WishlistMovie findByTmdbId(long movieId) {
         Query<WishlistMovie> wishlistMovieQuery = dao.queryBuilder()
                 .where(WishlistMovieDao.Properties.Tmdb_id.eq(movieId))
                 .limit(1)

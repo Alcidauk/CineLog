@@ -7,7 +7,6 @@ import com.ulicae.cinelog.data.dao.WishlistMovie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistMovieToSerieDataDtoBuilder;
-import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -92,7 +91,7 @@ public class MovieWishlistServiceTest {
     @Test
     public void getByTmdbId() {
         final WishlistMovie wishlistMovie = mock(WishlistMovie.class);
-        doReturn(wishlistMovie).when(wishlistMovieRepository).findByMovieId(34455L);
+        doReturn(wishlistMovie).when(wishlistMovieRepository).findByTmdbId(34455L);
 
         final WishlistDataDto wishlistDataDto = mock(WishlistDataDto.class);
         doReturn(wishlistDataDto).when(wishlistMovieToSerieDataDtoBuilder).build(wishlistMovie);
@@ -105,7 +104,7 @@ public class MovieWishlistServiceTest {
 
     @Test
     public void getByTmdbId_noMovie() {
-        doReturn(null).when(wishlistMovieRepository).findByMovieId(34455L);
+        doReturn(null).when(wishlistMovieRepository).findByTmdbId(34455L);
         assertNull( new MovieWishlistService(wishlistMovieRepository, tmdbKinoRepository, wishlistMovieToSerieDataDtoBuilder).getByTmdbId(34455));
     }
 

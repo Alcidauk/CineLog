@@ -91,4 +91,32 @@ public class SerieWishlistService implements WishlistService {
         WishlistSerie wishlistSerie = wishlistSerieRepository.find(id);
         return wishlistSerie != null ? wishlistSerieToSerieDataDtoBuilder.build(wishlistSerie) : null;
     }
+
+    /** DATA SERVICE COMPATIBILITY **/
+
+    @Override
+    public WishlistDataDto getWithTmdbId(long tmdbId) {
+        return getByTmdbId(Long.valueOf(tmdbId).intValue());
+    }
+
+    @Override
+    public WishlistDataDto createOrUpdate(WishlistDataDto dtoObject) {
+        createSerieData(dtoObject);
+        return getById(dtoObject.getId());
+    }
+
+    // TODO generification
+    @Override
+    public void createOrUpdateWithTmdbId(List<WishlistDataDto> dtos) {
+        for (WishlistDataDto dto : dtos) {
+            if(dto.getId() == null) {
+                WishlistSerie existingDto = wishlistSerieRepository.findByTmdbId(dto.getTmdbId());
+                if (existingDto != null) {
+                    dto.setId(existingDto.getWishlist_serie_id());
+                }
+            }
+
+            createOrUpdate(dto);
+        }
+    }
 }

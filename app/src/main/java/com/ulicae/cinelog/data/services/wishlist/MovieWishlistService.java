@@ -3,7 +3,6 @@ package com.ulicae.cinelog.data.services.wishlist;
 import com.ulicae.cinelog.data.TmdbKinoRepository;
 import com.ulicae.cinelog.data.WishlistMovieRepository;
 import com.ulicae.cinelog.data.dao.DaoSession;
-import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.TmdbKino;
 import com.ulicae.cinelog.data.dao.WishlistMovie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
@@ -83,7 +82,7 @@ public class MovieWishlistService implements WishlistService {
 
     @Override
     public WishlistDataDto getByTmdbId(Integer id) {
-        WishlistMovie wishlistMovie = wishlistMovieRepository.findByMovieId(id);
+        WishlistMovie wishlistMovie = wishlistMovieRepository.findByTmdbId(id);
         return wishlistMovie != null ? wishlistMovieToSerieDataDtoBuilder.build(wishlistMovie) : null;
     }
 
@@ -91,5 +90,34 @@ public class MovieWishlistService implements WishlistService {
     public WishlistDataDto getById(Long id) {
         WishlistMovie wishlistMovie = wishlistMovieRepository.find(id);
         return wishlistMovie != null ? wishlistMovieToSerieDataDtoBuilder.build(wishlistMovie) : null;
+    }
+
+
+    /** DATA SERVICE COMPATIBILITY **/
+
+    @Override
+    public WishlistDataDto getWithTmdbId(long tmdbId) {
+        return getByTmdbId(Long.valueOf(tmdbId).intValue());
+    }
+
+    @Override
+    public WishlistDataDto createOrUpdate(WishlistDataDto dtoObject) {
+        createMovieData(dtoObject);
+        return getById(dtoObject.getId());
+    }
+
+    // TODO generification
+    @Override
+    public void createOrUpdateWithTmdbId(List<WishlistDataDto> dtos) {
+        for (WishlistDataDto dto : dtos) {
+            if(dto.getId() == null) {
+                WishlistMovie existingDto = wishlistMovieRepository.findByTmdbId(dto.getTmdbId());
+                if (existingDto != null) {
+                    dto.setId(existingDto.getWishlist_movie_id());
+                }
+            }
+
+            createOrUpdate(dto);
+        }
     }
 }

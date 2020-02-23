@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.data.services.reviews;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.ItemDto;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface DataService<T extends KinoDto> {
+public interface DataService<T extends ItemDto> {
 
     List<T> getAll();
 

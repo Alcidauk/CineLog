@@ -246,7 +246,7 @@ public class EditReview extends AppCompatActivity {
         }
 
         //noinspection unchecked
-        kino = dtoService.createOrUpdate(kino);
+        kino = (KinoDto) dtoService.createOrUpdate(kino);
 
         long wishlistId = getIntent().getLongExtra("wishlistId", 0L);
         if (wishlistId != 0L) {

@@ -70,7 +70,7 @@ public class WishlistMovieRepositoryTest {
 
         assertEquals(
                 wishlistMovie,
-                new WishlistMovieRepository(daoSession).findByMovieId(45)
+                new WishlistMovieRepository(daoSession).findByTmdbId(45)
         );
 
     }
