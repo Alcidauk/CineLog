@@ -38,9 +38,9 @@ public class WishlistCsvExportWriterTest {
                 24L,
                 25,
                 "a title",
-                "/path",
                 "an overview",
                 2012,
+                "/path",
                 "20120212",
                 "MOVIE"
         );

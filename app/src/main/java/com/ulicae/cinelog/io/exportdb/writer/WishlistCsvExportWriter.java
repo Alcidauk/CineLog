@@ -32,7 +32,6 @@ public class WishlistCsvExportWriter extends CsvExportWriter<WishlistDataDto> {
         overview,
         firstYear,
         poster_path,
-        rating,
         release_date,
         wishlistItemType,
     }
@@ -50,9 +49,9 @@ public class WishlistCsvExportWriter extends CsvExportWriter<WishlistDataDto> {
                 wishlistDataDto.getId(),
                 wishlistDataDto.getTmdbId(),
                 wishlistDataDto.getTitle(),
-                wishlistDataDto.getPosterPath(),
                 wishlistDataDto.getOverview(),
                 wishlistDataDto.getFirstYear(),
+                wishlistDataDto.getPosterPath(),
                 wishlistDataDto.getReleaseDate(),
                 wishlistDataDto.getWishlistItemType().toString()
         );
