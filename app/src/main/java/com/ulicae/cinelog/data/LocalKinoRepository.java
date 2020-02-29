@@ -51,7 +51,7 @@ public class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino>
         return queryOrderBy(asc, LocalKinoDao.Properties.Rating);
     }
 
-    public List<LocalKino> findAllByYear(final boolean asc) {
+    public List<LocalKino> findAllByYear(boolean asc) {
         QueryBuilder.LOG_SQL = true;
         QueryBuilder.LOG_VALUES = true;
 
@@ -59,20 +59,34 @@ public class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino>
 
         List<LocalKino> list = localKinoQueryBuilder.build().list();
 
-        Collections.sort(list, new Comparator<LocalKino>() {
-            @Override
-            public int compare(LocalKino o1, LocalKino o2) {
-                int o1year = o1.getKino() != null ? o1.getKino().getYear() : 0;
-                int o2year = o2.getKino() != null ? o2.getKino().getYear() : 0;
-
-                if (asc) {
+        Comparator<LocalKino> comparator;
+        if (asc) {
+            comparator = new Comparator<LocalKino>() {
+                @Override
+                public int compare(LocalKino o1, LocalKino o2) {
+                    int o1year = o1.getKino() != null ? o1.getKino().getYear() : 0;
+                    int o2year = o2.getKino() != null ? o2.getKino().getYear() : 0;
+                    if (o1year == o2year) {
+                        return 0;
+                    }
                     return o1year < o2year ? -1 : 1;
-                } else {
+                }
+            };
+        } else {
+            comparator = new Comparator<LocalKino>() {
+                @Override
+                public int compare(LocalKino o1, LocalKino o2) {
+                    int o1year = o1.getKino() != null ? o1.getKino().getYear() : 0;
+                    int o2year = o2.getKino() != null ? o2.getKino().getYear() : 0;
+                    if (o1year == o2year) {
+                        return 0;
+                    }
                     return o1year < o2year ? 1 : -1;
                 }
-            }
-        });
+            };
+        }
 
+        Collections.sort(list, comparator);
         return list;
     }
 
