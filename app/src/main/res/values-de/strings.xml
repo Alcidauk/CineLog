@@ -125,4 +125,14 @@
     <string name="title_fragment_wishlist_serie">Series wishlist</string>
 
     <string name="unknown_year">Unknown release year</string>
+
+    <string name="import_movies_status">Movie reviews import:</string>
+    <string name="import_series_status">Serie reviews import:</string>
+    <string name="import_wishlist_series_status">Serie wishlist import:</string>
+    <string name="import_wishlist_movies_status">Movie wishlist import:</string>
+
+    <string name="import_status_waiting">waiting</string>
+    <string name="import_status_success">ended</string>
+    <string name="import_status_no_file">file not found</string>
+    <string name="import_status_failed">in error</string>
 </resources>
