@@ -11,6 +11,8 @@ CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve K
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/com.ulicae.cinelog/)
      
+[Website (in french)](https://ulicae.com/cinelog/home)
+     
 # Thanks to...
 
  - Christopher Bodtke for the German translation
