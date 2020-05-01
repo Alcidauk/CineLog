@@ -63,7 +63,7 @@ public class TmdbServiceWrapper {
                 null,
                 null,
                 null,
-                "ngram"
+                null
         );
     }
 
@@ -74,7 +74,6 @@ public class TmdbServiceWrapper {
                 name,
                 1,
                 getTmdbPrefLanguage(),
-                null,
                 null
         );    }
 

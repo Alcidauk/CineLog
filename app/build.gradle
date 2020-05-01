@@ -4,6 +4,11 @@ apply plugin: 'org.greenrobot.greendao'
 
 android {
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
     compileSdkVersion 29
     defaultConfig {
         applicationId 'com.ulicae.cinelog'
@@ -60,7 +65,7 @@ dependencies {
     // GreenDAO ORM for database
     implementation 'org.greenrobot:greendao:3.2.2'
     // https://mvnrepository.com/artifact/com.uwetrottmann.tmdb2/tmdb-java
-    implementation 'com.uwetrottmann.tmdb2:tmdb-java:1.10.1'
+    implementation 'com.uwetrottmann.tmdb2:tmdb-java:2.2.0'
     // Add import and export functionnalities
     implementation 'org.apache.commons:commons-csv:1.5'
     implementation group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
