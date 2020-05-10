@@ -80,7 +80,9 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
         KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
         if (kinoByTmdbMovieId != null) {
             if(kinoByTmdbMovieId.getMaxRating() <= 5) {
-                holder.getRatingBar().setRating(kinoByTmdbMovieId.getRating());
+                holder.getRatingBar().setRating(
+                        kinoByTmdbMovieId.getRating() != null ? kinoByTmdbMovieId.getRating() : 0
+                );
 
                 holder.getRatingBarAsText().setVisibility(View.INVISIBLE);
                 holder.getRatingBarMaxAsText().setVisibility(View.INVISIBLE);

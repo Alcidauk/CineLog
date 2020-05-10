@@ -90,9 +90,8 @@ public class ViewDataFieldsInflater {
     private void configureRating() {
         if (kino.getRating() != null) {
             rating.setRating(kino.getRating());
+            ratingAsText.setText(String.format("%s", kino.getRating()));
         }
-
-        ratingAsText.setText(String.format("%s", kino.getRating()));
     }
 
     private void configureOverview() {
