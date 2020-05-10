@@ -2,6 +2,7 @@ package com.ulicae.cinelog.android.activities;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,19 @@ public class TvEpisodesAdapter extends ArrayAdapter<TvEpisode> {
 
         TvEpisodeViewHolder holder = new TvEpisodeViewHolder(convertView);
 
-        holder.getEpisodeName().setText(item.name);
+        if (item != null) {
+            holder.getEpisodeName().setText(item.name);
+            holder.getEpisodeDate().setText(
+                    item.air_date != null ?
+                            DateFormat.getDateFormat(getContext()).format(item.air_date) : ""
+            );
+            holder.getSeasonNumber().setText(
+                    item.season_number != null ? String.valueOf(item.season_number + 1) : ""
+            );
+            holder.getEpisodeNumber().setText(
+                    item.episode_number != null ? String.valueOf(item.episode_number) : ""
+            );
+        }
 
         return convertView;
     }

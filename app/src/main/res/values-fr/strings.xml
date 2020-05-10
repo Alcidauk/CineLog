@@ -134,4 +134,6 @@
     <string name="import_status_success">terminé</string>
     <string name="import_status_no_file">fichier non trouvé</string>
     <string name="import_status_failed">en erreur</string>
+    <string name="serie_episode_season_number_label">Saison</string>
+    <string name="serie_episode_episode_number_label">Épisode</string>
 </resources>

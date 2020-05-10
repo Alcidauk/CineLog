@@ -68,7 +68,7 @@ public class TmdbServiceWrapperTest {
 
         doReturn("fr").when(preferencesWrapper).getStringPreference(context, "default_tmdb_language", null);
 
-        doReturn(call).when(searchService).movie("name", 1, "fr", null, null, null, "ngram");
+        doReturn(call).when(searchService).movie("name", 1, "fr", null, null, null, null);
 
         assertEquals(
                 call,
@@ -82,7 +82,7 @@ public class TmdbServiceWrapperTest {
 
         doReturn("fr").when(preferencesWrapper).getStringPreference(context, "default_tmdb_language", null);
 
-        doReturn(call).when(searchService).tv("name", 1, "fr", null, null);
+        doReturn(call).when(searchService).tv("name", 1, "fr", null);
 
         assertEquals(
                 call,

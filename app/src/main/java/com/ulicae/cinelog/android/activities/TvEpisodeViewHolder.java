@@ -29,8 +29,14 @@ import butterknife.ButterKnife;
  */
 public class TvEpisodeViewHolder {
 
-    @BindView(R.id.episode_name)
+    @BindView(R.id.serie_episode_item_name)
     TextView episodeName;
+    @BindView(R.id.serie_episode_item_date)
+    TextView episodeDate;
+    @BindView(R.id.serie_episode_item_season_number)
+    TextView seasonNumber;
+    @BindView(R.id.serie_episode_item_episode_number)
+    TextView episodeNumber;
 
     TvEpisodeViewHolder(View view) {
         ButterKnife.bind(this, view);
@@ -40,4 +46,15 @@ public class TvEpisodeViewHolder {
         return episodeName;
     }
 
+    public TextView getEpisodeDate() {
+        return episodeDate;
+    }
+
+    public TextView getSeasonNumber() {
+        return seasonNumber;
+    }
+
+    public TextView getEpisodeNumber() {
+        return episodeNumber;
+    }
 }
