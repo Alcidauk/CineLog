@@ -2,36 +2,24 @@ package com.ulicae.cinelog.android.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.text.format.DateFormat;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.view.ViewDataFieldsInflater;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -118,90 +106,7 @@ public class ViewKino extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        int maxRating;
-        if (kino.getMaxRating() == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
-            maxRating = Integer.parseInt(defaultMaxRateValue);
-        } else {
-            maxRating = kino.getMaxRating();
-        }
-        rating.setNumStars(maxRating);
-        rating.setStepSize(0.5f);
-
-        title.setText(kino.getTitle());
-        if (kino.getPosterPath() != null && !"".equals(kino.getPosterPath())) {
-            Glide.with(this)
-                    .load(new ImageCacheDownloader(kino.getPosterPath())
-                            .getPosterFinder().getImage(kino.getPosterPath()))
-                    .centerCrop()
-                    .crossFade()
-                    .into(poster);
-        }
-        String releaseDateLocal = kino.getReleaseDate();
-        if(releaseDateLocal != null && !"".equals(releaseDateLocal)) {
-            SimpleDateFormat frenchSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-            try {
-                Date parsedDate = frenchSdf.parse(releaseDateLocal);
-                String formattedDate = DateFormat.getDateFormat(getBaseContext()).format(parsedDate);
-                year.setText(formattedDate);
-            } catch (ParseException ignored) {
-                year.setText(String.valueOf(kino.getYear()));
-            }
-        }
-        overview.setText(kino.getOverview());
-        if(kino.getOverview() == null || "".equals(kino.getOverview())){
-            overview_more_button.setVisibility(View.INVISIBLE);
-        }
-
-        if (kino.getRating() != null) {
-            rating.setRating(kino.getRating());
-        }
-
-        ratingAsText.setText(String.format("%s", kino.getRating()));
-
-        if(kino.getReview() == null || "".equals(kino.getReview())) {
-            review.setVisibility(View.INVISIBLE);
-            reviewLabel.setVisibility(View.INVISIBLE);
-        } else {
-            review.setVisibility(View.VISIBLE);
-            reviewLabel.setVisibility(View.VISIBLE);
-
-            review.setText(kino.getReview());
-        }
-        review_date.setText(getReviewDateAsString(kino.getReview_date()));
-    }
-
-    @OnClick(R.id.view_kino_tmdb_overview_more_button)
-    public void onToggleOverview(View view) {
-        if(poster.getVisibility() == View.VISIBLE){
-            poster.setVisibility(View.GONE);
-            overview_more_button.setText(R.string.view_kino_overview_see_less);
-
-            overview.setEllipsize(null);
-            overview.setMaxLines(Integer.MAX_VALUE);
-            title.setEllipsize(null);
-            title.setMaxLines(Integer.MAX_VALUE);
-
-            LinearLayout layout = (LinearLayout) findViewById(R.id.view_kino_tmdb_image_title_layout);
-            ViewGroup.LayoutParams params = layout.getLayoutParams();
-            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            layout.setLayoutParams(params);
-        } else {
-            poster.setVisibility(View.VISIBLE);
-            overview_more_button.setText(R.string.view_kino_overview_see_more);
-
-            overview.setEllipsize(TextUtils.TruncateAt.END);
-            overview.setMaxLines(4);
-            title.setEllipsize(TextUtils.TruncateAt.END);
-            title.setMaxLines(2);
-
-            LinearLayout layout = (LinearLayout) findViewById(R.id.view_kino_tmdb_image_title_layout);
-            ViewGroup.LayoutParams params = layout.getLayoutParams();
-            params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    200, getResources().getDisplayMetrics());
-            layout.setLayoutParams(params);
-        }
+        new ViewDataFieldsInflater(kino, this, getWindow().getDecorView()).configureFields();
     }
 
     @OnClick(R.id.fab)
@@ -210,13 +115,6 @@ public class ViewKino extends AppCompatActivity {
         intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
         intent.putExtra("kino", Parcels.wrap(kino));
         startActivityForResult(intent, RESULT_ADD_REVIEW);
-    }
-
-    private String getReviewDateAsString(Date review_date) {
-        if (review_date != null) {
-            return DateFormat.getDateFormat(getBaseContext()).format(review_date);
-        }
-        return null;
     }
 
     @Override
