@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.ViewKino;
+import com.ulicae.cinelog.android.activities.ViewSerie;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
@@ -25,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2020 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -148,10 +150,13 @@ public abstract class ListFragment extends Fragment {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Object item = objects.get(position);
                     if(item instanceof KinoDto) {
-                        Intent intent = new Intent(view.getContext(), ViewKino.class);
+                        Class activity = item instanceof SerieDto ? ViewSerie.class : ViewKino.class;
+                        Intent intent = new Intent(view.getContext(), activity);
+
                         intent.putExtra("kino", Parcels.wrap(item));
                         intent.putExtra("kino_position", position);
                         intent.putExtra("dtoType", getDtoType());
+
                         startActivityForResult(intent, RESULT_VIEW_KINO);
                     }
                 }

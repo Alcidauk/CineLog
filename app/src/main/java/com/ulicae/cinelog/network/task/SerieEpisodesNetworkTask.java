@@ -2,14 +2,14 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.activities.ViewKino;
+import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.uwetrottmann.tmdb2.entities.TvEpisode;
 
 import java.util.List;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2020 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -28,19 +28,18 @@ import java.util.List;
  */
 public class SerieEpisodesNetworkTask extends AsyncTask<Integer, Void, List<TvEpisode>> {
 
-    private ViewKino context;
+    private SerieViewEpisodesFragment context;
 
     private List<TvEpisode> episodes;
 
-    public SerieEpisodesNetworkTask(ViewKino context) {
+    public SerieEpisodesNetworkTask(SerieViewEpisodesFragment context) {
         this.context = context;
     }
-
 
     @Override
     protected List<TvEpisode> doInBackground(Integer... integers) {
         for (Integer integer : integers) {
-            TmdbServiceWrapper tmdbServiceWrapper = new TmdbServiceWrapper(context);
+            TmdbServiceWrapper tmdbServiceWrapper = new TmdbServiceWrapper(context.getContext());
             List<Integer> tvSeasonNumbers = tmdbServiceWrapper.tvShowSeasons(integer);
 
             episodes = tmdbServiceWrapper.tvShowEpisodes(integer, tvSeasonNumbers);
@@ -51,6 +50,6 @@ public class SerieEpisodesNetworkTask extends AsyncTask<Integer, Void, List<TvEp
 
     @Override
     protected void onPostExecute(List<TvEpisode> tvEpisodes) {
-        // context.populateEpisodeList(episodes);
+        context.populateEpisodeList(episodes);
     }
 }

@@ -3,28 +3,32 @@ package com.ulicae.cinelog.android.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.view.ViewDataFieldsInflater;
+import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewEpisodesFragment;
+import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * CineLog Copyright 2020 Pierre Rognon
- * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -41,61 +45,34 @@ import butterknife.OnClick;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ViewKino extends AppCompatActivity {
+public class ViewSerie extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+    @BindView(R.id.serie_view_tabs)
+    TabLayout tabLayout;
+    @BindView(R.id.serie_view_pager)
+    ViewPager viewPager;
 
     KinoDto kino;
     int position;
     boolean editted = false;
-
-    private static final int RESULT_ADD_REVIEW = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        setContentView(R.layout.activity_view_kino);
+        setContentView(R.layout.activity_view_serie);
         ButterKnife.bind(this);
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         position = getIntent().getIntExtra("kino_position", -1);
+
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-    }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        new ViewDataFieldsInflater(kino, this, getWindow().getDecorView()).configureFields();
-    }
-
-    @OnClick(R.id.fab)
-    public void onClick(View view) {
-        Intent intent = new Intent(this, EditReview.class);
-        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-        intent.putExtra("kino", Parcels.wrap(kino));
-        startActivityForResult(intent, RESULT_ADD_REVIEW);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_ADD_REVIEW) {
-            if (resultCode == Activity.RESULT_OK) {
-                kino = Parcels.unwrap(data.getParcelableExtra("kino"));
-                editted = true;
-                System.out.println("Result Ok");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
+        setViewPager(viewPager);
     }
 
     @Override
@@ -116,4 +93,41 @@ public class ViewKino extends AppCompatActivity {
         }
     }
 
+    private void setViewPager(ViewPager viewPager) {
+        ViewSerie.ViewPagerAdapter adapter = new ViewSerie.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new SerieViewGeneralFragment(), getString(R.string.title_fragment_wishlist_movie));
+        adapter.addFragment(new SerieViewEpisodesFragment(), getString(R.string.title_fragment_wishlist_serie));
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
 }
