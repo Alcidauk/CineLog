@@ -136,4 +136,6 @@
 
     <string name="serie_episode_season_number_label">Season</string>
     <string name="serie_episode_episode_number_label">Episode</string>
+    <string name="title_fragment_serie_episodes">Episidios</string>
+    <string name="title_fragment_serie_general">General</string>
 </resources>

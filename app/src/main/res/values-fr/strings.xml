@@ -136,4 +136,6 @@
     <string name="import_status_failed">en erreur</string>
     <string name="serie_episode_season_number_label">Saison</string>
     <string name="serie_episode_episode_number_label">Épisode</string>
+    <string name="title_fragment_serie_episodes">Épisodes</string>
+    <string name="title_fragment_serie_general">Général</string>
 </resources>

@@ -95,8 +95,8 @@ public class ViewSerie extends AppCompatActivity {
 
     private void setViewPager(ViewPager viewPager) {
         ViewSerie.ViewPagerAdapter adapter = new ViewSerie.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new SerieViewGeneralFragment(), getString(R.string.title_fragment_wishlist_movie));
-        adapter.addFragment(new SerieViewEpisodesFragment(), getString(R.string.title_fragment_wishlist_serie));
+        adapter.addFragment(new SerieViewGeneralFragment(), getString(R.string.title_fragment_serie_general));
+        adapter.addFragment(new SerieViewEpisodesFragment(), getString(R.string.title_fragment_serie_episodes));
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
