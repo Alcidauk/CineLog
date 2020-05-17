@@ -55,38 +55,61 @@ public class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
 
         SerieEpisodeDto item = getItem(position);
 
-        convertView.setOnClickListener(v -> setViewed(item));
-
         TvEpisodeViewHolder holder = new TvEpisodeViewHolder(convertView);
 
         if (item != null) {
-            holder.getEpisodeName().setText(item.getName());
-            holder.getEpisodeDate().setText(
-                    item.getAirDate() != null ?
-                            DateFormat.getDateFormat(getContext()).format(item.getAirDate()) : ""
-            );
-            holder.getSeasonNumber().setText(
-                    item.getSeasonNumber() != null ? String.valueOf(item.getSeasonNumber() + 1) : ""
-            );
-            holder.getEpisodeNumber().setText(
-                    item.getEpisodeNumber() != null ? String.valueOf(item.getEpisodeNumber()) : ""
-            );
-
-            if(item.getEpisodeId() != null){
-                holder.getEpisodeViewed().setImageResource(R.drawable.round_eye_purple);
-            } else {
-                holder.getEpisodeViewed().setImageResource(R.drawable.round_eye_grey);
-            }
+            setDataInView(item, holder);
+            setViewedDataInView(item, holder);
+            convertView.setOnClickListener(v -> setViewed(item, holder));
         }
 
         return convertView;
     }
 
-    private void setViewed(SerieEpisodeDto item) {
+    private void setDataInView(SerieEpisodeDto item, TvEpisodeViewHolder holder) {
+        holder.getEpisodeName().setText(item.getName());
+        holder.getEpisodeDate().setText(
+                item.getAirDate() != null ?
+                        DateFormat.getDateFormat(getContext()).format(item.getAirDate()) : ""
+        );
+        holder.getSeasonNumber().setText(
+                item.getSeasonNumber() != null ? String.valueOf(item.getSeasonNumber() + 1) : ""
+        );
+        holder.getEpisodeNumber().setText(
+                item.getEpisodeNumber() != null ? String.valueOf(item.getEpisodeNumber()) : ""
+        );
+
+        holder.getEpisodeViewedDate().setText(
+                item.getViewDate() != null ?
+                        DateFormat.getDateFormat(getContext()).format(item.getViewDate()) : ""
+        );
+
+        if(item.getEpisodeId() != null){
+            holder.getEpisodeViewed().setImageResource(R.drawable.round_eye_purple);
+        } else {
+            holder.getEpisodeViewed().setImageResource(R.drawable.round_eye_grey);
+        }
+    }
+
+    private void setViewedDataInView(SerieEpisodeDto item, TvEpisodeViewHolder holder) {
+        holder.getEpisodeViewedDate().setText(
+                item.getViewDate() != null ?
+                        DateFormat.getDateFormat(getContext()).format(item.getViewDate()) : ""
+        );
+
+        if(item.getEpisodeId() != null){
+            holder.getEpisodeViewed().setImageResource(R.drawable.round_eye_purple);
+        } else {
+            holder.getEpisodeViewed().setImageResource(R.drawable.round_eye_grey);
+        }
+    }
+
+    private void setViewed(SerieEpisodeDto item, TvEpisodeViewHolder holder) {
         if(item.getEpisodeId() != null){
             Toast.makeText(getContext(), "To remove info, please long click", Toast.LENGTH_LONG).show();
         } else {
-            serieEpisodeService.createOrUpdate(item);
+            SerieEpisodeDto updatedItem = serieEpisodeService.createOrUpdate(item);
+            setViewedDataInView(updatedItem, holder);
         }
     }
 

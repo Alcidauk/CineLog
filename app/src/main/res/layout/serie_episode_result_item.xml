@@ -93,9 +93,9 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
                 android:layout_below="@id/serie_episode_item_season_number_label"
-                android:layout_alignParentEnd="true">
+                android:layout_alignParentEnd="true"
+                android:paddingTop="5dp">
 
                 <TextView
                     android:id="@+id/serie_episode_item_name"
@@ -104,13 +104,30 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <ImageView
-                    android:id="@+id/serie_episode_item_viewed"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/round_eye_grey"
-                    tools:ignore="RtlSymmetry" />
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/serie_episode_item_viewed_date"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingEnd="5dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        tools:ignore="RtlSymmetry" />
+
+                    <ImageView
+                        android:id="@+id/serie_episode_item_viewed"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/round_eye_grey"
+                        tools:ignore="RtlSymmetry" />
+                </LinearLayout>
             </RelativeLayout>
 
         </RelativeLayout>
