@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
+import com.ulicae.cinelog.data.services.reviews.SerieEpisodeService;
 
 import java.util.List;
 
@@ -33,8 +35,11 @@ import java.util.List;
  */
 public class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
 
-    public TvEpisodesAdapter(Context context, List<SerieEpisodeDto> results) {
+    private SerieEpisodeService serieEpisodeService;
+
+    public TvEpisodesAdapter(Context context, List<SerieEpisodeDto> results, SerieEpisodeService serieEpisodeService) {
         super(context, R.layout.serie_episode_result_item, results);
+        this.serieEpisodeService = serieEpisodeService;
     }
 
 
@@ -66,13 +71,23 @@ public class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
             holder.getEpisodeNumber().setText(
                     item.getEpisodeNumber() != null ? String.valueOf(item.getEpisodeNumber()) : ""
             );
+
+            if(item.getEpisodeId() != null){
+                holder.getEpisodeViewed().setImageResource(R.drawable.round_eye_purple);
+            } else {
+                holder.getEpisodeViewed().setImageResource(R.drawable.round_eye_grey);
+            }
         }
 
         return convertView;
     }
 
     private void setViewed(SerieEpisodeDto item) {
-        // TODO add or remove viewed info
+        if(item.getEpisodeId() != null){
+            Toast.makeText(getContext(), "To remove info, please long click", Toast.LENGTH_LONG).show();
+        } else {
+            serieEpisodeService.createOrUpdate(item);
+        }
     }
 
 }

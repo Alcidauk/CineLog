@@ -9,6 +9,7 @@ import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 import com.uwetrottmann.tmdb2.entities.TvEpisode;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +46,7 @@ public class SerieEpisodeService {
     }
 
     public SerieEpisodeDto createOrUpdate(SerieEpisodeDto serieEpisodeDto) {
+        serieEpisodeDto.setViewDate(new Date());
         SerieEpisode episode = new SerieDtoToDbBuilder().buildSerieEpisode(serieEpisodeDto);
 
         serieEpisodeRepository.createOrReplace(episode);

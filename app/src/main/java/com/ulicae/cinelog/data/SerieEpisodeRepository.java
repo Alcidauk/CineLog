@@ -37,7 +37,6 @@ public class SerieEpisodeRepository {
     public List<SerieEpisode> findByTmdbSerieId(long tmdbSerieId) {
         Query<SerieEpisode> serieEpisodeQuery = dao.queryBuilder()
                 .where(SerieEpisodeDao.Properties.Tmdb_id.eq(tmdbSerieId))
-                .limit(1)
                 .build();
         return serieEpisodeQuery.list();
     }

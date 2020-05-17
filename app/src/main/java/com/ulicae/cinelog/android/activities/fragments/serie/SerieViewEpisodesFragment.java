@@ -82,7 +82,8 @@ public class SerieViewEpisodesFragment extends Fragment {
         List<SerieEpisodeDto> dtoEpisodes = serieEpisodeService.getDtoEpisodes(tvEpisodes,
                 this.serieDto.getTmdbKinoId());
 
-        ArrayAdapter<SerieEpisodeDto> arrayAdapter = new TvEpisodesAdapter(getContext(), dtoEpisodes);
+        ArrayAdapter<SerieEpisodeDto> arrayAdapter = new TvEpisodesAdapter(
+                getContext(), dtoEpisodes, serieEpisodeService);
 
         if (serie_view_episodes_list != null) {
             serie_view_episodes_list.setAdapter(arrayAdapter);

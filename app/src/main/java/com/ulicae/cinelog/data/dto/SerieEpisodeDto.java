@@ -3,6 +3,7 @@ package com.ulicae.cinelog.data.dto;
 import org.parceler.Parcel;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * CineLog Copyright 2020 Pierre Rognon
@@ -100,5 +101,29 @@ public class SerieEpisodeDto {
 
     public void setEpisodeNumber(Integer episodeNumber) {
         this.episodeNumber = episodeNumber;
+    }
+
+    public void setViewDate(Date viewDate) {
+        this.viewDate = viewDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SerieEpisodeDto that = (SerieEpisodeDto) o;
+        return Objects.equals(episodeId, that.episodeId) &&
+                Objects.equals(tmdbEpisodeId, that.tmdbEpisodeId) &&
+                Objects.equals(tmdbSerieId, that.tmdbSerieId) &&
+                Objects.equals(viewDate, that.viewDate) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(airDate, that.airDate) &&
+                Objects.equals(seasonNumber, that.seasonNumber) &&
+                Objects.equals(episodeNumber, that.episodeNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(episodeId, tmdbEpisodeId, tmdbSerieId, viewDate, name, airDate, seasonNumber, episodeNumber);
     }
 }

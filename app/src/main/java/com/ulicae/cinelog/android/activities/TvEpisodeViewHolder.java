@@ -37,6 +37,9 @@ public class TvEpisodeViewHolder {
     TextView seasonNumber;
     @BindView(R.id.serie_episode_item_episode_number)
     TextView episodeNumber;
+    @BindView(R.id.serie_episode_item_viewed)
+    ImageView episodeViewed;
+
 
     TvEpisodeViewHolder(View view) {
         ButterKnife.bind(this, view);
@@ -56,5 +59,9 @@ public class TvEpisodeViewHolder {
 
     public TextView getEpisodeNumber() {
         return episodeNumber;
+    }
+
+    public ImageView getEpisodeViewed() {
+        return episodeViewed;
     }
 }
