@@ -140,4 +140,5 @@
     <string name="serie_episode_episode_number_label">Episode</string>
     <string name="title_fragment_serie_episodes">Episoden</string>
     <string name="title_fragment_serie_general">Allgemeine Daten</string>
+    <string name="serie_episode_delete_hint">Please long click to remove watching data</string>
 </resources>

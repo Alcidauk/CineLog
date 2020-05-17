@@ -41,27 +41,23 @@ public class SerieEpisode {
     TmdbSerie serie;
     long tmdb_id;
 
-    Date viewDate;
+    Date watchingDate;
 
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 2022022907)
     private transient SerieEpisodeDao myDao;
 
-    @Generated(hash = 1710212313)
+    @Generated(hash = 2017202277)
     public SerieEpisode(Long episodeId, Integer tmdbEpisodeId, long tmdb_id,
-                        Date viewDate) {
+            Date watchingDate) {
         this.episodeId = episodeId;
         this.tmdbEpisodeId = tmdbEpisodeId;
         this.tmdb_id = tmdb_id;
-        this.viewDate = viewDate;
+        this.watchingDate = watchingDate;
     }
 
     @Generated(hash = 1461195645)
@@ -92,20 +88,18 @@ public class SerieEpisode {
         this.tmdb_id = tmdb_id;
     }
 
-    public Date getViewDate() {
-        return this.viewDate;
+    public Date getWatchingDate() {
+        return this.watchingDate;
     }
 
-    public void setViewDate(Date viewDate) {
-        this.viewDate = viewDate;
+    public void setWatchingDate(Date watchingDate) {
+        this.watchingDate = watchingDate;
     }
 
     @Generated(hash = 801892098)
     private transient Long serie__resolvedKey;
 
-    /**
-     * To-one relationship, resolved on first access.
-     */
+    /** To-one relationship, resolved on first access. */
     @Generated(hash = 1090761680)
     public TmdbSerie getSerie() {
         long __key = this.tmdb_id;
@@ -124,9 +118,7 @@ public class SerieEpisode {
         return serie;
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 831661885)
     public void setSerie(@NotNull TmdbSerie serie) {
         if (serie == null) {
@@ -182,5 +174,6 @@ public class SerieEpisode {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getSerieEpisodeDao() : null;
     }
+
 
 }

@@ -138,4 +138,5 @@
     <string name="serie_episode_episode_number_label">Épisode</string>
     <string name="title_fragment_serie_episodes">Épisodes</string>
     <string name="title_fragment_serie_general">Général</string>
+    <string name="serie_episode_delete_hint">Appuyez longuement pour supprimer le visionnage</string>
 </resources>

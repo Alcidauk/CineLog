@@ -32,7 +32,7 @@ public class SerieEpisodeDto {
 
     Long tmdbSerieId;
 
-    Date viewDate;
+    Date watchingDate;
 
     String name;
     Date airDate;
@@ -43,12 +43,12 @@ public class SerieEpisodeDto {
     }
 
 
-    public SerieEpisodeDto(Long episodeId, Integer tmdbEpisodeId, Long tmdbSerieId, Date viewDate,
+    public SerieEpisodeDto(Long episodeId, Integer tmdbEpisodeId, Long tmdbSerieId, Date watchingDate,
                            String name, Date airDate, Integer seasonNumber, Integer episodeNumber) {
         this.episodeId = episodeId;
         this.tmdbEpisodeId = tmdbEpisodeId;
         this.tmdbSerieId = tmdbSerieId;
-        this.viewDate = viewDate;
+        this.watchingDate = watchingDate;
         this.name = name;
         this.airDate = airDate;
         this.seasonNumber = seasonNumber;
@@ -67,8 +67,8 @@ public class SerieEpisodeDto {
         return tmdbSerieId;
     }
 
-    public Date getViewDate() {
-        return viewDate;
+    public Date getWatchingDate() {
+        return watchingDate;
     }
 
     public String getName() {
@@ -103,8 +103,8 @@ public class SerieEpisodeDto {
         this.episodeNumber = episodeNumber;
     }
 
-    public void setViewDate(Date viewDate) {
-        this.viewDate = viewDate;
+    public void setWatchingDate(Date watchingDate) {
+        this.watchingDate = watchingDate;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class SerieEpisodeDto {
         return Objects.equals(episodeId, that.episodeId) &&
                 Objects.equals(tmdbEpisodeId, that.tmdbEpisodeId) &&
                 Objects.equals(tmdbSerieId, that.tmdbSerieId) &&
-                Objects.equals(viewDate, that.viewDate) &&
+                Objects.equals(watchingDate, that.watchingDate) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(airDate, that.airDate) &&
                 Objects.equals(seasonNumber, that.seasonNumber) &&
@@ -124,6 +124,6 @@ public class SerieEpisodeDto {
 
     @Override
     public int hashCode() {
-        return Objects.hash(episodeId, tmdbEpisodeId, tmdbSerieId, viewDate, name, airDate, seasonNumber, episodeNumber);
+        return Objects.hash(episodeId, tmdbEpisodeId, tmdbSerieId, watchingDate, name, airDate, seasonNumber, episodeNumber);
     }
 }

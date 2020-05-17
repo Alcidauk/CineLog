@@ -54,7 +54,7 @@ public class SerieEpisodeDtoBuilder {
                 serieEpisode.getEpisodeId(),
                 serieEpisode.getTmdbEpisodeId(),
                 serie != null ? serie.getSerie_id() : null,
-                serieEpisode.getViewDate(),
+                serieEpisode.getWatchingDate(),
                 null,
                 null,
                 null,

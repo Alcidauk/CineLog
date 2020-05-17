@@ -38,10 +38,10 @@ public class TvEpisodeViewHolder {
     @BindView(R.id.serie_episode_item_episode_number)
     TextView episodeNumber;
 
-    @BindView(R.id.serie_episode_item_viewed)
-    ImageView episodeViewed;
-    @BindView(R.id.serie_episode_item_viewed_date)
-    TextView episodeViewedDate;
+    @BindView(R.id.serie_episode_item_watched)
+    ImageView episodeWatched;
+    @BindView(R.id.serie_episode_item_watching_date)
+    TextView episodeWatchingDate;
 
 
     TvEpisodeViewHolder(View view) {
@@ -64,11 +64,11 @@ public class TvEpisodeViewHolder {
         return episodeNumber;
     }
 
-    public ImageView getEpisodeViewed() {
-        return episodeViewed;
+    public ImageView getEpisodeWatched() {
+        return episodeWatched;
     }
 
-    public TextView getEpisodeViewedDate() {
-        return episodeViewedDate;
+    public TextView getEpisodeWatchingDate() {
+        return episodeWatchingDate;
     }
 }

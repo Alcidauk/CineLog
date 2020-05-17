@@ -111,7 +111,7 @@
                     android:paddingTop="5dp">
 
                     <TextView
-                        android:id="@+id/serie_episode_item_viewed_date"
+                        android:id="@+id/serie_episode_item_watching_date"
                         style="@style/TextAppearance.AppCompat.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                         tools:ignore="RtlSymmetry" />
 
                     <ImageView
-                        android:id="@+id/serie_episode_item_viewed"
+                        android:id="@+id/serie_episode_item_watched"
                         android:layout_gravity="center_vertical"
                         android:layout_width="20dp"
                         android:layout_height="20dp"

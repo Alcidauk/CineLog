@@ -46,7 +46,7 @@ public class SerieEpisodeService {
     }
 
     public SerieEpisodeDto createOrUpdate(SerieEpisodeDto serieEpisodeDto) {
-        serieEpisodeDto.setViewDate(new Date());
+        serieEpisodeDto.setWatchingDate(new Date());
         SerieEpisode episode = new SerieDtoToDbBuilder().buildSerieEpisode(serieEpisodeDto);
 
         serieEpisodeRepository.createOrReplace(episode);
