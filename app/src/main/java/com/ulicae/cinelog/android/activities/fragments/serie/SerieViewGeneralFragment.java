@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.view.ViewDataFieldsInflater;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 
 import org.parceler.Parcels;
 
@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
  */
 public class SerieViewGeneralFragment extends Fragment {
 
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,14 @@ public class SerieViewGeneralFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_serie_view_general, container, false);
         ButterKnife.bind(this, view);
 
-        KinoDto kino = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
-        new ViewDataFieldsInflater(kino, getActivity(), view).configureFields();
+        SerieDto serieDto = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
+        new ViewDataFieldsInflater(serieDto, getActivity(), view).configureFields();
 
+        this.view = view;
         return view;
     }
 
-
+    public void updateKino(SerieDto updatedSerie) {
+        new ViewDataFieldsInflater(updatedSerie, getActivity(), view).configureFields();
+    }
 }

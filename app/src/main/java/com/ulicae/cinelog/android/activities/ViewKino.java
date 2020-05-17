@@ -52,7 +52,7 @@ public class ViewKino extends AppCompatActivity {
     int position;
     boolean editted = false;
 
-    private static final int RESULT_ADD_REVIEW = 3;
+    public static final int RESULT_ADD_REVIEW = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,11 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -26,6 +28,9 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.ulicae.cinelog.android.activities.ViewKino.RESULT_ADD_REVIEW;
 
 /**
  * CineLog Copyright 2020 Pierre Rognon
@@ -53,6 +58,8 @@ public class ViewSerie extends AppCompatActivity {
     TabLayout tabLayout;
     @BindView(R.id.serie_view_pager)
     ViewPager viewPager;
+
+    private SerieViewGeneralFragment generalFragment;
 
     KinoDto kino;
     int position;
@@ -93,9 +100,27 @@ public class ViewSerie extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.fab)
+    public void onClick(View view) {
+        Intent intent = new Intent(this, EditReview.class);
+        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
+        intent.putExtra("kino", Parcels.wrap(kino));
+        startActivityForResult(intent, RESULT_ADD_REVIEW);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT_ADD_REVIEW && resultCode == Activity.RESULT_OK) {
+            kino = Parcels.unwrap(data.getParcelableExtra("kino"));
+            generalFragment.updateKino((SerieDto) kino);
+        }
+    }
+
     private void setViewPager(ViewPager viewPager) {
         ViewSerie.ViewPagerAdapter adapter = new ViewSerie.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new SerieViewGeneralFragment(), getString(R.string.title_fragment_serie_general));
+
+        generalFragment = new SerieViewGeneralFragment();
+        adapter.addFragment(generalFragment, getString(R.string.title_fragment_serie_general));
         adapter.addFragment(new SerieViewEpisodesFragment(), getString(R.string.title_fragment_serie_episodes));
 
         viewPager.setAdapter(adapter);
