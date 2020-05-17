@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.ulicae.cinelog.R;
-import com.uwetrottmann.tmdb2.entities.TvEpisode;
+import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
 
 import java.util.List;
 
@@ -31,9 +31,9 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TvEpisodesAdapter extends ArrayAdapter<TvEpisode> {
+public class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
 
-    public TvEpisodesAdapter(Context context, List<TvEpisode> results) {
+    public TvEpisodesAdapter(Context context, List<SerieEpisodeDto> results) {
         super(context, R.layout.serie_episode_result_item, results);
     }
 
@@ -48,25 +48,31 @@ public class TvEpisodesAdapter extends ArrayAdapter<TvEpisode> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.serie_episode_result_item, parent, false);
         }
 
-        TvEpisode item = getItem(position);
+        SerieEpisodeDto item = getItem(position);
+
+        convertView.setOnClickListener(v -> setViewed(item));
 
         TvEpisodeViewHolder holder = new TvEpisodeViewHolder(convertView);
 
         if (item != null) {
-            holder.getEpisodeName().setText(item.name);
+            holder.getEpisodeName().setText(item.getName());
             holder.getEpisodeDate().setText(
-                    item.air_date != null ?
-                            DateFormat.getDateFormat(getContext()).format(item.air_date) : ""
+                    item.getAirDate() != null ?
+                            DateFormat.getDateFormat(getContext()).format(item.getAirDate()) : ""
             );
             holder.getSeasonNumber().setText(
-                    item.season_number != null ? String.valueOf(item.season_number + 1) : ""
+                    item.getSeasonNumber() != null ? String.valueOf(item.getSeasonNumber() + 1) : ""
             );
             holder.getEpisodeNumber().setText(
-                    item.episode_number != null ? String.valueOf(item.episode_number) : ""
+                    item.getEpisodeNumber() != null ? String.valueOf(item.getEpisodeNumber()) : ""
             );
         }
 
         return convertView;
+    }
+
+    private void setViewed(SerieEpisodeDto item) {
+        // TODO add or remove viewed info
     }
 
 }

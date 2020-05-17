@@ -9,9 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.TvEpisodesAdapter;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
+import com.ulicae.cinelog.data.services.reviews.SerieEpisodeService;
 import com.ulicae.cinelog.network.task.SerieEpisodesNetworkTask;
 import com.uwetrottmann.tmdb2.entities.TvEpisode;
 
@@ -47,10 +50,17 @@ public class SerieViewEpisodesFragment extends Fragment {
     @BindView(R.id.serie_view_episodes_progress_bar)
     ProgressBar serie_view_episodes_progress_bar;
 
+    private SerieEpisodeService serieEpisodeService;
+    private SerieDto serieDto;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        serieEpisodeService = new SerieEpisodeService(
+                ((KinoApplication) getActivity().getApplication()).getDaoSession()
+        );
     }
 
     @Override
@@ -59,8 +69,9 @@ public class SerieViewEpisodesFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         serie_view_episodes_progress_bar.setVisibility(View.VISIBLE);
-        KinoDto kino = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
-        new SerieEpisodesNetworkTask(this).execute(kino.getTmdbKinoId().intValue());
+        this.serieDto = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
+
+        new SerieEpisodesNetworkTask(this).execute(this.serieDto.getTmdbKinoId().intValue());
 
         return view;
     }
@@ -68,7 +79,10 @@ public class SerieViewEpisodesFragment extends Fragment {
     public void populateEpisodeList(List<TvEpisode> tvEpisodes) {
         serie_view_episodes_progress_bar.setVisibility(View.GONE);
 
-        ArrayAdapter<TvEpisode> arrayAdapter = new TvEpisodesAdapter(getContext(), tvEpisodes);
+        List<SerieEpisodeDto> dtoEpisodes = serieEpisodeService.getDtoEpisodes(tvEpisodes,
+                this.serieDto.getTmdbKinoId());
+
+        ArrayAdapter<SerieEpisodeDto> arrayAdapter = new TvEpisodesAdapter(getContext(), dtoEpisodes);
 
         if (serie_view_episodes_list != null) {
             serie_view_episodes_list.setAdapter(arrayAdapter);
