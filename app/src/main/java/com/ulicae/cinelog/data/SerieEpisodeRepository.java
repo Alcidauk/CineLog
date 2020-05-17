@@ -45,4 +45,8 @@ public class SerieEpisodeRepository {
         dao.insertOrReplace(episode);
     }
 
+    public void delete(Long episodeId) {
+        dao.deleteByKey(episodeId);
+    }
+
 }

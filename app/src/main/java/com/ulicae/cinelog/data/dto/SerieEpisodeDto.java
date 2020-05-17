@@ -107,6 +107,10 @@ public class SerieEpisodeDto {
         this.watchingDate = watchingDate;
     }
 
+    public void setEpisodeId(Long episodeId) {
+        this.episodeId = episodeId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

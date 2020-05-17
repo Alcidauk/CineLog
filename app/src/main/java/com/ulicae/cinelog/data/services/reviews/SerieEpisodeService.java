@@ -53,6 +53,10 @@ public class SerieEpisodeService {
         return new SerieEpisodeDtoBuilder().build(episode);
     }
 
+    public void delete(SerieEpisodeDto serieEpisodeDto) {
+        serieEpisodeRepository.delete(serieEpisodeDto.getEpisodeId());
+    }
+
     public List<SerieEpisodeDto> getDtoEpisodes(List<TvEpisode> tvEpisodes, Long tmdbSerieId) {
         List<SerieEpisode> existingEpisodes = this.serieEpisodeRepository.findByTmdbSerieId(tmdbSerieId);
 

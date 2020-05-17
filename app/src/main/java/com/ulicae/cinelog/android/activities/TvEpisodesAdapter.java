@@ -60,7 +60,8 @@ public class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
         if (item != null) {
             setDataInView(item, holder);
             setWatchingDataInView(item, holder);
-            convertView.setOnClickListener(v -> registerWatching(item, holder));
+            convertView.setOnClickListener(v -> registerWatching(item));
+            convertView.setOnLongClickListener(v -> unregisterWatching(item));
         }
 
         return convertView;
@@ -104,13 +105,29 @@ public class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
         }
     }
 
-    private void registerWatching(SerieEpisodeDto item, TvEpisodeViewHolder holder) {
+    private void registerWatching(SerieEpisodeDto item) {
         if (item.getEpisodeId() != null) {
             Toast.makeText(getContext(), getContext().getString(R.string.serie_episode_delete_hint), Toast.LENGTH_LONG).show();
         } else {
             SerieEpisodeDto updatedItem = serieEpisodeService.createOrUpdate(item);
-            setWatchingDataInView(updatedItem, holder);
+            item.setWatchingDate(updatedItem.getWatchingDate());
+            item.setEpisodeId(updatedItem.getEpisodeId());
+
+            notifyDataSetChanged();
         }
+    }
+
+
+    private boolean unregisterWatching(SerieEpisodeDto item) {
+        if(item.getEpisodeId() != null) {
+            serieEpisodeService.delete(item);
+
+            item.setEpisodeId(null);
+            item.setWatchingDate(null);
+
+            notifyDataSetChanged();
+        }
+        return true;
     }
 
 }
