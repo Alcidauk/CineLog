@@ -1,0 +1,145 @@
+<!--
+ CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
+
+ This file is part of CineLog.
+ CineLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ CineLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_name">CineLog</string>
+    <string name="movie_title_input">Voer een filmtitel in</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="title_activity_add_kino">Recensie plaatsen</string>
+    <string name="title_activity_view_kino">Filmrecensie</string>
+
+    <string name="title_fragment_movie">Films</string>
+    <string name="title_fragment_serie">Series</string>
+
+
+    <string name="kino_title">Titel</string>
+
+    <string name="save">Opslaan</string>
+    <string name="cancel">Annuleren</string>
+    <string name="yes">Ja</string>
+
+    <string name="delete_kino_dialog">Weet je zeker dat je deze recensie wilt verwijderen?</string>
+
+    <string name="title_activity_add_review">Recensie aanpassen</string>
+    <string name="title_activity_add_review_creation">Recensie plaatsen</string>
+    <string name="review_hint">Plaats hier je recensie.</string>
+
+
+    <string name="order">Sorteervolgorde</string>
+    <string name="year">Uitgavejaar</string>
+    <string name="date_added">Kijkdatum</string>
+    <string name="rating">Beoordeling</string>
+    <string name="order_by_title">Titel</string>
+
+    <string name="newest_first">Nieuwste eerst</string>
+    <string name="oldest_first">Oudste eerst</string>
+    <string name="highest_first">Hoogste eerst</string>
+    <string name="lowest_first">Laagste eerst</string>
+    <string name="order_by_title_asc">Alfabetische volgorde</string>
+    <string name="order_by_title_desc">Alfabetische volgorde (omgekeerd)</string>
+
+    <string name="title_activity_export_db">Gegevens exporteren</string>
+    <string name="export_db">Exporteren als CSV</string>
+    <string name="export_db_label">Druk op de knop om je gegevens te exporteren naar een CSV-bestand. Het wordt opgeslagen als \'export_movies.csv\' en \'export_series.csv\' in de hoofdopslagmap. Indien nodig kun je deze back-up weer importeren.</string>
+    <string name="action_export">Exporteren</string>
+    <string name="export_start_toast">Bezig met voorbereiden…</string>
+    <string name="export_succeeded_toast">Exporteren voltooid. Zie export_movies.csv en export_series.csv in de hoofdopslagmap.</string>
+    <string name="export_io_error_toast">Er is een i/o-fout opgetreden tijdens het exporteren. Controleer de machtigingen.</string>
+    <string name="export_permission_error_toast">Het exporteren naar de externe opslag is mislukt omdat CineLog hiertoe niet gemachtigd is.</string>
+
+    <string name="action_import">Importeren</string>
+    <string name="title_activity_import_db">CSV-bestand importeren</string>
+    <string name="import_db">CSV-bestand importeren naar databank</string>
+    <string name="import_db_label">Het importproces importeert films uit import_movies.csv en series uit import_series.csv file uit de hoofdopslagmap.</string>
+    <string name="import_permission_error_toast">Het importeren van de externe opslag is mislukt omdat CineLog hiertoe niet gemachtigd is.</string>
+    <string name="import_error_toast">Er is een fout opgetreden tijdens het importeren van \'%s\'.</string>
+    <string name="import_io_error_toast">Er is een fout opgetreden tijdens het lokaliseren van \'%s\'. Ga na of het bestand aanwezig is in de hoofdopslagmap en of je de juiste machtigingen hebt verleend.</string>
+    <string name="import_parsing_error_toast">Het CSV-bestand kan niet worden verwerkt. Verifieer het.</string>
+    <string name="import_parsing_line_error_toast">De film genaamd \'%s\' kan niet worden geïmporteerd.</string>
+    <string name="import_starting_toast">Bezig met importeren…</string>
+    <string name="import_ending_toast">Importeren voltooid!</string>
+
+    <string name="add_from_scratch_label">Kun je de film niet vinden?</string>
+
+    <string name="title_activity_settings">Instellingen</string>
+    <string name="default_tmdb_language_title">TmDb-gegevenstaal</string>
+    <string name="default_maximum_rating">Maximale beschikbare waardering in recensies</string>
+    <string name="default_maximum_rating_summary">Voer het standaard maximumaantal in voor nieuwe films</string>
+    <string name="default_maximum_rating_dialog">Typ de maximumbeoordeling voor nieuwe films</string>
+    <string name="general_preferences">Algemene instellingen</string>
+    <string name="general_preferences_summary">Stel de algemene instellingen in van deze app.</string>
+    <string name="theme">Donker thema</string>
+    <string name="change_theme">Het thema is gewijzigd. Herstart de app om het toe te passen.</string>
+
+    <string name="view_poster_review_layout_title">Recensie</string>
+    <string name="view_kino_review_rating_label_value">Filmbeoordeling</string>
+    <string name="view_kino_review_review_date_label_value">Recensiedatum</string>
+    <string name="view_kino_review_review_label_value">Recensie</string>
+    <string name="view_kino_overview_see_more">Meer tonen</string>
+    <string name="view_kino_overview_see_less">Minder tonen</string>
+
+    <string name="title_activity_view_unregistered_kino">Filminformatie</string>
+    <string name="review_date_hint">Voer de kijkdatum in.</string>
+    <string name="review_change_reviewdate">Aanpassen</string>
+    <string name="addkino_error_no_network">Geen internetverbinding.</string>
+
+    <string name="title_activity_add_serie">Serie toevoegen</string>
+    <string name="add_serie_from_scratch_label">Kun je de serie niet vinden?</string>
+    <string name="serie_title_hint">Voer een serienaam in.</string>
+    <string name="title_activity_view_unregistered_serie">Serie-informatie</string>
+    <string name="title_activity_view_serie">Serierecensie</string>
+
+    <string name="automatic_save">Automatisch exporteren naar lokale opslag</string>
+    <string name="automatic_save_summary">Er wordt na elke opstart een back-up geëxporteerd (één keer per dag, met behoud van de vorige 10 exports)</string>
+    <string name="automatic_export_cant_get_next_export">Het volgende  exportbestand kan niet worden aangemaakt. Automatisch exporteren wordt niet uitgevoerd. Controleer de machtigingen.</string>
+    <string name="automatic_export_cant_export">Automatisch exporteren kan niet worden uitgevoerd. Controleer de machtigingen.</string>
+    <string name="automatic_export_cant_export_movie">Er is een fout opgetreden tijdens het automatisch opslaan van films.</string>
+    <string name="automatic_export_cant_export_serie">Er is een fout opgetreden tijdens het automatisch opslaan van series.</string>
+    <string name="automatic_export_movie_toast">De films zijn automatisch opgeslagen!</string>
+    <string name="automatic_export_serie_toast">De series zijn automatisch opgeslagen!</string>
+    <string name="nav_reviews_space">Recensies</string>
+    <string name="nav_wishlist_space">Kijklijst</string>
+    <string name="nav_title">Menu</string>
+    <string name="toolbar_title_reviews">Recensies</string>
+    <string name="toolbar_title_wishlist">Kijklijst</string>
+    <string name="wishlist_list_activity">Kijklijst</string>
+    <string name="wishlist_item_added">Toegevoegd aan kijklijst!</string>
+
+    <string name="title_fragment_wishlist_movie">Filmkijklijst</string>
+    <string name="title_fragment_wishlist_serie">Seriekijklijst</string>
+
+    <string name="restart_app_please">Herstart de app om de upgrade af te ronden.</string>
+
+    <string name="unknown_year">Onbekend uitgavejaar</string>
+
+    <string name="import_movies_status">Filmrecensies importeren:</string>
+    <string name="import_series_status">Serierecensies importeren:</string>
+    <string name="import_wishlist_series_status">Seriekijklijst importeren:</string>
+    <string name="import_wishlist_movies_status">Filmkijklijst importeren:</string>
+
+    <string name="import_status_waiting">in wachtrij</string>
+    <string name="import_status_success">afgerond</string>
+    <string name="import_status_no_file">bestand niet aangetroffen</string>
+    <string name="import_status_failed">fout opgetreden</string>
+
+    <string name="serie_episode_season_number_label">Seizoen</string>
+    <string name="serie_episode_episode_number_label">Aflevering</string>
+    <string name="title_fragment_serie_general">Algemeen</string>
+    <string name="title_fragment_serie_episodes">Afleveringen</string>
+    <string name="serie_episode_delete_hint">Houd lang ingedrukt om kijkinformatie te wissen</string>
+</resources>
