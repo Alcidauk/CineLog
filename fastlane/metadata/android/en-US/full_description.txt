@@ -28,6 +28,7 @@ Special thanks:
 To Christopher Bodtke that wrote German translation.
 To Diego Sangunietti that wrote Spanish translation.
 To verahawk that wrote Polish translation.
+To Vistaus that wrote Dutch translation.
 
 To Kerstin Maur that kindly designed an icon for CineLog and suggested colors.
 
