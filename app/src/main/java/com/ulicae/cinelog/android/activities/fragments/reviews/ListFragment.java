@@ -1,6 +1,7 @@
 package com.ulicae.cinelog.android.activities.fragments.reviews;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 
 import org.parceler.Parcels;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,7 +126,17 @@ public abstract class ListFragment extends Fragment {
             final List<Object> objects = initialiseAdapter(orderId);
             kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 public boolean onItemLongClick(final AdapterView<?> view, View parent, final int position, long rowId) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    int themeId = R.style.ThemeOverlay_AppCompat_Dialog_Alert;
+                    try {
+                        if (R.style.AppThemeDark == getThemeId()) {
+                            themeId = R.style.DarkDialog;
+                        }
+                    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), themeId);
+
                     builder.setMessage(R.string.delete_kino_dialog)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -165,6 +178,13 @@ public abstract class ListFragment extends Fragment {
 
             kino_list.setAdapter(kino_adapter);
         }
+    }
+
+    private int getThemeId() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class<?> wrapper = Context.class;
+        Method method = wrapper.getMethod("getThemeResId");
+        method.setAccessible(true);
+        return (Integer) method.invoke(getActivity());
     }
 
     @NonNull
