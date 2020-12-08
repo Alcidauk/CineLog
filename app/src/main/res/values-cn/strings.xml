@@ -1,0 +1,146 @@
+<!--
+ CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
+
+ This file is part of CineLog.
+ CineLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ CineLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_name">CineLog</string>
+    <string name="movie_title_input">输入电影名称</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_add_kino">添加一条评论</string>
+    <string name="title_activity_view_kino">影评</string>
+
+    <string name="title_fragment_movie">电影</string>
+    <string name="title_fragment_serie">连续剧</string>
+
+
+    <string name="kino_title">名称</string>
+
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="yes">是</string>
+
+    <string name="delete_kino_dialog">你想要删除这条评论吗？</string>
+
+    <string name="title_activity_add_review">评论版本</string>
+    <string name="title_activity_add_review_creation">评论创建</string>
+    <string name="review_hint">在这里输入你的评论</string>
+
+
+    <string name="order">顺序</string>
+    <string name="year">发行年份</string>
+    <string name="date_added">观看日期</string>
+    <string name="rating">评分</string>
+    <string name="order_by_title">名称</string>
+
+    <string name="newest_first">最新的在前</string>
+    <string name="oldest_first">最旧的在前</string>
+    <string name="highest_first">分数最高的在前</string>
+    <string name="lowest_first">分数最低的在前</string>
+    <string name="order_by_title_asc">字母顺序</string>
+    <string name="order_by_title_desc">字母顺序（倒序）</string>
+
+    <string name="title_activity_export_db">导出数据</string>
+    <string name="export_db">将数据导出为 CSV 文件</string>
+    <string name="export_db_label">单击该按钮将数据导出为 CSV 文件。它将被保存为 \'export_movies.csv\' 和 \'export_series.csv\' ，位置在存储根目录。如有需要，你可以导入此备份。</string>
+    <string name="action_export">导出</string>
+    <string name="export_start_toast">开始导出......</string>
+    <string name="export_succeeded_toast">...... 导出成功。详见存储根目录中的 export_movies.csv 和 export_series.csv 文件。</string>
+    <string name="export_io_error_toast">导出期间发生一个 I/O 错误。请验证你的权限。</string>
+    <string name="export_permission_error_toast">无法导出数据，因 CineLog 未被允许写入外部存储。</string>
+
+    <string name="action_import">导入</string>
+    <string name="title_activity_import_db">CSV 文件导入</string>
+    <string name="import_db">导入数据库中的 CSV 文件</string>
+    <string name="import_db_label">将导入存储根目录下 import_movies.csv 文件内的电影数据和 import_series.csv 文件内的连续剧数据。</string>
+    <string name="import_permission_error_toast">无法导入，因 CineLog 未被允许读取外部存储。</string>
+    <string name="import_error_toast">导入 %s 文件的数据期间出错</string>
+    <string name="import_io_error_toast">试图查找 %s 文件时出错。请验证该文件位于存储根目录且你有所需的权限。</string>
+    <string name="import_parsing_error_toast">解析 CSV 文件是出错。 请验证文件是否完好。</string>
+    <string name="import_parsing_line_error_toast">无法保存导入的 CSV 文件中名为 %s 的电影。</string>
+    <string name="import_starting_toast">开始导入......</string>
+    <string name="import_ending_toast">......导入结束！</string>
+
+    <string name="add_from_scratch_label">找不到电影？</string>
+
+    <string name="title_activity_settings">设置</string>
+    <string name="default_tmdb_language_title">TmDb 数据语言</string>
+    <string name="default_maximum_rating">影评数上限</string>
+    <string name="default_maximum_rating_summary">输入你想要为新电影设置的默认的影评最多数目</string>
+    <string name="default_maximum_rating_dialog">输入你想要为新电影设置的最高分</string>
+    <string name="general_preferences">一般选项</string>
+    <string name="general_preferences_summary">设置该应用程序的全局选项</string>
+    <string name="theme">深色主题</string>
+    <string name="change_theme">主题已更改。请重新启动应用程序以完全应用主题。</string>
+
+    <string name="view_poster_review_layout_title">评论</string>
+    <string name="view_kino_review_rating_label_value">电影得分</string>
+    <string name="view_kino_review_review_date_label_value">评论日期</string>
+    <string name="view_kino_review_review_label_value">评论</string>
+    <string name="view_kino_overview_see_more">查看更多</string>
+    <string name="view_kino_overview_see_less">继续</string>
+
+    <string name="title_activity_view_unregistered_kino">电影信息</string>
+    <string name="review_date_hint">输入观看日期</string>
+    <string name="review_change_reviewdate">更改</string>
+    <string name="addkino_error_no_network">无法联网</string>
+
+    <string name="title_activity_add_serie">添加连续剧</string>
+    <string name="add_serie_from_scratch_label">找不到这部连续剧？</string>
+    <string name="serie_title_hint">输入剧名</string>
+    <string name="title_activity_view_unregistered_serie">连续剧信息</string>
+    <string name="title_activity_view_serie">剧评</string>
+
+    <string name="automatic_save">自动导出到本地存储</string>
+    <string name="automatic_save_summary">将在每次应用程序启动时执行导出 (每天一个文件，保留最后10个导出文件)
+	</string>
+    <string name="automatic_export_cant_get_next_export">无法获取下一个导出文件。不会自动导出。 请验证允许的权限。</string>
+    <string name="automatic_export_cant_export">无法生成自动导出。请验证允许的权限。</string>
+    <string name="automatic_export_cant_export_movie">自动保存电影信息时出错。</string>
+    <string name="automatic_export_cant_export_serie">自动保存连续剧信息时出错。</string>
+    <string name="automatic_export_movie_toast">自动保存电影信息成功！</string>
+    <string name="automatic_export_serie_toast">自动保存连续剧信息成功！</string>
+    <string name="nav_reviews_space">评论</string>
+    <string name="nav_wishlist_space">想看列表</string>
+    <string name="nav_title">菜单</string>
+    <string name="toolbar_title_reviews">评论</string>
+    <string name="toolbar_title_wishlist">想看列表</string>
+    <string name="wishlist_list_activity">想看列表</string>
+    <string name="wishlist_item_added">已添加到想看列表！</string>
+
+    <string name="title_fragment_wishlist_movie">想看的电影</string>
+    <string name="title_fragment_wishlist_serie">想看的连续剧</string>
+
+    <string name="restart_app_please">请重启应用程序完成升级。</string>
+
+    <string name="unknown_year">未知发行年份</string>
+
+    <string name="import_movies_status">影评导入：</string>
+    <string name="import_series_status">剧评导入：</string>
+    <string name="import_wishlist_series_status">导入想看的连续剧：</string>
+    <string name="import_wishlist_movies_status">导入想看的电影：</string>
+
+    <string name="import_status_waiting">等待中</string>
+    <string name="import_status_success">已结束</string>
+    <string name="import_status_no_file">未找到文件</string>
+    <string name="import_status_failed">出错</string>
+
+    <string name="serie_episode_season_number_label">季</string>
+    <string name="serie_episode_episode_number_label">集</string>
+    <string name="title_fragment_serie_general">一般</string>
+    <string name="title_fragment_serie_episodes">集</string>
+    <string name="serie_episode_delete_hint">请长按删除观看资料</string>
+</resources>
