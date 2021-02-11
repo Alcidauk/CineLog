@@ -10,9 +10,8 @@ import android.widget.ListView;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.utils.PreferencesWrapper;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 
 import java.util.List;
 
@@ -95,15 +94,7 @@ public class MovieFragment extends ListFragment {
     }
 
     private int getOrderFromPreferences() {
-        String defaultSortType = new PreferencesWrapper().getStringPreference(
-                getContext(),
-                "default_movie_sort_type",
-                null
-        );
-
-        return getResources().getIdentifier(
-                defaultSortType, "id", getContext().getPackageName()
-        );
+        return super.getOrderFromPreferences("default_movie_sort_type");
     }
 }
 

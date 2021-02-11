@@ -19,6 +19,7 @@ import com.ulicae.cinelog.android.activities.ViewSerie;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.parceler.Parcels;
 
@@ -200,4 +201,17 @@ public abstract class ListFragment extends Fragment {
     protected abstract String getDtoType();
 
     protected abstract List<KinoDto> getResults(int order);
+
+    protected int getOrderFromPreferences(String arrayKey) {
+        String defaultSortType = new PreferencesWrapper().getStringPreference(
+                getContext(),
+                arrayKey,
+                null
+        );
+
+        return defaultSortType == null ? LIST_VIEW_STATE :
+                getResources().getIdentifier(
+                        defaultSortType, "id", getContext().getPackageName()
+                );
+    }
 }

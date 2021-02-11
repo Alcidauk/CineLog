@@ -28,6 +28,13 @@
         <item>Added date (From older to newer)</item>
     </string-array>
 
+    <string-array name="available_serie_sort_type_keys">
+        <item>Title (In alphabetical order)</item>
+        <item>Title (In inversed alphabetical order)</item>
+        <item>Rating (From best for worse)</item>
+        <item>Rating (From worse to best)</item>
+    </string-array>
+
     <string-array name="available_tmdb_languages_keys">
         <item>Afar</item>
         <item>Afrikaans</item>

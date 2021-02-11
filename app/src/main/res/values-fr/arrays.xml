@@ -28,6 +28,13 @@
         <item>Date de visionnage (+ ancien au + récent)</item>
     </string-array>
 
+    <string-array name="available_serie_sort_type_keys">
+        <item>Titre (Ordre alphabétique)</item>
+        <item>Titre (Ordre alphabétique inversé)</item>
+        <item>Note (Ordre décroissant)</item>
+        <item>Note (Ordre croissant)</item>
+    </string-array>
+
     <string-array name="available_tmdb_languages_keys">
         <item>Afar</item>
         <item>Afrikaans</item>

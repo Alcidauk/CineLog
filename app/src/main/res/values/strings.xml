@@ -79,6 +79,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="default_tmdb_language_title">TmDb data language</string>
     <string name="default_movie_sort_type_title">Movie review sort</string>
+    <string name="default_serie_sort_type_title">Serie review sort</string>
     <string name="default_maximum_rating">Maximum rating available in reviews</string>
     <string name="default_maximum_rating_summary">Enter the default maximal note you want to set to new movies</string>
     <string name="default_maximum_rating_dialog">Type the maximum rating you want to set to new movies</string>
