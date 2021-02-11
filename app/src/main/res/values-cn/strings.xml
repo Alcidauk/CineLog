@@ -78,7 +78,7 @@
 
     <string name="title_activity_settings">设置</string>
     <string name="default_tmdb_language_title">TmDb 数据语言</string>
-	<string name="default_movie_sort_type_title">影评排序</string>
+    <string name="default_movie_sort_type_title">影评排序</string>
     <string name="default_serie_sort_type_title">剧评排序</string>
     <string name="default_maximum_rating">影评数上限</string>
     <string name="default_maximum_rating_summary">输入你想要为新电影设置的默认的影评最多数目</string>
@@ -108,7 +108,7 @@
 
     <string name="automatic_save">自动导出到本地存储</string>
     <string name="automatic_save_summary">将在每次应用程序启动时执行导出 (每天一个文件，保留最后10个导出文件)
-	</string>
+    </string>
     <string name="automatic_export_cant_get_next_export">无法获取下一个导出文件。不会自动导出。 请验证允许的权限。</string>
     <string name="automatic_export_cant_export">无法生成自动导出。请验证允许的权限。</string>
     <string name="automatic_export_cant_export_movie">自动保存电影信息时出错。</string>
