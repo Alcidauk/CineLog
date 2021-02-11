@@ -20,6 +20,7 @@ CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve K
  - Kerstin Maur for the icon and colors
  - verahawk for the Polish translation
  - Vistaus for the Dutch translation
+ - sr093906 for the Chinese translation
 
 # Licence
 

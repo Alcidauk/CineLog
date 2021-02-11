@@ -141,4 +141,6 @@
     <string name="title_fragment_serie_episodes">Episoden</string>
     <string name="title_fragment_serie_general">Allgemeine Daten</string>
     <string name="serie_episode_delete_hint">Please long click to remove watching data</string>
+    <string name="default_movie_sort_type_title">Movie review sort</string>
+    <string name="default_serie_sort_type_title">Serie review sort</string>
 </resources>

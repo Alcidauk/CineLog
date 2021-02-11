@@ -139,4 +139,6 @@
     <string name="title_fragment_serie_episodes">Épisodes</string>
     <string name="title_fragment_serie_general">Général</string>
     <string name="serie_episode_delete_hint">Appuyez longuement pour supprimer le visionnage</string>
+    <string name="default_movie_sort_type_title">Ordre de la liste des films</string>
+    <string name="default_serie_sort_type_title">Order de la liste des séries</string>
 </resources>

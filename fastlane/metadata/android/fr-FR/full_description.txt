@@ -28,6 +28,9 @@ Remerciements:
 Merci à Christopher Bodtke pour la traduction allemande de l'application.
 Merci à Diego Sangunietti pour la traduction espagnole de l'application.
 Merci à verahawk pour la traduction polonaise de l'application.
+Merci à Vistaus pour la traduction hollandaise de l'application.
+Merci à sr093906 pour la traduction chinoise de l'application.
+
 
 Merci à Kertin Maur pour l'icône de l'application et la proposition de couleurs.
 

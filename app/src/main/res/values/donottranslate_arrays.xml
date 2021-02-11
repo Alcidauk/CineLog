@@ -17,6 +17,24 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string-array name="available_movie_sort_type_values">
+        <item>order_by_title_asc</item>
+        <item>order_by_title_desc</item>
+        <item>order_by_rating_highest_first</item>
+        <item>order_by_rating_lowest_first</item>
+        <item>order_by_year_newest_first</item>
+        <item>order_by_year_oldest_first</item>
+        <item>order_by_date_added_newest_first</item>
+        <item>order_by_date_added_oldest_first</item>
+    </string-array>
+
+    <string-array name="available_serie_sort_type_values">
+        <item>order_by_title_asc</item>
+        <item>order_by_title_desc</item>
+        <item>order_by_rating_highest_first</item>
+        <item>order_by_rating_lowest_first</item>
+    </string-array>
+
     <string-array name="available_tmdb_languages_values">
         <item>aa</item>
         <item>af</item>

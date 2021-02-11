@@ -46,6 +46,20 @@
             android:title="@string/automatic_save"
             android:summary="@string/automatic_save_summary"
             android:defaultValue="false"/>
+
+        <ListPreference
+            android:key="default_movie_sort_type"
+            android:title="@string/default_movie_sort_type_title"
+            android:defaultValue="order_by_title_asc"
+            android:entries="@array/available_movie_sort_type_keys"
+            android:entryValues="@array/available_movie_sort_type_values"/>
+
+        <ListPreference
+            android:key="default_serie_sort_type"
+            android:title="@string/default_serie_sort_type_title"
+            android:defaultValue="order_by_title_asc"
+            android:entries="@array/available_serie_sort_type_keys"
+            android:entryValues="@array/available_serie_sort_type_values"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

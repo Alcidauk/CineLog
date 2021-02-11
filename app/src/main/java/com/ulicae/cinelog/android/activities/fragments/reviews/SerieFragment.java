@@ -10,9 +10,9 @@ import android.widget.ListView;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.services.reviews.SerieService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +73,10 @@ public class SerieFragment extends ListFragment {
 
     @Override
     protected List<KinoDto> getResults(int order) {
+        if(order == -1) {
+            order = getOrderFromPreferences();
+        }
+
         List<SerieDto> fetchedDtos;
         switch (order) {
             case R.id.order_by_title_asc:
@@ -101,6 +105,10 @@ public class SerieFragment extends ListFragment {
         }
 
         return new ArrayList<KinoDto>(fetchedDtos);
+    }
+
+    private int getOrderFromPreferences() {
+        return super.getOrderFromPreferences("default_serie_sort_type");
     }
 
 }
