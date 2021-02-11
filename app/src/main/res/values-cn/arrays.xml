@@ -17,6 +17,24 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string-array name="available_movie_sort_type_keys">
+        <item>标题 (按字母顺序)</item>
+        <item>标题 (按颠倒的字母顺序)</item>
+        <item>评价 (从最好到最差)</item>
+        <item>评价 (从最好到最差)</item>
+        <item>发行年份 (从新到旧)</item>
+        <item>发行年份 (从旧到新)</item>
+        <item>添加日期 (从新到旧)</item>
+        <item>添加日期 (从旧到新)</item>
+    </string-array>
+
+    <string-array name="available_serie_sort_type_keys">
+        <item>标题 (按字母顺序)</item>
+        <item>标题 (按颠倒的字母顺序)</item>
+        <item>评价 (从最好到最差)</item>
+        <item>评价 (从最差到最好)</item>
+    </string-array>
+
     <string-array name="available_tmdb_languages_keys">
         <item>阿尔法语</item>
         <item>南非公用荷兰语</item>
