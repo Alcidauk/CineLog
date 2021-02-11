@@ -107,8 +107,7 @@
     <string name="title_activity_view_serie">剧评</string>
 
     <string name="automatic_save">自动导出到本地存储</string>
-    <string name="automatic_save_summary">将在每次应用程序启动时执行导出 (每天一个文件，保留最后10个导出文件)
-    </string>
+    <string name="automatic_save_summary">将在每次应用程序启动时执行导出 (每天一个文件，保留最后10个导出文件)</string>
     <string name="automatic_export_cant_get_next_export">无法获取下一个导出文件。不会自动导出。 请验证允许的权限。</string>
     <string name="automatic_export_cant_export">无法生成自动导出。请验证允许的权限。</string>
     <string name="automatic_export_cant_export_movie">自动保存电影信息时出错。</string>
