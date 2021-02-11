@@ -61,7 +61,7 @@ public abstract class ListFragment extends Fragment {
     private static final int RESULT_ADD_KINO = 2;
     static final int RESULT_VIEW_KINO = 4;
 
-    private int LIST_VIEW_STATE = 1;
+    private int LIST_VIEW_STATE = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,10 +118,9 @@ public abstract class ListFragment extends Fragment {
 
     private void createListView(int orderId) {
         if (kino_list != null) {
-            //date added
-            kinos = getResults(orderId);
-
             LIST_VIEW_STATE = orderId;
+
+            kinos = getResults(orderId);
 
             final List<Object> objects = initialiseAdapter(orderId);
             kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

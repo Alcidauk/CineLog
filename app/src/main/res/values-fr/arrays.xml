@@ -17,6 +17,17 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string-array name="available_movie_sort_type_keys">
+        <item>Titre (Ordre alphabétique)</item>
+        <item>Titre (Ordre alphabétique inversé)</item>
+        <item>Note (Ordre décroissant)</item>
+        <item>Note (Ordre croissant)</item>
+        <item>Année de sortie (+ récent au + ancien)</item>
+        <item>Année de sortie (+ ancien au + récent)</item>
+        <item>Date de visionnage (+ récent au + ancien)</item>
+        <item>Date de visionnage (+ ancien au + récent)</item>
+    </string-array>
+
     <string-array name="available_tmdb_languages_keys">
         <item>Afar</item>
         <item>Afrikaans</item>

@@ -12,6 +12,7 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import java.util.List;
 
@@ -68,6 +69,9 @@ public class MovieFragment extends ListFragment {
 
     @Override
     protected List<KinoDto> getResults(int order) {
+        if(order == -1) {
+            order = getOrderFromPreferences();
+        }
         switch (order) {
             case R.id.order_by_title_asc:
                 return ((KinoService) service).getKinosByTitle(true);
@@ -88,6 +92,18 @@ public class MovieFragment extends ListFragment {
             default:
                 return ((KinoService) service).getAll();
         }
+    }
+
+    private int getOrderFromPreferences() {
+        String defaultSortType = new PreferencesWrapper().getStringPreference(
+                getContext(),
+                "default_movie_sort_type",
+                null
+        );
+
+        return getResources().getIdentifier(
+                defaultSortType, "id", getContext().getPackageName()
+        );
     }
 }
 
