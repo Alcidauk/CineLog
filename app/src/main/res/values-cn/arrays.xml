@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
+
+ This file is part of CineLog.
+ CineLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ CineLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string-array name="available_tmdb_languages_keys">
+        <item>阿尔法语</item>
+        <item>南非公用荷兰语</item>
+        <item>阿肯语</item>
+        <item>阿拉贡语</item>
+        <item>阿萨姆语</item>
+        <item>阿瓦尔语</item>
+        <item>阿维斯陀语</item>
+        <item>艾马拉语</item>
+        <item>阿塞拜疆语</item>
+        <item>巴什基尔语</item>
+        <item>班巴拉语</item>
+        <item>比斯拉马语</item>
+        <item>藏语</item>
+        <item>布列塔尼语</item>
+        <item>加泰罗尼亚语</item>
+        <item>捷克语</item>
+        <item>车臣语</item>
+        <item>斯拉夫语</item>
+        <item>楚瓦什语</item>
+        <item>康沃尔语</item>
+        <item>科西嘉语</item>
+        <item>克里语</item>
+        <item>威尔士语</item>
+        <item>丹麦语</item>
+        <item>德语</item>
+        <item>迪维西语</item>
+        <item>宗喀语</item>
+        <item>世界语</item>
+        <item>爱沙尼亚语</item>
+        <item>巴斯克语</item>
+        <item>法罗语</item>
+        <item>斐济语</item>
+        <item>芬兰语</item>
+        <item>法语</item>
+        <item>弗里斯兰语</item>
+        <item>富拉赫语</item>
+        <item>盖尔语</item>
+        <item>爱尔兰语</item>
+        <item>加利西亚语</item>
+        <item>马恩岛语</item>
+        <item>瓜拉尼语</item>
+        <item>吉吉拉特语</item>
+        <item>海地语；海地克里奥尔语</item>
+        <item>豪萨语</item>
+        <item>塞尔维亚-克罗地亚语</item>
+        <item>赫雷罗语</item>
+        <item>希里莫图语</item>
+        <item>克罗地亚语</item>
+        <item>匈牙利语</item>
+        <item>伊博语</item>
+        <item>伊多语</item>
+        <item>意第绪语</item>
+        <item>因纽特语</item>
+        <item>因特语</item>
+        <item>西方国际语</item>
+        <item>印尼语</item>
+        <item>伊努皮克语</item>
+        <item>冰岛语</item>
+        <item>意大利语</item>
+        <item>爪洼语</item>
+        <item>日语</item>
+        <item>格陵兰语</item>
+        <item>坎纳达语</item>
+        <item>克什米尔语</item>
+        <item>卡努里语</item>
+        <item>哈萨克语</item>
+        <item>高棉语</item>
+        <item>基库尤语</item>
+        <item>卢旺达语</item>
+        <item>吉尔吉斯语</item>
+        <item>科米语</item>
+        <item>刚果语</item>
+        <item>韩语</item>
+        <item>宽亚玛语</item>
+        <item>库尔德语</item>
+        <item>老挝语</item>
+        <item>拉丁语</item>
+        <item>拉脱维亚语</item>
+        <item>林堡语</item>
+        <item>林加拉语</item>
+        <item>立陶宛语</item>
+        <item>卢森堡语</item>
+        <item>卢巴-加丹加语</item>
+        <item>干达语</item>
+        <item>马绍尔语</item>
+        <item>马拉雅拉姆语</item>
+        <item>马拉地语</item>
+        <item>马达加斯加语</item>
+        <item>马耳他语</item>
+        <item>摩尔达维亚语</item>
+        <item>蒙古语</item>
+        <item>毛利语</item>
+        <item>马来语</item>
+        <item>缅甸语</item>
+        <item>瑙鲁语</item>
+        <item>纳瓦霍语</item>
+        <item>恩德贝勒语</item>
+        <item>恩德贝勒语</item>
+        <item>恩敦加语</item>
+        <item>尼泊尔语</item>
+        <item>荷兰语</item>
+        <item>挪威尼诺斯克语</item>
+        <item>书面挪威语</item>
+        <item>挪威语</item>
+        <item>齐切瓦语; 尼昂加语</item>
+        <item>奥克语</item>
+        <item>奥吉布瓦语</item>
+        <item>奥里雅语</item>
+        <item>奥罗莫语</item>
+        <item>奥赛梯语</item>
+        <item>巴利语</item>
+        <item>波兰语</item>
+        <item>葡萄牙语</item>
+        <item>盖丘亚语</item>
+        <item>雷托-罗曼语</item>
+        <item>罗马尼亚语</item>
+        <item>隆迪语</item>
+        <item>俄语</item>
+        <item>桑戈语</item>
+        <item>梵文</item>
+        <item>僧伽罗语</item>
+        <item>斯洛伐克语</item>
+        <item>斯洛文尼亚语</item>
+        <item>北部萨米语</item>
+        <item>萨摩亚语</item>
+        <item>修纳语</item>
+        <item>信徳语</item>
+        <item>索马里语</item>
+        <item>索托语</item>
+        <item>西班牙语</item>
+        <item>阿尔巴尼亚语</item>
+        <item>撒丁语</item>
+        <item>塞尔维亚语</item>
+        <item>斯瓦蒂语</item>
+        <item>巽他语</item>
+        <item>斯瓦希里语</item>
+        <item>瑞典语</item>
+        <item>塔希提语</item>
+        <item>泰米尔语</item>
+        <item>鞑靼语</item>
+        <item>泰卢固语</item>
+        <item>塔吉克语</item>
+        <item>塔加拉族语</item>
+        <item>泰语</item>
+        <item>提格里尼亚语</item>
+        <item>汤加语</item>
+        <item>班图语</item>
+        <item>聪加语</item>
+        <item>土库曼语</item>
+        <item>土耳其语</item>
+        <item>契维语</item>
+        <item>维吾尔语</item>
+        <item>乌克兰语</item>
+        <item>乌尔都语</item>
+        <item>乌兹别克语</item>
+        <item>文达语</item>
+        <item>越南语</item>
+        <item>沃拉普克语</item>
+        <item>瓦隆语</item>
+        <item>沃洛夫语</item>
+        <item>科萨语</item>
+        <item>意第绪语</item>
+        <item>壮语</item>
+        <item>祖鲁语</item>
+        <item>阿布哈兹语</item>
+        <item>普通话</item>
+        <item>普什图语</item>
+        <item>阿姆哈拉语</item>
+        <item>阿拉伯语</item>
+        <item>保加利亚语</item>
+        <item>粤语</item>
+        <item>马其顿语</item>
+        <item>希腊语</item>
+        <item>波斯语</item>
+        <item>希伯来语</item>
+        <item>印地语</item>
+        <item>亚美尼亚语</item>
+        <item>英语</item>
+        <item>埃维语</item>
+        <item>格鲁吉亚语</item>
+        <item>旁遮普语</item>
+        <item>孟加拉语</item>
+        <item>波斯尼亚语</item>
+        <item>查莫罗语</item>
+        <item>白俄罗斯语</item>
+        <item>约鲁巴语</item>
+    </string-array>
+
+</resources>
