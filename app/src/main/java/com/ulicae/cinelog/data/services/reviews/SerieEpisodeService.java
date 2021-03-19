@@ -62,19 +62,21 @@ public class SerieEpisodeService {
 
         List<SerieEpisodeDto> episodeDtos = new ArrayList<>();
         for (TvEpisode tvEpisode : tvEpisodes) {
-            episodeDtos.add(getEpisodeAsDto(existingEpisodes, tvEpisode));
+            episodeDtos.add(getEpisodeAsDto(existingEpisodes, tvEpisode, tmdbSerieId));
         }
 
         return episodeDtos;
     }
 
-    private SerieEpisodeDto getEpisodeAsDto(List<SerieEpisode> existingEpisodes, TvEpisode tvEpisode) {
+    private SerieEpisodeDto getEpisodeAsDto(List<SerieEpisode> existingEpisodes,
+                                            TvEpisode tvEpisode,
+                                            Long tmdbSerieId) {
         for (SerieEpisode episode : existingEpisodes) {
             if (episode.getTmdbEpisodeId().equals(tvEpisode.id)) {
                 return serieEpisodeDtoBuilder.buildFromTvAndDb(episode, tvEpisode);
             }
         }
 
-        return serieEpisodeDtoBuilder.build(tvEpisode);
+        return serieEpisodeDtoBuilder.build(tvEpisode, tmdbSerieId);
     }
 }

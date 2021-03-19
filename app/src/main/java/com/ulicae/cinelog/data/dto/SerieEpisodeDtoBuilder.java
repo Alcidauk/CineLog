@@ -34,11 +34,11 @@ public class SerieEpisodeDtoBuilder {
         return episodeAsDto;
     }
 
-    public SerieEpisodeDto build(TvEpisode tvEpisode) {
+    public SerieEpisodeDto build(TvEpisode tvEpisode, Long tmdbSerieId) {
         return new SerieEpisodeDto(
                 null,
                 tvEpisode.id,
-                tvEpisode.show_id != null ? tvEpisode.show_id.longValue() : null,
+                tmdbSerieId,
                 null,
                 tvEpisode.name,
                 tvEpisode.air_date,
