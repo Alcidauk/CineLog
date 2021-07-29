@@ -52,17 +52,17 @@
 
     <string name="title_activity_export_db">Exportar datos</string>
     <string name="export_db">Exportar datos como CSV</string>
-    <string name="export_db_label">Clic en el botón para exportar sus datos como archivo CSV. Será guardado como \'export_movies.csv\' y \'export_series.csv\' en el almacenamiento raíz. Podrá importar esta copia de seguridad si la necesita.</string>
+    <string name="export_db_label">Clic en el botón para exportar sus datos como archivo CSV. Será guardado como \'export_movies.csv\', \'export_series.csv\', \'export_wishlist_movies.csv\' y \'export_wishlist_series.csv\' en el almacenamiento raíz. Podrá importar esta copia de seguridad si la necesita.</string>
     <string name="action_export">Exportar</string>
     <string name="export_start_toast">Iniciando exportación…</string>
-    <string name="export_succeeded_toast">… exportación terminada. Revise los archivos export_movies.csv y export_series.csv en el almacenamiento raíz.</string>
+    <string name="export_succeeded_toast">… exportación terminada. Revise los archivos export_movies.csv, export_series.csv, export_wishlist_movies.csv y export_wishlist_series.csv en el almacenamiento raíz.</string>
     <string name="export_io_error_toast">Un problema I/O ocurrió durante la exportación. Compruebe sus permisos.</string>
     <string name="export_permission_error_toast">No es posible exportar por falta de permisos de escritura del almacenamiento externo para CineLog.</string>
 
     <string name="action_import">Importar</string>
     <string name="title_activity_import_db">Importar archivo CSV</string>
     <string name="import_db">Importar archivo CSV en la base de datos</string>
-    <string name="import_db_label">El proceso de importación de archivos recuperará películas de import_movies.csv y series de import_series.csv en el almacenamiento raíz.</string>
+    <string name="import_db_label">El proceso de importación de archivos recuperará películas de import_movies.csv y import_wishlist_movies.csv y series de import_series.csv y import_wishlist_series.csv en el almacenamiento raíz.</string>
     <string name="import_permission_error_toast">No es posible importar por falta de permisos de escritura del almacenamiento externo para CineLog.</string>
     <string name="import_error_toast">Un error ocurrió durante la importación de datos del archivo %s.</string>
     <string name="import_io_error_toast">Un error ocurrió cuando se intentó buscar el archivo %s. Verifique si el archivo está en el almacenamiento raíz con los permisos de lectura adecuados.</string>
