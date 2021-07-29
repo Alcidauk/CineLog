@@ -56,17 +56,17 @@
     <string name="export_db_label">Cliquer sur le bouton d\'export pour récupérer vos données au format CSV. L\'export pourra être réimporté plus tard dans l\'application.</string>
     <string name="action_export">Exporter</string>
     <string name="export_start_toast">Export démarré…</string>
-    <string name="export_succeeded_toast">… export terminé. Vérifiez les fichiers export_movies.csv et export_series.csv générés à la racine du stockage.</string>
+    <string name="export_succeeded_toast">… export terminé. Vérifiez les fichiers export_movies.csv et export_series.csv générés dans le dossier de l\'application CineLog.</string>
     <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu. Vérifiez les permissions accordées à l\'application.</string>
     <string name="export_permission_error_toast">Impossible d\'exporter sans autoriser la permission de stockage à CinéLog.</string>
 
     <string name="action_import">Importer</string>
     <string name="title_activity_import_db">Import d\'un fichier CSV</string>
     <string name="import_db">Importer des films</string>
-    <string name="import_db_label">Pour importer des revues de films et de séries, nommez les fichiers import_movies.csv et import_series.csv et placez les à la racine du stockage de votre appareil.</string>
+    <string name="import_db_label">Pour importer des revues de films et de séries, nommez les fichiers import_movies.csv et import_series.csv et placez les directement dans le dossier de l\'application CineLog.</string>
     <string name="import_permission_error_toast">Impossible d\'importer sans autoriser la permission de stockage à CinéLog.</string>
     <string name="import_error_toast">Une erreur est survenue durant l\'import des données du fichier %s.</string>
-    <string name="import_io_error_toast">Impossible d\'ouvrir le fichier %s. Vérifiez qu\'il se trouve à la racine du stockage et que vous avez la permission requise.</string>
+    <string name="import_io_error_toast">Impossible d\'ouvrir le fichier %s. Vérifiez qu\'il se trouve directement dans le dossier de l\'application CineLog et que vous avez la permission requise.</string>
     <string name="import_parsing_error_toast">Impossible de parser le fichier CSV. Vérifiez que votre fichier est correctement écrit.</string>
     <string name="import_parsing_line_error_toast">Impossible d\'importer le film %s. Une date ou un chiffre n\'est pas au bon format.</string>
     <string name="import_starting_toast">Import démarré…</string>

@@ -65,7 +65,7 @@
     <string name="action_import">Importieren</string>
     <string name="title_activity_import_db">CSV Datei importieren</string>
     <string name="import_db">CSV Datei in Datenbank importieren.</string>
-    <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file at the storage root.</string>
+    <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file at the CineLog app folder.</string>
     <string name="import_permission_error_toast">Es kann nicht importiert werden das lesen des externen Speichers ist für CineLog nicht erlaubt.</string>
     <string name="import_error_toast">Beim importieren der Daten (%s) ist ein Fehler aufgetreten.</string>
     <string name="import_io_error_toast">Beim Suchen der Datei "%s" ist ein Fehler aufgetreten. Stellen Sie sicher, dass die Datei sich im Hauptverzeichnis befindet, und dass Sie über die erforderlichen Berechtigungen verfügen.</string>
