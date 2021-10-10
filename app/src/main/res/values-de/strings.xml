@@ -18,7 +18,7 @@
 -->
 <resources>
     <string name="app_name">CineLog</string>
-    <string name="movie_title_input">Film Titel hinzufügen.</string>
+    <string name="movie_title_input">Film-Titel hinzufügen.</string>
     <string name="action_settings">Einstellungen</string>
     <string name="title_activity_add_kino">Füge eine Rezension hinzu</string>
     <string name="title_activity_view_kino">Rezension des Filmes</string>
@@ -35,7 +35,7 @@
 
     <string name="delete_kino_dialog">Willst du diese Rezension entfernen?</string>
 
-    <string name="title_activity_add_review">Version der Rezension</string>
+    <string name="title_activity_add_review">Bearbeitung der Rezension</string>
     <string name="title_activity_add_review_creation">Rezension schreiben</string>
     <string name="review_hint">Füge deine Rezension hier hinzu</string>
 
@@ -47,51 +47,51 @@
     <string name="order_by_title">Titel</string>
 
     <string name="newest_first">Neuste zuerst</string>
-    <string name="oldest_first">älteste zuerst</string>
+    <string name="oldest_first">Älteste zuerst</string>
     <string name="highest_first">Höchste zuerst</string>
     <string name="lowest_first">Niedrigste zuerst</string>
-    <string name="order_by_title_asc">Alphabetical order</string>
-    <string name="order_by_title_desc">Reversed alphabetical order</string>
+    <string name="order_by_title_asc">Alphabetische Ordnung</string>
+    <string name="order_by_title_desc">Umgekehrter alphabetische Ordnung</string>
 
     <string name="title_activity_export_db">Daten exportieren</string>
     <string name="export_db">Daten als CSV exportieren</string>
     <string name="export_db_label">Drücke den Button um deine Daten als CSV zu exportieren. Du kannst sie speichern und später wieder importieren.</string>
     <string name="action_export">Exportieren</string>
     <string name="export_start_toast">Export gestartet…</string>
-    <string name="export_succeeded_toast">… exportieren erfolgreich. Siehe export_movies.csv und export_series.csv Datei im Stammverzeichnis.</string>
+    <string name="export_succeeded_toast">… exportieren erfolgreich. Siehe \'export_movies.csv\' und \'export_series.csv\' Datei im Hauptverzeichnis.</string>
     <string name="export_io_error_toast">Beim Export ist ein I/O Fehler aufgetreten. Überprüfen Sie Ihre Berechtigungen.</string>
     <string name="export_permission_error_toast">Export nicht möglich, das Schreiben auf externen Speicher ist CineLog nicht gestattet.</string>
 
     <string name="action_import">Importieren</string>
-    <string name="title_activity_import_db">CSV Datei importieren</string>
+    <string name="title_activity_import_db">CSV-Datei importieren</string>
     <string name="import_db">CSV Datei in Datenbank importieren.</string>
-    <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file at the storage root.</string>
-    <string name="import_permission_error_toast">Es kann nicht importiert werden das lesen des externen Speichers ist für CineLog nicht erlaubt.</string>
+    <string name="import_db_label">Der Import-Prozess wird Filme aus der Datei \'import_movies.csv\' und Serien aus import_series.csv aus dem Hauptverzeichnis verarbeiten.</string>
+    <string name="import_permission_error_toast">Es kann nicht importiert werden das Lesen des externen Speichers ist für CineLog nicht erlaubt.</string>
     <string name="import_error_toast">Beim importieren der Daten (%s) ist ein Fehler aufgetreten.</string>
     <string name="import_io_error_toast">Beim Suchen der Datei "%s" ist ein Fehler aufgetreten. Stellen Sie sicher, dass die Datei sich im Hauptverzeichnis befindet, und dass Sie über die erforderlichen Berechtigungen verfügen.</string>
-    <string name="import_parsing_error_toast">Fehler beim parsen der .CSV Datei. Bitte überprüfen sie die Datei.</string>
-    <string name="import_parsing_line_error_toast">Importierter Film kann nicht gespeichert werden mit dem Namen %s.</string>
+    <string name="import_parsing_error_toast">Fehler beim Parsen der CSV-Datei. Bitte überprüfen Sie die Datei.</string>
+    <string name="import_parsing_line_error_toast">Importierter Film mit dem Namen %s kann nicht gespeichert werden.</string>
     <string name="import_starting_toast">Import gestartet…</string>
-    <string name="import_ending_toast">… import erfolgreich !</string>
+    <string name="import_ending_toast">… Import erfolgreich!</string>
 
     <string name="add_from_scratch_label">Film wurde nicht gefunden?</string>
 
     <string name="title_activity_settings">Einstellungen</string>
-    <string name="default_tmdb_language_title">TmDb Datenbank Sprache</string>
-    <string name="default_maximum_rating">Maximales Rating verfügbar in den Reviews</string>
-    <string name="default_maximum_rating_summary">Geben Sie die maximale Standard Note ein, die Sie für neue Filme festlegen möchten.</string>
-    <string name="default_maximum_rating_dialog">Setze die maximal Bewertung für neue Filme</string>
+    <string name="default_tmdb_language_title">Sprache der TMDb-Datenbank</string>
+    <string name="default_maximum_rating">Maximal verfügbares Rating in den Rezensionen</string>
+    <string name="default_maximum_rating_summary">Geben Sie die maximale Standard-Berwertung ein, die Sie für neue Filme festlegen möchten.</string>
+    <string name="default_maximum_rating_dialog">Setze die maximale Bewertung für neue Filme</string>
     <string name="general_preferences">Allgemeine Einstellungen</string>
     <string name="general_preferences_summary">Setzen der globalen Einstellungen für diese App.</string>
-    <string name="theme">Dark theme</string>
-    <string name="change_theme">Theme changed. Quit and come back in the app to see changes.</string>
+    <string name="theme">Dunkles Thema</string>
+    <string name="change_theme">Das Thema hat sich geädert. Um Änderungen zu sehen, bitte die App neustarten.</string>
 
     <string name="view_poster_review_layout_title">Rezension</string>
-    <string name="view_kino_review_rating_label_value">Film Bewertung</string>
+    <string name="view_kino_review_rating_label_value">Film-Bewertung</string>
     <string name="view_kino_review_review_date_label_value">Datum der Rezension</string>
     <string name="view_kino_review_review_label_value">Rezension</string>
-    <string name="view_kino_overview_see_more">See more</string>
-    <string name="view_kino_overview_see_less">Resume</string>
+    <string name="view_kino_overview_see_more">Mehr</string>
+    <string name="view_kino_overview_see_less">Weniger</string>
     <string name="title_activity_view_unregistered_kino">Film Informationen</string>
     <string name="review_date_hint">Trage ein wann du den Film gesehen hast.</string>
     <string name="review_change_reviewdate">modifizieren</string>
@@ -99,48 +99,48 @@
 
     <string name="title_activity_add_serie">Füge eine Rezension hinzu</string>
     <string name="add_serie_from_scratch_label">Serie wurde nicht gefunden?</string>
-    <string name="serie_title_hint">Serie Titel hinzufügen.</string>
-    <string name="title_activity_view_unregistered_serie">Serie Informationen</string>
+    <string name="serie_title_hint">Serien-Titel hinzufügen.</string>
+    <string name="title_activity_view_unregistered_serie">Serien-Informationen</string>
     <string name="title_activity_view_serie">Rezension der Serie</string>
 
-    <string name="automatic_save">Automatic export to local storage</string>
-    <string name="automatic_save_summary">An export will be done at each application start (one per day, keeping the last 10 exports)</string>
-    <string name="automatic_export_cant_get_next_export">Unable to get the next export file. Automatic export will not be done. Please verify allowed permissions.</string>
-    <string name="automatic_export_cant_export">Unable to generate automatic export. Please verify the allowed permissions.</string>
-    <string name="automatic_export_cant_export_movie">An error occurred during automatic save of movies.</string>
-    <string name="automatic_export_cant_export_serie">An error occurred during automatic save of series.</string>
-    <string name="automatic_export_movie_toast">Success of movies automatic save !</string>
-    <string name="automatic_export_serie_toast">Success of automatic save of series !</string>
+    <string name="automatic_save">Automatischer Export in das Hauptverzeichnis</string>
+    <string name="automatic_save_summary">Ein Export wird bei jedem Start der App ausgeführt (Einmal pro Tag, die letzten 10 Exporte werden beibehalten).</string>
+    <string name="automatic_export_cant_get_next_export">Export nicht möglicht. Der automatische Export wurde abgebrochen. Bitte überprüfen Sie die Berechtigungen der App.</string>
+    <string name="automatic_export_cant_export">Automatischer Export nicht möglich. Bitte überprüfen Sie die Berechtigungen der App.</string>
+    <string name="automatic_export_cant_export_movie">Ein Fehler ist beim automatischen Export von Filmen aufgetreten.</string>
+    <string name="automatic_export_cant_export_serie">Ein Fehler ist beim automatischen Export von Serien aufgetreten.</string>
+    <string name="automatic_export_movie_toast">Automatischer Export von Filmen erfolgreich!</string>
+    <string name="automatic_export_serie_toast">Automatischer Export von Serien erfolgreich!</string>
 
-    <string name="nav_reviews_space">Reviews</string>
-    <string name="nav_wishlist_space">Wishlist</string>
-    <string name="nav_title">Menu</string>
-    <string name="toolbar_title_reviews">Reviews</string>
-    <string name="toolbar_title_wishlist">Wishlist</string>
-    <string name="wishlist_list_activity">Wishlist</string>
-    <string name="wishlist_item_added">Added to wishlist !</string>
+    <string name="nav_reviews_space">Rezensionen</string>
+    <string name="nav_wishlist_space">Wunschliste</string>
+    <string name="nav_title">Menü</string>
+    <string name="toolbar_title_reviews">Rezensionen</string>
+    <string name="toolbar_title_wishlist">Wunschliste</string>
+    <string name="wishlist_list_activity">Wunschliste</string>
+    <string name="wishlist_item_added">Der Wunschliste hinzugefügt!</string>
 
-    <string name="restart_app_please">Please restart the app to complete upgrade.</string>
-    <string name="title_fragment_wishlist_movie">Movies wishlist</string>
-    <string name="title_fragment_wishlist_serie">Series wishlist</string>
+    <string name="restart_app_please">Starten Sie die App neu um den Upgrade-Prozess zu beenden.</string>
+    <string name="title_fragment_wishlist_movie">Film-Wunschliste</string>
+    <string name="title_fragment_wishlist_serie">Serien-Wunschliste</string>
 
-    <string name="unknown_year">Unknown release year</string>
+    <string name="unknown_year">Unbekanntes Erscheinungsjahr</string>
 
-    <string name="import_movies_status">Movie reviews import:</string>
-    <string name="import_series_status">Serie reviews import:</string>
-    <string name="import_wishlist_series_status">Serie wishlist import:</string>
-    <string name="import_wishlist_movies_status">Movie wishlist import:</string>
+    <string name="import_movies_status">Film-Rezensionen-Import:</string>
+    <string name="import_series_status">Serien-Rezensionen-Import:</string>
+    <string name="import_wishlist_series_status">Serien-Wunschliste-Import:</string>
+    <string name="import_wishlist_movies_status">Film-Wunschliste-Import:</string>
 
-    <string name="import_status_waiting">waiting</string>
-    <string name="import_status_success">ended</string>
-    <string name="import_status_no_file">file not found</string>
-    <string name="import_status_failed">in error</string>
+    <string name="import_status_waiting">Verarbeitung läuft...</string>
+    <string name="import_status_success">Beendet</string>
+    <string name="import_status_no_file">Datei nicht gefunden</string>
+    <string name="import_status_failed">Fehler</string>
 
-    <string name="serie_episode_season_number_label">Season</string>
+    <string name="serie_episode_season_number_label">Staffel</string>
     <string name="serie_episode_episode_number_label">Episode</string>
     <string name="title_fragment_serie_episodes">Episoden</string>
     <string name="title_fragment_serie_general">Allgemeine Daten</string>
-    <string name="serie_episode_delete_hint">Please long click to remove watching data</string>
-    <string name="default_movie_sort_type_title">Movie review sort</string>
-    <string name="default_serie_sort_type_title">Serie review sort</string>
+    <string name="serie_episode_delete_hint">Langes Drücken zum Löschen des Gesehen-Datums.</string>
+    <string name="default_movie_sort_type_title">Film-Rezensionen-Ordnung</string>
+    <string name="default_serie_sort_type_title">Serien-Rezensionen-Ordnung</string>
 </resources>
