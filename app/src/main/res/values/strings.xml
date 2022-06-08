@@ -144,4 +144,6 @@
     <string name="title_fragment_serie_general">General</string>
     <string name="title_fragment_serie_episodes">Episodes</string>
     <string name="serie_episode_delete_hint">Please long click to remove watching data</string>
+    <string name="nav_tags_space">Tags</string>
+    <string name="tags_title">Tags</string>
 </resources>
