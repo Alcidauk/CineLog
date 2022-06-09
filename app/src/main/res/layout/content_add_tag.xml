@@ -114,5 +114,36 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/add_tag_films_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <CheckBox android:id="@+id/tag_films"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tag_films"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/add_tag_series_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <CheckBox android:id="@+id/tag_series"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tag_series"/>
+
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

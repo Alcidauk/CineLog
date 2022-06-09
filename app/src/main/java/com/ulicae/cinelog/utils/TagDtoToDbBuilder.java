@@ -28,8 +28,8 @@ public class TagDtoToDbBuilder {
                 tagDto.getId(),
                 tagDto.getName(),
                 tagDto.getColor(),
-                false,
-                false
+                tagDto.isForMovies(),
+                tagDto.isForSeries()
         );
     }
 }

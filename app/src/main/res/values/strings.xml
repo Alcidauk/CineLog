@@ -148,4 +148,6 @@
     <string name="tags_title">Tags</string>
     <string name="tag_color">Couleur</string>
     <string name="tag_name">Nom du tag</string>
+    <string name="tag_films">Activer pour les films</string>
+    <string name="tag_series">Activer pour les séries</string>
 </resources>

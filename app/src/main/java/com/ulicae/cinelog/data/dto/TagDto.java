@@ -35,10 +35,12 @@ public class TagDto implements ItemDto {
     public TagDto() {
     }
 
-    public TagDto(Long id, String name, String color) {
+    public TagDto(Long id, String name, String color, boolean forMovies, boolean forSeries) {
         this.id = id;
         this.name = name;
         this.color = color;
+        this.forMovies = forMovies;
+        this.forSeries = forSeries;
     }
 
     public Long getId() {
@@ -63,5 +65,21 @@ public class TagDto implements ItemDto {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public boolean isForMovies() {
+        return forMovies;
+    }
+
+    public void setForMovies(boolean forMovies) {
+        this.forMovies = forMovies;
+    }
+
+    public boolean isForSeries() {
+        return forSeries;
+    }
+
+    public void setForSeries(boolean forSeries) {
+        this.forSeries = forSeries;
     }
 }

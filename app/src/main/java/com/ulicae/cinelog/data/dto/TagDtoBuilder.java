@@ -27,7 +27,9 @@ public class TagDtoBuilder {
         return new TagDto(
                 tag.getId(),
                 tag.getName(),
-                tag.getColor()
+                tag.getColor(),
+                tag.getForMovies(),
+                tag.getForSeries()
         );
     }
 }

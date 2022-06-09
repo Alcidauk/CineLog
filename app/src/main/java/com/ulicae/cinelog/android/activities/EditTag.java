@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -49,6 +51,12 @@ public class EditTag extends AppCompatActivity {
 
     @BindView(R.id.tag_name)
     EditText tag_name;
+
+    @BindView(R.id.tag_films)
+    CheckBox tag_films;
+
+    @BindView(R.id.tag_series)
+    CheckBox tag_series;
 
     @BindView(R.id.tag_color_current)
     View tag_color;
@@ -77,6 +85,8 @@ public class EditTag extends AppCompatActivity {
             tag = new TagDto();
         } else {
             tag_name.setText(tag.getName());
+            tag_films.setChecked(tag.isForMovies());
+            tag_series.setChecked(tag.isForSeries());
         }
 
         fetchColor();
@@ -103,6 +113,16 @@ public class EditTag extends AppCompatActivity {
         tagDtoService.createOrUpdate(tag);
 
         finish();
+    }
+
+    @OnCheckedChanged(R.id.tag_films)
+    public void onFilmsCheckedChanged(boolean checked) {
+        tag.setForMovies(checked);
+    }
+
+    @OnCheckedChanged(R.id.tag_series)
+    public void onSeriesCheckedChanged(boolean checked) {
+        tag.setForSeries(checked);
     }
 
     private void fetchColor() {
