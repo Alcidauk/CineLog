@@ -20,7 +20,7 @@ import org.parceler.Parcels;
 import java.util.List;
 
 /**
- * CineLog Copyright 2019 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.

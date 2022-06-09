@@ -76,6 +76,8 @@ public class TagsActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
+        service = new TagService(((KinoApplication) getApplication()).getDaoSession());
+
         fab = (FloatingActionButton) findViewById(R.id.fab_tags);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,12 +96,20 @@ public class TagsActivity extends AppCompatActivity {
         }
 
         configureDrawer();
+    }
 
-        service = new TagService(((KinoApplication) getApplication()).getDaoSession());
+    private void fetchAndSetTags() {
         List<TagDto> dataDtos = service.getAll();
 
         listAdapter = new TagListAdapter(this, dataDtos);
         tag_list.setAdapter(listAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // TODO should it reuse adapter list ?
+        fetchAndSetTags();
     }
 
     private void configureDrawer() {
