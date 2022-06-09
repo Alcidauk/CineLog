@@ -2,21 +2,21 @@ package com.ulicae.cinelog.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.add.AddTag;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.TagService;
@@ -80,7 +80,7 @@ public class TagsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setAddTagFragment();
+                startEditTagActivity();
             }
         });
 
@@ -130,7 +130,7 @@ public class TagsActivity extends AppCompatActivity {
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                setAddTagFragment();
+                                startEditTagActivity();
                             }
                         });
 
@@ -140,8 +140,8 @@ public class TagsActivity extends AppCompatActivity {
         );
     }
 
-    private void setAddTagFragment() {
-        Intent intent = new Intent(getApplicationContext(), AddTag.class);
+    private void startEditTagActivity() {
+        Intent intent = new Intent(getApplicationContext(), EditTag.class);
         startActivity(intent);
     }
 

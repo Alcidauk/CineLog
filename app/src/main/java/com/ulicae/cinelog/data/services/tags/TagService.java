@@ -1,14 +1,17 @@
 package com.ulicae.cinelog.data.services.tags;
 
+import com.ulicae.cinelog.data.TagRepository;
 import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.Tag;
 import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.data.dto.TagDtoBuilder;
+import com.ulicae.cinelog.utils.TagDtoToDbBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
- * kinolog Copyright (C) 2017  ryan rigby
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
@@ -26,25 +29,41 @@ import java.util.List;
  */
 public class TagService {
 
-   // private final TagRepository tagRepository;
-    // private final KinoDtoBuilder kinoDtoBuilder;
-    // private KinoDtoToDbBuilder kinoDtoToDbBuilder;
+    private final TagRepository tagRepository;
+    private final TagDtoBuilder tagDtoBuilder;
+    private final TagDtoToDbBuilder tagDtoToDbBuilder;
 
     public TagService(DaoSession session) {
-        //this.tagRepository = new TagRepository(session);
+        this(new TagRepository(session), new TagDtoBuilder(), new TagDtoToDbBuilder());
     }
 
-   /* TagService(TagRepository tagRepository) {
+    public TagService(TagRepository tagRepository,
+                      TagDtoBuilder tagDtoBuilder,
+                      TagDtoToDbBuilder tagDtoToDbBuilder) {
         this.tagRepository = tagRepository;
-    }*/
+        this.tagDtoBuilder = tagDtoBuilder;
+        this.tagDtoToDbBuilder = tagDtoToDbBuilder;
+    }
+
 
     public List<TagDto> getAll() {
-        // TODO retrieve tags in DB
-        //List<LocalKino> tags = localKinoRepository.findAll();
+        return buildTags(tagRepository.findAll());
+    }
 
-        ArrayList<TagDto> tagDtos = new ArrayList<>();
-        tagDtos.add(new TagDto(13L, "Horreur", "#000000"));
-        tagDtos.add(new TagDto(13L, "Malheur", "#a34567"));
+    public void createOrUpdate(TagDto tagDto) {
+        Tag tag = tagDtoToDbBuilder.build(tagDto);
+
+        if (tag != null) {
+            tagRepository.createOrUpdate(tag);
+        }
+    }
+
+    private List<TagDto> buildTags(List<Tag> tags) {
+        List<TagDto> tagDtos = new ArrayList<>();
+        for (Tag tag : tags) {
+            tagDtos.add(tagDtoBuilder.build(tag));
+        }
+
         return tagDtos;
     }
 

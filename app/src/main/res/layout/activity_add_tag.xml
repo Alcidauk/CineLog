@@ -24,7 +24,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="?attr/backgroundColor"
-    tools:context=".android.activities.add.AddTag">
+    tools:context=".android.activities.EditTag">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

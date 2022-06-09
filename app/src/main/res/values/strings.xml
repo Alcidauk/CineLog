@@ -146,4 +146,6 @@
     <string name="serie_episode_delete_hint">Please long click to remove watching data</string>
     <string name="nav_tags_space">Tags</string>
     <string name="tags_title">Tags</string>
+    <string name="tag_color">Couleur</string>
+    <string name="tag_name">Nom du tag</string>
 </resources>

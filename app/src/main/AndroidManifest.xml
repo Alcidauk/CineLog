@@ -72,7 +72,7 @@
                 android:value=".android.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".android.activities.add.AddTag"
+            android:name=".android.activities.EditTag"
             android:label="@string/tags_title"
             android:parentActivityName=".android.activities.MainActivity">
             <meta-data
