@@ -38,7 +38,7 @@
         <item name="android:ratingBarStyle">@style/AppTheme.RatingBar</item>
     </style>
 
-    <style name="AppTheme.AppBarLayout" parent="Base.Widget.Design.AppBarLayout">
+    <style name="AppTheme.AppBarLayout" parent="Widget.Design.AppBarLayout">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
     </style>

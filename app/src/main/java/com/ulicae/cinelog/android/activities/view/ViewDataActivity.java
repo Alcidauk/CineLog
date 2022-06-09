@@ -3,9 +3,9 @@ package com.ulicae.cinelog.android.activities.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
@@ -121,7 +121,7 @@ public class ViewDataActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
         }
 
-        fab.setVisibility(View.INVISIBLE);
+        fab.hide();
     }
 
     private void startReviewCreationActivity() {
