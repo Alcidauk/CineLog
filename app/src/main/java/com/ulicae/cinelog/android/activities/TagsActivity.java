@@ -95,13 +95,10 @@ public class TagsActivity extends AppCompatActivity {
 
         configureDrawer();
 
-
-        service = new TagService(
-                ((KinoApplication) getApplication()).getDaoSession()
-        );
+        service = new TagService(((KinoApplication) getApplication()).getDaoSession());
         List<TagDto> dataDtos = service.getAll();
 
-        listAdapter = new TagListAdapter(getApplicationContext(), dataDtos);
+        listAdapter = new TagListAdapter(this, dataDtos);
         tag_list.setAdapter(listAdapter);
     }
 

@@ -1,16 +1,21 @@
 package com.ulicae.cinelog.android.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -57,6 +62,16 @@ class TagListAdapter extends ArrayAdapter<TagDto> {
             tagNameTextView.setText(dataDto.getName());
             tagColorLayout.setBackgroundColor(Color.parseColor(dataDto.getColor()));
         }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), EditTag.class);
+                intent.putExtra("tag", Parcels.wrap(dataDto));
+
+                getContext().startActivity(intent);
+            }
+        });
 
         return convertView;
     }
