@@ -56,7 +56,7 @@ public class TagsActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
-    @BindView(R.id.fab)
+    @BindView(R.id.fab_tags)
     FloatingActionButton fab;
 
     @BindView(R.id.tag_list)
@@ -76,7 +76,7 @@ public class TagsActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab_tags);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

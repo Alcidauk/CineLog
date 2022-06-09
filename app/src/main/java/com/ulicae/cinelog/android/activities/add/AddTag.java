@@ -88,7 +88,7 @@ public class AddTag extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.fab_save)
+    @OnClick(R.id.fab_save_tag)
     public void onClick() {
         tag.setName(tag_name.getText().toString());
         tag.setColor(tag_color.getText().toString());
