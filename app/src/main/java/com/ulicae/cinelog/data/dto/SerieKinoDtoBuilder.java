@@ -2,10 +2,14 @@ package com.ulicae.cinelog.data.dto;
 
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
+import com.ulicae.cinelog.data.dao.Tag;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -24,9 +28,22 @@ import com.ulicae.cinelog.data.dao.TmdbSerie;
  */
 public class SerieKinoDtoBuilder {
 
+    private final TagDtoBuilder tagDtoBuilder;
+
+    public SerieKinoDtoBuilder() {
+        this.tagDtoBuilder = new TagDtoBuilder();
+    }
+
     public SerieDto build(SerieReview serieReview) {
         TmdbSerie serie = serieReview.getSerie();
         Review review = serieReview.getReview();
+
+        List<TagDto> tagDtos = new ArrayList<>();
+        if(review != null) {
+            for(Tag tag : review.getTags()) {
+                tagDtos.add(tagDtoBuilder.build(tag));
+            }
+        }
 
         return new SerieDto(
                 serieReview.getId(),
@@ -40,7 +57,8 @@ public class SerieKinoDtoBuilder {
                 serie != null ? serie.getPoster_path() : null,
                 serie != null ? serie.getOverview() : null,
                 serie != null ? serie.getYear() : 0,
-                serie != null ? serie.getRelease_date() : null
+                serie != null ? serie.getRelease_date() : null,
+                tagDtos
         );
     }
 }

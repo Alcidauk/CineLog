@@ -150,4 +150,5 @@
     <string name="tag_name">Nom du tag</string>
     <string name="tag_films">Activer pour les films</string>
     <string name="tag_series">Activer pour les séries</string>
+    <string name="view_kino_review_tags_label_value">Tags</string>
 </resources>

@@ -29,6 +29,7 @@ import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -140,7 +141,8 @@ public class ViewDataActivity extends AppCompatActivity {
                     wishlistDataDto.getPosterPath(),
                     wishlistDataDto.getOverview(),
                     wishlistDataDto.getFirstYear(),
-                    wishlistDataDto.getReleaseDate()
+                    wishlistDataDto.getReleaseDate(),
+                    new ArrayList<>()
             );
             intent.putExtra("kino", Parcels.wrap(serieDto));
             intent.putExtra("dtoType", "serie");
@@ -156,7 +158,8 @@ public class ViewDataActivity extends AppCompatActivity {
                     wishlistDataDto.getPosterPath(),
                     wishlistDataDto.getOverview(),
                     wishlistDataDto.getFirstYear(),
-                    wishlistDataDto.getReleaseDate()
+                    wishlistDataDto.getReleaseDate(),
+                    new ArrayList<>()
             );
             intent.putExtra("kino", Parcels.wrap(kinoDto));
             intent.putExtra("dtoType", "kino");
