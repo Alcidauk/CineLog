@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -109,6 +110,15 @@ public class EditTag extends AppCompatActivity {
     @OnClick(R.id.fab_save_tag)
     public void onClick() {
         tag.setName(tag_name.getText().toString());
+
+        if (tag.getName() == null || tag.getName().isEmpty()) {
+            Toast.makeText(
+                            getBaseContext(),
+                            getBaseContext().getString(R.string.edit_tag_name_not_filled),
+                            Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
 
         tagDtoService.createOrUpdate(tag);
 
