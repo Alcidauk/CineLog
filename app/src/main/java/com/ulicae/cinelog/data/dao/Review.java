@@ -45,8 +45,8 @@ public class Review {
     @ToMany
     @JoinEntity(
             entity = JoinReviewWithTag.class,
-            sourceProperty = "tagId",
-            targetProperty = "reviewId"
+            sourceProperty = "reviewId",
+            targetProperty = "tagId"
     )
     List<Tag> tags;
     Date review_date;

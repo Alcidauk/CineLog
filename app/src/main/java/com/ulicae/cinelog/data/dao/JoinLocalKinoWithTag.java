@@ -1,9 +1,9 @@
 package com.ulicae.cinelog.data.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.parceler.Parcel;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -25,13 +25,18 @@ import org.parceler.Parcel;
  */
 @Parcel
 @Entity
-public class JoinLocalKinoWithTag {
-
+public class JoinLocalKinoWithTag implements JoinWithTag {
     @Id
     private Long id;
 
     private Long tagId;
+
     private Long localKinoId;
+
+    public JoinLocalKinoWithTag(Long tagId, Long localKinoId) {
+        this.tagId = tagId;
+        this.localKinoId = localKinoId;
+    }
 
 
     @Generated(hash = 1004253312)
@@ -41,12 +46,14 @@ public class JoinLocalKinoWithTag {
         this.localKinoId = localKinoId;
     }
 
+
     @Generated(hash = 1285849593)
     public JoinLocalKinoWithTag() {
     }
 
+
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -54,7 +61,7 @@ public class JoinLocalKinoWithTag {
     }
 
     public Long getTagId() {
-        return this.tagId;
+        return tagId;
     }
 
     public void setTagId(Long tagId) {

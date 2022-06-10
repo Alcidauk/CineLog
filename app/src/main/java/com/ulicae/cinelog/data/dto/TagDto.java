@@ -2,6 +2,8 @@ package com.ulicae.cinelog.data.dto;
 
 import org.parceler.Parcel;
 
+import java.util.Objects;
+
 /**
  * CineLog Copyright 2018 Pierre Rognon
  *
@@ -81,5 +83,18 @@ public class TagDto implements ItemDto {
 
     public void setForSeries(boolean forSeries) {
         this.forSeries = forSeries;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TagDto tagDto = (TagDto) o;
+        return forMovies == tagDto.forMovies && forSeries == tagDto.forSeries && Objects.equals(id, tagDto.id) && Objects.equals(name, tagDto.name) && Objects.equals(color, tagDto.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, color, forMovies, forSeries);
     }
 }

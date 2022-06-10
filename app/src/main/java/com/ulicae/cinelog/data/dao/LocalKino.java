@@ -56,8 +56,8 @@ public class LocalKino {
     @ToMany
     @JoinEntity(
             entity = JoinLocalKinoWithTag.class,
-            sourceProperty = "tagId",
-            targetProperty = "localKinoId"
+            sourceProperty = "localKinoId",
+            targetProperty = "tagId"
     )
     List<Tag> tags;
 
