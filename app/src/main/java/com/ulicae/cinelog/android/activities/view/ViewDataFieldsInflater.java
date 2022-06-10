@@ -88,6 +88,8 @@ public class ViewDataFieldsInflater {
     }
 
     private void configureTags() {
+        tagsList.removeAllViews();
+
         if(kino.getTags() != null) {
             for(TagDto tagDto : kino.getTags()) {
                 RelativeLayout tagLayout = getLayoutForTag(tagDto);
