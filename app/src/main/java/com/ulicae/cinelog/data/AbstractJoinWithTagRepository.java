@@ -29,7 +29,7 @@ public abstract class AbstractJoinWithTagRepository<T extends AbstractDao<E, Lon
         super(dao);
     }
 
-    public abstract E findByTagAndKinoId(long tagId, long kinoId);
+    public abstract E findByTagAndEntityId(long tagId, long kinoId);
     public abstract void createJoin(long tagId, long entityId);
 
 }
