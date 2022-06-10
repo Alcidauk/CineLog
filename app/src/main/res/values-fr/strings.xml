@@ -127,7 +127,7 @@
 
     <string name="import_movies_status">Import des avis de films:</string>
     <string name="import_series_status">Import des avis de séries:</string>
-    <string name="import_wishlist_series_status">Import de la liste de souhaits de films:</string>
+    <string name="import_wishlist_series_status">Import de la liste de souhaits des séries:</string>
     <string name="import_wishlist_movies_status">Import de la liste de souhaits des films:</string>
 
     <string name="import_status_waiting">en attente</string>
