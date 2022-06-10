@@ -1,9 +1,11 @@
 package com.ulicae.cinelog.data.dao;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.parceler.Parcel;
 
@@ -11,11 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  *
  *
  * This file is part of CineLog.
@@ -43,10 +42,13 @@ public class Review {
     @NotNull
     String title;
 
-    @ToMany(referencedJoinProperty = "id")
-    @OrderBy("name ASC")
+    @ToMany
+    @JoinEntity(
+            entity = JoinReviewWithTag.class,
+            sourceProperty = "tagId",
+            targetProperty = "reviewId"
+    )
     List<Tag> tags;
-
     Date review_date;
     String review;
 

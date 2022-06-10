@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.data.dto.data;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 

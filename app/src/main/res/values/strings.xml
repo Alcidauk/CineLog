@@ -146,4 +146,9 @@
     <string name="serie_episode_delete_hint">Please long click to remove watching data</string>
     <string name="nav_tags_space">Tags</string>
     <string name="tags_title">Tags</string>
+    <string name="tag_color">Couleur</string>
+    <string name="tag_name">Nom du tag</string>
+    <string name="tag_films">Activer pour les films</string>
+    <string name="tag_series">Activer pour les séries</string>
+    <string name="view_kino_review_tags_label_value">Tags</string>
 </resources>

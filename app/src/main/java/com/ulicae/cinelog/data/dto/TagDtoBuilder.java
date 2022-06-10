@@ -1,13 +1,9 @@
-package com.ulicae.cinelog.android.activities;
+package com.ulicae.cinelog.data.dto;
 
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.utils.ThemeWrapper;
+import com.ulicae.cinelog.data.dao.Tag;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  *
  *
  * This file is part of CineLog.
@@ -25,15 +21,15 @@ import com.ulicae.cinelog.utils.ThemeWrapper;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class Search extends AppCompatActivity {
+public class TagDtoBuilder {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        new ThemeWrapper().setThemeWithPreferences(this);
-
-        setContentView(R.layout.activity_search);
+    public TagDto build(Tag tag) {
+        return new TagDto(
+                tag.getId(),
+                tag.getName(),
+                tag.getColor(),
+                tag.getForMovies(),
+                tag.getForSeries()
+        );
     }
-
-
 }

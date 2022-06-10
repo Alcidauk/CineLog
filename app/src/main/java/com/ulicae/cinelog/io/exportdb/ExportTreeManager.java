@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.io.exportdb;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ulicae.cinelog.utils.FileUtilsWrapper;
 
