@@ -216,5 +216,20 @@
                 android:hint="@string/review_hint"
                 android:inputType="text|textMultiLine" />
         </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/view_kino_review_tags_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+            <Button
+                android:id="@+id/review_tag_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/review_edit_tags"
+                tools:ignore="RelativeOverlap" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

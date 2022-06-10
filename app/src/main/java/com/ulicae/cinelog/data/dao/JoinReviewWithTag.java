@@ -1,9 +1,9 @@
 package com.ulicae.cinelog.data.dao;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.parceler.Parcel;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -25,37 +25,52 @@ import org.parceler.Parcel;
  */
 @Parcel
 @Entity
-public class JoinReviewWithTag {
-
+public class JoinReviewWithTag implements JoinWithTag {
     @Id
     private Long id;
 
     private Long tagId;
+
     private Long reviewId;
+
+    public JoinReviewWithTag(Long tagId, Long reviewId) {
+        this.tagId = tagId;
+        this.reviewId = reviewId;
+    }
+
     @Generated(hash = 1338166792)
     public JoinReviewWithTag(Long id, Long tagId, Long reviewId) {
         this.id = id;
         this.tagId = tagId;
         this.reviewId = reviewId;
     }
+
     @Generated(hash = 1677630216)
     public JoinReviewWithTag() {
     }
+
+    @Override
     public Long getId() {
-        return this.id;
+        return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
     public Long getTagId() {
-        return this.tagId;
+        return tagId;
     }
+
     public void setTagId(Long tagId) {
         this.tagId = tagId;
     }
+
     public Long getReviewId() {
         return this.reviewId;
     }
+
     public void setReviewId(Long reviewId) {
         this.reviewId = reviewId;
     }
