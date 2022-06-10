@@ -44,6 +44,15 @@ public class JoinReviewWithTagRepository extends AbstractJoinWithTagRepository<J
     }
 
     @Override
+    public List<JoinReviewWithTag> findAllByTag(long tagId) {
+        Query<JoinReviewWithTag> query = dao.queryBuilder()
+                .where(JoinReviewWithTagDao.Properties.TagId.eq(tagId))
+                .limit(1)
+                .build();
+        return query.list();
+    }
+
+    @Override
     public void createJoin(long tagId, long entityId) {
         createOrUpdate(new JoinReviewWithTag(tagId, entityId));
     }

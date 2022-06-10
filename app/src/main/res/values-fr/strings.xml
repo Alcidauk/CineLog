@@ -143,4 +143,12 @@
     <string name="default_serie_sort_type_title">Order de la liste des séries</string>
     <string name="nav_tags_space">Tags</string>
     <string name="tags_title">Tags</string>
+    <string name="tag_color">Couleur</string>
+    <string name="tag_name">Nom du tag</string>
+    <string name="tag_films">Activer pour les films</string>
+    <string name="tag_series">Activer pour les séries</string>
+    <string name="view_kino_review_tags_label_value">Tags</string>
+    <string name="review_edit_tags">Éditer les tags</string>
+    <string name="edit_tag_name_not_filled">Le nom du tag n\'est pas renseigné</string>
+    <string name="delete_tag_dialog">Supprimer le tag ?</string>
 </resources>

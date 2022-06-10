@@ -10,10 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.data.services.tags.TagService;
 
 import org.parceler.Parcels;
 
@@ -39,8 +40,11 @@ import java.util.List;
  */
 class TagListAdapter extends ArrayAdapter<TagDto> {
 
-    TagListAdapter(@NonNull Context context, @NonNull List<TagDto> objects) {
+    private final TagService tagService;
+
+    TagListAdapter(@NonNull Context context, @NonNull List<TagDto> objects, TagService tagService) {
         super(context, R.layout.tag_item, objects);
+        this.tagService = tagService;
     }
 
     public long getItemId(int position) {
@@ -54,8 +58,8 @@ class TagListAdapter extends ArrayAdapter<TagDto> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.tag_item, parent, false);
         }
 
-        TextView tagNameTextView = (TextView) convertView.findViewById(R.id.tag_name);
-        View tagColorLayout = (View) convertView.findViewById(R.id.tag_color);
+        TextView tagNameTextView = convertView.findViewById(R.id.tag_name);
+        View tagColorLayout = convertView.findViewById(R.id.tag_color);
 
         TagDto dataDto = getItem(position);
         if (dataDto != null) {
@@ -63,17 +67,35 @@ class TagListAdapter extends ArrayAdapter<TagDto> {
             tagColorLayout.setBackgroundColor(Color.parseColor(dataDto.getColor()));
         }
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EditTag.class);
-                intent.putExtra("tag", Parcels.wrap(dataDto));
-
-                getContext().startActivity(intent);
-            }
+        convertView.setOnClickListener(v -> {
+            openTagEditActivity(dataDto);
         });
 
+        convertView.setOnLongClickListener(v -> {
+            removeTag(dataDto);
+            return true;
+        });
+
+
         return convertView;
+    }
+
+    private void openTagEditActivity(TagDto dataDto) {
+        Intent intent = new Intent(getContext(), EditTag.class);
+        intent.putExtra("tag", Parcels.wrap(dataDto));
+        getContext().startActivity(intent);
+    }
+
+    private void removeTag(TagDto dataDto) {
+        new AlertDialog.Builder(getContext())
+                .setMessage(R.string.delete_tag_dialog)
+                .setPositiveButton(R.string.yes, (dialog, id) -> {
+                    tagService.removeTag(dataDto);
+                    remove(dataDto);
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                .create()
+                .show();
     }
 
 }
