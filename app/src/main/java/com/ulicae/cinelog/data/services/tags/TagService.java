@@ -81,8 +81,9 @@ public class TagService {
         addJoinWithTag(
                 kinoDto instanceof SerieDto ?
                         joinReviewWithTagRepository : joinLocalKinoWithTagRepository,
-                tagDto,
-                kinoDto
+                tagDto.getId(),
+                kinoDto instanceof SerieDto ?
+                        ((SerieDto) kinoDto).getReviewId() : kinoDto.getKinoId()
         );
 
     }
@@ -91,31 +92,29 @@ public class TagService {
         removeJoinWithTag(
                 kinoDto instanceof SerieDto ?
                         joinReviewWithTagRepository : joinLocalKinoWithTagRepository,
-                tagDto,
-                kinoDto
+                tagDto.getId(),
+                kinoDto instanceof SerieDto ?
+                        ((SerieDto) kinoDto).getReviewId() : kinoDto.getKinoId()
         );
     }
 
     private void addJoinWithTag(
             @SuppressWarnings("rawtypes") AbstractJoinWithTagRepository repository,
-            TagDto tagDto,
-            KinoDto kinoDto) {
-        JoinWithTag existingJoin =
-                repository.findByTagAndKinoId(tagDto.getId(), kinoDto.getKinoId());
+            Long tagId,
+            Long entityId) {
+        JoinWithTag existingJoin = repository.findByTagAndEntityId(tagId, entityId);
         if (existingJoin != null) {
             return;
         }
 
-        repository.createJoin(tagDto.getId(), kinoDto.getKinoId());
+        repository.createJoin(tagId, entityId);
     }
 
     private void removeJoinWithTag(
             @SuppressWarnings("rawtypes") AbstractJoinWithTagRepository repository,
-            TagDto tagDto,
-            KinoDto kinoDto) {
-        JoinWithTag existingJoin =
-                repository.findByTagAndKinoId(tagDto.getId(), kinoDto.getKinoId());
-
+            Long tagId,
+            Long entityId) {
+        JoinWithTag existingJoin = repository.findByTagAndEntityId(tagId, entityId);
         if (existingJoin != null) {
             repository.delete(existingJoin.getId());
         }
