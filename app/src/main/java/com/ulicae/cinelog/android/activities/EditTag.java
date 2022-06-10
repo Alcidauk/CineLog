@@ -79,10 +79,10 @@ public class EditTag extends AppCompatActivity {
 
         tagDtoService = new TagService(((KinoApplication) getApplication()).getDaoSession());
 
-        // TODO wrap in parcel when coming from existing tag
         tag = Parcels.unwrap(getIntent().getParcelableExtra("tag"));
         if (tag == null) {
             tag = new TagDto();
+            tag.setColor(getString(R.color.colorPrimary));
         } else {
             tag_name.setText(tag.getName());
             tag_films.setChecked(tag.isForMovies());
