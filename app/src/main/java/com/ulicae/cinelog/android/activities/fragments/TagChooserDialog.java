@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.TagService;
 
@@ -60,31 +61,25 @@ public class TagChooserDialog extends DialogFragment {
                 .setMultiChoiceItems(
                         allTagNames.toArray(new CharSequence[allTagNames.size()]),
                         selectedTags,
-                        new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which,
-                                                boolean isChecked) {
-                                selectedTags[which] = isChecked;
-                            }
-                        })
-                .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        updateTagJoin();
-                    }
-                });
+                        (dialog, which, isChecked) -> selectedTags[which] = isChecked
+                )
+                .setPositiveButton("Valider", (dialog, id) -> updateTagJoin());
 
         return builder.create();
 
     }
 
     private void populateTagList() {
-        allTags = tagService.getAll();
+        allTags = getTags();
         selectedTags = new boolean[allTags.size()];
 
         for (int i = 0; i < allTags.size(); i++) {
             selectedTags[i] = kinoDto.getTags().contains(allTags.get(i));
         }
+    }
+
+    private List<TagDto> getTags() {
+        return kinoDto instanceof SerieDto ? tagService.getSeriesTags() : tagService.getMovieTags();
     }
 
     private void updateTagJoin() {

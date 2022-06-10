@@ -71,6 +71,14 @@ public class TagService {
         return buildTags(tagRepository.findAll());
     }
 
+    public List<TagDto> getMovieTags() {
+        return buildTags(tagRepository.findMovieTags());
+    }
+
+    public List<TagDto> getSeriesTags() {
+        return buildTags(tagRepository.findSeriesTags());
+    }
+
     public void createOrUpdate(TagDto tagDto) {
         Tag tag = tagDtoToDbBuilder.build(tagDto);
 
