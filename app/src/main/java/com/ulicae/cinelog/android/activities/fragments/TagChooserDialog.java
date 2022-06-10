@@ -87,8 +87,12 @@ public class TagChooserDialog extends DialogFragment {
             TagDto tag = allTags.get(i);
             if(selectedTags[i]){
                 tagService.addTagToItemIfNotExists(tag, kinoDto);
+                if(!kinoDto.getTags().contains(tag)) {
+                    kinoDto.getTags().add(tag);
+                }
             } else {
                 tagService.removeTagFromItemIfExists(tag, kinoDto);
+                kinoDto.getTags().remove(tag);
             }
         }
     }
