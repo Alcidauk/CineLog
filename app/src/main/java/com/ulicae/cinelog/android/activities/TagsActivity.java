@@ -101,7 +101,7 @@ public class TagsActivity extends AppCompatActivity {
     private void fetchAndSetTags() {
         List<TagDto> dataDtos = service.getAll();
 
-        listAdapter = new TagListAdapter(this, dataDtos);
+        listAdapter = new TagListAdapter(this, dataDtos, service);
         tag_list.setAdapter(listAdapter);
     }
 

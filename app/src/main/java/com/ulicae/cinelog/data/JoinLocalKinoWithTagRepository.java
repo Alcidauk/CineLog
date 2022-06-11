@@ -44,6 +44,15 @@ public class JoinLocalKinoWithTagRepository extends AbstractJoinWithTagRepositor
     }
 
     @Override
+    public List<JoinLocalKinoWithTag> findAllByTag(long tagId) {
+        Query<JoinLocalKinoWithTag> query = dao.queryBuilder()
+                .where(JoinLocalKinoWithTagDao.Properties.TagId.eq(tagId))
+                .limit(1)
+                .build();
+        return query.list();
+    }
+
+    @Override
     public void createJoin(long tagId, long entityId) {
         createOrUpdate(new JoinLocalKinoWithTag(tagId, entityId));
     }

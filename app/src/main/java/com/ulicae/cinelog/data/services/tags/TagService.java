@@ -4,8 +4,10 @@ import com.ulicae.cinelog.data.AbstractJoinWithTagRepository;
 import com.ulicae.cinelog.data.JoinLocalKinoWithTagRepository;
 import com.ulicae.cinelog.data.JoinReviewWithTagRepository;
 import com.ulicae.cinelog.data.TagRepository;
-import com.ulicae.cinelog.data.dao.JoinWithTag;
 import com.ulicae.cinelog.data.dao.DaoSession;
+import com.ulicae.cinelog.data.dao.JoinLocalKinoWithTag;
+import com.ulicae.cinelog.data.dao.JoinReviewWithTag;
+import com.ulicae.cinelog.data.dao.JoinWithTag;
 import com.ulicae.cinelog.data.dao.Tag;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
@@ -69,6 +71,14 @@ public class TagService {
         return buildTags(tagRepository.findAll());
     }
 
+    public List<TagDto> getMovieTags() {
+        return buildTags(tagRepository.findMovieTags());
+    }
+
+    public List<TagDto> getSeriesTags() {
+        return buildTags(tagRepository.findSeriesTags());
+    }
+
     public void createOrUpdate(TagDto tagDto) {
         Tag tag = tagDtoToDbBuilder.build(tagDto);
 
@@ -130,4 +140,19 @@ public class TagService {
         return tagDtos;
     }
 
+    public void removeTag(TagDto dataDto) {
+        List<JoinLocalKinoWithTag> joinKino =
+                joinLocalKinoWithTagRepository.findAllByTag(dataDto.getId());
+        for (JoinLocalKinoWithTag joinLocalKinoWithTag : joinKino) {
+            joinLocalKinoWithTagRepository.delete(joinLocalKinoWithTag.getId());
+        }
+
+        List<JoinReviewWithTag> joinReview =
+                joinReviewWithTagRepository.findAllByTag(dataDto.getId());
+        for (JoinReviewWithTag joinReviewWithTag : joinReview) {
+            joinReviewWithTagRepository.delete(joinReviewWithTag.getId());
+        }
+
+        tagRepository.delete(dataDto.getId());
+    }
 }

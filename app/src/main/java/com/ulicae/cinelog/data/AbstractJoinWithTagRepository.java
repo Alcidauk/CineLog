@@ -4,6 +4,8 @@ import com.ulicae.cinelog.data.dao.JoinWithTag;
 
 import org.greenrobot.greendao.AbstractDao;
 
+import java.util.List;
+
 /**
  * CineLog Copyright 2022 Pierre Rognon
  * <p>
@@ -31,5 +33,6 @@ public abstract class AbstractJoinWithTagRepository<T extends AbstractDao<E, Lon
 
     public abstract E findByTagAndEntityId(long tagId, long kinoId);
     public abstract void createJoin(long tagId, long entityId);
+    public abstract List<E> findAllByTag(long tagId);
 
 }

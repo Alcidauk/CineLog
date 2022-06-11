@@ -3,19 +3,28 @@ package com.ulicae.cinelog.android.activities.fragments.reviews;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
+
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
+import android.graphics.drawable.shapes.Shape;
+import android.os.Build;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.util.List;
@@ -73,6 +82,16 @@ class KinoListAdapter extends ArrayAdapter<Object> {
         KinoDto movie = (KinoDto) object;
 
         if (movie != null) {
+            LinearLayout tagLayout = convertView.findViewById(R.id.main_result_kino_tags);
+            for (TagDto tagDto : ((KinoDto) object).getTags()) {
+                GradientDrawable gd = getTagDot(tagDto);
+
+                LinearLayout shapeLayout = new LinearLayout(getContext());
+                shapeLayout.setBackground(gd);
+
+                tagLayout.addView(shapeLayout);
+            }
+
             kinoTitleTextView.setText(movie.getTitle());
 
             if (movie.getYear() != 0) {
@@ -108,6 +127,18 @@ class KinoListAdapter extends ArrayAdapter<Object> {
         }
 
         return convertView;
+    }
+
+    @NonNull
+    private GradientDrawable getTagDot(TagDto tagDto) {
+        GradientDrawable gd = new GradientDrawable();
+        gd.setSize(30, 30);
+        gd.setCornerRadius(15);
+        // like a padding
+        gd.setStroke(5, Color.parseColor("#00000000"));
+        gd.setColor(Color.parseColor(tagDto.getColor()));
+
+        return gd;
     }
 
     private void initRating(View convertView, RatingBar kinoRatingRatingBar, KinoDto movie) {
