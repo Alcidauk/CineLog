@@ -78,7 +78,7 @@
 
     <string name="title_activity_settings">设置</string>
     <string name="default_tmdb_language_title">TmDb 数据语言</string>
-    <string name="default_movie_sort_type_title">影评排序</string>
+	<string name="default_movie_sort_type_title">影评排序</string>
     <string name="default_serie_sort_type_title">剧评排序</string>
     <string name="default_maximum_rating">影评数上限</string>
     <string name="default_maximum_rating_summary">输入你想要为新电影设置的默认的影评最多数目</string>
@@ -153,4 +153,5 @@
     <string name="view_kino_review_tags_label_value">标签</string>
     <string name="review_edit_tags">编辑标签</string>
     <string name="edit_tag_name_not_filled">没有指定标签的名称</string>
+    <string name="delete_tag_dialog">你想删除此标签吗？</string>
 </resources>
