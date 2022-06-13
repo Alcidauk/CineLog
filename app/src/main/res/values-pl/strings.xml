@@ -55,17 +55,17 @@
 
     <string name="title_activity_export_db">Eksport danych</string>
     <string name="export_db">Wyeksportuj dane</string>
-    <string name="export_db_label">Naciśnij poniższy przycisk, aby wyeksportować swoje recenzje do pliku CSV. Dane zostaną zapisane w katalogu głównym pamięci zewnętrznej, w plikach „export_movies.csv” i „export_series.csv”.</string>
+    <string name="export_db_label">Naciśnij poniższy przycisk, aby wyeksportować swoje recenzje do pliku CSV. Dane zostaną zapisane w katalogu głównym pamięci zewnętrznej, w plikach „export_movies.csv”, „export_series.csv”, „export_wishlist_movies.csv” i „export_wishlist_series.csv”.</string>
     <string name="action_export">Eksport</string>
     <string name="export_start_toast">Eksport rozpoczęty…</string>
-    <string name="export_succeeded_toast">Pomyślnie wyeksportowano recenzje do plików „export_movies.csv” i „export_series.csv”.</string>
+    <string name="export_succeeded_toast">Pomyślnie wyeksportowano recenzje do plików „export_movies.csv”, „export_series.csv”, „export_wishlist_movies.csv” i „export_wishlist_series.csv”.</string>
     <string name="export_io_error_toast">Błąd wejścia/wyjścia podczas eksportu. Sprawdź uprawnienia aplikacji.</string>
     <string name="export_permission_error_toast">Nie można wyeksportować danych, ponieważ CineLog nie posiada uprawnień do zapisu w pamięci zewnętrznej.</string>
 
     <string name="action_import">Import</string>
     <string name="title_activity_import_db">Import danych</string>
     <string name="import_db">Zaimportuj dane</string>
-    <string name="import_db_label">Naciśnij poniższy przycisk, aby zaimportować recenzje filmów i seriali z plików „import_movies.csv” i „import_series.csv”. Pliki te powinny znajdować się w katalogu głównym pamięci zewnętrznej.</string>
+    <string name="import_db_label">Naciśnij poniższy przycisk, aby zaimportować recenzje filmów i seriali z plików „import_movies.csv”, „import_series.csv”, „import_wishlist_movies.csv” i „import_wishlist_series.csv”. Pliki te powinny znajdować się w katalogu głównym pamięci zewnętrznej.</string>
     <string name="import_permission_error_toast">Nie można zaimportować danych, ponieważ CineLog nie posiada uprawnień do odczytu z pamięci zewnętrznej.</string>
     <string name="import_error_toast">Błąd podczas importowania danych z pliku „%s”.</string>
     <string name="import_io_error_toast">Błąd podczas próby znalezienia pliku „%s”. Sprawdź czy znajduje się on w katalogu głównym pamięci zewnętrznej i czy CineLog posiada wystarczające uprawnienia.</string>
