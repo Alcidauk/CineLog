@@ -6,6 +6,7 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -31,11 +32,10 @@ public class AutomaticExporter {
 
     private final ExportTreeManager exportTreeManager;
     private final BusinessPreferenceGetter businessPreferenceGetter;
-    private ExporterFactory csvExporterFactory;
+    private final ExporterFactory csvExporterFactory;
 
-    public AutomaticExporter(Application application, ExporterFactory exporterFactory, String subDir) {
-        this(
-                new ExportTreeManager(application.getExternalFilesDir(null), subDir),
+    public AutomaticExporter(Application application, ExporterFactory exporterFactory, String subDir) {this(
+                new ExportTreeManager(application.getExternalMediaDirs()[0], subDir),
                 new BusinessPreferenceGetter(application),
                 exporterFactory
         );

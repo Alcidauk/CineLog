@@ -32,7 +32,8 @@ public class FileReaderGetter {
     private final FileUtilsWrapper fileUtilsWrapper;
 
     FileReaderGetter(Context context){
-        this.fileUtilsWrapper = new FileUtilsWrapper(context.getExternalFilesDir(null));
+        File[] externalMediaDirs = context.getExternalMediaDirs();
+        this.fileUtilsWrapper = new FileUtilsWrapper(externalMediaDirs[0]);
     }
 
     public FileReader get(String name) throws IOException {

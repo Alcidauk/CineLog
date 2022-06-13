@@ -32,7 +32,8 @@ public class FileWriterGetter {
     private final FileUtilsWrapper fileUtilsWrapper;
 
     FileWriterGetter(Context context){
-        this.fileUtilsWrapper = new FileUtilsWrapper(context.getExternalFilesDir(null));
+        File[] externalMediaDirs = context.getExternalMediaDirs();
+        this.fileUtilsWrapper = new FileUtilsWrapper(externalMediaDirs[0]);
     }
 
     public FileWriter get(String name) throws IOException {
