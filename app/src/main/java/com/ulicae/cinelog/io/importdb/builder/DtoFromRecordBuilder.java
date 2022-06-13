@@ -42,6 +42,10 @@ public abstract class DtoFromRecordBuilder<Dto> {
         return longToFormat != null && !longToFormat.isEmpty() ? Long.parseLong(longToFormat) : 0;
     }
 
+    protected boolean formatBoolean(String booleanToFormat) {
+        return booleanToFormat != null && booleanToFormat.equals("true");
+    }
+
     @SuppressLint("SimpleDateFormat")
     protected Date formatDate(String dateToFormat) throws ParseException {
         return dateToFormat != null && !dateToFormat.isEmpty() ? new SimpleDateFormat().parse(dateToFormat) : null;

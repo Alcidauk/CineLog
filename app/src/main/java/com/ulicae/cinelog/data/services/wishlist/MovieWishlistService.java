@@ -108,7 +108,7 @@ public class MovieWishlistService implements WishlistService {
 
     // TODO generification
     @Override
-    public void createOrUpdateWithTmdbId(List<WishlistDataDto> dtos) {
+    public void createOrUpdateFromImport(List<WishlistDataDto> dtos) {
         for (WishlistDataDto dto : dtos) {
             if(dto.getId() == null) {
                 WishlistMovie existingDto = wishlistMovieRepository.findByTmdbId(dto.getTmdbId());

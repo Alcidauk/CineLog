@@ -129,6 +129,7 @@
 
     <string name="unknown_year">未知发行年份</string>
 
+    <string name="import_tags_status">Tags import:</string>
     <string name="import_movies_status">影评导入：</string>
     <string name="import_series_status">剧评导入：</string>
     <string name="import_wishlist_series_status">导入想看的连续剧：</string>

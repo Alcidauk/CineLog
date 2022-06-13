@@ -127,6 +127,7 @@
 
     <string name="unknown_year">Onbekend uitgavejaar</string>
 
+    <string name="import_tags_status">Tags import:</string>
     <string name="import_movies_status">Filmrecensies importeren:</string>
     <string name="import_series_status">Serierecensies importeren:</string>
     <string name="import_wishlist_series_status">Seriekijklijst importeren:</string>

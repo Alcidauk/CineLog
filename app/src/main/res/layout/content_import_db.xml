@@ -62,6 +62,31 @@
             android:layout_margin="5dp">
 
             <LinearLayout
+                android:id="@+id/import_tags_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/import_tags_status"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/import_tags_status_waiting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/import_status_waiting" />
+                <TextView
+                    android:id="@+id/import_tags_error_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/import_movies_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

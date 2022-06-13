@@ -8,7 +8,6 @@ import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
-import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.network.TmdbGetterService;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
@@ -256,7 +255,7 @@ public class SerieServiceTest {
         doReturn(createdKino).when(serieKinoDtoBuilder).build(serieReview);
 
         new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder)
-                .createOrUpdateWithTmdbId(new ArrayList<SerieDto>() {{
+                .createOrUpdateFromImport(new ArrayList<SerieDto>() {{
                     add(serieDto);
                 }});
 
@@ -285,7 +284,7 @@ public class SerieServiceTest {
         doReturn(dbSerieReview).when(serieReviewRepository).findByMovieId(4561432L);
 
         new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder)
-                .createOrUpdateWithTmdbId(new ArrayList<SerieDto>() {{
+                .createOrUpdateFromImport(new ArrayList<SerieDto>() {{
                     add(serieDto);
                 }});
 

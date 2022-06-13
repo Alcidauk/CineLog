@@ -124,6 +124,7 @@
 
     <string name="unknown_year">Año de lanzamiento desconocido</string>
 
+    <string name="import_tags_status">Tags import:</string>
     <string name="import_movies_status">Movie reviews import:</string>
     <string name="import_series_status">Serie reviews import:</string>
     <string name="import_wishlist_series_status">Serie wishlist import:</string>

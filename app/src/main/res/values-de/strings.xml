@@ -131,6 +131,7 @@
     <string name="import_wishlist_series_status">Serien-Wunschliste-Import:</string>
     <string name="import_wishlist_movies_status">Film-Wunschliste-Import:</string>
 
+    <string name="import_tags_status">Tags import:</string>
     <string name="import_status_waiting">Verarbeitung läuft...</string>
     <string name="import_status_success">Beendet</string>
     <string name="import_status_no_file">Datei nicht gefunden</string>

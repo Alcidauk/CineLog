@@ -100,7 +100,7 @@ public class SerieService implements DataService<SerieDto> {
 
     // TODO generic
     @Override
-    public void createOrUpdateWithTmdbId(List<SerieDto> serieDtos) {
+    public void createOrUpdateFromImport(List<SerieDto> serieDtos) {
         for (SerieDto serieDto : serieDtos) {
             if (serieDto.getKinoId() == null) {
                 SerieReview existingReview = serieReviewRepository.findByMovieId(serieDto.getTmdbKinoId());

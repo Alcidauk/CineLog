@@ -26,4 +26,6 @@ public interface ItemService<T extends ItemDto> {
 
     List<T> getAll();
 
+    void createOrUpdateFromImport(List<T> kinoDtos);
+
 }

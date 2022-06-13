@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.data.services.reviews.ItemService;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -33,13 +33,13 @@ class CsvImporter<Dto extends ItemDto> {
 
     private FileReaderGetter fileReaderGetter;
     private final DtoImportCreator<Dto> dtoImportCreator;
-    private DataService<Dto> dataService;
+    private ItemService<Dto> itemService;
     private Context context;
 
-    public CsvImporter(FileReaderGetter fileReaderGetter, DtoImportCreator<Dto> dtoImportCreator, DataService<Dto> dataService, Context context) {
+    public CsvImporter(FileReaderGetter fileReaderGetter, DtoImportCreator<Dto> dtoImportCreator, ItemService<Dto> itemService, Context context) {
         this.fileReaderGetter = fileReaderGetter;
         this.dtoImportCreator = dtoImportCreator;
-        this.dataService = dataService;
+        this.itemService = itemService;
         this.context = context;
     }
 
@@ -53,7 +53,7 @@ class CsvImporter<Dto extends ItemDto> {
         }
         List<Dto> kinos = dtoImportCreator.getKinos(fileReader);
 
-        dataService.createOrUpdateWithTmdbId(kinos);
+        itemService.createOrUpdateFromImport(kinos);
     }
 
 }

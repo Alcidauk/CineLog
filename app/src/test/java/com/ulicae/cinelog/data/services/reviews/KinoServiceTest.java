@@ -6,7 +6,6 @@ import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dao.TmdbKino;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.KinoDtoBuilder;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.utils.KinoDtoToDbBuilder;
 
 import org.junit.Test;
@@ -298,7 +297,7 @@ public class KinoServiceTest {
 
         doReturn(existingKino).when(localKinoRepository).findByMovieId(34555L);
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto).setKinoId(22222L);
 
@@ -321,7 +320,7 @@ public class KinoServiceTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(15L).when(kinoDto).getKinoId();
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto, never()).setKinoId(22222L);
 
@@ -348,7 +347,7 @@ public class KinoServiceTest {
 
         doReturn(null).when(localKinoRepository).findByMovieId(34555L);
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateWithTmdbId(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto, never()).setKinoId(22222L);
 

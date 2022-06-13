@@ -107,7 +107,7 @@ public class SerieWishlistService implements WishlistService {
 
     // TODO generification
     @Override
-    public void createOrUpdateWithTmdbId(List<WishlistDataDto> dtos) {
+    public void createOrUpdateFromImport(List<WishlistDataDto> dtos) {
         for (WishlistDataDto dto : dtos) {
             if(dto.getId() == null) {
                 WishlistSerie existingDto = wishlistSerieRepository.findByTmdbId(dto.getTmdbId());

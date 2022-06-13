@@ -8,6 +8,7 @@ import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.JoinLocalKinoWithTag;
 import com.ulicae.cinelog.data.dao.JoinReviewWithTag;
 import com.ulicae.cinelog.data.dao.JoinWithTag;
+import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.Tag;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
@@ -70,6 +71,13 @@ public class TagService implements ItemService<TagDto> {
 
     public List<TagDto> getAll() {
         return buildTags(tagRepository.findAll());
+    }
+
+    @Override
+    public void createOrUpdateFromImport(List<TagDto> tagDtos) {
+        for (TagDto tagDto : tagDtos) {
+            createOrUpdate(tagDto);
+        }
     }
 
     public List<TagDto> getMovieTags() {

@@ -67,7 +67,7 @@ public class CsvImporterTest {
 
         new CsvImporter(fileReaderGetter, dtoImportCreator, kinoService, context).importCsvFile("import.csv");
 
-        verify(kinoService).createOrUpdateWithTmdbId(new ArrayList<KinoDto>() {{
+        verify(kinoService).createOrUpdateFromImport(new ArrayList<KinoDto>() {{
             add(aLocalKino);
             add(anotherLocalKino);
         }});

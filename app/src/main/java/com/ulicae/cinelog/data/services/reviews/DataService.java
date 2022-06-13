@@ -29,6 +29,4 @@ public interface DataService<T extends ItemDto> extends ItemService<T> {
     T getWithTmdbId(long tmdbId);
 
     T createOrUpdate(T dtoObject);
-
-    void createOrUpdateWithTmdbId(List<T> kinoDtos);
 }
