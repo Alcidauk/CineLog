@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
@@ -34,9 +34,9 @@
         app:cardElevation="1dp"
         app:cardMaxElevation="1dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp" >
+            android:layout_height="60dp">
 
             <ImageView
                 android:id="@+id/main_result_kino_poster"
@@ -44,90 +44,105 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitStart"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/text_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_toEndOf="@id/main_result_kino_poster">
-
-                <TextView
-                    android:id="@+id/main_result_kino_title"
-                    style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:paddingBottom="5dp"/>
-
-                <TextView
-                    android:id="@+id/main_result_kino_year"
-                    style="@style/TextAppearance.AppCompat.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/main_result_kino_title" />
-
-                <ImageView
-                    android:id="@+id/main_result_kino_review_date_logo"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_below="@id/main_result_kino_title"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_toEndOf="@+id/main_result_kino_year"
-                    android:paddingTop="1dp"
-                    android:src="@drawable/round_eye_purple"
-                    tools:ignore="RtlSymmetry" />
-
-                <TextView
-                    android:id="@+id/main_result_kino_review_date"
-                    style="@style/TextAppearance.AppCompat.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/main_result_kino_title"
-                    android:layout_toEndOf="@+id/main_result_kino_review_date_logo"
-                    android:paddingEnd="5dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:ignore="RtlSymmetry" />
-
-                <RatingBar
-                    android:id="@+id/main_result_kino_rating_bar_small"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="2dp"
-                    android:layout_alignBottom="@id/main_result_kino_review_date"
-                    android:layout_alignParentEnd="true" />
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/main_result_kino_review_date"
-                    android:layout_alignParentEnd="true">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
                     <TextView
-                        android:id="@+id/main_result_kino_rating_bar_as_text"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/main_result_kino_title"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-                    <TextView
-                        android:id="@+id/main_result_kino_rating_bar_max_as_text"
+                    <LinearLayout
+                        android:id="@+id/main_result_kino_tags"
+                        android:paddingTop="5dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/colorPrimaryLight" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                    </LinearLayout>
                 </LinearLayout>
 
-            </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/main_result_kino_year"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
-        </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/main_result_kino_review_date_logo"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="2dp"
+                        android:paddingTop="1dp"
+                        android:src="@drawable/round_eye_purple"
+                        tools:ignore="RtlSymmetry" />
 
-    </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/main_result_kino_review_date"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/main_result_kino_title"
+                        android:layout_toEndOf="@+id/main_result_kino_review_date_logo"
+                        android:paddingEnd="5dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        tools:ignore="RtlSymmetry" />
+
+                    <RatingBar
+                        android:id="@+id/main_result_kino_rating_bar_small"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="2dp"
+                        android:layout_alignBottom="@id/main_result_kino_review_date"
+                        android:layout_alignParentEnd="true" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/main_result_kino_review_date"
+                        android:layout_alignParentEnd="true">
+
+                        <TextView
+                            android:id="@+id/main_result_kino_rating_bar_as_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/colorPrimaryDark" />
+
+                        <TextView
+                            android:id="@+id/main_result_kino_rating_bar_max_as_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/colorPrimaryLight" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

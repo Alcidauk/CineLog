@@ -38,10 +38,10 @@
         android:paddingRight="10dp">
 
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight=".60"
             android:layout_height="wrap_content"
+            android:layout_weight=".60"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="7dp">
@@ -63,11 +63,11 @@
                 android:isIndicator="true" />
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/view_kino_review_review_date_layout"
             android:layout_width="0dp"
-            android:layout_weight=".40"
             android:layout_height="wrap_content"
+            android:layout_weight=".40"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingTop="10dp">
@@ -90,7 +90,7 @@
 
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/view_kino_review_review_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -108,7 +108,20 @@
             android:id="@+id/view_kino_review_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Banane"/>
+            android:text="Banane" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/view_kino_review_tags_label"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:text="@string/view_kino_review_tags_label_value" />
+
+    <LinearLayout
+        android:id="@+id/view_kino_review_tags_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:padding="7dp" />
 
 </LinearLayout>

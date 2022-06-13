@@ -1,21 +1,19 @@
 package com.ulicae.cinelog.io.importdb.builder;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.ulicae.cinelog.io.importdb.ImportException;
-import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.io.importdb.ImportException;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.apache.commons.csv.CSVRecord;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -44,6 +42,7 @@ public class KinoDtoFromRecordBuilder extends DtoFromRecordBuilder<KinoDto> {
 
     public KinoDto build(CSVRecord csvRecord) throws ImportException {
         try {
+            // TODO include tags
             return new KinoDto(
                     formatLong(getId(csvRecord)),
                     formatLong(csvRecord.get("movie_id")),
@@ -55,7 +54,8 @@ public class KinoDtoFromRecordBuilder extends DtoFromRecordBuilder<KinoDto> {
                     csvRecord.get("poster_path"),
                     csvRecord.get("overview"),
                     formatInteger(csvRecord.get("year")),
-                    csvRecord.get("release_date")
+                    csvRecord.get("release_date"),
+                    new ArrayList<>()
             );
         } catch (ParseException e) {
             throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);

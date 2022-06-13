@@ -4,10 +4,11 @@ import com.ulicae.cinelog.data.dto.SerieDto;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -49,7 +50,8 @@ public class SerieBuilderFromMovie implements DtoBuilderFromTmdbObject<BaseTvSho
                 tvShow.poster_path,
                 tvShow.overview,
                 yearAsInt,
-                yearAsString
+                yearAsString,
+                new ArrayList<>()
         );
     }
 }

@@ -9,10 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -25,11 +21,18 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.fragments.TagChooserDialog;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.data.services.tags.TagService;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -86,9 +89,13 @@ public class EditReview extends AppCompatActivity {
     @BindView(R.id.rating_picker)
     NumberPicker rating_picker;
 
+    @BindView(R.id.review_tag_edit)
+    Button review_tag_edit;
+
     KinoDto kino;
 
     private DataService dtoService;
+    private TagService tagService;
 
     private WishlistItemDeleter wishlistItemDeleter;
 
@@ -104,6 +111,8 @@ public class EditReview extends AppCompatActivity {
 
         String dtoType = getIntent().getStringExtra("dtoType");
         dtoService = new ServiceFactory(getBaseContext()).create(dtoType, ((KinoApplication) getApplicationContext()).getDaoSession());
+
+        tagService = new TagService(((KinoApplication) getApplication()).getDaoSession());
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         if (getIntent().getBooleanExtra("creation", false)) {
@@ -166,7 +175,7 @@ public class EditReview extends AppCompatActivity {
     }
 
     private void initRating(String[] displayedValues) {
-        SharedPreferences prefs = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences prefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         int maxRating;
         if (kino.getMaxRating() == null) {
@@ -329,4 +338,11 @@ public class EditReview extends AppCompatActivity {
             // Do something with the date chosen by the user
         }
     }
+
+    @OnClick(R.id.review_tag_edit)
+    public void showTagEditDialog() {
+        TagChooserDialog dialog = new TagChooserDialog(tagService, kino);
+        dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+    }
+
 }

@@ -1,11 +1,9 @@
 package com.ulicae.cinelog.data.dto.data;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
-import com.uwetrottmann.tmdb2.entities.BaseTvShow;
-import com.uwetrottmann.tmdb2.entities.Movie;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -2,7 +2,9 @@ package com.ulicae.cinelog.android.activities.view;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.TypedValue;
@@ -12,16 +14,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -55,6 +64,9 @@ public class ViewDataFieldsInflater {
     @BindView(R.id.view_kino_tmdb_overview_more_button)
     Button overview_more_button;
 
+    @BindView(R.id.view_kino_review_tags_list)
+    LinearLayout tagsList;
+
     private KinoDto kino;
     private Activity activity;
 
@@ -72,6 +84,45 @@ public class ViewDataFieldsInflater {
         configureOverview();
         configureRating();
         configureReview();
+        configureTags();
+    }
+
+    private void configureTags() {
+        tagsList.removeAllViews();
+
+        if(kino.getTags() != null) {
+            for(TagDto tagDto : kino.getTags()) {
+                RelativeLayout tagLayout = getLayoutForTag(tagDto);
+                tagsList.addView(tagLayout);
+            }
+        }
+    }
+
+    @NonNull
+    private RelativeLayout getLayoutForTag(TagDto tagDto) {
+        View tagColor = new View(activity);
+        tagColor.setBackgroundColor(Color.parseColor(tagDto.getColor()));
+        tagColor.setVisibility(View.VISIBLE);
+        tagColor.setLayoutParams(
+                new ViewGroup.LayoutParams(20,ViewGroup.LayoutParams.MATCH_PARENT)
+        );
+
+        TextView tagName = new TextView(activity);
+        tagName.setText(tagDto.getName());
+        tagName.setPadding(30,10,10,10);
+
+        CardView cardView = new CardView(activity);
+        cardView.setCardElevation(10);
+        cardView.setRadius(10);
+        cardView.setPadding(20,20,20,20);
+        cardView.addView(tagColor);
+        cardView.addView(tagName);
+
+        RelativeLayout lay = new RelativeLayout(activity);
+        lay.setPadding(20,20,20,20);
+        lay.addView(cardView);
+
+        return lay;
     }
 
     private void configureReview() {
