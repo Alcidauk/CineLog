@@ -144,6 +144,14 @@
     <string name="title_fragment_serie_general">一般</string>
     <string name="title_fragment_serie_episodes">集</string>
     <string name="serie_episode_delete_hint">请长按删除观看资料</string>
-    <string name="nav_tags_space">Tags</string>
-    <string name="tags_title">Tags</string>
+    <string name="nav_tags_space">标签</string>
+    <string name="tags_title">标签</string>
+    <string name="tag_color">颜色</string>
+    <string name="tag_name">标签名称</string>
+    <string name="tag_films">激活电影标签</string>
+    <string name="tag_series">激活电视剧标签</string>
+    <string name="view_kino_review_tags_label_value">标签</string>
+    <string name="review_edit_tags">编辑标签</string>
+    <string name="edit_tag_name_not_filled">没有指定标签的名称</string>
+    <string name="delete_tag_dialog">你想删除此标签吗？</string>
 </resources>
