@@ -3,9 +3,9 @@ package com.ulicae.cinelog.android.activities.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +29,7 @@ import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -121,7 +122,7 @@ public class ViewDataActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
         }
 
-        fab.setVisibility(View.INVISIBLE);
+        fab.hide();
     }
 
     private void startReviewCreationActivity() {
@@ -140,7 +141,8 @@ public class ViewDataActivity extends AppCompatActivity {
                     wishlistDataDto.getPosterPath(),
                     wishlistDataDto.getOverview(),
                     wishlistDataDto.getFirstYear(),
-                    wishlistDataDto.getReleaseDate()
+                    wishlistDataDto.getReleaseDate(),
+                    new ArrayList<>()
             );
             intent.putExtra("kino", Parcels.wrap(serieDto));
             intent.putExtra("dtoType", "serie");
@@ -156,7 +158,8 @@ public class ViewDataActivity extends AppCompatActivity {
                     wishlistDataDto.getPosterPath(),
                     wishlistDataDto.getOverview(),
                     wishlistDataDto.getFirstYear(),
-                    wishlistDataDto.getReleaseDate()
+                    wishlistDataDto.getReleaseDate(),
+                    new ArrayList<>()
             );
             intent.putExtra("kino", Parcels.wrap(kinoDto));
             intent.putExtra("dtoType", "kino");

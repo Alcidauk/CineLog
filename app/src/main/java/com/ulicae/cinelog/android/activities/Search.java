@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.android.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.utils.ThemeWrapper;

@@ -2,11 +2,13 @@ package com.ulicae.cinelog.data.dto;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -32,8 +34,11 @@ public class SerieDto extends KinoDto {
     }
 
     // TODO improve it
-    public SerieDto(Long kinoId, Long tmdbKinoId, Long reviewId, String title, Date review_date, String review, Float rating, Integer maxRating, String posterPath, String overview, int year, String releaseDate) {
-        super(kinoId, tmdbKinoId, title, review_date, review, rating, maxRating, posterPath, overview, year, releaseDate);
+    public SerieDto(Long kinoId, Long tmdbKinoId, Long reviewId, String title, Date review_date,
+                    String review, Float rating, Integer maxRating, String posterPath,
+                    String overview, int year, String releaseDate, List<TagDto> tags) {
+        super(kinoId, tmdbKinoId, title, review_date, review, rating, maxRating, posterPath,
+                overview, year, releaseDate, tags);
         this.reviewId = reviewId;
     }
 

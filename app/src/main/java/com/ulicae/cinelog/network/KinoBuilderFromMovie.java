@@ -4,6 +4,7 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -49,7 +50,8 @@ public class KinoBuilderFromMovie implements DtoBuilderFromTmdbObject<BaseMovie>
                 movie.poster_path,
                 movie.overview,
                 yearAsInt,
-                yearAsString
+                yearAsString,
+                new ArrayList<>()
         );
     }
 }

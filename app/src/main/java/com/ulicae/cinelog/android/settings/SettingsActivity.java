@@ -3,7 +3,7 @@ package com.ulicae.cinelog.android.settings;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.utils.PreferencesWrapper;

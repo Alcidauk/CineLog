@@ -143,4 +143,14 @@
     <string name="serie_episode_delete_hint">Langes Drücken zum Löschen des Gesehen-Datums.</string>
     <string name="default_movie_sort_type_title">Film-Rezensionen-Ordnung</string>
     <string name="default_serie_sort_type_title">Serien-Rezensionen-Ordnung</string>
+    <string name="nav_tags_space">Tags</string>
+    <string name="tags_title">Tags</string>
+    <string name="tag_color">Color</string>
+    <string name="tag_name">Tag name</string>
+    <string name="tag_films">Enable for movies</string>
+    <string name="tag_series">Enable for series</string>
+    <string name="view_kino_review_tags_label_value">Tags</string>
+    <string name="review_edit_tags">Edit tags</string>
+    <string name="edit_tag_name_not_filled">Please fill tag name</string>
+    <string name="delete_tag_dialog">Do you want to remove this tag ?</string>
 </resources>

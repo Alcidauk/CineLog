@@ -144,4 +144,6 @@
     <string name="title_fragment_serie_general">一般</string>
     <string name="title_fragment_serie_episodes">集</string>
     <string name="serie_episode_delete_hint">请长按删除观看资料</string>
+    <string name="nav_tags_space">Tags</string>
+    <string name="tags_title">Tags</string>
 </resources>

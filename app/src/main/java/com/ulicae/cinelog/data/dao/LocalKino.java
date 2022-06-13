@@ -4,11 +4,14 @@ import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.parceler.Parcel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -50,6 +53,14 @@ public class LocalKino {
     Float rating;
     Integer maxRating;
 
+    @ToMany
+    @JoinEntity(
+            entity = JoinLocalKinoWithTag.class,
+            sourceProperty = "localKinoId",
+            targetProperty = "tagId"
+    )
+    List<Tag> tags;
+
     /**
      * Used to resolve relations
      */
@@ -68,22 +79,26 @@ public class LocalKino {
     public LocalKino() {
     }
 
-    public LocalKino(Float rating, Integer maxRating, String review, String title, Date review_date, TmdbKino tmdbKino) {
+    public LocalKino(Float rating, Integer maxRating, String review, String title, Date review_date,
+                     TmdbKino tmdbKino, List<Tag> tags) {
         this.rating = rating;
         this.maxRating = maxRating;
         this.review = review;
         this.title = title;
         this.review_date = review_date;
         setKino(tmdbKino);
+        this.tags = tags;
     }
 
 
-    public LocalKino(Float rating, String review, String title, Date review_date, TmdbKino tmdbKino) {
+    public LocalKino(Float rating, String review, String title, Date review_date, TmdbKino tmdbKino,
+                     List<Tag> tags) {
         this.rating = rating;
         this.review = review;
         this.title = title;
         this.review_date = review_date;
         setKino(tmdbKino);
+        this.tags = tags;
     }
 
     public LocalKino(String title) {
@@ -271,6 +286,35 @@ public class LocalKino {
         result = 31 * result + (rating != null ? rating.hashCode() : 0);
         result = 31 * result + (maxRating != null ? maxRating.hashCode() : 0);
         return result;
+    }
+
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1436914097)
+    public List<Tag> getTags() {
+        if (tags == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            TagDao targetDao = daoSession.getTagDao();
+            List<Tag> tagsNew = targetDao._queryLocalKino_Tags(id);
+            synchronized (this) {
+                if (tags == null) {
+                    tags = tagsNew;
+                }
+            }
+        }
+        return tags;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 404234)
+    public synchronized void resetTags() {
+        tags = null;
     }
 
     /** called by internal mechanisms, do not call yourself. */

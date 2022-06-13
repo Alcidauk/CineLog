@@ -3,9 +3,10 @@ package com.ulicae.cinelog.data.dto;
 import org.parceler.Parcel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  *
  *
  * This file is part of CineLog.
@@ -44,10 +45,14 @@ public class KinoDto implements ItemDto {
     int year;
     String releaseDate;
 
+    List<TagDto> tags;
+
     public KinoDto() {
     }
 
-    public KinoDto(Long kinoId, Long tmdbKinoId, String title, Date review_date, String review, Float rating, Integer maxRating, String posterPath, String overview, int year, String releaseDate) {
+    public KinoDto(Long kinoId, Long tmdbKinoId, String title, Date review_date, String review,
+                   Float rating, Integer maxRating, String posterPath, String overview,
+                   int year, String releaseDate, List<TagDto> tags) {
         this.kinoId = kinoId;
         this.tmdbKinoId = tmdbKinoId;
         this.title = title;
@@ -59,6 +64,7 @@ public class KinoDto implements ItemDto {
         this.overview = overview;
         this.year = year;
         this.releaseDate = releaseDate;
+        this.tags = tags;
     }
 
     public Long getKinoId() {
@@ -147,6 +153,14 @@ public class KinoDto implements ItemDto {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public List<TagDto> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagDto> tags) {
+        this.tags = tags;
     }
 
     @Override

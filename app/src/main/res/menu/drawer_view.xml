@@ -25,5 +25,8 @@
         <item
             android:id="@+id/nav_wishlist"
             android:title="@string/nav_wishlist_space" />
+        <item
+            android:id="@+id/nav_tags"
+            android:title="@string/nav_tags_space" />
     </group>
 </menu>

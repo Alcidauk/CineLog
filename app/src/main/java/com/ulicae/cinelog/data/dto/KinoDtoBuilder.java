@@ -1,10 +1,14 @@
 package com.ulicae.cinelog.data.dto;
 
 import com.ulicae.cinelog.data.dao.LocalKino;
+import com.ulicae.cinelog.data.dao.Tag;
 import com.ulicae.cinelog.data.dao.TmdbKino;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  *
  *
  * This file is part of CineLog.
@@ -24,6 +28,12 @@ import com.ulicae.cinelog.data.dao.TmdbKino;
  */
 public class KinoDtoBuilder {
 
+    TagDtoBuilder tagDtoBuilder;
+
+    public KinoDtoBuilder() {
+        this.tagDtoBuilder = new TagDtoBuilder();
+    }
+
     public KinoDto build(LocalKino localKino) {
         Long tmdbId = null;
         String posterPath = null;
@@ -40,6 +50,11 @@ public class KinoDtoBuilder {
             releaseDate = kino.getRelease_date();
         }
 
+        List<TagDto> tagDtos = new ArrayList<>();
+        for(Tag tag : localKino.getTags()) {
+            tagDtos.add(tagDtoBuilder.build(tag));
+        }
+
         return new KinoDto(
                 localKino.getId(),
                 tmdbId,
@@ -51,7 +66,8 @@ public class KinoDtoBuilder {
                 posterPath,
                 overview,
                 year,
-                releaseDate
+                releaseDate,
+                tagDtos
         );
     }
 }
