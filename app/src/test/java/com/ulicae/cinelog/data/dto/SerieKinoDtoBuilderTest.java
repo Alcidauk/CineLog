@@ -2,6 +2,7 @@ package com.ulicae.cinelog.data.dto;
 
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
+import com.ulicae.cinelog.data.dao.Tag;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
 
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collections;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -44,6 +46,15 @@ public class SerieKinoDtoBuilderTest {
     @Mock
     private TmdbSerie tmdbSerie;
 
+    @Mock
+    private Tag tag;
+
+    @Mock
+    private TagDto tagDto;
+
+    @Mock
+    private TagDtoBuilder tagDtoBuilder;
+
     @Test
     public void build() {
         doReturn(2015).when(tmdbSerie).getYear();
@@ -64,6 +75,10 @@ public class SerieKinoDtoBuilderTest {
         Date reviewDate = new Date();
         doReturn(reviewDate).when(review).getReview_date();
 
+
+        doReturn(tagDto).when(tagDtoBuilder).build(tag);
+        doReturn(Collections.singletonList(tag)).when(review).getTags();
+
         assertEquals(
                 new SerieDto(
                         4L,
@@ -77,9 +92,10 @@ public class SerieKinoDtoBuilderTest {
                         "a path",
                         "an horrible overview",
                         2015,
-                        "1956/12/12"
+                        "1956/12/12",
+                        null
                 ),
-                new SerieKinoDtoBuilder().build(serieReview)
+                new SerieKinoDtoBuilder(tagDtoBuilder).build(serieReview)
         );
     }
 

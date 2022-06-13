@@ -56,7 +56,8 @@ public class SerieCsvExportWriterTest {
                 "/path",
                 "an overview",
                 1984,
-                "2012"
+                "2012",
+                null
         );
 
         new SerieCsvExportWriter(csvPrinterWrapper).write(aKino);
@@ -91,7 +92,8 @@ public class SerieCsvExportWriterTest {
                 "/path",
                 "an overview",
                 1984,
-                "2012"
+                "2012",
+                null
         );
 
         new SerieCsvExportWriter(csvPrinterWrapper).write(aKino);

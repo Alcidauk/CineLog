@@ -57,7 +57,8 @@ public class MovieCsvExportWriterTest {
                 "/path",
                 "an overview",
                 1984,
-                "2012"
+                "2012",
+                null
         );
 
         new MovieCsvExportWriter(csvPrinterWrapper).write(aKino);
@@ -90,7 +91,8 @@ public class MovieCsvExportWriterTest {
                 "/path",
                 "an overview",
                 1984,
-                "2012"
+                "2012",
+                null
         );
 
         new MovieCsvExportWriter(csvPrinterWrapper).write(aKino);

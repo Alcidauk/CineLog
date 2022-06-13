@@ -77,7 +77,8 @@ public class KinoDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(
@@ -116,7 +117,8 @@ public class KinoDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(
@@ -155,7 +157,8 @@ public class KinoDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(
@@ -195,7 +198,8 @@ public class KinoDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(
@@ -234,7 +238,8 @@ public class KinoDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(

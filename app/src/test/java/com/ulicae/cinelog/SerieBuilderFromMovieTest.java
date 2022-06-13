@@ -58,7 +58,8 @@ public class SerieBuilderFromMovieTest {
                 "a path to the poster",
                 null,
                 1970,
-                "1970"
+                "1970",
+                null
         );
 
         assertEquals(

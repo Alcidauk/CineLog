@@ -79,7 +79,8 @@ public class SerieDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(
@@ -120,7 +121,8 @@ public class SerieDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(
@@ -161,7 +163,8 @@ public class SerieDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(
@@ -203,7 +206,8 @@ public class SerieDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(
@@ -244,7 +248,8 @@ public class SerieDtoFromRecordBuilderTest {
                 "poster path",
                 "overview",
                 2015,
-                "date release"
+                "date release",
+                null
         );
 
         assertEquals(

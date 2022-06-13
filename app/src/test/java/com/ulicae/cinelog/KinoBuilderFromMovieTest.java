@@ -55,7 +55,8 @@ public class KinoBuilderFromMovieTest {
                 "a path to the poster",
                 "an overview",
                 1970,
-                "1970"
+                "1970",
+                null
         );
 
         assertEquals(
