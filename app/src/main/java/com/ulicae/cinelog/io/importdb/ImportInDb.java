@@ -120,7 +120,7 @@ public class ImportInDb extends AppCompatActivity {
                         new FileReaderGetter(getApplication()),
                         new DtoImportCreator<>(this, new WishlistDtoFromRecordBuilder(this)),
                         new MovieWishlistService(((KinoApplication) getApplication()).getDaoSession()),
-                        this).importCsvFile("import_wishlist_series.csv");
+                        this).importCsvFile("import_wishlist_movies.csv");
 
                 wishlist_serie_status.setText(R.string.import_status_success);
             } catch (ImportException e) {
@@ -135,7 +135,7 @@ public class ImportInDb extends AppCompatActivity {
                         new FileReaderGetter(getApplication()),
                         new DtoImportCreator<>(this, new WishlistDtoFromRecordBuilder(this)),
                         new SerieWishlistService(((KinoApplication) getApplication()).getDaoSession()),
-                        this).importCsvFile("import_wishlist_movies.csv");
+                        this).importCsvFile("import_wishlist_series.csv");
 
                 wishlist_movie_status.setText(R.string.import_status_success);
             } catch (ImportException e) {
