@@ -31,7 +31,11 @@ public class SerieKinoDtoBuilder {
     private final TagDtoBuilder tagDtoBuilder;
 
     public SerieKinoDtoBuilder() {
-        this.tagDtoBuilder = new TagDtoBuilder();
+        this(new TagDtoBuilder());
+    }
+
+    public SerieKinoDtoBuilder(TagDtoBuilder tagDtoBuilder) {
+        this.tagDtoBuilder = tagDtoBuilder;
     }
 
     public SerieDto build(SerieReview serieReview) {

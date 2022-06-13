@@ -34,8 +34,8 @@ class ExportTreeManager {
     private FileUtilsWrapper fileUtilsWrapper;
     private String subDir;
 
-    ExportTreeManager(String subDir) {
-        this(new FileUtilsWrapper(), subDir);
+    ExportTreeManager(File dataDir, String subDir) {
+        this(new FileUtilsWrapper(dataDir), subDir);
     }
 
     ExportTreeManager(FileUtilsWrapper fileUtilsWrapper, String subDir) {

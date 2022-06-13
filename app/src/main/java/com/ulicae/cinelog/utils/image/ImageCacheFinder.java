@@ -8,8 +8,8 @@ class ImageCacheFinder implements ImageFinder<File> {
 
     private FileUtilsWrapper fileUtilsWrapper;
 
-    ImageCacheFinder() {
-        this(new FileUtilsWrapper());
+    ImageCacheFinder(File dataDir) {
+        this(new FileUtilsWrapper(dataDir));
     }
 
     private ImageCacheFinder(FileUtilsWrapper fileUtilsWrapper) {

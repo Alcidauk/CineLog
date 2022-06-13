@@ -31,7 +31,11 @@ public class KinoDtoBuilder {
     TagDtoBuilder tagDtoBuilder;
 
     public KinoDtoBuilder() {
-        this.tagDtoBuilder = new TagDtoBuilder();
+        this(new TagDtoBuilder());
+    }
+
+    public KinoDtoBuilder(TagDtoBuilder tagDtoBuilder) {
+        this.tagDtoBuilder = tagDtoBuilder;
     }
 
     public KinoDto build(LocalKino localKino) {

@@ -28,8 +28,14 @@ import java.net.URL;
  */
 public class FileUtilsWrapper {
 
+    private File dataDir;
+
+    public FileUtilsWrapper(File dataDir) {
+        this.dataDir = dataDir;
+    }
+
     public File getCineLogRoot() {
-        return getAndCreateFile(Environment.getExternalStorageDirectory() +  "/CineLog");
+        return getAndCreateFile(dataDir.getAbsolutePath() +  "/CineLog");
     }
 
     public File getCineLogPosterCache() {

@@ -27,10 +27,10 @@ import java.io.IOException;
  */
 public class FileWriterGetter {
 
-    private FileUtilsWrapper fileUtilsWrapper;
+    private final FileUtilsWrapper fileUtilsWrapper;
 
-    FileWriterGetter(){
-        this.fileUtilsWrapper = new FileUtilsWrapper();
+    FileWriterGetter(File dataDir){
+        this.fileUtilsWrapper = new FileUtilsWrapper(dataDir);
     }
 
     public FileWriter get(String name) throws IOException {

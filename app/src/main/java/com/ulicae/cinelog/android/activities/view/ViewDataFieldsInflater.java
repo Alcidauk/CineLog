@@ -170,7 +170,7 @@ public class ViewDataFieldsInflater {
         title.setText(kino.getTitle());
         if (kino.getPosterPath() != null && !"".equals(kino.getPosterPath())) {
             Glide.with(activity)
-                    .load(new ImageCacheDownloader(kino.getPosterPath())
+                    .load(new ImageCacheDownloader(activity.getDataDir(), kino.getPosterPath())
                             .getPosterFinder().getImage(kino.getPosterPath()))
                     .centerCrop()
                     .crossFade()

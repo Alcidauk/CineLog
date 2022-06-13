@@ -67,8 +67,12 @@ class WishlistListAdapter extends ArrayAdapter<WishlistDataDto> {
 
             if (dataDto.getPosterPath() != null) {
                 Glide.with(getContext())
-                        .load(new ImageCacheDownloader(dataDto.getPosterPath())
-                                .getPosterFinder().getImage(dataDto.getPosterPath()))
+                        .load(
+                                new ImageCacheDownloader(
+                                        getContext().getDataDir(),
+                                        dataDto.getPosterPath())
+                                        .getPosterFinder()
+                                        .getImage(dataDto.getPosterPath()))
                         .centerCrop()
                         .crossFade()
                         .into(posterView);

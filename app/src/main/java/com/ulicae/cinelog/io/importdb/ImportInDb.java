@@ -88,7 +88,7 @@ public class ImportInDb extends AppCompatActivity {
 
             try {
                 new CsvImporter<>(
-                        new FileReaderGetter(),
+                        new FileReaderGetter(getApplication().getDataDir()),
                         new DtoImportCreator<>(this, new KinoDtoFromRecordBuilder(this)),
                         new KinoService(((KinoApplication) getApplication()).getDaoSession()),
                         this).importCsvFile("import_movies.csv");
@@ -102,7 +102,7 @@ public class ImportInDb extends AppCompatActivity {
 
             try {
                 new CsvImporter<>(
-                        new FileReaderGetter(),
+                        new FileReaderGetter(getApplication().getDataDir()),
                         new DtoImportCreator<>(this, new SerieDtoFromRecordBuilder(this)),
                         new SerieService(((KinoApplication) getApplication()).getDaoSession(), this),
                         this).importCsvFile("import_series.csv");
@@ -117,7 +117,7 @@ public class ImportInDb extends AppCompatActivity {
 
             try {
                 new CsvImporter<>(
-                        new FileReaderGetter(),
+                        new FileReaderGetter(getApplication().getDataDir()),
                         new DtoImportCreator<>(this, new WishlistDtoFromRecordBuilder(this)),
                         new MovieWishlistService(((KinoApplication) getApplication()).getDaoSession()),
                         this).importCsvFile("import_wishlist_series.csv");
@@ -132,7 +132,7 @@ public class ImportInDb extends AppCompatActivity {
 
             try {
                 new CsvImporter<>(
-                        new FileReaderGetter(),
+                        new FileReaderGetter(getApplication().getDataDir()),
                         new DtoImportCreator<>(this, new WishlistDtoFromRecordBuilder(this)),
                         new SerieWishlistService(((KinoApplication) getApplication()).getDaoSession()),
                         this).importCsvFile("import_wishlist_movies.csv");

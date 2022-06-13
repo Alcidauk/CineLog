@@ -102,8 +102,12 @@ class KinoListAdapter extends ArrayAdapter<Object> {
 
             if (movie.getPosterPath() != null && !"".equals(movie.getPosterPath())) {
                 Glide.with(getContext())
-                        .load(new ImageCacheDownloader(movie.getPosterPath())
-                                .getPosterFinder().getImage(movie.getPosterPath()))
+                        .load(
+                                new ImageCacheDownloader(
+                                        getContext().getDataDir(),
+                                        movie.getPosterPath())
+                                        .getPosterFinder()
+                                        .getImage(movie.getPosterPath()))
                         .centerCrop()
                         .crossFade()
                         .into(kinoPosterImageView);

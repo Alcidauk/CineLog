@@ -34,7 +34,11 @@ public class AutomaticExporter {
     private ExporterFactory csvExporterFactory;
 
     public AutomaticExporter(Application application, ExporterFactory exporterFactory, String subDir) {
-        this(new ExportTreeManager(subDir), new BusinessPreferenceGetter(application), exporterFactory);
+        this(
+                new ExportTreeManager(application.getDataDir(), subDir),
+                new BusinessPreferenceGetter(application),
+                exporterFactory
+        );
     }
 
     AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, ExporterFactory exporterFactory) {

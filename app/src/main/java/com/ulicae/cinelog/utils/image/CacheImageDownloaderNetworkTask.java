@@ -33,15 +33,17 @@ import static com.ulicae.cinelog.utils.image.ImageCacheDownloader.BASE_URL;
  */
 class CacheImageDownloaderNetworkTask extends AsyncTask<Void, Void, Void> {
 
-    private String imagePath;
+    private final File dataDir;
+    private final String imagePath;
 
-    CacheImageDownloaderNetworkTask(String imagePath) {
+    CacheImageDownloaderNetworkTask(File dataDir, String imagePath) {
+        this.dataDir = dataDir;
         this.imagePath = imagePath;
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
-        File fileToWrite = new ImageCacheFinder().getImage(imagePath);
+        File fileToWrite = new ImageCacheFinder(dataDir).getImage(imagePath);
         try {
             FileUtils.copyURLToFile(new URL(BASE_URL + imagePath), fileToWrite);
         } catch (IOException e) {

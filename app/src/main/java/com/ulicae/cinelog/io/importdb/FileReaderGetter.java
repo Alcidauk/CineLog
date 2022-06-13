@@ -27,10 +27,10 @@ import java.io.IOException;
  */
 public class FileReaderGetter {
 
-    private FileUtilsWrapper fileUtilsWrapper;
+    private final FileUtilsWrapper fileUtilsWrapper;
 
-    FileReaderGetter(){
-        this.fileUtilsWrapper = new FileUtilsWrapper();
+    FileReaderGetter(File dataDir){
+        this.fileUtilsWrapper = new FileUtilsWrapper(dataDir);
     }
 
     public FileReader get(String name) throws IOException {

@@ -12,7 +12,7 @@ android {
     compileSdkVersion 32
     defaultConfig {
         applicationId 'com.ulicae.cinelog'
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 32
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
@@ -75,6 +75,6 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.0'
 
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.13.0'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
     testImplementation group: 'org.hamcrest', name: 'hamcrest-junit', version: '2.0.0.0'
 }

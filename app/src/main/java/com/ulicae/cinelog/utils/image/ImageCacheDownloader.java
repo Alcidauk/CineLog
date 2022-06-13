@@ -1,19 +1,23 @@
 package com.ulicae.cinelog.utils.image;
 
+import java.io.File;
+
 public class ImageCacheDownloader {
 
     static final String BASE_URL = "https://image.tmdb.org/t/p/w185/";
 
-    private String filePath;
-    private ImageFinderFactory imageFinderFactory;
-    private CacheImageDownloaderTaskFactory taskFactory;
+    private final File dataDir;
+    private final String filePath;
+    private final ImageFinderFactory imageFinderFactory;
+    private final CacheImageDownloaderTaskFactory taskFactory;
 
-    public ImageCacheDownloader(String filePath) {
-        this(filePath, new ImageFinderFactory(), new CacheImageDownloaderTaskFactory());
+    public ImageCacheDownloader(File dataDir, String filePath) {
+        this(dataDir, filePath, new ImageFinderFactory(), new CacheImageDownloaderTaskFactory());
     }
 
-    ImageCacheDownloader(String filePath, ImageFinderFactory imageFinderFactory,
+    ImageCacheDownloader(File dataDir, String filePath, ImageFinderFactory imageFinderFactory,
                          CacheImageDownloaderTaskFactory cacheImageDownloaderTaskFactory) {
+        this.dataDir = dataDir;
         this.filePath = filePath;
         this.imageFinderFactory = imageFinderFactory;
         this.taskFactory = cacheImageDownloaderTaskFactory;
@@ -21,14 +25,15 @@ public class ImageCacheDownloader {
 
     public ImageFinder getPosterFinder() {
         if (!isPosterInCache()) {
-            taskFactory.makeTask(filePath).execute();
+            taskFactory.makeTask(dataDir, filePath).execute();
             return imageFinderFactory.makeNetworkImageFinder();
         }
-        return imageFinderFactory.makeCacheImageFinder();
+        return imageFinderFactory.makeCacheImageFinder(dataDir);
     }
 
     boolean isPosterInCache() {
-        return ((ImageCacheFinder) imageFinderFactory.makeCacheImageFinder()).getImage(filePath).exists();
+        return ((ImageCacheFinder) imageFinderFactory.makeCacheImageFinder(dataDir))
+                .getImage(filePath).exists();
     }
 
 }
