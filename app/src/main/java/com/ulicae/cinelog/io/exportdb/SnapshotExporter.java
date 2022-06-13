@@ -26,7 +26,7 @@ public class SnapshotExporter {
         CsvExporter csvExporter;
         FileWriter fileWriter;
         try {
-            fileWriter = new FileWriterGetter(application.getDataDir())
+            fileWriter = new FileWriterGetter(application)
                     .get(exportFilename);
         } catch (IOException e) {
             showToast(R.string.export_io_error_toast);

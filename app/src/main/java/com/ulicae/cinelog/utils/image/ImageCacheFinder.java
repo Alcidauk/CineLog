@@ -6,10 +6,10 @@ import java.io.File;
 
 class ImageCacheFinder implements ImageFinder<File> {
 
-    private FileUtilsWrapper fileUtilsWrapper;
+    private final FileUtilsWrapper fileUtilsWrapper;
 
-    ImageCacheFinder(File dataDir) {
-        this(new FileUtilsWrapper(dataDir));
+    ImageCacheFinder(File cacheDir) {
+        this(new FileUtilsWrapper(cacheDir));
     }
 
     private ImageCacheFinder(FileUtilsWrapper fileUtilsWrapper) {
@@ -18,7 +18,7 @@ class ImageCacheFinder implements ImageFinder<File> {
 
     @Override
     public File getImage(String imagePath) {
-        File posterCacheRoot = fileUtilsWrapper.getCineLogPosterCache();
+        File posterCacheRoot = fileUtilsWrapper.getFilesDir();
         return fileUtilsWrapper.getFile(posterCacheRoot.getAbsolutePath() + '/' + imagePath);
     }
 

@@ -69,7 +69,7 @@ class WishlistListAdapter extends ArrayAdapter<WishlistDataDto> {
                 Glide.with(getContext())
                         .load(
                                 new ImageCacheDownloader(
-                                        getContext().getDataDir(),
+                                        getContext().getExternalCacheDir(),
                                         dataDto.getPosterPath())
                                         .getPosterFinder()
                                         .getImage(dataDto.getPosterPath()))

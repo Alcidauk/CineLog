@@ -34,13 +34,8 @@ public class FileUtilsWrapper {
         this.dataDir = dataDir;
     }
 
-    public File getCineLogRoot() {
-        return getAndCreateFile(dataDir.getAbsolutePath() +  "/CineLog");
-    }
-
-    public File getCineLogPosterCache() {
-        File root = getCineLogRoot();
-        return getAndCreateFile(root.getAbsolutePath() + "/cache/posters");
+    public File getFilesDir() {
+        return getAndCreateFile(dataDir.getAbsolutePath());
     }
 
     public File getFile(String path) {

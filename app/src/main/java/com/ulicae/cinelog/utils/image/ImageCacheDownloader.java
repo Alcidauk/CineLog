@@ -6,18 +6,18 @@ public class ImageCacheDownloader {
 
     static final String BASE_URL = "https://image.tmdb.org/t/p/w185/";
 
-    private final File dataDir;
+    private final File cacheDir;
     private final String filePath;
     private final ImageFinderFactory imageFinderFactory;
     private final CacheImageDownloaderTaskFactory taskFactory;
 
-    public ImageCacheDownloader(File dataDir, String filePath) {
-        this(dataDir, filePath, new ImageFinderFactory(), new CacheImageDownloaderTaskFactory());
+    public ImageCacheDownloader(File cacheDir, String filePath) {
+        this(cacheDir, filePath, new ImageFinderFactory(), new CacheImageDownloaderTaskFactory());
     }
 
-    ImageCacheDownloader(File dataDir, String filePath, ImageFinderFactory imageFinderFactory,
+    ImageCacheDownloader(File cacheDir, String filePath, ImageFinderFactory imageFinderFactory,
                          CacheImageDownloaderTaskFactory cacheImageDownloaderTaskFactory) {
-        this.dataDir = dataDir;
+        this.cacheDir = cacheDir;
         this.filePath = filePath;
         this.imageFinderFactory = imageFinderFactory;
         this.taskFactory = cacheImageDownloaderTaskFactory;
@@ -25,14 +25,14 @@ public class ImageCacheDownloader {
 
     public ImageFinder getPosterFinder() {
         if (!isPosterInCache()) {
-            taskFactory.makeTask(dataDir, filePath).execute();
+            taskFactory.makeTask(cacheDir, filePath).execute();
             return imageFinderFactory.makeNetworkImageFinder();
         }
-        return imageFinderFactory.makeCacheImageFinder(dataDir);
+        return imageFinderFactory.makeCacheImageFinder(cacheDir);
     }
 
     boolean isPosterInCache() {
-        return ((ImageCacheFinder) imageFinderFactory.makeCacheImageFinder(dataDir))
+        return ((ImageCacheFinder) imageFinderFactory.makeCacheImageFinder(cacheDir))
                 .getImage(filePath).exists();
     }
 

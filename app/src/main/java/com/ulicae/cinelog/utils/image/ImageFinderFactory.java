@@ -8,7 +8,7 @@ class ImageFinderFactory {
         return new ImageNetworkFinder();
     }
 
-    ImageFinder makeCacheImageFinder(File dataDir){
-        return new ImageCacheFinder(dataDir);
+    ImageFinder makeCacheImageFinder(File cacheDir){
+        return new ImageCacheFinder(cacheDir);
     }
 }

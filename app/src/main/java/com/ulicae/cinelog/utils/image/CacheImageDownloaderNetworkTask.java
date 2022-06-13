@@ -1,15 +1,12 @@
 package com.ulicae.cinelog.utils.image;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.ulicae.cinelog.utils.image.ImageCacheDownloader.BASE_URL;
 
@@ -33,17 +30,17 @@ import static com.ulicae.cinelog.utils.image.ImageCacheDownloader.BASE_URL;
  */
 class CacheImageDownloaderNetworkTask extends AsyncTask<Void, Void, Void> {
 
-    private final File dataDir;
+    private final File cacheDir;
     private final String imagePath;
 
-    CacheImageDownloaderNetworkTask(File dataDir, String imagePath) {
-        this.dataDir = dataDir;
+    CacheImageDownloaderNetworkTask(File cacheDir, String imagePath) {
+        this.cacheDir = cacheDir;
         this.imagePath = imagePath;
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
-        File fileToWrite = new ImageCacheFinder(dataDir).getImage(imagePath);
+        File fileToWrite = new ImageCacheFinder(cacheDir).getImage(imagePath);
         try {
             FileUtils.copyURLToFile(new URL(BASE_URL + imagePath), fileToWrite);
         } catch (IOException e) {

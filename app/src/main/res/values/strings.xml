@@ -55,17 +55,17 @@
 
     <string name="title_activity_export_db">Export data</string>
     <string name="export_db">Export data as CSV</string>
-    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export_movies.csv\', \'export_series.csv\', \'export_wishlist_movies.csv\' and \'export_wishlist_series.csv\',  in CineLog app folder. You will be able to import this backup if you need it.</string>
+    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export_movies.csv\' and \'export_series.csv\' in \'data/com.ulicae.cinego/files\'. You will be able to import this backup if you need it.</string>
     <string name="action_export">Export</string>
     <string name="export_start_toast">Export starting…</string>
-    <string name="export_succeeded_toast">… export succeeded. See export_movies.csv, export_series.csv, export_wishlist_movies.csv and export_wishlist_series.csv  files at CineLog app folder.</string>
+    <string name="export_succeeded_toast">… export succeeded. See export_movies.csv and export_series.csv files in \'data/com.ulicae.cinego/files\'.</string>
     <string name="export_io_error_toast">An I/O error occurred during export. Verify your permissions.</string>
     <string name="export_permission_error_toast">Can\'t export since external storage writing is not allowed for CineLog.</string>
 
     <string name="action_import">Import</string>
     <string name="title_activity_import_db">CSV File import</string>
     <string name="import_db">Import CSV file in database</string>
-    <string name="import_db_label">The import process will import movies of import_movies.csv and import_wishlist_movies.csv and series of import_series.csv and import_wishlist_series.csv file at the CineLog app folder.</string>
+    <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file in \'data/com.ulicae.cinego/files\'.</string>
     <string name="import_permission_error_toast">Can\'t import since external storage reading is not allowed for CineLog.</string>
     <string name="import_error_toast">An error occurred during data import of %s file.</string>
     <string name="import_io_error_toast">An error occurred while trying to find %s file. Verify it is located at the CineLog app folder and that you have required permissions.</string>

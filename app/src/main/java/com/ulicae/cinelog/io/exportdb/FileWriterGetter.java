@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.io.exportdb;
 
+import android.content.Context;
+
 import com.ulicae.cinelog.utils.FileUtilsWrapper;
 
 import java.io.File;
@@ -29,11 +31,11 @@ public class FileWriterGetter {
 
     private final FileUtilsWrapper fileUtilsWrapper;
 
-    FileWriterGetter(File dataDir){
-        this.fileUtilsWrapper = new FileUtilsWrapper(dataDir);
+    FileWriterGetter(Context context){
+        this.fileUtilsWrapper = new FileUtilsWrapper(context.getExternalFilesDir(null));
     }
 
     public FileWriter get(String name) throws IOException {
-        return new FileWriter(new File(fileUtilsWrapper.getCineLogRoot(), name));
+        return new FileWriter(new File(fileUtilsWrapper.getFilesDir(), name));
     }
 }

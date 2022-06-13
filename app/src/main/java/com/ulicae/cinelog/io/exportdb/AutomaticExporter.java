@@ -35,7 +35,7 @@ public class AutomaticExporter {
 
     public AutomaticExporter(Application application, ExporterFactory exporterFactory, String subDir) {
         this(
-                new ExportTreeManager(application.getDataDir(), subDir),
+                new ExportTreeManager(application.getExternalFilesDir(null), subDir),
                 new BusinessPreferenceGetter(application),
                 exporterFactory
         );

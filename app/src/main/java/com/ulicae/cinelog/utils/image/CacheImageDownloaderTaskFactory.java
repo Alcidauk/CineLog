@@ -4,8 +4,8 @@ import java.io.File;
 
 class CacheImageDownloaderTaskFactory {
 
-    CacheImageDownloaderNetworkTask makeTask(File dataDir, String imagePath){
-        return new CacheImageDownloaderNetworkTask(dataDir, imagePath);
+    CacheImageDownloaderNetworkTask makeTask(File cacheDir, String imagePath){
+        return new CacheImageDownloaderNetworkTask(cacheDir, imagePath);
     }
 
 }

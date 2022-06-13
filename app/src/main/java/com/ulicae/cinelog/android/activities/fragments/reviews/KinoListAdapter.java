@@ -104,7 +104,7 @@ class KinoListAdapter extends ArrayAdapter<Object> {
                 Glide.with(getContext())
                         .load(
                                 new ImageCacheDownloader(
-                                        getContext().getDataDir(),
+                                        getContext().getExternalCacheDir(),
                                         movie.getPosterPath())
                                         .getPosterFinder()
                                         .getImage(movie.getPosterPath()))
