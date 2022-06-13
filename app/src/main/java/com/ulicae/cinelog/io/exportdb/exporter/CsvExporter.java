@@ -1,14 +1,14 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
 import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
 
 import java.io.IOException;
 import java.util.List;
 
 /**
- * CineLog Copyright 2020 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -26,10 +26,10 @@ import java.util.List;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 public class CsvExporter<T extends ItemDto> {
-    private DataService<T> service;
-    private CsvExportWriter<T> csvExportWriter;
+    private final ItemService<T> service;
+    private final CsvExportWriter<T> csvExportWriter;
 
-    CsvExporter(DataService<T> service, CsvExportWriter<T> csvExportWriter) {
+    CsvExporter(ItemService<T> service, CsvExportWriter<T> csvExportWriter) {
         this.service = service;
         this.csvExportWriter = csvExportWriter;
     }

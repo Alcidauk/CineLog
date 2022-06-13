@@ -3,9 +3,11 @@ package com.ulicae.cinelog.io.exportdb.exporter;
 import android.app.Application;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.services.reviews.SerieService;
-import com.ulicae.cinelog.io.exportdb.writer.SerieCsvExportWriter;
+import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
+import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
+import com.ulicae.cinelog.io.exportdb.writer.TagCsvExportWriter;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,19 +30,19 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieCsvExporterFactory implements ExporterFactory{
+public class TagCsvExporterFactory implements ExporterFactory {
 
-    private final SerieService serieService;
+    private final TagService tagService;
 
-    public SerieCsvExporterFactory(Application application) {
-        this(new SerieService(((KinoApplication) application).getDaoSession(), application.getBaseContext()));
+    public TagCsvExporterFactory(Application application) {
+        this(new TagService(((KinoApplication) application).getDaoSession()));
     }
 
-    private SerieCsvExporterFactory(SerieService serieService) {
-        this.serieService = serieService;
+    private TagCsvExporterFactory(TagService tagService) {
+        this.tagService = tagService;
     }
 
-    public CsvExporter<SerieDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
-        return new CsvExporter<>(serieService, new SerieCsvExportWriter(fileWriter));
+    public CsvExporter<TagDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
+        return new CsvExporter<>(tagService, new TagCsvExportWriter(fileWriter));
     }
 }

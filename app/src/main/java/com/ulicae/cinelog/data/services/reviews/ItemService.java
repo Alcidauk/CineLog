@@ -5,7 +5,7 @@ import com.ulicae.cinelog.data.dto.ItemDto;
 import java.util.List;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -22,13 +22,8 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface DataService<T extends ItemDto> extends ItemService<T> {
+public interface ItemService<T extends ItemDto> {
 
-    void delete(T dtoObject);
+    List<T> getAll();
 
-    T getWithTmdbId(long tmdbId);
-
-    T createOrUpdate(T dtoObject);
-
-    void createOrUpdateWithTmdbId(List<T> kinoDtos);
 }

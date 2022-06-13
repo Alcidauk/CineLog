@@ -13,6 +13,7 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.TagDtoBuilder;
+import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.utils.TagDtoToDbBuilder;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagService {
+public class TagService implements ItemService<TagDto> {
 
     private final TagRepository tagRepository;
     private final JoinLocalKinoWithTagRepository joinLocalKinoWithTagRepository;

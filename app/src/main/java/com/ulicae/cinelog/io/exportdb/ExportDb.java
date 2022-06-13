@@ -15,6 +15,7 @@ import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
+import com.ulicae.cinelog.io.exportdb.exporter.TagCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.WishlistCsvExporterFactory;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
@@ -63,6 +64,7 @@ public class ExportDb extends AppCompatActivity {
     @OnClick(R.id.export_db_button)
     public void onClick(View view) {
         if (writeStoragePermission != null && writeStoragePermission) {
+            new SnapshotExporter(new TagCsvExporterFactory(getApplication()), getApplication()).export("export_tags.csv");
             new SnapshotExporter(new MovieCsvExporterFactory(getApplication()), getApplication()).export("export_movies.csv");
             new SnapshotExporter(new SerieCsvExporterFactory(getApplication()), getApplication()).export("export_series.csv");
             new SnapshotExporter(new WishlistCsvExporterFactory(

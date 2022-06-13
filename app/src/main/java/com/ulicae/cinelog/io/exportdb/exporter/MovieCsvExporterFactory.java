@@ -3,6 +3,7 @@ package com.ulicae.cinelog.io.exportdb.exporter;
 import android.app.Application;
 
 import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
 
@@ -10,7 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -27,8 +28,9 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MovieCsvExporterFactory implements ExporterFactory{
-    private KinoService kinoService;
+public class MovieCsvExporterFactory implements ExporterFactory {
+
+    private final KinoService kinoService;
 
     public MovieCsvExporterFactory(Application application) {
         this(new KinoService(((KinoApplication) application).getDaoSession()));
@@ -38,7 +40,7 @@ public class MovieCsvExporterFactory implements ExporterFactory{
         this.kinoService = kinoService;
     }
 
-    public CsvExporter makeCsvExporter(FileWriter fileWriter) throws IOException {
+    public CsvExporter<KinoDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
         return new CsvExporter<>(kinoService, new MovieCsvExportWriter(fileWriter));
     }
 }

@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.WishlistService;
 import com.ulicae.cinelog.io.exportdb.writer.WishlistCsvExportWriter;
 
@@ -25,13 +26,14 @@ import java.io.IOException;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 public class WishlistCsvExporterFactory implements ExporterFactory{
-    private WishlistService wishlistService;
+
+    private final WishlistService wishlistService;
 
     public WishlistCsvExporterFactory(WishlistService wishlistService) {
         this.wishlistService = wishlistService;
     }
 
-    public CsvExporter makeCsvExporter(FileWriter fileWriter) throws IOException {
+    public CsvExporter<WishlistDataDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
         return new CsvExporter<>(wishlistService, new WishlistCsvExportWriter(fileWriter));
     }
 }
