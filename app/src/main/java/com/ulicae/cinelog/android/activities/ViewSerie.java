@@ -54,7 +54,7 @@ public class ViewSerie extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.serie_view_tabs)
+    @BindView(R.id.tabs)
     TabLayout tabLayout;
     @BindView(R.id.serie_view_pager)
     ViewPager viewPager;

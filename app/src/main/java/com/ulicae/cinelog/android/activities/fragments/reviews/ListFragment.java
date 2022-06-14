@@ -126,16 +126,7 @@ public abstract class ListFragment extends Fragment {
             final List<Object> objects = initialiseAdapter(orderId);
             kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 public boolean onItemLongClick(final AdapterView<?> view, View parent, final int position, long rowId) {
-                    int themeId = R.style.ThemeOverlay_AppCompat_Dialog_Alert;
-                    try {
-                        if (R.style.AppThemeDark == getThemeId()) {
-                            themeId = R.style.DarkDialog;
-                        }
-                    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), themeId);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
                     builder.setMessage(R.string.delete_kino_dialog)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {

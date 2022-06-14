@@ -19,7 +19,7 @@
 <resources>
 
     <style name="AppTheme.RatingBar" parent="Widget.AppCompat.RatingBar">
-        <item name="android:progressTint">@color/colorPrimaryDark</item>
+        <item name="android:progressTint">?attr/colorPrimary</item>
         <item name="android:progressBackgroundTint">@color/colorPrimaryLight</item>
         <item name="android:secondaryProgressTint">@color/colorSecondaryLight</item>
     </style>

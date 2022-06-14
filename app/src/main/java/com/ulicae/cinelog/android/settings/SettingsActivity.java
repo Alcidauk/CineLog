@@ -3,10 +3,11 @@ package com.ulicae.cinelog.android.settings;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.utils.PreferencesWrapper;
+import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import java.util.List;
 
@@ -39,10 +40,9 @@ public class SettingsActivity extends PreferenceActivity {
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(new PreferencesWrapper().getBooleanPreference(getBaseContext(), "theme", false)){
-            setTheme(R.style.PrefsThemeDark);
-        }
+        // TODO see why preference activity stay light in dark mode
         super.onCreate(savedInstanceState);
+        new ThemeWrapper().setThemeWithPreferences(this);
     }
 
     /**

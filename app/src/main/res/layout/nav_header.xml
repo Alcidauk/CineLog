@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="172dp"
-    android:background="@color/colorSecondaryDark"
-    android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -14,8 +12,6 @@
         android:paddingBottom="16dp"
         android:gravity="center_vertical"
         android:text="@string/nav_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/white"
         tools:ignore="RtlSymmetry" />
 
 </LinearLayout>

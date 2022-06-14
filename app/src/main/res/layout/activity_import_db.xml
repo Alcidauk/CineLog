@@ -21,21 +21,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="?attr/foregroundColor"
     tools:context=".io.importdb.ImportInDb">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarLayout">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
+    <include layout="@layout/toolbar" />
     <include layout="@layout/content_import_db" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,5 @@
 <!--
- CineLog Copyright 2018 Pierre Rognon
- kinolog Copyright (C) 2017  ryan rigby
+ CineLog Copyright 2022 Pierre Rognon
 
  This file is part of CineLog.
  CineLog is free software: you can redistribute it and/or modify
@@ -17,19 +16,17 @@
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+    <style name="AppTheme" parent="Theme.MaterialComponents">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/black</item>
 
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryDark</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSecondary">@color/black</item>
 
-        <item name="colorSurface">@color/white</item>
-        <item name="colorOnSurface">@color/darkGray</item>
+        <item name="colorSurface">@color/black</item>
+        <item name="colorOnSurface">@color/lightenGray</item>
 
         <item name="android:ratingBarStyle">@style/AppTheme.RatingBar</item>
 

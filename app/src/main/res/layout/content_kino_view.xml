@@ -56,7 +56,6 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:gravity="center"
-                android:background="?attr/backgroundColor"
                 android:orientation="vertical">
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

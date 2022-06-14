@@ -19,8 +19,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/backgroundColor">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -29,7 +28,6 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
-        android:backgroundTint="@color/colorSecondaryDark"
         app:cardElevation="0dp"
         tools:ignore="UnusedAttribute">
 

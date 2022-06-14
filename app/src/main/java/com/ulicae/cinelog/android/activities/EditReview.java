@@ -301,24 +301,7 @@ public class EditReview extends AppCompatActivity {
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-            View view = super.onCreateView(inflater, container, savedInstanceState);
-
-            try {
-                if (R.style.AppThemeDark == getThemeId()) {
-                    getDialog().getContext().setTheme(R.style.DarkDialog);
-                }
-            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                // TODO error
-                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.export_io_error_toast), Toast.LENGTH_LONG).show();
-            }
-            return view;
-        }
-
-        private int getThemeId() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-            Class<?> wrapper = Context.class;
-            Method method = wrapper.getMethod("getThemeResId");
-            method.setAccessible(true);
-            return (Integer) method.invoke(getActivity());
+            return super.onCreateView(inflater, container, savedInstanceState);
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {

@@ -85,7 +85,7 @@
     <string name="default_maximum_rating_dialog">Type the maximum rating you want to set to new movies</string>
     <string name="general_preferences">General preferences</string>
     <string name="general_preferences_summary">Set the global preferences of this app.</string>
-    <string name="theme">Dark theme</string>
+    <string name="theme">Force dark theme</string>
     <string name="change_theme">Theme changed. Restart the application to fully apply the theme.</string>
 
     <string name="view_poster_review_layout_title">Review</string>

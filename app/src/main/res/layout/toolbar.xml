@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
- CineLog Copyright 2020 Pierre Rognon
+<?xml version="1.0" encoding="utf-8"?><!--
+ CineLog Copyright 2022 Pierre Rognon
 
  This file is part of CineLog.
  CineLog is free software: you can redistribute it and/or modify
@@ -16,20 +15,19 @@
  You should have received a copy of the GNU General Public License
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/view_serie_main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".android.activities.ViewSerie"
-    tools:showIn="@layout/activity_view_serie">
+    android:layout_height="wrap_content"
+    android:background="?attr/colorSurface">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/serie_view_pager"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:foregroundTint="?attr/colorPrimary"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:subtitleTextColor="?attr/colorPrimary"
+        app:titleTextColor="?attr/colorPrimary" />
+</com.google.android.material.appbar.AppBarLayout>

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.category_tabs)
+    @BindView(R.id.tabs)
     TabLayout tabLayout;
     @BindView(R.id.category_pager)
     ViewPager viewPager;

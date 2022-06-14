@@ -28,7 +28,6 @@
         android:layout_marginRight="7dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
-        android:backgroundTint="?attr/foregroundColor"
         app:cardCornerRadius="5dp"
         app:cardElevation="1dp"
         app:cardMaxElevation="1dp">

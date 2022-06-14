@@ -44,7 +44,6 @@
         android:text="@string/import_db" />
 
     <androidx.cardview.widget.CardView
-        app:cardBackgroundColor="?attr/backgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/import_db_button"
@@ -72,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/import_tags_status"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/import_tags_status_waiting"
@@ -97,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/import_movies_status"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/import_movies_status_waiting"
@@ -123,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/import_series_status"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/import_series_status_waiting"
@@ -149,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/import_wishlist_series_status"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/import_wishlist_series_status_waiting"
@@ -175,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/import_wishlist_movies_status"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/import_wishlist_movies_status_waiting"

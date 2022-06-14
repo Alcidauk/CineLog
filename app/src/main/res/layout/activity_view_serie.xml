@@ -22,30 +22,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="?attr/foregroundColor"
     tools:context=".android.activities.ViewKino">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarLayout">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/serie_view_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarLayout"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
-            app:tabTextColor="@color/colorSecondaryLight"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
+    <include layout="@layout/toolbar_with_tabs" />
     <include layout="@layout/content_view_serie" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

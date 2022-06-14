@@ -83,7 +83,6 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="7dp"
                 android:layout_marginBottom="3dp"
-                android:backgroundTint="?attr/foregroundColor"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="2dp"
                 app:cardMaxElevation="2dp">
@@ -127,7 +126,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="start"
                                 android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textColor="@color/colorPrimaryDark" />
+                                android:textColor="?attr/colorPrimary" />
 
                             <TextView
                                 android:id="@+id/review_edit_rating_bar_max_as_text"
@@ -135,7 +134,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="start"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/colorPrimaryLight" />
+                                android:textColor="?attr/colorPrimaryVariant" />
                         </LinearLayout>
 
 
@@ -160,7 +159,6 @@
                 android:layout_marginRight="7dp"
                 android:layout_marginBottom="3dp"
                 android:layout_weight="0.5"
-                android:backgroundTint="?attr/foregroundColor"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="2dp"
                 app:cardMaxElevation="2dp">

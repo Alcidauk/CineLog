@@ -29,7 +29,6 @@
         android:layout_marginRight="7dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
-        android:backgroundTint="?attr/foregroundColor"
         app:cardCornerRadius="5dp"
         app:cardElevation="1dp"
         app:cardMaxElevation="1dp">
@@ -130,14 +129,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/colorPrimaryDark" />
+                            android:textColor="?attr/colorPrimary" />
 
                         <TextView
                             android:id="@+id/main_result_kino_rating_bar_max_as_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/colorPrimaryLight" />
+                            android:textColor="?attr/colorPrimaryVariant" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

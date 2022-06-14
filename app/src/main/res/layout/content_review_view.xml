@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="5dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?attr/colorPrimary"
                 tools:ignore="RtlSymmetry" />
 
             <RatingBar

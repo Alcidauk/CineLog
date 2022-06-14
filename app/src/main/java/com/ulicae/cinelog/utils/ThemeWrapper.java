@@ -2,7 +2,7 @@ package com.ulicae.cinelog.utils;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.R;
+import androidx.appcompat.app.AppCompatDelegate;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -26,9 +26,9 @@ public class ThemeWrapper {
 
     public void setThemeWithPreferences(Context context) {
         if (new PreferencesWrapper().getBooleanPreference(context.getApplicationContext(), "theme", false)) {
-            context.setTheme(R.style.AppThemeDark);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            context.setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
     }
 }
