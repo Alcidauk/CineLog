@@ -63,7 +63,7 @@ public class CsvImporterTest {
         doReturn(new ArrayList<KinoDto>() {{
             add(aLocalKino);
             add(anotherLocalKino);
-        }}).when(dtoImportCreator).getKinos(fileReader);
+        }}).when(dtoImportCreator).getDtos(fileReader);
 
         new CsvImporter(fileReaderGetter, dtoImportCreator, kinoService, context).importCsvFile("import.csv");
 

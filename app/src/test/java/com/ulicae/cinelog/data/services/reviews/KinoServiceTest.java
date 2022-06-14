@@ -65,7 +65,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 kinoDto,
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKino(4L)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKino(4L)
         );
     }
 
@@ -78,7 +78,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 kinoDto,
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getWithTmdbId(4L)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getWithTmdbId(4L)
         );
     }
 
@@ -95,7 +95,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKinosByRating(true)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKinosByRating(true)
         );
     }
 
@@ -112,7 +112,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKinosByRating(false)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKinosByRating(false)
         );
     }
 
@@ -129,7 +129,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKinosByReviewDate(true)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKinosByReviewDate(true)
         );
     }
 
@@ -146,7 +146,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKinosByReviewDate(false)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKinosByReviewDate(false)
         );
     }
 
@@ -163,7 +163,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKinosByYear(true)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKinosByYear(true)
         );
     }
 
@@ -180,7 +180,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKinosByYear(false)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKinosByYear(false)
         );
     }
 
@@ -197,7 +197,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKinosByTitle(true)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKinosByTitle(true)
         );
     }
 
@@ -214,7 +214,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getKinosByTitle(false)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getKinosByTitle(false)
         );
     }
 
@@ -231,7 +231,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 Arrays.asList(kinoDto, anotherKinoDto),
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).getAll()
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).getAll()
         );
     }
 
@@ -249,7 +249,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 createdKino,
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdate(kinoDto)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder, null).createOrUpdate(kinoDto)
         );
 
         verify(localKinoRepository).createOrUpdate(kinoToCreate);
@@ -268,7 +268,7 @@ public class KinoServiceTest {
 
         assertEquals(
                 createdKino,
-                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdate(kinoDto)
+                new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder, null).createOrUpdate(kinoDto)
         );
 
         verify(localKinoRepository).createOrUpdate(kinoToCreate);
@@ -297,7 +297,7 @@ public class KinoServiceTest {
 
         doReturn(existingKino).when(localKinoRepository).findByMovieId(34555L);
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder, null).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto).setKinoId(22222L);
 
@@ -320,7 +320,7 @@ public class KinoServiceTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(15L).when(kinoDto).getKinoId();
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder, null).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto, never()).setKinoId(22222L);
 
@@ -347,7 +347,7 @@ public class KinoServiceTest {
 
         doReturn(null).when(localKinoRepository).findByMovieId(34555L);
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, builder, null).createOrUpdateFromImport(new ArrayList<KinoDto>(){{add(kinoDto);}});
 
         verify(kinoDto, never()).setKinoId(22222L);
 
@@ -360,7 +360,7 @@ public class KinoServiceTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(545L).when(kinoDto).getKinoId();
 
-        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null).delete(kinoDto);
+        new KinoService(localKinoRepository, tmdbKinoRepository, kinoDtoBuilder, null, null).delete(kinoDto);
 
         verify(localKinoRepository).delete(545L);
     }

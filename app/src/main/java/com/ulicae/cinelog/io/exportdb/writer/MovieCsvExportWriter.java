@@ -2,10 +2,17 @@ package com.ulicae.cinelog.io.exportdb.writer;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.NonNull;
+
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -39,7 +46,8 @@ public class MovieCsvExportWriter extends CsvExportWriter<KinoDto> {
         release_date,
         review,
         review_date,
-        max_rating
+        max_rating,
+        tags
     }
 
     public MovieCsvExportWriter(Appendable out) throws IOException {
@@ -51,6 +59,8 @@ public class MovieCsvExportWriter extends CsvExportWriter<KinoDto> {
     }
 
     public void write(KinoDto kinoDto) throws IOException {
+        List<String> tagIds = getTagIdsAsString(kinoDto);
+
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         csvPrinterWrapper.printRecord(
                 kinoDto.getKinoId(),
@@ -63,7 +73,19 @@ public class MovieCsvExportWriter extends CsvExportWriter<KinoDto> {
                 kinoDto.getReleaseDate(),
                 kinoDto.getReview(),
                 kinoDto.getReview_date() != null ? simpleDateFormat.format(kinoDto.getReview_date()) : null,
-                kinoDto.getMaxRating()
+                kinoDto.getMaxRating(),
+                String.join(",", tagIds)
         );
+    }
+
+    @NonNull
+    private List<String> getTagIdsAsString(KinoDto kinoDto) {
+        List<String> tagIds = new ArrayList<>();
+        if (kinoDto.getTags() != null) {
+            tagIds = kinoDto.getTags().stream()
+                    .map(tagDto -> tagDto.getId().toString())
+                    .collect(Collectors.toList());
+        }
+        return tagIds;
     }
 }

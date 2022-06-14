@@ -51,9 +51,9 @@ class CsvImporter<Dto extends ItemDto> {
         } catch (IOException e) {
             throw new ImportException(context.getString(R.string.import_io_error_toast, importFilename), e);
         }
-        List<Dto> kinos = dtoImportCreator.getKinos(fileReader);
+        List<Dto> dtos = dtoImportCreator.getDtos(fileReader);
 
-        itemService.createOrUpdateFromImport(kinos);
+        itemService.createOrUpdateFromImport(dtos);
     }
 
 }

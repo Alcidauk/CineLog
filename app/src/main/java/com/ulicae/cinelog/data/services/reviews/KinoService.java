@@ -6,7 +6,9 @@ import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.KinoDtoBuilder;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.data.services.tags.TagService;
 import com.ulicae.cinelog.utils.KinoDtoToDbBuilder;
 
 import java.util.ArrayList;
@@ -35,17 +37,25 @@ public class KinoService implements DataService<KinoDto> {
     private final LocalKinoRepository localKinoRepository;
     private final TmdbKinoRepository tmdbKinoRepository;
     private final KinoDtoBuilder kinoDtoBuilder;
-    private KinoDtoToDbBuilder kinoDtoToDbBuilder;
+    private final KinoDtoToDbBuilder kinoDtoToDbBuilder;
+    private final TagService tagService;
 
     public KinoService(DaoSession session) {
-        this(new LocalKinoRepository(session), new TmdbKinoRepository(session), new KinoDtoBuilder(), new KinoDtoToDbBuilder());
+        this(new LocalKinoRepository(session),
+                new TmdbKinoRepository(session),
+                new KinoDtoBuilder(),
+                new KinoDtoToDbBuilder(),
+                new TagService(session));
     }
 
-    KinoService(LocalKinoRepository localKinoRepository, TmdbKinoRepository tmdbKinoRepository, KinoDtoBuilder kinoDtoBuilder, KinoDtoToDbBuilder builder) {
+    KinoService(LocalKinoRepository localKinoRepository, TmdbKinoRepository tmdbKinoRepository,
+                KinoDtoBuilder kinoDtoBuilder, KinoDtoToDbBuilder builder,
+                TagService tagService) {
         this.localKinoRepository = localKinoRepository;
         this.tmdbKinoRepository = tmdbKinoRepository;
         this.kinoDtoBuilder = kinoDtoBuilder;
         this.kinoDtoToDbBuilder = builder;
+        this.tagService = tagService;
     }
 
     public KinoDto getKino(long id) {
@@ -69,7 +79,16 @@ public class KinoService implements DataService<KinoDto> {
                 }
             }
 
-            createOrUpdate(kinoDto);
+            KinoDto createdKino = createOrUpdate(kinoDto);
+            linkToTags(createdKino, kinoDto.getTags());
+        }
+    }
+
+    private void linkToTags(KinoDto createdKino, List<TagDto> tags) {
+        if (tags != null) {
+            for (TagDto tag : tags) {
+                tagService.addTagToItemIfNotExists(tag, createdKino);
+            }
         }
     }
 

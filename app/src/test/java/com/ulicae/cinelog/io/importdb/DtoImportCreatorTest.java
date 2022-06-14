@@ -69,7 +69,7 @@ public class DtoImportCreatorTest {
 
         assertEquals(
                 Collections.singletonList(kinoDto),
-                new DtoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getKinos(fileReader)
+                new DtoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getDtos(fileReader)
         );
     }
 
@@ -79,7 +79,7 @@ public class DtoImportCreatorTest {
 
         assertEquals(
                 Collections.singletonList(kinoDto),
-                new DtoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getKinos(fileReader)
+                new DtoImportCreator(csvFormatWrapper, kinoDtoFromRecordBuilder, context).getDtos(fileReader)
         );
     }
 

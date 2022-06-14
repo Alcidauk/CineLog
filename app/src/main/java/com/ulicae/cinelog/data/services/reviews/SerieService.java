@@ -9,9 +9,12 @@ import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
+import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.data.services.tags.TagService;
 import com.ulicae.cinelog.network.TmdbGetterService;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
@@ -39,19 +42,24 @@ import java.util.List;
 public class SerieService implements DataService<SerieDto> {
 
     private final SerieReviewRepository serieReviewRepository;
-    private ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
     private final TmdbSerieRepository tmdbSerieRepository;
-    private TmdbGetterService tmdbGetterService;
+    private final TmdbGetterService tmdbGetterService;
     private final SerieKinoDtoBuilder serieKinoDtoBuilder;
-    private SerieDtoToDbBuilder dtoToDbBuilder;
+    private final SerieDtoToDbBuilder dtoToDbBuilder;
+    private final TagService tagService;
 
-    SerieService(SerieReviewRepository serieReviewRepository, ReviewRepository reviewRepository, TmdbSerieRepository tmdbSerieRepository, TmdbGetterService tmdbGetterService, SerieKinoDtoBuilder serieKinoDtoBuilder, SerieDtoToDbBuilder dtoToDbBuilder) {
+    SerieService(SerieReviewRepository serieReviewRepository, ReviewRepository reviewRepository,
+                 TmdbSerieRepository tmdbSerieRepository, TmdbGetterService tmdbGetterService,
+                 SerieKinoDtoBuilder serieKinoDtoBuilder, SerieDtoToDbBuilder dtoToDbBuilder,
+                 TagService tagService) {
         this.serieReviewRepository = serieReviewRepository;
         this.reviewRepository = reviewRepository;
         this.tmdbSerieRepository = tmdbSerieRepository;
         this.tmdbGetterService = tmdbGetterService;
         this.serieKinoDtoBuilder = serieKinoDtoBuilder;
         this.dtoToDbBuilder = dtoToDbBuilder;
+        this.tagService = tagService;
     }
 
     public SerieService(DaoSession daoSession, Context context) {
@@ -59,7 +67,8 @@ public class SerieService implements DataService<SerieDto> {
                 new ReviewRepository(daoSession),
                 new TmdbSerieRepository(daoSession),
                 new TmdbGetterService(context), new SerieKinoDtoBuilder(),
-                new SerieDtoToDbBuilder()
+                new SerieDtoToDbBuilder(),
+                new TagService(daoSession)
         );
     }
 
@@ -109,7 +118,16 @@ public class SerieService implements DataService<SerieDto> {
                 }
             }
 
-            createOrUpdate(serieDto);
+            SerieDto createdSerie = createOrUpdate(serieDto);
+            linkToTags(createdSerie, serieDto.getTags());
+        }
+    }
+
+    private void linkToTags(KinoDto createdKino, List<TagDto> tags) {
+        if (tags != null) {
+            for (TagDto tag : tags) {
+                tagService.addTagToItemIfNotExists(tag, createdKino);
+            }
         }
     }
 

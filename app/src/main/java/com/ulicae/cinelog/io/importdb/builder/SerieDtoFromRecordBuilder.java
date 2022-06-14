@@ -2,8 +2,11 @@ package com.ulicae.cinelog.io.importdb.builder;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.io.importdb.ImportException;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
@@ -11,6 +14,9 @@ import org.apache.commons.csv.CSVRecord;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -42,7 +48,6 @@ public class SerieDtoFromRecordBuilder extends DtoFromRecordBuilder<SerieDto> {
 
     public SerieDto build(CSVRecord csvRecord) throws ImportException {
         try {
-            // TODO include tags
             return new SerieDto(
                     formatLong(getId(csvRecord)),
                     formatLong(csvRecord.get("movie_id")),
@@ -56,11 +61,26 @@ public class SerieDtoFromRecordBuilder extends DtoFromRecordBuilder<SerieDto> {
                     csvRecord.get("overview"),
                     formatInteger(csvRecord.get("year")),
                     csvRecord.get("release_date"),
-                    new ArrayList<>()
+                    getTagDtoWithIds(csvRecord)
             );
         } catch (ParseException e) {
             throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);
         }
+    }
+
+    // TODO avoid duplication with KinoDto
+    @NonNull
+    private List<TagDto> getTagDtoWithIds(CSVRecord csvRecord) {
+        String tagsAsString = csvRecord.get("tags");
+        String[] splittedTagsAsString =
+                tagsAsString != null ? tagsAsString.split(",") : new String[]{};
+        if (splittedTagsAsString.length == 0 || splittedTagsAsString[0].isEmpty()){
+            return new ArrayList<>();
+        }
+        return Arrays.stream(splittedTagsAsString)
+                .map(tagId ->
+                        new TagDto(Long.parseLong(tagId), null, null, false, false))
+                .collect(Collectors.toList());
     }
 
 }

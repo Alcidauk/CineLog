@@ -1,8 +1,9 @@
 package com.ulicae.cinelog.io.exportdb.writer;
 
+import static org.mockito.Mockito.verify;
+
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.io.exportdb.writer.CSVPrinterWrapper;
-import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
+import com.ulicae.cinelog.data.dto.TagDto;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,13 +11,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
+import java.util.List;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  *
  *
  * This file is part of CineLog.
@@ -45,6 +45,10 @@ public class MovieCsvExportWriterTest {
 
     @Test
     public void write() throws Exception {
+        List<TagDto> tags = new ArrayList<>();
+        tags.add(new TagDto(4L, "horreur", "#435436", false, true));
+        tags.add(new TagDto(7L, "malheur", "#435436", false, true));
+
         Date aDate = new Date();
         aKino = new KinoDto(
                24L,
@@ -58,7 +62,7 @@ public class MovieCsvExportWriterTest {
                 "an overview",
                 1984,
                 "2012",
-                null
+                tags
         );
 
         new MovieCsvExportWriter(csvPrinterWrapper).write(aKino);
@@ -74,7 +78,8 @@ public class MovieCsvExportWriterTest {
                 "2012",
                 "a review",
                 new SimpleDateFormat().format(aDate),
-                5
+                5,
+                "4,7"
         );
     }
 
@@ -108,7 +113,8 @@ public class MovieCsvExportWriterTest {
                 "2012",
                 "a review",
                 null,
-                5
+                5,
+                ""
         );
     }
 

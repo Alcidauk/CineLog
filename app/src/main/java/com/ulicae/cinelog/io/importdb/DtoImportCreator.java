@@ -45,7 +45,7 @@ class DtoImportCreator<Dto> {
         this.context = context;
     }
 
-    List<Dto> getKinos(FileReader fileReader) throws ImportException {
+    List<Dto> getDtos(FileReader fileReader) throws ImportException {
         Iterable<CSVRecord> csvRecords;
         try {
             csvRecords = csvFormatWrapper.parse(fileReader);
