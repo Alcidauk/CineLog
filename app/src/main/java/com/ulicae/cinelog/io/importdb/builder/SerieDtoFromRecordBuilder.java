@@ -46,41 +46,48 @@ public class SerieDtoFromRecordBuilder extends DtoFromRecordBuilder<SerieDto> {
         super(preferencesWrapper, context);
     }
 
-    public SerieDto build(CSVRecord csvRecord) throws ImportException {
-        try {
-            return new SerieDto(
-                    formatLong(getId(csvRecord)),
-                    formatLong(csvRecord.get("movie_id")),
-                    formatLong(csvRecord.get("review_id")),
-                    csvRecord.get("title"),
-                    formatDate(csvRecord.get("review_date")),
-                    csvRecord.get("review"),
-                    formatFloat(csvRecord.get("rating")),
-                    getMaxRating(csvRecord),
-                    csvRecord.get("poster_path"),
-                    csvRecord.get("overview"),
-                    formatInteger(csvRecord.get("year")),
-                    csvRecord.get("release_date"),
-                    getTagDtoWithIds(csvRecord)
-            );
-        } catch (ParseException e) {
-            throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);
-        }
+    public SerieDto doBuild(CSVRecord csvRecord) throws ParseException, IllegalArgumentException {
+        return new SerieDto(
+                formatLong(getId(csvRecord)),
+                formatLong(csvRecord.get("movie_id")),
+                formatLong(csvRecord.get("review_id")),
+                csvRecord.get("title"),
+                formatDate(csvRecord.get("review_date")),
+                csvRecord.get("review"),
+                formatFloat(csvRecord.get("rating")),
+                getMaxRating(csvRecord),
+                csvRecord.get("poster_path"),
+                csvRecord.get("overview"),
+                formatInteger(csvRecord.get("year")),
+                csvRecord.get("release_date"),
+                getTagDtoWithIds(csvRecord)
+        );
+    }
+
+    @Override
+    public String getLineTitle(CSVRecord csvRecord) {
+        return csvRecord.get("title");
     }
 
     // TODO avoid duplication with KinoDto
     @NonNull
     private List<TagDto> getTagDtoWithIds(CSVRecord csvRecord) {
-        String tagsAsString = csvRecord.get("tags");
-        String[] splittedTagsAsString =
-                tagsAsString != null ? tagsAsString.split(",") : new String[]{};
-        if (splittedTagsAsString.length == 0 || splittedTagsAsString[0].isEmpty()){
-            return new ArrayList<>();
-        }
+        String[] splittedTagsAsString = getSplittedTagIds(csvRecord);
         return Arrays.stream(splittedTagsAsString)
                 .map(tagId ->
                         new TagDto(Long.parseLong(tagId), null, null, false, false))
                 .collect(Collectors.toList());
+    }
+
+    @NonNull
+    private String[] getSplittedTagIds(CSVRecord csvRecord) {
+        String tagsAsString;
+        try {
+            tagsAsString = csvRecord.get("tags");
+        } catch (IllegalArgumentException e) {
+            tagsAsString = null;
+        }
+        return tagsAsString != null ? tagsAsString.split(",") : new String[]{};
     }
 
 }

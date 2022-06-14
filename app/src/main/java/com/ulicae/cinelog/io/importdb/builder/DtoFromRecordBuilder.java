@@ -3,6 +3,7 @@ package com.ulicae.cinelog.io.importdb.builder;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.io.importdb.ImportException;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
@@ -12,6 +13,24 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * CineLog Copyright 2022 Pierre Rognon
+ * <p>
+ * <p>
+ * This file is part of CineLog.
+ * CineLog is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * CineLog is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+ */
 public abstract class DtoFromRecordBuilder<Dto> {
 
     PreferencesWrapper preferencesWrapper;
@@ -22,7 +41,19 @@ public abstract class DtoFromRecordBuilder<Dto> {
         this.context = context;
     }
 
-    public abstract Dto build(CSVRecord csvRecord) throws ImportException;
+    public Dto build(CSVRecord csvRecord) throws ImportException {
+        try {
+            return doBuild(csvRecord);
+        } catch (ParseException e) {
+            throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, getLineTitle(csvRecord)), e);
+        } catch (IllegalArgumentException e) {
+            throw new ImportException(context.getString(R.string.import_parsing_line_error_missing_column_toast), e);
+        }
+    }
+
+    public abstract Dto doBuild(CSVRecord csvRecord) throws ParseException, IllegalArgumentException;
+
+    public abstract String getLineTitle(CSVRecord csvRecord);
 
     protected String getId(CSVRecord csvRecord) {
         return csvRecord.isMapped("id") ? csvRecord.get("id") : null;

@@ -3,13 +3,14 @@ package com.ulicae.cinelog.io.importdb.builder;
 import android.content.Context;
 
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.io.importdb.ImportException;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.apache.commons.csv.CSVRecord;
 
+import java.text.ParseException;
+
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -36,7 +37,7 @@ public class TagDtoFromRecordBuilder extends DtoFromRecordBuilder<TagDto> {
         super(preferencesWrapper, context);
     }
 
-    public TagDto build(CSVRecord csvRecord) throws ImportException {
+    public TagDto doBuild(CSVRecord csvRecord) throws ParseException, IllegalArgumentException {
         return new TagDto(
                 formatLong(getId(csvRecord)),
                 csvRecord.get("name"),
@@ -44,6 +45,11 @@ public class TagDtoFromRecordBuilder extends DtoFromRecordBuilder<TagDto> {
                 formatBoolean(csvRecord.get("forMovies")),
                 formatBoolean(csvRecord.get("forSeries"))
         );
+    }
+
+    @Override
+    public String getLineTitle(CSVRecord csvRecord) {
+        return csvRecord.get("name");
     }
 
 }

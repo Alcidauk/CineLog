@@ -13,7 +13,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.text.ParseException;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -40,21 +40,22 @@ public class WishlistDtoFromRecordBuilder extends DtoFromRecordBuilder<WishlistD
         super(preferencesWrapper, context);
     }
 
-    public WishlistDataDto build(CSVRecord csvRecord) throws ImportException {
-        try {
-            return new WishlistDataDto(
-                    formatLong(getId(csvRecord)),
-                    formatInteger(csvRecord.get("movie_id")),
-                    csvRecord.get("title"),
-                    csvRecord.get("poster_path"),
-                    csvRecord.get("overview"),
-                    formatInteger(csvRecord.get("firstYear")),
-                    csvRecord.get("release_date"),
-                    getWishlistItemTypeFromString(csvRecord.get("wishlistItemType"))
-            );
-        } catch (ParseException e) {
-            throw new ImportException(context.getString(R.string.import_parsing_line_error_toast, csvRecord.get("title")), e);
-        }
+    public WishlistDataDto doBuild(CSVRecord csvRecord) throws ParseException, IllegalArgumentException {
+        return new WishlistDataDto(
+                formatLong(getId(csvRecord)),
+                formatInteger(csvRecord.get("movie_id")),
+                csvRecord.get("title"),
+                csvRecord.get("poster_path"),
+                csvRecord.get("overview"),
+                formatInteger(csvRecord.get("firstYear")),
+                csvRecord.get("release_date"),
+                getWishlistItemTypeFromString(csvRecord.get("wishlistItemType"))
+        );
+    }
+
+    @Override
+    public String getLineTitle(CSVRecord csvRecord) {
+        return csvRecord.get("title");
     }
 
     private WishlistItemType getWishlistItemTypeFromString(String typeAsString) throws ParseException {

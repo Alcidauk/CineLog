@@ -155,4 +155,5 @@
     <string name="review_edit_tags">编辑标签</string>
     <string name="edit_tag_name_not_filled">没有指定标签的名称</string>
     <string name="delete_tag_dialog">你想删除此标签吗？</string>
+    <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
 </resources>

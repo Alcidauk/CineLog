@@ -155,4 +155,5 @@
     <string name="review_edit_tags">Edit tags</string>
     <string name="edit_tag_name_not_filled">Please fill tag name</string>
     <string name="delete_tag_dialog">Do you want to remove this tag ?</string>
+    <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
 </resources>
