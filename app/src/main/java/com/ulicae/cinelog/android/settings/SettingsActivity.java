@@ -4,10 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.utils.ThemeWrapper;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import java.util.List;
 
@@ -40,9 +41,13 @@ public class SettingsActivity extends PreferenceActivity {
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO see why preference activity stay light in dark mode
         super.onCreate(savedInstanceState);
-        new ThemeWrapper().setThemeWithPreferences(this);
+
+        // don't know why but night theme not taken in account
+        if(new PreferencesWrapper().getBooleanPreference(getBaseContext(), "theme", false)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.DarkPreferencesTheme);
+        }
     }
 
     /**

@@ -37,4 +37,19 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="DarkPreferencesTheme" parent="Theme.MaterialComponents">
+        <item name="colorPrimary">@color/colorSecondary</item>
+        <item name="colorPrimaryVariant">@color/colorSecondaryDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryDark</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <item name="colorSurface">@color/darkGray</item>
+        <item name="colorOnSurface">@color/white</item>
+
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+
 </resources>
