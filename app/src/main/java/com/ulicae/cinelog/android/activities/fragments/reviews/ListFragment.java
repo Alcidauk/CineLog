@@ -86,6 +86,7 @@ public abstract class ListFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_ADD_KINO) {
             if (resultCode == Activity.RESULT_OK) {
                 System.out.println("Result Ok");

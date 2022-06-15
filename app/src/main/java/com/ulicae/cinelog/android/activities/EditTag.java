@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.android.activities;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ public class EditTag extends AppCompatActivity {
     private TagService tagDtoService;
 
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

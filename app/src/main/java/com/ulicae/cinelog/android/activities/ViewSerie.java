@@ -110,6 +110,7 @@ public class ViewSerie extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_ADD_REVIEW && resultCode == Activity.RESULT_OK) {
             kino = Parcels.unwrap(data.getParcelableExtra("kino"));
             generalFragment.updateKino((SerieDto) kino);

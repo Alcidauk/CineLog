@@ -82,6 +82,7 @@ public class ExportDb extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            @SuppressWarnings("NullableProblems") String permissions[],
                                            @SuppressWarnings("NullableProblems") int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 1: {
                 writeStoragePermission = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;

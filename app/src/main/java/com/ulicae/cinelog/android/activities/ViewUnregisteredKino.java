@@ -114,6 +114,7 @@ public class ViewUnregisteredKino extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_ADD_REVIEW) {
             if (resultCode == Activity.RESULT_OK) {
                 kino = Parcels.unwrap(data.getParcelableExtra("kino"));
