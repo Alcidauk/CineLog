@@ -3,14 +3,10 @@ package com.ulicae.cinelog.android.activities.fragments.reviews;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
-import android.graphics.drawable.shapes.Shape;
-import android.os.Build;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +26,7 @@ import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 import java.util.List;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -60,30 +56,34 @@ class KinoListAdapter extends ArrayAdapter<Object> {
     // createOrUpdate a new RelativeView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         Object object = getItem(position);
-        if (object instanceof String) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.header_result_item, parent, false);
+        boolean isObjectString = object instanceof String;
 
-            TextView viewById = (TextView) convertView.findViewById(R.id.main_result_kino_title);
-            viewById.setText((String) object);
-
-            return convertView;
+        if(needInflate(convertView, object)) {
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    isObjectString ? R.layout.header_result_item : R.layout.main_result_item,
+                    parent,
+                    false
+            );
         }
 
-        // don't make it conditional => since we can have strings, we must inflate for all items.
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_result_item, parent, false);
+        if(!isObjectString) {
+            return getKinoListView(convertView, (KinoDto) object);
+        }
+        return getYearView(convertView, parent, (String) object);
+    }
 
+    private boolean needInflate(View convertView, Object item) {
+        return convertView == null
+                || (item instanceof String && convertView.getId() == R.id.main_result_item)
+                || (item instanceof KinoDto && convertView.getId() == R.id.header_result_item);
+    }
 
-        TextView kinoTitleTextView = (TextView) convertView.findViewById(R.id.main_result_kino_title);
-        TextView kinoYearTextView = (TextView) convertView.findViewById(R.id.main_result_kino_year);
-        ImageView kinoPosterImageView = (ImageView) convertView.findViewById(R.id.main_result_kino_poster);
-        RatingBar kinoRatingRatingBar = (RatingBar) convertView.findViewById(R.id.main_result_kino_rating_bar_small);
-        TextView kinoReviewDate = (TextView) convertView.findViewById(R.id.main_result_kino_review_date);
-        ImageView kinoReviewDateLogo = (ImageView) convertView.findViewById(R.id.main_result_kino_review_date_logo);
-        KinoDto movie = (KinoDto) object;
+    private View getKinoListView(View convertView, KinoDto movie) {
+        KinoListViewHolder holder = new KinoListViewHolder(convertView);
 
         if (movie != null) {
-            LinearLayout tagLayout = convertView.findViewById(R.id.main_result_kino_tags);
-            for (TagDto tagDto : ((KinoDto) object).getTags()) {
+            LinearLayout tagLayout = holder.getKinoTags();
+            for (TagDto tagDto : movie.getTags()) {
                 GradientDrawable gd = getTagDot(tagDto);
 
                 LinearLayout shapeLayout = new LinearLayout(getContext());
@@ -92,14 +92,16 @@ class KinoListAdapter extends ArrayAdapter<Object> {
                 tagLayout.addView(shapeLayout);
             }
 
-            kinoTitleTextView.setText(movie.getTitle());
+            holder.getKinoTitle().setText(movie.getTitle());
 
+            TextView kinoYearTextView = holder.getKinoYear();
             if (movie.getYear() != 0) {
                 kinoYearTextView.setText(String.valueOf(movie.getYear()));
             } else {
                 kinoYearTextView.setText("");
             }
 
+            ImageView kinoPosterImageView = holder.getKinoPoster();
             if (movie.getPosterPath() != null && !"".equals(movie.getPosterPath())) {
                 Glide.with(getContext())
                         .load(
@@ -119,6 +121,8 @@ class KinoListAdapter extends ArrayAdapter<Object> {
                         .into(kinoPosterImageView);
             }
 
+            TextView kinoReviewDate = holder.getKinoReviewDate();
+            ImageView kinoReviewDateLogo = holder.getKinoReviewDateLogo();
             if (movie.getReview_date() != null) {
                 kinoReviewDate.setText(DateFormat.getDateFormat(getContext()).format(movie.getReview_date()));
                 kinoReviewDateLogo.setVisibility(View.VISIBLE);
@@ -127,8 +131,20 @@ class KinoListAdapter extends ArrayAdapter<Object> {
                 kinoReviewDateLogo.setVisibility(View.INVISIBLE);
             }
 
-            initRating(convertView, kinoRatingRatingBar, movie);
+            initRating(convertView, holder.getKinoRatingBar(), movie);
         }
+
+        return convertView;
+    }
+
+    @NonNull
+    private View getYearView(View convertView, ViewGroup parent, String object) {
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.header_result_item, parent, false);
+        }
+
+        KinoListYearViewHolder holder = new KinoListYearViewHolder(convertView);
+        holder.getKinoTitle().setText(object);
 
         return convertView;
     }
