@@ -25,8 +25,8 @@
     android:fitsSystemWindows="true"
     tools:context=".android.activities.EditTag">
 
-    <include layout="@layout/toolbar" />
-    <include layout="@layout/content_add_tag" />
+    <include android:id="@+id/add_tag_toolbar" layout="@layout/toolbar" />
+    <include android:id="@+id/add_tag_content" layout="@layout/content_add_tag" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_save_tag"

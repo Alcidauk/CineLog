@@ -1,35 +1,27 @@
 package com.ulicae.cinelog.android.activities;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.databinding.ActivityAddTagBinding;
+import com.ulicae.cinelog.databinding.ContentAddTagBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
 import java.util.Objects;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -51,20 +43,7 @@ import butterknife.OnClick;
  */
 public class EditTag extends AppCompatActivity {
 
-    @BindView(R.id.tag_name)
-    EditText tag_name;
-
-    @BindView(R.id.tag_films)
-    CheckBox tag_films;
-
-    @BindView(R.id.tag_series)
-    CheckBox tag_series;
-
-    @BindView(R.id.tag_color_current)
-    View tag_color;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    private ContentAddTagBinding binding;
 
     TagDto tag;
 
@@ -77,8 +56,9 @@ public class EditTag extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        setContentView(R.layout.activity_add_tag);
-        ButterKnife.bind(this);
+        ActivityAddTagBinding activityBinding = ActivityAddTagBinding.inflate(getLayoutInflater());
+        binding = activityBinding.addTagContent;
+        setContentView(activityBinding.getRoot());
 
         tagDtoService = new TagService(((KinoApplication) getApplication()).getDaoSession());
 
@@ -87,14 +67,19 @@ public class EditTag extends AppCompatActivity {
             tag = new TagDto();
             tag.setColor(getString(R.color.colorPrimary));
         } else {
-            tag_name.setText(tag.getName());
-            tag_films.setChecked(tag.isForMovies());
-            tag_series.setChecked(tag.isForSeries());
+            binding.tagName.setText(tag.getName());
+            binding.tagFilms.setChecked(tag.isForMovies());
+            binding.tagSeries.setChecked(tag.isForSeries());
         }
+
+        activityBinding.fabSaveTag.setOnClickListener(view -> EditTag.this.onClick());
+        binding.tagFilms.setOnCheckedChangeListener((compoundButton, b) -> onFilmsCheckedChanged(b));
+        binding.tagSeries.setOnCheckedChangeListener((compoundButton, b) -> onSeriesCheckedChanged(b));
+        binding.tagColorUpdate.setOnClickListener(this::onTagColorUpdate);
 
         fetchColor();
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(activityBinding.addTagToolbar.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
@@ -109,9 +94,8 @@ public class EditTag extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.fab_save_tag)
     public void onClick() {
-        tag.setName(tag_name.getText().toString());
+        tag.setName(binding.tagName.getText().toString());
 
         if (tag.getName() == null || tag.getName().isEmpty()) {
             Toast.makeText(
@@ -127,42 +111,30 @@ public class EditTag extends AppCompatActivity {
         finish();
     }
 
-    @OnCheckedChanged(R.id.tag_films)
     public void onFilmsCheckedChanged(boolean checked) {
         tag.setForMovies(checked);
     }
 
-    @OnCheckedChanged(R.id.tag_series)
     public void onSeriesCheckedChanged(boolean checked) {
         tag.setForSeries(checked);
     }
 
     private void fetchColor() {
         if (tag.getColor() != null) {
-            tag_color.setBackgroundColor(Color.parseColor(tag.getColor()));
+            binding.tagColorCurrent.setBackgroundColor(Color.parseColor(tag.getColor()));
         }
     }
 
-    @OnClick(R.id.tag_color_update)
-    public void onClick(View view) {
+    public void onTagColorUpdate(View view) {
         new ColorPickerDialog.Builder(this)
                 .setTitle("ColorPicker Dialog")
                 .setPreferenceName("MyColorPickerDialog")
                 .setPositiveButton(getString(R.string.save),
-                        new ColorEnvelopeListener() {
-                            @Override
-                            public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
-                                tag.setColor("#" + envelope.getHexCode().substring(2));
-                                fetchColor();
-                            }
+                        (ColorEnvelopeListener) (envelope, fromUser) -> {
+                            tag.setColor("#" + envelope.getHexCode().substring(2));
+                            fetchColor();
                         })
-                .setNegativeButton(getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
+                .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> dialogInterface.dismiss())
                 .attachAlphaSlideBar(false)
                 .attachBrightnessSlideBar(false)
                 .setBottomSpace(12)

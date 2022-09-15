@@ -59,7 +59,6 @@ import java.util.List;
 public class EditReview extends AppCompatActivity {
 
     private ContentEditReviewBinding binding;
-    private ActivityEditReviewBinding activityBinding;
 
     KinoDto kino;
 
@@ -75,8 +74,8 @@ public class EditReview extends AppCompatActivity {
 
         wishlistItemDeleter = new WishlistItemDeleter(this);
 
-        activityBinding = ActivityEditReviewBinding.inflate(getLayoutInflater());
-        binding = activityBinding.contentEditReview;
+        ActivityEditReviewBinding activityBinding = ActivityEditReviewBinding.inflate(getLayoutInflater());
+        binding = activityBinding.editReviewContent;
         setContentView(activityBinding.getRoot());
 
         String dtoType = getIntent().getStringExtra("dtoType");
@@ -143,7 +142,7 @@ public class EditReview extends AppCompatActivity {
         binding.reviewTagEdit.setOnClickListener(onReviewTagEdit());
         activityBinding.fabSave.setOnClickListener(view -> onFabSaveClick());
 
-        setSupportActionBar(activityBinding.contentToolbar.toolbar);
+        setSupportActionBar(activityBinding.editReviewToolbar.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

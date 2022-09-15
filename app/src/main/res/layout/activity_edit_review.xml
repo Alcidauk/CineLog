@@ -24,9 +24,8 @@
     android:fitsSystemWindows="true"
     tools:context=".android.activities.EditReview">
 
-    <include android:id="@+id/content_toolbar"
-        layout="@layout/toolbar" />
-    <include android:id="@+id/content_edit_review" layout="@layout/content_edit_review" />
+    <include android:id="@+id/edit_review_toolbar" layout="@layout/toolbar" />
+    <include android:id="@+id/edit_review_content" layout="@layout/content_edit_review" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_save"
