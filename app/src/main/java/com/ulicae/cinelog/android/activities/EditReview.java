@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,17 +13,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
@@ -33,22 +27,18 @@ import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.databinding.ActivityEditReviewBinding;
+import com.ulicae.cinelog.databinding.ContentEditReviewBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -68,29 +58,8 @@ import butterknife.OnClick;
  */
 public class EditReview extends AppCompatActivity {
 
-
-    @BindView(R.id.kino_review_text)
-    EditText review_text;
-    @BindView(R.id.kino_review_date_button)
-    Button kino_review_date_button;
-
-    @BindView(R.id.view_kino_title_edit)
-    EditText kino_title;
-    @BindView(R.id.view_kino_title_readonly)
-    TextView kino_title_readonly;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.review_edit_rating_bar_as_text)
-    TextView review_edit_rating_bar_as_text;
-    @BindView(R.id.review_edit_rating_bar_max_as_text)
-    TextView review_edit_rating_bar_max_as_text;
-    @BindView(R.id.rating_picker)
-    NumberPicker rating_picker;
-
-    @BindView(R.id.review_tag_edit)
-    Button review_tag_edit;
+    private ContentEditReviewBinding binding;
+    private ActivityEditReviewBinding activityBinding;
 
     KinoDto kino;
 
@@ -106,8 +75,9 @@ public class EditReview extends AppCompatActivity {
 
         wishlistItemDeleter = new WishlistItemDeleter(this);
 
-        setContentView(R.layout.activity_edit_review);
-        ButterKnife.bind(this);
+        activityBinding = ActivityEditReviewBinding.inflate(getLayoutInflater());
+        binding = activityBinding.contentEditReview;
+        setContentView(activityBinding.getRoot());
 
         String dtoType = getIntent().getStringExtra("dtoType");
         dtoService = new ServiceFactory(getBaseContext()).create(dtoType, ((KinoApplication) getApplicationContext()).getDaoSession());
@@ -130,18 +100,18 @@ public class EditReview extends AppCompatActivity {
 
         String[] displayedValues = getDisplayedValues(maxRating);
 
-        rating_picker.setMinValue(0);
-        rating_picker.setMaxValue(maxRating * 2);
+        binding.ratingPicker.setMinValue(0);
+        binding.ratingPicker.setMaxValue(maxRating * 2);
 
-        rating_picker.setDisplayedValues(displayedValues);
+        binding.ratingPicker.setDisplayedValues(displayedValues);
 
-        rating_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        binding.ratingPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 String[] displayedValues = picker.getDisplayedValues();
                 float rating = Float.parseFloat(displayedValues[newVal]);
 
-                review_edit_rating_bar_as_text.setText(String.format("%s", rating));
+                binding.reviewEditRatingBarAsText.setText(String.format("%s", rating));
                 kino.setRating(rating);
             }
         });
@@ -149,7 +119,7 @@ public class EditReview extends AppCompatActivity {
         initRating(displayedValues);
 
         if (kino.getReview() != null) {
-            review_text.setText(kino.getReview());
+            binding.kinoReviewText.setText(kino.getReview());
         }
 
         if (kino.getReview_date() != null) {
@@ -157,21 +127,32 @@ public class EditReview extends AppCompatActivity {
             if (kino.getReview_date() != null) {
                 review_date_as_string = DateFormat.getDateFormat(getBaseContext()).format(kino.getReview_date());
             }
-            kino_review_date_button.setText(review_date_as_string);
+            binding.kinoReviewDateButton.setText(review_date_as_string);
         }
 
-        kino_title.setText(kino.getTitle());
-        kino_title_readonly.setText(kino.getTitle());
+        binding.viewKinoTitleEdit.setText(kino.getTitle());
+        binding.viewKinoTitleReadonly.setText(kino.getTitle());
         if (kino.getTmdbKinoId() != null) {
-            kino_title.setVisibility(View.INVISIBLE);
-            kino_title_readonly.setVisibility(View.VISIBLE);
+            binding.viewKinoTitleEdit.setVisibility(View.INVISIBLE);
+            binding.viewKinoTitleReadonly.setVisibility(View.VISIBLE);
         } else {
-            kino_title.setVisibility(View.VISIBLE);
-            kino_title_readonly.setVisibility(View.INVISIBLE);
+            binding.viewKinoTitleEdit.setVisibility(View.VISIBLE);
+            binding.viewKinoTitleReadonly.setVisibility(View.INVISIBLE);
         }
 
-        setSupportActionBar(toolbar);
+        binding.reviewTagEdit.setOnClickListener(onReviewTagEdit());
+        activityBinding.fabSave.setOnClickListener(view -> onFabSaveClick());
+
+        setSupportActionBar(activityBinding.contentToolbar.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @NonNull
+    private View.OnClickListener onReviewTagEdit() {
+        return view -> {
+            TagChooserDialog dialog = new TagChooserDialog(tagService, kino);
+            dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+        };
     }
 
     private void initRating(String[] displayedValues) {
@@ -186,11 +167,11 @@ public class EditReview extends AppCompatActivity {
         }
 
         if (kino.getRating() != null) {
-            rating_picker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
-            review_edit_rating_bar_as_text.setText(String.format("%s", kino.getRating()));
+            binding.ratingPicker.setValue(getValueToDisplay(displayedValues, kino.getRating()));
+            binding.reviewEditRatingBarAsText.setText(String.format("%s", kino.getRating()));
         }
 
-        review_edit_rating_bar_max_as_text.setText(String.format("/%s", maxRating));
+        binding.reviewEditRatingBarMaxAsText.setText(String.format("/%s", maxRating));
     }
 
     private int getValueToDisplay(String[] displayedValues, float rating) {
@@ -239,12 +220,11 @@ public class EditReview extends AppCompatActivity {
         newFragment.show(getFragmentManager(), "timePicker");
     }
 
-    @OnClick(R.id.fab_save)
-    public void onClick() {
-        kino.setReview(review_text.getText().toString());
+    public void onFabSaveClick() {
+        kino.setReview(binding.kinoReviewText.getText().toString());
 
         if (kino.getTmdbKinoId() == null) {
-            kino.setTitle(kino_title.getText().toString());
+            kino.setTitle(binding.viewKinoTitleEdit.getText().toString());
         }
 
         if (kino.getMaxRating() == null) {
@@ -317,15 +297,9 @@ public class EditReview extends AppCompatActivity {
             if (kino.getReview_date() != null) {
                 review_date_as_string = DateFormat.getDateFormat(getActivity().getBaseContext()).format(kino.getReview_date());
             }
-            ((EditReview) getActivity()).kino_review_date_button.setText(review_date_as_string);
+            ((EditReview) getActivity()).binding.kinoReviewDateButton.setText(review_date_as_string);
             // Do something with the date chosen by the user
         }
-    }
-
-    @OnClick(R.id.review_tag_edit)
-    public void showTagEditDialog() {
-        TagChooserDialog dialog = new TagChooserDialog(tagService, kino);
-        dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
     }
 
 }
