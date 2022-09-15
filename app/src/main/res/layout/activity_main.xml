@@ -34,7 +34,7 @@
             android:fitsSystemWindows="true"
             tools:context=".android.activities.MainActivity">
 
-            <include layout="@layout/toolbar_with_tabs" />
+            <include android:id="@+id/main_toolbar" layout="@layout/toolbar_with_tabs" />
 
             <RelativeLayout
                 android:id="@+id/content_main"
@@ -42,7 +42,7 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <androidx.viewpager.widget.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+                <androidx.viewpager.widget.ViewPager
                     android:id="@+id/category_pager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

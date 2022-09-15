@@ -2,21 +2,15 @@ package com.ulicae.cinelog.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
+import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.core.view.GravityCompat;
 import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.add.AddKino;
@@ -24,6 +18,7 @@ import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
 import com.ulicae.cinelog.android.activities.fragments.reviews.MovieFragment;
 import com.ulicae.cinelog.android.activities.fragments.reviews.SerieFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
+import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.utils.ThemeWrapper;
@@ -32,11 +27,8 @@ import com.ulicae.cinelog.utils.UpgradeFixRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -56,28 +48,17 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabs)
-    TabLayout tabLayout;
-    @BindView(R.id.category_pager)
-    ViewPager viewPager;
-
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.mainToolbar.toolbar);
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
@@ -86,16 +67,10 @@ public class MainActivity extends AppCompatActivity {
             actionbar.setSubtitle(R.string.app_name);
         }
 
-        setViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
+        setViewPager(binding.categoryPager);
+        binding.mainToolbar.tabs.setupWithViewPager(binding.categoryPager);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setReviewFragment();
-            }
-        });
+        binding.fab.setOnClickListener(v -> setReviewFragment());
 
         configureDrawer();
 
@@ -103,45 +78,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configureDrawer() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_reviews);
+        binding.navView.setCheckedItem(R.id.nav_reviews);
+        binding.navView.setNavigationItemSelectedListener(this::navigate);
+    }
 
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        // close drawer when item is tapped
-                        drawerLayout.closeDrawers();
+    private boolean navigate(MenuItem menuItem) {
+        // close drawer when item is tapped
+        binding.drawerLayout.closeDrawers();
 
-                        switch (menuItem.getItemId()) {
-                            case R.id.nav_wishlist:
-                                startActivity(
-                                        new Intent(getApplicationContext(), WishlistActivity.class)
-                                );
-                                break;
-                            case R.id.nav_tags:
-                                startActivity(
-                                        new Intent(getApplicationContext(), TagsActivity.class));
-                                break;
-                        }
+        switch (menuItem.getItemId()) {
+            case R.id.nav_wishlist:
+                startActivity(
+                        new Intent(getApplicationContext(), WishlistActivity.class)
+                );
+                break;
+            case R.id.nav_tags:
+                startActivity(
+                        new Intent(getApplicationContext(), TagsActivity.class));
+                break;
+        }
 
-                        setViewPager(viewPager);
+        setViewPager(binding.categoryPager);
 
-                        fab.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                setReviewFragment();
-                            }
-                        });
+        binding.fab.setOnClickListener(v -> setReviewFragment());
 
-                        return true;
-                    }
-                }
-        );
+        return true;
     }
 
     private void setReviewFragment() {
-        Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+        Fragment fragment = ((ViewPagerAdapter) binding.categoryPager.getAdapter()).getItem(binding.categoryPager.getCurrentItem());
 
         Intent intent;
         if (fragment instanceof MovieFragment) {
@@ -175,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                binding.drawerLayout.openDrawer(GravityCompat.START);
                 return true;
 
         }
@@ -190,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    static class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
