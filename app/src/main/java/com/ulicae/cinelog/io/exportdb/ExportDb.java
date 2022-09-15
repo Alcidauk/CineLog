@@ -3,28 +3,25 @@ package com.ulicae.cinelog.io.exportdb;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
+import com.ulicae.cinelog.databinding.ActivityExportDbBinding;
 import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.TagCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.WishlistCsvExporterFactory;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -43,8 +40,7 @@ import butterknife.OnClick;
  */
 public class ExportDb extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    private ActivityExportDbBinding binding;
 
     private Boolean writeStoragePermission;
 
@@ -55,13 +51,14 @@ public class ExportDb extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(ExportDb.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-        setContentView(R.layout.activity_export_db);
-        ButterKnife.bind(this);
+        binding = ActivityExportDbBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.exportInDbToolbar.toolbar);
+
+        binding.exportInDbContent.exportDbButton.setOnClickListener(this::onClick);
     }
 
-    @OnClick(R.id.export_db_button)
     public void onClick(View view) {
         if (writeStoragePermission != null && writeStoragePermission) {
             new SnapshotExporter(new TagCsvExporterFactory(getApplication()), getApplication()).export("export_tags.csv");
@@ -83,10 +80,8 @@ public class ExportDb extends AppCompatActivity {
                                            @SuppressWarnings("NullableProblems") String permissions[],
                                            @SuppressWarnings("NullableProblems") int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1: {
-                writeStoragePermission = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-            }
+        if (requestCode == 1) {
+            writeStoragePermission = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
         }
     }
 
