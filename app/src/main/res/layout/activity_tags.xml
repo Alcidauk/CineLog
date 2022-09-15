@@ -34,7 +34,7 @@
             android:fitsSystemWindows="true"
             tools:context=".android.activities.MainActivity">
 
-            <include layout="@layout/toolbar" />
+            <include android:id="@+id/tags_toolbar" layout="@layout/toolbar" />
 
 
             <RelativeLayout

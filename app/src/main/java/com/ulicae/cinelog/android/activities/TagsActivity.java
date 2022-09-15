@@ -3,31 +3,23 @@ package com.ulicae.cinelog.android.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.databinding.ActivityTagsBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -50,17 +42,7 @@ import butterknife.ButterKnife;
  */
 public class TagsActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-
-    @BindView(R.id.fab_tags)
-    FloatingActionButton fab;
-
-    @BindView(R.id.tag_list)
-    ListView tag_list;
+    private ActivityTagsBinding binding;
 
     TagListAdapter listAdapter;
 
@@ -71,22 +53,14 @@ public class TagsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        setContentView(R.layout.activity_tags);
-        ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
+        binding = ActivityTagsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         service = new TagService(((KinoApplication) getApplication()).getDaoSession());
 
-        fab = (FloatingActionButton) findViewById(R.id.fab_tags);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startEditTagActivity();
-            }
-        });
+        binding.fabTags.setOnClickListener(v -> startEditTagActivity());
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.tagsToolbar.toolbar);
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
@@ -102,7 +76,7 @@ public class TagsActivity extends AppCompatActivity {
         List<TagDto> dataDtos = service.getAll();
 
         listAdapter = new TagListAdapter(this, dataDtos, service);
-        tag_list.setAdapter(listAdapter);
+        binding.tagList.setAdapter(listAdapter);
     }
 
     @Override
@@ -113,38 +87,29 @@ public class TagsActivity extends AppCompatActivity {
     }
 
     private void configureDrawer() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_tags);
 
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        drawerLayout.closeDrawers();
+        navigationView.setNavigationItemSelectedListener(this::navigate);
+    }
 
-                        switch (menuItem.getItemId()) {
-                            case R.id.nav_reviews:
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                break;
-                            case R.id.nav_wishlist:
-                                startActivity(
-                                        new Intent(getApplicationContext(), WishlistActivity.class)
-                                );
-                                break;
-                        }
+    private boolean navigate(MenuItem menuItem) {
+        binding.drawerLayout.closeDrawers();
 
-                        fab.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startEditTagActivity();
-                            }
-                        });
+        switch (menuItem.getItemId()) {
+            case R.id.nav_reviews:
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_wishlist:
+                startActivity(
+                        new Intent(getApplicationContext(), WishlistActivity.class)
+                );
+                break;
+        }
 
-                        return true;
-                    }
-                }
-        );
+        binding.fabTags.setOnClickListener(v -> startEditTagActivity());
+        return true;
     }
 
     private void startEditTagActivity() {
@@ -168,7 +133,7 @@ public class TagsActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                binding.drawerLayout.openDrawer(GravityCompat.START);
                 return true;
 
         }
