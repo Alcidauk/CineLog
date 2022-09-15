@@ -25,7 +25,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".android.activities.ViewUnregisteredKino">
 
-    <include layout="@layout/toolbar" />
+    <include android:id="@+id/view_unregistered_toolbar" layout="@layout/toolbar" />
 
     <RelativeLayout
         android:id="@+id/content_add_kino"
@@ -51,7 +51,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="100dp">
 
-                <include layout="@layout/content_kino_view_unregistered" />
+                <include android:id="@+id/view_unregistered_content" layout="@layout/content_kino_view_unregistered" />
             </LinearLayout>
         </ScrollView>
 

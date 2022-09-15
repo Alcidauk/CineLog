@@ -3,15 +3,12 @@ package com.ulicae.cinelog.android.activities.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
@@ -23,6 +20,7 @@ import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
+import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -33,12 +31,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
- * CineLog Copyright 2019 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -58,19 +52,7 @@ import butterknife.OnClick;
  */
 public class ViewDataActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-
-    @BindView(R.id.view_kino_tmdb_image_layout)
-    ImageView poster;
-    @BindView(R.id.view_kino_tmdb_title)
-    TextView title;
-    @BindView(R.id.view_kino_tmdb_year)
-    TextView year;
-    @BindView(R.id.view_kino_tmdb_overview)
-    TextView overview;
+    private ActivityViewUnregisteredKinoBinding binding;
 
     private WishlistDataDto wishlistDataDto;
 
@@ -87,24 +69,25 @@ public class ViewDataActivity extends AppCompatActivity {
         serieWishlistService = new SerieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
         movieWishlistService = new MovieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
 
-        setContentView(R.layout.activity_view_unregistered_kino);
-        ButterKnife.bind(this);
+        binding = ActivityViewUnregisteredKinoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         wishlistDataDto = Parcels.unwrap(getIntent().getParcelableExtra("dataDto"));
 
         configureFabButton();
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.viewUnregisteredToolbar.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void configureFabButton() {
-        if(wishlistDataDto.getId() != null){
-            fab.setImageResource(R.drawable.add_kino);
+        if (wishlistDataDto.getId() != null) {
+            binding.fab.setImageResource(R.drawable.add_kino);
         }
+
+        binding.fab.setOnClickListener(this::onClick);
     }
 
-    @OnClick(R.id.fab)
     public void onClick(View view) {
         if (wishlistDataDto.getId() == null) {
             addToWishlist();
@@ -122,7 +105,7 @@ public class ViewDataActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
         }
 
-        fab.hide();
+        binding.fab.hide();
     }
 
     private void startReviewCreationActivity() {
@@ -180,23 +163,23 @@ public class ViewDataActivity extends AppCompatActivity {
                     .load("https://image.tmdb.org/t/p/w185" + wishlistDataDto.getPosterPath())
                     .centerCrop()
                     .crossFade()
-                    .into(poster);
+                    .into(binding.viewUnregisteredContent.viewKinoTmdbImageLayout);
         }
 
         // TODO extract it in a helper
         String releaseDateLocal = wishlistDataDto.getReleaseDate();
-        if(releaseDateLocal != null && !"".equals(releaseDateLocal)) {
+        if (releaseDateLocal != null && !"".equals(releaseDateLocal)) {
             SimpleDateFormat frenchSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
             try {
                 Date parsedDate = frenchSdf.parse(releaseDateLocal);
                 String formattedDate = DateFormat.getDateFormat(getBaseContext()).format(parsedDate);
-                year.setText(formattedDate);
+                binding.viewUnregisteredContent.viewKinoTmdbYear.setText(formattedDate);
             } catch (ParseException ignored) {
-                year.setText(String.valueOf(wishlistDataDto.getFirstYear()));
+                binding.viewUnregisteredContent.viewKinoTmdbYear.setText(String.valueOf(wishlistDataDto.getFirstYear()));
             }
         }
-        overview.setText(wishlistDataDto.getOverview());
-        title.setText(wishlistDataDto.getTitle());
+        binding.viewUnregisteredContent.viewKinoTmdbOverview.setText(wishlistDataDto.getOverview());
+        binding.viewUnregisteredContent.viewKinoTmdbOverview.setText(wishlistDataDto.getTitle());
     }
 
     @Override
