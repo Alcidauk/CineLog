@@ -6,17 +6,18 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
+import com.ulicae.cinelog.databinding.ToolbarBinding;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.utils.ThemeWrapper;
@@ -25,12 +26,9 @@ import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnTextChanged;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -49,17 +47,6 @@ import butterknife.OnTextChanged;
  */
 public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppCompatActivity {
 
-    static final int RESULT_VIEW_KINO = 4;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.kino_search)
-    EditText kino_search;
-    @BindView(R.id.kino_results)
-    ListView kino_results_list;
-    @BindView(R.id.kino_search_progress_bar)
-    ProgressBar kino_search_progress_bar;
-
     protected TmdbServiceWrapper tmdbServiceWrapper;
     protected NetworkTaskManager networkTaskManager;
 
@@ -77,10 +64,27 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        setContentView(getContentView());
-        ButterKnife.bind(this);
+        inflateBinding();
 
-        setSupportActionBar(toolbar);
+        getContentAddReviewBinding().kinoSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                onSearchChange(charSequence, i, i1, i2);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        getContentAddReviewBinding().kinoSearchAddFromScratch.setOnClickListener(this::onFromScratchClick);
+
+
+        setSupportActionBar(getToolbar().toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tmdbServiceWrapper = new TmdbServiceWrapper(this);
@@ -88,11 +92,17 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
         handler = new AddReviewHandler(new WeakReference<AddReviewActivity>(this));
     }
 
-    protected abstract int getContentView();
+    protected abstract void inflateBinding();
+
+    protected abstract ToolbarBinding getToolbar();
+
+    protected abstract ContentAddReviewBinding getContentAddReviewBinding();
+
+    protected abstract void onFromScratchClick(View view);
 
     private void startSearchTask() {
         if (isNetworkAvailable()) {
-            executeTask(kino_search.getText().toString());
+            executeTask(getContentAddReviewBinding().kinoSearch.getText().toString());
         } else {
             Toast t = Toast.makeText(getApplicationContext(),
                     getString(R.string.addkino_error_no_network),
@@ -110,10 +120,9 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
     }
 
     @SuppressWarnings("unused")
-    @OnTextChanged(R.id.kino_search)
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public void onSearchChange(CharSequence s, int start, int before, int count) {
         if (count > 0) {
-            kino_search_progress_bar.setVisibility(View.VISIBLE);
+            getContentAddReviewBinding().kinoSearchProgressBar.setVisibility(View.VISIBLE);
             handler.removeMessages(TRIGGER_SERACH);
             handler.sendEmptyMessageDelayed(TRIGGER_SERACH, SEARCH_TRIGGER_DELAY_IN_MS);
         } else if (count == 0) {
@@ -122,23 +131,21 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
     }
 
     public void clearListView() {
-        if (kino_results_list != null && kino_results_list.getAdapter() != null) {
-            kino_results_list.setAdapter(null);
+        if (getContentAddReviewBinding().kinoResults.getAdapter() != null) {
+            getContentAddReviewBinding().kinoResults.setAdapter(null);
         }
-        kino_search_progress_bar.setVisibility(View.GONE);
+        getContentAddReviewBinding().kinoSearchProgressBar.setVisibility(View.GONE);
     }
 
     public abstract void populateListView(final List<T> movies);
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     static class AddReviewHandler extends Handler {

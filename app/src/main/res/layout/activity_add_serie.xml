@@ -24,7 +24,7 @@
     android:fitsSystemWindows="true"
     tools:context=".android.activities.add.AddSerieActivity">
 
-    <include layout="@layout/toolbar" />
-    <include layout="@layout/content_add_review" />
+    <include android:id="@+id/add_serie_toolbar" layout="@layout/toolbar" />
+    <include android:id="@+id/add_serie_content" layout="@layout/content_add_review" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

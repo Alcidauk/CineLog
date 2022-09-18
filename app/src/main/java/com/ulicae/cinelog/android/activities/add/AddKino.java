@@ -6,14 +6,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
+import com.ulicae.cinelog.databinding.ActivityAddKinoBinding;
+import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
+import com.ulicae.cinelog.databinding.ToolbarBinding;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
@@ -23,11 +25,10 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import butterknife.OnClick;
 import retrofit2.Call;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -51,6 +52,8 @@ public class AddKino extends AddReviewActivity<BaseMovie> {
 
     private boolean toWishlist;
 
+    private ActivityAddKinoBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,22 +65,33 @@ public class AddKino extends AddReviewActivity<BaseMovie> {
     }
 
     @Override
-    protected int getContentView() {
-        return R.layout.activity_add_kino;
+    protected void inflateBinding() {
+        binding = ActivityAddKinoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+    }
+
+    @Override
+    protected ToolbarBinding getToolbar() {
+        return binding.addKinoToolbar;
+    }
+
+    @Override
+    protected ContentAddReviewBinding getContentAddReviewBinding() {
+        return binding.addKinoContent;
     }
 
     @Override
     protected void executeTask(String textToSearch) {
-        Call<MovieResultsPage> search = tmdbServiceWrapper.search(kino_search.getText().toString());
+        Call<MovieResultsPage> search = tmdbServiceWrapper.search(getContentAddReviewBinding().kinoSearch.getText().toString());
         networkTaskManager.createAndExecute(search);
     }
 
-    @OnClick(R.id.kino_search_add_from_scratch)
-    public void onClick(View view) {
+    @Override
+    public void onFromScratchClick(View view) {
         Intent intent;
         if (!toWishlist) {
             KinoDto kinoToCreate = new KinoDto();
-            kinoToCreate.setTitle(kino_search.getText().toString());
+            kinoToCreate.setTitle(getContentAddReviewBinding().kinoSearch.getText().toString());
 
             intent = new Intent(view.getContext(), EditReview.class);
             intent.putExtra("kino", Parcels.wrap(kinoToCreate));
@@ -85,7 +99,7 @@ public class AddKino extends AddReviewActivity<BaseMovie> {
         } else {
             intent = new Intent(view.getContext(), ViewDataActivity.class);
             intent.putExtra("dataDto", Parcels.wrap(
-                    new WishlistDataDto(kino_search.getText().toString(), WishlistItemType.MOVIE))
+                    new WishlistDataDto(getContentAddReviewBinding().kinoSearch.getText().toString(), WishlistItemType.MOVIE))
             );
         }
 
@@ -94,16 +108,14 @@ public class AddKino extends AddReviewActivity<BaseMovie> {
 
     public void populateListView(final List<BaseMovie> movies) {
         ArrayAdapter<BaseMovie> arrayAdapter;
-        if(!toWishlist){
+        if (!toWishlist) {
             arrayAdapter = new KinoResultsAdapter(this, movies);
         } else {
             arrayAdapter = new WishlistMovieResultsAdapter(this, movies);
         }
 
-        if (kino_results_list != null) {
-            kino_results_list.setAdapter(arrayAdapter);
-            kino_search_progress_bar.setVisibility(View.GONE);
-        }
+        getContentAddReviewBinding().kinoResults.setAdapter(arrayAdapter);
+        getContentAddReviewBinding().kinoSearchProgressBar.setVisibility(View.GONE);
     }
 
 }

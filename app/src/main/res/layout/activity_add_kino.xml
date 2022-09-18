@@ -24,7 +24,7 @@
     android:fitsSystemWindows="true"
     tools:context=".android.activities.add.AddKino">
 
-    <include layout="@layout/toolbar" />
-    <include layout="@layout/content_add_review" />
+    <include android:id="@+id/add_kino_toolbar" layout="@layout/toolbar" />
+    <include android:id="@+id/add_kino_content" layout="@layout/content_add_review" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
