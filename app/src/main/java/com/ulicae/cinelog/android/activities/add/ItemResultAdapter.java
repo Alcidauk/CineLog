@@ -2,18 +2,20 @@ package com.ulicae.cinelog.android.activities.add;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
+
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.databinding.SearchResultItemBinding;
 import com.ulicae.cinelog.network.DtoBuilderFromTmdbObject;
 
 import java.util.List;
@@ -41,6 +43,7 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
     protected DataService<? extends KinoDto> dataService;
 
     private DtoBuilderFromTmdbObject<T> builderFromTmdbObject;
+    private SearchResultItemBinding binding;
 
     public ItemResultAdapter(Context context, List<T> results, DataService<? extends KinoDto> dataService, DtoBuilderFromTmdbObject<T> dtoBuilderFromTmdbObject) {
         super(context, R.layout.search_result_item, results);
@@ -55,12 +58,15 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.search_result_item, parent, false);
+            binding = SearchResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            convertView = binding.getRoot();
+        } else {
+            binding = SearchResultItemBinding.bind(convertView);
         }
 
         final KinoDto kinoDto = builderFromTmdbObject.build(getItem(position));
 
-        ItemViewHolder holder = new ItemViewHolder(convertView);
+        ItemViewHolder holder = new ItemViewHolder(binding);
 
         populateRatingBar(holder);
         populateTitle(kinoDto, holder);
@@ -70,12 +76,7 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
         final Long tmdbId = kinoDto.getTmdbKinoId();
         populateAddButton(kinoDto, holder, tmdbId);
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewDetails(kinoDto, position);
-            }
-        });
+        convertView.setOnClickListener(v -> viewDetails(kinoDto, position));
 
         KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
         if (kinoByTmdbMovieId != null) {

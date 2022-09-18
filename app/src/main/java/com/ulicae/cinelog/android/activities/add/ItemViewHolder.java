@@ -1,18 +1,14 @@
 package com.ulicae.cinelog.android.activities.add;
 
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.ulicae.cinelog.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.ulicae.cinelog.databinding.SearchResultItemBinding;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -31,53 +27,37 @@ import butterknife.ButterKnife;
  */
 public class ItemViewHolder {
 
-    @BindView(R.id.kino_title)
-    TextView title;
-    @BindView(R.id.kino_year)
-    TextView year;
-    @BindView(R.id.kino_poster)
-    ImageView poster;
+    private SearchResultItemBinding binding;
 
-    @BindView(R.id.add_review_button)
-    ImageButton add_review_button;
-
-    @BindView(R.id.kino_rating_bar_review)
-    RatingBar kino_rating_bar_review;
-
-    @BindView(R.id.search_result_item_rating_bar_as_text)
-    TextView search_result_item_rating_bar_as_text;
-    @BindView(R.id.search_result_item_rating_bar_max_as_text)
-    TextView search_result_item_rating_bar_max_as_text;
-
-    ItemViewHolder(View view) {
-        ButterKnife.bind(this, view);
+    ItemViewHolder(SearchResultItemBinding binding) {
+        this.binding = binding;
     }
 
     public TextView getTitle() {
-        return title;
+        return binding.kinoTitle;
     }
 
     public TextView getYear() {
-        return year;
+        return binding.kinoYear;
     }
 
     public ImageView getPoster() {
-        return poster;
+        return binding.kinoPoster;
     }
 
     public ImageButton getAddButton() {
-        return add_review_button;
+        return binding.addReviewButton;
     }
 
     public RatingBar getRatingBar() {
-        return kino_rating_bar_review;
+        return binding.kinoRatingBarReview;
     }
 
     public TextView getRatingBarAsText() {
-        return search_result_item_rating_bar_as_text;
+        return binding.searchResultItemRatingBarAsText;
     }
 
     public TextView getRatingBarMaxAsText() {
-        return search_result_item_rating_bar_max_as_text;
+        return binding.searchResultItemRatingBarMaxAsText;
     }
 }
