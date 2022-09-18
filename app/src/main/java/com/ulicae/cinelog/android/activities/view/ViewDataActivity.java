@@ -179,7 +179,7 @@ public class ViewDataActivity extends AppCompatActivity {
             }
         }
         binding.viewUnregisteredContent.viewKinoTmdbOverview.setText(wishlistDataDto.getOverview());
-        binding.viewUnregisteredContent.viewKinoTmdbOverview.setText(wishlistDataDto.getTitle());
+        binding.viewUnregisteredContent.viewKinoTmdbTitle.setText(wishlistDataDto.getTitle());
     }
 
     @Override
