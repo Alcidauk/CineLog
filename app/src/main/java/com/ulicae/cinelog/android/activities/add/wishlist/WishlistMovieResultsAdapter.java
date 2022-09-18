@@ -2,11 +2,12 @@ package com.ulicae.cinelog.android.activities.add.wishlist;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
@@ -15,6 +16,7 @@ import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.dto.data.MovieToWishlistDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
+import com.ulicae.cinelog.databinding.WishlistSearchResultItemBinding;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import org.parceler.Parcels;
@@ -22,7 +24,7 @@ import org.parceler.Parcels;
 import java.util.List;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -58,18 +60,22 @@ public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
 
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+        WishlistSearchResultItemBinding binding;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.wishlist_search_result_item, parent, false);
+            binding = WishlistSearchResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            convertView = binding.getRoot();
+        } else {
+            binding = WishlistSearchResultItemBinding.bind(convertView);
         }
 
         BaseMovie item = getItem(position);
 
         WishlistDataDto wishlistDataDto = item != null ? movieWishlistService.getByTmdbId(item.id) : null;
-        if(wishlistDataDto == null) {
+        if (wishlistDataDto == null) {
             wishlistDataDto = movieToWishlistDataDtoBuilder.build(item);
         }
 
-        WishlistItemViewHolder holder = new WishlistItemViewHolder(convertView);
+        WishlistItemViewHolder holder = new WishlistItemViewHolder(binding);
 
         populateTitle(wishlistDataDto, holder);
         populateYear(wishlistDataDto, holder);
