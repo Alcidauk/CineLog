@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.TypedValue;
@@ -24,60 +23,67 @@ import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.databinding.ContentKinoViewBinding;
+import com.ulicae.cinelog.databinding.ContentReviewViewBinding;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
+/**
+ * CineLog Copyright 2022 Pierre Rognon
+ * <p>
+ * <p>
+ * This file is part of CineLog.
+ * CineLog is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * CineLog is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+ */
 public class ViewDataFieldsInflater {
 
-    @BindView(R.id.view_kino_tmdb_image_layout)
     ImageView poster;
-    @BindView(R.id.view_kino_tmdb_title)
     TextView title;
-    @BindView(R.id.view_kino_tmdb_year)
     TextView year;
-    @BindView(R.id.view_kino_tmdb_overview)
     TextView overview;
-    @BindView(R.id.view_kino_review_rating)
     RatingBar rating;
-    @BindView(R.id.view_kino_review_rating_as_text)
     TextView ratingAsText;
-    @BindView(R.id.view_kino_review_review)
     TextView review;
-    @BindView(R.id.view_kino_review_review_label)
     TextView reviewLabel;
-    @BindView(R.id.view_kino_review_review_date)
-    TextView review_date;
+    TextView reviewDate;
 
-    @BindView(R.id.view_kino_tmdb_image_title_layout)
-    LinearLayout view_kino_tmdb_image_title_layout;
-
-    @BindView(R.id.view_kino_tmdb_overview_more_button)
-    Button overview_more_button;
-
-    @BindView(R.id.view_kino_review_tags_list)
+    LinearLayout tmdbImageTitle;
+    Button overviewMoreButton;
     LinearLayout tagsList;
 
-    private KinoDto kino;
+    private final KinoDto kino;
     private Activity activity;
+    private final ContentKinoViewBinding viewKinoContentLayout;
+    private final ContentReviewViewBinding reviewKinoContentLayout;
 
-    public ViewDataFieldsInflater(KinoDto kino, Activity activity, View view) {
+    public ViewDataFieldsInflater(KinoDto kino,
+                                  Activity activity,
+                                  ContentKinoViewBinding viewKinoContentLayout,
+                                  ContentReviewViewBinding reviewKinoContentLayout) {
         this.kino = kino;
         this.activity = activity;
-
-        ButterKnife.bind(this, view);
+        this.viewKinoContentLayout = viewKinoContentLayout;
+        this.reviewKinoContentLayout = reviewKinoContentLayout;
     }
 
-    public void configureFields(){
+    public void configureFields() {
+        bind();
+
         configureMaxRating();
         configureTitleAndPoster();
         configureReleaseDate();
@@ -87,11 +93,29 @@ public class ViewDataFieldsInflater {
         configureTags();
     }
 
+    private void bind() {
+        poster = viewKinoContentLayout.viewKinoTmdbImageLayout;
+        title = viewKinoContentLayout.viewKinoTmdbTitle;
+        year = viewKinoContentLayout.viewKinoTmdbYear;
+        overview = viewKinoContentLayout.viewKinoTmdbOverview;
+        tmdbImageTitle = viewKinoContentLayout.viewKinoTmdbImageTitleLayout;
+        overviewMoreButton = viewKinoContentLayout.viewKinoTmdbOverviewMoreButton;
+
+        rating = reviewKinoContentLayout.viewKinoReviewRating;
+        ratingAsText = reviewKinoContentLayout.viewKinoReviewRatingAsText;
+        review = reviewKinoContentLayout.viewKinoReviewReview;
+        reviewLabel = reviewKinoContentLayout.viewKinoReviewReviewLabel;
+        reviewDate = reviewKinoContentLayout.viewKinoReviewReviewDate;
+        tagsList = reviewKinoContentLayout.viewKinoReviewTagsList;
+
+        overviewMoreButton.setOnClickListener(this::onToggleOverview);
+    }
+
     private void configureTags() {
         tagsList.removeAllViews();
 
-        if(kino.getTags() != null) {
-            for(TagDto tagDto : kino.getTags()) {
+        if (kino.getTags() != null) {
+            for (TagDto tagDto : kino.getTags()) {
                 RelativeLayout tagLayout = getLayoutForTag(tagDto);
                 tagsList.addView(tagLayout);
             }
@@ -104,29 +128,29 @@ public class ViewDataFieldsInflater {
         tagColor.setBackgroundColor(Color.parseColor(tagDto.getColor()));
         tagColor.setVisibility(View.VISIBLE);
         tagColor.setLayoutParams(
-                new ViewGroup.LayoutParams(20,ViewGroup.LayoutParams.MATCH_PARENT)
+                new ViewGroup.LayoutParams(20, ViewGroup.LayoutParams.MATCH_PARENT)
         );
 
         TextView tagName = new TextView(activity);
         tagName.setText(tagDto.getName());
-        tagName.setPadding(30,10,10,10);
+        tagName.setPadding(30, 10, 10, 10);
 
         CardView cardView = new CardView(activity);
         cardView.setCardElevation(10);
         cardView.setRadius(10);
-        cardView.setPadding(20,20,20,20);
+        cardView.setPadding(20, 20, 20, 20);
         cardView.addView(tagColor);
         cardView.addView(tagName);
 
         RelativeLayout lay = new RelativeLayout(activity);
-        lay.setPadding(20,20,20,20);
+        lay.setPadding(20, 20, 20, 20);
         lay.addView(cardView);
 
         return lay;
     }
 
     private void configureReview() {
-        if(kino.getReview() == null || "".equals(kino.getReview())) {
+        if (kino.getReview() == null || "".equals(kino.getReview())) {
             review.setVisibility(View.INVISIBLE);
             reviewLabel.setVisibility(View.INVISIBLE);
         } else {
@@ -135,7 +159,7 @@ public class ViewDataFieldsInflater {
 
             review.setText(kino.getReview());
         }
-        review_date.setText(getReviewDateAsString(kino.getReview_date()));
+        reviewDate.setText(getReviewDateAsString(kino.getReview_date()));
     }
 
     private void configureRating() {
@@ -147,14 +171,14 @@ public class ViewDataFieldsInflater {
 
     private void configureOverview() {
         overview.setText(kino.getOverview());
-        if(kino.getOverview() == null || "".equals(kino.getOverview())){
-            overview_more_button.setVisibility(View.INVISIBLE);
+        if (kino.getOverview() == null || "".equals(kino.getOverview())) {
+            overviewMoreButton.setVisibility(View.INVISIBLE);
         }
     }
 
     private void configureReleaseDate() {
         String releaseDateLocal = kino.getReleaseDate();
-        if(releaseDateLocal != null && !"".equals(releaseDateLocal)) {
+        if (releaseDateLocal != null && !"".equals(releaseDateLocal)) {
             SimpleDateFormat frenchSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
             try {
                 Date parsedDate = frenchSdf.parse(releaseDateLocal);
@@ -198,33 +222,32 @@ public class ViewDataFieldsInflater {
         return null;
     }
 
-    @OnClick(R.id.view_kino_tmdb_overview_more_button)
-    void onToggleOverview() {
-        if(poster.getVisibility() == View.VISIBLE){
+    public void onToggleOverview(View view) {
+        if (poster.getVisibility() == View.VISIBLE) {
             poster.setVisibility(View.GONE);
-            overview_more_button.setText(R.string.view_kino_overview_see_less);
+            overviewMoreButton.setText(R.string.view_kino_overview_see_less);
 
             overview.setEllipsize(null);
             overview.setMaxLines(Integer.MAX_VALUE);
             title.setEllipsize(null);
             title.setMaxLines(Integer.MAX_VALUE);
 
-            ViewGroup.LayoutParams params = view_kino_tmdb_image_title_layout.getLayoutParams();
+            ViewGroup.LayoutParams params = tmdbImageTitle.getLayoutParams();
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            view_kino_tmdb_image_title_layout.setLayoutParams(params);
+            tmdbImageTitle.setLayoutParams(params);
         } else {
             poster.setVisibility(View.VISIBLE);
-            overview_more_button.setText(R.string.view_kino_overview_see_more);
+            overviewMoreButton.setText(R.string.view_kino_overview_see_more);
 
             overview.setEllipsize(TextUtils.TruncateAt.END);
             overview.setMaxLines(4);
             title.setEllipsize(TextUtils.TruncateAt.END);
             title.setMaxLines(2);
 
-            ViewGroup.LayoutParams params = view_kino_tmdb_image_title_layout.getLayoutParams();
+            ViewGroup.LayoutParams params = tmdbImageTitle.getLayoutParams();
             params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     200, activity.getResources().getDisplayMetrics());
-            view_kino_tmdb_image_title_layout.setLayoutParams(params);
+            tmdbImageTitle.setLayoutParams(params);
         }
     }
 }

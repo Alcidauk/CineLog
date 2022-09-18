@@ -3,27 +3,23 @@ package com.ulicae.cinelog.android.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.ulicae.cinelog.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ulicae.cinelog.android.activities.view.ViewDataFieldsInflater;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.databinding.ActivityViewKinoBinding;
+import com.ulicae.cinelog.databinding.ContentKinoViewBinding;
+import com.ulicae.cinelog.databinding.ContentReviewViewBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
- * CineLog Copyright 2020 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -43,10 +39,7 @@ import butterknife.OnClick;
  */
 public class ViewKino extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+    private ActivityViewKinoBinding binding;
 
     KinoDto kino;
     int position;
@@ -59,12 +52,19 @@ public class ViewKino extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        setContentView(R.layout.activity_view_kino);
-        ButterKnife.bind(this);
+        binding = ActivityViewKinoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         position = getIntent().getIntExtra("kino_position", -1);
-        setSupportActionBar(toolbar);
+
+        binding.fab.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), EditReview.class);
+            intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
+            intent.putExtra("kino", Parcels.wrap(kino));
+            startActivityForResult(intent, RESULT_ADD_REVIEW);
+        });
+        setSupportActionBar(binding.viewKinoToolbar.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
@@ -73,15 +73,11 @@ public class ViewKino extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        new ViewDataFieldsInflater(kino, this, getWindow().getDecorView()).configureFields();
-    }
+        ActivityViewKinoBinding binding = this.getBinding();
+        ContentKinoViewBinding viewKinoContentLayout = binding.viewKinoContent.viewKinoContentLayout;
+        ContentReviewViewBinding reviewKinoContentLayout = binding.viewKinoContent.reviewKinoContentLayout;
 
-    @OnClick(R.id.fab)
-    public void onClick(View view) {
-        Intent intent = new Intent(this, EditReview.class);
-        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-        intent.putExtra("kino", Parcels.wrap(kino));
-        startActivityForResult(intent, RESULT_ADD_REVIEW);
+        new ViewDataFieldsInflater(kino, this, viewKinoContentLayout, reviewKinoContentLayout).configureFields();
     }
 
     @Override
@@ -101,20 +97,21 @@ public class ViewKino extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (editted) {
-                    Intent returnIntent = getIntent();
-                    returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-                    returnIntent.putExtra("kino", Parcels.wrap(kino));
-                    returnIntent.putExtra("kino_position", position);
-                    setResult(Activity.RESULT_OK, returnIntent);
-                }
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            if (editted) {
+                Intent returnIntent = getIntent();
+                returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
+                returnIntent.putExtra("kino", Parcels.wrap(kino));
+                returnIntent.putExtra("kino_position", position);
+                setResult(Activity.RESULT_OK, returnIntent);
+            }
+            onBackPressed();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
+    public ActivityViewKinoBinding getBinding() {
+        return binding;
+    }
 }

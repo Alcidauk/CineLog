@@ -1,21 +1,20 @@
 package com.ulicae.cinelog.android.activities.fragments.serie;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ulicae.cinelog.R;
+import androidx.fragment.app.Fragment;
+
 import com.ulicae.cinelog.android.activities.view.ViewDataFieldsInflater;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.databinding.FragmentSerieViewGeneralBinding;
 
 import org.parceler.Parcels;
 
-import butterknife.ButterKnife;
-
 /**
- * CineLog Copyright 2020 Pierre Rognon
+* CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -35,26 +34,25 @@ import butterknife.ButterKnife;
 public class SerieViewGeneralFragment extends Fragment {
 
     private View view;
+    private FragmentSerieViewGeneralBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_serie_view_general, container, false);
-        ButterKnife.bind(this, view);
+        binding = FragmentSerieViewGeneralBinding.inflate(getLayoutInflater(), container, false);
 
         SerieDto serieDto = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
-        new ViewDataFieldsInflater(serieDto, getActivity(), view).configureFields();
+        new ViewDataFieldsInflater(serieDto, getActivity(), binding.serieViewKinoContent, binding.serieReviewKinoContent).configureFields();
 
-        this.view = view;
+        this.view = binding.getRoot();
         return view;
     }
 
     public void updateKino(SerieDto updatedSerie) {
-        new ViewDataFieldsInflater(updatedSerie, getActivity(), view).configureFields();
+        new ViewDataFieldsInflater(updatedSerie, getActivity(), binding.serieViewKinoContent, binding.serieReviewKinoContent).configureFields();
     }
 }

@@ -41,8 +41,8 @@
             android:orientation="vertical"
             android:paddingBottom="100dp">
 
-            <include layout="@layout/content_kino_view" />
-            <include layout="@layout/content_review_view" />
+            <include android:id="@+id/view_kino_content_layout" layout="@layout/content_kino_view" />
+            <include android:id="@+id/review_kino_content_layout" layout="@layout/content_review_view" />
 
         </LinearLayout>
     </ScrollView>
