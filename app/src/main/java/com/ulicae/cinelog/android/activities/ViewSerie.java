@@ -1,23 +1,24 @@
 package com.ulicae.cinelog.android.activities;
 
+import static com.ulicae.cinelog.android.activities.ViewKino.RESULT_ADD_REVIEW;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
+import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.databinding.ActivityViewSerieBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -26,14 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-import static com.ulicae.cinelog.android.activities.ViewKino.RESULT_ADD_REVIEW;
-
 /**
- * CineLog Copyright 2020 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -52,60 +47,52 @@ import static com.ulicae.cinelog.android.activities.ViewKino.RESULT_ADD_REVIEW;
  */
 public class ViewSerie extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabs)
-    TabLayout tabLayout;
-    @BindView(R.id.serie_view_pager)
-    ViewPager viewPager;
-
     private SerieViewGeneralFragment generalFragment;
 
     KinoDto kino;
     int position;
     boolean editted = false;
 
+    private ActivityViewSerieBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        setContentView(R.layout.activity_view_serie);
-        ButterKnife.bind(this);
+        binding = ActivityViewSerieBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.fab.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), EditReview.class);
+            intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
+            intent.putExtra("kino", Parcels.wrap(kino));
+            startActivityForResult(intent, RESULT_ADD_REVIEW);
+        });
 
         kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
         position = getIntent().getIntExtra("kino_position", -1);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.viewSerieToolbar.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        setViewPager(viewPager);
+        setViewPager(binding.viewSerieContent.serieViewPager);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (editted) {
-                    Intent returnIntent = getIntent();
-                    returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-                    returnIntent.putExtra("kino", Parcels.wrap(kino));
-                    returnIntent.putExtra("kino_position", position);
-                    setResult(Activity.RESULT_OK, returnIntent);
-                }
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            if (editted) {
+                Intent returnIntent = getIntent();
+                returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
+                returnIntent.putExtra("kino", Parcels.wrap(kino));
+                returnIntent.putExtra("kino_position", position);
+                setResult(Activity.RESULT_OK, returnIntent);
+            }
+            onBackPressed();
+            return true;
         }
-    }
-
-    @OnClick(R.id.fab)
-    public void onClick(View view) {
-        Intent intent = new Intent(this, EditReview.class);
-        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-        intent.putExtra("kino", Parcels.wrap(kino));
-        startActivityForResult(intent, RESULT_ADD_REVIEW);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -125,7 +112,7 @@ public class ViewSerie extends AppCompatActivity {
         adapter.addFragment(new SerieViewEpisodesFragment(), getString(R.string.title_fragment_serie_episodes));
 
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+        binding.viewSerieToolbar.tabs.setupWithViewPager(viewPager);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
