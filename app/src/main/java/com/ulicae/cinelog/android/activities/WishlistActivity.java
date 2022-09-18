@@ -2,28 +2,24 @@ package com.ulicae.cinelog.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
+import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.core.view.GravityCompat;
 import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
 
+import com.google.android.material.navigation.NavigationView;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.add.AddKino;
 import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
 import com.ulicae.cinelog.android.activities.fragments.wishlist.MovieWishlistFragment;
 import com.ulicae.cinelog.android.activities.fragments.wishlist.SerieWishlistFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
+import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.utils.ThemeWrapper;
@@ -31,11 +27,8 @@ import com.ulicae.cinelog.utils.ThemeWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -55,39 +48,22 @@ import butterknife.ButterKnife;
  */
 public class WishlistActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabs)
-    TabLayout tabLayout;
-    @BindView(R.id.category_pager)
-    ViewPager viewPager;
-
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        setSupportActionBar(toolbar);
-        setViewPager(viewPager);
+        setSupportActionBar(binding.mainToolbar.toolbar);
+        setViewPager(binding.categoryPager);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setReviewFragment();
-            }
-        });
+        binding.fab.setOnClickListener(v -> setReviewFragment());
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.mainToolbar.toolbar);
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
@@ -100,39 +76,30 @@ public class WishlistActivity extends AppCompatActivity {
     }
 
     private void configureDrawer() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = binding.navView;
         navigationView.setCheckedItem(R.id.nav_wishlist);
 
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        drawerLayout.closeDrawers();
+                menuItem -> {
+                    binding.drawerLayout.closeDrawers();
 
-                        switch (menuItem.getItemId()) {
-                            case R.id.nav_reviews:
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                break;
-                        }
-
-                        setViewPager(viewPager);
-
-                        fab.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                setReviewFragment();
-                            }
-                        });
-
-                        return true;
+                    if (menuItem.getItemId() == R.id.nav_reviews) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
                     }
+
+                    setViewPager(binding.categoryPager);
+
+                    binding.fab.setOnClickListener(v -> setReviewFragment());
+
+                    return true;
                 }
         );
     }
 
     private void setReviewFragment() {
-        Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+        Fragment fragment = ((ViewPagerAdapter) binding.categoryPager.getAdapter())
+                .getItem(binding.categoryPager.getCurrentItem());
 
         Intent intent;
         if (fragment instanceof MovieWishlistFragment) {
@@ -162,7 +129,7 @@ public class WishlistActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                binding.drawerLayout.openDrawer(GravityCompat.START);
                 return true;
 
         }
@@ -176,7 +143,7 @@ public class WishlistActivity extends AppCompatActivity {
         adapter.addFragment(new SerieWishlistFragment(), getString(R.string.title_fragment_wishlist_serie));
 
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+        binding.mainToolbar.tabs.setupWithViewPager(viewPager);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
