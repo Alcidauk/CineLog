@@ -1,16 +1,12 @@
 package com.ulicae.cinelog.android.activities;
 
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ulicae.cinelog.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.ulicae.cinelog.databinding.SerieEpisodeResultItemBinding;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -29,46 +25,33 @@ import butterknife.ButterKnife;
  */
 public class TvEpisodeViewHolder {
 
-    @BindView(R.id.serie_episode_item_name)
-    TextView episodeName;
-    @BindView(R.id.serie_episode_item_date)
-    TextView episodeDate;
-    @BindView(R.id.serie_episode_item_season_number)
-    TextView seasonNumber;
-    @BindView(R.id.serie_episode_item_episode_number)
-    TextView episodeNumber;
+    private final SerieEpisodeResultItemBinding binding;
 
-    @BindView(R.id.serie_episode_item_watched)
-    ImageView episodeWatched;
-    @BindView(R.id.serie_episode_item_watching_date)
-    TextView episodeWatchingDate;
-
-
-    TvEpisodeViewHolder(View view) {
-        ButterKnife.bind(this, view);
+    TvEpisodeViewHolder(SerieEpisodeResultItemBinding binding) {
+        this.binding = binding;
     }
 
     public TextView getEpisodeName() {
-        return episodeName;
+        return binding.serieEpisodeItemName;
     }
 
     public TextView getEpisodeDate() {
-        return episodeDate;
+        return binding.serieEpisodeItemDate;
     }
 
     public TextView getSeasonNumber() {
-        return seasonNumber;
+        return binding.serieEpisodeItemSeasonNumber;
     }
 
     public TextView getEpisodeNumber() {
-        return episodeNumber;
+        return binding.serieEpisodeItemEpisodeNumber;
     }
 
     public ImageView getEpisodeWatched() {
-        return episodeWatched;
+        return binding.serieEpisodeItemWatched;
     }
 
     public TextView getEpisodeWatchingDate() {
-        return episodeWatchingDate;
+        return binding.serieEpisodeItemWatchingDate;
     }
 }

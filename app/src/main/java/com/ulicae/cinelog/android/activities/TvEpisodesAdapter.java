@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.data.services.reviews.SerieEpisodeService;
+import com.ulicae.cinelog.databinding.SerieEpisodeResultItemBinding;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ import java.util.List;
 public class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
 
     private SerieEpisodeService serieEpisodeService;
+    private SerieEpisodeResultItemBinding binding;
 
     public TvEpisodesAdapter(Context context, List<SerieEpisodeDto> results, SerieEpisodeService serieEpisodeService) {
         super(context, R.layout.serie_episode_result_item, results);
@@ -50,12 +52,15 @@ public class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.serie_episode_result_item, parent, false);
+            binding = SerieEpisodeResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            convertView = binding.getRoot();
+        } else {
+            binding = SerieEpisodeResultItemBinding.bind(convertView);
         }
 
         SerieEpisodeDto item = getItem(position);
 
-        TvEpisodeViewHolder holder = new TvEpisodeViewHolder(convertView);
+        TvEpisodeViewHolder holder = new TvEpisodeViewHolder(binding);
 
         if (item != null) {
             setDataInView(item, holder);
