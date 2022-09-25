@@ -6,15 +6,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
-
-import butterknife.ButterKnife;
+import com.ulicae.cinelog.databinding.FragmentSerieBinding;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -34,6 +34,8 @@ import butterknife.ButterKnife;
 public class SerieWishlistFragment extends WishlistFragment {
 
 
+    private com.ulicae.cinelog.databinding.FragmentSerieBinding binding;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,16 +49,19 @@ public class SerieWishlistFragment extends WishlistFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_serie, container, false);
-        ButterKnife.bind(this, view);
-
-        return view;
+        binding = FragmentSerieBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_wishlist, menu);
+    }
+
+    @Override
+    protected ListView getKinoList() {
+        return binding != null ? binding.kinoList : null;
     }
 
 }

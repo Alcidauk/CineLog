@@ -1,20 +1,19 @@
 package com.ulicae.cinelog.android.activities.fragments.serie;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+
+import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.TvEpisodesAdapter;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.data.services.reviews.SerieEpisodeService;
+import com.ulicae.cinelog.databinding.FragmentSerieViewEpisodesBinding;
 import com.ulicae.cinelog.network.task.SerieEpisodesNetworkTask;
 import com.uwetrottmann.tmdb2.entities.TvEpisode;
 
@@ -22,11 +21,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * CineLog Copyright 2020 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -45,10 +41,7 @@ import butterknife.ButterKnife;
  */
 public class SerieViewEpisodesFragment extends Fragment {
 
-    @BindView(R.id.serie_view_episodes_list)
-    ListView serie_view_episodes_list;
-    @BindView(R.id.serie_view_episodes_progress_bar)
-    ProgressBar serie_view_episodes_progress_bar;
+    private FragmentSerieViewEpisodesBinding binding;
 
     private SerieEpisodeService serieEpisodeService;
     private SerieDto serieDto;
@@ -65,19 +58,18 @@ public class SerieViewEpisodesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_serie_view_episodes, container, false);
-        ButterKnife.bind(this, view);
+        binding = FragmentSerieViewEpisodesBinding.inflate(inflater, container, false);
 
-        serie_view_episodes_progress_bar.setVisibility(View.VISIBLE);
+        binding.serieViewEpisodesProgressBar.setVisibility(View.VISIBLE);
         this.serieDto = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
 
         new SerieEpisodesNetworkTask(this).execute(this.serieDto.getTmdbKinoId().intValue());
 
-        return view;
+        return binding.getRoot();
     }
 
     public void populateEpisodeList(List<TvEpisode> tvEpisodes) {
-        serie_view_episodes_progress_bar.setVisibility(View.GONE);
+        binding.serieViewEpisodesProgressBar.setVisibility(View.GONE);
 
         List<SerieEpisodeDto> dtoEpisodes = serieEpisodeService.getDtoEpisodes(tvEpisodes,
                 this.serieDto.getTmdbKinoId());
@@ -85,8 +77,8 @@ public class SerieViewEpisodesFragment extends Fragment {
         ArrayAdapter<SerieEpisodeDto> arrayAdapter = new TvEpisodesAdapter(
                 getContext(), dtoEpisodes, serieEpisodeService);
 
-        if (serie_view_episodes_list != null) {
-            serie_view_episodes_list.setAdapter(arrayAdapter);
+        if (binding != null) {
+            binding.serieViewEpisodesList.setAdapter(arrayAdapter);
         }
     }
 

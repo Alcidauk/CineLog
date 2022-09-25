@@ -2,12 +2,13 @@ package com.ulicae.cinelog.android.activities.fragments.wishlist;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
@@ -19,12 +20,25 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
-public class WishlistFragment extends Fragment {
-
-    @BindView(R.id.kino_list)
-    ListView kino_list;
+/**
+ * CineLog Copyright 2022 Pierre Rognon
+ * <p>
+ * <p>
+ * This file is part of CineLog.
+ * CineLog is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * CineLog is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+ */
+public abstract class WishlistFragment extends Fragment {
 
     WishlistListAdapter listAdapter;
 
@@ -53,14 +67,14 @@ public class WishlistFragment extends Fragment {
     }
 
     protected void createListView(int orderId) {
-        if (kino_list != null) {
+        if (getKinoList() != null) {
             //date added
             dataDtos = getResults(orderId);
 
             LIST_VIEW_STATE = orderId;
 
             listAdapter = new WishlistListAdapter(getContext(), dataDtos);
-            kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            getKinoList().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 public boolean onItemLongClick(final AdapterView<?> view, View parent, final int position, long rowId) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage(R.string.delete_kino_dialog)
@@ -85,7 +99,7 @@ public class WishlistFragment extends Fragment {
                     return true;
                 }
             });
-            kino_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            getKinoList().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Intent intent = new Intent(getContext(), ViewDataActivity.class);
                     intent.putExtra("dataDto", Parcels.wrap(dataDtos.get(position)));
@@ -93,17 +107,15 @@ public class WishlistFragment extends Fragment {
                 }
             });
 
-            kino_list.setAdapter(listAdapter);
+            getKinoList().setAdapter(listAdapter);
         }
     }
 
+    protected abstract ListView getKinoList();
+
     protected List<WishlistDataDto> getResults(int order) {
         List<WishlistDataDto> fetchedDtos;
-        switch (order) {
-            default:
-                fetchedDtos = service.getAll();
-                break;
-        }
+        fetchedDtos = service.getAll();
 
         return new ArrayList<>(fetchedDtos);
     }
