@@ -84,8 +84,9 @@ public class WishlistActivity extends AppCompatActivity {
                     binding.drawerLayout.closeDrawers();
 
                     if (menuItem.getItemId() == R.id.nav_reviews) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    } else if (menuItem.getItemId() == R.id.nav_tags) {
+                        startActivity(new Intent(getApplicationContext(), TagsActivity.class));
                     }
 
                     setViewPager(binding.categoryPager);
