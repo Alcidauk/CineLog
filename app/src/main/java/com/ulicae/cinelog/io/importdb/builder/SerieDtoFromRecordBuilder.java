@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieDtoFromRecordBuilder extends DtoFromRecordBuilder<SerieDto> {
+public class SerieDtoFromRecordBuilder extends ReviewableDtoFromRecordBuilder<SerieDto> {
 
     public SerieDtoFromRecordBuilder(Context context) {
         super(new PreferencesWrapper(), context);
@@ -67,27 +67,6 @@ public class SerieDtoFromRecordBuilder extends DtoFromRecordBuilder<SerieDto> {
     @Override
     public String getLineTitle(CSVRecord csvRecord) {
         return csvRecord.get("title");
-    }
-
-    // TODO avoid duplication with KinoDto
-    @NonNull
-    private List<TagDto> getTagDtoWithIds(CSVRecord csvRecord) {
-        String[] splittedTagsAsString = getSplittedTagIds(csvRecord);
-        return Arrays.stream(splittedTagsAsString)
-                .map(tagId ->
-                        new TagDto(Long.parseLong(tagId), null, null, false, false))
-                .collect(Collectors.toList());
-    }
-
-    @NonNull
-    private String[] getSplittedTagIds(CSVRecord csvRecord) {
-        String tagsAsString;
-        try {
-            tagsAsString = csvRecord.get("tags");
-        } catch (IllegalArgumentException e) {
-            tagsAsString = null;
-        }
-        return tagsAsString != null ? tagsAsString.split(",") : new String[]{};
     }
 
 }
