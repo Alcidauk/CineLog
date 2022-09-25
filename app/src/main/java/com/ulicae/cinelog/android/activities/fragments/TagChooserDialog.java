@@ -74,7 +74,8 @@ public class TagChooserDialog extends DialogFragment {
         selectedTags = new boolean[allTags.size()];
 
         for (int i = 0; i < allTags.size(); i++) {
-            selectedTags[i] = kinoDto.getTags().contains(allTags.get(i));
+            List<TagDto> kinoTags = kinoDto.getTags();
+            selectedTags[i] = kinoTags != null && kinoTags.contains(allTags.get(i));
         }
     }
 
