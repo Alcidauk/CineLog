@@ -27,7 +27,7 @@ import com.ulicae.cinelog.databinding.SearchResultItemBinding;
  */
 public class ItemViewHolder {
 
-    private SearchResultItemBinding binding;
+    private final SearchResultItemBinding binding;
 
     ItemViewHolder(SearchResultItemBinding binding) {
         this.binding = binding;

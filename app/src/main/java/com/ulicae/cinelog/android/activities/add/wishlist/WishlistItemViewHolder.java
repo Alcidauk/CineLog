@@ -25,7 +25,7 @@ import com.ulicae.cinelog.databinding.WishlistSearchResultItemBinding;
  */
 public class WishlistItemViewHolder {
 
-    private WishlistSearchResultItemBinding binding;
+    private final WishlistSearchResultItemBinding binding;
 
     WishlistItemViewHolder(WishlistSearchResultItemBinding binding) {
         this.binding = binding;

@@ -1,17 +1,14 @@
 package com.ulicae.cinelog.android.activities.fragments.reviews;
 
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
-import com.ulicae.cinelog.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.ulicae.cinelog.databinding.HeaderResultItemBinding;
+import com.ulicae.cinelog.databinding.MainResultItemBinding;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -33,60 +30,54 @@ import butterknife.ButterKnife;
  */
 public class KinoListViewHolder {
 
-    @BindView(R.id.main_result_kino_title)
-    TextView kinoTitle;
-    @Nullable
-    @BindView(R.id.main_result_kino_year)
-    TextView kinoYear;
+    private final ViewBinding binding;
 
-    @Nullable
-    @BindView(R.id.main_result_kino_poster)
-    ImageView kinoPoster;
-    @Nullable
-    @BindView(R.id.main_result_kino_review_date_logo)
-    ImageView kinoReviewDateLogo;
-
-    @Nullable
-    @BindView(R.id.main_result_kino_rating_bar_small)
-    RatingBar kinoRatingBar;
-
-    @Nullable
-    @BindView(R.id.main_result_kino_review_date)
-    TextView kinoReviewDate;
-
-    @Nullable
-    @BindView(R.id.main_result_kino_tags)
-    LinearLayout kinoTags;
-
-    KinoListViewHolder(View view) {
-        ButterKnife.bind(this, view);
+    KinoListViewHolder(ViewBinding binding) {
+        this.binding = binding;
     }
 
     public TextView getKinoTitle() {
-        return kinoTitle;
+        return binding instanceof HeaderResultItemBinding ?
+                ((HeaderResultItemBinding) binding).mainResultKinoTitle :
+                getMainResultItemBinding().mainResultKinoTitle;
     }
 
     public TextView getKinoYear() {
-        return kinoYear;
+        return getMainResultItemBinding().mainResultKinoYear;
     }
 
     public ImageView getKinoPoster() {
-        return kinoPoster;
+        return getMainResultItemBinding().mainResultKinoPoster;
     }
 
     public ImageView getKinoReviewDateLogo() {
-        return kinoReviewDateLogo;
+        return getMainResultItemBinding().mainResultKinoReviewDateLogo;
     }
 
     public RatingBar getKinoRatingBar() {
-        return kinoRatingBar;
+        return getMainResultItemBinding().mainResultKinoRatingBarSmall;
+    }
+
+    public TextView getKinoRatingBarAsText() {
+        return getMainResultItemBinding().mainResultKinoRatingBarAsText;
+    }
+
+    public TextView getKinoRatingBarMaxAsText() {
+        return getMainResultItemBinding().mainResultKinoRatingBarMaxAsText;
     }
 
     public TextView getKinoReviewDate() {
-        return kinoReviewDate;
+        return getMainResultItemBinding().mainResultKinoReviewDate;
     }
 
     public LinearLayout getKinoTags() {
-        return kinoTags;
+        return getMainResultItemBinding().mainResultKinoTags;
+    }
+
+    private MainResultItemBinding getMainResultItemBinding() {
+        if (binding instanceof MainResultItemBinding) {
+            return ((MainResultItemBinding) binding);
+        }
+        throw new ClassCastException();
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
+import androidx.viewbinding.ViewBinding;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -21,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.databinding.HeaderResultItemBinding;
+import com.ulicae.cinelog.databinding.MainResultItemBinding;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.util.List;
@@ -58,18 +61,24 @@ class KinoListAdapter extends ArrayAdapter<Object> {
         Object object = getItem(position);
         boolean isObjectString = object instanceof String;
 
+        ViewBinding binding;
+
         if(needInflate(convertView, object)) {
-            convertView = LayoutInflater.from(getContext()).inflate(
-                    isObjectString ? R.layout.header_result_item : R.layout.main_result_item,
-                    parent,
-                    false
-            );
+            binding = isObjectString ?
+                    HeaderResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false) :
+                    MainResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        } else {
+            binding = isObjectString ? HeaderResultItemBinding.bind(convertView) : MainResultItemBinding.bind(convertView);
         }
 
         if(!isObjectString) {
-            return getKinoListView(convertView, (KinoDto) object);
+            initKinoListView(binding, (KinoDto) object);
+        } else {
+            initYearView(binding, (String) object);
         }
-        return getYearView(convertView, parent, (String) object);
+
+        convertView = binding.getRoot();
+        return convertView;
     }
 
     private boolean needInflate(View convertView, Object item) {
@@ -78,8 +87,8 @@ class KinoListAdapter extends ArrayAdapter<Object> {
                 || (item instanceof KinoDto && convertView.getId() == R.id.header_result_item);
     }
 
-    private View getKinoListView(View convertView, KinoDto movie) {
-        KinoListViewHolder holder = new KinoListViewHolder(convertView);
+    private void initKinoListView(ViewBinding viewBinding, KinoDto movie) {
+        KinoListViewHolder holder = new KinoListViewHolder(viewBinding);
 
         if (movie != null) {
             LinearLayout tagLayout = holder.getKinoTags();
@@ -131,22 +140,13 @@ class KinoListAdapter extends ArrayAdapter<Object> {
                 kinoReviewDateLogo.setVisibility(View.INVISIBLE);
             }
 
-            initRating(convertView, holder.getKinoRatingBar(), movie);
+            initRating(holder, movie);
         }
-
-        return convertView;
     }
 
-    @NonNull
-    private View getYearView(View convertView, ViewGroup parent, String object) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.header_result_item, parent, false);
-        }
-
-        KinoListYearViewHolder holder = new KinoListYearViewHolder(convertView);
+    private void initYearView(ViewBinding viewBinding, String object) {
+        KinoListYearViewHolder holder = new KinoListYearViewHolder((HeaderResultItemBinding) viewBinding);
         holder.getKinoTitle().setText(object);
-
-        return convertView;
     }
 
     @NonNull
@@ -161,9 +161,10 @@ class KinoListAdapter extends ArrayAdapter<Object> {
         return gd;
     }
 
-    private void initRating(View convertView, RatingBar kinoRatingRatingBar, KinoDto movie) {
-        TextView kinoRatingRatingBarAsText = (TextView) convertView.findViewById(R.id.main_result_kino_rating_bar_as_text);
-        TextView kinoRatingRatingBarMaxAsText = (TextView) convertView.findViewById(R.id.main_result_kino_rating_bar_max_as_text);
+    private void initRating(KinoListViewHolder holder, KinoDto movie) {
+        RatingBar kinoRatingRatingBar = holder.getKinoRatingBar();
+        TextView kinoRatingRatingBarAsText = holder.getKinoRatingBarAsText();
+        TextView kinoRatingRatingBarMaxAsText = holder.getKinoRatingBarMaxAsText();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 

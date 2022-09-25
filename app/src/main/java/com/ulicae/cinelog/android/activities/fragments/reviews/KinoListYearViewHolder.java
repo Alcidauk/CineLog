@@ -1,12 +1,8 @@
 package com.ulicae.cinelog.android.activities.fragments.reviews;
 
-import android.view.View;
 import android.widget.TextView;
 
-import com.ulicae.cinelog.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.ulicae.cinelog.databinding.HeaderResultItemBinding;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -28,15 +24,14 @@ import butterknife.ButterKnife;
  */
 public class KinoListYearViewHolder {
 
-    @BindView(R.id.main_result_kino_title)
-    TextView kinoTitle;
+    private final HeaderResultItemBinding binding;
 
-    KinoListYearViewHolder(View view) {
-        ButterKnife.bind(this, view);
+    KinoListYearViewHolder(HeaderResultItemBinding binding) {
+        this.binding = binding;
     }
 
     public TextView getKinoTitle() {
-        return kinoTitle;
+        return binding.mainResultKinoTitle;
     }
 
 }
