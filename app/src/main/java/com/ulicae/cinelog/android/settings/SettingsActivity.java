@@ -34,13 +34,12 @@ public class SettingsActivity extends PreferenceActivity {
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // don't know why but night theme not taken in account
-        if (new PreferencesWrapper().getBooleanPreference(getBaseContext(), "theme", false)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        if (new PreferencesWrapper().getBooleanPreference(getApplicationContext(), "theme", false)) {
             setTheme(R.style.DarkPreferencesTheme);
         }
+
+        super.onCreate(savedInstanceState);
+
     }
 
     /**
