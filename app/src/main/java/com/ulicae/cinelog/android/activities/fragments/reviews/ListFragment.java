@@ -5,20 +5,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.ViewKino;
 import com.ulicae.cinelog.android.activities.ViewSerie;
+import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.parceler.Parcels;
@@ -28,10 +29,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
- * CineLog Copyright 2020 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -49,9 +48,6 @@ import butterknife.BindView;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 public abstract class ListFragment extends Fragment {
-
-    @BindView(R.id.kino_list)
-    ListView kino_list;
 
     KinoListAdapter kino_adapter;
 
@@ -119,13 +115,13 @@ public abstract class ListFragment extends Fragment {
     }
 
     private void createListView(int orderId) {
-        if (kino_list != null) {
+        if (getKinoList() != null) {
             LIST_VIEW_STATE = orderId;
 
             kinos = getResults(orderId);
 
             final List<Object> objects = initialiseAdapter(orderId);
-            kino_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            getKinoList().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 public boolean onItemLongClick(final AdapterView<?> view, View parent, final int position, long rowId) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -151,7 +147,7 @@ public abstract class ListFragment extends Fragment {
                     return true;
                 }
             });
-            kino_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            getKinoList().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Object item = objects.get(position);
                     if(item instanceof KinoDto) {
@@ -168,7 +164,7 @@ public abstract class ListFragment extends Fragment {
             });
 
 
-            kino_list.setAdapter(kino_adapter);
+            getKinoList().setAdapter(kino_adapter);
         }
     }
 
@@ -193,6 +189,8 @@ public abstract class ListFragment extends Fragment {
     protected abstract String getDtoType();
 
     protected abstract List<KinoDto> getResults(int order);
+
+    protected abstract ListView getKinoList();
 
     protected int getOrderFromPreferences(String arrayKey) {
         String defaultSortType = new PreferencesWrapper().getStringPreference(

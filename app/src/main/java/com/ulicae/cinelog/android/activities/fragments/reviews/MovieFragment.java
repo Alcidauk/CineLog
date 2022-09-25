@@ -12,14 +12,12 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
+import com.ulicae.cinelog.databinding.FragmentMovieBinding;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -39,8 +37,7 @@ import butterknife.ButterKnife;
  */
 public class MovieFragment extends ListFragment {
 
-    @BindView(R.id.kino_list)
-    ListView kino_list;
+    private FragmentMovieBinding binding;
 
     @Override
     protected void createService() {
@@ -54,10 +51,8 @@ public class MovieFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie, container, false);
-        ButterKnife.bind(this, view);
-
-        return view;
+        binding = FragmentMovieBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -68,7 +63,7 @@ public class MovieFragment extends ListFragment {
 
     @Override
     protected List<KinoDto> getResults(int order) {
-        if(order == -1) {
+        if (order == -1) {
             order = getOrderFromPreferences();
         }
         switch (order) {
@@ -91,6 +86,11 @@ public class MovieFragment extends ListFragment {
             default:
                 return ((KinoService) service).getAll();
         }
+    }
+
+    @Override
+    protected ListView getKinoList() {
+        return binding != null ? binding.kinoList : null;
     }
 
     private int getOrderFromPreferences() {
