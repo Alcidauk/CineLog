@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.android.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -19,7 +20,11 @@ import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
 import com.ulicae.cinelog.android.activities.fragments.wishlist.MovieWishlistFragment;
 import com.ulicae.cinelog.android.activities.fragments.wishlist.SerieWishlistFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
+import com.ulicae.cinelog.android.v2.ViewSerieFragment;
+import com.ulicae.cinelog.android.v2.WishlistFragment;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
+import com.ulicae.cinelog.databinding.V2ViewSerieHostBinding;
+import com.ulicae.cinelog.databinding.V2WishlistHostBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.utils.ThemeWrapper;
@@ -48,60 +53,24 @@ import java.util.List;
  */
 public class WishlistActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        V2WishlistHostBinding binding = V2WishlistHostBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.mainToolbar.toolbar);
-        setViewPager(binding.categoryPager);
-
-        binding.fab.setOnClickListener(v -> setReviewFragment());
-
-        setSupportActionBar(binding.mainToolbar.toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        if (actionbar != null) {
-            actionbar.setDisplayHomeAsUpEnabled(true);
-            actionbar.setHomeAsUpIndicator(R.drawable.menu);
-            actionbar.setTitle(R.string.toolbar_title_wishlist);
-            actionbar.setSubtitle(R.string.app_name);
+        if (savedInstanceState == null) {
+            WishlistFragment fragment = new WishlistFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.wishlist_host, fragment)
+                    .commit();
         }
-
-        configureDrawer();
     }
 
-    private void configureDrawer() {
-        NavigationView navigationView = binding.navView;
-        navigationView.setCheckedItem(R.id.nav_wishlist);
-
-        navigationView.setNavigationItemSelectedListener(
-                menuItem -> {
-                    binding.drawerLayout.closeDrawers();
-
-                    if (menuItem.getItemId() == R.id.nav_reviews) {
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    } else if (menuItem.getItemId() == R.id.nav_tags) {
-                        startActivity(new Intent(getApplicationContext(), TagsActivity.class));
-                    }
-
-                    setViewPager(binding.categoryPager);
-
-                    binding.fab.setOnClickListener(v -> setReviewFragment());
-
-                    return true;
-                }
-        );
-    }
-
-    private void setReviewFragment() {
-        Fragment fragment = ((ViewPagerAdapter) binding.categoryPager.getAdapter())
-                .getItem(binding.categoryPager.getCurrentItem());
-
+    public void goToReview(Fragment fragment) {
         Intent intent;
         if (fragment instanceof MovieWishlistFragment) {
             intent = new Intent(getApplicationContext(), AddKino.class);
@@ -114,66 +83,21 @@ public class WishlistActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_export:
-                startActivity(new Intent(this, ExportDb.class));
-                return true;
-            case R.id.action_import:
-                startActivity(new Intent(this, ImportInDb.class));
-                return true;
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            case android.R.id.home:
-                binding.drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void goToReviews() {
+        launchActivity(MainActivity.class);
     }
 
-    private void setViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MovieWishlistFragment(), getString(R.string.title_fragment_wishlist_movie));
-        adapter.addFragment(new SerieWishlistFragment(), getString(R.string.title_fragment_wishlist_serie));
-
-        viewPager.setAdapter(adapter);
-        binding.mainToolbar.tabs.setupWithViewPager(viewPager);
+    public void goToTags() {
+        launchActivity(TagsActivity.class);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
+    public void goToSettings() {
+        launchActivity(SettingsActivity.class);
     }
+
+    private void launchActivity(Class<? extends Activity> activity) {
+        startActivity(new Intent(getApplicationContext(), activity));
+    }
+
 
 }
