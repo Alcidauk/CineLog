@@ -9,9 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.ViewKinoFragment;
+import com.ulicae.cinelog.android.v2.ViewUnregisteredItemFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
 import com.ulicae.cinelog.databinding.ContentKinoViewUnregisteredBinding;
+import com.ulicae.cinelog.databinding.V2ViewKinoHostBinding;
+import com.ulicae.cinelog.databinding.V2ViewUnregisteredItemHostBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
@@ -37,93 +41,30 @@ import org.parceler.Parcels;
  */
 public class ViewUnregisteredKino extends AppCompatActivity {
 
-    KinoDto kino;
-    int position;
-    boolean editted = false;
-
-    private static final int RESULT_ADD_REVIEW = 3;
-    private ActivityViewUnregisteredKinoBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-
-        binding = ActivityViewUnregisteredKinoBinding.inflate(getLayoutInflater());
+        V2ViewUnregisteredItemHostBinding binding = V2ViewUnregisteredItemHostBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.fab.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), EditReview.class);
-            intent.putExtra("kino", Parcels.wrap(kino));
-            intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-
-            startActivityForResult(intent, RESULT_ADD_REVIEW);
-        });
-
-        kino = Parcels.unwrap(getIntent().getParcelableExtra("kino"));
-        position = getIntent().getIntExtra("kino_position", -1);
-
-        configureLabels(getIntent().getStringExtra("dtoType"));
-
-        setSupportActionBar(binding.viewUnregisteredToolbar.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void configureLabels(String dtoType) {
-        if (dtoType.equals("serie")) {
-            setTitle(R.string.title_activity_view_unregistered_serie);
+        if (savedInstanceState == null) {
+            ViewUnregisteredItemFragment fragment = new ViewUnregisteredItemFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.view_unregistered_item_host, fragment)
+                    .commit();
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        ContentKinoViewUnregisteredBinding viewUnregisteredContent = binding.viewUnregisteredContent;
+    public void goToEditReview(KinoDto kino){
+        Intent intent = new Intent(this, EditReview.class);
+        intent.putExtra("kino", Parcels.wrap(kino));
+        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
 
-        if (kino.getPosterPath() != null && !"".equals(kino.getPosterPath())) {
-            Glide.with(this)
-                    .load("https://image.tmdb.org/t/p/w185" + kino.getPosterPath())
-                    .centerCrop()
-                    .crossFade()
-                    .into(viewUnregisteredContent.viewKinoTmdbImageLayout);
-        }
-        viewUnregisteredContent.viewKinoTmdbYear.setText(kino.getReleaseDate());
-        viewUnregisteredContent.viewKinoTmdbOverview.setText(kino.getOverview());
-
-        viewUnregisteredContent.viewKinoTmdbTitle.setText(kino.getTitle());
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_ADD_REVIEW) {
-            if (resultCode == Activity.RESULT_OK) {
-                kino = Parcels.unwrap(data.getParcelableExtra("kino"));
-                editted = true;
-                System.out.println("Result Ok");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (editted) {
-                Intent returnIntent = getIntent();
-                returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-                returnIntent.putExtra("kino", Parcels.wrap(kino));
-                returnIntent.putExtra("kino_position", position);
-                setResult(Activity.RESULT_OK, returnIntent);
-            }
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        startActivity(intent);
     }
 
 }
