@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.add.AddKino;
 import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
-import com.ulicae.cinelog.android.activities.fragments.ElementListFragment;
+import com.ulicae.cinelog.android.v2.ElementListFragment;
 import com.ulicae.cinelog.android.activities.fragments.reviews.MovieFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.databinding.V2ElementListHostBinding;

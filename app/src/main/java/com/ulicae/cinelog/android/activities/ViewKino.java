@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.fragments.ViewKinoFragment;
+import com.ulicae.cinelog.android.v2.ViewKinoFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.databinding.V2ViewKinoHostBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
