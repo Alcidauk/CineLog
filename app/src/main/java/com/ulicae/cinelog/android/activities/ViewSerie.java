@@ -1,7 +1,5 @@
 package com.ulicae.cinelog.android.activities;
 
-import static com.ulicae.cinelog.android.activities.ViewKino.RESULT_ADD_REVIEW;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,6 +44,8 @@ import java.util.Objects;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 public class ViewSerie extends AppCompatActivity {
+
+    public static final int RESULT_ADD_REVIEW = 3;
 
     private SerieViewGeneralFragment generalFragment;
 
