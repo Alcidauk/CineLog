@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.android.activities;
 
+import com.ulicae.cinelog.android.v2.WishlistItemDeleter;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;

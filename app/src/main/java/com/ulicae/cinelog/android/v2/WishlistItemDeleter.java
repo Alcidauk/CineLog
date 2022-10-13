@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities;
+package com.ulicae.cinelog.android.v2;
 
 import android.content.Context;
 

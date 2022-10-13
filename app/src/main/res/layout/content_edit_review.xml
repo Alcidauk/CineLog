@@ -30,14 +30,14 @@
     tools:context=".android.activities.EditReview"
     tools:showIn="@layout/activity_edit_review">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/view_kino_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="100dp">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/view_kino_title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/view_kino_review_content_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 app:cardElevation="2dp"
                 app:cardMaxElevation="2dp">
 
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -103,7 +103,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textStyle="bold" />
 
-                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -111,7 +111,7 @@
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp">
 
-                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="0.5"
                             android:layout_height="match_parent"
@@ -163,7 +163,7 @@
                 app:cardElevation="2dp"
                 app:cardMaxElevation="2dp">
 
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                <RelativeLayout
                     android:id="@+id/view_kino_review_review_date_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -184,7 +184,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:gravity="center_vertical"
-                        android:onClick="showTimePickerDialog"
                         android:text="@string/review_change_reviewdate"
                         tools:ignore="RelativeOverlap" />
                 </RelativeLayout>
@@ -193,7 +192,7 @@
 
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/view_kino_review_review_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -215,7 +214,7 @@
                 android:inputType="text|textMultiLine" />
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/view_kino_review_tags_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
