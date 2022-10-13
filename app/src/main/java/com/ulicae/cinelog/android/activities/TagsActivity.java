@@ -1,28 +1,21 @@
 package com.ulicae.cinelog.android.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 
-import com.google.android.material.navigation.NavigationView;
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.tags.TagService;
-import com.ulicae.cinelog.databinding.ActivityTagsBinding;
+import com.ulicae.cinelog.android.v2.TagListFragment;
+import com.ulicae.cinelog.databinding.V2TagListHostBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
-import java.util.List;
-
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -42,103 +35,49 @@ import java.util.List;
  */
 public class TagsActivity extends AppCompatActivity {
 
-    private ActivityTagsBinding binding;
-
-    TagListAdapter listAdapter;
-
-    protected TagService service;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        binding = ActivityTagsBinding.inflate(getLayoutInflater());
+        V2TagListHostBinding binding = V2TagListHostBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        service = new TagService(((KinoApplication) getApplication()).getDaoSession());
-
-        binding.fabTags.setOnClickListener(v -> startEditTagActivity());
-
-        setSupportActionBar(binding.tagsToolbar.toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        if (actionbar != null) {
-            actionbar.setDisplayHomeAsUpEnabled(true);
-            actionbar.setHomeAsUpIndicator(R.drawable.menu);
-            actionbar.setTitle(R.string.tags_title);
-            actionbar.setSubtitle(R.string.app_name);
+        if (savedInstanceState == null) {
+            TagListFragment fragment = new TagListFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.tag_list_host, fragment)
+                    .commit();
         }
-
-        configureDrawer();
     }
 
-    private void fetchAndSetTags() {
-        List<TagDto> dataDtos = service.getAll();
-
-        listAdapter = new TagListAdapter(this, dataDtos, service);
-        binding.tagList.setAdapter(listAdapter);
+    public void goToWishlist() {
+        launchActivity(WishlistActivity.class);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // TODO should it reuse adapter list ?
-        fetchAndSetTags();
+    public void goToReviews() {
+        launchActivity(MainActivity.class);
     }
 
-    private void configureDrawer() {
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_tags);
-
-        navigationView.setNavigationItemSelectedListener(this::navigate);
+    public void goToTagEdition() {
+        launchActivity(EditTag.class);
     }
 
-    private boolean navigate(MenuItem menuItem) {
-        binding.drawerLayout.closeDrawers();
-
-        switch (menuItem.getItemId()) {
-            case R.id.nav_reviews:
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.nav_wishlist:
-                startActivity(
-                        new Intent(getApplicationContext(), WishlistActivity.class)
-                );
-                break;
-        }
-
-        binding.fabTags.setOnClickListener(v -> startEditTagActivity());
-        return true;
+    public void goToImport() {
+        launchActivity(ImportInDb.class);
     }
 
-    private void startEditTagActivity() {
-        Intent intent = new Intent(getApplicationContext(), EditTag.class);
-        startActivity(intent);
+    public void goToExport() {
+        launchActivity(ExportDb.class);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_export:
-                startActivity(new Intent(this, ExportDb.class));
-                return true;
-            case R.id.action_import:
-                startActivity(new Intent(this, ImportInDb.class));
-                return true;
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            case android.R.id.home:
-                binding.drawerLayout.openDrawer(GravityCompat.START);
-                return true;
+    public void goToSettings() {
+        launchActivity(SettingsActivity.class);
+    }
 
-        }
-
-        return super.onOptionsItemSelected(item);
+    private void launchActivity(Class<? extends Activity> activity) {
+        startActivity(new Intent(getApplicationContext(), activity));
     }
 
 }

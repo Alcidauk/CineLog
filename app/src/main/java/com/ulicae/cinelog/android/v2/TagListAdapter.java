@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities;
+package com.ulicae.cinelog.android.v2;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.EditTag;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.TagService;
 
