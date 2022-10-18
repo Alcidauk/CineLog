@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.android.activities.add;
 
+import static com.ulicae.cinelog.android.activities.add.AddKino.RESULT_VIEW_KINO;
+
 import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +20,6 @@ import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import org.parceler.Parcels;
 
 import java.util.List;
-
-import static com.ulicae.cinelog.android.activities.add.AddSerieActivity.RESULT_VIEW_KINO;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

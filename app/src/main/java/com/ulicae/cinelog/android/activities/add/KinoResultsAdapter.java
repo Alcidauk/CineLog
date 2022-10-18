@@ -80,6 +80,7 @@ public class KinoResultsAdapter extends ItemResultAdapter<BaseMovie> {
             intent.putExtra("dtoType", "kino");
             intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
             intent.putExtra("kino_position", position);
+            // TODO rewrite navigation
             ((AppCompatActivity) getContext()).startActivityForResult(intent, RESULT_VIEW_KINO);
         }
     }

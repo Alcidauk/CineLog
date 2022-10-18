@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.network.task;
 
-import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
-import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
+import com.ulicae.cinelog.android.activities.add.AddReviewFragment;
+import com.ulicae.cinelog.android.activities.add.AddSerieFragment;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
@@ -31,8 +31,8 @@ import retrofit2.Response;
  */
 public class TvNetworkTask extends NetworkTask<TvShowResultsPage, BaseTvShow> {
 
-    TvNetworkTask(AddReviewActivity<TvShow> addReviewActivity) {
-        super(addReviewActivity);
+    TvNetworkTask(AddReviewFragment<TvShow> addReviewFragment) {
+        super(addReviewFragment);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class TvNetworkTask extends NetworkTask<TvShowResultsPage, BaseTvShow> {
 
     @Override
     void populateListView(List<BaseTvShow> movies) {
-        ((AddSerieActivity) getAddReviewActivityWeakReference().get()).populateListView(movies);
+        ((AddSerieFragment) getAddReviewFragmentWeakReference().get()).populateListView(movies);
     }
 }

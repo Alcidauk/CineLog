@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.network.task;
 
-import com.ulicae.cinelog.android.activities.add.AddKino;
-import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
+import com.ulicae.cinelog.android.activities.add.AddKinoFragment;
+import com.ulicae.cinelog.android.activities.add.AddReviewFragment;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
@@ -31,8 +31,8 @@ import retrofit2.Response;
  */
 public class MovieNetworkTask extends NetworkTask<MovieResultsPage, BaseMovie> {
 
-    MovieNetworkTask(AddReviewActivity<Movie> addReviewActivity) {
-        super(addReviewActivity);
+    MovieNetworkTask(AddReviewFragment<Movie> addReviewFragment) {
+        super(addReviewFragment);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class MovieNetworkTask extends NetworkTask<MovieResultsPage, BaseMovie> {
 
     @Override
     void populateListView(List<BaseMovie> movies) {
-        ((AddKino) getAddReviewActivityWeakReference().get()).populateListView(movies);
+        ((AddKinoFragment) getAddReviewFragmentWeakReference().get()).populateListView(movies);
     }
 }

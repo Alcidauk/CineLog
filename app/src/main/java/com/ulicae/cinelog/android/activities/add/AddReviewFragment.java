@@ -8,14 +8,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
 import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
 import com.ulicae.cinelog.databinding.ToolbarBinding;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
@@ -45,7 +51,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppCompatActivity {
+public abstract class AddReviewFragment<T extends BaseRatingObject> extends Fragment {
 
     protected TmdbServiceWrapper tmdbServiceWrapper;
     protected NetworkTaskManager networkTaskManager;
@@ -60,12 +66,8 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
     private final static long SEARCH_TRIGGER_DELAY_IN_MS = 1000;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        new ThemeWrapper().setThemeWithPreferences(this);
-
-        inflateBinding();
-
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
         getContentAddReviewBinding().kinoSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -83,16 +85,13 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
 
         getContentAddReviewBinding().kinoSearchAddFromScratch.setOnClickListener(this::onFromScratchClick);
 
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(getToolbar().toolbar);
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setSupportActionBar(getToolbar().toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        tmdbServiceWrapper = new TmdbServiceWrapper(requireContext());
 
-        tmdbServiceWrapper = new TmdbServiceWrapper(this);
-
-        handler = new AddReviewHandler(new WeakReference<AddReviewActivity>(this));
+        handler = new AddReviewHandler(new WeakReference<AddReviewFragment>(this));
     }
-
-    protected abstract void inflateBinding();
 
     protected abstract ToolbarBinding getToolbar();
 
@@ -104,7 +103,7 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
         if (isNetworkAvailable()) {
             executeTask(getContentAddReviewBinding().kinoSearch.getText().toString());
         } else {
-            Toast t = Toast.makeText(getApplicationContext(),
+            Toast t = Toast.makeText(requireContext(),
                     getString(R.string.addkino_error_no_network),
                     Toast.LENGTH_LONG);
             t.show();
@@ -114,7 +113,7 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
     protected abstract void executeTask(String textToSearch);
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
@@ -139,6 +138,8 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
 
     public abstract void populateListView(final List<T> movies);
 
+
+    /* TODO rewrite navigation
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -148,10 +149,12 @@ public abstract class AddReviewActivity<T extends BaseRatingObject> extends AppC
         return super.onOptionsItemSelected(item);
     }
 
-    static class AddReviewHandler extends Handler {
-        private WeakReference<AddReviewActivity> addKino;
+     */
 
-        AddReviewHandler(WeakReference<AddReviewActivity> addKino) {
+    static class AddReviewHandler extends Handler {
+        private WeakReference<AddReviewFragment> addKino;
+
+        AddReviewHandler(WeakReference<AddReviewFragment> addKino) {
             this.addKino = addKino;
         }
 

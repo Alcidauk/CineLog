@@ -1,6 +1,8 @@
-package com.ulicae.cinelog.android.activities;
+package com.ulicae.cinelog.android.v2;
 
-import com.ulicae.cinelog.android.v2.WishlistItemDeleter;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
+
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
@@ -9,9 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
 
 /**
  * CineLog Copyright 2019 Pierre Rognon
