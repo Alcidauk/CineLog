@@ -153,4 +153,5 @@
     <string name="edit_tag_name_not_filled">Le nom du tag n\'est pas renseigné</string>
     <string name="delete_tag_dialog">Supprimer le tag ?</string>
     <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
+    <string name="wishlist_cant_create_review">Error: can\'t create review</string>
 </resources>

@@ -1,35 +1,18 @@
 package com.ulicae.cinelog.android.activities.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
-import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
+import com.ulicae.cinelog.databinding.V2WishlistItemHostBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 import org.parceler.Parcels;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -52,155 +35,34 @@ import java.util.Locale;
  */
 public class ViewDataActivity extends AppCompatActivity {
 
-    private ActivityViewUnregisteredKinoBinding binding;
-
-    private WishlistDataDto wishlistDataDto;
-
-    private SerieWishlistService serieWishlistService;
-    private MovieWishlistService movieWishlistService;
-
-    private static final int RESULT_ADD_REVIEW = 3;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        serieWishlistService = new SerieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
-        movieWishlistService = new MovieWishlistService(((KinoApplication) getApplicationContext()).getDaoSession());
-
-        binding = ActivityViewUnregisteredKinoBinding.inflate(getLayoutInflater());
+        V2WishlistItemHostBinding binding = V2WishlistItemHostBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        wishlistDataDto = Parcels.unwrap(getIntent().getParcelableExtra("dataDto"));
-
-        configureFabButton();
-
-        setSupportActionBar(binding.viewUnregisteredToolbar.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void configureFabButton() {
-        if (wishlistDataDto.getId() != null) {
-            binding.fab.setImageResource(R.drawable.add_kino);
-        }
-
-        binding.fab.setOnClickListener(this::onClick);
-    }
-
-    public void onClick(View view) {
-        if (wishlistDataDto.getId() == null) {
-            addToWishlist();
-        } else {
-            startReviewCreationActivity();
+        if (savedInstanceState == null) {
+            WishlistItemFragment fragment = new WishlistItemFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.wishlist_item_host, fragment)
+                    .commit();
         }
     }
 
-    private void addToWishlist() {
-        if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
-            serieWishlistService.createSerieData(wishlistDataDto);
-            Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-        } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
-            movieWishlistService.createMovieData(wishlistDataDto);
-            Toast.makeText(getApplicationContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-        }
-
-        binding.fab.hide();
-    }
-
-    private void startReviewCreationActivity() {
+    public void createReview(Long wishlistId, KinoDto dto) {
         Intent intent = new Intent(this, EditReview.class);
 
-        if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
-            SerieDto serieDto = new SerieDto(
-                    null,
-                    wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null,
-                    null,
-                    wishlistDataDto.getTitle(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    wishlistDataDto.getPosterPath(),
-                    wishlistDataDto.getOverview(),
-                    wishlistDataDto.getFirstYear(),
-                    wishlistDataDto.getReleaseDate(),
-                    new ArrayList<>()
-            );
-            intent.putExtra("kino", Parcels.wrap(serieDto));
-            intent.putExtra("dtoType", "serie");
-        } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
-            KinoDto kinoDto = new KinoDto(
-                    null,
-                    wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null,
-                    wishlistDataDto.getTitle(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    wishlistDataDto.getPosterPath(),
-                    wishlistDataDto.getOverview(),
-                    wishlistDataDto.getFirstYear(),
-                    wishlistDataDto.getReleaseDate(),
-                    new ArrayList<>()
-            );
-            intent.putExtra("kino", Parcels.wrap(kinoDto));
-            intent.putExtra("dtoType", "kino");
-        }
+        intent.putExtra("kino", Parcels.wrap(dto));
+        intent.putExtra("dtoType", dto instanceof SerieDto ? "serie" : "kino");
+
         intent.putExtra("creation", true);
-        intent.putExtra("wishlistId", wishlistDataDto.getId());
+        intent.putExtra("wishlistId", wishlistId);
         startActivity(intent);
 
         finish();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (wishlistDataDto.getPosterPath() != null && !"".equals(wishlistDataDto.getPosterPath())) {
-            Glide.with(this)
-                    .load("https://image.tmdb.org/t/p/w185" + wishlistDataDto.getPosterPath())
-                    .centerCrop()
-                    .crossFade()
-                    .into(binding.viewUnregisteredContent.viewKinoTmdbImageLayout);
-        }
-
-        // TODO extract it in a helper
-        String releaseDateLocal = wishlistDataDto.getReleaseDate();
-        if (releaseDateLocal != null && !"".equals(releaseDateLocal)) {
-            SimpleDateFormat frenchSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-            try {
-                Date parsedDate = frenchSdf.parse(releaseDateLocal);
-                String formattedDate = DateFormat.getDateFormat(getBaseContext()).format(parsedDate);
-                binding.viewUnregisteredContent.viewKinoTmdbYear.setText(formattedDate);
-            } catch (ParseException ignored) {
-                binding.viewUnregisteredContent.viewKinoTmdbYear.setText(String.valueOf(wishlistDataDto.getFirstYear()));
-            }
-        }
-        binding.viewUnregisteredContent.viewKinoTmdbOverview.setText(wishlistDataDto.getOverview());
-        binding.viewUnregisteredContent.viewKinoTmdbTitle.setText(wishlistDataDto.getTitle());
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_ADD_REVIEW) {
-            if (resultCode == Activity.RESULT_OK) {
-                wishlistDataDto = Parcels.unwrap(data.getParcelableExtra("kino"));
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
 }
