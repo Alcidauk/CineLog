@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.MainActivity;
 import com.ulicae.cinelog.android.activities.WishlistActivity;
 import com.ulicae.cinelog.android.activities.fragments.wishlist.MovieWishlistFragment;
 import com.ulicae.cinelog.android.activities.fragments.wishlist.SerieWishlistFragment;
@@ -43,7 +42,7 @@ public class WishlistFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        setViewPager(binding.categoryPager);
+        //setViewPager(binding.categoryPager);
 
         initFab();
         initToolbar();
@@ -62,15 +61,15 @@ public class WishlistFragment extends Fragment {
     }
 
     private void initFab() {
-        binding.fab.setOnClickListener(v -> {
-            ((WishlistActivity) requireActivity()).goToReview(getCurrentFragmentItem());
-        });
+        // TODO binding.fab.setOnClickListener(v -> {
+        //    ((WishlistActivity) requireActivity()).goToReview(getCurrentFragmentItem());
+        //});
     }
 
     @NonNull
     private Fragment getCurrentFragmentItem() {
-        return ((ViewPagerAdapter) binding.categoryPager.getAdapter())
-                .getItem(binding.categoryPager.getCurrentItem());
+        return null; // TODO ((ViewPagerAdapter) binding.categoryPager.getAdapter())
+               // .getItem(binding.categoryPager.getCurrentItem());
     }
 
     private void initNavigation() {
@@ -79,7 +78,7 @@ public class WishlistFragment extends Fragment {
     }
 
     private void initToolbar() {
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.mainToolbar.toolbar);
+        // ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.mainToolbar.toolbar);
         ActionBar actionbar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
@@ -110,7 +109,7 @@ public class WishlistFragment extends Fragment {
         adapter.addFragment(new SerieWishlistFragment(), getString(R.string.title_fragment_wishlist_serie));
 
         viewPager.setAdapter(adapter);
-        binding.mainToolbar.tabs.setupWithViewPager(viewPager);
+       // TODO binding.mainToolbar.tabs.setupWithViewPager(viewPager);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

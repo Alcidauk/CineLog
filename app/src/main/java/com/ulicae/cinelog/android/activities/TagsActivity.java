@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.android.v2.TagListFragment;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.databinding.V2TagListHostBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;

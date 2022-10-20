@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.android.activities.add;
 
-import static com.ulicae.cinelog.android.activities.add.AddKino.RESULT_VIEW_KINO;
 
 import android.content.Context;
 import android.content.Intent;
@@ -82,7 +81,9 @@ public class TvResultsAdapter extends ItemResultAdapter<BaseTvShow> {
             intent.putExtra("dtoType", "serie");
             intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
             intent.putExtra("kino_position", position);
-            ((AppCompatActivity) getContext()).startActivityForResult(intent, RESULT_VIEW_KINO);
+            //TODO replace old result use
+            ((AppCompatActivity) getContext()).startActivity(intent);
+            //((AppCompatActivity) getContext()).startActivityForResult(intent, RESULT_VIEW_KINO);
         }
     }
 }

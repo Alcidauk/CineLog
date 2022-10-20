@@ -43,6 +43,8 @@ greendao {
 }
 
 dependencies {
+    def nav_version = "2.5.2"
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
@@ -75,6 +77,10 @@ dependencies {
 
     // Allow to implements app preferences
     implementation 'androidx.preference:preference:1.2.0'
+
+    // navigation lib
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.28.2'

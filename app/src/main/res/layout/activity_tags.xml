@@ -32,13 +32,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            tools:context=".android.activities.MainActivity">
+            tools:context=".android.v2.activities.MainActivity">
 
             <include android:id="@+id/tags_toolbar" layout="@layout/toolbar" />
 
 
             <RelativeLayout
-                android:id="@+id/content_main"
+                android:id="@+id/nav_host_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">

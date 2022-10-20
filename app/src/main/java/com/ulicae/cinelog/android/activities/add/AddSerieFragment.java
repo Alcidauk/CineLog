@@ -13,25 +13,17 @@ import androidx.annotation.Nullable;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.EditReview;
-import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistTvResultsAdapter;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
-import com.ulicae.cinelog.databinding.ActivityAddKinoBinding;
 import com.ulicae.cinelog.databinding.ActivityAddSerieBinding;
 import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
-import com.ulicae.cinelog.databinding.ToolbarBinding;
-import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
-import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 
 import org.parceler.Parcels;
@@ -86,11 +78,6 @@ public class AddSerieFragment extends AddReviewFragment<BaseTvShow> {
 
         getContentAddReviewBinding().kinoSearchAddFromScratch.setText(getString(R.string.add_serie_from_scratch_label));
         getContentAddReviewBinding().kinoSearch.setHint(getString(R.string.serie_title_hint));
-    }
-
-    @Override
-    protected ToolbarBinding getToolbar() {
-        return binding.addSerieToolbar;
     }
 
     @Override

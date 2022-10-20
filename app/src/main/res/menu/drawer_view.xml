@@ -21,10 +21,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_reviews"
-            android:title="@string/nav_reviews_space" />
+            android:title="@string/nav_reviews_space">
+            <menu>
+                <item
+                    android:id="@+id/nav_reviews_movie"
+                    android:title="@string/title_fragment_movie" />
+                <item
+                    android:id="@+id/nav_reviews_serie"
+                    android:title="@string/title_fragment_serie" />
+            </menu>
+        </item>
         <item
             android:id="@+id/nav_wishlist"
-            android:title="@string/nav_wishlist_space" />
+            android:title="@string/nav_wishlist_space">
+            <menu>
+                <item
+                    android:id="@+id/nav_wishlist_movie"
+                    android:title="@string/title_fragment_movie" />
+                <item
+                    android:id="@+id/nav_wishlist_serie"
+                    android:title="@string/title_fragment_serie" />
+            </menu>
+        </item>
         <item
             android:id="@+id/nav_tags"
             android:title="@string/nav_tags_space" />

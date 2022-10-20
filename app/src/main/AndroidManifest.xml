@@ -38,7 +38,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         android:requestLegacyExternalStorage="true">
         <activity
-            android:name=".android.activities.MainActivity"
+            android:name=".android.v2.activities.MainActivity"
             android:label="@string/app_name"
             android:exported="true">
             <intent-filter>
@@ -56,28 +56,20 @@
         </activity>
         <activity android:name=".android.activities.Search" />
         <activity
-            android:name=".android.activities.add.AddKino"
-            android:label="@string/title_activity_add_kino"
-            android:parentActivityName=".android.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".android.activities.add.AddSerieActivity"
             android:label="@string/title_activity_add_serie"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.v2.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
+                android:value=".android.v2.activities.MainActivity" />
         </activity>
         <activity
             android:name=".android.activities.EditTag"
             android:label="@string/tags_title"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.v2.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
+                android:value=".android.v2.activities.MainActivity" />
         </activity>
         <activity
             android:name=".android.activities.ViewKino"
@@ -98,26 +90,26 @@
         <activity
             android:name=".io.exportdb.ExportDb"
             android:label="@string/title_activity_export_db"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.v2.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
+                android:value=".android.v2.activities.MainActivity" />
         </activity>
         <activity
             android:name=".io.importdb.ImportInDb"
             android:label="@string/title_activity_import_db"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.v2.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
+                android:value=".android.v2.activities.MainActivity" />
         </activity>
         <activity
             android:name=".android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.v2.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
+                android:value=".android.v2.activities.MainActivity" />
         </activity>
     </application>
 

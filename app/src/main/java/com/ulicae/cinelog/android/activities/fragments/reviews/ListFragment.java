@@ -12,11 +12,9 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.MainActivity;
 import com.ulicae.cinelog.android.activities.ViewKino;
 import com.ulicae.cinelog.android.activities.ViewSerie;
 import com.ulicae.cinelog.data.dto.KinoDto;

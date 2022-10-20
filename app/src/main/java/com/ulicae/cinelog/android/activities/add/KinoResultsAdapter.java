@@ -2,15 +2,16 @@ package com.ulicae.cinelog.android.activities.add;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.ViewKino;
 import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.network.KinoBuilderFromMovie;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
@@ -18,7 +19,6 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import static com.ulicae.cinelog.android.activities.add.AddKino.RESULT_VIEW_KINO;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -40,10 +40,10 @@ import static com.ulicae.cinelog.android.activities.add.AddKino.RESULT_VIEW_KINO
  */
 public class KinoResultsAdapter extends ItemResultAdapter<BaseMovie> {
 
-    public KinoResultsAdapter(Context context, List<BaseMovie> results) {
+    public KinoResultsAdapter(Context context, KinoApplication app, List<BaseMovie> results) {
         super(context,
                 results,
-                new KinoService(((KinoApplication) ((AddKino) context).getApplication()).getDaoSession()),
+                new KinoService(app.getDaoSession()),
                 new KinoBuilderFromMovie()
         );
     }
@@ -81,7 +81,8 @@ public class KinoResultsAdapter extends ItemResultAdapter<BaseMovie> {
             intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
             intent.putExtra("kino_position", position);
             // TODO rewrite navigation
-            ((AppCompatActivity) getContext()).startActivityForResult(intent, RESULT_VIEW_KINO);
+            ((AppCompatActivity) getContext()).startActivity(intent);
+            //((AppCompatActivity) getContext()).startActivityForResult(intent, RESULT_VIEW_KINO);
         }
     }
 

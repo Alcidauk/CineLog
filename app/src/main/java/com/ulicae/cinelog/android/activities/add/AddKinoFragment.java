@@ -2,36 +2,23 @@ package com.ulicae.cinelog.android.activities.add;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
-import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
-import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
-import com.ulicae.cinelog.databinding.ActivityAddKinoBinding;
-import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
 import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
-import com.ulicae.cinelog.databinding.ToolbarBinding;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
@@ -39,12 +26,7 @@ import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.parceler.Parcels;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 
@@ -70,7 +52,7 @@ public class AddKinoFragment extends AddReviewFragment<BaseMovie> {
 
     private boolean toWishlist;
 
-    private ActivityAddKinoBinding binding;
+    private ContentAddReviewBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -78,7 +60,7 @@ public class AddKinoFragment extends AddReviewFragment<BaseMovie> {
                              @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        binding = ActivityAddKinoBinding.inflate(getLayoutInflater());
+        binding = ContentAddReviewBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
@@ -93,13 +75,8 @@ public class AddKinoFragment extends AddReviewFragment<BaseMovie> {
     }
 
     @Override
-    protected ToolbarBinding getToolbar() {
-        return binding.addKinoToolbar;
-    }
-
-    @Override
     protected ContentAddReviewBinding getContentAddReviewBinding() {
-        return binding.addKinoContent;
+        return binding;
     }
 
     @Override
@@ -131,7 +108,7 @@ public class AddKinoFragment extends AddReviewFragment<BaseMovie> {
     public void populateListView(final List<BaseMovie> movies) {
         ArrayAdapter<BaseMovie> arrayAdapter;
         if (!toWishlist) {
-            arrayAdapter = new KinoResultsAdapter(requireContext(), movies);
+            arrayAdapter = new KinoResultsAdapter(requireContext(), ((KinoApplication) requireActivity().getApplication()), movies);
         } else {
             arrayAdapter = new WishlistMovieResultsAdapter(requireContext(), movies);
         }

@@ -56,7 +56,7 @@ public class ViewSerieFragment extends Fragment {
     }
 
     private void initToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.viewSerieToolbar.toolbar);
+        // TODO ((AppCompatActivity) getActivity()).setSupportActionBar(binding.viewSerieToolbar.toolbar);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
@@ -69,7 +69,7 @@ public class ViewSerieFragment extends Fragment {
         adapter.addFragment(new SerieViewEpisodesFragment(), getString(R.string.title_fragment_serie_episodes));
 
         viewPager.setAdapter(adapter);
-        binding.viewSerieToolbar.tabs.setupWithViewPager(viewPager);
+        // TODO binding.viewSerieToolbar.tabs.setupWithViewPager(viewPager);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

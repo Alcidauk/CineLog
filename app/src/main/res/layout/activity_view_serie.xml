@@ -24,7 +24,7 @@
     android:fitsSystemWindows="true"
     tools:context=".android.activities.ViewKino">
 
-    <include android:id="@+id/view_serie_toolbar" layout="@layout/toolbar_with_tabs" />
+    <include android:id="@+id/view_serie_toolbar" layout="@layout/toolbar_new" />
     <include android:id="@+id/view_serie_content" layout="@layout/content_view_serie" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

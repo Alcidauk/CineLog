@@ -85,15 +85,10 @@ public abstract class AddReviewFragment<T extends BaseRatingObject> extends Frag
 
         getContentAddReviewBinding().kinoSearchAddFromScratch.setOnClickListener(this::onFromScratchClick);
 
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(getToolbar().toolbar);
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         tmdbServiceWrapper = new TmdbServiceWrapper(requireContext());
 
         handler = new AddReviewHandler(new WeakReference<AddReviewFragment>(this));
     }
-
-    protected abstract ToolbarBinding getToolbar();
 
     protected abstract ContentAddReviewBinding getContentAddReviewBinding();
 
