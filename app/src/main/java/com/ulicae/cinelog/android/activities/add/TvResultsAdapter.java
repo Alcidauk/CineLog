@@ -41,10 +41,10 @@ import java.util.List;
  */
 public class TvResultsAdapter extends ItemResultAdapter<BaseTvShow> {
 
-    public TvResultsAdapter(Context context, List<BaseTvShow> results) {
+    public TvResultsAdapter(Context context, KinoApplication app, List<BaseTvShow> results) {
         super(context,
                 results,
-                new SerieService(((KinoApplication) ((AddSerieActivity) context).getApplication()).getDaoSession(), context),
+                new SerieService(app.getDaoSession(), context),
                 new SerieBuilderFromMovie());
     }
 

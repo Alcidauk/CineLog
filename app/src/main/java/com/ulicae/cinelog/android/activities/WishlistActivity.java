@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
 import com.ulicae.cinelog.android.activities.fragments.wishlist.MovieWishlistFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.android.v2.WishlistFragment;
@@ -60,7 +59,8 @@ public class WishlistActivity extends AppCompatActivity {
             // TODO intent = new Intent(getApplicationContext(), AddKino.class);
             intent = null;
         } else {
-            intent = new Intent(getApplicationContext(), AddSerieActivity.class);
+            // intent = new Intent(getApplicationContext(), AddSerieActivity.class);
+            intent = null;
         }
 
         intent.putExtra("toWishlist", true);

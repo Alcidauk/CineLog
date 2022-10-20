@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities.add;
+package com.ulicae.cinelog.android.v2.fragments;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -8,25 +8,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
 import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
-import com.ulicae.cinelog.databinding.ToolbarBinding;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
-import com.ulicae.cinelog.utils.ThemeWrapper;
 import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
 
 import java.lang.ref.WeakReference;
@@ -53,6 +46,8 @@ import java.util.List;
  */
 public abstract class AddReviewFragment<T extends BaseRatingObject> extends Fragment {
 
+    protected ContentAddReviewBinding binding;
+
     protected TmdbServiceWrapper tmdbServiceWrapper;
     protected NetworkTaskManager networkTaskManager;
 
@@ -68,7 +63,7 @@ public abstract class AddReviewFragment<T extends BaseRatingObject> extends Frag
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        getContentAddReviewBinding().kinoSearch.addTextChangedListener(new TextWatcher() {
+        binding.kinoSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -83,20 +78,18 @@ public abstract class AddReviewFragment<T extends BaseRatingObject> extends Frag
             }
         });
 
-        getContentAddReviewBinding().kinoSearchAddFromScratch.setOnClickListener(this::onFromScratchClick);
+        binding.kinoSearchAddFromScratch.setOnClickListener(this::onFromScratchClick);
 
         tmdbServiceWrapper = new TmdbServiceWrapper(requireContext());
 
-        handler = new AddReviewHandler(new WeakReference<AddReviewFragment>(this));
+        handler = new AddReviewHandler(new WeakReference<>(this));
     }
-
-    protected abstract ContentAddReviewBinding getContentAddReviewBinding();
 
     protected abstract void onFromScratchClick(View view);
 
     private void startSearchTask() {
         if (isNetworkAvailable()) {
-            executeTask(getContentAddReviewBinding().kinoSearch.getText().toString());
+            executeTask(binding.kinoSearch.getText().toString());
         } else {
             Toast t = Toast.makeText(requireContext(),
                     getString(R.string.addkino_error_no_network),
@@ -116,7 +109,7 @@ public abstract class AddReviewFragment<T extends BaseRatingObject> extends Frag
     @SuppressWarnings("unused")
     public void onSearchChange(CharSequence s, int start, int before, int count) {
         if (count > 0) {
-            getContentAddReviewBinding().kinoSearchProgressBar.setVisibility(View.VISIBLE);
+            binding.kinoSearchProgressBar.setVisibility(View.VISIBLE);
             handler.removeMessages(TRIGGER_SERACH);
             handler.sendEmptyMessageDelayed(TRIGGER_SERACH, SEARCH_TRIGGER_DELAY_IN_MS);
         } else if (count == 0) {
@@ -125,38 +118,25 @@ public abstract class AddReviewFragment<T extends BaseRatingObject> extends Frag
     }
 
     public void clearListView() {
-        if (getContentAddReviewBinding().kinoResults.getAdapter() != null) {
-            getContentAddReviewBinding().kinoResults.setAdapter(null);
+        if (binding.kinoResults.getAdapter() != null) {
+            binding.kinoResults.setAdapter(null);
         }
-        getContentAddReviewBinding().kinoSearchProgressBar.setVisibility(View.GONE);
+        binding.kinoSearchProgressBar.setVisibility(View.GONE);
     }
 
     public abstract void populateListView(final List<T> movies);
 
-
-    /* TODO rewrite navigation
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-     */
-
     static class AddReviewHandler extends Handler {
-        private WeakReference<AddReviewFragment> addKino;
+        private WeakReference<AddReviewFragment> addReview;
 
-        AddReviewHandler(WeakReference<AddReviewFragment> addKino) {
-            this.addKino = addKino;
+        AddReviewHandler(WeakReference<AddReviewFragment> addReview) {
+            this.addReview = addReview;
         }
 
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == TRIGGER_SERACH) {
-                addKino.get().startSearchTask();
+                addReview.get().startSearchTask();
             }
         }
     }

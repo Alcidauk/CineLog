@@ -14,7 +14,11 @@
     <fragment
         android:id="@+id/nav_reviews_serie"
         android:name="com.ulicae.cinelog.android.activities.fragments.reviews.SerieFragment"
-        android:label="@string/title_fragment_serie" />
+        android:label="@string/title_fragment_serie" >
+        <action
+            android:id="@+id/action_nav_reviews_serie_to_addSerieFragment"
+            app:destination="@id/addSerieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_wishlist_movie"
         android:name="com.ulicae.cinelog.android.activities.fragments.wishlist.MovieWishlistFragment"
@@ -29,7 +33,11 @@
         android:label="@string/tags_title" />
     <fragment
         android:id="@+id/addKinoFragment"
-        android:name="com.ulicae.cinelog.android.activities.add.AddKinoFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.AddMovieFragment"
         android:label="AddKinoFragment" />
+    <fragment
+        android:id="@+id/addSerieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.AddSerieFragment"
+        android:label="AddSerieFragment" />
 
 </navigation>

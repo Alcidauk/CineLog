@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.network.task;
 
-import com.ulicae.cinelog.android.activities.add.AddReviewFragment;
+import com.ulicae.cinelog.android.v2.fragments.AddReviewFragment;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
 

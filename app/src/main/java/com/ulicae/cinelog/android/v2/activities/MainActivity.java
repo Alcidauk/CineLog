@@ -15,8 +15,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.TagsActivity;
-import com.ulicae.cinelog.android.activities.add.AddKinoFragment;
-import com.ulicae.cinelog.android.activities.add.AddSerieActivity;
+import com.ulicae.cinelog.android.v2.fragments.AddMovieFragment;
+import com.ulicae.cinelog.android.v2.fragments.AddSerieFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
@@ -65,31 +65,9 @@ public class MainActivity extends AppCompatActivity {
         checkNeededFix();
     }
 
-
-        // ELEMENT ADDITION
-        // TODO give callback to adapter
-        //binding.fab.setOnClickListener(v ->
-               // addElement(
-              //          ((ViewSerieFragment.ViewPagerAdapter) binding.categoryPager.getAdapter()).getItem(binding.categoryPager.getCurrentItem())
-               // )
-        //);
-
-
     private void checkNeededFix() {
         new UpgradeFixRunner(getBaseContext(), getApplication()).runFixesIfNeeded();
     }
-
-   /* public void navigateToMovieWishlist() {
-        Fragment fragment = new WishlistFragment();
-
-        binding.toolbarNew.toolbar.setSubtitle(R.string.app_name);
-
-        getSupportFragmentManager().beginTransaction()
-                //.addToBackStack("MovieWishlist")
-                .replace(R.id.nav_host_fragment, fragment, "MovieWishlist")
-                .commit();
-    }*/
-
 
     @Override
     public void onBackPressed() {
@@ -151,18 +129,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToKinoReviewCreation(){
-        Fragment fragment = new AddKinoFragment();
+        Fragment fragment = new AddMovieFragment();
 
         getSupportFragmentManager().beginTransaction()
-                //.addToBackStack("MovieWishlist")
-                .replace(R.id.nav_host_fragment, fragment, "MovieWishlist")
+                .addToBackStack("MovieReviewList")
+                .replace(R.id.nav_host_fragment, fragment, "MovieReviewCreation")
                 .commit();
     }
 
     public void goToSerieReviewCreation(){
-        Intent intent = new Intent(getApplicationContext(), AddSerieActivity.class);
-        intent.putExtra("toWishlist", false);
-        startActivity(intent);
+        Fragment fragment = new AddSerieFragment();
+
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack("SerieReviewList")
+                .replace(R.id.nav_host_fragment, fragment, "SerieReviewCreation")
+                .commit();
     }
 
     public void goToTags() {
@@ -185,48 +166,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), activity));
     }
 
-
-
-
-    /* TODO rewrite
-
-    private void initViewPager() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
-        //adapter.addFragment(new MovieFragment(), getString(R.string.title_fragment_movie));
-        //adapter.addFragment(new SerieFragment(), getString(R.string.title_fragment_serie));
-
-        binding.categoryPager.setAdapter(adapter);
-        binding.mainToolbar.tabs.setupWithViewPager(binding.categoryPager);
-    }
-
-
-    static class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-     */
 }
