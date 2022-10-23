@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -14,15 +15,22 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.TagsActivity;
-import com.ulicae.cinelog.android.v2.fragments.AddMovieFragment;
-import com.ulicae.cinelog.android.v2.fragments.AddSerieFragment;
+import com.ulicae.cinelog.android.activities.ViewKino;
+import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
+import com.ulicae.cinelog.android.v2.fragments.SearchTmbdSerieFragment;
+import com.ulicae.cinelog.android.v2.fragments.SearchTmdbMovieFragment;
+import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 import com.ulicae.cinelog.utils.UpgradeFixRunner;
+
+import org.parceler.Parcels;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -129,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToKinoReviewCreation(){
-        Fragment fragment = new AddMovieFragment();
+        Fragment fragment = new SearchTmdbMovieFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack("MovieReviewList")
@@ -138,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToSerieReviewCreation(){
-        Fragment fragment = new AddSerieFragment();
+        Fragment fragment = new SearchTmbdSerieFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack("SerieReviewList")
@@ -164,6 +172,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchActivity(Class<? extends Activity> activity) {
         startActivity(new Intent(getApplicationContext(), activity));
+    }
+
+    public void navigateToMovieEdition(KinoDto kinoDto, int position, boolean inDb) {
+        Intent intent;
+        if (inDb) {
+            intent = new Intent(this, ViewKino.class);
+            intent.putExtra("kino_position", position);
+        } else {
+            intent = new Intent(this, ViewUnregisteredKino.class);
+        }
+
+        intent.putExtra("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
+        intent.putExtra("kino", Parcels.wrap(kinoDto));
+        // TODO rewrite navigation
+        startActivity(intent);
+    }
+
+    public void navigateToReviewCreation(View view, KinoDto kinoDto) {
+        Intent intent = new Intent(view.getContext(), EditReview.class);
+
+        intent.putExtra("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
+        intent.putExtra("kino", Parcels.wrap(kinoDto));
+        intent.putExtra("creation", true);
+
+        startActivity(intent);
     }
 
 }

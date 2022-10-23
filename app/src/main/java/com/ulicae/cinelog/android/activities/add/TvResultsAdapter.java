@@ -3,16 +3,14 @@ package com.ulicae.cinelog.android.activities.add;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.android.activities.EditReview;
-import com.ulicae.cinelog.android.activities.ViewKino;
-import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
+import com.ulicae.cinelog.android.v2.fragments.MovieDetailsCallback;
+import com.ulicae.cinelog.android.v2.fragments.MovieReviewCreationCallback;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.network.SerieBuilderFromMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 
@@ -41,49 +39,15 @@ import java.util.List;
  */
 public class TvResultsAdapter extends ItemResultAdapter<BaseTvShow> {
 
-    public TvResultsAdapter(Context context, KinoApplication app, List<BaseTvShow> results) {
+    public TvResultsAdapter(Context context,
+                            KinoApplication app,
+                            List<BaseTvShow> results,
+                            MovieDetailsCallback movieDetailsCallback,
+                            MovieReviewCreationCallback movieReviewCreationCallback) {
         super(context,
                 results,
                 new SerieService(app.getDaoSession(), context),
-                new SerieBuilderFromMovie());
-    }
-
-    @Override
-    protected void addReview(View view, Long tmdbId, KinoDto kinoDto) {
-        Intent intent = new Intent(view.getContext(), EditReview.class);
-
-        KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
-
-        intent.putExtra("dtoType", "serie");
-
-        if (kinoByTmdbMovieId == null) {
-            intent.putExtra("kino", Parcels.wrap(kinoDto));
-            intent.putExtra("creation", true);
-        } else {
-            intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
-        }
-
-        getContext().startActivity(intent);
-    }
-
-    @Override
-    protected void viewDetails(KinoDto kinoDto, int position) {
-        SerieDto kinoByTmdbMovieId = (SerieDto) dataService.getWithTmdbId(kinoDto.getTmdbKinoId());
-
-        if (kinoByTmdbMovieId == null) {
-            Intent intent = new Intent(getContext(), ViewUnregisteredKino.class);
-            intent.putExtra("dtoType", "serie");
-            intent.putExtra("kino", Parcels.wrap(kinoDto));
-
-            getContext().startActivity(intent);
-        } else {
-            Intent intent = new Intent(getContext(), ViewKino.class);
-            intent.putExtra("dtoType", "serie");
-            intent.putExtra("kino", Parcels.wrap(kinoByTmdbMovieId));
-            intent.putExtra("kino_position", position);
-            //TODO replace old result use
-            ((AppCompatActivity) getContext()).startActivity(intent);
-            //((AppCompatActivity) getContext()).startActivityForResult(intent, RESULT_VIEW_KINO);
-        }
+                new SerieBuilderFromMovie(),
+                movieDetailsCallback, movieReviewCreationCallback);
     }
 }

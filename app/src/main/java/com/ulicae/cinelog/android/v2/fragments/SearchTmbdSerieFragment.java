@@ -50,7 +50,7 @@ import retrofit2.Call;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class AddSerieFragment extends AddReviewFragment<BaseTvShow> {
+public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
 
     private boolean toWishlist;
 
@@ -108,7 +108,12 @@ public class AddSerieFragment extends AddReviewFragment<BaseTvShow> {
     public void populateListView(final List<BaseTvShow> tvShows) {
         ArrayAdapter<BaseTvShow> arrayAdapter;
         if (!toWishlist) {
-            arrayAdapter = new TvResultsAdapter(requireContext(), (KinoApplication) requireActivity().getApplication(), tvShows);
+            arrayAdapter = new TvResultsAdapter(
+                    requireContext(),
+                    (KinoApplication) requireActivity().getApplication(),
+                    tvShows,
+                    movieSearchResultClickCallback,
+                    movieReviewCreationClickCallback);
         } else {
             arrayAdapter = new WishlistTvResultsAdapter(requireContext(), tvShows);
         }

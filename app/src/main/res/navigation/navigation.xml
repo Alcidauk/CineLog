@@ -9,7 +9,7 @@
         android:label="@string/title_fragment_movie" >
         <action
             android:id="@+id/action_nav_reviews_movie_to_addKinoFragment"
-            app:destination="@id/addKinoFragment" />
+            app:destination="@id/searchTmdbMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_reviews_serie"
@@ -17,7 +17,7 @@
         android:label="@string/title_fragment_serie" >
         <action
             android:id="@+id/action_nav_reviews_serie_to_addSerieFragment"
-            app:destination="@id/addSerieFragment" />
+            app:destination="@id/searchTmbdSerieFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_wishlist_movie"
@@ -32,12 +32,12 @@
         android:name="com.ulicae.cinelog.android.activities.fragments.wishlist.SerieWishlistFragment"
         android:label="@string/tags_title" />
     <fragment
-        android:id="@+id/addKinoFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.AddMovieFragment"
-        android:label="AddKinoFragment" />
+        android:id="@+id/searchTmdbMovieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.SearchTmdbMovieFragment"
+        android:label="SearchTmdbMovieFragment" />
     <fragment
-        android:id="@+id/addSerieFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.AddSerieFragment"
-        android:label="AddSerieFragment" />
+        android:id="@+id/searchTmbdSerieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.SearchTmbdSerieFragment"
+        android:label="SearchTmbdSerieFragment" />
 
 </navigation>

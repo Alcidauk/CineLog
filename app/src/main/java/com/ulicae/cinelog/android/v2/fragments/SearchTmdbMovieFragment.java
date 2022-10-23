@@ -15,6 +15,7 @@ import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.add.KinoResultsAdapter;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
@@ -49,7 +50,7 @@ import retrofit2.Call;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class AddMovieFragment extends AddReviewFragment<BaseMovie> {
+public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
 
     private boolean toWishlist;
 
@@ -102,7 +103,12 @@ public class AddMovieFragment extends AddReviewFragment<BaseMovie> {
     public void populateListView(final List<BaseMovie> movies) {
         ArrayAdapter<BaseMovie> arrayAdapter;
         if (!toWishlist) {
-            arrayAdapter = new KinoResultsAdapter(requireContext(), ((KinoApplication) requireActivity().getApplication()), movies);
+            arrayAdapter = new KinoResultsAdapter(
+                    requireContext(),
+                    ((KinoApplication) requireActivity().getApplication()),
+                    movies,
+                    movieSearchResultClickCallback,
+                    movieReviewCreationClickCallback);
         } else {
             arrayAdapter = new WishlistMovieResultsAdapter(requireContext(), movies);
         }

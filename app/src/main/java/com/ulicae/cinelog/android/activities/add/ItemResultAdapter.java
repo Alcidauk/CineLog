@@ -13,6 +13,8 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.fragments.MovieDetailsCallback;
+import com.ulicae.cinelog.android.v2.fragments.MovieReviewCreationCallback;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.databinding.SearchResultItemBinding;
@@ -45,10 +47,20 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
     private DtoBuilderFromTmdbObject<T> builderFromTmdbObject;
     private SearchResultItemBinding binding;
 
-    public ItemResultAdapter(Context context, List<T> results, DataService<? extends KinoDto> dataService, DtoBuilderFromTmdbObject<T> dtoBuilderFromTmdbObject) {
+    protected final MovieDetailsCallback movieDetailsCallback;
+    protected final MovieReviewCreationCallback movieReviewCreationCallback;
+
+    public ItemResultAdapter(Context context,
+                             List<T> results,
+                             DataService<? extends KinoDto> dataService,
+                             DtoBuilderFromTmdbObject<T> dtoBuilderFromTmdbObject,
+                             MovieDetailsCallback movieDetailsCallback,
+                             MovieReviewCreationCallback movieReviewCreationCallback) {
         super(context, R.layout.search_result_item, results);
         this.dataService = dataService;
         this.builderFromTmdbObject = dtoBuilderFromTmdbObject;
+        this.movieDetailsCallback = movieDetailsCallback;
+        this.movieReviewCreationCallback = movieReviewCreationCallback;
     }
 
     public long getItemId(int position) {
@@ -76,11 +88,9 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
         final Long tmdbId = kinoDto.getTmdbKinoId();
         populateAddButton(kinoDto, holder, tmdbId);
 
-        convertView.setOnClickListener(v -> viewDetails(kinoDto, position));
-
         KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
         if (kinoByTmdbMovieId != null) {
-            if(kinoByTmdbMovieId.getMaxRating() <= 5) {
+            if (kinoByTmdbMovieId.getMaxRating() <= 5) {
                 holder.getRatingBar().setRating(
                         kinoByTmdbMovieId.getRating() != null ? kinoByTmdbMovieId.getRating() : 0
                 );
@@ -108,23 +118,35 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
             holder.getAddButton().setVisibility(View.VISIBLE);
         }
 
+        convertView.setOnClickListener(
+                v -> viewDetails(
+                        kinoByTmdbMovieId != null ? kinoByTmdbMovieId : kinoDto,
+                        position,
+                        kinoByTmdbMovieId != null)
+        );
+
         holder.getAddButton().setFocusable(false);
 
         return convertView;
     }
 
     private void populateAddButton(final KinoDto kinoDto, ItemViewHolder holder, final Long tmdbId) {
-        holder.getAddButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addReview(view, tmdbId, kinoDto);
-            }
+        holder.getAddButton().setOnClickListener(view -> {
+            KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
+            addReview(
+                    view,
+                    kinoByTmdbMovieId != null ? kinoByTmdbMovieId : kinoDto
+            );
         });
     }
 
-    protected abstract void addReview(View view, Long tmdbId, KinoDto kinoDto);
+    protected void addReview(View view, KinoDto kinoDto) {
+        movieReviewCreationCallback.call(view, kinoDto);
+    }
 
-    protected abstract void viewDetails(KinoDto kinoDto, int position);
+    protected void viewDetails(KinoDto kinoDto, int position, boolean inDb) {
+        movieDetailsCallback.call(kinoDto, position, inDb);
+    }
 
     private void populatePoster(KinoDto kinoDto, ItemViewHolder holder) {
         holder.getPoster().setLayoutParams(new RelativeLayout.LayoutParams(120, 150));

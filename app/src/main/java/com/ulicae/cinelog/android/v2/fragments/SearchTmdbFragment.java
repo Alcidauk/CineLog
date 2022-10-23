@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
@@ -44,7 +45,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class AddReviewFragment<T extends BaseRatingObject> extends Fragment {
+public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fragment {
 
     protected ContentAddReviewBinding binding;
 
@@ -52,6 +53,11 @@ public abstract class AddReviewFragment<T extends BaseRatingObject> extends Frag
     protected NetworkTaskManager networkTaskManager;
 
     protected DataService dataService;
+
+    protected final MovieDetailsCallback movieSearchResultClickCallback =
+            (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToMovieEdition(kinoDto, position, inDb);
+    protected final MovieReviewCreationCallback movieReviewCreationClickCallback =
+            (view, kinoDto) -> ((MainActivity) requireActivity()).navigateToReviewCreation(view, kinoDto);
 
     private Handler handler;
 
@@ -127,9 +133,9 @@ public abstract class AddReviewFragment<T extends BaseRatingObject> extends Frag
     public abstract void populateListView(final List<T> movies);
 
     static class AddReviewHandler extends Handler {
-        private WeakReference<AddReviewFragment> addReview;
+        private WeakReference<SearchTmdbFragment> addReview;
 
-        AddReviewHandler(WeakReference<AddReviewFragment> addReview) {
+        AddReviewHandler(WeakReference<SearchTmdbFragment> addReview) {
             this.addReview = addReview;
         }
 

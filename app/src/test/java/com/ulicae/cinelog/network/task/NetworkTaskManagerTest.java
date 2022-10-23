@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.v2.fragments.AddReviewFragment;
+import com.ulicae.cinelog.android.v2.fragments.SearchTmdbFragment;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class NetworkTaskManagerTest {
     private MovieNetworkTaskCreator networkTaskCreator;
 
     @Mock
-    private AddReviewFragment addReviewFragment;
+    private SearchTmdbFragment searchTmdbFragment;
 
     @Mock
     private Call<MovieResultsPage> call;
@@ -55,9 +55,9 @@ public class NetworkTaskManagerTest {
 
     @Test
     public void createAndExecute() throws Exception {
-        doReturn(networkTask).when(networkTaskCreator).create(addReviewFragment);
+        doReturn(networkTask).when(networkTaskCreator).create(searchTmdbFragment);
 
-        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addReviewFragment, networkTaskCreator);
+        NetworkTaskManager networkTaskManager = new NetworkTaskManager(searchTmdbFragment, networkTaskCreator);
         networkTaskManager.createAndExecute(call);
 
         //noinspection unchecked
@@ -72,11 +72,11 @@ public class NetworkTaskManagerTest {
 
     @Test
     public void createAndExecute_verifyEmptyTasks() throws Exception {
-        doReturn(networkTask).when(networkTaskCreator).create(addReviewFragment);
+        doReturn(networkTask).when(networkTaskCreator).create(searchTmdbFragment);
 
         final MovieNetworkTask anotherNetworkTask = mock(MovieNetworkTask.class);
 
-        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addReviewFragment, networkTaskCreator);
+        NetworkTaskManager networkTaskManager = new NetworkTaskManager(searchTmdbFragment, networkTaskCreator);
         networkTaskManager.setTaskList(new ArrayList<AsyncTask>() {{
             add(anotherNetworkTask);
         }});
@@ -97,7 +97,7 @@ public class NetworkTaskManagerTest {
     public void cancelTasks() throws Exception {
         final MovieNetworkTask anotherNetworkTask = mock(MovieNetworkTask.class);
 
-        NetworkTaskManager networkTaskManager = new NetworkTaskManager(addReviewFragment, networkTaskCreator);
+        NetworkTaskManager networkTaskManager = new NetworkTaskManager(searchTmdbFragment, networkTaskCreator);
         networkTaskManager.setTaskList(
                 new ArrayList<AsyncTask>() {{
                     add(networkTask);

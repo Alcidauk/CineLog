@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.v2.fragments.AddReviewFragment;
+import com.ulicae.cinelog.android.v2.fragments.SearchTmdbFragment;
 import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
 
 import java.util.ArrayList;
@@ -30,12 +30,12 @@ import retrofit2.Call;
  */
 public class NetworkTaskManager<T extends BaseRatingObject> {
 
-    private AddReviewFragment<T> addReviewFragment;
+    private SearchTmdbFragment<T> searchTmdbFragment;
     private NetworkTaskCreator<AsyncTask, T> networkTaskCreator;
     private List<AsyncTask> taskList;
 
-    public NetworkTaskManager(AddReviewFragment<T> fragment, NetworkTaskCreator<AsyncTask, T> networkTaskCreator) {
-        this.addReviewFragment = fragment;
+    public NetworkTaskManager(SearchTmdbFragment<T> fragment, NetworkTaskCreator<AsyncTask, T> networkTaskCreator) {
+        this.searchTmdbFragment = fragment;
         this.networkTaskCreator = networkTaskCreator;
         this.taskList = new ArrayList<>();
     }
@@ -43,7 +43,7 @@ public class NetworkTaskManager<T extends BaseRatingObject> {
     public void createAndExecute(Call... call) {
         cancelTasks();
 
-        AsyncTask networkTask = networkTaskCreator.create(addReviewFragment);
+        AsyncTask networkTask = networkTaskCreator.create(searchTmdbFragment);
 
         //noinspection unchecked
         networkTask.execute(call);

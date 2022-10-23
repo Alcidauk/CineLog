@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.network.task;
 
-import com.ulicae.cinelog.android.v2.fragments.AddReviewFragment;
+import com.ulicae.cinelog.android.v2.fragments.SearchTmdbFragment;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 
 
@@ -24,7 +24,7 @@ import com.uwetrottmann.tmdb2.entities.TvShow;
  */
 public  class TvNetworkTaskCreator implements NetworkTaskCreator<TvNetworkTask, TvShow> {
 
-    public TvNetworkTask create(AddReviewFragment<TvShow> addReviewFragment) {
-        return new TvNetworkTask(addReviewFragment);
+    public TvNetworkTask create(SearchTmdbFragment<TvShow> searchTmdbFragment) {
+        return new TvNetworkTask(searchTmdbFragment);
     }
 }
