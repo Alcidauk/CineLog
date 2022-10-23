@@ -7,28 +7,26 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.ViewSerie;
 import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewGeneralFragment;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.databinding.ActivityViewSerieBinding;
+import com.ulicae.cinelog.databinding.ContentViewSerieBinding;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ViewSerieFragment extends Fragment {
 
-    private ActivityViewSerieBinding binding;
+    private ContentViewSerieBinding binding;
 
     KinoDto kino;
     int position;
@@ -37,39 +35,39 @@ public class ViewSerieFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ActivityViewSerieBinding.inflate(getLayoutInflater());
+        binding = ContentViewSerieBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        kino = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
-        position = getActivity().getIntent().getIntExtra("kino_position", -1);
+        kino = Parcels.unwrap(getArguments().getParcelable("kino"));
+        position = getArguments().getInt("kino_position", -1);
 
         binding.fab.setOnClickListener(fabView -> {
-            ((ViewSerie) requireActivity()).goToSerieEdition(kino);
+            ((MainActivity) requireActivity()).navigateToReview(kino, false);
         });
 
-        setViewPager(binding.viewSerieContent.serieViewPager);
-        initToolbar();
+        setViewPager(binding.serieViewPager);
     }
-
-    private void initToolbar() {
-        // TODO ((AppCompatActivity) getActivity()).setSupportActionBar(binding.viewSerieToolbar.toolbar);
-        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-    }
-
 
     private void setViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
 
+        Bundle args = new Bundle();
+        args.putParcelable("kino", Parcels.wrap(kino));
+
         SerieViewGeneralFragment generalFragment = new SerieViewGeneralFragment();
+        generalFragment.setArguments(args);
         adapter.addFragment(generalFragment, getString(R.string.title_fragment_serie_general));
-        adapter.addFragment(new SerieViewEpisodesFragment(), getString(R.string.title_fragment_serie_episodes));
+
+        SerieViewEpisodesFragment episodesFragment = new SerieViewEpisodesFragment();
+        episodesFragment.setArguments(args);
+        adapter.addFragment(episodesFragment, getString(R.string.title_fragment_serie_episodes));
 
         viewPager.setAdapter(adapter);
-        // TODO binding.viewSerieToolbar.tabs.setupWithViewPager(viewPager);
+        binding.tabs.setupWithViewPager(viewPager);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

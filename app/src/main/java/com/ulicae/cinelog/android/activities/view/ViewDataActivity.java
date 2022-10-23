@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.EditReview;
+import com.ulicae.cinelog.android.v2.EditReviewFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.databinding.V2WishlistItemHostBinding;
@@ -53,16 +54,24 @@ public class ViewDataActivity extends AppCompatActivity {
     }
 
     public void createReview(Long wishlistId, KinoDto dto) {
-        Intent intent = new Intent(this, EditReview.class);
+        // TODO verify
+        navigateToReviewCreation(wishlistId, dto);
+    }
 
-        intent.putExtra("kino", Parcels.wrap(dto));
-        intent.putExtra("dtoType", dto instanceof SerieDto ? "serie" : "kino");
+    public void navigateToReviewCreation(Long wishlistId, KinoDto kinoDto) {
+        Fragment fragment = new EditReviewFragment();
 
-        intent.putExtra("creation", true);
-        intent.putExtra("wishlistId", wishlistId);
-        startActivity(intent);
+        Bundle args = new Bundle();
+        args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
+        args.putParcelable("kino", Parcels.wrap(kinoDto));
+        args.putBoolean("creation", true);
+        args.putLong("wishlistId", wishlistId);
+        fragment.setArguments(args);
 
-        finish();
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack("EditReview")
+                .replace(R.id.nav_host_fragment, fragment, "EditReview")
+                .commit();
     }
 
 }

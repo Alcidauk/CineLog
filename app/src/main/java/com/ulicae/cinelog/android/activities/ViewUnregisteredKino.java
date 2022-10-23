@@ -1,20 +1,14 @@
 package com.ulicae.cinelog.android.activities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.ViewKinoFragment;
+import com.ulicae.cinelog.android.v2.EditReviewFragment;
 import com.ulicae.cinelog.android.v2.ViewUnregisteredItemFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
-import com.ulicae.cinelog.databinding.ContentKinoViewUnregisteredBinding;
-import com.ulicae.cinelog.databinding.V2ViewKinoHostBinding;
 import com.ulicae.cinelog.databinding.V2ViewUnregisteredItemHostBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
@@ -60,11 +54,18 @@ public class ViewUnregisteredKino extends AppCompatActivity {
 
 
     public void goToEditReview(KinoDto kino){
-        Intent intent = new Intent(this, EditReview.class);
-        intent.putExtra("kino", Parcels.wrap(kino));
-        intent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
+        // TODO move in mainactivity
+        Fragment fragment = new EditReviewFragment();
 
-        startActivity(intent);
+        Bundle args = new Bundle();
+        args.putString("dtoType", getIntent().getStringExtra("dtoType"));
+        args.putParcelable("kino", Parcels.wrap(kino));
+        fragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack("EditReview")
+                .replace(R.id.nav_host_fragment, fragment, "EditReview")
+                .commit();
     }
 
 }

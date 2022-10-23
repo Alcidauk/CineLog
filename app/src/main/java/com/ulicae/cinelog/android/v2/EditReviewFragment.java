@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.android.v2;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.SharedPreferences;
@@ -14,19 +15,16 @@ import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.fragments.TagChooserDialog;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.tags.TagService;
-import com.ulicae.cinelog.databinding.ActivityEditReviewBinding;
 import com.ulicae.cinelog.databinding.ContentEditReviewBinding;
 
 import org.parceler.Parcels;
@@ -38,7 +36,6 @@ import java.util.List;
 public class EditReviewFragment extends Fragment {
 
     private ContentEditReviewBinding binding;
-    private ActivityEditReviewBinding activityBinding;
 
     KinoDto kino;
 
@@ -51,32 +48,30 @@ public class EditReviewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        activityBinding = ActivityEditReviewBinding.inflate(getLayoutInflater());
-        binding = activityBinding.editReviewContent;
-        return activityBinding.getRoot();
+        binding = ContentEditReviewBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         wishlistItemDeleter = new WishlistItemDeleter(requireContext());
 
-        String dtoType = requireActivity().getIntent().getStringExtra("dtoType");
+        String dtoType = requireArguments().getString("dtoType");
         dtoService = new ServiceFactory(requireContext()).create(dtoType, ((KinoApplication) requireActivity().getApplicationContext()).getDaoSession());
 
         tagService = new TagService(((KinoApplication) requireActivity().getApplication()).getDaoSession());
 
-        kino = Parcels.unwrap(requireActivity().getIntent().getParcelableExtra("kino"));
-        if (requireActivity().getIntent().getBooleanExtra("creation", false)) {
+        kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
+        if (requireArguments().getBoolean("creation", false)) {
             requireActivity().setTitle(getString(R.string.title_activity_add_review_creation));
         }
 
         initRating();
         initReview();
         initKinoTitle();
-        initToolbar();
 
         binding.reviewTagEdit.setOnClickListener(onReviewTagEdit());
-        activityBinding.fabSave.setOnClickListener(fabView -> onFabSaveClick());
+        binding.fabSave.setOnClickListener(fabView -> onFabSaveClick());
         binding.kinoReviewDateButton.setOnClickListener(this::showTimePickerDialog);
     }
 
@@ -100,11 +95,6 @@ public class EditReviewFragment extends Fragment {
             TagChooserDialog dialog = new TagChooserDialog(tagService, kino);
             dialog.show(requireActivity().getSupportFragmentManager(), "NoticeDialogFragment");
         };
-    }
-
-    private void initToolbar() {
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(activityBinding.editReviewToolbar.toolbar);
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initRating() {
@@ -232,12 +222,13 @@ public class EditReviewFragment extends Fragment {
         //noinspection unchecked
         kino = (KinoDto) dtoService.createOrUpdate(kino);
 
-        long wishlistId = requireActivity().getIntent().getLongExtra("wishlistId", 0L);
+        long wishlistId = requireArguments().getLong("wishlistId", 0L);
         if (wishlistId != 0L) {
-            wishlistItemDeleter.deleteWishlistItem(wishlistId, requireActivity().getIntent().getStringExtra("dtoType"));
+            wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
         }
 
-        ((EditReview) requireActivity()).redirect(kino);
+        // TODO
+        redirect(kino);
     }
 
     public static class DatePickerFragment extends DialogFragment
@@ -277,5 +268,30 @@ public class EditReviewFragment extends Fragment {
             }
             ((EditReviewFragment) requireParentFragment()).binding.kinoReviewDateButton.setText(review_date_as_string);
         }
+    }
+
+    public void redirect(KinoDto kino) {
+        if (!requireArguments().getBoolean("creation", false)) {
+            // Give data to parent fragment
+            Bundle result = new Bundle();
+            result.putParcelable("kino", Parcels.wrap(kino));
+            result.putInt("result", Activity.RESULT_OK);
+            getParentFragmentManager().setFragmentResult("requestKey", result);
+
+            getParentFragmentManager().popBackStack();
+        } else {
+            Fragment fragment = new ViewKinoFragment();
+
+            Bundle args = new Bundle();
+            args.putString("dtoType", requireArguments().getString("dtoType"));
+            args.putParcelable("kino", Parcels.wrap(kino));
+            fragment.setArguments(args);
+
+            getParentFragmentManager().beginTransaction()
+                    .addToBackStack("ViewKino")
+                    .replace(R.id.nav_host_fragment, fragment, "ViewKino")
+                    .commit();
+        }
+
     }
 }

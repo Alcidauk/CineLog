@@ -64,21 +64,12 @@
                 android:value=".android.v2.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".android.activities.ViewKino"
-            android:label="@string/title_activity_view_kino"/>
-        <activity
-            android:name=".android.activities.ViewSerie"
-            android:label="@string/title_activity_view_serie"/>
-        <activity
             android:name=".android.activities.ViewUnregisteredKino"
             android:label="@string/title_activity_view_unregistered_kino"/>
         <activity
             android:name=".android.activities.view.ViewDataActivity"
             android:label="@string/title_activity_view_unregistered_kino"/>
-        <activity
-            android:name=".android.activities.EditReview"
-            android:label="@string/title_activity_add_review"
-            android:windowSoftInputMode="stateHidden"/>
+
         <activity
             android:name=".io.exportdb.ExportDb"
             android:label="@string/title_activity_export_db"

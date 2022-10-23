@@ -12,10 +12,10 @@ import androidx.annotation.Nullable;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.add.TvResultsAdapter;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistTvResultsAdapter;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
@@ -92,9 +92,9 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
             SerieDto serieDto = new SerieDto();
             serieDto.setTitle(binding.kinoSearch.getText().toString());
 
-            intent = new Intent(view.getContext(), EditReview.class);
-            intent.putExtra("kino", Parcels.wrap(serieDto));
-            intent.putExtra("dtoType", "serie");
+            // TODO should be a callback ?
+            ((MainActivity) requireActivity()).navigateToReview(serieDto, true);
+            return;
         } else {
             intent = new Intent(view.getContext(), ViewDataActivity.class);
             intent.putExtra("dataDto", Parcels.wrap(

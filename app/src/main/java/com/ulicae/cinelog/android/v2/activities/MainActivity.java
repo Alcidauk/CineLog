@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -15,11 +14,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.TagsActivity;
-import com.ulicae.cinelog.android.activities.ViewKino;
 import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
+import com.ulicae.cinelog.android.v2.EditReviewFragment;
+import com.ulicae.cinelog.android.v2.ViewKinoFragment;
+import com.ulicae.cinelog.android.v2.ViewSerieFragment;
 import com.ulicae.cinelog.android.v2.fragments.SearchTmbdSerieFragment;
 import com.ulicae.cinelog.android.v2.fragments.SearchTmdbMovieFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -174,29 +174,48 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), activity));
     }
 
-    public void navigateToMovieEdition(KinoDto kinoDto, int position, boolean inDb) {
-        Intent intent;
+    public void navigateToKino(KinoDto kinoDto, int position, boolean inDb) {
         if (inDb) {
-            intent = new Intent(this, ViewKino.class);
-            intent.putExtra("kino_position", position);
-        } else {
-            intent = new Intent(this, ViewUnregisteredKino.class);
-        }
+            Fragment fragment;
+            Bundle args = new Bundle();
+            if(kinoDto instanceof SerieDto){
+                fragment = new ViewSerieFragment();
+                args.putString("dtoType", "serie");
+            } else {
+                fragment = new ViewKinoFragment();
+                args.putString("dtoType", "kino");
+            }
 
-        intent.putExtra("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
-        intent.putExtra("kino", Parcels.wrap(kinoDto));
-        // TODO rewrite navigation
-        startActivity(intent);
+            args.putParcelable("kino", Parcels.wrap(kinoDto));
+            args.putInt("kino_position", position);
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .addToBackStack("ViewKino")
+                    .replace(R.id.nav_host_fragment, fragment, "ViewKino")
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, ViewUnregisteredKino.class);
+            intent.putExtra("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
+            intent.putExtra("kino", Parcels.wrap(kinoDto));
+            // TODO rewrite navigation
+            startActivity(intent);
+        }
     }
 
-    public void navigateToReviewCreation(View view, KinoDto kinoDto) {
-        Intent intent = new Intent(view.getContext(), EditReview.class);
+    public void navigateToReview(KinoDto kinoDto, boolean creation) {
+        Fragment fragment = new EditReviewFragment();
 
-        intent.putExtra("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
-        intent.putExtra("kino", Parcels.wrap(kinoDto));
-        intent.putExtra("creation", true);
+        Bundle args = new Bundle();
+        args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
+        args.putParcelable("kino", Parcels.wrap(kinoDto));
+        args.putBoolean("creation", creation);
+        fragment.setArguments(args);
 
-        startActivity(intent);
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack("EditReview")
+                .replace(R.id.nav_host_fragment, fragment, "EditReview")
+                .commit();
     }
 
 }

@@ -13,12 +13,11 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.ViewKino;
-import com.ulicae.cinelog.android.activities.ViewSerie;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
@@ -69,6 +68,17 @@ public abstract class ListFragment extends Fragment {
         createService();
 
         createListView(1);
+
+        // TODO get review creation result
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                String result = bundle.getString("bundleKey");
+                // Do something with the result
+            }
+        });
+
     }
 
     protected abstract void createService();
@@ -150,16 +160,10 @@ public abstract class ListFragment extends Fragment {
             getKinoList().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
                     Object item = objects.get(position);
-                    if(item instanceof KinoDto) {
-                        Class activity = item instanceof SerieDto ? ViewSerie.class : ViewKino.class;
-                        Intent intent = new Intent(view.getContext(), activity);
-
-                        intent.putExtra("kino", Parcels.wrap(item));
-                        intent.putExtra("kino_position", position);
-                        intent.putExtra("dtoType", getDtoType());
-
-                        startActivityForResult(intent, RESULT_VIEW_KINO);
-                    }
+                    // TODO callback ?
+                    ((MainActivity) requireActivity()).navigateToKino(
+                            (KinoDto) item, position, true
+                    );
                 }
             });
 

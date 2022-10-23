@@ -7,23 +7,20 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.ulicae.cinelog.android.activities.ViewKino;
 import com.ulicae.cinelog.android.activities.view.ViewDataFieldsInflater;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.databinding.ActivityViewKinoBinding;
 import com.ulicae.cinelog.databinding.ContentKinoViewBinding;
 import com.ulicae.cinelog.databinding.ContentReviewViewBinding;
+import com.ulicae.cinelog.databinding.ContentViewKinoBinding;
 
 import org.parceler.Parcels;
 
-import java.util.Objects;
-
 public class ViewKinoFragment extends Fragment {
 
-    private ActivityViewKinoBinding binding;
+    private ContentViewKinoBinding binding;
 
     KinoDto kino;
     int position;
@@ -32,30 +29,24 @@ public class ViewKinoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ActivityViewKinoBinding.inflate(getLayoutInflater());
+        binding = ContentViewKinoBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        kino = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
-        position = getActivity().getIntent().getIntExtra("kino_position", -1);
+        kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
+        position = requireArguments().getInt("kino_position", -1);
 
-        ContentKinoViewBinding viewKinoContentLayout = binding.viewKinoContent.viewKinoContentLayout;
-        ContentReviewViewBinding reviewKinoContentLayout = binding.viewKinoContent.reviewKinoContentLayout;
+        ContentKinoViewBinding viewKinoContentLayout = binding.viewKinoContentLayout;
+        ContentReviewViewBinding reviewKinoContentLayout = binding.reviewKinoContentLayout;
 
         new ViewDataFieldsInflater(kino, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
 
         binding.fab.setOnClickListener(fabView -> {
-            ((ViewKino) requireActivity()).goToKinoEdition(kino);
+            ((MainActivity) requireActivity()).navigateToReview(kino, false);
         });
-        initToolbar();
-    }
-
-    private void initToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.viewKinoToolbar.toolbar);
-        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
   /*  TODO rewrite state management to get right data from editreview

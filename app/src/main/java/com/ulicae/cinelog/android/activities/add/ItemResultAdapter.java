@@ -134,14 +134,13 @@ public abstract class ItemResultAdapter<T> extends ArrayAdapter<T> {
         holder.getAddButton().setOnClickListener(view -> {
             KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
             addReview(
-                    view,
                     kinoByTmdbMovieId != null ? kinoByTmdbMovieId : kinoDto
             );
         });
     }
 
-    protected void addReview(View view, KinoDto kinoDto) {
-        movieReviewCreationCallback.call(view, kinoDto);
+    protected void addReview(KinoDto kinoDto) {
+        movieReviewCreationCallback.call(kinoDto);
     }
 
     protected void viewDetails(KinoDto kinoDto, int position, boolean inDb) {

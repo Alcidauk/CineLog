@@ -10,6 +10,9 @@
         <action
             android:id="@+id/action_nav_reviews_movie_to_addKinoFragment"
             app:destination="@id/searchTmdbMovieFragment" />
+        <action
+            android:id="@+id/action_nav_reviews_movie_to_viewKinoFragment"
+            app:destination="@id/viewKinoFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_reviews_serie"
@@ -18,6 +21,9 @@
         <action
             android:id="@+id/action_nav_reviews_serie_to_addSerieFragment"
             app:destination="@id/searchTmbdSerieFragment" />
+        <action
+            android:id="@+id/action_nav_reviews_serie_to_viewSerieFragment"
+            app:destination="@id/viewSerieFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_wishlist_movie"
@@ -34,10 +40,44 @@
     <fragment
         android:id="@+id/searchTmdbMovieFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.SearchTmdbMovieFragment"
-        android:label="SearchTmdbMovieFragment" />
+        android:label="SearchTmdbMovieFragment" >
+        <action
+            android:id="@+id/action_searchTmdbMovieFragment_to_viewKinoFragment"
+            app:destination="@id/viewKinoFragment" />
+        <action
+            android:id="@+id/action_searchTmdbMovieFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchTmbdSerieFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.SearchTmbdSerieFragment"
-        android:label="SearchTmbdSerieFragment" />
+        android:label="SearchTmbdSerieFragment" >
+        <action
+            android:id="@+id/action_searchTmbdSerieFragment_to_viewSerieFragment"
+            app:destination="@id/viewSerieFragment" />
+        <action
+            android:id="@+id/action_searchTmbdSerieFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewKinoFragment"
+        android:name="com.ulicae.cinelog.android.v2.ViewKinoFragment"
+        android:label="ViewKinoFragment" >
+        <action
+            android:id="@+id/action_viewKinoFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewSerieFragment"
+        android:name="com.ulicae.cinelog.android.v2.ViewSerieFragment"
+        android:label="ViewSerieFragment" >
+        <action
+            android:id="@+id/action_viewSerieFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editReviewFragment"
+        android:name="com.ulicae.cinelog.android.v2.EditReviewFragment"
+        android:label="EditReviewFragment" />
 
 </navigation>

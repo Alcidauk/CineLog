@@ -2,19 +2,13 @@ package com.ulicae.cinelog.android.activities.add;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.View;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.v2.fragments.MovieDetailsCallback;
 import com.ulicae.cinelog.android.v2.fragments.MovieReviewCreationCallback;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.network.SerieBuilderFromMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 

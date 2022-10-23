@@ -61,7 +61,7 @@ public class SerieViewEpisodesFragment extends Fragment {
         binding = FragmentSerieViewEpisodesBinding.inflate(inflater, container, false);
 
         binding.serieViewEpisodesProgressBar.setVisibility(View.VISIBLE);
-        this.serieDto = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
+        this.serieDto = Parcels.unwrap(requireArguments().getParcelable("kino"));
 
         new SerieEpisodesNetworkTask(this).execute(this.serieDto.getTmdbKinoId().intValue());
 

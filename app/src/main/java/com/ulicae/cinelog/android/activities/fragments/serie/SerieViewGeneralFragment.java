@@ -45,7 +45,7 @@ public class SerieViewGeneralFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSerieViewGeneralBinding.inflate(getLayoutInflater(), container, false);
 
-        SerieDto serieDto = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("kino"));
+        SerieDto serieDto = Parcels.unwrap(requireArguments().getParcelable("kino"));
         new ViewDataFieldsInflater(serieDto, getActivity(), binding.serieViewKinoContent, binding.serieReviewKinoContent).configureFields();
 
         this.view = binding.getRoot();

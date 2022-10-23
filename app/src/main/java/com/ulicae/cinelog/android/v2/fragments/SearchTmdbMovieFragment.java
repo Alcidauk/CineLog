@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.android.activities.EditReview;
 import com.ulicae.cinelog.android.activities.add.KinoResultsAdapter;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
@@ -87,9 +86,9 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
             KinoDto kinoToCreate = new KinoDto();
             kinoToCreate.setTitle(binding.kinoSearch.getText().toString());
 
-            intent = new Intent(view.getContext(), EditReview.class);
-            intent.putExtra("kino", Parcels.wrap(kinoToCreate));
-            intent.putExtra("dtoType", "kino");
+            // TODO should be a callback ?
+            ((MainActivity) requireActivity()).navigateToReview(kinoToCreate, true);
+            return;
         } else {
             intent = new Intent(view.getContext(), ViewDataActivity.class);
             intent.putExtra("dataDto", Parcels.wrap(

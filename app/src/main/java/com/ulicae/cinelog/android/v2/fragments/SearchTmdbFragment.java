@@ -55,9 +55,9 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
     protected DataService dataService;
 
     protected final MovieDetailsCallback movieSearchResultClickCallback =
-            (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToMovieEdition(kinoDto, position, inDb);
+            (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToKino(kinoDto, position, inDb);
     protected final MovieReviewCreationCallback movieReviewCreationClickCallback =
-            (view, kinoDto) -> ((MainActivity) requireActivity()).navigateToReviewCreation(view, kinoDto);
+            (kinoDto) -> ((MainActivity) requireActivity()).navigateToReview(kinoDto, true);
 
     private Handler handler;
 
