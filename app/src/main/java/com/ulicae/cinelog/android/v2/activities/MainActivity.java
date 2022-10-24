@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == android.R.id.home) {
             binding.drawerLayout.openDrawer(GravityCompat.START);
+            return true;
         }
 
         return NavigationUI.onNavDestinationSelected(item, navController)
