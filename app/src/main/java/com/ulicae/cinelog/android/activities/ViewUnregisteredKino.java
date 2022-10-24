@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.EditReviewFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.edit.EditReviewFragment;
 import com.ulicae.cinelog.android.v2.ViewUnregisteredItemFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.databinding.V2ViewUnregisteredItemHostBinding;

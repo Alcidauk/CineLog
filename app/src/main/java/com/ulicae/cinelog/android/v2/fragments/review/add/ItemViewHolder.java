@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities.add;
+package com.ulicae.cinelog.android.v2.fragments.review.add;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;

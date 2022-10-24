@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities.fragments.serie;
+package com.ulicae.cinelog.android.v2.fragments.kino.serie;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

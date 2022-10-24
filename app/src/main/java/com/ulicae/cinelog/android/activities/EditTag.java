@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.EditTagFragment;
-import com.ulicae.cinelog.android.v2.ViewKinoFragment;
 import com.ulicae.cinelog.databinding.V2EditTagHostBinding;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 

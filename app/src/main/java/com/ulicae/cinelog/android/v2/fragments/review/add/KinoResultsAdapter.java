@@ -1,10 +1,8 @@
-package com.ulicae.cinelog.android.activities.add;
+package com.ulicae.cinelog.android.v2.fragments.review.add;
 
 import android.content.Context;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.android.v2.fragments.MovieDetailsCallback;
-import com.ulicae.cinelog.android.v2.fragments.MovieReviewCreationCallback;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.network.KinoBuilderFromMovie;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;

@@ -5,7 +5,7 @@
     app:startDestination="@id/nav_reviews_movie">
     <fragment
         android:id="@+id/nav_reviews_movie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.MovieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.list.MovieFragment"
         android:label="@string/title_fragment_movie" >
         <action
             android:id="@+id/action_nav_reviews_movie_to_addKinoFragment"
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_reviews_serie"
-        android:name="com.ulicae.cinelog.android.activities.fragments.reviews.SerieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.list.SerieFragment"
         android:label="@string/title_fragment_serie" >
         <action
             android:id="@+id/action_nav_reviews_serie_to_addSerieFragment"
@@ -39,7 +39,7 @@
         android:label="@string/tags_title" />
     <fragment
         android:id="@+id/searchTmdbMovieFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.SearchTmdbMovieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.add.SearchTmdbMovieFragment"
         android:label="SearchTmdbMovieFragment" >
         <action
             android:id="@+id/action_searchTmdbMovieFragment_to_viewKinoFragment"
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchTmbdSerieFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.SearchTmbdSerieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.add.SearchTmbdSerieFragment"
         android:label="SearchTmbdSerieFragment" >
         <action
             android:id="@+id/action_searchTmbdSerieFragment_to_viewSerieFragment"
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/viewKinoFragment"
-        android:name="com.ulicae.cinelog.android.v2.ViewKinoFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.kino.ViewKinoFragment"
         android:label="ViewKinoFragment" >
         <action
             android:id="@+id/action_viewKinoFragment_to_editReviewFragment"
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/viewSerieFragment"
-        android:name="com.ulicae.cinelog.android.v2.ViewSerieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.kino.ViewSerieFragment"
         android:label="ViewSerieFragment" >
         <action
             android:id="@+id/action_viewSerieFragment_to_editReviewFragment"
@@ -77,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/editReviewFragment"
-        android:name="com.ulicae.cinelog.android.v2.EditReviewFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.edit.EditReviewFragment"
         android:label="EditReviewFragment" />
 
 </navigation>

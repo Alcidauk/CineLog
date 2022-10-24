@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2;
+package com.ulicae.cinelog.android.v2.fragments.review.edit;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.fragments.TagChooserDialog;
+import com.ulicae.cinelog.android.v2.fragments.kino.ViewKinoFragment;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;

@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2;
+package com.ulicae.cinelog.android.v2.fragments.review.edit;
 
 import android.content.Context;
 

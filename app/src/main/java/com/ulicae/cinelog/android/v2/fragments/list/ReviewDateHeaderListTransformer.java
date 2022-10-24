@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities.fragments.reviews;
+package com.ulicae.cinelog.android.v2.fragments.list;
 
 import android.content.Context;
 

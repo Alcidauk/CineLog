@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.activities.add;
+package com.ulicae.cinelog.android.v2.fragments.review.add;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,8 +13,6 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.fragments.MovieDetailsCallback;
-import com.ulicae.cinelog.android.v2.fragments.MovieReviewCreationCallback;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.databinding.SearchResultItemBinding;

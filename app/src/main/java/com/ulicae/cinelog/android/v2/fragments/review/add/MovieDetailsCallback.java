@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments;
+package com.ulicae.cinelog.android.v2.fragments.review.add;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 

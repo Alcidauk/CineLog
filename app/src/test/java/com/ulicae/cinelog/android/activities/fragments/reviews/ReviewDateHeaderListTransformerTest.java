@@ -3,6 +3,7 @@ package com.ulicae.cinelog.android.activities.fragments.reviews;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.fragments.ReviewDateHeaderListTransformer;
 import com.ulicae.cinelog.data.dto.KinoDto;
 
 import org.junit.Before;

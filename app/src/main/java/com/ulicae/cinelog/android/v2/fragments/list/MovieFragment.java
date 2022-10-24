@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments;
+package com.ulicae.cinelog.android.v2.fragments.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.fragments.reviews.ListFragment;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.KinoService;

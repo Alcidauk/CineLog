@@ -3,6 +3,7 @@ package com.ulicae.cinelog.android.v2;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
+import com.ulicae.cinelog.android.v2.fragments.review.edit.WishlistItemDeleter;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;

@@ -1,13 +1,12 @@
 package com.ulicae.cinelog.android.activities.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.EditReviewFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.edit.EditReviewFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.databinding.V2WishlistItemHostBinding;

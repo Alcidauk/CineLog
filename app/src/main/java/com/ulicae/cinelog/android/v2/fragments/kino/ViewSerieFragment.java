@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2;
+package com.ulicae.cinelog.android.v2.fragments.kino;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +13,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewEpisodesFragment;
-import com.ulicae.cinelog.android.activities.fragments.serie.SerieViewGeneralFragment;
+import com.ulicae.cinelog.android.v2.fragments.kino.serie.SerieViewEpisodesFragment;
+import com.ulicae.cinelog.android.v2.fragments.kino.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.databinding.ContentViewSerieBinding;
