@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
 import com.ulicae.cinelog.databinding.ContentKinoViewUnregisteredBinding;
 
 import org.parceler.Parcels;
@@ -24,48 +22,41 @@ public class ViewUnregisteredItemFragment extends Fragment {
     int position;
     boolean editted = false;
 
-    private ActivityViewUnregisteredKinoBinding binding;
+    private ContentKinoViewUnregisteredBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ActivityViewUnregisteredKinoBinding.inflate(getLayoutInflater());
+        binding = ContentKinoViewUnregisteredBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        binding.fab.setOnClickListener(fabView -> ((ViewUnregisteredKino)requireActivity()).goToEditReview(kino));
+        binding.fab.setOnClickListener(fabView -> ((MainActivity) requireActivity()).navigateToReview(kino, true));
 
-        kino = Parcels.unwrap(requireActivity().getIntent().getParcelableExtra("kino"));
-        position = requireActivity().getIntent().getIntExtra("kino_position", -1);
+        kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
+        position = requireArguments().getInt("kino_position", -1);
+        String dtoType = requireArguments().getString("dtoType");
 
         bindData();
-        configureLabels(requireActivity().getIntent().getStringExtra("dtoType"));
-        initToolbar();
-    }
-
-    private void initToolbar() {
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.viewUnregisteredToolbar.toolbar);
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        configureLabels(dtoType);
     }
 
     private void bindData() {
-        ContentKinoViewUnregisteredBinding viewUnregisteredContent = binding.viewUnregisteredContent;
-
         if (kino.getPosterPath() != null && !"".equals(kino.getPosterPath())) {
             Glide.with(getActivity())
                     .load("https://image.tmdb.org/t/p/w185" + kino.getPosterPath())
                     .centerCrop()
                     .crossFade()
-                    .into(viewUnregisteredContent.viewKinoTmdbImageLayout);
+                    .into(binding.viewKinoTmdbImageLayout);
         }
-        viewUnregisteredContent.viewKinoTmdbYear.setText(kino.getReleaseDate());
-        viewUnregisteredContent.viewKinoTmdbOverview.setText(kino.getOverview());
+        binding.viewKinoTmdbYear.setText(kino.getReleaseDate());
+        binding.viewKinoTmdbOverview.setText(kino.getOverview());
 
-        viewUnregisteredContent.viewKinoTmdbTitle.setText(kino.getTitle());
+        binding.viewKinoTmdbTitle.setText(kino.getTitle());
     }
 
     private void configureLabels(String dtoType) {

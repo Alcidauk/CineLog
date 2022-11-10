@@ -2,14 +2,15 @@ package com.ulicae.cinelog.android.activities.fragments.wishlist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.databinding.FragmentSerieBinding;
 
@@ -33,19 +34,7 @@ import com.ulicae.cinelog.databinding.FragmentSerieBinding;
  */
 public class SerieWishlistFragment extends WishlistFragment {
 
-
     private com.ulicae.cinelog.databinding.FragmentSerieBinding binding;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
-
-        service = new SerieWishlistService(((KinoApplication) getActivity().getApplication()).getDaoSession());
-
-        createListView(1);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,9 +43,12 @@ public class SerieWishlistFragment extends WishlistFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_wishlist, menu);
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+        service = new SerieWishlistService(((KinoApplication) getActivity().getApplication()).getDaoSession());
+        createListView(1);
+
+        binding.fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTmdbSerieSearch(true));
     }
 
     @Override

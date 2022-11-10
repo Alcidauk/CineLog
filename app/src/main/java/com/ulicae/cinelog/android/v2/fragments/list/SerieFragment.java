@@ -66,7 +66,7 @@ public class SerieFragment extends ListFragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        binding.fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToSerieReviewCreation());
+        binding.fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTmdbSerieSearch(false));
     }
 
     @Override

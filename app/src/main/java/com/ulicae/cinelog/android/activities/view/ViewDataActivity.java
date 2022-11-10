@@ -47,7 +47,7 @@ public class ViewDataActivity extends AppCompatActivity {
             WishlistItemFragment fragment = new WishlistItemFragment();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.wishlist_item_host, fragment)
+                    .add(R.id.nav_host_fragment, fragment)
                     .commit();
         }
     }

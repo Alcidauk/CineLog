@@ -54,7 +54,7 @@ public class TagsActivity extends AppCompatActivity {
     }
 
     public void goToWishlist() {
-        launchActivity(WishlistActivity.class);
+        // TODO launchActivity(WishlistActivity.class);
     }
 
     public void goToReviews() {

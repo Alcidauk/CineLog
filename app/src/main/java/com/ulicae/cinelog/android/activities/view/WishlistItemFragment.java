@@ -9,12 +9,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
@@ -22,7 +22,7 @@ import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
-import com.ulicae.cinelog.databinding.ActivityViewUnregisteredKinoBinding;
+import com.ulicae.cinelog.databinding.ContentKinoViewUnregisteredBinding;
 
 import org.parceler.Parcels;
 
@@ -34,7 +34,7 @@ import java.util.Locale;
 
 public class WishlistItemFragment extends Fragment {
 
-    private ActivityViewUnregisteredKinoBinding binding;
+    private ContentKinoViewUnregisteredBinding binding;
 
     private WishlistDataDto wishlistDataDto;
 
@@ -45,7 +45,7 @@ public class WishlistItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ActivityViewUnregisteredKinoBinding.inflate(getLayoutInflater());
+        binding = ContentKinoViewUnregisteredBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
@@ -56,10 +56,9 @@ public class WishlistItemFragment extends Fragment {
         serieWishlistService = new SerieWishlistService(daoSession);
         movieWishlistService = new MovieWishlistService(daoSession);
 
-        wishlistDataDto = Parcels.unwrap(requireActivity().getIntent().getParcelableExtra("dataDto"));
+        wishlistDataDto = Parcels.unwrap(requireArguments().getParcelable("dataDto"));
 
         initFabButton();
-        initToolbar();
         initFields();
     }
 
@@ -69,7 +68,7 @@ public class WishlistItemFragment extends Fragment {
                     .load("https://image.tmdb.org/t/p/w185" + wishlistDataDto.getPosterPath())
                     .centerCrop()
                     .crossFade()
-                    .into(binding.viewUnregisteredContent.viewKinoTmdbImageLayout);
+                    .into(binding.viewKinoTmdbImageLayout);
         }
 
         // TODO extract it in a helper
@@ -79,23 +78,18 @@ public class WishlistItemFragment extends Fragment {
             try {
                 Date parsedDate = frenchSdf.parse(releaseDateLocal);
                 String formattedDate = DateFormat.getDateFormat(requireActivity().getBaseContext()).format(parsedDate);
-                binding.viewUnregisteredContent.viewKinoTmdbYear.setText(formattedDate);
+                binding.viewKinoTmdbYear.setText(formattedDate);
             } catch (ParseException ignored) {
-                binding.viewUnregisteredContent.viewKinoTmdbYear.setText(String.valueOf(wishlistDataDto.getFirstYear()));
+                binding.viewKinoTmdbYear.setText(String.valueOf(wishlistDataDto.getFirstYear()));
             }
         }
 
-        binding.viewUnregisteredContent.viewKinoTmdbOverview.setText(wishlistDataDto.getOverview());
-        binding.viewUnregisteredContent.viewKinoTmdbTitle.setText(wishlistDataDto.getTitle());
-    }
-
-    private void initToolbar() {
-        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-        activity.setSupportActionBar(binding.viewUnregisteredToolbar.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        binding.viewKinoTmdbOverview.setText(wishlistDataDto.getOverview());
+        binding.viewKinoTmdbTitle.setText(wishlistDataDto.getTitle());
     }
 
     private void initFabButton() {
+        // TODO change icon if review exists
         if (wishlistDataDto.getId() != null) {
             binding.fab.setImageResource(R.drawable.add_kino);
         }
@@ -107,8 +101,9 @@ public class WishlistItemFragment extends Fragment {
         if (wishlistDataDto.getId() == null) {
             addToWishlist();
         } else {
-            startReviewCreationActivity();
+            createReview();
         }
+        // TODO process with review open case
     }
 
     private void addToWishlist() {
@@ -123,7 +118,7 @@ public class WishlistItemFragment extends Fragment {
         binding.fab.hide();
     }
 
-    private void startReviewCreationActivity() {
+    private void createReview() {
         KinoDto dto;
         if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
             dto = new SerieDto(
@@ -161,7 +156,7 @@ public class WishlistItemFragment extends Fragment {
             return;
         }
 
-        ((ViewDataActivity) requireActivity()).createReview(wishlistDataDto.getId(), dto);
+        ((MainActivity) requireActivity()).navigateToReview(dto, true);
     }
 
   /*  TODO rewrite state management to get right data from editreview

@@ -15,15 +15,17 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.TagsActivity;
-import com.ulicae.cinelog.android.activities.ViewUnregisteredKino;
+import com.ulicae.cinelog.android.activities.view.WishlistItemFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
-import com.ulicae.cinelog.android.v2.fragments.review.edit.EditReviewFragment;
+import com.ulicae.cinelog.android.v2.ViewUnregisteredItemFragment;
 import com.ulicae.cinelog.android.v2.fragments.kino.ViewKinoFragment;
 import com.ulicae.cinelog.android.v2.fragments.kino.ViewSerieFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.add.SearchTmbdSerieFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.add.SearchTmdbMovieFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.edit.EditReviewFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
@@ -137,8 +139,12 @@ public class MainActivity extends AppCompatActivity {
                 || super.onOptionsItemSelected(item);
     }
 
-    public void goToKinoReviewCreation(){
+    public void goToTmdbMovieSearch(boolean wishlist){
         Fragment fragment = new SearchTmdbMovieFragment();
+
+        Bundle args = new Bundle();
+        args.putBoolean("toWishlist", wishlist);
+        fragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack("MovieReviewList")
@@ -146,8 +152,12 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void goToSerieReviewCreation(){
+    public void goToTmdbSerieSearch(boolean wishlist){
         Fragment fragment = new SearchTmbdSerieFragment();
+
+        Bundle args = new Bundle();
+        args.putBoolean("toWishlist", wishlist);
+        fragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack("SerieReviewList")
@@ -196,11 +206,17 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.nav_host_fragment, fragment, "ViewKino")
                     .commit();
         } else {
-            Intent intent = new Intent(this, ViewUnregisteredKino.class);
-            intent.putExtra("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
-            intent.putExtra("kino", Parcels.wrap(kinoDto));
-            // TODO rewrite navigation
-            startActivity(intent);
+            Fragment fragment = new ViewUnregisteredItemFragment();
+
+            Bundle args = new Bundle();
+            args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
+            args.putParcelable("kino", Parcels.wrap(kinoDto));
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .addToBackStack("ViewUnregisteredKino")
+                    .replace(R.id.nav_host_fragment, fragment, "ViewUnregisteredKino")
+                    .commit();
         }
     }
 
@@ -219,4 +235,16 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void navigateToWishlistItem(WishlistDataDto dataDto) {
+        WishlistItemFragment fragment = new WishlistItemFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable("dataDto", Parcels.wrap(dataDto));
+        fragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack("WishlistItem")
+                .replace(R.id.nav_host_fragment, fragment, "WishlistItem")
+                .commit();
+    }
 }

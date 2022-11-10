@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.activities.add.wishlist.WishlistItemCallback;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
@@ -58,6 +59,8 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
             (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToKino(kinoDto, position, inDb);
     protected final MovieReviewCreationCallback movieReviewCreationClickCallback =
             (kinoDto) -> ((MainActivity) requireActivity()).navigateToReview(kinoDto, true);
+    protected final WishlistItemCallback wishlistItemCallback =
+            (dataDto) -> ((MainActivity) requireActivity()).navigateToWishlistItem(dataDto);
 
     private Handler handler;
 

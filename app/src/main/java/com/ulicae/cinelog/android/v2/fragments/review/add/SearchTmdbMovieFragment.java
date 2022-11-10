@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.android.activities.add.wishlist.WishlistItemCallback;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
 import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
@@ -66,7 +67,7 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toWishlist = requireActivity().getIntent().getBooleanExtra("toWishlist", false);
+        toWishlist = requireArguments().getBoolean("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new MovieNetworkTaskCreator());
         dataService = new KinoService(((KinoApplication) requireActivity().getApplication()).getDaoSession());
@@ -80,22 +81,20 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
 
     @Override
     public void onFromScratchClick(View view) {
-        Intent intent;
+        // TODO should be callbacks ?
         if (!toWishlist) {
             KinoDto kinoToCreate = new KinoDto();
             kinoToCreate.setTitle(binding.kinoSearch.getText().toString());
 
-            // TODO should be a callback ?
             ((MainActivity) requireActivity()).navigateToReview(kinoToCreate, true);
-            return;
         } else {
-            intent = new Intent(view.getContext(), ViewDataActivity.class);
-            intent.putExtra("dataDto", Parcels.wrap(
-                    new WishlistDataDto(binding.kinoSearch.getText().toString(), WishlistItemType.MOVIE))
+            ((MainActivity) requireActivity()).navigateToWishlistItem(
+                            new WishlistDataDto(
+                                    binding.kinoSearch.getText().toString(),
+                                    WishlistItemType.MOVIE
+                            )
             );
         }
-
-        startActivity(intent);
     }
 
     public void populateListView(final List<BaseMovie> movies) {
@@ -108,7 +107,10 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
                     movieSearchResultClickCallback,
                     movieReviewCreationClickCallback);
         } else {
-            arrayAdapter = new WishlistMovieResultsAdapter(requireContext(), movies);
+            arrayAdapter = new WishlistMovieResultsAdapter(
+                    requireContext(),
+                    movies,
+                    wishlistItemCallback);
         }
 
         binding.kinoResults.setAdapter(arrayAdapter);

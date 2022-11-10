@@ -1,7 +1,6 @@
 package com.ulicae.cinelog.android.activities.fragments.wishlist;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,11 +10,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.WishlistService;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,16 +43,7 @@ public abstract class WishlistFragment extends Fragment {
 
     protected WishlistService service;
 
-    static final int RESULT_VIEW_KINO = 4;
-
     private int LIST_VIEW_STATE = 1;
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        createListView(LIST_VIEW_STATE);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -99,12 +87,8 @@ public abstract class WishlistFragment extends Fragment {
                     return true;
                 }
             });
-            getKinoList().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
-                    Intent intent = new Intent(getContext(), ViewDataActivity.class);
-                    intent.putExtra("dataDto", Parcels.wrap(dataDtos.get(position)));
-                    startActivityForResult(intent, RESULT_VIEW_KINO);
-                }
+            getKinoList().setOnItemClickListener((view, parent, position, rowId) -> {
+                ((MainActivity) requireActivity()).navigateToWishlistItem(dataDtos.get(position));
             });
 
             getKinoList().setAdapter(listAdapter);

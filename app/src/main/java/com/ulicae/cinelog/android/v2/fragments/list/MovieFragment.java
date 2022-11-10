@@ -62,7 +62,7 @@ public class MovieFragment extends ListFragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        binding.fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToKinoReviewCreation());
+        binding.fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTmdbMovieSearch(false));
     }
 
     @Override

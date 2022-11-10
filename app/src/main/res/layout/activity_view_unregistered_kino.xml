@@ -22,8 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".android.activities.ViewUnregisteredKino">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <include android:id="@+id/view_unregistered_toolbar" layout="@layout/toolbar" />
 
@@ -43,16 +42,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/view_kino_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="100dp">
-
                 <include android:id="@+id/view_unregistered_content" layout="@layout/content_kino_view_unregistered" />
-            </LinearLayout>
         </ScrollView>
 
     </RelativeLayout>

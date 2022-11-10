@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.android.v2.fragments.review.add;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import androidx.annotation.Nullable;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistTvResultsAdapter;
-import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
@@ -24,8 +22,6 @@ import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -68,7 +64,7 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        toWishlist = requireActivity().getIntent().getBooleanExtra("toWishlist", false);
+        toWishlist = requireArguments().getBoolean("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new TvNetworkTaskCreator());
         dataService = new SerieService(((KinoApplication) requireActivity().getApplication()).getDaoSession(), requireContext());
@@ -86,22 +82,20 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
     // TODO rewrite navigation
     @Override
     protected void onFromScratchClick(View view) {
-        Intent intent;
+        // TODO should be callbacks ?
         if (!toWishlist) {
             SerieDto serieDto = new SerieDto();
             serieDto.setTitle(binding.kinoSearch.getText().toString());
 
-            // TODO should be a callback ?
             ((MainActivity) requireActivity()).navigateToReview(serieDto, true);
-            return;
         } else {
-            intent = new Intent(view.getContext(), ViewDataActivity.class);
-            intent.putExtra("dataDto", Parcels.wrap(
-                    new WishlistDataDto(binding.kinoSearch.getText().toString(), WishlistItemType.SERIE))
+            ((MainActivity) requireActivity()).navigateToWishlistItem(
+                    new WishlistDataDto(
+                            binding.kinoSearch.getText().toString(),
+                            WishlistItemType.SERIE
+                    )
             );
         }
-
-        startActivity(intent);
     }
 
     public void populateListView(final List<BaseTvShow> tvShows) {
@@ -114,7 +108,10 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
                     movieSearchResultClickCallback,
                     movieReviewCreationClickCallback);
         } else {
-            arrayAdapter = new WishlistTvResultsAdapter(requireContext(), tvShows);
+            arrayAdapter = new WishlistTvResultsAdapter(
+                    requireContext(),
+                    tvShows,
+                    wishlistItemCallback);
         }
 
         binding.kinoResults.setAdapter(arrayAdapter);

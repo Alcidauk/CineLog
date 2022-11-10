@@ -47,10 +47,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".android.activities.WishlistActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
             android:name=".android.activities.TagsActivity"
             android:label="@string/app_name">
         </activity>
@@ -63,9 +59,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".android.v2.activities.MainActivity" />
         </activity>
-        <activity
-            android:name=".android.activities.ViewUnregisteredKino"
-            android:label="@string/title_activity_view_unregistered_kino"/>
         <activity
             android:name=".android.activities.view.ViewDataActivity"
             android:label="@string/title_activity_view_unregistered_kino"/>

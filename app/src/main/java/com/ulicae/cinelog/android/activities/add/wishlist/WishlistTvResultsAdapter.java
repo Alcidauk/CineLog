@@ -1,7 +1,6 @@
 package com.ulicae.cinelog.android.activities.add.wishlist;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,11 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.databinding.WishlistSearchResultItemBinding;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -45,9 +41,11 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
 
     private TvShowToSerieDataDtoBuilder tvShowToSerieDataDtoBuilder;
     private SerieWishlistService serieWishlistService;
+    private WishlistItemCallback wishlistItemCallback;
 
-    public WishlistTvResultsAdapter(Context context, List<BaseTvShow> results) {
+    public WishlistTvResultsAdapter(Context context, List<BaseTvShow> results, WishlistItemCallback wishlistItemCallback) {
         super(context, R.layout.search_result_item, results);
+        this.wishlistItemCallback = wishlistItemCallback;
         this.tvShowToSerieDataDtoBuilder = new TvShowToSerieDataDtoBuilder();
         this.serieWishlistService = new SerieWishlistService(((KinoApplication) context.getApplicationContext()).getDaoSession());
     }
@@ -81,15 +79,7 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
         populatePoster(wishlistDataDto, holder);
 
         final WishlistDataDto finalWishlistDataDto = wishlistDataDto;
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ViewDataActivity.class);
-                intent.putExtra("dataDto", Parcels.wrap(finalWishlistDataDto));
-
-                getContext().startActivity(intent);
-            }
-        });
+        convertView.setOnClickListener(v -> wishlistItemCallback.call(finalWishlistDataDto));
 
         return convertView;
     }
