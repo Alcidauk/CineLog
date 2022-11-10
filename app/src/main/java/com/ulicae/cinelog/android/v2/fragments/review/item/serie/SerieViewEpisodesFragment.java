@@ -62,7 +62,9 @@ public class SerieViewEpisodesFragment extends Fragment {
         binding.serieViewEpisodesProgressBar.setVisibility(View.VISIBLE);
         this.serieDto = Parcels.unwrap(requireArguments().getParcelable("kino"));
 
-        new SerieEpisodesNetworkTask(this).execute(this.serieDto.getTmdbKinoId().intValue());
+        if (serieDto.getTmdbKinoId() != null) {
+            new SerieEpisodesNetworkTask(this).execute(serieDto.getTmdbKinoId().intValue());
+        }
 
         return binding.getRoot();
     }
