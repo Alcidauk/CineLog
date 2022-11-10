@@ -50,6 +50,7 @@ public class ReviewMovieItemFragment extends Fragment {
                 v -> ((MainActivity) requireActivity()).navigateToReview(kino, false)
         );
         fab.setImageResource(R.drawable.edit_kino);
+        fab.show();
     }
 
   /*  TODO rewrite state management to get right data from editreview

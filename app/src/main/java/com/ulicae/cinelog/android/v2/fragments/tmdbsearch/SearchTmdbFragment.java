@@ -95,6 +95,8 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
         tmdbServiceWrapper = new TmdbServiceWrapper(requireContext());
 
         handler = new AddReviewHandler(new WeakReference<>(this));
+
+        ((MainActivity) requireActivity()).getFab().hide();
     }
 
     protected abstract void onFromScratchClick(View view);

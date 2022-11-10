@@ -95,7 +95,7 @@ public class WishlistItemFragment extends Fragment {
 
         fab.setOnClickListener(this::onFabClick);
         // TODO change icon if review exists
-        if (wishlistDataDto.getId() != null) {
+        if (wishlistDataDto.getId() == null) {
             fab.setImageResource(R.drawable.add_review);
         } else {
             fab.setImageResource(R.drawable.add_kino);

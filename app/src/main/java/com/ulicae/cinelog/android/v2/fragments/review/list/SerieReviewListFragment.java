@@ -72,6 +72,7 @@ public class SerieReviewListFragment extends ReviewListFragment {
                 v -> ((MainActivity) requireActivity()).goToTmdbSerieSearch(false)
         );
         fab.setImageResource(R.drawable.add_kino);
+        fab.show();
     }
 
     @Override

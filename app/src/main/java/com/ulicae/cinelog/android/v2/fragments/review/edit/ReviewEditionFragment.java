@@ -78,6 +78,7 @@ public class ReviewEditionFragment extends Fragment {
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(fabView -> onFabClick());
         fab.setImageResource(R.drawable.save_kino);
+        fab.show();
     }
 
     private void initReview() {

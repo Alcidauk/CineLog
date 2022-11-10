@@ -51,6 +51,7 @@ public class ReviewSerieItemFragment extends Fragment {
                 v -> ((MainActivity) requireActivity()).navigateToReview(kino, false)
         );
         fab.setImageResource(R.drawable.edit_kino);
+        fab.show();
 
         setViewPager(binding.serieViewPager);
     }

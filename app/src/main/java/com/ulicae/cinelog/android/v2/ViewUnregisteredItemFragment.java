@@ -41,6 +41,7 @@ public class ViewUnregisteredItemFragment extends Fragment {
                 v -> ((MainActivity) requireActivity()).navigateToReview(kino, true)
         );
         fab.setImageResource(R.drawable.add_review);
+        fab.show();
 
         kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
         position = requireArguments().getInt("kino_position", -1);

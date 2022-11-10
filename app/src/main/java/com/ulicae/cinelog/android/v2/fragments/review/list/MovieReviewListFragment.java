@@ -68,6 +68,7 @@ public class MovieReviewListFragment extends ReviewListFragment {
                 v -> ((MainActivity) requireActivity()).goToTmdbMovieSearch(false)
         );
         fab.setImageResource(R.drawable.add_kino);
+        fab.show();
     }
 
     @Override
