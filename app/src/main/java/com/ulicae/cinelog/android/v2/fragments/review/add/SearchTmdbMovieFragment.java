@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.android.v2.fragments.review.add;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.android.activities.add.wishlist.WishlistItemCallback;
 import com.ulicae.cinelog.android.activities.add.wishlist.WishlistMovieResultsAdapter;
-import com.ulicae.cinelog.android.activities.view.ViewDataActivity;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
@@ -24,8 +21,6 @@ import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 
