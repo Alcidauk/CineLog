@@ -21,7 +21,8 @@ import com.ulicae.cinelog.android.v2.fragments.review.add.ReviewItemCallback;
 import com.ulicae.cinelog.android.v2.fragments.wishlist.add.WishlistItemCallback;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
+import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
+import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
@@ -50,7 +51,7 @@ import java.util.List;
  */
 public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fragment {
 
-    protected ContentAddReviewBinding binding;
+    protected FragmentSearchTmdbBinding binding;
 
     protected TmdbServiceWrapper tmdbServiceWrapper;
     protected NetworkTaskManager networkTaskManager;

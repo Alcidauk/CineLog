@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
-import com.ulicae.cinelog.databinding.FragmentSerieBinding;
+import com.ulicae.cinelog.databinding.FragmentSerieListBinding;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -34,11 +34,11 @@ import com.ulicae.cinelog.databinding.FragmentSerieBinding;
  */
 public class SerieWishlistFragment extends WishlistFragment {
 
-    private com.ulicae.cinelog.databinding.FragmentSerieBinding binding;
+    private com.ulicae.cinelog.databinding.FragmentSerieListBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentSerieBinding.inflate(inflater, container, false);
+        binding = FragmentSerieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

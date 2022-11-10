@@ -44,7 +44,7 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
     private WishlistItemCallback wishlistItemCallback;
 
     public WishlistTvResultsAdapter(Context context, List<BaseTvShow> results, WishlistItemCallback wishlistItemCallback) {
-        super(context, R.layout.search_result_item, results);
+        super(context, R.layout.tmdb_item_row, results);
         this.wishlistItemCallback = wishlistItemCallback;
         this.tvShowToSerieDataDtoBuilder = new TvShowToSerieDataDtoBuilder();
         this.serieWishlistService = new SerieWishlistService(((KinoApplication) context.getApplicationContext()).getDaoSession());

@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.databinding.ContentKinoViewUnregisteredBinding;
+import com.ulicae.cinelog.databinding.LayoutKinoItemBinding;
 
 import org.parceler.Parcels;
 
@@ -22,13 +22,13 @@ public class ViewUnregisteredItemFragment extends Fragment {
     int position;
     boolean editted = false;
 
-    private ContentKinoViewUnregisteredBinding binding;
+    private LayoutKinoItemBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ContentKinoViewUnregisteredBinding.inflate(getLayoutInflater());
+        binding = LayoutKinoItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 

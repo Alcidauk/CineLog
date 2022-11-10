@@ -46,7 +46,7 @@ public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
     private final WishlistItemCallback wishlistItemCallback;
 
     public WishlistMovieResultsAdapter(Context context, List<BaseMovie> results, WishlistItemCallback wishlistItemCallback) {
-        super(context, R.layout.search_result_item, results);
+        super(context, R.layout.tmdb_item_row, results);
         this.wishlistItemCallback = wishlistItemCallback;
         this.movieToWishlistDataDtoBuilder = new MovieToWishlistDataDtoBuilder();
         this.movieWishlistService = new MovieWishlistService(((KinoApplication) context.getApplicationContext()).getDaoSession());

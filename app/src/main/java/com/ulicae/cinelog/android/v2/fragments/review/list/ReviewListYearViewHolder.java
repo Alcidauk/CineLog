@@ -2,7 +2,7 @@ package com.ulicae.cinelog.android.v2.fragments.review.list;
 
 import android.widget.TextView;
 
-import com.ulicae.cinelog.databinding.HeaderResultItemBinding;
+import com.ulicae.cinelog.databinding.ReviewListYearRowBinding;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -24,9 +24,9 @@ import com.ulicae.cinelog.databinding.HeaderResultItemBinding;
  */
 public class ReviewListYearViewHolder {
 
-    private final HeaderResultItemBinding binding;
+    private final ReviewListYearRowBinding binding;
 
-    ReviewListYearViewHolder(HeaderResultItemBinding binding) {
+    ReviewListYearViewHolder(ReviewListYearRowBinding binding) {
         this.binding = binding;
     }
 

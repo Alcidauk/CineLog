@@ -16,7 +16,7 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
-import com.ulicae.cinelog.databinding.FragmentMovieBinding;
+import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class MovieReviewListFragment extends ReviewListFragment {
 
-    private FragmentMovieBinding binding;
+    private FragmentMovieListBinding binding;
 
     @Override
     protected void createService() {
@@ -55,7 +55,7 @@ public class MovieReviewListFragment extends ReviewListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMovieBinding.inflate(inflater, container, false);
+        binding = FragmentMovieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

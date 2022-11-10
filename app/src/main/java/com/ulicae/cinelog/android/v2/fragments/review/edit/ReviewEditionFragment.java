@@ -25,7 +25,7 @@ import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.tags.TagService;
-import com.ulicae.cinelog.databinding.ContentEditReviewBinding;
+import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
 
 import org.parceler.Parcels;
 
@@ -35,7 +35,7 @@ import java.util.List;
 
 public class ReviewEditionFragment extends Fragment {
 
-    private ContentEditReviewBinding binding;
+    private FragmentReviewEditionBinding binding;
 
     KinoDto kino;
 
@@ -48,7 +48,7 @@ public class ReviewEditionFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ContentEditReviewBinding.inflate(getLayoutInflater());
+        binding = FragmentReviewEditionBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 

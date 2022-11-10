@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.databinding.SearchResultItemBinding;
+import com.ulicae.cinelog.databinding.TmdbItemRowBinding;
 import com.ulicae.cinelog.network.DtoBuilderFromTmdbObject;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
     protected DataService<? extends KinoDto> dataService;
 
     private DtoBuilderFromTmdbObject<T> builderFromTmdbObject;
-    private SearchResultItemBinding binding;
+    private TmdbItemRowBinding binding;
 
     protected final ReviewItemCallback reviewItemCallback;
     protected final ReviewCreationCallback reviewCreationCallback;
@@ -54,7 +54,7 @@ public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
                              DtoBuilderFromTmdbObject<T> dtoBuilderFromTmdbObject,
                              ReviewItemCallback reviewItemCallback,
                              ReviewCreationCallback reviewCreationCallback) {
-        super(context, R.layout.search_result_item, results);
+        super(context, R.layout.tmdb_item_row, results);
         this.dataService = dataService;
         this.builderFromTmdbObject = dtoBuilderFromTmdbObject;
         this.reviewItemCallback = reviewItemCallback;
@@ -68,10 +68,10 @@ public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            binding = SearchResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            binding = TmdbItemRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             convertView = binding.getRoot();
         } else {
-            binding = SearchResultItemBinding.bind(convertView);
+            binding = TmdbItemRowBinding.bind(convertView);
         }
 
         final KinoDto kinoDto = builderFromTmdbObject.build(getItem(position));

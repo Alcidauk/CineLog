@@ -17,7 +17,7 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
-import com.ulicae.cinelog.databinding.ContentAddReviewBinding;
+import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
@@ -55,7 +55,7 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
                              @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        binding = ContentAddReviewBinding.inflate(getLayoutInflater());
+        binding = FragmentSearchTmdbBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 

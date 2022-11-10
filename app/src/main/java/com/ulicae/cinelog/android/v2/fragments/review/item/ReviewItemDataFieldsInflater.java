@@ -23,8 +23,8 @@ import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.databinding.ContentKinoViewBinding;
-import com.ulicae.cinelog.databinding.ContentReviewViewBinding;
+import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
+import com.ulicae.cinelog.databinding.LayoutReviewItemReviewBinding;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.text.ParseException;
@@ -68,13 +68,13 @@ public class ReviewItemDataFieldsInflater {
 
     private final KinoDto kino;
     private Activity activity;
-    private final ContentKinoViewBinding viewKinoContentLayout;
-    private final ContentReviewViewBinding reviewKinoContentLayout;
+    private final LayoutReviewItemKinoBinding viewKinoContentLayout;
+    private final LayoutReviewItemReviewBinding reviewKinoContentLayout;
 
     public ReviewItemDataFieldsInflater(KinoDto kino,
                                         Activity activity,
-                                        ContentKinoViewBinding viewKinoContentLayout,
-                                        ContentReviewViewBinding reviewKinoContentLayout) {
+                                        LayoutReviewItemKinoBinding viewKinoContentLayout,
+                                        LayoutReviewItemReviewBinding reviewKinoContentLayout) {
         this.kino = kino;
         this.activity = activity;
         this.viewKinoContentLayout = viewKinoContentLayout;

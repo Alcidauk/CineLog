@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import androidx.viewbinding.ViewBinding;
 
-import com.ulicae.cinelog.databinding.HeaderResultItemBinding;
-import com.ulicae.cinelog.databinding.MainResultItemBinding;
+import com.ulicae.cinelog.databinding.ReviewListYearRowBinding;
+import com.ulicae.cinelog.databinding.ReviewListItemRowBinding;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -37,46 +37,46 @@ public class ReviewListViewHolder {
     }
 
     public TextView getKinoTitle() {
-        return binding instanceof HeaderResultItemBinding ?
-                ((HeaderResultItemBinding) binding).mainResultKinoTitle :
-                getMainResultItemBinding().mainResultKinoTitle;
+        return binding instanceof ReviewListYearRowBinding ?
+                ((ReviewListYearRowBinding) binding).mainResultKinoTitle :
+                getReviewListItemRowBinding().mainResultKinoTitle;
     }
 
     public TextView getKinoYear() {
-        return getMainResultItemBinding().mainResultKinoYear;
+        return getReviewListItemRowBinding().mainResultKinoYear;
     }
 
     public ImageView getKinoPoster() {
-        return getMainResultItemBinding().mainResultKinoPoster;
+        return getReviewListItemRowBinding().mainResultKinoPoster;
     }
 
     public ImageView getKinoReviewDateLogo() {
-        return getMainResultItemBinding().mainResultKinoReviewDateLogo;
+        return getReviewListItemRowBinding().mainResultKinoReviewDateLogo;
     }
 
     public RatingBar getKinoRatingBar() {
-        return getMainResultItemBinding().mainResultKinoRatingBarSmall;
+        return getReviewListItemRowBinding().mainResultKinoRatingBarSmall;
     }
 
     public TextView getKinoRatingBarAsText() {
-        return getMainResultItemBinding().mainResultKinoRatingBarAsText;
+        return getReviewListItemRowBinding().mainResultKinoRatingBarAsText;
     }
 
     public TextView getKinoRatingBarMaxAsText() {
-        return getMainResultItemBinding().mainResultKinoRatingBarMaxAsText;
+        return getReviewListItemRowBinding().mainResultKinoRatingBarMaxAsText;
     }
 
     public TextView getKinoReviewDate() {
-        return getMainResultItemBinding().mainResultKinoReviewDate;
+        return getReviewListItemRowBinding().mainResultKinoReviewDate;
     }
 
     public LinearLayout getKinoTags() {
-        return getMainResultItemBinding().mainResultKinoTags;
+        return getReviewListItemRowBinding().mainResultKinoTags;
     }
 
-    private MainResultItemBinding getMainResultItemBinding() {
-        if (binding instanceof MainResultItemBinding) {
-            return ((MainResultItemBinding) binding);
+    private ReviewListItemRowBinding getReviewListItemRowBinding() {
+        if (binding instanceof ReviewListItemRowBinding) {
+            return ((ReviewListItemRowBinding) binding);
         }
         throw new ClassCastException();
     }

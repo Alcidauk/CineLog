@@ -13,7 +13,7 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
-import com.ulicae.cinelog.databinding.FragmentMovieBinding;
+import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +38,11 @@ import java.util.List;
  */
 public class MovieWishlistFragment extends WishlistFragment {
 
-    private com.ulicae.cinelog.databinding.FragmentMovieBinding binding;
+    private com.ulicae.cinelog.databinding.FragmentMovieListBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMovieBinding.inflate(inflater, container, false);
+        binding = FragmentMovieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

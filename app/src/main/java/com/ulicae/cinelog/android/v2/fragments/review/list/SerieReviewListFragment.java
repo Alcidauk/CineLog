@@ -17,7 +17,7 @@ import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
-import com.ulicae.cinelog.databinding.FragmentSerieBinding;
+import com.ulicae.cinelog.databinding.FragmentSerieListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class SerieReviewListFragment extends ReviewListFragment {
 
-    private FragmentSerieBinding binding;
+    private FragmentSerieListBinding binding;
 
     public SerieReviewListFragment() {
     }
@@ -59,7 +59,7 @@ public class SerieReviewListFragment extends ReviewListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentSerieBinding.inflate(inflater, container, false);
+        binding = FragmentSerieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

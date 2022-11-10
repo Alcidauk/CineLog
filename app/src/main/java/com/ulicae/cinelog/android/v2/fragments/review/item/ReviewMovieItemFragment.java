@@ -11,15 +11,15 @@ import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.databinding.ContentKinoViewBinding;
-import com.ulicae.cinelog.databinding.ContentReviewViewBinding;
-import com.ulicae.cinelog.databinding.ContentViewKinoBinding;
+import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
+import com.ulicae.cinelog.databinding.LayoutReviewItemReviewBinding;
+import com.ulicae.cinelog.databinding.FragmentReviewMovieItemBinding;
 
 import org.parceler.Parcels;
 
 public class ReviewMovieItemFragment extends Fragment {
 
-    private ContentViewKinoBinding binding;
+    private FragmentReviewMovieItemBinding binding;
 
     KinoDto kino;
     int position;
@@ -28,7 +28,7 @@ public class ReviewMovieItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ContentViewKinoBinding.inflate(getLayoutInflater());
+        binding = FragmentReviewMovieItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
@@ -38,8 +38,8 @@ public class ReviewMovieItemFragment extends Fragment {
         kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
         position = requireArguments().getInt("kino_position", -1);
 
-        ContentKinoViewBinding viewKinoContentLayout = binding.viewKinoContentLayout;
-        ContentReviewViewBinding reviewKinoContentLayout = binding.reviewKinoContentLayout;
+        LayoutReviewItemKinoBinding viewKinoContentLayout = binding.viewKinoContentLayout;
+        LayoutReviewItemReviewBinding reviewKinoContentLayout = binding.reviewKinoContentLayout;
 
         new ReviewItemDataFieldsInflater(kino, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
 

@@ -22,8 +22,8 @@ import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.databinding.HeaderResultItemBinding;
-import com.ulicae.cinelog.databinding.MainResultItemBinding;
+import com.ulicae.cinelog.databinding.ReviewListYearRowBinding;
+import com.ulicae.cinelog.databinding.ReviewListItemRowBinding;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.util.List;
@@ -49,7 +49,7 @@ import java.util.List;
 class ReviewListAdapter extends ArrayAdapter<Object> {
 
     public ReviewListAdapter(@NonNull Context context, @NonNull List<Object> objects) {
-        super(context, R.layout.main_result_item, objects);
+        super(context, R.layout.review_list_item_row, objects);
     }
 
     public long getItemId(int position) {
@@ -65,10 +65,10 @@ class ReviewListAdapter extends ArrayAdapter<Object> {
 
         if(needInflate(convertView, object)) {
             binding = isObjectString ?
-                    HeaderResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false) :
-                    MainResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                    ReviewListYearRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false) :
+                    ReviewListItemRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         } else {
-            binding = isObjectString ? HeaderResultItemBinding.bind(convertView) : MainResultItemBinding.bind(convertView);
+            binding = isObjectString ? ReviewListYearRowBinding.bind(convertView) : ReviewListItemRowBinding.bind(convertView);
         }
 
         if(!isObjectString) {
@@ -145,7 +145,7 @@ class ReviewListAdapter extends ArrayAdapter<Object> {
     }
 
     private void initYearView(ViewBinding viewBinding, String object) {
-        ReviewListYearViewHolder holder = new ReviewListYearViewHolder((HeaderResultItemBinding) viewBinding);
+        ReviewListYearViewHolder holder = new ReviewListYearViewHolder((ReviewListYearRowBinding) viewBinding);
         holder.getKinoTitle().setText(object);
     }
 

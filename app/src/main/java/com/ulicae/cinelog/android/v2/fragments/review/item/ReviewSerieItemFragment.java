@@ -17,7 +17,7 @@ import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisod
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.databinding.ContentViewSerieBinding;
+import com.ulicae.cinelog.databinding.FragmentReviewSerieItemBinding;
 
 import org.parceler.Parcels;
 
@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ReviewSerieItemFragment extends Fragment {
 
-    private ContentViewSerieBinding binding;
+    private FragmentReviewSerieItemBinding binding;
 
     KinoDto kino;
     int position;
@@ -35,7 +35,7 @@ public class ReviewSerieItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ContentViewSerieBinding.inflate(getLayoutInflater());
+        binding = FragmentReviewSerieItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 

@@ -44,11 +44,11 @@
 
                 <include
                     android:id="@+id/view_kino_content_layout"
-                    layout="@layout/content_kino_view" />
+                    layout="@layout/layout_review_item_kino" />
 
                 <include
                     android:id="@+id/review_kino_content_layout"
-                    layout="@layout/content_review_view" />
+                    layout="@layout/layout_review_item_review" />
 
             </LinearLayout>
         </ScrollView>

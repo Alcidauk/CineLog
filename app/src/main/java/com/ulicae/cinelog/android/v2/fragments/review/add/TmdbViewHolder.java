@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.ulicae.cinelog.databinding.SearchResultItemBinding;
+import com.ulicae.cinelog.databinding.TmdbItemRowBinding;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -27,9 +27,9 @@ import com.ulicae.cinelog.databinding.SearchResultItemBinding;
  */
 public class TmdbViewHolder {
 
-    private final SearchResultItemBinding binding;
+    private final TmdbItemRowBinding binding;
 
-    TmdbViewHolder(SearchResultItemBinding binding) {
+    TmdbViewHolder(TmdbItemRowBinding binding) {
         this.binding = binding;
     }
 

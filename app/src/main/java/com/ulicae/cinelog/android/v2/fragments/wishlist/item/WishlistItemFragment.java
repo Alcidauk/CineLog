@@ -22,7 +22,7 @@ import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
-import com.ulicae.cinelog.databinding.ContentKinoViewUnregisteredBinding;
+import com.ulicae.cinelog.databinding.LayoutKinoItemBinding;
 
 import org.parceler.Parcels;
 
@@ -34,7 +34,7 @@ import java.util.Locale;
 
 public class WishlistItemFragment extends Fragment {
 
-    private ContentKinoViewUnregisteredBinding binding;
+    private LayoutKinoItemBinding binding;
 
     private WishlistDataDto wishlistDataDto;
 
@@ -45,7 +45,7 @@ public class WishlistItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ContentKinoViewUnregisteredBinding.inflate(getLayoutInflater());
+        binding = LayoutKinoItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
