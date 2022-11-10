@@ -1,8 +1,8 @@
-package com.ulicae.cinelog.network.task;
+package com.ulicae.cinelog.android.v2.fragments.review.list;
 
-import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbFragment;
-import com.uwetrottmann.tmdb2.entities.Movie;
+import android.widget.TextView;
 
+import com.ulicae.cinelog.databinding.HeaderResultItemBinding;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -22,8 +22,16 @@ import com.uwetrottmann.tmdb2.entities.Movie;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MovieNetworkTaskCreator implements NetworkTaskCreator<MovieNetworkTask, Movie> {
-    public MovieNetworkTask create(SearchTmdbFragment<Movie> searchTmdbFragment) {
-        return new MovieNetworkTask(searchTmdbFragment);
+public class ReviewListYearViewHolder {
+
+    private final HeaderResultItemBinding binding;
+
+    ReviewListYearViewHolder(HeaderResultItemBinding binding) {
+        this.binding = binding;
     }
+
+    public TextView getKinoTitle() {
+        return binding.mainResultKinoTitle;
+    }
+
 }

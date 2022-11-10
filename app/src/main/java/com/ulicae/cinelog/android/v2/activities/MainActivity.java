@@ -15,14 +15,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.TagsActivity;
-import com.ulicae.cinelog.android.activities.view.WishlistItemFragment;
+import com.ulicae.cinelog.android.v2.fragments.wishlist.item.WishlistItemFragment;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.android.v2.ViewUnregisteredItemFragment;
-import com.ulicae.cinelog.android.v2.fragments.kino.ViewKinoFragment;
-import com.ulicae.cinelog.android.v2.fragments.kino.ViewSerieFragment;
-import com.ulicae.cinelog.android.v2.fragments.review.add.SearchTmbdSerieFragment;
-import com.ulicae.cinelog.android.v2.fragments.review.add.SearchTmdbMovieFragment;
-import com.ulicae.cinelog.android.v2.fragments.review.edit.EditReviewFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewMovieItemFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewSerieItemFragment;
+import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmbdSerieFragment;
+import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbMovieFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.edit.ReviewEditionFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
@@ -185,15 +185,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), activity));
     }
 
-    public void navigateToKino(KinoDto kinoDto, int position, boolean inDb) {
+    public void navigateToItem(KinoDto kinoDto, int position, boolean inDb) {
         if (inDb) {
             Fragment fragment;
             Bundle args = new Bundle();
             if(kinoDto instanceof SerieDto){
-                fragment = new ViewSerieFragment();
+                fragment = new ReviewSerieItemFragment();
                 args.putString("dtoType", "serie");
             } else {
-                fragment = new ViewKinoFragment();
+                fragment = new ReviewMovieItemFragment();
                 args.putString("dtoType", "kino");
             }
 
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void navigateToReview(KinoDto kinoDto, boolean creation) {
-        Fragment fragment = new EditReviewFragment();
+        Fragment fragment = new ReviewEditionFragment();
 
         Bundle args = new Bundle();
         args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");

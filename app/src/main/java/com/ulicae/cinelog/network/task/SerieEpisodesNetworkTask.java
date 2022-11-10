@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.v2.fragments.kino.serie.SerieViewEpisodesFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.uwetrottmann.tmdb2.entities.TvEpisode;
 
