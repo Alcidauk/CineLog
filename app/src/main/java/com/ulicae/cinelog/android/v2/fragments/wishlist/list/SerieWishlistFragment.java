@@ -9,7 +9,9 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.databinding.FragmentSerieListBinding;
@@ -48,7 +50,9 @@ public class SerieWishlistFragment extends WishlistFragment {
         service = new SerieWishlistService(((KinoApplication) getActivity().getApplication()).getDaoSession());
         createListView(1);
 
-        binding.fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTmdbSerieSearch(true));
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTmdbSerieSearch(true));
+        fab.setImageResource(R.drawable.add_kino);
     }
 
     @Override

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.TagsActivity;
 import com.ulicae.cinelog.android.v2.fragments.wishlist.item.WishlistItemFragment;
@@ -246,5 +247,9 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("WishlistItem")
                 .replace(R.id.nav_host_fragment, fragment, "WishlistItem")
                 .commit();
+    }
+
+    public FloatingActionButton getFab() {
+        return binding.fab;
     }
 }

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
@@ -62,7 +63,11 @@ public class MovieReviewListFragment extends ReviewListFragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        binding.fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTmdbMovieSearch(false));
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.setOnClickListener(
+                v -> ((MainActivity) requireActivity()).goToTmdbMovieSearch(false)
+        );
+        fab.setImageResource(R.drawable.add_kino);
     }
 
     @Override

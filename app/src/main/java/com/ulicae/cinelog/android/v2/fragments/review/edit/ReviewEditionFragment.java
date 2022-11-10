@@ -18,8 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewMovieItemFragment;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -71,8 +73,11 @@ public class ReviewEditionFragment extends Fragment {
         initKinoTitle();
 
         binding.reviewTagEdit.setOnClickListener(onReviewTagEdit());
-        binding.fabSave.setOnClickListener(fabView -> onFabSaveClick());
         binding.kinoReviewDateButton.setOnClickListener(this::showTimePickerDialog);
+
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.setOnClickListener(fabView -> onFabClick());
+        fab.setImageResource(R.drawable.save_kino);
     }
 
     private void initReview() {
@@ -205,7 +210,7 @@ public class ReviewEditionFragment extends Fragment {
         new DatePickerFragment().show(getChildFragmentManager(), "timePicker");
     }
 
-    public void onFabSaveClick() {
+    public void onFabClick() {
         kino.setReview(binding.kinoReviewText.getText().toString());
 
         if (kino.getTmdbKinoId() == null) {

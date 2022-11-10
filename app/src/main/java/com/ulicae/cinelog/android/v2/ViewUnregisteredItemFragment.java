@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -35,7 +36,11 @@ public class ViewUnregisteredItemFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        binding.fab.setOnClickListener(fabView -> ((MainActivity) requireActivity()).navigateToReview(kino, true));
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.setOnClickListener(
+                v -> ((MainActivity) requireActivity()).navigateToReview(kino, true)
+        );
+        fab.setImageResource(R.drawable.add_review);
 
         kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
         position = requireArguments().getInt("kino_position", -1);

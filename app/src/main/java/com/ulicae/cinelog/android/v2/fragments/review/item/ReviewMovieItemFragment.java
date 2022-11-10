@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
@@ -43,9 +45,11 @@ public class ReviewMovieItemFragment extends Fragment {
 
         new ReviewItemDataFieldsInflater(kino, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
 
-        binding.fab.setOnClickListener(fabView -> {
-            ((MainActivity) requireActivity()).navigateToReview(kino, false);
-        });
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.setOnClickListener(
+                v -> ((MainActivity) requireActivity()).navigateToReview(kino, false)
+        );
+        fab.setImageResource(R.drawable.edit_kino);
     }
 
   /*  TODO rewrite state management to get right data from editreview

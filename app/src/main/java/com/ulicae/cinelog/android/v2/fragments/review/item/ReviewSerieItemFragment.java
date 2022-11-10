@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewGeneralFragment;
@@ -45,9 +46,11 @@ public class ReviewSerieItemFragment extends Fragment {
         kino = Parcels.unwrap(getArguments().getParcelable("kino"));
         position = getArguments().getInt("kino_position", -1);
 
-        binding.fab.setOnClickListener(fabView -> {
-            ((MainActivity) requireActivity()).navigateToReview(kino, false);
-        });
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.setOnClickListener(
+                v -> ((MainActivity) requireActivity()).navigateToReview(kino, false)
+        );
+        fab.setImageResource(R.drawable.edit_kino);
 
         setViewPager(binding.serieViewPager);
     }

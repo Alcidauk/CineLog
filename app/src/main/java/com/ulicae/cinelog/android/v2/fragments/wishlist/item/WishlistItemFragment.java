@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
@@ -89,12 +90,16 @@ public class WishlistItemFragment extends Fragment {
     }
 
     private void initFabButton() {
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.show();
+
+        fab.setOnClickListener(this::onFabClick);
         // TODO change icon if review exists
         if (wishlistDataDto.getId() != null) {
-            binding.fab.setImageResource(R.drawable.add_kino);
+            fab.setImageResource(R.drawable.add_review);
+        } else {
+            fab.setImageResource(R.drawable.add_kino);
         }
-
-        binding.fab.setOnClickListener(this::onFabClick);
     }
 
     public void onFabClick(View view) {
@@ -115,7 +120,7 @@ public class WishlistItemFragment extends Fragment {
             Toast.makeText(requireContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
         }
 
-        binding.fab.hide();
+        ((MainActivity) requireActivity()).getFab().hide();
     }
 
     private void createReview() {
