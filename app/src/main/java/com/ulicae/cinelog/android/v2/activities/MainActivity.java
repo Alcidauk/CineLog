@@ -17,10 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.activities.TagsActivity;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
-import com.ulicae.cinelog.android.v2.ViewUnregisteredItemFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.edit.ReviewEditionFragment;
-import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewMovieItemFragment;
-import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewSerieItemFragment;
 import com.ulicae.cinelog.android.v2.fragments.wishlist.item.WishlistItemFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
@@ -95,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
 
-        Set<Integer> topLevelDestinations = new HashSet<Integer>(){{
+        Set<Integer> topLevelDestinations = new HashSet<Integer>() {{
             add(R.id.nav_reviews_movie);
             add(R.id.nav_reviews_serie);
             add(R.id.nav_wishlist_movie);
@@ -138,14 +135,14 @@ public class MainActivity extends AppCompatActivity {
                 || super.onOptionsItemSelected(item);
     }
 
-    public void goToTmdbMovieSearch(boolean wishlist){
+    public void goToTmdbMovieSearch(boolean wishlist) {
         Bundle args = new Bundle();
         args.putBoolean("toWishlist", wishlist);
 
         navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieFragment, args);
     }
 
-    public void goToTmdbSerieSearch(boolean wishlist){
+    public void goToTmdbSerieSearch(boolean wishlist) {
         Bundle args = new Bundle();
         args.putBoolean("toWishlist", wishlist);
 
@@ -172,41 +169,35 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), activity));
     }
 
-    public void navigateToItem(KinoDto kinoDto, int position, boolean inDb) {
+    public void navigateToItem(KinoDto kinoDto, int position, boolean inDb, boolean fromSearch) {
         if (inDb) {
-            String tag;
-            Fragment fragment;
+            int action;
             Bundle args = new Bundle();
-            if(kinoDto instanceof SerieDto){
-                fragment = new ReviewSerieItemFragment();
+            if (kinoDto instanceof SerieDto) {
+                action = fromSearch ?
+                        R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
+                        R.id.action_nav_reviews_serie_to_viewSerieFragment;
                 args.putString("dtoType", "serie");
-                tag = "ViewSerie";
             } else {
-                fragment = new ReviewMovieItemFragment();
+                action = fromSearch ?
+                        R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
+                        R.id.action_nav_reviews_movie_to_viewKinoFragment;
                 args.putString("dtoType", "kino");
-                tag = "ViewKino";
             }
 
             args.putParcelable("kino", Parcels.wrap(kinoDto));
             args.putInt("kino_position", position);
-            fragment.setArguments(args);
 
-            getSupportFragmentManager().beginTransaction()
-                    .addToBackStack(tag)
-                    .replace(R.id.nav_host_fragment, fragment, tag)
-                    .commit();
+            navController.navigate(action, args);
         } else {
-            Fragment fragment = new ViewUnregisteredItemFragment();
+            int action = kinoDto instanceof SerieDto ?
+                    R.id.action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment :
+                    R.id.action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment;
 
             Bundle args = new Bundle();
             args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
             args.putParcelable("kino", Parcels.wrap(kinoDto));
-            fragment.setArguments(args);
-
-            getSupportFragmentManager().beginTransaction()
-                    .addToBackStack("ViewUnregisteredKino")
-                    .replace(R.id.nav_host_fragment, fragment, "ViewUnregisteredKino")
-                    .commit();
+            navController.navigate(action, args);
         }
     }
 

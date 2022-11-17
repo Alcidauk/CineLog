@@ -162,7 +162,7 @@ public abstract class ReviewListFragment extends Fragment {
                     Object item = objects.get(position);
                     // TODO callback ?
                     ((MainActivity) requireActivity()).navigateToItem(
-                            (KinoDto) item, position, true
+                            (KinoDto) item, position, true, false
                     );
                 }
             });

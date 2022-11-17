@@ -74,6 +74,15 @@
         <action
             android:id="@+id/action_searchTmdbMovieFragment_to_editReviewFragment"
             app:destination="@id/editReviewFragment" />
+        <action
+            android:id="@+id/action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment"
+            app:destination="@id/viewUnregisteredItemFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/searchTmdbMovieFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/searchTmbdSerieFragment"
@@ -85,6 +94,14 @@
         <action
             android:id="@+id/action_searchTmbdSerieFragment_to_editReviewFragment"
             app:destination="@id/editReviewFragment" />
+        <action
+            android:id="@+id/action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment"
+            app:destination="@id/viewUnregisteredItemFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/searchTmbdSerieFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewKinoFragment"
@@ -106,5 +123,10 @@
         android:id="@+id/editReviewFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.review.edit.ReviewEditionFragment"
         android:label="@string/title_activity_view_kino" />
+    <fragment
+        android:id="@+id/viewUnregisteredItemFragment"
+        android:name="com.ulicae.cinelog.android.v2.ViewUnregisteredItemFragment"
+        android:label="@string/title_activity_view_unregistered_kino" >
+    </fragment>
 
 </navigation>
