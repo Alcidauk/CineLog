@@ -21,7 +21,6 @@ import org.parceler.Parcels;
 public class ViewUnregisteredItemFragment extends Fragment {
     KinoDto kino;
     int position;
-    boolean editted = false;
 
     private LayoutKinoItemBinding binding;
 
