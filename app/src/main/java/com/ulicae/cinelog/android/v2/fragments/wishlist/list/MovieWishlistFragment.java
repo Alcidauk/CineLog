@@ -2,6 +2,8 @@ package com.ulicae.cinelog.android.v2.fragments.wishlist.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -58,6 +60,12 @@ public class MovieWishlistFragment extends WishlistFragment {
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTmdbMovieSearch(true));
         fab.setImageResource(R.drawable.add_kino);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_simple, menu);
     }
 
     @Override

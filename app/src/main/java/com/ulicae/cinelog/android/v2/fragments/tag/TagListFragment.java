@@ -2,6 +2,8 @@ package com.ulicae.cinelog.android.v2.fragments.tag;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,6 +55,12 @@ public class TagListFragment extends Fragment {
 
         listAdapter = new TagListAdapter(requireContext(), dataDtos, service, (MainActivity) requireActivity());
         binding.tagList.setAdapter(listAdapter);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_simple, menu);
     }
 
 }
