@@ -7,7 +7,6 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,10 +14,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.TagsActivity;
+import com.ulicae.cinelog.android.activities.EditTag;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
-import com.ulicae.cinelog.android.v2.fragments.review.edit.ReviewEditionFragment;
-import com.ulicae.cinelog.android.v2.fragments.wishlist.item.WishlistItemFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
@@ -158,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void goToTags() {
-        launchActivity(TagsActivity.class);
+    public void goToTagEdition() {
+        launchActivity(EditTag.class);
     }
 
     public void goToImport() {

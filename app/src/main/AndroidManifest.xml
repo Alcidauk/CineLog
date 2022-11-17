@@ -47,11 +47,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".android.activities.TagsActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity android:name=".android.activities.Search" />
-        <activity
             android:name=".android.activities.EditTag"
             android:label="@string/tags_title"
             android:parentActivityName=".android.v2.activities.MainActivity">

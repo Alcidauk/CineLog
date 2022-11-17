@@ -68,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_tags"
-        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagListFragment"
         android:label="@string/tags_title" />
     <fragment
         android:id="@+id/searchTmdbMovieFragment"
