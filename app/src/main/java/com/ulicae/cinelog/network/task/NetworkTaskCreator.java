@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
+import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbFragment;
 import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
 
 /**
@@ -25,6 +25,6 @@ import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
  */
 public interface NetworkTaskCreator<T extends AsyncTask, E extends BaseRatingObject> {
 
-    T create(AddReviewActivity<E> addKino);
+    T create(SearchTmdbFragment<E> addKino);
 
 }

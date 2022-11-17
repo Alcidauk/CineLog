@@ -24,40 +24,35 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <FrameLayout
-        android:id="@+id/content_frame"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".android.v2.activities.MainActivity">
+
+        <include
+            android:id="@+id/toolbar_new"
+            layout="@layout/toolbar_new" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            tools:context=".android.activities.MainActivity">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/navigation">
 
-            <include layout="@layout/toolbar_with_tabs" />
+        </androidx.fragment.app.FragmentContainerView>
 
-            <RelativeLayout
-                android:id="@+id/content_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"/>
 
-                <androidx.viewpager.widget.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/category_pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/add_kino" />
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <com.google.android.material.navigation.NavigationView
@@ -66,8 +61,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_view"
         app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_view"
         tools:ignore="UnusedAttribute" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

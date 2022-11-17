@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
+import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbFragment;
 import com.uwetrottmann.tmdb2.entities.BaseResultsPage;
 
 import java.lang.ref.WeakReference;
@@ -31,10 +31,10 @@ import retrofit2.Response;
  */
 public abstract class NetworkTask<T extends BaseResultsPage, D> extends AsyncTask<Call<T>, Void, List<D>> {
 
-    private WeakReference<AddReviewActivity> addReviewActivityWeakReference;
+    private WeakReference<SearchTmdbFragment> addReviewFragmentWeakReference;
 
-    NetworkTask(AddReviewActivity addReviewActivityWeakReference) {
-        this.addReviewActivityWeakReference = new WeakReference<>(addReviewActivityWeakReference);
+    NetworkTask(SearchTmdbFragment searchTmdbFragmentWeakReference) {
+        this.addReviewFragmentWeakReference = new WeakReference<>(searchTmdbFragmentWeakReference);
     }
 
     protected List<D> doInBackground(Call<T>... results) {
@@ -68,10 +68,10 @@ public abstract class NetworkTask<T extends BaseResultsPage, D> extends AsyncTas
 
     private void cancel() {
         cancel(true);
-        addReviewActivityWeakReference.get().clearListView();
+        addReviewFragmentWeakReference.get().clearListView();
     }
 
-    public WeakReference<AddReviewActivity> getAddReviewActivityWeakReference() {
-        return addReviewActivityWeakReference;
+    public WeakReference<SearchTmdbFragment> getAddReviewFragmentWeakReference() {
+        return addReviewFragmentWeakReference;
     }
 }

@@ -23,7 +23,7 @@
     android:fitsSystemWindows="true"
     tools:context=".io.exportdb.ExportDb">
 
-    <include layout="@layout/toolbar" />
-    <include layout="@layout/content_export_db" />
+    <include android:id="@+id/export_in_db_toolbar" layout="@layout/toolbar" />
+    <include android:id="@+id/export_in_db_content" layout="@layout/content_export_db" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -51,10 +51,6 @@ License: Apache2
 Source: https://github.com/greenrobot/greenDAO
 License: Apache2
 
-  - ButterKnife
-Source: https://github.com/JakeWharton/butterknife/
-License: Apache2
-
   - Parceler
 Source: https://github.com/johncarl81/parceler/
 License: Apache2

@@ -1,11 +1,11 @@
 package com.ulicae.cinelog.network.task;
 
-import com.ulicae.cinelog.android.activities.add.AddReviewActivity;
+import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbFragment;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2022 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -23,7 +23,7 @@ import com.uwetrottmann.tmdb2.entities.Movie;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 public class MovieNetworkTaskCreator implements NetworkTaskCreator<MovieNetworkTask, Movie> {
-    public MovieNetworkTask create(AddReviewActivity<Movie> addReviewActivity) {
-        return new MovieNetworkTask(addReviewActivity);
+    public MovieNetworkTask create(SearchTmdbFragment<Movie> searchTmdbFragment) {
+        return new MovieNetworkTask(searchTmdbFragment);
     }
 }

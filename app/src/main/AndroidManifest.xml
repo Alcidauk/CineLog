@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ulicae.cinelog"
-    android:versionCode="33"
-    android:versionName="1.5.1">
+    android:versionCode="35"
+    android:versionName="1.5.3">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -38,7 +38,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         android:requestLegacyExternalStorage="true">
         <activity
-            android:name=".android.activities.MainActivity"
+            android:name=".android.v2.activities.MainActivity"
             android:label="@string/app_name"
             android:exported="true">
             <intent-filter>
@@ -46,79 +46,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".android.activities.WishlistActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".android.activities.TagsActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity android:name=".android.activities.Search" />
-        <activity
-            android:name=".android.activities.add.AddKino"
-            android:label="@string/title_activity_add_kino"
-            android:parentActivityName=".android.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".android.activities.add.AddSerieActivity"
-            android:label="@string/title_activity_add_serie"
-            android:parentActivityName=".android.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".android.activities.EditTag"
-            android:label="@string/tags_title"
-            android:parentActivityName=".android.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".android.activities.ViewKino"
-            android:label="@string/title_activity_view_kino"/>
-        <activity
-            android:name=".android.activities.ViewSerie"
-            android:label="@string/title_activity_view_serie"/>
-        <activity
-            android:name=".android.activities.ViewUnregisteredKino"
-            android:label="@string/title_activity_view_unregistered_kino"/>
-        <activity
-            android:name=".android.activities.view.ViewDataActivity"
-            android:label="@string/title_activity_view_unregistered_kino"/>
-        <activity
-            android:name=".android.activities.EditReview"
-            android:label="@string/title_activity_add_review"
-            android:windowSoftInputMode="stateHidden"/>
+
         <activity
             android:name=".io.exportdb.ExportDb"
             android:label="@string/title_activity_export_db"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.v2.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
+                android:value=".android.v2.activities.MainActivity" />
         </activity>
         <activity
             android:name=".io.importdb.ImportInDb"
             android:label="@string/title_activity_import_db"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.v2.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
+                android:value=".android.v2.activities.MainActivity" />
         </activity>
         <activity
             android:name=".android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/DarkPreferencesTheme"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.v2.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity" />
+                android:value=".android.v2.activities.MainActivity" />
         </activity>
     </application>
 

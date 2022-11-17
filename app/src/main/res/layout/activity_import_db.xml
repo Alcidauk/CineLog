@@ -23,6 +23,6 @@
     android:fitsSystemWindows="true"
     tools:context=".io.importdb.ImportInDb">
 
-    <include layout="@layout/toolbar" />
-    <include layout="@layout/content_import_db" />
+    <include android:id="@+id/import_in_db_toolbar" layout="@layout/toolbar" />
+    <include android:id="@+id/import_in_db_content" layout="@layout/content_import_db" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

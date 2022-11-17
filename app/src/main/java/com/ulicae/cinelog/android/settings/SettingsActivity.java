@@ -5,49 +5,41 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
- * CineLog Copyright 2018 Pierre Rognon
- *
- *
+ * CineLog Copyright 2022 Pierre Rognon
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 public class SettingsActivity extends PreferenceActivity {
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
 
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // don't know why but night theme not taken in account
-        if(new PreferencesWrapper().getBooleanPreference(getBaseContext(), "theme", false)){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        if (new PreferencesWrapper().getBooleanPreference(getApplicationContext(), "theme", false)) {
             setTheme(R.style.DarkPreferencesTheme);
         }
+
+        super.onCreate(savedInstanceState);
+
     }
 
     /**
