@@ -8,22 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewGeneralFragment;
-import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.databinding.FragmentReviewSerieItemBinding;
 
 import org.parceler.Parcels;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReviewSerieItemFragment extends Fragment {
 
@@ -53,56 +50,45 @@ public class ReviewSerieItemFragment extends Fragment {
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
 
-        setViewPager(binding.serieViewPager);
+        setViewPager();
     }
 
-    private void setViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+    private void setViewPager() {
+        SerieItemPagerAdapter adapter = new SerieItemPagerAdapter(requireActivity(), kino);
 
-        Bundle args = new Bundle();
-        args.putParcelable("kino", Parcels.wrap(kino));
+        binding.serieViewPager.setAdapter(adapter);
 
-        SerieViewGeneralFragment generalFragment = new SerieViewGeneralFragment();
-        generalFragment.setArguments(args);
-        adapter.addFragment(generalFragment, getString(R.string.title_fragment_serie_general));
-
-        SerieViewEpisodesFragment episodesFragment = new SerieViewEpisodesFragment();
-        episodesFragment.setArguments(args);
-        adapter.addFragment(episodesFragment, getString(R.string.title_fragment_serie_episodes));
-
-        viewPager.setAdapter(adapter);
-        binding.tabs.setupWithViewPager(viewPager);
+        new TabLayoutMediator(binding.tabs, binding.serieViewPager,
+                (tab, position) -> tab.setText(position == 0 ?
+                        getString(R.string.title_fragment_serie_general) :
+                        getString(R.string.title_fragment_serie_episodes))
+        ).attach();
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+    private class SerieItemPagerAdapter extends FragmentStateAdapter {
+        private final KinoDto kino;
 
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+        public SerieItemPagerAdapter(FragmentActivity fa, KinoDto kino) {
+            super(fa);
+            this.kino = kino;
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            Bundle args = new Bundle();
+            args.putParcelable("kino", Parcels.wrap(kino));
+
+            Fragment fragment = position == 0 ? new SerieViewGeneralFragment() : new SerieViewEpisodesFragment();
+            fragment.setArguments(args);
+            return fragment;
         }
 
         @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
+        public int getItemCount() {
+            return 2;
         }
     }
-
 
   /*  TODO rewrite state management to get right data from editreview
 

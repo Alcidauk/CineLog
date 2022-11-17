@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
@@ -59,14 +61,25 @@ public class SerieViewEpisodesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSerieViewEpisodesBinding.inflate(inflater, container, false);
 
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
         binding.serieViewEpisodesProgressBar.setVisibility(View.VISIBLE);
         this.serieDto = Parcels.unwrap(requireArguments().getParcelable("kino"));
 
         if (serieDto.getTmdbKinoId() != null) {
             new SerieEpisodesNetworkTask(this).execute(serieDto.getTmdbKinoId().intValue());
         }
+    }
 
-        return binding.getRoot();
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        System.out.println("vcoucou");
     }
 
     public void populateEpisodeList(List<TvEpisode> tvEpisodes) {
