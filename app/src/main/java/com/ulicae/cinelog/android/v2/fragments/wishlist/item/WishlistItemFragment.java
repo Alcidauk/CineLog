@@ -161,7 +161,7 @@ public class WishlistItemFragment extends Fragment {
             return;
         }
 
-        ((MainActivity) requireActivity()).navigateToReview(dto, true);
+        ((MainActivity) requireActivity()).navigateToReview(dto, true, R.id.action_wishlistItemFragment_to_editReviewFragment);
     }
 
   /*  TODO rewrite state management to get right data from editreview

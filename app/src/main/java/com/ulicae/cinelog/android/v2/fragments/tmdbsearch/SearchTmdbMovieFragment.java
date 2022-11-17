@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.fragments.review.add.TmdbMovieResultsAdapter;
 import com.ulicae.cinelog.android.v2.fragments.wishlist.add.WishlistMovieResultsAdapter;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
@@ -82,7 +83,7 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
             KinoDto kinoToCreate = new KinoDto();
             kinoToCreate.setTitle(binding.kinoSearch.getText().toString());
 
-            ((MainActivity) requireActivity()).navigateToReview(kinoToCreate, true);
+            ((MainActivity) requireActivity()).navigateToReview(kinoToCreate, true, R.id.action_searchTmdbMovieFragment_to_editReviewFragment);
         } else {
             ((MainActivity) requireActivity()).navigateToWishlistItem(
                             new WishlistDataDto(

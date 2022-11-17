@@ -88,7 +88,7 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
             SerieDto serieDto = new SerieDto();
             serieDto.setTitle(binding.kinoSearch.getText().toString());
 
-            ((MainActivity) requireActivity()).navigateToReview(serieDto, true);
+            ((MainActivity) requireActivity()).navigateToReview(serieDto, true, R.id.action_searchTmbdSerieFragment_to_editReviewFragment);
         } else {
             ((MainActivity) requireActivity()).navigateToWishlistItem(
                     new WishlistDataDto(

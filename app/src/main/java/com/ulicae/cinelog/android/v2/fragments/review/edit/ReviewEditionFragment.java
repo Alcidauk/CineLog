@@ -233,8 +233,7 @@ public class ReviewEditionFragment extends Fragment {
             wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
         }
 
-        // TODO
-        redirect(kino);
+        ((MainActivity) requireActivity()).navigateBackToList(kino);
     }
 
     public static class DatePickerFragment extends DialogFragment
@@ -274,30 +273,5 @@ public class ReviewEditionFragment extends Fragment {
             }
             ((ReviewEditionFragment) requireParentFragment()).binding.kinoReviewDateButton.setText(review_date_as_string);
         }
-    }
-
-    public void redirect(KinoDto kino) {
-        if (!requireArguments().getBoolean("creation", false)) {
-            // Give data to parent fragment
-            Bundle result = new Bundle();
-            result.putParcelable("kino", Parcels.wrap(kino));
-            result.putInt("result", Activity.RESULT_OK);
-            getParentFragmentManager().setFragmentResult("requestKey", result);
-
-            getParentFragmentManager().popBackStack();
-        } else {
-            Fragment fragment = new ReviewMovieItemFragment();
-
-            Bundle args = new Bundle();
-            args.putString("dtoType", requireArguments().getString("dtoType"));
-            args.putParcelable("kino", Parcels.wrap(kino));
-            fragment.setArguments(args);
-
-            getParentFragmentManager().beginTransaction()
-                    .addToBackStack("ViewKino")
-                    .replace(R.id.nav_host_fragment, fragment, "ViewKino")
-                    .commit();
-        }
-
     }
 }

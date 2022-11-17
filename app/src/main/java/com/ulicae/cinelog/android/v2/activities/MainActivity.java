@@ -201,19 +201,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void navigateToReview(KinoDto kinoDto, boolean creation) {
-        Fragment fragment = new ReviewEditionFragment();
-
+    public void navigateToReview(KinoDto kinoDto, boolean creation, int action) {
         Bundle args = new Bundle();
         args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
         args.putParcelable("kino", Parcels.wrap(kinoDto));
         args.putBoolean("creation", creation);
-        fragment.setArguments(args);
 
-        getSupportFragmentManager().beginTransaction()
-                .addToBackStack("EditReview")
-                .replace(R.id.nav_host_fragment, fragment, "EditReview")
-                .commit();
+        navController.navigate(action, args);
     }
 
     public void navigateToWishlistItem(WishlistDataDto dataDto) {
@@ -229,7 +223,19 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void popBackStack() {
+        navController.popBackStack();
+    }
+
     public FloatingActionButton getFab() {
         return binding.fab;
+    }
+
+    public void navigateBackToList(KinoDto fromKinoDto) {
+        navController.navigate(
+                fromKinoDto instanceof SerieDto ?
+                R.id.action_editReviewFragment_to_nav_reviews_serie :
+                R.id.action_editReviewFragment_to_nav_reviews_movie
+        );
     }
 }

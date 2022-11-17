@@ -14,9 +14,7 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/nav_reviews_movie"
-            app:popUpToInclusive="false" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
             android:id="@+id/action_nav_reviews_movie_to_viewKinoFragment"
             app:destination="@id/viewKinoFragment"
@@ -24,9 +22,7 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/nav_reviews_movie"
-            app:popUpToInclusive="false" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/nav_reviews_serie"
@@ -39,18 +35,14 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/nav_reviews_serie"
-            app:popUpToInclusive="false"/>
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
             android:id="@+id/action_nav_reviews_serie_to_viewSerieFragment"
             app:destination="@id/viewSerieFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/nav_reviews_serie"
-            app:popUpToInclusive="false" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/nav_wishlist_movie"
@@ -73,16 +65,18 @@
             app:destination="@id/viewKinoFragment" />
         <action
             android:id="@+id/action_searchTmdbMovieFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment" />
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment"
             app:destination="@id/viewUnregisteredItemFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/searchTmdbMovieFragment"
-            app:popUpToInclusive="false" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/searchTmbdSerieFragment"
@@ -93,15 +87,18 @@
             app:destination="@id/viewSerieFragment" />
         <action
             android:id="@+id/action_searchTmbdSerieFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment" />
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment"
             app:destination="@id/viewUnregisteredItemFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/searchTmbdSerieFragment" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/viewKinoFragment"
@@ -109,7 +106,11 @@
         android:label="@string/title_activity_view_kino" >
         <action
             android:id="@+id/action_viewKinoFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment" />
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/viewSerieFragment"
@@ -117,16 +118,50 @@
         android:label="@string/title_activity_view_serie" >
         <action
             android:id="@+id/action_viewSerieFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment" />
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/editReviewFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.review.edit.ReviewEditionFragment"
-        android:label="@string/title_activity_view_kino" />
+        android:label="@string/title_activity_view_kino" >
+        <action
+            android:id="@+id/action_editReviewFragment_to_nav_reviews_movie"
+            app:destination="@id/nav_reviews_movie"
+            app:popUpTo="@id/nav_reviews_movie"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_editReviewFragment_to_nav_reviews_serie"
+            app:destination="@id/nav_reviews_serie"
+            app:popUpTo="@id/nav_reviews_serie"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/viewUnregisteredItemFragment"
         android:name="com.ulicae.cinelog.android.v2.ViewUnregisteredItemFragment"
         android:label="@string/title_activity_view_unregistered_kino" >
+        <action
+            android:id="@+id/action_viewUnregisteredItemFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishlistItemFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.item.WishlistItemFragment"
+        android:label="@string/title_fragment_wishlist_movie" >
+        <action
+            android:id="@+id/action_wishlistItemFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
 </navigation>

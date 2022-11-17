@@ -37,7 +37,7 @@ public class ViewUnregisteredItemFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(kino, true)
+                v -> ((MainActivity) requireActivity()).navigateToReview(kino, true, R.id.action_viewUnregisteredItemFragment_to_editReviewFragment)
         );
         fab.setImageResource(R.drawable.add_review);
         fab.show();

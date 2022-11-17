@@ -47,7 +47,7 @@ public class ReviewMovieItemFragment extends Fragment {
 
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(kino, false)
+                v -> ((MainActivity) requireActivity()).navigateToReview(kino, false, R.id.action_viewKinoFragment_to_editReviewFragment)
         );
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
