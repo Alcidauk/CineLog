@@ -92,6 +92,7 @@ class ReviewListAdapter extends ArrayAdapter<Object> {
 
         if (movie != null) {
             LinearLayout tagLayout = holder.getKinoTags();
+            tagLayout.removeAllViews();
             for (TagDto tagDto : movie.getTags()) {
                 GradientDrawable gd = getTagDot(tagDto);
 
