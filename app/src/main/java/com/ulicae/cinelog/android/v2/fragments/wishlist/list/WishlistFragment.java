@@ -43,7 +43,7 @@ public abstract class WishlistFragment extends Fragment {
 
     protected WishlistService service;
 
-    private int LIST_VIEW_STATE = 1;
+    protected int actionToItem;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -58,8 +58,6 @@ public abstract class WishlistFragment extends Fragment {
         if (getKinoList() != null) {
             //date added
             dataDtos = getResults(orderId);
-
-            LIST_VIEW_STATE = orderId;
 
             listAdapter = new WishlistListAdapter(getContext(), dataDtos);
             getKinoList().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -88,7 +86,7 @@ public abstract class WishlistFragment extends Fragment {
                 }
             });
             getKinoList().setOnItemClickListener((view, parent, position, rowId) -> {
-                ((MainActivity) requireActivity()).navigateToWishlistItem(dataDtos.get(position));
+                ((MainActivity) requireActivity()).navigateToWishlistItem(dataDtos.get(position), actionToItem);
             });
 
             getKinoList().setAdapter(listAdapter);

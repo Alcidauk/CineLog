@@ -94,7 +94,8 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
                     new WishlistDataDto(
                             binding.kinoSearch.getText().toString(),
                             WishlistItemType.SERIE
-                    )
+                    ),
+                    R.id.action_searchTmbdSerieFragment_to_wishlistItemFragment
             );
         }
     }

@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.android.v2.fragments.review.edit;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.SharedPreferences;
@@ -22,7 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewMovieItemFragment;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
@@ -233,7 +231,7 @@ public class ReviewEditionFragment extends Fragment {
             wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
         }
 
-        ((MainActivity) requireActivity()).navigateBackToList(kino);
+        ((MainActivity) requireActivity()).navigateBackToReviewList(kino);
     }
 
     public static class DatePickerFragment extends DialogFragment

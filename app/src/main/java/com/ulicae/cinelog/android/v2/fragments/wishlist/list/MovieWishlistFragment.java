@@ -51,6 +51,7 @@ public class MovieWishlistFragment extends WishlistFragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
+        actionToItem = R.id.action_nav_wishlist_movie_to_wishlistItemFragment;
         service = new MovieWishlistService(((KinoApplication) getActivity().getApplication()).getDaoSession());
         createListView(1);
 

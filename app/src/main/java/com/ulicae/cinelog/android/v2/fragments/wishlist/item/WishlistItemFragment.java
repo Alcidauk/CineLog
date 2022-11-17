@@ -120,7 +120,7 @@ public class WishlistItemFragment extends Fragment {
             Toast.makeText(requireContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
         }
 
-        ((MainActivity) requireActivity()).getFab().hide();
+        ((MainActivity) requireActivity()).navigateBackToWishlist(wishlistDataDto.getWishlistItemType());
     }
 
     private void createReview() {

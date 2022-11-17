@@ -47,11 +47,25 @@
     <fragment
         android:id="@+id/nav_wishlist_movie"
         android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.MovieWishlistFragment"
-        android:label="@string/title_fragment_wishlist_movie" />
+        android:label="@string/title_fragment_wishlist_movie" >
+        <action
+            android:id="@+id/action_nav_wishlist_movie_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemFragment" />
+        <action
+            android:id="@+id/action_nav_wishlist_movie_to_searchTmdbMovieFragment"
+            app:destination="@id/searchTmdbMovieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_wishlist_serie"
         android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistFragment"
-        android:label="@string/title_fragment_wishlist_serie" />
+        android:label="@string/title_fragment_wishlist_serie" >
+        <action
+            android:id="@+id/action_nav_wishlist_serie_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemFragment" />
+        <action
+            android:id="@+id/action_nav_wishlist_serie_to_searchTmbdSerieFragment"
+            app:destination="@id/searchTmbdSerieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_tags"
         android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistFragment"
@@ -77,6 +91,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_searchTmdbMovieFragment_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchTmbdSerieFragment"
@@ -99,6 +116,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_searchTmbdSerieFragment_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewKinoFragment"
@@ -162,6 +182,24 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_wishlistItemFragment_to_nav_wishlist_movie"
+            app:destination="@id/nav_wishlist_movie"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_wishlist_movie"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_wishlistItemFragment_to_nav_wishlist_serie"
+            app:destination="@id/nav_wishlist_serie"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_wishlist_serie"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

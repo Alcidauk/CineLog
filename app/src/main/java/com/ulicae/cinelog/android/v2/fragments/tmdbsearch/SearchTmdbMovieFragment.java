@@ -89,7 +89,8 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
                             new WishlistDataDto(
                                     binding.kinoSearch.getText().toString(),
                                     WishlistItemType.MOVIE
-                            )
+                            ),
+                    R.id.action_searchTmdbMovieFragment_to_wishlistItemFragment
             );
         }
     }

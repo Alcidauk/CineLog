@@ -22,6 +22,7 @@ import com.ulicae.cinelog.android.v2.fragments.wishlist.item.WishlistItemFragmen
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
@@ -139,14 +140,22 @@ public class MainActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putBoolean("toWishlist", wishlist);
 
-        navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieFragment, args);
+        if(wishlist){
+            navController.navigate(R.id.action_nav_wishlist_movie_to_searchTmdbMovieFragment, args);
+        } else {
+            navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieFragment, args);
+        }
     }
 
     public void goToTmdbSerieSearch(boolean wishlist) {
         Bundle args = new Bundle();
         args.putBoolean("toWishlist", wishlist);
 
-        navController.navigate(R.id.action_nav_reviews_serie_to_searchTmbdSerieFragment, args);
+        if(wishlist){
+            navController.navigate(R.id.action_nav_wishlist_serie_to_searchTmbdSerieFragment, args);
+        } else {
+            navController.navigate(R.id.action_nav_reviews_serie_to_searchTmbdSerieFragment, args);
+        }
     }
 
     public void goToTags() {
@@ -210,28 +219,24 @@ public class MainActivity extends AppCompatActivity {
         navController.navigate(action, args);
     }
 
-    public void navigateToWishlistItem(WishlistDataDto dataDto) {
-        WishlistItemFragment fragment = new WishlistItemFragment();
-
+    public void navigateToWishlistItem(WishlistDataDto dataDto, int action) {
         Bundle args = new Bundle();
         args.putParcelable("dataDto", Parcels.wrap(dataDto));
-        fragment.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction()
-                .addToBackStack("WishlistItem")
-                .replace(R.id.nav_host_fragment, fragment, "WishlistItem")
-                .commit();
-    }
-
-    public void popBackStack() {
-        navController.popBackStack();
+        navController.navigate(action, args);
     }
 
     public FloatingActionButton getFab() {
         return binding.fab;
     }
 
-    public void navigateBackToList(KinoDto fromKinoDto) {
+    public void navigateBackToWishlist(WishlistItemType type) {
+        navController.navigate(
+                type == WishlistItemType.SERIE ?
+                        R.id.action_wishlistItemFragment_to_nav_wishlist_serie :
+                        R.id.action_wishlistItemFragment_to_nav_wishlist_movie
+        );    }
+
+    public void navigateBackToReviewList(KinoDto fromKinoDto) {
         navController.navigate(
                 fromKinoDto instanceof SerieDto ?
                 R.id.action_editReviewFragment_to_nav_reviews_serie :
