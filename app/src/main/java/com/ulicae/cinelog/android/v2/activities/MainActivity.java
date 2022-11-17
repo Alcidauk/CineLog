@@ -1,18 +1,24 @@
 package com.ulicae.cinelog.android.v2.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ulicae.cinelog.BuildConfig;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -106,6 +112,27 @@ public class MainActivity extends AppCompatActivity {
 
         // needed to bind drawer layout with navigation
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        listenDrawerOpenal();
+    }
+
+    private void listenDrawerOpenal() {
+        binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+                ((TextView) findViewById(R.id.androidVersion)).setText("v " + BuildConfig.VERSION_NAME);
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {}
+
+            @Override
+            public void onDrawerStateChanged(int newState) {}
+        });
     }
 
     @Override
