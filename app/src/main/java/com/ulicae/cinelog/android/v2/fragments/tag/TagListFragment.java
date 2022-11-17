@@ -44,14 +44,14 @@ public class TagListFragment extends Fragment {
         fetchAndSetTags();
 
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTagEdition());
+        fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTagEdition(null));
         fab.setImageResource(R.drawable.add_tag);
     }
 
     private void fetchAndSetTags() {
         List<TagDto> dataDtos = service.getAll();
 
-        listAdapter = new TagListAdapter(requireContext(), dataDtos, service);
+        listAdapter = new TagListAdapter(requireContext(), dataDtos, service, (MainActivity) requireActivity());
         binding.tagList.setAdapter(listAdapter);
     }
 

@@ -1,7 +1,6 @@
 package com.ulicae.cinelog.android.v2.fragments.tag;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.EditTag;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.TagService;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -42,10 +39,12 @@ import java.util.List;
 class TagListAdapter extends ArrayAdapter<TagDto> {
 
     private final TagService tagService;
+    private final MainActivity activity;
 
-    TagListAdapter(@NonNull Context context, @NonNull List<TagDto> objects, TagService tagService) {
+    TagListAdapter(@NonNull Context context, @NonNull List<TagDto> objects, TagService tagService, MainActivity activity) {
         super(context, R.layout.tag_item, objects);
         this.tagService = tagService;
+        this.activity = activity;
     }
 
     public long getItemId(int position) {
@@ -69,7 +68,7 @@ class TagListAdapter extends ArrayAdapter<TagDto> {
         }
 
         convertView.setOnClickListener(v -> {
-            openTagEditActivity(dataDto);
+            activity.goToTagEdition(dataDto);
         });
 
         convertView.setOnLongClickListener(v -> {
@@ -79,12 +78,6 @@ class TagListAdapter extends ArrayAdapter<TagDto> {
 
 
         return convertView;
-    }
-
-    private void openTagEditActivity(TagDto dataDto) {
-        Intent intent = new Intent(getContext(), EditTag.class);
-        intent.putExtra("tag", Parcels.wrap(dataDto));
-        getContext().startActivity(intent);
     }
 
     private void removeTag(TagDto dataDto) {

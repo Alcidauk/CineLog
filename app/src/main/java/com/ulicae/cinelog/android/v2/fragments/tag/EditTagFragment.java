@@ -10,26 +10,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.EditTag;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.TagService;
-import com.ulicae.cinelog.databinding.ActivityAddTagBinding;
 import com.ulicae.cinelog.databinding.ContentAddTagBinding;
 
 import org.parceler.Parcels;
 
-import java.util.Objects;
-
 public class EditTagFragment extends Fragment {
 
-    private ActivityAddTagBinding activityBinding;
     private ContentAddTagBinding binding;
 
     TagDto tag;
@@ -41,9 +36,8 @@ public class EditTagFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
-        activityBinding = ActivityAddTagBinding.inflate(getLayoutInflater());
-        binding = activityBinding.addTagContent;
-        return activityBinding.getRoot();
+        binding = ContentAddTagBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
@@ -51,20 +45,19 @@ public class EditTagFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         tagDtoService = new TagService(((KinoApplication) requireActivity().getApplication()).getDaoSession());
 
-        tag = Parcels.unwrap(requireActivity().getIntent().getParcelableExtra("tag"));
+        tag = Parcels.unwrap(requireArguments().getParcelable("tag"));
         if (tag == null) {
             createNewTag();
         } else {
             bindExistingTag();
         }
 
-        activityBinding.fabSaveTag.setOnClickListener(fabView -> onFabClick());
+        ((MainActivity) requireActivity()).getFab().setOnClickListener(fabView -> onFabClick());
         binding.tagFilms.setOnCheckedChangeListener((compoundButton, b) -> onFilmsCheckedChanged(b));
         binding.tagSeries.setOnCheckedChangeListener((compoundButton, b) -> onSeriesCheckedChanged(b));
         binding.tagColorUpdate.setOnClickListener(this::onTagColorUpdate);
 
         fetchColor();
-        initToolbar();
     }
 
     private void bindExistingTag() {
@@ -78,10 +71,6 @@ public class EditTagFragment extends Fragment {
         tag.setColor(getString(R.color.colorPrimary));
     }
 
-    private void initToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(activityBinding.addTagToolbar.toolbar);
-        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -138,6 +127,6 @@ public class EditTagFragment extends Fragment {
 
         tagDtoService.createOrUpdate(tag);
 
-        requireActivity().finish();
+        ((MainActivity) requireActivity()).navigateBack();
     }
 }

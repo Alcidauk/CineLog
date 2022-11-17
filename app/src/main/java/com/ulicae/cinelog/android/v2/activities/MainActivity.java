@@ -14,10 +14,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.activities.EditTag;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
@@ -155,8 +155,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void goToTagEdition() {
-        launchActivity(EditTag.class);
+    public void goToTagEdition(TagDto dataDto) {
+        Bundle args = new Bundle();
+        if(dataDto != null){
+            args.putParcelable("tag", Parcels.wrap(dataDto));
+        }
+        navController.navigate(R.id.action_nav_tags_to_editTagFragment, args);
     }
 
     public void goToImport() {
@@ -239,5 +243,9 @@ public class MainActivity extends AppCompatActivity {
                 R.id.action_editReviewFragment_to_nav_reviews_serie :
                 R.id.action_editReviewFragment_to_nav_reviews_movie
         );
+    }
+
+    public void navigateBack() {
+        navController.popBackStack();
     }
 }
