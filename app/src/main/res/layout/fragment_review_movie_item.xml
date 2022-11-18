@@ -22,37 +22,28 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
-        android:id="@+id/content_view_kino"
+    <ScrollView
+        android:id="@+id/view_kino_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:gravity="top"
+        android:orientation="vertical">
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/view_kino_scroll"
+        <LinearLayout
+            android:id="@+id/view_kino_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/view_kino_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="100dp">
+            <include
+                android:id="@+id/view_kino_content_layout"
+                layout="@layout/layout_review_item_kino" />
 
-                <include
-                    android:id="@+id/view_kino_content_layout"
-                    layout="@layout/layout_review_item_kino" />
+            <include
+                android:id="@+id/review_kino_content_layout"
+                layout="@layout/layout_review_item_review" />
 
-                <include
-                    android:id="@+id/review_kino_content_layout"
-                    layout="@layout/layout_review_item_review" />
-
-            </LinearLayout>
-        </ScrollView>
-
-    </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

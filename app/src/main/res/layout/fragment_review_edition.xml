@@ -28,8 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/view_kino_layout"
@@ -50,7 +49,7 @@
                     android:id="@+id/view_kino_title_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/view_kino_title_label_value"
+                    android:text="@string/kino_title"
                     android:textStyle="bold" />
 
                 <EditText

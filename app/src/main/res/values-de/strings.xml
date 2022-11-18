@@ -156,5 +156,4 @@
     <string name="delete_tag_dialog">Do you want to remove this tag ?</string>
     <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
     <string name="wishlist_cant_create_review">Error: can\'t create review</string>
-    <string name="view_kino_title_label_value">Title</string>
 </resources>
