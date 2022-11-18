@@ -137,15 +137,8 @@ public class ReviewEditionFragment extends Fragment {
     }
 
     private void initKinoTitle() {
-        binding.viewKinoTitleEdit.setText(kino.getTitle());
-        binding.viewKinoTitleReadonly.setText(kino.getTitle());
-        if (kino.getTmdbKinoId() != null) {
-            binding.viewKinoTitleEdit.setVisibility(View.INVISIBLE);
-            binding.viewKinoTitleReadonly.setVisibility(View.VISIBLE);
-        } else {
-            binding.viewKinoTitleEdit.setVisibility(View.VISIBLE);
-            binding.viewKinoTitleReadonly.setVisibility(View.INVISIBLE);
-        }
+        binding.viewKinoTitle.setText(kino.getTitle());
+        binding.viewKinoTitle.setEnabled(kino.getTmdbKinoId() == null);
     }
 
     private void initDisplayedRating(String[] displayedValues) {
@@ -213,7 +206,7 @@ public class ReviewEditionFragment extends Fragment {
         kino.setReview(binding.kinoReviewText.getText().toString());
 
         if (kino.getTmdbKinoId() == null) {
-            kino.setTitle(binding.viewKinoTitleEdit.getText().toString());
+            kino.setTitle(binding.viewKinoTitle.getText().toString());
         }
 
         if (kino.getMaxRating() == null) {
