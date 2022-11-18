@@ -54,7 +54,6 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

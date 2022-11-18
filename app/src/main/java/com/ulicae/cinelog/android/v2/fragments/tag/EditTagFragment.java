@@ -19,13 +19,13 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.TagService;
-import com.ulicae.cinelog.databinding.ContentAddTagBinding;
+import com.ulicae.cinelog.databinding.FragmentEditTagBinding;
 
 import org.parceler.Parcels;
 
 public class EditTagFragment extends Fragment {
 
-    private ContentAddTagBinding binding;
+    private FragmentEditTagBinding binding;
 
     TagDto tag;
     private TagService tagDtoService;
@@ -36,7 +36,7 @@ public class EditTagFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
-        binding = ContentAddTagBinding.inflate(getLayoutInflater());
+        binding = FragmentEditTagBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
