@@ -1,0 +1,1 @@
+* Search / #54 : introduce review and wishlist search
