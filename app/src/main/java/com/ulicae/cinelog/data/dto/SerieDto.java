@@ -61,7 +61,6 @@ public class SerieDto extends KinoDto {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(super.hashCode(), reviewId);
     }
 }

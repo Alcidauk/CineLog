@@ -149,15 +149,6 @@ public class WishlistDataDto implements ItemDto {
 
     @Override
     public String toString() {
-        return "WishlistDataDto{" +
-                "id=" + id +
-                ", tmdbId=" + tmdbId +
-                ", title='" + title + '\'' +
-                ", posterPath='" + posterPath + '\'' +
-                ", overview='" + overview + '\'' +
-                ", firstYear=" + firstYear +
-                ", releaseDate='" + releaseDate + '\'' +
-                ", wishlistItemType=" + wishlistItemType +
-                '}';
+        return title;
     }
 }

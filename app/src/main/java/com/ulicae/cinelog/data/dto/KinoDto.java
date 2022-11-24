@@ -206,18 +206,6 @@ public class KinoDto implements ItemDto {
 
     @Override
     public String toString() {
-        return "KinoDto{" +
-                "kinoId=" + kinoId +
-                ", tmdbKinoId=" + tmdbKinoId +
-                ", title='" + title + '\'' +
-                ", review_date=" + review_date +
-                ", review='" + review + '\'' +
-                ", rating=" + rating +
-                ", maxRating=" + maxRating +
-                ", posterPath='" + posterPath + '\'' +
-                ", overview='" + overview + '\'' +
-                ", year=" + year +
-                ", releaseDate='" + releaseDate + '\'' +
-                '}';
+        return title;
     }
 }
