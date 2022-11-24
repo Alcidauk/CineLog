@@ -51,6 +51,8 @@ public class ReviewMovieItemFragment extends Fragment {
         );
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
+
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
 
   /*  TODO rewrite state management to get right data from editreview

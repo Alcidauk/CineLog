@@ -43,6 +43,8 @@ public class ReviewSerieItemFragment extends Fragment {
         kino = Parcels.unwrap(getArguments().getParcelable("kino"));
         position = getArguments().getInt("kino_position", -1);
 
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
+
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
                 v -> ((MainActivity) requireActivity()).navigateToReview(kino, false, R.id.action_viewSerieFragment_to_editReviewFragment)

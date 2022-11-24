@@ -61,6 +61,8 @@ public class WishlistItemFragment extends Fragment {
 
         initFabButton();
         initFields();
+
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
 
     private void initFields() {

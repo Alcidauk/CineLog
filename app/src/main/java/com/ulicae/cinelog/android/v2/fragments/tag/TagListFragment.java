@@ -48,6 +48,9 @@ public class TagListFragment extends Fragment {
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTagEdition(null));
         fab.setImageResource(R.drawable.add_tag);
+
+        // TODO implement search for tags
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
 
     private void fetchAndSetTags() {

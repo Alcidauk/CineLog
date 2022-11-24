@@ -55,11 +55,13 @@ public class MovieWishlistFragment extends WishlistFragment {
                               @Nullable Bundle savedInstanceState) {
         actionToItem = R.id.action_nav_wishlist_movie_to_wishlistItemFragment;
         service = new MovieWishlistService(((KinoApplication) getActivity().getApplication()).getDaoSession());
-        createListView(1);
 
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTmdbMovieSearch(true));
-        fab.setImageResource(R.drawable.add_kino);
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    protected void onFabClick() {
+        ((MainActivity) requireActivity()).goToTmdbMovieSearch(true);
     }
 
     @Override

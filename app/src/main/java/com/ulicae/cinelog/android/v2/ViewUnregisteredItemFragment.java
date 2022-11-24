@@ -42,6 +42,8 @@ public class ViewUnregisteredItemFragment extends Fragment {
         fab.setImageResource(R.drawable.add_review);
         fab.show();
 
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
+
         kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
         position = requireArguments().getInt("kino_position", -1);
         String dtoType = requireArguments().getString("dtoType");

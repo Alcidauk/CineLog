@@ -1,17 +1,24 @@
 package com.ulicae.cinelog.android.v2.fragments.wishlist.list;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.WishlistService;
 
 import java.util.ArrayList;
@@ -44,6 +51,33 @@ public abstract class WishlistFragment extends Fragment {
     protected WishlistService service;
 
     protected int actionToItem;
+
+    @Override
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+        createListView(1);
+
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.setOnClickListener(v -> onFabClick());
+        fab.setImageResource(R.drawable.add_kino);
+
+        SearchView searchView = ((MainActivity) requireActivity()).getSearchView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        searchView.setVisibility(View.VISIBLE);
+    }
+
+    protected abstract void onFabClick();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

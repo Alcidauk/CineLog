@@ -77,6 +77,8 @@ public class ReviewEditionFragment extends Fragment {
         fab.setOnClickListener(fabView -> onFabClick());
         fab.setImageResource(R.drawable.save_kino);
         fab.show();
+
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
 
     private void initReview() {

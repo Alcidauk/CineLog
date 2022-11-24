@@ -110,6 +110,7 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
         handler = new AddReviewHandler(new WeakReference<>(this));
 
         ((MainActivity) requireActivity()).getFab().hide();
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
 
     protected abstract void onFromScratchClick(View view);

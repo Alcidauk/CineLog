@@ -54,6 +54,8 @@ public class EditTagFragment extends Fragment {
         }
 
         ((MainActivity) requireActivity()).getFab().setOnClickListener(fabView -> onFabClick());
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
+
         binding.tagFilms.setOnCheckedChangeListener((compoundButton, b) -> onFilmsCheckedChanged(b));
         binding.tagSeries.setOnCheckedChangeListener((compoundButton, b) -> onSeriesCheckedChanged(b));
         binding.tagColorUpdate.setOnClickListener(this::onTagColorUpdate);

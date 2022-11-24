@@ -79,6 +79,7 @@ public abstract class ReviewListFragment extends Fragment {
                 return false;
             }
         });
+        searchView.setVisibility(View.VISIBLE);
     }
 
     @Override
