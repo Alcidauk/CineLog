@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.android.v2.fragments.tag;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -66,6 +67,7 @@ public class EditTagFragment extends Fragment {
         binding.tagSeries.setChecked(tag.isForSeries());
     }
 
+    @SuppressLint("ResourceType")
     private void createNewTag() {
         tag = new TagDto();
         tag.setColor(getString(R.color.colorPrimary));
