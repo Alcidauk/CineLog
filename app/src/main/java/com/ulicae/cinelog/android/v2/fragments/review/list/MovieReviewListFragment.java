@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
@@ -45,36 +46,20 @@ public class MovieReviewListFragment extends ReviewListFragment {
     private FragmentMovieListBinding binding;
 
     @Override
-    protected void createService() {
-        service = new KinoService(((KinoApplication) getActivity().getApplication()).getDaoSession());
-    }
-
-    @Override
-    protected String getDtoType() {
-        return "kino";
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMovieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(@NonNull View view,
-                              @Nullable Bundle savedInstanceState) {
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).goToTmdbMovieSearch(false)
-        );
-        fab.setImageResource(R.drawable.add_kino);
-        fab.show();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_movie, menu);
+    }
+
+    @Override
+    protected void createService() {
+        service = new KinoService(((KinoApplication) getActivity().getApplication()).getDaoSession());
     }
 
     @Override
@@ -107,6 +92,11 @@ public class MovieReviewListFragment extends ReviewListFragment {
     @Override
     protected ListView getKinoList() {
         return binding != null ? binding.kinoList : null;
+    }
+
+    @Override
+    protected void onFabClick() {
+        ((MainActivity) requireActivity()).goToTmdbMovieSearch(false);
     }
 
     private int getOrderFromPreferences() {

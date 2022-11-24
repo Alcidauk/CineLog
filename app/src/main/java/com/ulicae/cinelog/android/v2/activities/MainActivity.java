@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -255,6 +256,10 @@ public class MainActivity extends AppCompatActivity {
 
     public FloatingActionButton getFab() {
         return binding.fab;
+    }
+
+    public SearchView getSearchView() {
+        return binding.toolbarNew.searchBar;
     }
 
     public void navigateBackToWishlist(WishlistItemType type) {

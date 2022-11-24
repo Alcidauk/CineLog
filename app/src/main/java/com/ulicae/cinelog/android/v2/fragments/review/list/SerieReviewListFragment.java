@@ -49,36 +49,20 @@ public class SerieReviewListFragment extends ReviewListFragment {
     }
 
     @Override
-    protected void createService() {
-        service = new SerieService(((KinoApplication) getActivity().getApplication()).getDaoSession(), getContext());
-    }
-
-    @Override
-    protected String getDtoType() {
-        return "serie";
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSerieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(@NonNull View view,
-                              @Nullable Bundle savedInstanceState) {
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).goToTmdbSerieSearch(false)
-        );
-        fab.setImageResource(R.drawable.add_kino);
-        fab.show();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_serie, menu);
+    }
+
+    @Override
+    protected void createService() {
+        service = new SerieService(((KinoApplication) getActivity().getApplication()).getDaoSession(), getContext());
     }
 
     @Override
@@ -122,6 +106,10 @@ public class SerieReviewListFragment extends ReviewListFragment {
         return binding != null ? binding.kinoList : null;
     }
 
+    @Override
+    protected void onFabClick() {
+        ((MainActivity) requireActivity()).goToTmdbSerieSearch(false);
+    }
 
     private int getOrderFromPreferences() {
         return super.getOrderFromPreferences("default_serie_sort_type");

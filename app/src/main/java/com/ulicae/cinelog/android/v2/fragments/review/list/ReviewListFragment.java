@@ -1,30 +1,23 @@
 package com.ulicae.cinelog.android.v2.fragments.review.list;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
-import org.parceler.Parcels;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +47,6 @@ public abstract class ReviewListFragment extends Fragment {
 
     protected DataService service;
 
-    private static final int RESULT_ADD_KINO = 2;
-    static final int RESULT_VIEW_KINO = 4;
-
     private int LIST_VIEW_STATE = -1;
 
     @Override
@@ -64,60 +54,43 @@ public abstract class ReviewListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
         createService();
-
         createListView(1);
-
-        // TODO get review creation result
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
-                String result = bundle.getString("bundleKey");
-                // Do something with the result
-            }
-        });
-
     }
 
-    protected abstract void createService();
+    @Override
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        fab.setOnClickListener(v -> onFabClick());
+        fab.setImageResource(R.drawable.add_kino);
+        fab.show();
+
+        SearchView searchView = ((MainActivity) requireActivity()).getSearchView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                kino_adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
 
     @Override
     public void onStart() {
         super.onStart();
         createListView(LIST_VIEW_STATE);
-        System.out.println("onStart");
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_ADD_KINO) {
-            if (resultCode == Activity.RESULT_OK) {
-                System.out.println("Result Ok");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
-        if (requestCode == RESULT_VIEW_KINO) {
-            if (resultCode == Activity.RESULT_OK) {
-                int pos = data.getIntExtra("kino_position", -1);
-
-                kinos.set(pos, (KinoDto) Parcels.unwrap(data.getParcelableExtra("kino")));
-                kino_adapter.notifyDataSetChanged();
-                System.out.println("Result Ok");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(!item.hasSubMenu()) {
+        if (!item.hasSubMenu()) {
             createListView(item.getItemId());
         }
 
@@ -130,71 +103,53 @@ public abstract class ReviewListFragment extends Fragment {
 
             kinos = getResults(orderId);
 
-            final List<Object> objects = initialiseAdapter(orderId);
-            getKinoList().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                public boolean onItemLongClick(final AdapterView<?> view, View parent, final int position, long rowId) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-                    builder.setMessage(R.string.delete_kino_dialog)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Object item = objects.get(position);
-                                    if(item instanceof KinoDto) {
-                                        objects.remove(position);
-                                        //noinspection unchecked
-                                        service.delete((KinoDto) item);
-
-                                        kino_adapter.notifyDataSetInvalidated();
-                                    }
-                                }
-                            })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // User cancelled the dialog
-                                }
-                            });
-                    builder.create().show();
-                    return true;
-                }
-            });
-            getKinoList().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> view, View parent, final int position, long rowId) {
-                    Object item = objects.get(position);
-                    // TODO callback ?
-                    ((MainActivity) requireActivity()).navigateToItem(
-                            (KinoDto) item, position, true, false
-                    );
-                }
-            });
-
+            initialiseAdapter(kinos, orderId);
+            applyListeners();
 
             getKinoList().setAdapter(kino_adapter);
         }
     }
 
-    private int getThemeId() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Class<?> wrapper = Context.class;
-        Method method = wrapper.getMethod("getThemeResId");
-        method.setAccessible(true);
-        return (Integer) method.invoke(getActivity());
+    private void applyListeners() {
+        getKinoList().setOnItemLongClickListener((view, parent, position, rowId) -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+            builder.setMessage(R.string.delete_kino_dialog)
+                    .setPositiveButton(R.string.yes, (dialog, id) -> {
+                        Object item = kino_adapter.getItem(position);
+
+                        if (item instanceof KinoDto) {
+                            kino_adapter.remove(item);
+                            //noinspection unchecked
+                            service.delete((KinoDto) item);
+
+                            kino_adapter.notifyDataSetInvalidated();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                        // User cancelled the dialog
+                    });
+            builder.create().show();
+            return true;
+        });
+        getKinoList().setOnItemClickListener((view, parent, position, rowId) -> {
+            Object item = kino_adapter.getItem(position);
+            // TODO callback ?
+            ((MainActivity) requireActivity()).navigateToItem(
+                    (KinoDto) item, position, true, false
+            );
+        });
     }
 
     @NonNull
-    private List<Object> initialiseAdapter(int orderId) {
+    private void initialiseAdapter(List<KinoDto> kinos, int orderId) {
         List<Object> objects = new ArrayList<Object>(kinos);
-        if(orderId == R.id.order_by_date_added_newest_first || orderId == R.id.order_by_date_added_oldest_first) {
-           objects = new ReviewDateHeaderListTransformer(getContext(), kinos).transform();
+        if (orderId == R.id.order_by_date_added_newest_first || orderId == R.id.order_by_date_added_oldest_first) {
+            objects = new ReviewDateHeaderListTransformer(getContext(), kinos).transform();
         }
 
         kino_adapter = new ReviewListAdapter(getContext(), objects);
-        return objects;
     }
-
-    protected abstract String getDtoType();
-
-    protected abstract List<KinoDto> getResults(int order);
-
-    protected abstract ListView getKinoList();
 
     protected int getOrderFromPreferences(String arrayKey) {
         String defaultSortType = new PreferencesWrapper().getStringPreference(
@@ -208,4 +163,12 @@ public abstract class ReviewListFragment extends Fragment {
                         defaultSortType, "id", getContext().getPackageName()
                 );
     }
+
+    protected abstract List<KinoDto> getResults(int order);
+
+    protected abstract ListView getKinoList();
+
+    protected abstract void onFabClick();
+
+    protected abstract void createService();
 }
