@@ -1,0 +1,2 @@
+* Big technical update: rewrite navigation through app
+* Bugfix / #55: tags were mistakely added to movies in review list

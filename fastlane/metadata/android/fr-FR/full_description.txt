@@ -5,10 +5,12 @@ Fonctionnalités:
 <ul>
     <li>Recherchez les films et les séries que vous voulez via l'API [https://www.themoviedb.org/ tmdb.org];</li>
     <li>Choisissez la langue dans laquelle vous voulez afficher les informations de tmdb;</li>
-    <li>Créez un avis dans votre base de données à partir du film trouvé;</li>
+    <li>Créez un avis dans votre base de données à partir du film ou de la série trouvée;</li>
     <li>Créez un avis sur un film inexistant dans la base tmdb;</li>
     <li>Choisissez votre échelle de notation;</li>
-    <li>Enregistrez les films que vous voulez voir;</li>
+    <li>Enregistrez les films et séries que vous voulez voir;</li>
+    <li>Enregistrez votre avancement dans les épisodes d'une série;</li>
+    <li>Catégorisez vos films et séries à l'aide des tags;</li>
     <li>Exportez la base de données au format CSV;</li>
     <li>Importez une base de données existante au format CSV.</li>
     <li>Activez la sauvegarde locale automatique au format CSV (peut permettre une synchronisation avec un client cloud).</li>

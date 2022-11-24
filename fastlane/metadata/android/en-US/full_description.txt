@@ -9,6 +9,8 @@ Features:
     <li>Can't find the movies you're looking for ? Create a review without tmdb search;</li>
     <li>Choose the maximum rating you want to use;</li>
     <li>Save your movie and serie wishlist;</li>
+    <li>Save your current series progress;</li>
+    <li>Use tags to group series and movies;</li>
     <li>Export your review database in CSV format;</li>
     <li>Import an existing review database;</li>
     <li>Enable an automatic CSV backup (can then be synchronised with a cloud client).</li>
