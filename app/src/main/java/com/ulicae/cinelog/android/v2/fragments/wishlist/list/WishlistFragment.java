@@ -101,8 +101,8 @@ public abstract class WishlistFragment extends Fragment {
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Delete the kino
-                                    WishlistDataDto wishlistDataDto = dataDtos.get(position);
-                                    dataDtos.remove(position);
+                                    WishlistDataDto wishlistDataDto = listAdapter.getItem(position);
+                                    listAdapter.remove(wishlistDataDto);
 
                                     //noinspection unchecked
                                     service.delete(wishlistDataDto);
@@ -120,7 +120,7 @@ public abstract class WishlistFragment extends Fragment {
                 }
             });
             getKinoList().setOnItemClickListener((view, parent, position, rowId) -> {
-                ((MainActivity) requireActivity()).navigateToWishlistItem(dataDtos.get(position), actionToItem);
+                ((MainActivity) requireActivity()).navigateToWishlistItem(listAdapter.getItem(position), actionToItem);
             });
 
             getKinoList().setAdapter(listAdapter);
