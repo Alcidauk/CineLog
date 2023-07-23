@@ -1,13 +1,20 @@
 package com.ulicae.cinelog.android.v2.fragments.review.item;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
@@ -31,6 +38,7 @@ public class ReviewMovieItemFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentReviewMovieItemBinding.inflate(getLayoutInflater());
+        setHasOptionsMenu(true/*kino != null && kino.getTmdbKinoId()!=null*/);
         return binding.getRoot();
     }
 
@@ -53,6 +61,38 @@ public class ReviewMovieItemFragment extends Fragment {
         fab.show();
 
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_review, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            shareMovie();
+            return true;
+        }
+        return true;
+    }
+
+    private void shareMovie() {
+        if (this.kino.getTmdbKinoId()==null) {
+            shareText(this.kino.getTitle());
+        } else {
+            shareText("https://www.themoviedb.org/movie/" + this.kino.getTmdbKinoId());
+        }
+    }
+    private void shareText(String text) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
     }
 
   /*  TODO rewrite state management to get right data from editreview

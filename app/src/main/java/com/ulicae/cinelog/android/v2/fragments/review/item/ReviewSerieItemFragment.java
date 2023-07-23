@@ -1,7 +1,11 @@
 package com.ulicae.cinelog.android.v2.fragments.review.item;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,6 +38,7 @@ public class ReviewSerieItemFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentReviewSerieItemBinding.inflate(getLayoutInflater());
+        setHasOptionsMenu(true/*kino != null && kino.getTmdbKinoId()!=null*/);
         return binding.getRoot();
     }
 
@@ -53,6 +58,38 @@ public class ReviewSerieItemFragment extends Fragment {
         fab.show();
 
         setViewPager();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_review, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            shareSerie();
+            return true;
+        }
+        return true;
+    }
+
+    private void shareSerie() {
+        if (this.kino.getTmdbKinoId()==null) {
+            shareText(this.kino.getTitle());
+        } else {
+            shareText("https://www.themoviedb.org/tv/" + this.kino.getTmdbKinoId());
+        }
+    }
+    private void shareText(String text) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
     }
 
     private void setViewPager() {
