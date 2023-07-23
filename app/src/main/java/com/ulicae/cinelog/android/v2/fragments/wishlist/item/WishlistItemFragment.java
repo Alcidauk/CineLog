@@ -1,8 +1,12 @@
 package com.ulicae.cinelog.android.v2.fragments.wishlist.item;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -47,6 +51,7 @@ public class WishlistItemFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = LayoutKinoItemBinding.inflate(getLayoutInflater());
+        setHasOptionsMenu(true/*TODO: kino != null && kino.getTmdbKinoId()!=null*/);
         return binding.getRoot();
     }
 
@@ -187,4 +192,40 @@ public class WishlistItemFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }*/
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_review, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            shareLink();
+            return true;
+        }
+        return true;
+    }
+
+    private void shareLink() {
+        if (this.wishlistDataDto.getTmdbId()==null) {
+            shareText(this.wishlistDataDto.getTitle());
+        } else {
+            String tmdbType = "movie";
+            if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
+                tmdbType = "tv";
+            }
+            shareText("https://www.themoviedb.org/"+tmdbType+"/" + this.wishlistDataDto.getTmdbId());
+        }
+    }
+    private void shareText(String text) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
+    }
 }

@@ -16,7 +16,7 @@
  You should have received a copy of the GNU General Public License
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">CineLog</string>
     <string name="movie_title_input">Enter movie title.</string>
     <string name="action_settings">Settings</string>
@@ -157,4 +157,6 @@
     <string name="delete_tag_dialog">Do you want to remove this tag ?</string>
     <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
     <string name="wishlist_cant_create_review">Error: can\'t create review</string>
+
+    <string name="action_share" tools:ignore="MissingTranslation">Share</string>
 </resources>
