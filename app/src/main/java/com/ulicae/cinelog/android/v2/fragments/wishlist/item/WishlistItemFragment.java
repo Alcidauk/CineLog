@@ -93,7 +93,6 @@ public class WishlistItemFragment extends Fragment {
 
     private void initFabButton() {
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.show();
 
         fab.setOnClickListener(this::onFabClick);
         // TODO change icon if review exists
@@ -102,6 +101,7 @@ public class WishlistItemFragment extends Fragment {
         } else {
             fab.setImageResource(R.drawable.add_kino);
         }
+        fab.show();
     }
 
     public void onFabClick(View view) {
