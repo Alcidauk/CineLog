@@ -1,0 +1,4 @@
+* Search / #64 : Wrong item when opening or deleting a filtered item from the wishlist
+* Fix too small fab icon when creating a wishlist item
+* #60 Add a label when no tag can be added to a review
+* #58 Fix impossible review creation when adding tag
