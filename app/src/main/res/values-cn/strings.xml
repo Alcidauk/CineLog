@@ -157,4 +157,7 @@
     <string name="delete_tag_dialog">你想删除此标签吗？</string>
     <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
     <string name="wishlist_cant_create_review">Error: can\'t create review</string>
+    <string name="go_back">Return</string>
+    <string name="validate">Validate</string>
+    <string name="no_tags_found_label">No tag found. Please verify you have active ones.</string>
 </resources>

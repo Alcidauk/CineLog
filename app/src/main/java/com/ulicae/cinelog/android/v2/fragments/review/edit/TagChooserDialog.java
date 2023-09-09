@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
@@ -57,13 +58,18 @@ public class TagChooserDialog extends DialogFragment {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Tags")
-                .setMultiChoiceItems(
-                        allTagNames.toArray(new CharSequence[allTagNames.size()]),
-                        selectedTags,
-                        (dialog, which, isChecked) -> selectedTags[which] = isChecked
-                )
-                .setPositiveButton("Valider", (dialog, id) -> updateTagJoin());
+        builder.setTitle(R.string.tags_title);
+
+        if(allTags.size() == 0) {
+            builder.setMessage(R.string.no_tags_found_label)
+                    .setNegativeButton(R.string.go_back, (dialog, id) -> nothingToDo());
+        } else {
+            builder.setMultiChoiceItems(
+                            allTagNames.toArray(new CharSequence[allTagNames.size()]),
+                            selectedTags,
+                            (dialog, which, isChecked) -> selectedTags[which] = isChecked)
+                    .setPositiveButton(R.string.validate, (dialog, id) -> updateTagJoin());
+        }
 
         return builder.create();
 
@@ -96,6 +102,9 @@ public class TagChooserDialog extends DialogFragment {
                 kinoDto.getTags().remove(tag);
             }
         }
+    }
+
+    private void nothingToDo() {
     }
 }
 

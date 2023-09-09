@@ -31,6 +31,8 @@
     <string name="save">Enregistrer</string>
     <string name="cancel">Annuler</string>
     <string name="yes">Oui</string>
+    <string name="go_back">Retour</string>
+    <string name="validate">Valider</string>
 
     <string name="delete_kino_dialog">Supprimer cet avis ?</string>
 
@@ -154,4 +156,5 @@
     <string name="delete_tag_dialog">Supprimer le tag ?</string>
     <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
     <string name="wishlist_cant_create_review">Error: can\'t create review</string>
+    <string name="no_tags_found_label">Aucun tag trouvé. Veuillez vérifier si des tags sont activés.</string>
 </resources>

@@ -32,6 +32,7 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
+    <string name="go_back">Return</string>
 
     <string name="delete_kino_dialog">Do you want to remove this review?</string>
 
@@ -157,4 +158,6 @@
     <string name="delete_tag_dialog">Do you want to remove this tag ?</string>
     <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
     <string name="wishlist_cant_create_review">Error: can\'t create review</string>
+    <string name="validate">Validate</string>
+    <string name="no_tags_found_label">No tag found. Please verify enabled tags.</string>
 </resources>
