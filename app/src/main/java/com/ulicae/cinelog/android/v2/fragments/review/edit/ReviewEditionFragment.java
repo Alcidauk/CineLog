@@ -23,6 +23,7 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.tags.TagService;
 import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
@@ -43,6 +44,8 @@ public class ReviewEditionFragment extends Fragment {
     private TagService tagService;
 
     private WishlistItemDeleter wishlistItemDeleter;
+
+    TagChooserDialog tagDialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -98,8 +101,8 @@ public class ReviewEditionFragment extends Fragment {
     @NonNull
     private View.OnClickListener onReviewTagEdit() {
         return view -> {
-            TagChooserDialog dialog = new TagChooserDialog(tagService, kino);
-            dialog.show(requireActivity().getSupportFragmentManager(), "NoticeDialogFragment");
+            tagDialog = new TagChooserDialog(tagService, kino);
+            tagDialog.show(requireActivity().getSupportFragmentManager(), "NoticeDialogFragment");
         };
     }
 
@@ -226,7 +229,28 @@ public class ReviewEditionFragment extends Fragment {
             wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
         }
 
+        updateTags();
+
         ((MainActivity) requireActivity()).navigateBackToReviewList(kino);
+    }
+
+    private void updateTags() {
+        for (int i = 0; i < tagDialog.selectedTags.length; i++) {
+            TagDto tag = tagDialog.allTags.get(i);
+            if (tagDialog.selectedTags[i]) {
+                tagService.addTagToItemIfNotExists(tag, kino);
+                if (!kino.getTags().contains(tag)) {
+                    kino.getTags().add(tag);
+                }
+            } else {
+                tagService.removeTagFromItemIfExists(tag, kino);
+                kino.getTags().remove(tag);
+            }
+        }
+
+        // TODO avoid call this a second time. For now, it is used to refresh kino tags
+        //noinspection unchecked
+        kino = (KinoDto) dtoService.createOrUpdate(kino);
     }
 
     public static class DatePickerFragment extends DialogFragment

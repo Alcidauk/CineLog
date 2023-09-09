@@ -2,7 +2,6 @@ package com.ulicae.cinelog.android.v2.fragments.review.edit;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -18,22 +17,21 @@ import java.util.List;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 public class TagChooserDialog extends DialogFragment {
 
@@ -53,14 +51,14 @@ public class TagChooserDialog extends DialogFragment {
         this.populateTagList();
 
         List<String> allTagNames = new ArrayList<>();
-        for(TagDto dto : allTags) {
+        for (TagDto dto : allTags) {
             allTagNames.add(dto.getName());
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.tags_title);
 
-        if(allTags.size() == 0) {
+        if (allTags.size() == 0) {
             builder.setMessage(R.string.no_tags_found_label)
                     .setNegativeButton(R.string.go_back, (dialog, id) -> nothingToDo());
         } else {
@@ -68,7 +66,7 @@ public class TagChooserDialog extends DialogFragment {
                             allTagNames.toArray(new CharSequence[allTagNames.size()]),
                             selectedTags,
                             (dialog, which, isChecked) -> selectedTags[which] = isChecked)
-                    .setPositiveButton(R.string.validate, (dialog, id) -> updateTagJoin());
+                    .setPositiveButton(R.string.validate, (dialog, id) -> nothingToDo());
         }
 
         return builder.create();
@@ -87,21 +85,6 @@ public class TagChooserDialog extends DialogFragment {
 
     private List<TagDto> getTags() {
         return kinoDto instanceof SerieDto ? tagService.getSeriesTags() : tagService.getMovieTags();
-    }
-
-    private void updateTagJoin() {
-        for (int i = 0; i < selectedTags.length; i++) {
-            TagDto tag = allTags.get(i);
-            if(selectedTags[i]){
-                tagService.addTagToItemIfNotExists(tag, kinoDto);
-                if(!kinoDto.getTags().contains(tag)) {
-                    kinoDto.getTags().add(tag);
-                }
-            } else {
-                tagService.removeTagFromItemIfExists(tag, kinoDto);
-                kinoDto.getTags().remove(tag);
-            }
-        }
     }
 
     private void nothingToDo() {
