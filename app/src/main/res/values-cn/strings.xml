@@ -32,6 +32,7 @@
     <string name="save">保存</string>
     <string name="cancel">取消</string>
     <string name="yes">是</string>
+    <string name="go_back">返回</string>
 
     <string name="delete_kino_dialog">你想要删除这条评论吗？</string>
 
@@ -55,17 +56,17 @@
 
     <string name="title_activity_export_db">导出数据</string>
     <string name="export_db">将数据导出为 CSV 文件</string>
-    <string name="export_db_label">单击该按钮将数据导出为 CSV 文件。它将被保存为 \'export_movies.csv\', \'export_series.csv\', \'export_wishlist_movies.csv\' 和 \'export_wishlist_series.csv\' ，位置在存储根目录。如有需要，你可以导入此备份。</string>
+    <string name="export_db_label">单击该按钮将数据导出为 CSV 文件。它将被保存为 \'export_movies.csv\' 和 \'export_series.csv\' ，位置 \'media/com.ulicae.cinego/files\'。如有需要，你可以导入此备份。</string>
     <string name="action_export">导出</string>
     <string name="export_start_toast">开始导出......</string>
-    <string name="export_succeeded_toast">...... 导出成功。详见存储根目录中的 export_movies.csv, export_series.csv, export_wishlist_movies.csv 和 export_wishlist_series.csv 文件。</string>
+    <string name="export_succeeded_toast">...... 导出成功。详见\'media/com.ulicae.cinego/files\' 中的 export_movies.csv 和 export_series.csv 文件。</string>
     <string name="export_io_error_toast">导出期间发生一个 I/O 错误。请验证你的权限。</string>
     <string name="export_permission_error_toast">无法导出数据，因 CineLog 未被允许写入外部存储。</string>
 
     <string name="action_import">导入</string>
     <string name="title_activity_import_db">CSV 文件导入</string>
     <string name="import_db">导入数据库中的 CSV 文件</string>
-    <string name="import_db_label">将导入存储根目录下 import_movies.csv 和 import_wishlist_movies.csv 文件内的电影数据和 import_series.csv 和 import_wishlist_series.csv 文件内的连续剧数据。</string>
+    <string name="import_db_label">将导入\'media/com.ulicae.cinego/files\' 下 import_movies.csv 文件内的电影数据和 import_series.csv 文件内的连续剧数据。</string>
     <string name="import_permission_error_toast">无法导入，因 CineLog 未被允许读取外部存储。</string>
     <string name="import_error_toast">导入 %s 文件的数据期间出错</string>
     <string name="import_io_error_toast">试图查找 %s 文件时出错。请验证该文件位于存储根目录且你有所需的权限。</string>
@@ -85,7 +86,7 @@
     <string name="default_maximum_rating_dialog">输入你想要为新电影设置的最高分</string>
     <string name="general_preferences">一般选项</string>
     <string name="general_preferences_summary">设置该应用程序的全局选项</string>
-    <string name="theme">深色主题</string>
+    <string name="theme">强制使用深色主题</string>
     <string name="change_theme">主题已更改。请重新启动应用程序以完全应用主题。</string>
 
     <string name="view_poster_review_layout_title">评论</string>
@@ -128,8 +129,8 @@
     <string name="restart_app_please">请重启应用程序完成升级。</string>
 
     <string name="unknown_year">未知发行年份</string>
-
-    <string name="import_tags_status">Tags import:</string>
+    
+    <string name="import_tags_status">标签导入：</string>
     <string name="import_movies_status">影评导入：</string>
     <string name="import_series_status">剧评导入：</string>
     <string name="import_wishlist_series_status">导入想看的连续剧：</string>
@@ -155,9 +156,8 @@
     <string name="review_edit_tags">编辑标签</string>
     <string name="edit_tag_name_not_filled">没有指定标签的名称</string>
     <string name="delete_tag_dialog">你想删除此标签吗？</string>
-    <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
-    <string name="wishlist_cant_create_review">Error: can\'t create review</string>
-    <string name="go_back">Return</string>
-    <string name="validate">Validate</string>
-    <string name="no_tags_found_label">No tag found. Please verify you have active ones.</string>
+    <string name="import_parsing_line_error_missing_column_toast">导入文件缺少必需列</string>
+    <string name="wishlist_cant_create_review">出错：无法创建评论</string>
+    <string name="validate">验证</string>
+    <string name="no_tags_found_label">没找到标签。请确认已启用了标签。</string>
 </resources>
