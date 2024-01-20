@@ -235,6 +235,7 @@ public class ReviewEditionFragment extends Fragment {
     }
 
     private void updateTags() {
+        if (tagDialog == null) return;
         for (int i = 0; i < tagDialog.selectedTags.length; i++) {
             TagDto tag = tagDialog.allTags.get(i);
             if (tagDialog.selectedTags[i]) {
