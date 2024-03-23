@@ -1,0 +1,3 @@
+* PR #71 Add Brazilian Portuguese Translation
+* PR#67 Update Chinese Strings
+* PR #72 / issue #70 fix: avoid NPE on review edit #72 
