@@ -1,0 +1,160 @@
+<!--
+ CineLog Copyright 2018 Pierre Rognon
+ kinolog Copyright (C) 2017  ryan rigby
+ This file is part of CineLog.
+ CineLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ CineLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_name">CineLog</string>
+    <string name="movie_title_input">Insira o título do filme.</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="title_activity_add_kino">Adicionar uma resenha</string>
+    <string name="title_activity_view_kino">Resenha do filme</string>
+
+    <string name="title_fragment_movie">Filmes</string>
+    <string name="title_fragment_serie">Séries</string>
+
+
+    <string name="kino_title">Título</string>
+
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="yes">Sim</string>
+    <string name="go_back">Voltar</string>
+
+    <string name="delete_kino_dialog">Você quer remover esta resenha?</string>
+
+    <string name="title_activity_add_review">Edição de resenha</string>
+    <string name="title_activity_add_review_creation">Criação de resenha</string>
+    <string name="review_hint">Digite sua resenha aqui.</string>
+
+
+    <string name="order">Ordem</string>
+    <string name="year">Ano de lançamento</string>
+    <string name="date_added">Data de visualização</string>
+    <string name="rating">Avaliação</string>
+    <string name="order_by_title">Título</string>
+
+    <string name="newest_first">Mais novo primeiro</string>
+    <string name="oldest_first">Mais antigo primeiro</string>
+    <string name="highest_first">Mais alta primeiro</string>
+    <string name="lowest_first">Mais baixa primeiro</string>
+    <string name="order_by_title_asc">Ordem alfabética</string>
+    <string name="order_by_title_desc">Ordem alfabética reversa</string>
+
+    <string name="title_activity_export_db">Exportar dados</string>
+    <string name="export_db">Exportar dados como CSV</string>
+    <string name="export_db_label">Clique no botão para exportar seus dados como um arquivo CSV. Será salvo como \'export_movies.csv\' e \'export_series.csv\' in \'media/com.ulicae.cinego\'. Você será capaz de importar este backup se precisar.</string>
+    <string name="action_export">Exportar</string>
+    <string name="export_start_toast">Iniciando exportação…</string>
+    <string name="export_succeeded_toast">… exportação concluída. Ver export_movies.csv e export_series.csv files em \'media/com.ulicae.cinego\'.</string>
+    <string name="export_io_error_toast">Um erro de I/O ocorreu durante a exportação. Verifique suas permissões.</string>
+    <string name="export_permission_error_toast">Não foi possível exportar, pois a escrita na memória externa não é permitida para CineLog.</string>
+
+    <string name="action_import">Importar</string>
+    <string name="title_activity_import_db">Importar arquivo CSV</string>
+    <string name="import_db">Importar arquivo CSV no banco de dados</string>
+    <string name="import_db_label">O processo de importação vai importar filmes de import_movies.csv e séries de import_series.csv arquivo em \'media/com.ulicae.cinego\'.</string>
+    <string name="import_permission_error_toast">Não foi possível importar, pois a leitura da memória externa não é permitida para CineLog.</string>
+    <string name="import_error_toast">Ocorreu um erro durante a importação do arquivo %s</string>
+    <string name="import_io_error_toast">Ocorreu um erro ao tentar encontrar o arquivo %s. Verifique se está localizado na pasta do CineLog e se você tem as devidas permissões.</string>
+    <string name="import_parsing_error_toast">Erro ao codificar o arquivo CSV. Por favor verifique-o.</string>
+    <string name="import_parsing_line_error_toast">Não foi possível salvar o filme importado com o nome %s.</string>
+    <string name="import_starting_toast">Importação iniciada…</string>
+    <string name="import_ending_toast">… Importação concluída !</string>
+
+    <string name="add_from_scratch_label">Não consegue encontrar o filme ?</string>
+
+    <string name="title_activity_settings">Configurações</string>
+    <string name="default_tmdb_language_title">Idioma dos dados do TmDb</string>
+    <string name="default_movie_sort_type_title">Ordem da resenha de filme</string>
+    <string name="default_serie_sort_type_title">Ordem da resenha de Série</string>
+    <string name="default_maximum_rating">Nota máxima disponível em resenhas</string>
+    <string name="default_maximum_rating_summary">Insira a nota padrão máxima que quer atribuir a novos filmes</string>
+    <string name="default_maximum_rating_dialog">Digite a nota máxima que quer atribuir a novos filmes</string>
+    <string name="general_preferences">Preferencias gerais</string>
+    <string name="general_preferences_summary">Defina as preferências globais deste aplicativo.</string>
+    <string name="theme">Forçar tema escuro</string>
+    <string name="change_theme">Tema alterado. Reinicie a aplicação para aplicar o tema totalmente.</string>
+
+    <string name="view_poster_review_layout_title">Resenha</string>
+    <string name="view_kino_review_rating_label_value">Avaliação do filme</string>
+    <string name="view_kino_review_review_date_label_value">Data da resenha</string>
+    <string name="view_kino_review_review_label_value">Resenha</string>
+    <string name="view_kino_overview_see_more">Ver mais</string>
+    <string name="view_kino_overview_see_less">Resumo</string>
+
+    <string name="title_activity_view_unregistered_kino">Informações do filme</string>
+    <string name="review_date_hint">Insira a data de visualização.</string>
+    <string name="review_change_reviewdate">Modificar</string>
+    <string name="addkino_error_no_network">Não é possível acessar a rede.</string>
+
+    <string name="title_activity_add_serie">Adicionar série</string>
+    <string name="add_serie_from_scratch_label">Não encontrou a série?</string>
+    <string name="serie_title_hint">Insira o título da série.</string>
+    <string name="title_activity_view_unregistered_serie">Informações da série</string>
+    <string name="title_activity_view_serie">Resenha da série</string>
+
+    <string name="automatic_save">Exportar automaticamente para o armazenamento local</string>
+    <string name="automatic_save_summary">Uma exportação será feita toda vez que a aplicação iniciar (uma por dia, mantendo as últimas 10 exportações)</string>
+    <string name="automatic_export_cant_get_next_export">Não foi possível obter o próximo arquivo de exportação. A exportação automática não será feita. Verifique se as permissões estão concedidas.</string>
+    <string name="automatic_export_cant_export">Incapaz de gerar importação automática. Verifique se as permissões estão concedidas.</string>
+    <string name="automatic_export_cant_export_movie">Ocorreu um erro durante o salvamento automático de filmes.</string>
+    <string name="automatic_export_cant_export_serie">Ocorreu um erro durante o salvamento automático de séries.</string>
+    <string name="automatic_export_movie_toast">Sucesso no salvamento automático de filmes!</string>
+    <string name="automatic_export_serie_toast">Sucesso no salvamento automático de séries!</string>
+    <string name="nav_reviews_space">Resenhas</string>
+    <string name="nav_wishlist_space">Lista de desejos</string>
+    <string name="nav_title">Menu</string>
+    <string name="toolbar_title_reviews">Resenhas</string>
+    <string name="toolbar_title_wishlist">Lista de desejos</string>
+    <string name="wishlist_list_activity">Lista de desejos</string>
+    <string name="wishlist_item_added">Adicionado a Lista de desejos!</string>
+
+    <string name="title_fragment_wishlist_movie">Lista de desejos de filmes</string>
+    <string name="title_fragment_wishlist_serie">Lista de desejos de séries</string>
+
+    <string name="restart_app_please">Reinicie o aplicativo para concluir a atualização.</string>
+
+    <string name="unknown_year">Ano de lançamento desconhecido</string>
+
+    <string name="import_tags_status">Importar tags:</string>
+    <string name="import_movies_status">Importar resenhas de filmes:</string>
+    <string name="import_series_status">Importar resenhas de séries:</string>
+    <string name="import_wishlist_series_status">Importar lista de desejos de séries:</string>
+    <string name="import_wishlist_movies_status">Importar lista de desejos de filmes:</string>
+
+    <string name="import_status_waiting">Aguardando</string>
+    <string name="import_status_success">Finalizado</string>
+    <string name="import_status_no_file">Arquivo não encontrado</string>
+    <string name="import_status_failed">Em erro</string>
+
+    <string name="serie_episode_season_number_label">Temporada</string>
+    <string name="serie_episode_episode_number_label">Episódio</string>
+    <string name="title_fragment_serie_general">Geral</string>
+    <string name="title_fragment_serie_episodes">Episódios</string>
+    <string name="serie_episode_delete_hint">Dê um longo clique para remover a data em que assistiu</string>
+    <string name="nav_tags_space">Tags</string>
+    <string name="tags_title">Tags</string>
+    <string name="tag_color">Cor</string>
+    <string name="tag_name">Nome da tag</string>
+    <string name="tag_films">Ativa para filmes</string>
+    <string name="tag_series">Ativa para séries</string>
+    <string name="view_kino_review_tags_label_value">Tags</string>
+    <string name="review_edit_tags">Editar tags</string>
+    <string name="edit_tag_name_not_filled">Preencha o nome da tag</string>
+    <string name="delete_tag_dialog">VocÊ quer remover esta tag?</string>
+    <string name="import_parsing_line_error_missing_column_toast">Uma coluna obrigatória está faltando em um arquivo importado</string>
+    <string name="wishlist_cant_create_review">Erro: não é possível criar a avaliação</string>
+    <string name="validate">Validar</string>
+    <string name="no_tags_found_label">Nenhuma tag encontrada. Verifique as tags ativadas.</string>
+</resources>
