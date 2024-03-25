@@ -1,0 +1,2 @@
+* Fix bad brasilian resources directory name
+* #74: Sorting by viewing date crashes app.
