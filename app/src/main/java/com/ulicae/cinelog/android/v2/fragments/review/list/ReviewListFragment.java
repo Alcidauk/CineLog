@@ -113,12 +113,15 @@ public abstract class ReviewListFragment extends Fragment {
 
     private void applyListeners() {
         getKinoList().setOnItemLongClickListener((view, parent, position, rowId) -> {
+            Object item = kino_adapter.getItem(position);
+            if(!(item instanceof KinoDto)){
+                return false;
+            }
+
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
             builder.setMessage(R.string.delete_kino_dialog)
                     .setPositiveButton(R.string.yes, (dialog, id) -> {
-                        Object item = kino_adapter.getItem(position);
-
                         if (item instanceof KinoDto) {
                             kino_adapter.remove(item);
                             //noinspection unchecked
@@ -135,6 +138,9 @@ public abstract class ReviewListFragment extends Fragment {
         });
         getKinoList().setOnItemClickListener((view, parent, position, rowId) -> {
             Object item = kino_adapter.getItem(position);
+            if(!(item instanceof KinoDto)){
+                return;
+            }
             // TODO callback ?
             ((MainActivity) requireActivity()).navigateToItem(
                     (KinoDto) item, position, true, false
