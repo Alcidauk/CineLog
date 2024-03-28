@@ -157,4 +157,6 @@
     <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
     <string name="wishlist_cant_create_review">Error: can\'t create review</string>
     <string name="no_tags_found_label">Aucun tag trouvé. Veuillez vérifier si des tags sont activés.</string>
+
+    <string name="action_share">Partager</string>
 </resources>
