@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.data.dto.data;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
+import com.ulicae.cinelog.data.dto.TmdbItemDto;
 
 import org.parceler.Parcel;
 
@@ -26,7 +26,7 @@ import java.util.Objects;
  *
  */
 @Parcel
-public class WishlistDataDto implements ItemDto {
+public class WishlistDataDto implements TmdbItemDto {
 
     private Long id;
     private Integer tmdbId;
@@ -65,6 +65,11 @@ public class WishlistDataDto implements ItemDto {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public Long getTmdbKinoId() {
+        return this.tmdbId.longValue();
     }
 
     public String getTitle() {

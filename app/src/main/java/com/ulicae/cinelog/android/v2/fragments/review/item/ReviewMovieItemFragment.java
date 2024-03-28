@@ -7,29 +7,29 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
+import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.databinding.FragmentReviewMovieItemBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemReviewBinding;
-import com.ulicae.cinelog.databinding.FragmentReviewMovieItemBinding;
 
 import org.parceler.Parcels;
 
-public class ReviewMovieItemFragment extends Fragment {
+public class ReviewMovieItemFragment extends ShareableFragment<KinoDto> {
 
     private FragmentReviewMovieItemBinding binding;
 
-    KinoDto kino;
     int position;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.addOptionMenu();
         binding = FragmentReviewMovieItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
@@ -37,24 +37,25 @@ public class ReviewMovieItemFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
+        item = Parcels.unwrap(requireArguments().getParcelable("kino"));
         position = requireArguments().getInt("kino_position", -1);
+
+        setLinkBaseUrl("https://www.themoviedb.org/movie/");
 
         LayoutReviewItemKinoBinding viewKinoContentLayout = binding.viewKinoContentLayout;
         LayoutReviewItemReviewBinding reviewKinoContentLayout = binding.reviewKinoContentLayout;
 
-        new ReviewItemDataFieldsInflater(kino, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
+        new ReviewItemDataFieldsInflater(item, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
 
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(kino, false, R.id.action_viewKinoFragment_to_editReviewFragment)
+                v -> ((MainActivity) requireActivity()).navigateToReview(item, false, R.id.action_viewKinoFragment_to_editReviewFragment)
         );
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
 
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
-
   /*  TODO rewrite state management to get right data from editreview
 
   @Override

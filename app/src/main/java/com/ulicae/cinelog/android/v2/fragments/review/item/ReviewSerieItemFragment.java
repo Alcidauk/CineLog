@@ -15,24 +15,26 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
+import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.databinding.FragmentReviewSerieItemBinding;
 
 import org.parceler.Parcels;
 
-public class ReviewSerieItemFragment extends Fragment {
+public class ReviewSerieItemFragment extends ShareableFragment<SerieDto> {
 
     private FragmentReviewSerieItemBinding binding;
 
-    KinoDto kino;
     int position;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.addOptionMenu();
         binding = FragmentReviewSerieItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
@@ -40,14 +42,16 @@ public class ReviewSerieItemFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        kino = Parcels.unwrap(getArguments().getParcelable("kino"));
+        item = Parcels.unwrap(getArguments().getParcelable("kino"));
         position = getArguments().getInt("kino_position", -1);
+
+        setLinkBaseUrl("https://www.themoviedb.org/tv/");
 
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
 
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(kino, false, R.id.action_viewSerieFragment_to_editReviewFragment)
+                v -> ((MainActivity) requireActivity()).navigateToReview(item, false, R.id.action_viewSerieFragment_to_editReviewFragment)
         );
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
@@ -56,7 +60,7 @@ public class ReviewSerieItemFragment extends Fragment {
     }
 
     private void setViewPager() {
-        SerieItemPagerAdapter adapter = new SerieItemPagerAdapter(requireActivity(), kino);
+        SerieItemPagerAdapter adapter = new SerieItemPagerAdapter(requireActivity(), item);
 
         binding.serieViewPager.setAdapter(adapter);
 
