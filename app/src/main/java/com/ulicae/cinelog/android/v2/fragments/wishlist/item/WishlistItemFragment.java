@@ -1,25 +1,21 @@
 package com.ulicae.cinelog.android.v2.fragments.wishlist.item;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
+import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
@@ -37,11 +33,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class WishlistItemFragment extends Fragment {
+public class WishlistItemFragment extends ShareableFragment<WishlistDataDto> {
 
     private LayoutKinoItemBinding binding;
-
-    private WishlistDataDto wishlistDataDto;
 
     private SerieWishlistService serieWishlistService;
     private MovieWishlistService movieWishlistService;
@@ -50,8 +44,8 @@ public class WishlistItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.addOptionMenu();
         binding = LayoutKinoItemBinding.inflate(getLayoutInflater());
-        setHasOptionsMenu(true/*TODO: kino != null && kino.getTmdbKinoId()!=null*/);
         return binding.getRoot();
     }
 
@@ -62,7 +56,10 @@ public class WishlistItemFragment extends Fragment {
         serieWishlistService = new SerieWishlistService(daoSession);
         movieWishlistService = new MovieWishlistService(daoSession);
 
-        wishlistDataDto = Parcels.unwrap(requireArguments().getParcelable("dataDto"));
+        item = Parcels.unwrap(requireArguments().getParcelable("dataDto"));
+
+        String tmdbType =  item.getWishlistItemType() == WishlistItemType.SERIE ? "tv" : "movie";
+        setLinkBaseUrl(String.format("https://www.themoviedb.org/%s/", tmdbType));
 
         initFabButton();
         initFields();
@@ -71,16 +68,16 @@ public class WishlistItemFragment extends Fragment {
     }
 
     private void initFields() {
-        if (wishlistDataDto.getPosterPath() != null && !"".equals(wishlistDataDto.getPosterPath())) {
+        if (item.getPosterPath() != null && !"".equals(item.getPosterPath())) {
             Glide.with(requireContext())
-                    .load("https://image.tmdb.org/t/p/w185" + wishlistDataDto.getPosterPath())
+                    .load("https://image.tmdb.org/t/p/w185" + item.getPosterPath())
                     .centerCrop()
                     .crossFade()
                     .into(binding.viewKinoTmdbImageLayout);
         }
 
         // TODO extract it in a helper
-        String releaseDateLocal = wishlistDataDto.getReleaseDate();
+        String releaseDateLocal = item.getReleaseDate();
         if (releaseDateLocal != null && !"".equals(releaseDateLocal)) {
             SimpleDateFormat frenchSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
             try {
@@ -88,12 +85,12 @@ public class WishlistItemFragment extends Fragment {
                 String formattedDate = DateFormat.getDateFormat(requireActivity().getBaseContext()).format(parsedDate);
                 binding.viewKinoTmdbYear.setText(formattedDate);
             } catch (ParseException ignored) {
-                binding.viewKinoTmdbYear.setText(String.valueOf(wishlistDataDto.getFirstYear()));
+                binding.viewKinoTmdbYear.setText(String.valueOf(item.getFirstYear()));
             }
         }
 
-        binding.viewKinoTmdbOverview.setText(wishlistDataDto.getOverview());
-        binding.viewKinoTmdbTitle.setText(wishlistDataDto.getTitle());
+        binding.viewKinoTmdbOverview.setText(item.getOverview());
+        binding.viewKinoTmdbTitle.setText(item.getTitle());
     }
 
     private void initFabButton() {
@@ -101,7 +98,7 @@ public class WishlistItemFragment extends Fragment {
 
         fab.setOnClickListener(this::onFabClick);
         // TODO change icon if review exists
-        if (wishlistDataDto.getId() == null) {
+        if (item.getId() == null) {
             fab.setImageResource(R.drawable.add_review);
         } else {
             fab.setImageResource(R.drawable.add_kino);
@@ -110,7 +107,7 @@ public class WishlistItemFragment extends Fragment {
     }
 
     public void onFabClick(View view) {
-        if (wishlistDataDto.getId() == null) {
+        if (item.getId() == null) {
             addToWishlist();
         } else {
             createReview();
@@ -119,48 +116,48 @@ public class WishlistItemFragment extends Fragment {
     }
 
     private void addToWishlist() {
-        if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
-            serieWishlistService.createSerieData(wishlistDataDto);
+        if (item.getWishlistItemType() == WishlistItemType.SERIE) {
+            serieWishlistService.createSerieData(item);
             Toast.makeText(requireContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-        } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
-            movieWishlistService.createMovieData(wishlistDataDto);
+        } else if (item.getWishlistItemType() == WishlistItemType.MOVIE) {
+            movieWishlistService.createMovieData(item);
             Toast.makeText(requireContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
         }
 
-        ((MainActivity) requireActivity()).navigateBackToWishlist(wishlistDataDto.getWishlistItemType());
+        ((MainActivity) requireActivity()).navigateBackToWishlist(item.getWishlistItemType());
     }
 
     private void createReview() {
         KinoDto dto;
-        if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
+        if (item.getWishlistItemType() == WishlistItemType.SERIE) {
             dto = new SerieDto(
                     null,
-                    wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null,
+                    item.getTmdbId() != null ? item.getTmdbId().longValue() : null,
                     null,
-                    wishlistDataDto.getTitle(),
-                    null,
-                    null,
+                    item.getTitle(),
                     null,
                     null,
-                    wishlistDataDto.getPosterPath(),
-                    wishlistDataDto.getOverview(),
-                    wishlistDataDto.getFirstYear(),
-                    wishlistDataDto.getReleaseDate(),
+                    null,
+                    null,
+                    item.getPosterPath(),
+                    item.getOverview(),
+                    item.getFirstYear(),
+                    item.getReleaseDate(),
                     new ArrayList<>()
             );
-        } else if (wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE) {
+        } else if (item.getWishlistItemType() == WishlistItemType.MOVIE) {
             dto = new KinoDto(
                     null,
-                    wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null,
-                    wishlistDataDto.getTitle(),
+                    item.getTmdbId() != null ? item.getTmdbId().longValue() : null,
+                    item.getTitle(),
                     null,
                     null,
                     null,
                     null,
-                    wishlistDataDto.getPosterPath(),
-                    wishlistDataDto.getOverview(),
-                    wishlistDataDto.getFirstYear(),
-                    wishlistDataDto.getReleaseDate(),
+                    item.getPosterPath(),
+                    item.getOverview(),
+                    item.getFirstYear(),
+                    item.getReleaseDate(),
                     new ArrayList<>()
             );
         } else {
@@ -177,7 +174,7 @@ public class WishlistItemFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_ADD_REVIEW) {
             if (resultCode == Activity.RESULT_OK) {
-                wishlistDataDto = Parcels.unwrap(data.getParcelableExtra("kino"));
+                item = Parcels.unwrap(data.getParcelableExtra("kino"));
             }
         }
     }
@@ -192,40 +189,4 @@ public class WishlistItemFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }*/
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_review, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_share) {
-            shareLink();
-            return true;
-        }
-        return true;
-    }
-
-    private void shareLink() {
-        if (this.wishlistDataDto.getTmdbId()==null) {
-            shareText(this.wishlistDataDto.getTitle());
-        } else {
-            String tmdbType = "movie";
-            if (wishlistDataDto.getWishlistItemType() == WishlistItemType.SERIE) {
-                tmdbType = "tv";
-            }
-            shareText("https://www.themoviedb.org/"+tmdbType+"/" + this.wishlistDataDto.getTmdbId());
-        }
-    }
-    private void shareText(String text) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
-        sendIntent.setType("text/plain");
-
-        Intent shareIntent = Intent.createChooser(sendIntent, null);
-        startActivity(shareIntent);
-    }
 }

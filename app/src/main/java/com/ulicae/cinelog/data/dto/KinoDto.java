@@ -27,7 +27,7 @@ import java.util.List;
 // need to have weakerAccess to allow use of parcel
 @SuppressWarnings("WeakerAccess")
 @Parcel
-public class KinoDto implements ItemDto {
+public class KinoDto implements TmdbItemDto {
 
     Long kinoId;
     Long tmdbKinoId;
