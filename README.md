@@ -2,8 +2,8 @@
 
 # CineLog
 
-CineLog is a review database Android app, with Android 4.4 (KitKat) and later versions. The purpose of this app is to help you reminding movies and series.
-To achieve that, CineLog has review, wishlist, import and export (both manual and automatic) features.
+CineLog is a review database Android app, with Android 4.4 (KitKat) and later versions. The purpose of this app is to help you remember movies and series.
+To achieve that, CineLog supports reviews, wishlists, and import/export (both manual and automatic) features.
 
 CineLog is a fork of Ryan Rigby's KinoLog application. CineLog aims to improve KinoLog application by adding extra functionnalities with a slightly different UI.
 
@@ -41,7 +41,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-## Used librairies
+## Required librairies
 
   - Android-SwitchIcon
 Source: https://github.com/zagum/Android-SwitchIcon/
