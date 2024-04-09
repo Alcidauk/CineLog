@@ -5,16 +5,29 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.room.Room;
+
 import com.ulicae.cinelog.BuildConfig;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.reviews.SerieService;
+import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.services.reviews.KinoService;
+import com.ulicae.cinelog.data.services.reviews.SerieService;
+import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.utils.room.ReviewFromDtoCreator;
+import com.ulicae.cinelog.utils.room.ReviewTmdbCrossRefFromDtoCreator;
+import com.ulicae.cinelog.utils.room.TmdbFromDtoCreator;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -36,29 +49,41 @@ public class UpgradeFixRunner {
     private Context context;
     private Application application;
 
+    private List<Disposable> disposables;
+
+
     public UpgradeFixRunner(Context context, Application application) {
         this.context = context;
         this.application = application;
+        this.disposables = new ArrayList<>();
     }
 
     public void runFixesIfNeeded() {
         PreferencesWrapper preferencesWrapper = new PreferencesWrapper();
         int lastCodeVersionSaved = preferencesWrapper.getIntegerPreference(context, "last_code_version_saved", 0);
 
-        if (lastCodeVersionSaved != BuildConfig.VERSION_CODE) {
-            try {
-                lookForFixes(lastCodeVersionSaved);
-            } catch (Exception e) {
-                Log.i("upgrade_fix", "Unable to process with fixes. Won't upgrade preference version code.");
-                return;
-            }
-            preferencesWrapper.setIntegerPreference(context, "last_code_version_saved", BuildConfig.VERSION_CODE);
+        //if (lastCodeVersionSaved != BuildConfig.VERSION_CODE) {
+        try {
+            lookForFixes(lastCodeVersionSaved);
+        } catch (Exception e) {
+            Log.i("upgrade_fix", "Unable to process with fixes. Won't upgrade preference version code.");
+            return;
         }
+        preferencesWrapper.setIntegerPreference(context, "last_code_version_saved", BuildConfig.VERSION_CODE);
+        //}
     }
 
     private void lookForFixes(int lastCodeVersionSaved) {
+        migrateToRoom();
+
+        if (lastCodeVersionSaved == 0) {
+            return;
+        }
+
         if (lastCodeVersionSaved < 19 && BuildConfig.VERSION_CODE >= 19) {
             fixSerieReviews();
+        } else if (lastCodeVersionSaved < 41 && BuildConfig.VERSION_CODE >= 41) {
+            migrateToRoom();
         }
     }
 
@@ -79,5 +104,32 @@ public class UpgradeFixRunner {
         }
 
         Toast.makeText(application.getBaseContext(), application.getBaseContext().getString(R.string.restart_app_please), Toast.LENGTH_LONG).show();
+    }
+
+    private void migrateToRoom() {
+        AppDatabase db = Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "database-cinelog").build();
+
+        disposables.add(
+                Observable.just(db)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(givenDb -> {
+                            db.clearAllTables();
+
+                            List<KinoDto> kinoDtos =
+                                    new KinoService(((KinoApplication) application).getDaoSession()).getAll();
+
+                            new ReviewFromDtoCreator(givenDb.reviewDao()).insertAll(kinoDtos);
+                            new ReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao()).insertAll(kinoDtos);
+                            new TmdbFromDtoCreator(givenDb.tmdbDao()).insertAll(kinoDtos);
+                        })
+        );
+    }
+
+    public void clear() {
+        for (Disposable disposable : this.disposables) {
+            if (!disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
     }
 }

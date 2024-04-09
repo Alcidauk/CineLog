@@ -1,6 +1,5 @@
 <!--
- CineLog Copyright 2018 Pierre Rognon
- kinolog Copyright (C) 2017  ryan rigby
+ CineLog Copyright 2024 Pierre Rognon
 
  This file is part of CineLog.
  CineLog is free software: you can redistribute it and/or modify
@@ -116,6 +115,7 @@
     <string name="automatic_export_movie_toast">Success of movies automatic save !</string>
     <string name="automatic_export_serie_toast">Success of automatic save of series !</string>
     <string name="nav_reviews_space">Reviews</string>
+    <string name="nav_reviews_room_space">Reviews room</string>
     <string name="nav_wishlist_space">Wishlist</string>
     <string name="nav_title">Menu</string>
     <string name="toolbar_title_reviews">Reviews</string>

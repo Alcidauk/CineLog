@@ -77,6 +77,19 @@ dependencies {
 
     // GreenDAO ORM for database
     implementation 'org.greenrobot:greendao:3.2.2'
+
+    // Room will replace greendao, because of a lack in code publication
+    def room_version = "2.2.0"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    implementation "io.reactivex.rxjava3:rxjava:3.1.8"
+
     // https://mvnrepository.com/artifact/com.uwetrottmann.tmdb2/tmdb-java
     implementation 'com.uwetrottmann.tmdb2:tmdb-java:2.2.0'
     // Add import and export functionnalities

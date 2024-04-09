@@ -39,7 +39,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
+    private UpgradeFixRunner upgradeFixRunner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkNeededFix() {
-        new UpgradeFixRunner(getBaseContext(), getApplication()).runFixesIfNeeded();
+        upgradeFixRunner = new UpgradeFixRunner(getBaseContext(), getApplication());
+        upgradeFixRunner.runFixesIfNeeded();
     }
 
     @Override
@@ -102,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             add(R.id.nav_reviews_serie);
             add(R.id.nav_wishlist_movie);
             add(R.id.nav_wishlist_serie);
+            add(R.id.nav_reviews_room_movie);
+            add(R.id.nav_reviews_room_serie);
             add(R.id.nav_tags);
         }};
         appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations)
@@ -120,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
     private void listenDrawerOpenal() {
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+            }
 
             @SuppressLint("SetTextI18n")
             @Override
@@ -129,10 +134,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDrawerClosed(@NonNull View drawerView) {}
+            public void onDrawerClosed(@NonNull View drawerView) {
+            }
 
             @Override
-            public void onDrawerStateChanged(int newState) {}
+            public void onDrawerStateChanged(int newState) {
+            }
         });
     }
 
@@ -165,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putBoolean("toWishlist", wishlist);
 
-        if(wishlist){
+        if (wishlist) {
             navController.navigate(R.id.action_nav_wishlist_movie_to_searchTmdbMovieFragment, args);
         } else {
             navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieFragment, args);
@@ -176,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putBoolean("toWishlist", wishlist);
 
-        if(wishlist){
+        if (wishlist) {
             navController.navigate(R.id.action_nav_wishlist_serie_to_searchTmbdSerieFragment, args);
         } else {
             navController.navigate(R.id.action_nav_reviews_serie_to_searchTmbdSerieFragment, args);
@@ -185,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToTagEdition(TagDto dataDto) {
         Bundle args = new Bundle();
-        if(dataDto != null){
+        if (dataDto != null) {
             args.putParcelable("tag", Parcels.wrap(dataDto));
         }
         navController.navigate(R.id.action_nav_tags_to_editTagFragment, args);
@@ -267,17 +274,26 @@ public class MainActivity extends AppCompatActivity {
                 type == WishlistItemType.SERIE ?
                         R.id.action_wishlistItemFragment_to_nav_wishlist_serie :
                         R.id.action_wishlistItemFragment_to_nav_wishlist_movie
-        );    }
+        );
+    }
 
     public void navigateBackToReviewList(KinoDto fromKinoDto) {
         navController.navigate(
                 fromKinoDto instanceof SerieDto ?
-                R.id.action_editReviewFragment_to_nav_reviews_serie :
-                R.id.action_editReviewFragment_to_nav_reviews_movie
+                        R.id.action_editReviewFragment_to_nav_reviews_serie :
+                        R.id.action_editReviewFragment_to_nav_reviews_movie
         );
     }
 
     public void navigateBack() {
         navController.popBackStack();
+    }
+
+    @Override
+    public void onDestroy() {
+        if(this.upgradeFixRunner != null){
+            this.upgradeFixRunner.clear();
+        }
+        super.onDestroy();
     }
 }
