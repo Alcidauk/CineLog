@@ -30,6 +30,9 @@ public class Review {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+    @ColumnInfo(name = "review_entity_type")
+    public ReviewEntityType reviewEntityType;
+
     public String title;
 
     @ColumnInfo(name = "review_date")
@@ -42,8 +45,9 @@ public class Review {
     @ColumnInfo(name = "max_rating")
     public Integer maxRating;
 
-    public Review(int id, String title, Date reviewDate, String review, Float rating, Integer maxRating) {
+    public Review(int id, ReviewEntityType reviewEntityType, String title, Date reviewDate, String review, Float rating, Integer maxRating) {
         this.id = id;
+        this.reviewEntityType = reviewEntityType;
         this.title = title;
         this.reviewDate = reviewDate;
         this.review = review;

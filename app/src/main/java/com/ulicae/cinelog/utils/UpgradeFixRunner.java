@@ -17,6 +17,9 @@ import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.utils.room.ReviewFromDtoCreator;
 import com.ulicae.cinelog.utils.room.ReviewTmdbCrossRefFromDtoCreator;
+import com.ulicae.cinelog.utils.room.SerieReviewFromDtoCreator;
+import com.ulicae.cinelog.utils.room.SerieReviewTmdbCrossRefFromDtoCreator;
+import com.ulicae.cinelog.utils.room.SerieTmdbFromDtoCreator;
 import com.ulicae.cinelog.utils.room.TmdbFromDtoCreator;
 
 import java.util.ArrayList;
@@ -115,12 +118,33 @@ public class UpgradeFixRunner {
                         .subscribe(givenDb -> {
                             db.clearAllTables();
 
+                            ReviewFromDtoCreator reviewFromDtoCreator =
+                                    new ReviewFromDtoCreator(givenDb.reviewDao());
+                            ReviewTmdbCrossRefFromDtoCreator reviewTmdbCrossRefFromDtoCreator =
+                                    new ReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao());
+                            TmdbFromDtoCreator tmdbFromDtoCreator =
+                                    new TmdbFromDtoCreator(givenDb.tmdbDao());
+
                             List<KinoDto> kinoDtos =
                                     new KinoService(((KinoApplication) application).getDaoSession()).getAll();
 
-                            new ReviewFromDtoCreator(givenDb.reviewDao()).insertAll(kinoDtos);
-                            new ReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao()).insertAll(kinoDtos);
-                            new TmdbFromDtoCreator(givenDb.tmdbDao()).insertAll(kinoDtos);
+                            reviewFromDtoCreator.insertAll(kinoDtos);
+                            reviewTmdbCrossRefFromDtoCreator.insertAll(kinoDtos);
+                            tmdbFromDtoCreator.insertAll(kinoDtos);
+
+                            SerieReviewFromDtoCreator serieReviewFromDtoCreator =
+                                    new SerieReviewFromDtoCreator(givenDb.reviewDao());
+                            SerieReviewTmdbCrossRefFromDtoCreator serieReviewTmdbCrossRefFromDtoCreator =
+                                    new SerieReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao());
+                            SerieTmdbFromDtoCreator serieTmdbFromDtoCreator =
+                                    new SerieTmdbFromDtoCreator(givenDb.tmdbDao());
+
+                            List<SerieDto> serieDtos =
+                                    new SerieService(((KinoApplication) application).getDaoSession(), application.getApplicationContext()).getAll();
+
+                            serieReviewFromDtoCreator.insertAll(serieDtos);
+                            serieTmdbFromDtoCreator.insertAll(serieDtos);
+                            serieReviewTmdbCrossRefFromDtoCreator.insertAll(serieDtos);
                         })
         );
     }

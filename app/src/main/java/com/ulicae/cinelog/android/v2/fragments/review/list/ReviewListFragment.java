@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
+import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
@@ -39,11 +40,11 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class ReviewListFragment extends Fragment {
+public abstract class ReviewListFragment<T extends ItemDto> extends Fragment {
 
     ReviewListAdapter kino_adapter;
 
-    List<KinoDto> kinos;
+    List<T> kinos;
 
     protected DataService service;
 
@@ -149,8 +150,8 @@ public abstract class ReviewListFragment extends Fragment {
     }
 
     @NonNull
-    private void initialiseAdapter(List<KinoDto> kinos, int orderId) {
-        List<Object> objects = new ArrayList<Object>(kinos);
+    private void initialiseAdapter(List<T> kinos, int orderId) {
+        List<Object> objects = new ArrayList<>(kinos);
         if (orderId == R.id.order_by_date_added_newest_first || orderId == R.id.order_by_date_added_oldest_first) {
             objects = new ReviewDateHeaderListTransformer(getContext(), kinos).transform();
         }
@@ -171,7 +172,7 @@ public abstract class ReviewListFragment extends Fragment {
                 );
     }
 
-    protected abstract List<KinoDto> getResults(int order);
+    protected abstract List<T> getResults(int order);
 
     protected abstract ListView getKinoList();
 

@@ -22,7 +22,7 @@ import com.ulicae.cinelog.room.entities.Tmdb;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao> {
+public class TmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao, KinoDto> {
 
     public TmdbFromDtoCreator(TmdbDao dao) {
         super(dao);

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.ulicae.cinelog.room.entities.Review;
+import com.ulicae.cinelog.room.entities.ReviewEntityType;
 
 import java.util.List;
 
@@ -40,8 +41,8 @@ public interface ReviewDao extends RoomDao<Review> {
     void delete(Review review);
 
 
-    @Query("SELECT * FROM review")
-    Flowable<List<Review>> findAll();
+    @Query("SELECT * FROM review WHERE review_entity_type = :reviewEntitytype")
+    Flowable<List<Review>> findAll(ReviewEntityType reviewEntitytype);
 
     @Query("SELECT * FROM review WHERE id = :id")
     Flowable<Review> find(long id);

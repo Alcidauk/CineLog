@@ -41,7 +41,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieReviewListFragment extends ReviewListFragment {
+public class SerieReviewListFragment extends ReviewListFragment<SerieDto> {
 
     private FragmentSerieListBinding binding;
 
@@ -66,7 +66,7 @@ public class SerieReviewListFragment extends ReviewListFragment {
     }
 
     @Override
-    protected List<KinoDto> getResults(int order) {
+    protected List<SerieDto> getResults(int order) {
         if (order == -1) {
             order = getOrderFromPreferences();
         }
@@ -98,7 +98,7 @@ public class SerieReviewListFragment extends ReviewListFragment {
                 break;
         }
 
-        return new ArrayList<KinoDto>(fetchedDtos);
+        return new ArrayList<>(fetchedDtos);
     }
 
     @Override

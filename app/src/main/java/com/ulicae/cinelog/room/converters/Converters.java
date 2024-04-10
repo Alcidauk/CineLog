@@ -2,6 +2,8 @@ package com.ulicae.cinelog.room.converters;
 
 import androidx.room.TypeConverter;
 
+import com.ulicae.cinelog.room.entities.ReviewEntityType;
+
 import java.util.Date;
 
 /**
@@ -31,5 +33,15 @@ public class Converters {
     @TypeConverter
     public static Long dateToTimestamp(Date date) {
         return date == null ? null : date.getTime();
+    }
+
+    @TypeConverter
+    public static String reviewEntityTypeToString(ReviewEntityType reviewEntityType) {
+        return reviewEntityType.toString();
+    }
+
+    @TypeConverter
+    public static ReviewEntityType reviewEntityTypeFromString(String reviewEntityType) {
+        return ReviewEntityType.valueOf(reviewEntityType);
     }
 }

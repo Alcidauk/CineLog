@@ -31,12 +31,12 @@ import java.util.TreeMap;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class ReviewDateHeaderListTransformer {
+class ReviewDateHeaderListTransformer<T> {
 
     private Context context;
-    private List<KinoDto> kinoDtos;
+    private List<T> kinoDtos;
 
-    ReviewDateHeaderListTransformer(Context context, List<KinoDto> kinoDtos) {
+    ReviewDateHeaderListTransformer(Context context, List<T> kinoDtos) {
         this.context = context;
         this.kinoDtos = kinoDtos;
     }

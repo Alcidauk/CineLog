@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
+import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
 import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
 
 import java.util.List;
@@ -35,7 +36,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MovieReviewRoomListFragment extends ReviewListFragment<KinoDto> {
+public class SerieReviewRoomListFragment extends ReviewListFragment<SerieDto> {
 
     private FragmentMovieListBinding binding;
 
@@ -53,17 +54,17 @@ public class MovieReviewRoomListFragment extends ReviewListFragment<KinoDto> {
 
     @Override
     protected void createService() {
-        service = new ReviewService(getActivity().getApplication());
+        service = new SerieReviewService(getActivity().getApplication());
     }
 
     @Override
-    protected List<KinoDto> getResults(int order) {
+    protected List<SerieDto> getResults(int order) {
         if (order == -1) {
             order = getOrderFromPreferences();
         }
         switch (order) {
             default:
-                return ((ReviewService) service).getAll();
+                return ((SerieReviewService) service).getAll();
         }
     }
 

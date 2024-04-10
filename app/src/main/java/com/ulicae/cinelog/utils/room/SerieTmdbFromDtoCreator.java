@@ -1,8 +1,9 @@
 package com.ulicae.cinelog.utils.room;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
-import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
+import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.entities.Tmdb;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -22,18 +23,19 @@ import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewTmdbCrossRefFromDtoCreator extends EntityFromDtoCreator<ReviewTmdbCrossRef, ReviewTmdbCrossRefDao, KinoDto> {
+public class SerieTmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao, SerieDto> {
 
-    public ReviewTmdbCrossRefFromDtoCreator(ReviewTmdbCrossRefDao dao) {
+    public SerieTmdbFromDtoCreator(TmdbDao dao) {
         super(dao);
     }
 
     @Override
-    public ReviewTmdbCrossRef createRoomInstanceFromDto(KinoDto kinoDto) {
-        return kinoDto.getTmdbKinoId() != null ?
-                new ReviewTmdbCrossRef(
-                        Math.toIntExact(kinoDto.getId()),
-                        Math.toIntExact(kinoDto.getTmdbKinoId())
-                ) : null;
+    public Tmdb createRoomInstanceFromDto(SerieDto itemDto) {
+        return itemDto.getTmdbKinoId() != null ?
+                new Tmdb(itemDto.getTmdbKinoId(),
+                        itemDto.getPosterPath(),
+                        itemDto.getOverview(),
+                        itemDto.getYear(),
+                        itemDto.getReleaseDate()) : null;
     }
 }

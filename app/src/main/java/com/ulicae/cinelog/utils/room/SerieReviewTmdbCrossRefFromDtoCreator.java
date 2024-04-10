@@ -1,16 +1,9 @@
-package com.ulicae.cinelog.room;
+package com.ulicae.cinelog.utils.room;
 
-import androidx.room.Database;
-import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
-
-import com.ulicae.cinelog.room.converters.Converters;
-import com.ulicae.cinelog.room.dao.ReviewDao;
+import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
-import com.ulicae.cinelog.room.dao.TmdbDao;
-import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
-import com.ulicae.cinelog.room.entities.Tmdb;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -30,17 +23,18 @@ import com.ulicae.cinelog.room.entities.Tmdb;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-@Database(entities = {Review.class, ReviewTmdbCrossRef.class, Tmdb.class}, version = 1)
-@TypeConverters({Converters.class})
-public abstract class AppDatabase extends RoomDatabase {
-    public abstract ReviewDao reviewDao();
-    public abstract ReviewTmdbCrossRefDao reviewTmdbDao();
-    public abstract TmdbDao tmdbDao();
+public class SerieReviewTmdbCrossRefFromDtoCreator extends EntityFromDtoCreator<ReviewTmdbCrossRef, ReviewTmdbCrossRefDao, SerieDto> {
 
-    /*
-    TODO
-    - migrate all db
-    - avoid use of kinodto, and have a review dto and a tmdb dto
-     */
+    public SerieReviewTmdbCrossRefFromDtoCreator(ReviewTmdbCrossRefDao dao) {
+        super(dao);
+    }
 
+    @Override
+    public ReviewTmdbCrossRef createRoomInstanceFromDto(SerieDto itemDto) {
+        return itemDto.getTmdbKinoId() != null ?
+                new ReviewTmdbCrossRef(
+                        Math.toIntExact(10000 + itemDto.getId()),
+                        Math.toIntExact(itemDto.getTmdbKinoId())
+                ) : null;
+    }
 }

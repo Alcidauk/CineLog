@@ -20,4 +20,6 @@ package com.ulicae.cinelog.data.dto;
  *
  */
 public interface ItemDto {
+
+    Long getId();
 }

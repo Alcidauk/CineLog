@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.room.Room;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
@@ -37,10 +38,12 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto> {
+public class SerieReviewService implements ItemService<SerieDto>, DataService<SerieDto> {
+
+    // TODO does not have a real usage, it should be ReviewService that does this job
 
     private AppDatabase db;
-    public ReviewService(Application application) {
+    public SerieReviewService(Application application) {
         db = Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "database-cinelog").build();
 
     }
@@ -49,13 +52,13 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
     TODO avoid blockingfirst and make return async
      */
     @Override
-    public List<KinoDto> getAll() {
+    public List<SerieDto> getAll() {
         ReviewDao reviewDao = db.reviewDao();
         ReviewTmdbCrossRefDao reviewTmdbDao = db.reviewTmdbDao();
         TmdbDao tmdbDao = db.tmdbDao();
 
-        List<Review> all1 = reviewDao.findAll(ReviewEntityType.MOVIE).blockingFirst();
-        List<KinoDto> kinos = new ArrayList<>();
+        List<Review> all1 = reviewDao.findAll(ReviewEntityType.SERIE).blockingFirst();
+        List<SerieDto> kinos = new ArrayList<>();
         for(Review review: all1) {
             Tmdb tmdb = null;
             List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
@@ -63,9 +66,10 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
                 tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
             }
 
-            kinos.add(new KinoDto(
+            kinos.add(new SerieDto(
                     (long) review.id,
                     tmdb != null ? tmdb.movieId : null,
+                    (long) review.id,
                     review.title, review.reviewDate, review.review,
                     review.rating, review.maxRating,
                     tmdb != null ? tmdb.posterPath : null,
@@ -80,22 +84,22 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
     }
 
     @Override
-    public void createOrUpdateFromImport(List<KinoDto> kinoDtos) {
+    public void createOrUpdateFromImport(List<SerieDto> kinoDtos) {
 
     }
 
     @Override
-    public void delete(KinoDto dtoObject) {
+    public void delete(SerieDto dtoObject) {
 
     }
 
     @Override
-    public KinoDto getWithTmdbId(long tmdbId) {
+    public SerieDto getWithTmdbId(long tmdbId) {
         return null;
     }
 
     @Override
-    public KinoDto createOrUpdate(KinoDto dtoObject) {
+    public SerieDto createOrUpdate(SerieDto dtoObject) {
         return null;
     }
 

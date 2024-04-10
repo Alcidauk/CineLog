@@ -2,7 +2,7 @@ package com.ulicae.cinelog.utils.room;
 
 import android.util.Log;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.room.dao.RoomDao;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class EntityFromDtoCreator<T, U extends RoomDao> {
+public abstract class EntityFromDtoCreator<T, U extends RoomDao, D extends ItemDto> {
 
     private final U dao;
     private final List<T> entities = new ArrayList<>();
@@ -35,19 +35,18 @@ public abstract class EntityFromDtoCreator<T, U extends RoomDao> {
         this.dao = dao;
     }
 
-    public void insertAll(List<KinoDto> kinos) {
-        for (KinoDto kinoDto : kinos) {
-            Log.i("room_migration", String.format("Preparing %s for the new room DB", kinoDto.getKinoId()));
-            T instance = createRoomInstanceFromDto(kinoDto);
+    public void insertAll(List<D> items) {
+        for (D item : items) {
+            Log.i("room_migration", String.format("Preparing %s %s for the new room DB", item.getClass(), item.getId()));
+            T instance = createRoomInstanceFromDto(item);
             if (instance != null) {
                 entities.add(instance);
-                Log.i("room_migration", String.format("Entity %s successfully prepared for the new room DB", kinoDto.getKinoId()));
+                Log.i("room_migration", String.format("Entity %s %s successfully prepared for the new room DB", item.getClass(), item.getId()));
             }
         }
 
         insertRoomEntities(this.entities);
     }
-
 
     private void insertRoomEntities(List<T> entities) {
         if (entities.isEmpty()) {
@@ -60,5 +59,5 @@ public abstract class EntityFromDtoCreator<T, U extends RoomDao> {
         Log.i("room_migration", String.format("Entities %s %s inserted in the new room DB", entities.size(), clazz));
     }
 
-    abstract T createRoomInstanceFromDto(KinoDto kinoDto);
+    abstract T createRoomInstanceFromDto(D itemDto);
 }

@@ -3,6 +3,7 @@ package com.ulicae.cinelog.utils.room;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.entities.Review;
+import com.ulicae.cinelog.room.entities.ReviewEntityType;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -22,7 +23,7 @@ import com.ulicae.cinelog.room.entities.Review;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewFromDtoCreator extends EntityFromDtoCreator<Review, ReviewDao> {
+public class ReviewFromDtoCreator extends EntityFromDtoCreator<Review, ReviewDao, KinoDto> {
 
     public ReviewFromDtoCreator(ReviewDao dao) {
         super(dao);
@@ -31,7 +32,8 @@ public class ReviewFromDtoCreator extends EntityFromDtoCreator<Review, ReviewDao
     @Override
     public Review createRoomInstanceFromDto(KinoDto kinoDto) {
         return new Review(
-                Math.toIntExact(kinoDto.getKinoId()),
+                Math.toIntExact(kinoDto.getId()),
+                ReviewEntityType.MOVIE,
                 kinoDto.getTitle(),
                 kinoDto.getReview_date(),
                 kinoDto.getReview(),

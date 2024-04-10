@@ -208,4 +208,9 @@ public class KinoDto implements TmdbItemDto {
     public String toString() {
         return title;
     }
+
+    @Override
+    public Long getId() {
+        return this.getKinoId();
+    }
 }
