@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
             add(R.id.nav_wishlist_serie);
             add(R.id.nav_reviews_room_movie);
             add(R.id.nav_reviews_room_serie);
+            add(R.id.nav_wishlist_room_movie);
+            add(R.id.nav_wishlist_room_serie);
             add(R.id.nav_tags);
         }};
         appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations)

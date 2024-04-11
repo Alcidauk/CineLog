@@ -117,6 +117,7 @@
     <string name="nav_reviews_space">Reviews</string>
     <string name="nav_reviews_room_space">Reviews room</string>
     <string name="nav_wishlist_space">Wishlist</string>
+    <string name="nav_wishlist_room_space">Wishlist room</string>
     <string name="nav_title">Menu</string>
     <string name="toolbar_title_reviews">Reviews</string>
     <string name="toolbar_title_wishlist">Wishlist</string>

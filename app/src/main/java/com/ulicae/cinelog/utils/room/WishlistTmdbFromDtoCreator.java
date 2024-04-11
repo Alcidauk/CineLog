@@ -1,9 +1,8 @@
 package com.ulicae.cinelog.utils.room;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.room.dao.ReviewDao;
-import com.ulicae.cinelog.room.entities.ItemEntityType;
-import com.ulicae.cinelog.room.entities.Review;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.entities.Tmdb;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -23,22 +22,19 @@ import com.ulicae.cinelog.room.entities.Review;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewFromDtoCreator extends EntityFromDtoCreator<Review, ReviewDao, KinoDto> {
+public class WishlistTmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao, WishlistDataDto> {
 
-    public ReviewFromDtoCreator(ReviewDao dao) {
+    public WishlistTmdbFromDtoCreator(TmdbDao dao) {
         super(dao);
     }
 
     @Override
-    public Review createRoomInstanceFromDto(KinoDto kinoDto) {
-        return new Review(
-                Math.toIntExact(kinoDto.getId()),
-                ItemEntityType.MOVIE,
-                kinoDto.getTitle(),
-                kinoDto.getReview_date(),
-                kinoDto.getReview(),
-                kinoDto.getRating(),
-                kinoDto.getMaxRating()
-        );
+    public Tmdb createRoomInstanceFromDto(WishlistDataDto itemDto) {
+        return itemDto.getTmdbKinoId() != null ?
+                new Tmdb(itemDto.getTmdbKinoId(),
+                        itemDto.getPosterPath(),
+                        itemDto.getOverview(),
+                        itemDto.getFirstYear(),
+                        itemDto.getReleaseDate()) : null;
     }
 }

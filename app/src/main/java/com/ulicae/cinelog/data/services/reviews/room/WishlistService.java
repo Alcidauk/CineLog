@@ -4,17 +4,18 @@ import android.app.Application;
 
 import androidx.room.Room;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
-import com.ulicae.cinelog.room.dao.ReviewDao;
-import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
 import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.dao.WishlistItemDao;
+import com.ulicae.cinelog.room.dao.WishlistTmdbCrossRefDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
-import com.ulicae.cinelog.room.entities.Review;
-import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 import com.ulicae.cinelog.room.entities.Tmdb;
+import com.ulicae.cinelog.room.entities.WishlistItem;
+import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,65 +38,66 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto> {
+public class WishlistService implements ItemService<WishlistDataDto>, DataService<WishlistDataDto> {
 
     private AppDatabase db;
-    public ReviewService(Application application) {
-        db = Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "database-cinelog").build();
+    private final ItemEntityType itemEntityType;
 
+    public WishlistService(Application application, ItemEntityType itemEntityType) {
+        db = Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "database-cinelog").build();
+        this.itemEntityType = itemEntityType;
     }
 
     /*
     TODO avoid blockingfirst and make return async
      */
     @Override
-    public List<KinoDto> getAll() {
-        ReviewDao reviewDao = db.reviewDao();
-        ReviewTmdbCrossRefDao reviewTmdbDao = db.reviewTmdbDao();
+    public List<WishlistDataDto> getAll() {
+        WishlistItemDao wishlistItemDao = db.wishlistItemDao();
+        WishlistTmdbCrossRefDao wishlistTmdbCrossRefDao = db.wishlistTmdbCrossRefDao();
         TmdbDao tmdbDao = db.tmdbDao();
 
-        List<Review> all1 = reviewDao.findAll(ItemEntityType.MOVIE).blockingFirst();
-        List<KinoDto> kinos = new ArrayList<>();
-        for(Review review: all1) {
+        List<WishlistItem> all1 = wishlistItemDao.findAll(itemEntityType).blockingFirst();
+        List<WishlistDataDto> itemsDto = new ArrayList<>();
+        for(WishlistItem item: all1) {
             Tmdb tmdb = null;
-            List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
-            for(ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
-                tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
+            List<WishlistTmdbCrossRef> crossRefs = wishlistTmdbCrossRefDao.findForReview(item.id).blockingFirst();
+            for(WishlistTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
+                tmdb = tmdbDao.find(reviewTmdbCrossRef.tmdbId).blockingFirst();
             }
 
-            kinos.add(new KinoDto(
-                    (long) review.id,
-                    tmdb != null ? tmdb.movieId : null,
-                    review.title, review.reviewDate, review.review,
-                    review.rating, review.maxRating,
+            itemsDto.add(new WishlistDataDto(
+                    (long) item.id,
+                    tmdb != null ? Math.toIntExact(tmdb.movieId) : null,
+                    item.title,
                     tmdb != null ? tmdb.posterPath : null,
                     tmdb != null ? tmdb.overview: null,
                     tmdb != null ? tmdb.year : 0,
                     tmdb != null ? tmdb.releaseDate : null,
-                    new ArrayList<>()
+                    this.itemEntityType == ItemEntityType.MOVIE ? WishlistItemType.MOVIE : WishlistItemType.SERIE
             ));
         }
 
-        return kinos;
+        return itemsDto;
     }
 
     @Override
-    public void createOrUpdateFromImport(List<KinoDto> kinoDtos) {
-
-    }
-
-    @Override
-    public void delete(KinoDto dtoObject) {
+    public void createOrUpdateFromImport(List<WishlistDataDto> kinoDtos) {
 
     }
 
     @Override
-    public KinoDto getWithTmdbId(long tmdbId) {
+    public void delete(WishlistDataDto dtoObject) {
+
+    }
+
+    @Override
+    public WishlistDataDto getWithTmdbId(long tmdbId) {
         return null;
     }
 
     @Override
-    public KinoDto createOrUpdate(KinoDto dtoObject) {
+    public WishlistDataDto createOrUpdate(WishlistDataDto dtoObject) {
         return null;
     }
 

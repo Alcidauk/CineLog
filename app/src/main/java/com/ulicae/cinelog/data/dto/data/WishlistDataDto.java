@@ -69,7 +69,7 @@ public class WishlistDataDto implements TmdbItemDto {
 
     @Override
     public Long getTmdbKinoId() {
-        return this.tmdbId.longValue();
+        return this.tmdbId != null ? this.tmdbId.longValue() : null;
     }
 
     public String getTitle() {

@@ -12,14 +12,21 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
+import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
+import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.utils.room.ReviewFromDtoCreator;
 import com.ulicae.cinelog.utils.room.ReviewTmdbCrossRefFromDtoCreator;
 import com.ulicae.cinelog.utils.room.SerieReviewFromDtoCreator;
 import com.ulicae.cinelog.utils.room.SerieReviewTmdbCrossRefFromDtoCreator;
 import com.ulicae.cinelog.utils.room.SerieTmdbFromDtoCreator;
+import com.ulicae.cinelog.utils.room.WishlistFromDtoCreator;
+import com.ulicae.cinelog.utils.room.WishlistTmdbCrossRefFromDtoCreator;
+import com.ulicae.cinelog.utils.room.WishlistTmdbFromDtoCreator;
 import com.ulicae.cinelog.utils.room.TmdbFromDtoCreator;
 
 import java.util.ArrayList;
@@ -118,35 +125,72 @@ public class UpgradeFixRunner {
                         .subscribe(givenDb -> {
                             db.clearAllTables();
 
-                            ReviewFromDtoCreator reviewFromDtoCreator =
-                                    new ReviewFromDtoCreator(givenDb.reviewDao());
-                            ReviewTmdbCrossRefFromDtoCreator reviewTmdbCrossRefFromDtoCreator =
-                                    new ReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao());
-                            TmdbFromDtoCreator tmdbFromDtoCreator =
-                                    new TmdbFromDtoCreator(givenDb.tmdbDao());
-
-                            List<KinoDto> kinoDtos =
-                                    new KinoService(((KinoApplication) application).getDaoSession()).getAll();
-
-                            reviewFromDtoCreator.insertAll(kinoDtos);
-                            reviewTmdbCrossRefFromDtoCreator.insertAll(kinoDtos);
-                            tmdbFromDtoCreator.insertAll(kinoDtos);
-
-                            SerieReviewFromDtoCreator serieReviewFromDtoCreator =
-                                    new SerieReviewFromDtoCreator(givenDb.reviewDao());
-                            SerieReviewTmdbCrossRefFromDtoCreator serieReviewTmdbCrossRefFromDtoCreator =
-                                    new SerieReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao());
-                            SerieTmdbFromDtoCreator serieTmdbFromDtoCreator =
-                                    new SerieTmdbFromDtoCreator(givenDb.tmdbDao());
-
-                            List<SerieDto> serieDtos =
-                                    new SerieService(((KinoApplication) application).getDaoSession(), application.getApplicationContext()).getAll();
-
-                            serieReviewFromDtoCreator.insertAll(serieDtos);
-                            serieTmdbFromDtoCreator.insertAll(serieDtos);
-                            serieReviewTmdbCrossRefFromDtoCreator.insertAll(serieDtos);
+                            migrateMovieReviews(givenDb);
+                            migrateSerieReviews(givenDb);
+                            migrateWishlistItems(givenDb);
                         })
         );
+    }
+
+    private void migrateWishlistItems(AppDatabase givenDb) {
+        WishlistFromDtoCreator serieWishlistFromDtoCreator =
+                new WishlistFromDtoCreator(givenDb.wishlistItemDao(), ItemEntityType.SERIE);
+        WishlistTmdbCrossRefFromDtoCreator serieWishlistTmdbCrossRefFromDtoCreator =
+                new WishlistTmdbCrossRefFromDtoCreator(givenDb.wishlistTmdbCrossRefDao(), ItemEntityType.SERIE);
+
+        WishlistFromDtoCreator movieWishlistFromDtoCreator =
+                new WishlistFromDtoCreator(givenDb.wishlistItemDao(), ItemEntityType.MOVIE);
+        WishlistTmdbCrossRefFromDtoCreator movieWishlistTmdbCrossRefFromDtoCreator =
+                new WishlistTmdbCrossRefFromDtoCreator(givenDb.wishlistTmdbCrossRefDao(), ItemEntityType.MOVIE);
+
+        WishlistTmdbFromDtoCreator wishlistTmdbFromDtoCreator =
+                new WishlistTmdbFromDtoCreator(givenDb.tmdbDao());
+
+        List<WishlistDataDto> wishlistMovieDtos =
+                new MovieWishlistService(((KinoApplication) application).getDaoSession()).getAll();
+
+        movieWishlistFromDtoCreator.insertAll(wishlistMovieDtos);
+        wishlistTmdbFromDtoCreator.insertAll(wishlistMovieDtos);
+        movieWishlistTmdbCrossRefFromDtoCreator.insertAll(wishlistMovieDtos);
+
+        List<WishlistDataDto> wishlistSerieDtos =
+                new SerieWishlistService(((KinoApplication) application).getDaoSession()).getAll();
+
+        serieWishlistFromDtoCreator.insertAll(wishlistSerieDtos);
+        wishlistTmdbFromDtoCreator.insertAll(wishlistSerieDtos);
+        serieWishlistTmdbCrossRefFromDtoCreator.insertAll(wishlistSerieDtos);
+    }
+
+    private void migrateSerieReviews(AppDatabase givenDb) {
+        SerieReviewFromDtoCreator serieReviewFromDtoCreator =
+                new SerieReviewFromDtoCreator(givenDb.reviewDao());
+        SerieReviewTmdbCrossRefFromDtoCreator serieReviewTmdbCrossRefFromDtoCreator =
+                new SerieReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao());
+        SerieTmdbFromDtoCreator serieTmdbFromDtoCreator =
+                new SerieTmdbFromDtoCreator(givenDb.tmdbDao());
+
+        List<SerieDto> serieDtos =
+                new SerieService(((KinoApplication) application).getDaoSession(), application.getApplicationContext()).getAll();
+
+        serieReviewFromDtoCreator.insertAll(serieDtos);
+        serieTmdbFromDtoCreator.insertAll(serieDtos);
+        serieReviewTmdbCrossRefFromDtoCreator.insertAll(serieDtos);
+    }
+
+    private void migrateMovieReviews(AppDatabase givenDb) {
+        ReviewFromDtoCreator reviewFromDtoCreator =
+                new ReviewFromDtoCreator(givenDb.reviewDao());
+        ReviewTmdbCrossRefFromDtoCreator reviewTmdbCrossRefFromDtoCreator =
+                new ReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao());
+        TmdbFromDtoCreator tmdbFromDtoCreator =
+                new TmdbFromDtoCreator(givenDb.tmdbDao());
+
+        List<KinoDto> kinoDtos =
+                new KinoService(((KinoApplication) application).getDaoSession()).getAll();
+
+        reviewFromDtoCreator.insertAll(kinoDtos);
+        tmdbFromDtoCreator.insertAll(kinoDtos);
+        reviewTmdbCrossRefFromDtoCreator.insertAll(kinoDtos);
     }
 
     public void clear() {

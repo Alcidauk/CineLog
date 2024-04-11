@@ -14,12 +14,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
-import com.ulicae.cinelog.data.services.wishlist.WishlistService;
+import com.ulicae.cinelog.data.services.reviews.DataService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,7 @@ public abstract class WishlistFragment extends Fragment {
 
     List<WishlistDataDto> dataDtos;
 
-    protected WishlistService service;
+    protected DataService service;
 
     protected int actionToItem;
 

@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.room.entities;
 
-public enum ReviewEntityType {
+public enum ItemEntityType {
     MOVIE,
     SERIE
 }

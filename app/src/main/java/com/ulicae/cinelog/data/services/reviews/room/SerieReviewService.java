@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.room.Room;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
@@ -12,8 +11,8 @@ import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
 import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
-import com.ulicae.cinelog.room.entities.ReviewEntityType;
 import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 import com.ulicae.cinelog.room.entities.Tmdb;
 
@@ -57,7 +56,7 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
         ReviewTmdbCrossRefDao reviewTmdbDao = db.reviewTmdbDao();
         TmdbDao tmdbDao = db.tmdbDao();
 
-        List<Review> all1 = reviewDao.findAll(ReviewEntityType.SERIE).blockingFirst();
+        List<Review> all1 = reviewDao.findAll(ItemEntityType.SERIE).blockingFirst();
         List<SerieDto> kinos = new ArrayList<>();
         for(Review review: all1) {
             Tmdb tmdb = null;

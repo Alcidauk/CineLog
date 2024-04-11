@@ -77,6 +77,16 @@
             app:destination="@id/searchTmbdSerieFragment" />
     </fragment>
     <fragment
+        android:id="@+id/nav_wishlist_room_movie"
+        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.MovieWishlistRoomFragment"
+        android:label="@string/title_fragment_wishlist_movie" >
+    </fragment>
+    <fragment
+        android:id="@+id/nav_wishlist_room_serie"
+        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistRoomFragment"
+        android:label="@string/title_fragment_wishlist_serie" >
+    </fragment>
+    <fragment
         android:id="@+id/nav_tags"
         android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagListFragment"
         android:label="@string/tags_title" >

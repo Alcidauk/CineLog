@@ -29,13 +29,14 @@ import java.util.List;
 public abstract class EntityFromDtoCreator<T, U extends RoomDao, D extends ItemDto> {
 
     private final U dao;
-    private final List<T> entities = new ArrayList<>();
 
     public EntityFromDtoCreator(U dao) {
         this.dao = dao;
     }
 
     public void insertAll(List<D> items) {
+        List<T> entities = new ArrayList<>();
+
         for (D item : items) {
             Log.i("room_migration", String.format("Preparing %s %s for the new room DB", item.getClass(), item.getId()));
             T instance = createRoomInstanceFromDto(item);
@@ -45,7 +46,7 @@ public abstract class EntityFromDtoCreator<T, U extends RoomDao, D extends ItemD
             }
         }
 
-        insertRoomEntities(this.entities);
+        insertRoomEntities(entities);
     }
 
     private void insertRoomEntities(List<T> entities) {

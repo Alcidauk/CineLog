@@ -55,6 +55,18 @@
             </menu>
         </item>
         <item
+            android:id="@+id/nav_room_wishlist"
+            android:title="@string/nav_wishlist_room_space">
+            <menu>
+                <item
+                    android:id="@+id/nav_wishlist_room_movie"
+                    android:title="@string/title_fragment_movie" />
+                <item
+                    android:id="@+id/nav_wishlist_room_serie"
+                    android:title="@string/title_fragment_serie" />
+            </menu>
+        </item>
+        <item
             android:id="@+id/nav_tags"
             android:title="@string/nav_tags_space" />
     </group>

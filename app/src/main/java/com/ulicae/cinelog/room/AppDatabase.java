@@ -8,9 +8,13 @@ import com.ulicae.cinelog.room.converters.Converters;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
 import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.dao.WishlistItemDao;
+import com.ulicae.cinelog.room.dao.WishlistTmdbCrossRefDao;
 import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 import com.ulicae.cinelog.room.entities.Tmdb;
+import com.ulicae.cinelog.room.entities.WishlistItem;
+import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -30,12 +34,16 @@ import com.ulicae.cinelog.room.entities.Tmdb;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-@Database(entities = {Review.class, ReviewTmdbCrossRef.class, Tmdb.class}, version = 1)
+@Database(entities = {Review.class, ReviewTmdbCrossRef.class, Tmdb.class, WishlistItem.class, WishlistTmdbCrossRef.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
+    public abstract TmdbDao tmdbDao();
+
     public abstract ReviewDao reviewDao();
     public abstract ReviewTmdbCrossRefDao reviewTmdbDao();
-    public abstract TmdbDao tmdbDao();
+
+    public abstract WishlistItemDao wishlistItemDao();
+    public abstract WishlistTmdbCrossRefDao wishlistTmdbCrossRefDao();
 
     /*
     TODO

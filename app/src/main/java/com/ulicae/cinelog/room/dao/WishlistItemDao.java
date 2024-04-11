@@ -1,10 +1,16 @@
-package com.ulicae.cinelog.room.converters;
+package com.ulicae.cinelog.room.dao;
 
-import androidx.room.TypeConverter;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
 
 import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.entities.WishlistItem;
 
-import java.util.Date;
+import java.util.List;
+
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -24,24 +30,18 @@ import java.util.Date;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class Converters {
-    @TypeConverter
-    public static Date fromTimestamp(Long value) {
-        return value == null ? null : new Date(value);
-    }
+@Dao
+public interface WishlistItemDao extends RoomDao<WishlistItem> {
 
-    @TypeConverter
-    public static Long dateToTimestamp(Date date) {
-        return date == null ? null : date.getTime();
-    }
 
-    @TypeConverter
-    public static String reviewEntityTypeToString(ItemEntityType itemEntityType) {
-        return itemEntityType.toString();
-    }
+    @Query("SELECT * FROM wishlistitem WHERE item_entity_type = :itemEntityType")
+    Flowable<List<WishlistItem>> findAll(ItemEntityType itemEntityType);
 
-    @TypeConverter
-    public static ItemEntityType reviewEntityTypeFromString(String reviewEntityType) {
-        return ItemEntityType.valueOf(reviewEntityType);
-    }
+    @Query("SELECT * FROM wishlistitem WHERE id = :id")
+    Flowable<WishlistItem> find(long id);
+
+    // TODO create is not update
+    @Insert
+    Completable createOrUpdate(WishlistItem wishlistItem);
+
 }
