@@ -127,7 +127,7 @@ public class UpgradeFixRunner {
                 Observable.just(db)
                         .subscribeOn(Schedulers.io())
                         .subscribe(givenDb -> {
-                            db.clearAllTables();
+                            givenDb.clearAllTables();
 
                             int biggestMovieReviewId = getBiggestMovieId();
 
