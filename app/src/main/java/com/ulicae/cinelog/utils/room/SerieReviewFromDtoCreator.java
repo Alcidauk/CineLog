@@ -6,14 +6,18 @@ import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 
 public class SerieReviewFromDtoCreator extends EntityFromDtoCreator<Review, ReviewDao, SerieDto> {
-    public SerieReviewFromDtoCreator(ReviewDao dao) {
+
+    private final int biggestMovieReviewId;
+
+    public SerieReviewFromDtoCreator(ReviewDao dao, int biggestMovieReviewId) {
         super(dao);
+        this.biggestMovieReviewId = biggestMovieReviewId;
     }
 
     @Override
     Review createRoomInstanceFromDto(SerieDto itemDto) {
             return new Review(
-                    Math.toIntExact(10000 + itemDto.getId()),
+                    Math.toIntExact(biggestMovieReviewId + itemDto.getId()),
                     ItemEntityType.SERIE,
                     itemDto.getTitle(),
                     itemDto.getReview_date(),

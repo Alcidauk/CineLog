@@ -27,15 +27,18 @@ import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 public class TagReviewCrossRefFromDtoCreator extends EntityFromDtoCreator<ReviewTagCrossRef, ReviewTagCrossRefDao, TagDto>{
     private final KinoDto kinoDto;
 
-    public TagReviewCrossRefFromDtoCreator(ReviewTagCrossRefDao reviewTagCrossRefDao, KinoDto kinoDto) {
+    private final int biggestMovieReviewId;
+
+    public TagReviewCrossRefFromDtoCreator(ReviewTagCrossRefDao reviewTagCrossRefDao, KinoDto kinoDto, int biggestMovieReviewId) {
         super(reviewTagCrossRefDao);
         this.kinoDto = kinoDto;
+        this.biggestMovieReviewId = biggestMovieReviewId;
     }
 
     @Override
     ReviewTagCrossRef createRoomInstanceFromDto(TagDto itemDto) {
         return new ReviewTagCrossRef(
-                Math.toIntExact(kinoDto instanceof SerieDto ? 10000 + kinoDto.getId() : kinoDto.getId()),
+                Math.toIntExact(kinoDto instanceof SerieDto ? biggestMovieReviewId + kinoDto.getId() : kinoDto.getId()),
                 Math.toIntExact(itemDto.getId())
         );
     }

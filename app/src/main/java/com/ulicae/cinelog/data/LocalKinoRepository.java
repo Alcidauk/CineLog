@@ -133,4 +133,9 @@ public class LocalKinoRepository extends CrudRepository<LocalKinoDao, LocalKino>
 
         return localKinoQueryBuilder.build().list();
     }
+
+    public int findBiggestId() {
+        List<LocalKino> biggestIdMovieReview = dao.queryBuilder().orderDesc(LocalKinoDao.Properties.Id).limit(1).build().list();
+        return !biggestIdMovieReview.isEmpty() ? Math.toIntExact(biggestIdMovieReview.get(0).getId()) : 0;
+    }
 }

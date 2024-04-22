@@ -144,4 +144,8 @@ public class KinoService implements DataService<KinoDto> {
     public void delete(KinoDto kinoDto) {
         localKinoRepository.delete(kinoDto.getKinoId());
     }
+
+    public int getBiggestKinoId() {
+        return localKinoRepository.findBiggestId();
+    }
 }
