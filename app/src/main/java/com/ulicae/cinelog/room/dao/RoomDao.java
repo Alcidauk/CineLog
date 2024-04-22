@@ -1,6 +1,7 @@
 package com.ulicae.cinelog.room.dao;
 
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 
 import java.util.List;
 
@@ -28,4 +29,7 @@ public interface RoomDao<T> {
 
     @Insert
     Completable insertAll(List<T> entities);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Completable insert(T entity);
 }

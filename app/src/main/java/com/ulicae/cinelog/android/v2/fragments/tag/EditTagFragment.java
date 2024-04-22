@@ -12,24 +12,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentEditTagBinding;
+import com.ulicae.cinelog.room.AppDatabase;
 
 import org.parceler.Parcels;
+
+import io.reactivex.schedulers.Schedulers;
 
 public class EditTagFragment extends Fragment {
 
     private FragmentEditTagBinding binding;
 
+    private TagAsyncService tagService;
+
+
     TagDto tag;
-    private TagService tagDtoService;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -44,8 +49,17 @@ public class EditTagFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        tagDtoService = new TagService(((KinoApplication) requireActivity().getApplication()).getDaoSession());
+        // TODO should we get DB in another way ?
+        AppDatabase db = Room
+                .databaseBuilder(
+                        requireActivity().getApplicationContext(),
+                        AppDatabase.class,
+                        "database-cinelog")
+                .build();
 
+        tagService = new TagAsyncService(db.tagDao());
+
+        // TODO avoid parcels between activities and fetch DB with tag id
         tag = Parcels.unwrap(requireArguments().getParcelable("tag"));
         if (tag == null) {
             createNewTag();
@@ -129,7 +143,9 @@ public class EditTagFragment extends Fragment {
             return;
         }
 
-        tagDtoService.createOrUpdate(tag);
+        tagService.createOrUpdate(tag)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
 
         ((MainActivity) requireActivity()).navigateBack();
     }

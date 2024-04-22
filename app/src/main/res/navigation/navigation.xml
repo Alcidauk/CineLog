@@ -90,6 +90,11 @@
         android:id="@+id/nav_tags"
         android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagListFragment"
         android:label="@string/tags_title" >
+    </fragment>
+    <fragment
+        android:id="@+id/nav_room_tags"
+        android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagRoomFragment"
+        android:label="@string/tags_title" >
         <action
             android:id="@+id/action_nav_tags_to_editTagFragment"
             app:destination="@id/editTagFragment"
@@ -97,11 +102,6 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_room_tags"
-        android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagRoomFragment"
-        android:label="@string/tags_title" >
     </fragment>
     <fragment
         android:id="@+id/searchTmdbMovieFragment"
