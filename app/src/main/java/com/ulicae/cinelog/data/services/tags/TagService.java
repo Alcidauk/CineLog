@@ -8,12 +8,12 @@ import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.dao.JoinLocalKinoWithTag;
 import com.ulicae.cinelog.data.dao.JoinReviewWithTag;
 import com.ulicae.cinelog.data.dao.JoinWithTag;
-import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.Tag;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.TagDtoBuilder;
+import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.utils.TagDtoToDbBuilder;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagService implements ItemService<TagDto> {
+public class TagService implements ItemService<TagDto>, DataService<TagDto> {
 
     private final TagRepository tagRepository;
     private final JoinLocalKinoWithTagRepository joinLocalKinoWithTagRepository;
@@ -88,12 +88,20 @@ public class TagService implements ItemService<TagDto> {
         return buildTags(tagRepository.findSeriesTags());
     }
 
-    public void createOrUpdate(TagDto tagDto) {
+    // TODO fix that
+    @Override
+    public TagDto getWithTmdbId(long tmdbId) {
+        return null;
+    }
+
+    public TagDto createOrUpdate(TagDto tagDto) {
         Tag tag = tagDtoToDbBuilder.build(tagDto);
 
         if (tag != null) {
             tagRepository.createOrUpdate(tag);
         }
+
+        return tagDto;
     }
 
     public void addTagToItemIfNotExists(TagDto tagDto, KinoDto kinoDto) {
@@ -149,7 +157,7 @@ public class TagService implements ItemService<TagDto> {
         return tagDtos;
     }
 
-    public void removeTag(TagDto dataDto) {
+    public void delete(TagDto dataDto) {
         List<JoinLocalKinoWithTag> joinKino =
                 joinLocalKinoWithTagRepository.findAllByTag(dataDto.getId());
         for (JoinLocalKinoWithTag joinLocalKinoWithTag : joinKino) {

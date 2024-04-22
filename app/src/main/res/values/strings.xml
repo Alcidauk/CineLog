@@ -148,6 +148,7 @@
     <string name="title_fragment_serie_episodes">Episodes</string>
     <string name="serie_episode_delete_hint">Please long click to remove watching data</string>
     <string name="nav_tags_space">Tags</string>
+    <string name="nav_tags_room_space">Tags (Room)</string>
     <string name="tags_title">Tags</string>
     <string name="tag_color">Color</string>
     <string name="tag_name">Tag name</string>
@@ -162,4 +163,6 @@
     <string name="validate">Validate</string>
     <string name="no_tags_found_label">No tag found. Please verify enabled tags.</string>
     <string name="action_share">Share</string>
+    <string name="title_fragment_serie_room">Series (Room)</string>
+    <string name="title_fragment_movie_room">Movies (Room)</string>
 </resources>

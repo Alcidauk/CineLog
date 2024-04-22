@@ -5,15 +5,20 @@ import android.app.Application;
 import androidx.room.Room;
 
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dao.ReviewDao;
+import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
 import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
+import com.ulicae.cinelog.room.dao.TagDao;
 import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
+import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
+import com.ulicae.cinelog.room.entities.Tag;
 import com.ulicae.cinelog.room.entities.Tmdb;
 
 import java.util.ArrayList;
@@ -55,6 +60,8 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
         ReviewDao reviewDao = db.reviewDao();
         ReviewTmdbCrossRefDao reviewTmdbDao = db.reviewTmdbDao();
         TmdbDao tmdbDao = db.tmdbDao();
+        ReviewTagCrossRefDao reviewTagCrossRefDao = db.reviewTagCrossRefDao();
+        TagDao tagDao = db.tagDao();
 
         List<Review> all1 = reviewDao.findAll(ItemEntityType.SERIE).blockingFirst();
         List<SerieDto> kinos = new ArrayList<>();
@@ -63,6 +70,13 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
             List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
             for(ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
                 tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
+            }
+
+            List<TagDto> tags = new ArrayList<>();
+            List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
+            for(ReviewTagCrossRef reviewTagCrossRef : tagCrossRefs) {
+                Tag tag = tagDao.find(reviewTagCrossRef.tagId).blockingFirst();
+                tags.add(new TagDto((long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries));
             }
 
             kinos.add(new SerieDto(
@@ -75,7 +89,7 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
                     tmdb != null ? tmdb.overview: null,
                     tmdb != null ? tmdb.year : 0,
                     tmdb != null ? tmdb.releaseDate : null,
-                    new ArrayList<>()
+                    tags
             ));
         }
 

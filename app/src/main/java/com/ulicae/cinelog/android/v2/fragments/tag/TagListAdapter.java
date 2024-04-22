@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.data.services.reviews.DataService;
 
 import java.util.List;
 
@@ -38,12 +38,12 @@ import java.util.List;
  */
 class TagListAdapter extends ArrayAdapter<TagDto> {
 
-    private final TagService tagService;
+    private final DataService<TagDto> tagService;
     private final MainActivity activity;
 
-    TagListAdapter(@NonNull Context context, @NonNull List<TagDto> objects, TagService tagService, MainActivity activity) {
+    TagListAdapter(@NonNull Context context, @NonNull List<TagDto> objects, DataService<TagDto> dataService, MainActivity activity) {
         super(context, R.layout.tag_item, objects);
-        this.tagService = tagService;
+        this.tagService = dataService;
         this.activity = activity;
     }
 
@@ -84,7 +84,7 @@ class TagListAdapter extends ArrayAdapter<TagDto> {
         new AlertDialog.Builder(getContext())
                 .setMessage(R.string.delete_tag_dialog)
                 .setPositiveButton(R.string.yes, (dialog, id) -> {
-                    tagService.removeTag(dataDto);
+                    tagService.delete(dataDto);
                     remove(dataDto);
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {})

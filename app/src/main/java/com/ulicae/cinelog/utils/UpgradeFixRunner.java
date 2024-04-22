@@ -12,9 +12,11 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
+import com.ulicae.cinelog.data.services.tags.TagService;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.room.AppDatabase;
@@ -24,10 +26,12 @@ import com.ulicae.cinelog.utils.room.ReviewTmdbCrossRefFromDtoCreator;
 import com.ulicae.cinelog.utils.room.SerieReviewFromDtoCreator;
 import com.ulicae.cinelog.utils.room.SerieReviewTmdbCrossRefFromDtoCreator;
 import com.ulicae.cinelog.utils.room.SerieTmdbFromDtoCreator;
+import com.ulicae.cinelog.utils.room.TagFromDtoCreator;
+import com.ulicae.cinelog.utils.room.TagReviewCrossRefFromDtoCreator;
+import com.ulicae.cinelog.utils.room.TmdbFromDtoCreator;
 import com.ulicae.cinelog.utils.room.WishlistFromDtoCreator;
 import com.ulicae.cinelog.utils.room.WishlistTmdbCrossRefFromDtoCreator;
 import com.ulicae.cinelog.utils.room.WishlistTmdbFromDtoCreator;
-import com.ulicae.cinelog.utils.room.TmdbFromDtoCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,11 +129,22 @@ public class UpgradeFixRunner {
                         .subscribe(givenDb -> {
                             db.clearAllTables();
 
+                            migrateTags(givenDb);
+
                             migrateMovieReviews(givenDb);
                             migrateSerieReviews(givenDb);
                             migrateWishlistItems(givenDb);
                         })
         );
+    }
+
+    private void migrateTags(AppDatabase givenDb) {
+        TagFromDtoCreator tagFromDtoCreator = new TagFromDtoCreator(givenDb.tagDao());
+
+        List<TagDto> tagDtos =
+                new TagService(((KinoApplication) application).getDaoSession()).getAll();
+
+        tagFromDtoCreator.insertAll(tagDtos);
     }
 
     private void migrateWishlistItems(AppDatabase givenDb) {
@@ -175,6 +190,12 @@ public class UpgradeFixRunner {
         serieReviewFromDtoCreator.insertAll(serieDtos);
         serieTmdbFromDtoCreator.insertAll(serieDtos);
         serieReviewTmdbCrossRefFromDtoCreator.insertAll(serieDtos);
+
+        for(SerieDto serieDto : serieDtos) {
+            TagReviewCrossRefFromDtoCreator tagReviewCrossRefFromDtoCreator =
+                    new TagReviewCrossRefFromDtoCreator(givenDb.reviewTagCrossRefDao(), serieDto);
+            tagReviewCrossRefFromDtoCreator.insertAll(serieDto.getTags());
+        }
     }
 
     private void migrateMovieReviews(AppDatabase givenDb) {
@@ -191,6 +212,12 @@ public class UpgradeFixRunner {
         reviewFromDtoCreator.insertAll(kinoDtos);
         tmdbFromDtoCreator.insertAll(kinoDtos);
         reviewTmdbCrossRefFromDtoCreator.insertAll(kinoDtos);
+
+        for(KinoDto kinoDto : kinoDtos) {
+            TagReviewCrossRefFromDtoCreator tagReviewCrossRefFromDtoCreator =
+                    new TagReviewCrossRefFromDtoCreator(givenDb.reviewTagCrossRefDao(), kinoDto);
+            tagReviewCrossRefFromDtoCreator.insertAll(kinoDto.getTags());
+        }
     }
 
     public void clear() {

@@ -99,6 +99,11 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
+        android:id="@+id/nav_room_tags"
+        android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagRoomFragment"
+        android:label="@string/tags_title" >
+    </fragment>
+    <fragment
         android:id="@+id/searchTmdbMovieFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbMovieFragment"
         android:label="@string/title_activity_add_kino" >
