@@ -10,16 +10,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.tags.room.TagService;
+import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentTagListBinding;
+import com.ulicae.cinelog.room.AppDatabase;
 
-import java.util.List;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -43,9 +45,11 @@ public class TagRoomFragment extends Fragment {
 
     private FragmentTagListBinding binding;
 
-    private TagService service;
+    private TagAsyncService service;
 
     TagListAdapter listAdapter;
+
+    CompositeDisposable disposable;
 
 
     @Override
@@ -57,7 +61,16 @@ public class TagRoomFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        service = new TagService(((KinoApplication) requireActivity().getApplication()));
+        // TODO should we get DB in another way ?
+        AppDatabase db = Room
+                .databaseBuilder(
+                        requireActivity().getApplicationContext(),
+                        AppDatabase.class,
+                        "database-cinelog")
+                .build();
+
+        service = new TagAsyncService(db.tagDao());
+        disposable = new CompositeDisposable();
 
         fetchAndSetTags();
 
@@ -70,15 +83,30 @@ public class TagRoomFragment extends Fragment {
     }
 
     private void fetchAndSetTags() {
-        List<TagDto> dataDtos = service.getAll();
-
-        listAdapter = new TagListAdapter(requireContext(), dataDtos, service, (MainActivity) requireActivity());
-        binding.tagList.setAdapter(listAdapter);
+        disposable.add(
+                service.findAll()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                tags -> {
+                                    listAdapter = new TagListAdapter(requireContext(), tags, service, (MainActivity) requireActivity());
+                                    binding.tagList.setAdapter(listAdapter);
+                                }
+                        )
+        );
+        // TODO gérer les erreurs throwable -> Log.e("coucou", "Unable to get tags", throwable)));
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_simple, menu);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        disposable.dispose();
     }
 }

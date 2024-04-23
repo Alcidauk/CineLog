@@ -59,9 +59,6 @@
             android:title="@string/nav_tags_space">
             <menu>
                 <item
-                    android:id="@+id/nav_tags"
-                    android:title="@string/nav_tags_space" />
-                <item
                     android:id="@+id/nav_room_tags"
                     android:title="@string/nav_tags_room_space" />
             </menu>

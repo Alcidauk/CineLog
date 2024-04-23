@@ -5,7 +5,13 @@ import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.room.dao.TagDao;
 import com.ulicae.cinelog.room.entities.Tag;
 
-import io.reactivex.Completable;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -43,5 +49,31 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
                         dtoObject.isForMovies(),
                         dtoObject.isForSeries()
                 ));
+    }
+
+    @Override
+    public void delete(TagDto dtoObject) {
+        // TODO how to delete without building an object
+        Tag tagToDelete = new Tag(Math.toIntExact(dtoObject.getId()), null, null, false, false);
+
+        tagDao.delete(tagToDelete);
+    }
+
+    @Override
+    public Flowable<List<TagDto>> findAll() {
+        return tagDao.findAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::getDtoFromDaos);
+    }
+
+    private List<TagDto> getDtoFromDaos(List<Tag> coucou) {
+        List<TagDto> tagDtos = new ArrayList<>();
+        for (Tag tag : coucou) {
+            tagDtos.add(new TagDto(
+                    (long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries
+            ));
+        }
+        return tagDtos;
     }
 }

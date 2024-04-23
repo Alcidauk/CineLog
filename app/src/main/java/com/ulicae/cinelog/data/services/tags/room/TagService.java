@@ -8,12 +8,10 @@ import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
-import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
-import com.ulicae.cinelog.room.dao.TagDao;
-import com.ulicae.cinelog.room.entities.Tag;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.NotImplementedError;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -46,23 +44,7 @@ public class TagService implements ItemService<TagDto>, DataService<TagDto> {
      */
     @Override
     public List<TagDto> getAll() {
-        TagDao tagDao = db.tagDao();
-        ReviewTagCrossRefDao reviewTagCrossRefDao = db.reviewTagCrossRefDao();
-
-        List<Tag> all1 = tagDao.findAll().blockingFirst();
-        List<TagDto> tags = new ArrayList<>();
-        for (Tag tag : all1) {
-            //TODO ajouter le fetch dees liens avec des reviews
-            tags.add(new TagDto(
-                    (long) tag.id,
-                    tag.name,
-                    tag.color,
-                    tag.forMovies,
-                    tag.forSeries
-            ));
-        }
-
-        return tags;
+        throw new NotImplementedError("TagAsyncService should now be used to retrieve tags.");
     }
 
     @Override

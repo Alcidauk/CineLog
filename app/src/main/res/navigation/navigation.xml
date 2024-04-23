@@ -87,11 +87,6 @@
         android:label="@string/title_fragment_wishlist_serie" >
     </fragment>
     <fragment
-        android:id="@+id/nav_tags"
-        android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagListFragment"
-        android:label="@string/tags_title" >
-    </fragment>
-    <fragment
         android:id="@+id/nav_room_tags"
         android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagRoomFragment"
         android:label="@string/tags_title" >
