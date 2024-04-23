@@ -50,15 +50,8 @@ public class EditTagFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        // TODO should we get DB in another way ?
-        AppDatabase db = Room
-                .databaseBuilder(
-                        requireActivity().getApplicationContext(),
-                        AppDatabase.class,
-                        "database-cinelog")
-                .build();
 
-        tagService = new TagAsyncService(db.tagDao());
+        tagService = new TagAsyncService(((MainActivity) getActivity()).getDb().tagDao());
 
         // TODO avoid parcels between activities and fetch DB with tag id
         tag = Parcels.unwrap(requireArguments().getParcelable("tag"));

@@ -17,6 +17,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.BuildConfig;
@@ -30,6 +31,7 @@ import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
+import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 import com.ulicae.cinelog.utils.UpgradeFixRunner;
 
@@ -63,6 +65,20 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
     private UpgradeFixRunner upgradeFixRunner;
+
+    private AppDatabase db;
+
+    public AppDatabase getDb() {
+        if(this.db == null) {
+            this.db = Room
+                    .databaseBuilder(
+                            getApplicationContext(),
+                            AppDatabase.class,
+                            "database-cinelog")
+                    .build();
+        }
+        return this.db;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
