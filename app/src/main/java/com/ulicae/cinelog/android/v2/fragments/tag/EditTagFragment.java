@@ -25,7 +25,8 @@ import com.ulicae.cinelog.room.AppDatabase;
 
 import org.parceler.Parcels;
 
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 
 public class EditTagFragment extends Fragment {
 

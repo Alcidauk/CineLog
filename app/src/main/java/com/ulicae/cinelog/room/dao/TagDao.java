@@ -8,7 +8,8 @@ import com.ulicae.cinelog.room.entities.Tag;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
+
 
 /**
  * CineLog Copyright 2024 Pierre Rognon

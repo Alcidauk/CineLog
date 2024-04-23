@@ -5,7 +5,8 @@ import androidx.room.OnConflictStrategy;
 
 import java.util.List;
 
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
+
 
 /**
  * CineLog Copyright 2024 Pierre Rognon

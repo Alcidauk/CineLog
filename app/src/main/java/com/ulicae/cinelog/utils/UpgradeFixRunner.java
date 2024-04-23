@@ -36,9 +36,9 @@ import com.ulicae.cinelog.utils.room.WishlistTmdbFromDtoCreator;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
