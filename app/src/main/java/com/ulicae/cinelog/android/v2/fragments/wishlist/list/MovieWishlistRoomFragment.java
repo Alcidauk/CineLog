@@ -16,6 +16,7 @@ import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.reviews.room.WishlistService;
 import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
+import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 
 import java.util.ArrayList;
@@ -52,8 +53,10 @@ public class MovieWishlistRoomFragment extends WishlistFragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
+        AppDatabase appDb = ((MainActivity) getActivity()).getDb();
+
         actionToItem = R.id.action_nav_wishlist_movie_to_wishlistItemFragment;
-        service = new WishlistService(getActivity().getApplication(), ItemEntityType.MOVIE);
+        service = new WishlistService(appDb, ItemEntityType.MOVIE);
 
         super.onViewCreated(view, savedInstanceState);
     }

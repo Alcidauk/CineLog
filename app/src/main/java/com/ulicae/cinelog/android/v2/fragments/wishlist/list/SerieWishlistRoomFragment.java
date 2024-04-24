@@ -15,6 +15,7 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.reviews.room.WishlistService;
 import com.ulicae.cinelog.databinding.FragmentSerieListBinding;
+import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 
 /**
@@ -49,7 +50,9 @@ public class SerieWishlistRoomFragment extends WishlistFragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         actionToItem = R.id.action_nav_wishlist_serie_to_wishlistItemFragment;
-        service = new WishlistService(getActivity().getApplication(), ItemEntityType.SERIE);
+
+        AppDatabase appDb = ((MainActivity) getActivity()).getDb();
+        service = new WishlistService(appDb, ItemEntityType.SERIE);
 
         super.onViewCreated(view, savedInstanceState);
     }

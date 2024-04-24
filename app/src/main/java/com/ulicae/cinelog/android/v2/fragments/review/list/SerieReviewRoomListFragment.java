@@ -10,9 +10,7 @@ import android.widget.ListView;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
 import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
 import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
 
@@ -54,7 +52,7 @@ public class SerieReviewRoomListFragment extends ReviewListFragment<SerieDto> {
 
     @Override
     protected void createService() {
-        service = new SerieReviewService(getActivity().getApplication());
+        service = new SerieReviewService(((MainActivity) getActivity()).getDb());
     }
 
     @Override

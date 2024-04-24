@@ -2,12 +2,9 @@ package com.ulicae.cinelog.data.services.tags.room;
 
 import android.app.Application;
 
-import androidx.room.Room;
-
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
-import com.ulicae.cinelog.room.AppDatabase;
 
 import java.util.List;
 
@@ -33,10 +30,7 @@ import kotlin.NotImplementedError;
  */
 public class TagService implements ItemService<TagDto>, DataService<TagDto> {
 
-    private AppDatabase db;
-
     public TagService(Application application) {
-        db = Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "database-cinelog").build();
     }
 
     /*

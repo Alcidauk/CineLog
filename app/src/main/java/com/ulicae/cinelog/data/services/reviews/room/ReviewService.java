@@ -1,9 +1,5 @@
 package com.ulicae.cinelog.data.services.reviews.room;
 
-import android.app.Application;
-
-import androidx.room.Room;
-
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
@@ -20,7 +16,6 @@ import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
 import com.ulicae.cinelog.room.entities.Tmdb;
-import com.ulicae.cinelog.utils.room.TagFromDtoCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +40,10 @@ import java.util.List;
  */
 public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto> {
 
-    private AppDatabase db;
-    public ReviewService(Application application) {
-        db = Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "database-cinelog").build();
+    private final AppDatabase db;
 
+    public ReviewService(AppDatabase db) {
+        this.db = db;
     }
 
     /*

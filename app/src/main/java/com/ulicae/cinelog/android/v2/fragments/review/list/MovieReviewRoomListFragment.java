@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -53,7 +52,7 @@ public class MovieReviewRoomListFragment extends ReviewListFragment<KinoDto> {
 
     @Override
     protected void createService() {
-        service = new ReviewService(getActivity().getApplication());
+        service = new ReviewService(((MainActivity) getActivity()).getDb());
     }
 
     @Override

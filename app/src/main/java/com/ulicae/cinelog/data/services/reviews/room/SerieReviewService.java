@@ -1,9 +1,5 @@
 package com.ulicae.cinelog.data.services.reviews.room;
 
-import android.app.Application;
-
-import androidx.room.Room;
-
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
@@ -46,14 +42,14 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
 
     // TODO does not have a real usage, it should be ReviewService that does this job
 
-    private AppDatabase db;
-    public SerieReviewService(Application application) {
-        db = Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "database-cinelog").build();
+    private final AppDatabase db;
 
+    public SerieReviewService(AppDatabase db) {
+        this.db = db;
     }
 
     /*
-    TODO avoid blockingfirst and make return async
+    TODO avoid- blockingfirst and make return async
      */
     @Override
     public List<SerieDto> getAll() {

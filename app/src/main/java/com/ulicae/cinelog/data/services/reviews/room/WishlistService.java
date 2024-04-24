@@ -1,9 +1,5 @@
 package com.ulicae.cinelog.data.services.reviews.room;
 
-import android.app.Application;
-
-import androidx.room.Room;
-
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.reviews.DataService;
@@ -43,8 +39,8 @@ public class WishlistService implements ItemService<WishlistDataDto>, DataServic
     private AppDatabase db;
     private final ItemEntityType itemEntityType;
 
-    public WishlistService(Application application, ItemEntityType itemEntityType) {
-        db = Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "database-cinelog").build();
+    public WishlistService(AppDatabase db, ItemEntityType itemEntityType) {
+        this.db = db;
         this.itemEntityType = itemEntityType;
     }
 
