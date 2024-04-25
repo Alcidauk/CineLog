@@ -38,7 +38,7 @@ public interface TmdbDao extends RoomDao<Tmdb> {
     @Query("SELECT * FROM tmdb")
     Flowable<List<Tmdb>> findAll();
 
-    @Query("SELECT * FROM tmdb WHERE id = :id")
+    @Query("SELECT * FROM tmdb WHERE movie_id = :id")
     Flowable<Tmdb> find(long id);
 
 }

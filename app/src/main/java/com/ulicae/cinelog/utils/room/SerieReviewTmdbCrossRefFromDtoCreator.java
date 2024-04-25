@@ -37,7 +37,7 @@ public class SerieReviewTmdbCrossRefFromDtoCreator extends EntityFromDtoCreator<
         return itemDto.getTmdbKinoId() != null ?
                 new ReviewTmdbCrossRef(
                         Math.toIntExact(biggestMovieReviewId + itemDto.getId()),
-                        Math.toIntExact(biggestMovieReviewId + itemDto.getId())
+                        Math.toIntExact(itemDto.getTmdbKinoId())
                 ) : null;
     }
 }

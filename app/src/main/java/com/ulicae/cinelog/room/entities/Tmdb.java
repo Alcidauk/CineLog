@@ -24,10 +24,11 @@ import androidx.room.PrimaryKey;
  */
 
 @Entity
-public class Tmdb extends Media {
+public class Tmdb {
 
-    @ColumnInfo(name = "tmdb_id")
-    public Long tmdbId;
+    @PrimaryKey
+    @ColumnInfo(name = "movie_id")
+    public Long movieId;
 
     @ColumnInfo(name = "poster_path")
     public String posterPath;
@@ -40,9 +41,8 @@ public class Tmdb extends Media {
     @ColumnInfo(name = "release_date")
     public String releaseDate;
 
-    public Tmdb(int id, String title, Long tmdbId, String posterPath, String overview, int year, String releaseDate) {
-        super(id, title);
-        this.tmdbId = tmdbId;
+    public Tmdb(Long movieId, String posterPath, String overview, int year, String releaseDate) {
+        this.movieId = movieId;
         this.posterPath = posterPath;
         this.overview = overview;
         this.year = year;

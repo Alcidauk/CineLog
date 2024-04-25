@@ -1,7 +1,5 @@
 package com.ulicae.cinelog.utils.room;
 
-import android.util.Log;
-
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.entities.Review;
@@ -21,6 +19,7 @@ public class SerieReviewFromDtoCreator extends EntityFromDtoCreator<Review, Revi
             return new Review(
                     Math.toIntExact(biggestMovieReviewId + itemDto.getId()),
                     ItemEntityType.SERIE,
+                    itemDto.getTitle(),
                     itemDto.getReview_date(),
                     itemDto.getReview(),
                     itemDto.getRating(),

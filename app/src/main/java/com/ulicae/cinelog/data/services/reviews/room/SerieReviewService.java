@@ -65,7 +65,7 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
             Tmdb tmdb = null;
             List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
             for(ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
-                tmdb = tmdbDao.find(reviewTmdbCrossRef.mediaId).blockingFirst();
+                tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
             }
 
             List<TagDto> tags = new ArrayList<>();
@@ -77,11 +77,9 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
 
             kinos.add(new SerieDto(
                     (long) review.id,
-                    tmdb != null ? tmdb.tmdbId : null,
+                    tmdb != null ? tmdb.movieId : null,
                     (long) review.id,
-                    tmdb != null ? tmdb.title : null,
-                    review.reviewDate,
-                    review.review,
+                    review.title, review.reviewDate, review.review,
                     review.rating, review.maxRating,
                     tmdb != null ? tmdb.posterPath : null,
                     tmdb != null ? tmdb.overview: null,
