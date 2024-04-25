@@ -21,17 +21,17 @@ import androidx.room.Entity;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-@Entity(primaryKeys = {"review_id", "movie_id"})
+@Entity(primaryKeys = {"review_id", "media_id"})
 public class ReviewTmdbCrossRef {
 
     @ColumnInfo(name = "review_id")
     public int reviewId;
 
-    @ColumnInfo(name = "movie_id")
-    public int movieId;
+    @ColumnInfo(name = "media_id")
+    public int mediaId;
 
-    public ReviewTmdbCrossRef(int reviewId, int movieId) {
+    public ReviewTmdbCrossRef(int reviewId, int mediaId) {
         this.reviewId = reviewId;
-        this.movieId = movieId;
+        this.mediaId = mediaId;
     }
 }

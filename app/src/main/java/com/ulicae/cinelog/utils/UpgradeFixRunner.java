@@ -189,7 +189,7 @@ public class UpgradeFixRunner {
         SerieReviewTmdbCrossRefFromDtoCreator serieReviewTmdbCrossRefFromDtoCreator =
                 new SerieReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao(), biggestMovieReviewId);
         SerieTmdbFromDtoCreator serieTmdbFromDtoCreator =
-                new SerieTmdbFromDtoCreator(givenDb.tmdbDao());
+                new SerieTmdbFromDtoCreator(givenDb.tmdbDao(), biggestMovieReviewId);
 
         List<SerieDto> serieDtos =
                 new SerieService(((KinoApplication) application).getDaoSession(), application.getApplicationContext()).getAll();

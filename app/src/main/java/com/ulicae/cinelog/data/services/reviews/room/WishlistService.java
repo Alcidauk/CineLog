@@ -59,12 +59,13 @@ public class WishlistService implements ItemService<WishlistDataDto>, DataServic
             Tmdb tmdb = null;
             List<WishlistTmdbCrossRef> crossRefs = wishlistTmdbCrossRefDao.findForReview(item.id).blockingFirst();
             for(WishlistTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
+                // TODO si c'est par tmdb id, on est pas bon
                 tmdb = tmdbDao.find(reviewTmdbCrossRef.tmdbId).blockingFirst();
             }
 
             itemsDto.add(new WishlistDataDto(
                     (long) item.id,
-                    tmdb != null ? Math.toIntExact(tmdb.movieId) : null,
+                    tmdb != null ? Math.toIntExact(tmdb.id) : null,
                     item.title,
                     tmdb != null ? tmdb.posterPath : null,
                     tmdb != null ? tmdb.overview: null,

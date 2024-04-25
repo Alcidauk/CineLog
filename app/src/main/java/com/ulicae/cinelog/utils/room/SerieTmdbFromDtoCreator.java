@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.utils.room;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.entities.Tmdb;
@@ -25,14 +24,20 @@ import com.ulicae.cinelog.room.entities.Tmdb;
  */
 public class SerieTmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao, SerieDto> {
 
-    public SerieTmdbFromDtoCreator(TmdbDao dao) {
+    private final int biggetMovieReviewId;
+
+    public SerieTmdbFromDtoCreator(TmdbDao dao, int biggestMovieReviewId) {
         super(dao);
+        this.biggetMovieReviewId = biggestMovieReviewId;
     }
 
     @Override
     public Tmdb createRoomInstanceFromDto(SerieDto itemDto) {
         return itemDto.getTmdbKinoId() != null ?
-                new Tmdb(itemDto.getTmdbKinoId(),
+                new Tmdb(
+                        Math.toIntExact(itemDto.getId()) + biggetMovieReviewId,
+                        itemDto.getTitle(),
+                        itemDto.getTmdbKinoId(),
                         itemDto.getPosterPath(),
                         itemDto.getOverview(),
                         itemDto.getYear(),

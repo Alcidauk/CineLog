@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.utils.room;
 
+import android.util.Log;
+
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
@@ -31,10 +33,11 @@ public class ReviewFromDtoCreator extends EntityFromDtoCreator<Review, ReviewDao
 
     @Override
     public Review createRoomInstanceFromDto(KinoDto kinoDto) {
+        Log.i("coucou", "Creating " + kinoDto.getId() + " review");
+
         return new Review(
                 Math.toIntExact(kinoDto.getId()),
                 ItemEntityType.MOVIE,
-                kinoDto.getTitle(),
                 kinoDto.getReview_date(),
                 kinoDto.getReview(),
                 kinoDto.getRating(),

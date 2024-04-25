@@ -33,7 +33,7 @@ public class ReviewTmdbCrossRefFromDtoCreator extends EntityFromDtoCreator<Revie
         return kinoDto.getTmdbKinoId() != null ?
                 new ReviewTmdbCrossRef(
                         Math.toIntExact(kinoDto.getId()),
-                        Math.toIntExact(kinoDto.getTmdbKinoId())
+                        Math.toIntExact(kinoDto.getId())
                 ) : null;
     }
 }
