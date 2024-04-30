@@ -101,7 +101,7 @@ public class ReviewEditionFragment extends Fragment {
     @NonNull
     private View.OnClickListener onReviewTagEdit() {
         return view -> {
-            tagDialog = new TagChooserDialog(tagService, kino);
+            // TODO uncomment when creation room edition tagDialog = new TagChooserDialog(tagService, kino);
             tagDialog.show(requireActivity().getSupportFragmentManager(), "NoticeDialogFragment");
         };
     }

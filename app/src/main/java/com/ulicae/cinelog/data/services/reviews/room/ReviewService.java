@@ -20,6 +20,8 @@ import com.ulicae.cinelog.room.entities.Tmdb;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
+
 /**
  * CineLog Copyright 2024 Pierre Rognon
  * <p>
@@ -60,33 +62,39 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
         List<Review> all1 = reviewDao.findAll(ItemEntityType.MOVIE).blockingFirst();
         List<KinoDto> kinos = new ArrayList<>();
         for(Review review: all1) {
-            Tmdb tmdb = null;
-            List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
-            for(ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
-                tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
-            }
-
-            List<TagDto> tags = new ArrayList<>();
-            List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
-            for(ReviewTagCrossRef reviewTagCrossRef : tagCrossRefs) {
-                Tag tag = tagDao.find(reviewTagCrossRef.tagId).blockingFirst();
-                tags.add(new TagDto((long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries));
-            }
-
-            kinos.add(new KinoDto(
-                    (long) review.id,
-                    tmdb != null ? tmdb.movieId : null,
-                    review.title, review.reviewDate, review.review,
-                    review.rating, review.maxRating,
-                    tmdb != null ? tmdb.posterPath : null,
-                    tmdb != null ? tmdb.overview: null,
-                    tmdb != null ? tmdb.year : 0,
-                    tmdb != null ? tmdb.releaseDate : null,
-                    tags
-            ));
+            kinos.add(buildKinoDtoFromReview(review, reviewTmdbDao, tmdbDao, reviewTagCrossRefDao, tagDao));
         }
 
         return kinos;
+    }
+
+    private KinoDto buildKinoDtoFromReview(Review review, ReviewTmdbCrossRefDao reviewTmdbDao,
+                                           TmdbDao tmdbDao, ReviewTagCrossRefDao reviewTagCrossRefDao,
+                                           TagDao tagDao) {
+        Tmdb tmdb = null;
+        List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
+        for(ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
+            tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
+        }
+
+        List<TagDto> tags = new ArrayList<>();
+        List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
+        for(ReviewTagCrossRef reviewTagCrossRef : tagCrossRefs) {
+            Tag tag = tagDao.find(reviewTagCrossRef.tagId).blockingFirst();
+            tags.add(new TagDto((long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries));
+        }
+
+        return new KinoDto(
+                (long) review.id,
+                tmdb != null ? tmdb.movieId : null,
+                review.title, review.reviewDate, review.review,
+                review.rating, review.maxRating,
+                tmdb != null ? tmdb.posterPath : null,
+                tmdb != null ? tmdb.overview: null,
+                tmdb != null ? tmdb.year : 0,
+                tmdb != null ? tmdb.releaseDate : null,
+                tags
+        );
     }
 
     @Override
@@ -107,6 +115,16 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
     @Override
     public KinoDto createOrUpdate(KinoDto dtoObject) {
         return null;
+    }
+
+    public KinoDto getWithId(int itemId) {
+        Flowable<Review> reviewFlowable = db.reviewDao().find(Math.toIntExact(itemId));
+
+        // TODO mettre ça en async, càd le récupérer quand on le reçoit pour appliquer les infos aux vues
+        Review review = reviewFlowable.blockingFirst();
+
+        return buildKinoDtoFromReview(
+                review, db.reviewTmdbDao(), db.tmdbDao(), db.reviewTagCrossRefDao(), db.tagDao());
     }
 
      /*private final ReviewDao reviewDao;

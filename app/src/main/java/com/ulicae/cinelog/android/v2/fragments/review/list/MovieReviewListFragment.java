@@ -63,6 +63,13 @@ public class MovieReviewListFragment extends ReviewListFragment<KinoDto> {
     }
 
     @Override
+    protected void navigateToItem(KinoDto item, int position, boolean inDb, boolean fromSearch) {
+        ((MainActivity) requireActivity()).navigateToItem(
+                (KinoDto) item, position, inDb, fromSearch, false
+        );
+    }
+
+    @Override
     protected List<KinoDto> getResults(int order) {
         if (order == -1) {
             order = getOrderFromPreferences();

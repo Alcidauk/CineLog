@@ -232,35 +232,56 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), activity));
     }
 
-    public void navigateToItem(KinoDto kinoDto, int position, boolean inDb, boolean fromSearch) {
+    public void navigateToItem(KinoDto kinoDto, int position, boolean inDb, boolean fromSearch, boolean room) {
+        Bundle args = new Bundle();
+        int action = determineAction(kinoDto, inDb, fromSearch, room);
         if (inDb) {
-            int action;
-            Bundle args = new Bundle();
-            if (kinoDto instanceof SerieDto) {
-                action = fromSearch ?
-                        R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
-                        R.id.action_nav_reviews_serie_to_viewSerieFragment;
-                args.putString("dtoType", "serie");
-            } else {
-                action = fromSearch ?
-                        R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
-                        R.id.action_nav_reviews_movie_to_viewKinoFragment;
-                args.putString("dtoType", "kino");
-            }
-
-            args.putParcelable("kino", Parcels.wrap(kinoDto));
+            args.putInt("review_id", Math.toIntExact(kinoDto.getId()));
             args.putInt("kino_position", position);
+        }
 
-            navController.navigate(action, args);
+        // TODO remove kino, not used after room migration
+        args.putParcelable("kino", Parcels.wrap(kinoDto));
+        args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
+
+        navController.navigate(action, args);
+    }
+
+    // TODO better and without class check
+    public int determineAction(KinoDto kinoDto, boolean inDb, boolean fromSearch, boolean room) {
+        if (room) {
+            if(inDb) {
+                // TODO toutes actions vers room fragments
+                if(kinoDto instanceof SerieDto) {
+                    return fromSearch ?
+                            R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
+                            R.id.action_nav_reviews_room_serie_to_viewReviewFragment;
+                } else {
+                    return fromSearch ?
+                            R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
+                            R.id.action_nav_reviews_room_movie_to_viewReviewFragment;
+                }
+            } else {
+                return kinoDto instanceof SerieDto ?
+                        R.id.action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment :
+                        R.id.action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment;
+            }
         } else {
-            int action = kinoDto instanceof SerieDto ?
-                    R.id.action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment :
-                    R.id.action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment;
-
-            Bundle args = new Bundle();
-            args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
-            args.putParcelable("kino", Parcels.wrap(kinoDto));
-            navController.navigate(action, args);
+            if(inDb) {
+                if(kinoDto instanceof SerieDto) {
+                    return fromSearch ?
+                            R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
+                            R.id.action_nav_reviews_serie_to_viewSerieFragment;
+                } else {
+                    return fromSearch ?
+                            R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
+                            R.id.action_nav_reviews_movie_to_viewKinoFragment;
+                }
+            } else {
+                return kinoDto instanceof SerieDto ?
+                        R.id.action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment :
+                        R.id.action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment;
+            }
         }
     }
 

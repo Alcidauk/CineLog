@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.review.list;
+package com.ulicae.cinelog.android.v2.fragments.review.room.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +10,10 @@ import android.widget.ListView;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
+import com.ulicae.cinelog.android.v2.fragments.review.list.ReviewListFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
+import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
 import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
 
 import java.util.List;
@@ -34,7 +36,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MovieReviewRoomListFragment extends ReviewListFragment<KinoDto> {
+public class SerieReviewRoomListFragment extends ReviewListFragment<SerieDto> {
 
     private FragmentMovieListBinding binding;
 
@@ -52,18 +54,25 @@ public class MovieReviewRoomListFragment extends ReviewListFragment<KinoDto> {
 
     @Override
     protected void createService() {
-        service = new ReviewService(((MainActivity) getActivity()).getDb());
+        service = new SerieReviewService(((MainActivity) getActivity()).getDb());
     }
 
     @Override
-    protected List<KinoDto> getResults(int order) {
+    protected List<SerieDto> getResults(int order) {
         if (order == -1) {
             order = getOrderFromPreferences();
         }
         switch (order) {
             default:
-                return ((ReviewService) service).getAll();
+                return ((SerieReviewService) service).getAll();
         }
+    }
+
+    @Override
+    protected void navigateToItem(KinoDto item, int position, boolean inDb, boolean fromSearch) {
+        ((MainActivity) requireActivity()).navigateToItem(
+                (KinoDto) item, position, inDb, fromSearch, true
+        );
     }
 
     @Override

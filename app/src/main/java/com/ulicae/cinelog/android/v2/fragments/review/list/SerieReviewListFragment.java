@@ -102,6 +102,13 @@ public class SerieReviewListFragment extends ReviewListFragment<SerieDto> {
     }
 
     @Override
+    protected void navigateToItem(KinoDto item, int position, boolean inDb, boolean fromSearch) {
+        ((MainActivity) requireActivity()).navigateToItem(
+                (KinoDto) item, position, inDb, fromSearch, false
+        );
+    }
+
+    @Override
     protected ListView getKinoList() {
         return binding != null ? binding.kinoList : null;
     }

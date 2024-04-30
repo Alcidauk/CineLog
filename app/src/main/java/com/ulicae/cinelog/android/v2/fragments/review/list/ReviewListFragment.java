@@ -143,11 +143,11 @@ public abstract class ReviewListFragment<T extends ItemDto> extends Fragment {
                 return;
             }
             // TODO callback ?
-            ((MainActivity) requireActivity()).navigateToItem(
-                    (KinoDto) item, position, true, false
-            );
+            navigateToItem((KinoDto) item, position, true, false);
         });
     }
+
+    protected abstract void navigateToItem(KinoDto item, int position, boolean inDb, boolean fromSearch);
 
     @NonNull
     private void initialiseAdapter(List<T> kinos, int orderId) {

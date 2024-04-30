@@ -61,7 +61,7 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
     protected DataService dataService;
 
     protected final ReviewItemCallback movieSearchResultClickCallback =
-            (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToItem(kinoDto, position, inDb, true);
+            (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToItem(kinoDto, position, inDb, true, false);
     protected final ReviewCreationCallback movieReviewCreationClickCallback =
             (kinoDto) -> ((MainActivity) requireActivity())
                     .navigateToReview(
