@@ -60,7 +60,7 @@ public class TagRoomFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         AppDatabase db = ((MainActivity) getActivity()).getDb();
 
-        service = new TagAsyncService(db.tagDao());
+        service = new TagAsyncService(db);
         disposable = new CompositeDisposable();
 
         fetchAndSetTags();

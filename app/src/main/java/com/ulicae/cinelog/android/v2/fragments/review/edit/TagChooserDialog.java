@@ -8,9 +8,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +34,21 @@ import java.util.List;
  */
 public class TagChooserDialog extends DialogFragment {
 
-    private final TagService tagService;
+    private final TagAsyncService tagService;
     private final KinoDto kinoDto;
 
     boolean[] selectedTags;
-    List<TagDto> allTags = new ArrayList<>();
+    List<TagDto> allTags;
 
-    public TagChooserDialog(TagService tagService, KinoDto kinoDto) {
+    public TagChooserDialog(TagAsyncService tagService, KinoDto kinoDto, List<TagDto> tags) {
         this.tagService = tagService;
         this.kinoDto = kinoDto;
+        this.allTags = tags;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        //         return kinoDto instanceof SerieDto ? tagService.getSeriesTags() : tagService.getMovieTags();
         this.populateTagList();
 
         List<String> allTagNames = new ArrayList<>();
@@ -74,17 +75,12 @@ public class TagChooserDialog extends DialogFragment {
     }
 
     private void populateTagList() {
-        allTags = getTags();
         selectedTags = new boolean[allTags.size()];
 
         for (int i = 0; i < allTags.size(); i++) {
             List<TagDto> kinoTags = kinoDto.getTags();
             selectedTags[i] = kinoTags != null && kinoTags.contains(allTags.get(i));
         }
-    }
-
-    private List<TagDto> getTags() {
-        return kinoDto instanceof SerieDto ? tagService.getSeriesTags() : tagService.getMovieTags();
     }
 
     private void nothingToDo() {

@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.utils.room;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.entities.Tmdb;

@@ -2,7 +2,8 @@ package com.ulicae.cinelog.data.services.tags.room;
 
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
-import com.ulicae.cinelog.room.dao.TagDao;
+import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
 
 import java.util.ArrayList;
@@ -33,15 +34,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  */
 public class TagAsyncService implements AsyncDataService<TagDto> {
 
-    private final TagDao tagDao;
+    private final AppDatabase db;
 
-    public TagAsyncService(TagDao tagDao) {
-        this.tagDao = tagDao;
+    public TagAsyncService(AppDatabase db) {
+        this.db = db;
     }
 
     @Override
     public Completable createOrUpdate(TagDto dtoObject) {
-        return tagDao.insert(
+        return db.tagDao().insert(
                 new Tag(
                         dtoObject.getId() != null ? Math.toIntExact(dtoObject.getId()) : 0,
                         dtoObject.getName(),
@@ -56,15 +57,39 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
         // TODO how to delete without building an object
         Tag tagToDelete = new Tag(Math.toIntExact(dtoObject.getId()), null, null, false, false);
 
-        tagDao.delete(tagToDelete);
+        db.tagDao().delete(tagToDelete);
     }
 
     @Override
     public Flowable<List<TagDto>> findAll() {
-        return tagDao.findAll()
+        return db.tagDao().findAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(this::getDtoFromDaos);
+    }
+
+    public Flowable<List<TagDto>> findMovieTags() {
+        return db.tagDao().findMovieTags()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::getDtoFromDaos);
+    }
+
+    public Flowable<List<TagDto>> findSerieTags() {
+        return db.tagDao().findSerieTags()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::getDtoFromDaos);
+    }
+
+    public Completable addTagToItemIfNotExists(int reviewId, int tagId) {
+        return db.reviewTagCrossRefDao().insert(
+                new ReviewTagCrossRef(reviewId, tagId)
+        );
+    }
+
+    public void removeTagFromItemIfExists(int reviewId, int tagId) {
+        db.reviewTagCrossRefDao().delete(new ReviewTagCrossRef(reviewId, tagId));
     }
 
     private List<TagDto> getDtoFromDaos(List<Tag> coucou) {

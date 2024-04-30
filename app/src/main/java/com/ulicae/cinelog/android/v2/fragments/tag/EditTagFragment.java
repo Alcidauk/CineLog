@@ -51,7 +51,7 @@ public class EditTagFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
 
-        tagService = new TagAsyncService(((MainActivity) getActivity()).getDb().tagDao());
+        tagService = new TagAsyncService(((MainActivity) getActivity()).getDb());
 
         // TODO avoid parcels between activities and fetch DB with tag id
         tag = Parcels.unwrap(requireArguments().getParcelable("tag"));

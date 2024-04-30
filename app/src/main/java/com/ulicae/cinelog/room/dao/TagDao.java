@@ -38,9 +38,11 @@ public interface TagDao extends RoomDao<Tag> {
     @Query("SELECT * FROM tag")
     Flowable<List<Tag>> findAll();
 
-    /* TODO utilisation dans les pages d'ajout de tag
-    @Query("SELECT * FROM tag WHERE for_movies = :forMovies AND for_series = :forSeries")
-    Flowable<List<Tag>> findAllForItem(boolean forMovies, boolean forSeries);*/
+    @Query("SELECT * FROM tag WHERE for_movies = true")
+    Flowable<List<Tag>> findMovieTags();
+
+    @Query("SELECT * FROM tag WHERE for_series = true")
+    Flowable<List<Tag>> findSerieTags();
 
     @Query("SELECT * FROM tag WHERE id = :id")
     Flowable<Tag> find(long id);
