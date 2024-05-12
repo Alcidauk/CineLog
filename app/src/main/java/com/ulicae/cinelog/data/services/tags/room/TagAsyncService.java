@@ -68,18 +68,20 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
                 .map(this::getDtoFromDaos);
     }
 
-    public Flowable<List<TagDto>> findMovieTags() {
+    public List<TagDto> findMovieTags() {
+        // TODO avoid blocking first
         return db.tagDao().findMovieTags()
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(this::getDtoFromDaos);
+                .map(this::getDtoFromDaos)
+                .blockingFirst();
     }
 
-    public Flowable<List<TagDto>> findSerieTags() {
+    public List<TagDto> findSerieTags() {
+        // TODO avoid blocking first
         return db.tagDao().findSerieTags()
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(this::getDtoFromDaos);
+                .map(this::getDtoFromDaos)
+                .blockingFirst();
     }
 
     public Completable addTagToItemIfNotExists(int reviewId, int tagId) {

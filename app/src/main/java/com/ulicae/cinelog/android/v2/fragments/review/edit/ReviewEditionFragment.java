@@ -23,9 +23,10 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
 
 import org.parceler.Parcels;
@@ -34,6 +35,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class ReviewEditionFragment extends Fragment {
 
     private FragmentReviewEditionBinding binding;
@@ -41,11 +46,13 @@ public class ReviewEditionFragment extends Fragment {
     KinoDto kino;
 
     private DataService dtoService;
-    private TagService tagService;
+    private TagAsyncService tagService;
 
     private WishlistItemDeleter wishlistItemDeleter;
 
     TagChooserDialog tagDialog;
+
+    private List<Disposable> disposables;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -62,7 +69,9 @@ public class ReviewEditionFragment extends Fragment {
         String dtoType = requireArguments().getString("dtoType");
         dtoService = new ServiceFactory(requireContext()).create(dtoType, ((KinoApplication) requireActivity().getApplicationContext()).getDaoSession());
 
-        tagService = new TagService(((KinoApplication) requireActivity().getApplication()).getDaoSession());
+        tagService = new TagAsyncService(((MainActivity) requireActivity()).getDb());
+
+        disposables = new ArrayList<>();
 
         kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
         if (requireArguments().getBoolean("creation", false)) {
@@ -101,7 +110,11 @@ public class ReviewEditionFragment extends Fragment {
     @NonNull
     private View.OnClickListener onReviewTagEdit() {
         return view -> {
-            // TODO uncomment when creation room edition tagDialog = new TagChooserDialog(tagService, kino);
+            // TODO async instead of blocking first
+            List<TagDto> tagList = kino instanceof SerieDto ?
+                    tagService.findSerieTags() : tagService.findMovieTags();
+
+            tagDialog = new TagChooserDialog(kino, tagList);
             tagDialog.show(requireActivity().getSupportFragmentManager(), "NoticeDialogFragment");
         };
     }
@@ -239,12 +252,23 @@ public class ReviewEditionFragment extends Fragment {
         for (int i = 0; i < tagDialog.selectedTags.length; i++) {
             TagDto tag = tagDialog.allTags.get(i);
             if (tagDialog.selectedTags[i]) {
-                tagService.addTagToItemIfNotExists(tag, kino);
+                tagService.addTagToItemIfNotExists(Math.toIntExact(kino.getKinoId()), Math.toIntExact(tag.getId())).subscribeOn(Schedulers.io()).subscribe();
                 if (!kino.getTags().contains(tag)) {
                     kino.getTags().add(tag);
                 }
             } else {
-                tagService.removeTagFromItemIfExists(tag, kino);
+                disposables.add(
+                        Observable.just(true)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.io())
+                        .subscribe(unusedParam -> {
+                                    tagService.removeTagFromItemIfExists(
+                                            Math.toIntExact(kino.getKinoId()),
+                                            Math.toIntExact(tag.getId())
+                                    );
+                                }
+                        )
+                );
                 kino.getTags().remove(tag);
             }
         }
@@ -291,5 +315,11 @@ public class ReviewEditionFragment extends Fragment {
             }
             ((ReviewEditionFragment) requireParentFragment()).binding.kinoReviewDateButton.setText(review_date_as_string);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposables.clear();
     }
 }

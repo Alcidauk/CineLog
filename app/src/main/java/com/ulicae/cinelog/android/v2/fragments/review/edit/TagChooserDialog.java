@@ -34,21 +34,18 @@ import java.util.List;
  */
 public class TagChooserDialog extends DialogFragment {
 
-    private final TagAsyncService tagService;
     private final KinoDto kinoDto;
 
     boolean[] selectedTags;
     List<TagDto> allTags;
 
-    public TagChooserDialog(TagAsyncService tagService, KinoDto kinoDto, List<TagDto> tags) {
-        this.tagService = tagService;
+    public TagChooserDialog(KinoDto kinoDto, List<TagDto> tags) {
         this.kinoDto = kinoDto;
         this.allTags = tags;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        //         return kinoDto instanceof SerieDto ? tagService.getSeriesTags() : tagService.getMovieTags();
         this.populateTagList();
 
         List<String> allTagNames = new ArrayList<>();
