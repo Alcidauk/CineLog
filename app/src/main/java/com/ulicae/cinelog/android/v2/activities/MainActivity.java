@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                 if(kinoDto instanceof SerieDto) {
                     return fromSearch ?
                             R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
-                            R.id.action_nav_reviews_room_serie_to_viewReviewFragment;
+                            R.id.action_nav_reviews_room_serie_to_viewSerieRoomFragment;
                 } else {
                     return fromSearch ?
                             R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :

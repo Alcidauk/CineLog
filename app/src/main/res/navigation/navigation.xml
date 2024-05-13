@@ -62,7 +62,7 @@
         android:name="com.ulicae.cinelog.android.v2.fragments.review.room.list.SerieReviewRoomListFragment"
         android:label="@string/title_fragment_serie_room">
         <action
-            android:id="@+id/action_nav_reviews_room_serie_to_viewReviewFragment"
+            android:id="@+id/action_nav_reviews_room_serie_to_viewSerieRoomFragment"
             app:destination="@id/viewSerieRoomFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -193,7 +193,7 @@
         android:name="com.ulicae.cinelog.android.v2.fragments.review.room.item.ReviewSerieRoomItemFragment"
         android:label="@string/title_activity_view_room_review_serie">
         <action
-            android:id="@+id/action_viewKinoFragment_to_editReviewFragment"
+            android:id="@+id/action_viewSerieFragment_to_editReviewFragment"
             app:destination="@id/editReviewFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
