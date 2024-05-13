@@ -38,7 +38,7 @@ public interface ReviewTmdbCrossRefDao extends RoomDao<ReviewTmdbCrossRef> {
     void delete(Long kinoId);*/
 
     @Delete
-    void delete(Review review);
+    void delete(ReviewTmdbCrossRef reviewTmdbCrossRef);
 
     @Query("SELECT * FROM reviewtmdbcrossref")
     Flowable<List<ReviewTmdbCrossRef>> findAll();
@@ -53,7 +53,7 @@ public interface ReviewTmdbCrossRefDao extends RoomDao<ReviewTmdbCrossRef> {
 
     // TODO create is not update
     @Insert
-    Completable createOrUpdate(Review review);
+    Completable createOrUpdate(ReviewTmdbCrossRef reviewTmdbCrossRef);
 
     /*Flowable<List<Review>> findAllByRating(boolean asc);
 
