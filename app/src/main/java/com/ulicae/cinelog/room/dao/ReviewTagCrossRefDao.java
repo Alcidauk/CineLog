@@ -28,10 +28,7 @@ import java.util.List;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface ReviewTagCrossRefDao extends RoomDao<ReviewTagCrossRef> {
-
-    @Delete
-    void delete(ReviewTagCrossRef reviewTagCrossRef);
+public interface ReviewTagCrossRefDao extends SyncRoomDao<ReviewTagCrossRef> {
 
     @Query("SELECT * FROM reviewtagcrossref")
     Flowable<List<ReviewTagCrossRef>> findAll();

@@ -3,7 +3,7 @@ package com.ulicae.cinelog.utils.room;
 import android.util.Log;
 
 import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.room.dao.SyncRoomDao;
+import com.ulicae.cinelog.room.dao.AsyncRoomDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,11 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class EntityFromDtoCreator<T, U extends SyncRoomDao, D extends ItemDto> {
+public abstract class AsyncEntityFromDtoCreator<T, U extends AsyncRoomDao, D extends ItemDto> {
 
     private final U dao;
 
-    public EntityFromDtoCreator(U dao) {
+    public AsyncEntityFromDtoCreator(U dao) {
         this.dao = dao;
     }
 

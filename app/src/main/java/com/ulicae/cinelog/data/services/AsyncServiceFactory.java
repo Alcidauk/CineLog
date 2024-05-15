@@ -1,8 +1,10 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.data.services;
 
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.room.dao.TagDao;
-import com.ulicae.cinelog.room.entities.Tag;
+import android.content.Context;
+
+import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
+import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
+import com.ulicae.cinelog.room.AppDatabase;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -22,19 +24,22 @@ import com.ulicae.cinelog.room.entities.Tag;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagFromDtoCreator extends AsyncEntityFromDtoCreator<Tag, TagDao, TagDto>{
-    public TagFromDtoCreator(TagDao tagDao) {
-        super(tagDao);
+public class AsyncServiceFactory {
+
+    private Context context;
+
+    public AsyncServiceFactory(Context baseContext) {
+        context = baseContext;
     }
 
-    @Override
-    Tag createRoomInstanceFromDto(TagDto itemDto) {
-        return new Tag(
-                Math.toIntExact(itemDto.getId()),
-                itemDto.getName(),
-                itemDto.getColor(),
-                itemDto.isForMovies(),
-                itemDto.isForSeries()
-        );
+    public RoomDataService create(String type, AppDatabase db) {
+        switch (type) {
+            case "kino":
+                return new ReviewService(db);
+            case "serie":
+                return new SerieReviewService(db);
+        }
+
+        throw new NullPointerException("Unable to find a service for this type.");
     }
 }

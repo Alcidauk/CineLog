@@ -1,5 +1,14 @@
 package com.ulicae.cinelog.room.dao;
 
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Completable;
+
+
 /**
  * CineLog Copyright 2024 Pierre Rognon
  * <p>
@@ -18,6 +27,15 @@ package com.ulicae.cinelog.room.dao;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface RoomDao<T> {
+public interface AsyncRoomDao<T> extends RoomDao<T> {
+
+    @Insert
+    Completable insertAll(List<T> entities);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Completable insert(T entity);
+
+    @Delete
+    Completable delete(T entity);
 
 }

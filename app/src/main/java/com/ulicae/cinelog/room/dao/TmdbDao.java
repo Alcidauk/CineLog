@@ -30,10 +30,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface TmdbDao extends RoomDao<Tmdb> {
-
-    @Delete
-    void delete(Tmdb tmdb);
+public interface TmdbDao extends SyncRoomDao<Tmdb> {
 
     @Query("SELECT * FROM tmdb")
     Flowable<List<Tmdb>> findAll();

@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.data.services.tags.room;
 
+import static io.reactivex.rxjava3.schedulers.Schedulers.io;
+
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.room.AppDatabase;
@@ -12,7 +14,6 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -49,21 +50,22 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
                         dtoObject.getColor(),
                         dtoObject.isForMovies(),
                         dtoObject.isForSeries()
-                ));
+                )
+        );
     }
 
     @Override
-    public void delete(TagDto dtoObject) {
+    public Completable delete(TagDto dtoObject) {
         // TODO how to delete without building an object
         Tag tagToDelete = new Tag(Math.toIntExact(dtoObject.getId()), null, null, false, false);
 
-        db.tagDao().delete(tagToDelete);
+        return db.tagDao().delete(tagToDelete);
     }
 
     @Override
     public Flowable<List<TagDto>> findAll() {
         return db.tagDao().findAll()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(this::getDtoFromDaos);
     }
@@ -71,7 +73,7 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
     public List<TagDto> findMovieTags() {
         // TODO avoid blocking first
         return db.tagDao().findMovieTags()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(io())
                 .map(this::getDtoFromDaos)
                 .blockingFirst();
     }
@@ -79,15 +81,13 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
     public List<TagDto> findSerieTags() {
         // TODO avoid blocking first
         return db.tagDao().findSerieTags()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(io())
                 .map(this::getDtoFromDaos)
                 .blockingFirst();
     }
 
-    public Completable addTagToItemIfNotExists(int reviewId, int tagId) {
-        return db.reviewTagCrossRefDao().insert(
-                new ReviewTagCrossRef(reviewId, tagId)
-        );
+    public Long addTagToItemIfNotExists(int reviewId, int tagId) {
+        return db.reviewTagCrossRefDao().insert(new ReviewTagCrossRef(reviewId, tagId));
     }
 
     public void removeTagFromItemIfExists(int reviewId, int tagId) {

@@ -126,7 +126,6 @@ public class UpgradeFixRunner {
         disposables.add(
                 Observable.just(db)
                         .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
                         .subscribe(givenDb -> {
                             givenDb.clearAllTables();
 

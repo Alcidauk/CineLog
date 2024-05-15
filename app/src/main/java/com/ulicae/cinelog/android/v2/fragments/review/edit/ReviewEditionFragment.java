@@ -18,14 +18,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.ServiceFactory;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.data.services.AsyncServiceFactory;
+import com.ulicae.cinelog.data.services.RoomDataService;
 import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
 
@@ -35,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -45,7 +45,7 @@ public class ReviewEditionFragment extends Fragment {
 
     KinoDto kino;
 
-    private DataService dtoService;
+    private RoomDataService dtoService;
     private TagAsyncService tagService;
 
     private WishlistItemDeleter wishlistItemDeleter;
@@ -55,9 +55,7 @@ public class ReviewEditionFragment extends Fragment {
     private List<Disposable> disposables;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentReviewEditionBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
@@ -67,7 +65,7 @@ public class ReviewEditionFragment extends Fragment {
         wishlistItemDeleter = new WishlistItemDeleter(requireContext());
 
         String dtoType = requireArguments().getString("dtoType");
-        dtoService = new ServiceFactory(requireContext()).create(dtoType, ((KinoApplication) requireActivity().getApplicationContext()).getDaoSession());
+        dtoService = new AsyncServiceFactory(requireContext()).create(dtoType, ((MainActivity) requireActivity()).getDb());
 
         tagService = new TagAsyncService(((MainActivity) requireActivity()).getDb());
 
@@ -111,8 +109,7 @@ public class ReviewEditionFragment extends Fragment {
     private View.OnClickListener onReviewTagEdit() {
         return view -> {
             // TODO async instead of blocking first
-            List<TagDto> tagList = kino instanceof SerieDto ?
-                    tagService.findSerieTags() : tagService.findMovieTags();
+            List<TagDto> tagList = kino instanceof SerieDto ? tagService.findSerieTags() : tagService.findMovieTags();
 
             tagDialog = new TagChooserDialog(kino, tagList);
             tagDialog.show(requireActivity().getSupportFragmentManager(), "NoticeDialogFragment");
@@ -234,8 +231,10 @@ public class ReviewEditionFragment extends Fragment {
             kino.setMaxRating(maxRatingAsInt);
         }
 
-        //noinspection unchecked
-        kino = (KinoDto) dtoService.createOrUpdate(kino);
+        // TODO fix kino refresh. Maybe review list should be fetched again ?
+        // noinspection unchecked
+        //kino = (KinoDto) dtoService.createOrUpdate(kino);
+        dtoService.createOrUpdate(kino);
 
         long wishlistId = requireArguments().getLong("wishlistId", 0L);
         if (wishlistId != 0L) {
@@ -249,37 +248,37 @@ public class ReviewEditionFragment extends Fragment {
 
     private void updateTags() {
         if (tagDialog == null) return;
-        for (int i = 0; i < tagDialog.selectedTags.length; i++) {
-            TagDto tag = tagDialog.allTags.get(i);
-            if (tagDialog.selectedTags[i]) {
-                tagService.addTagToItemIfNotExists(Math.toIntExact(kino.getKinoId()), Math.toIntExact(tag.getId())).subscribeOn(Schedulers.io()).subscribe();
-                if (!kino.getTags().contains(tag)) {
-                    kino.getTags().add(tag);
-                }
-            } else {
-                disposables.add(
-                        Observable.just(true)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
-                        .subscribe(unusedParam -> {
-                                    tagService.removeTagFromItemIfExists(
-                                            Math.toIntExact(kino.getKinoId()),
-                                            Math.toIntExact(tag.getId())
-                                    );
-                                }
-                        )
-                );
-                kino.getTags().remove(tag);
-            }
-        }
+
+        this.disposables.add(Observable.just(tagDialog)
+                .subscribeOn(Schedulers.io())
+                .subscribe(tagChooserDialog -> {
+                    for (int i = 0; i < tagChooserDialog.selectedTags.length; i++) {
+                        TagDto tag = tagChooserDialog.allTags.get(i);
+
+                        if (tagChooserDialog.selectedTags[i]) {
+                            tagService.addTagToItemIfNotExists(
+                                    Math.toIntExact(kino.getId()), Math.toIntExact(tag.getId())
+                            );
+
+                            if (!kino.getTags().contains(tag)) {
+                                kino.getTags().add(tag);
+                            }
+                        } else {
+
+                            tagService.removeTagFromItemIfExists(
+                                    Math.toIntExact(kino.getId()), Math.toIntExact(tag.getId())
+                            );
+
+                            kino.getTags().remove(tag);
+                        }
+                    }
+                }));
 
         // TODO avoid call this a second time. For now, it is used to refresh kino tags
-        //noinspection unchecked
-        kino = (KinoDto) dtoService.createOrUpdate(kino);
+        // kino = (KinoDto) dtoService.createOrUpdate(kino);
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @NonNull
         @Override
@@ -320,6 +319,8 @@ public class ReviewEditionFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        this.disposables.clear();
+        if (this.disposables != null) {
+            this.disposables.clear();
+        }
     }
 }

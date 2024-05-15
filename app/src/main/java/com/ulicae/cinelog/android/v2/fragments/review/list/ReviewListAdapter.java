@@ -2,10 +2,6 @@ package com.ulicae.cinelog.android.v2.fragments.review.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
-import androidx.viewbinding.ViewBinding;
-
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.text.format.DateFormat;
@@ -18,18 +14,22 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
+import androidx.viewbinding.ViewBinding;
+
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.databinding.ReviewListYearRowBinding;
 import com.ulicae.cinelog.databinding.ReviewListItemRowBinding;
+import com.ulicae.cinelog.databinding.ReviewListYearRowBinding;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.util.List;
 
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -46,7 +46,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class ReviewListAdapter extends ArrayAdapter<Object> {
+public class ReviewListAdapter extends ArrayAdapter<Object> {
 
     public ReviewListAdapter(@NonNull Context context, @NonNull List<Object> objects) {
         super(context, R.layout.review_list_item_row, objects);
@@ -63,7 +63,7 @@ class ReviewListAdapter extends ArrayAdapter<Object> {
 
         ViewBinding binding;
 
-        if(needInflate(convertView, object)) {
+        if (needInflate(convertView, object)) {
             binding = isObjectString ?
                     ReviewListYearRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false) :
                     ReviewListItemRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
@@ -71,7 +71,7 @@ class ReviewListAdapter extends ArrayAdapter<Object> {
             binding = isObjectString ? ReviewListYearRowBinding.bind(convertView) : ReviewListItemRowBinding.bind(convertView);
         }
 
-        if(!isObjectString) {
+        if (!isObjectString) {
             initKinoListView(binding, (KinoDto) object);
         } else {
             initYearView(binding, (String) object);

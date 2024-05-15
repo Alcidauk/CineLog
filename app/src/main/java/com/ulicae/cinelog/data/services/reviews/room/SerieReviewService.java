@@ -2,8 +2,8 @@ package com.ulicae.cinelog.data.services.reviews.room;
 
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.data.services.reviews.ItemService;
+import com.ulicae.cinelog.data.services.AsyncDataService;
+import com.ulicae.cinelog.data.services.RoomDataService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
@@ -40,7 +40,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieReviewService implements ItemService<SerieDto>, DataService<SerieDto> {
+public class SerieReviewService implements RoomDataService<SerieDto> {
 
     // TODO does not have a real usage, it should be ReviewService that does this job
 
@@ -53,7 +53,6 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
     /*
     TODO avoid- blockingfirst and make return async
      */
-    @Override
     public List<SerieDto> getAll() {
         ReviewDao reviewDao = db.reviewDao();
         ReviewTmdbCrossRefDao reviewTmdbDao = db.reviewTmdbDao();
@@ -95,7 +94,7 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
     }
 
     @Override
-    public void createOrUpdateFromImport(List<SerieDto> kinoDtos) {
+    public void createOrUpdate(SerieDto dtoObject) {
 
     }
 
@@ -105,12 +104,7 @@ public class SerieReviewService implements ItemService<SerieDto>, DataService<Se
     }
 
     @Override
-    public SerieDto getWithTmdbId(long tmdbId) {
-        return null;
-    }
-
-    @Override
-    public SerieDto createOrUpdate(SerieDto dtoObject) {
+    public Flowable<List<SerieDto>> findAll() {
         return null;
     }
 

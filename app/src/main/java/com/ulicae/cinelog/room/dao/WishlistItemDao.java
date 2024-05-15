@@ -32,17 +32,12 @@ import io.reactivex.rxjava3.core.Flowable;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface WishlistItemDao extends RoomDao<WishlistItem> {
-
+public interface WishlistItemDao extends AsyncRoomDao<WishlistItem> {
 
     @Query("SELECT * FROM wishlistitem WHERE item_entity_type = :itemEntityType")
     Flowable<List<WishlistItem>> findAll(ItemEntityType itemEntityType);
 
     @Query("SELECT * FROM wishlistitem WHERE id = :id")
     Flowable<WishlistItem> find(long id);
-
-    // TODO create is not update
-    @Insert
-    Completable createOrUpdate(WishlistItem wishlistItem);
 
 }

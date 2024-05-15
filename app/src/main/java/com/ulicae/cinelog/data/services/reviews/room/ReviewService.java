@@ -2,8 +2,7 @@ package com.ulicae.cinelog.data.services.reviews.room;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.data.services.reviews.ItemService;
+import com.ulicae.cinelog.data.services.RoomDataService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
@@ -21,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -40,7 +41,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto> {
+public class ReviewService implements RoomDataService<KinoDto> {
 
     private final AppDatabase db;
 
@@ -51,7 +52,6 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
     /*
     TODO avoid blockingfirst and make return async
      */
-    @Override
     public List<KinoDto> getAll() {
         ReviewDao reviewDao = db.reviewDao();
         ReviewTmdbCrossRefDao reviewTmdbDao = db.reviewTmdbDao();
@@ -61,7 +61,7 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
 
         List<Review> all1 = reviewDao.findAll(ItemEntityType.MOVIE).blockingFirst();
         List<KinoDto> kinos = new ArrayList<>();
-        for(Review review: all1) {
+        for (Review review : all1) {
             kinos.add(buildKinoDtoFromReview(review, reviewTmdbDao, tmdbDao, reviewTagCrossRefDao, tagDao));
         }
 
@@ -73,13 +73,13 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
                                            TagDao tagDao) {
         Tmdb tmdb = null;
         List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
-        for(ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
+        for (ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
             tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
         }
 
         List<TagDto> tags = new ArrayList<>();
         List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
-        for(ReviewTagCrossRef reviewTagCrossRef : tagCrossRefs) {
+        for (ReviewTagCrossRef reviewTagCrossRef : tagCrossRefs) {
             Tag tag = tagDao.find(reviewTagCrossRef.tagId).blockingFirst();
             tags.add(new TagDto((long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries));
         }
@@ -90,31 +90,11 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
                 review.title, review.reviewDate, review.review,
                 review.rating, review.maxRating,
                 tmdb != null ? tmdb.posterPath : null,
-                tmdb != null ? tmdb.overview: null,
+                tmdb != null ? tmdb.overview : null,
                 tmdb != null ? tmdb.year : 0,
                 tmdb != null ? tmdb.releaseDate : null,
                 tags
         );
-    }
-
-    @Override
-    public void createOrUpdateFromImport(List<KinoDto> kinoDtos) {
-
-    }
-
-    @Override
-    public void delete(KinoDto dtoObject) {
-
-    }
-
-    @Override
-    public KinoDto getWithTmdbId(long tmdbId) {
-        return null;
-    }
-
-    @Override
-    public KinoDto createOrUpdate(KinoDto dtoObject) {
-        return null;
     }
 
     public KinoDto getWithId(int itemId) {
@@ -125,6 +105,47 @@ public class ReviewService implements ItemService<KinoDto>, DataService<KinoDto>
 
         return buildKinoDtoFromReview(
                 review, db.reviewTmdbDao(), db.tmdbDao(), db.reviewTagCrossRefDao(), db.tagDao());
+    }
+
+    @Override
+    public void createOrUpdate(KinoDto dtoObject) {
+        // TODO tmdb pas à créer si on vient d'une wishlist
+        Observable.just(dtoObject)
+                .subscribeOn(Schedulers.io())
+                .subscribe(dto -> {
+                    long tmdbId = db.tmdbDao().insert(new Tmdb(
+                            dto.getTmdbKinoId() != null ? dto.getTmdbKinoId() : 0,
+                            dto.getPosterPath(),
+                            dto.getOverview(),
+                            dto.getYear(),
+                            dto.getReleaseDate()
+                    ));
+
+                    Long reviewId = db.reviewDao().insert(
+                            new Review(
+                                    Math.toIntExact(dto.getId()),
+                                    ItemEntityType.MOVIE,
+                                    dto.getTitle(),
+                                    dto.getReview_date(),
+                                    dto.getReview(),
+                                    dto.getRating(),
+                                    dto.getMaxRating()
+                            ));
+
+                    new ReviewTmdbCrossRef(Math.toIntExact(reviewId), Math.toIntExact(tmdbId));
+
+                    // TODO un call qui permet de forcer le refresh
+                });
+    }
+
+    @Override
+    public void delete(KinoDto dtoObject) {
+
+    }
+
+    @Override
+    public Flowable<List<KinoDto>> findAll() {
+        return null;
     }
 
      /*private final ReviewDao reviewDao;

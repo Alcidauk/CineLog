@@ -1,5 +1,12 @@
 package com.ulicae.cinelog.room.dao;
 
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+
+import java.util.List;
+
+
 /**
  * CineLog Copyright 2024 Pierre Rognon
  * <p>
@@ -18,6 +25,15 @@ package com.ulicae.cinelog.room.dao;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface RoomDao<T> {
+public interface SyncRoomDao<T> extends RoomDao<T>{
+
+    @Insert
+    List<Long> insertAll(List<T> entities);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Long insert(T entity);
+
+    @Delete
+    void delete(T entity);
 
 }

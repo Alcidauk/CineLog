@@ -29,10 +29,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface WishlistTmdbCrossRefDao extends RoomDao<WishlistTmdbCrossRef> {
-
-    @Delete
-    void delete(WishlistTmdbCrossRef wishlistTmdbCrossRef);
+public interface WishlistTmdbCrossRefDao extends SyncRoomDao<WishlistTmdbCrossRef> {
 
     @Query("SELECT * FROM wishlisttmdbcrossref")
     Flowable<List<WishlistTmdbCrossRef>> findAll();

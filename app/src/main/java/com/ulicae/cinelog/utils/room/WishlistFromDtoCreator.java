@@ -5,7 +5,7 @@ import com.ulicae.cinelog.room.dao.WishlistItemDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.WishlistItem;
 
-public class WishlistFromDtoCreator extends EntityFromDtoCreator<WishlistItem, WishlistItemDao, WishlistDataDto> {
+public class WishlistFromDtoCreator extends AsyncEntityFromDtoCreator<WishlistItem, WishlistItemDao, WishlistDataDto> {
     private final ItemEntityType itemEntityType;
     private final int biggestMovieReviewId;
 

@@ -31,17 +31,17 @@ import java.util.TreeMap;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-class ReviewDateHeaderListTransformer<T> {
+public class ReviewDateHeaderListTransformer<T> {
 
     private Context context;
     private List<T> kinoDtos;
 
-    ReviewDateHeaderListTransformer(Context context, List<T> kinoDtos) {
+    public ReviewDateHeaderListTransformer(Context context, List<T> kinoDtos) {
         this.context = context;
         this.kinoDtos = kinoDtos;
     }
 
-    List<Object> transform() {
+    public List<Object> transform() {
         final ArrayList<Object> objects = new ArrayList<Object>(kinoDtos);
 
         String currentYear = null;

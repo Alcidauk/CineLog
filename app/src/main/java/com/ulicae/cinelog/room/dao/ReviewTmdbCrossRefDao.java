@@ -5,7 +5,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 
 import java.util.List;
@@ -32,13 +31,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface ReviewTmdbCrossRefDao extends RoomDao<ReviewTmdbCrossRef> {
-
-    /*@Delete
-    void delete(Long kinoId);*/
-
-    @Delete
-    void delete(ReviewTmdbCrossRef reviewTmdbCrossRef);
+public interface ReviewTmdbCrossRefDao extends SyncRoomDao<ReviewTmdbCrossRef> {
 
     @Query("SELECT * FROM reviewtmdbcrossref")
     Flowable<List<ReviewTmdbCrossRef>> findAll();
@@ -49,11 +42,6 @@ public interface ReviewTmdbCrossRefDao extends RoomDao<ReviewTmdbCrossRef> {
     // TODO comment faire avec une crossref
     /*@Query("SELECT * FROM review WHERE tmdb_id = :tmdb_id")
     Flowable<Review> findByMovieId(Long tmdb_id);*/
-
-
-    // TODO create is not update
-    @Insert
-    Completable createOrUpdate(ReviewTmdbCrossRef reviewTmdbCrossRef);
 
     /*Flowable<List<Review>> findAllByRating(boolean asc);
 

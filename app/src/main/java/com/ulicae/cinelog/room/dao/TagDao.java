@@ -30,10 +30,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface TagDao extends RoomDao<Tag> {
-
-    @Delete
-    void delete(Tag tag);
+public interface TagDao extends AsyncRoomDao<Tag> {
 
     @Query("SELECT * FROM tag")
     Flowable<List<Tag>> findAll();

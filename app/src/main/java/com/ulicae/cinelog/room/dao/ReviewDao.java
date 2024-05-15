@@ -32,14 +32,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface ReviewDao extends RoomDao<Review> {
-
-    /*@Delete
-    void delete(Long kinoId);*/
-
-    @Delete
-    void delete(Review review);
-
+public interface ReviewDao extends SyncRoomDao<Review> {
 
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype")
     Flowable<List<Review>> findAll(ItemEntityType itemEntitytype);
@@ -50,11 +43,6 @@ public interface ReviewDao extends RoomDao<Review> {
     // TODO comment faire avec une crossref
     /*@Query("SELECT * FROM review WHERE tmdb_id = :tmdb_id")
     Flowable<Review> findByMovieId(Long tmdb_id);*/
-
-
-    // TODO create is not update
-    @Insert
-    Completable createOrUpdate(Review review);
 
     /*Flowable<List<Review>> findAllByRating(boolean asc);
 
