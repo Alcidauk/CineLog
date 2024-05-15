@@ -35,7 +35,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MovieReviewRoomListFragment extends ReviewListFragment<KinoDto> {
+public class MovieReviewRoomListFragment extends ReviewRoomListFragment<KinoDto> {
 
     private FragmentMovieListBinding binding;
 

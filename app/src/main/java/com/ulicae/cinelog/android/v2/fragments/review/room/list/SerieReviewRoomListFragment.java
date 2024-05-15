@@ -15,6 +15,7 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
 import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
+import com.ulicae.cinelog.databinding.FragmentSerieListBinding;
 
 import java.util.List;
 
@@ -36,13 +37,13 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieReviewRoomListFragment extends ReviewListFragment<SerieDto> {
+public class SerieReviewRoomListFragment extends ReviewRoomListFragment<SerieDto> {
 
-    private FragmentMovieListBinding binding;
+    private FragmentSerieListBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMovieListBinding.inflate(inflater, container, false);
+        binding = FragmentSerieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
