@@ -62,10 +62,6 @@ public abstract class ReviewListFragment<T extends ItemDto> extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.setOnClickListener(v -> onFabClick());
-        fab.setImageResource(R.drawable.add_kino);
-        fab.show();
 
         SearchView searchView = ((MainActivity) requireActivity()).getSearchView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -113,30 +109,6 @@ public abstract class ReviewListFragment<T extends ItemDto> extends Fragment {
     }
 
     private void applyListeners() {
-        getKinoList().setOnItemLongClickListener((view, parent, position, rowId) -> {
-            Object item = kino_adapter.getItem(position);
-            if(!(item instanceof KinoDto)){
-                return false;
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-            builder.setMessage(R.string.delete_kino_dialog)
-                    .setPositiveButton(R.string.yes, (dialog, id) -> {
-                        if (item instanceof KinoDto) {
-                            kino_adapter.remove(item);
-                            //noinspection unchecked
-                            service.delete((KinoDto) item);
-
-                            kino_adapter.notifyDataSetInvalidated();
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, (dialog, id) -> {
-                        // User cancelled the dialog
-                    });
-            builder.create().show();
-            return true;
-        });
         getKinoList().setOnItemClickListener((view, parent, position, rowId) -> {
             Object item = kino_adapter.getItem(position);
             if(!(item instanceof KinoDto)){
