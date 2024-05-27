@@ -80,7 +80,7 @@ public class ReviewService implements RoomDataService<KinoDto> {
         List<TagDto> tags = new ArrayList<>();
         List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
         for (ReviewTagCrossRef reviewTagCrossRef : tagCrossRefs) {
-            Tag tag = tagDao.find(reviewTagCrossRef.tagId).blockingFirst();
+            Tag tag = tagDao.find(Math.toIntExact(reviewTagCrossRef.tagId)).blockingFirst();
             tags.add(new TagDto((long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries));
         }
 

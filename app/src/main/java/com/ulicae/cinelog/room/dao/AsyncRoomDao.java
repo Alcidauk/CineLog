@@ -29,7 +29,7 @@ import io.reactivex.rxjava3.core.Completable;
  */
 public interface AsyncRoomDao<T> extends RoomDao<T> {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertAll(List<T> entities);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -78,6 +78,9 @@ dependencies {
     // GreenDAO ORM for database
     implementation 'org.greenrobot:greendao:3.2.2'
 
+    // Just needed for old (GreenDao) to new (Room) DB lib migration
+    implementation "androidx.sqlite:sqlite:2.4.0"
+
     // Room will replace greendao, because of a lack in code publication
     def room_version = "2.6.1"
 

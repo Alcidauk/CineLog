@@ -30,7 +30,7 @@ public class TmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao, Kino
 
     @Override
     public Tmdb createRoomInstanceFromDto(KinoDto kinoDto) {
-        return kinoDto.getTmdbKinoId() != null ?
+        return kinoDto.getTmdbKinoId() != 0L ?
                 new Tmdb(kinoDto.getTmdbKinoId(),
                         kinoDto.getPosterPath(),
                         kinoDto.getOverview(),

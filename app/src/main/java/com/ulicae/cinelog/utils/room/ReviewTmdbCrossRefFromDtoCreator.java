@@ -30,7 +30,7 @@ public class ReviewTmdbCrossRefFromDtoCreator extends EntityFromDtoCreator<Revie
 
     @Override
     public ReviewTmdbCrossRef createRoomInstanceFromDto(KinoDto kinoDto) {
-        return kinoDto.getTmdbKinoId() != null ?
+        return kinoDto.getTmdbKinoId() != 0L ?
                 new ReviewTmdbCrossRef(
                         Math.toIntExact(kinoDto.getId()),
                         Math.toIntExact(kinoDto.getTmdbKinoId())
