@@ -24,15 +24,22 @@ import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
  */
 public class ReviewTmdbCrossRefFromDtoCreator extends EntityFromDtoCreator<ReviewTmdbCrossRef, ReviewTmdbCrossRefDao, KinoDto> {
 
+    private final int biggestMovieReviewId;
+
     public ReviewTmdbCrossRefFromDtoCreator(ReviewTmdbCrossRefDao dao) {
+        this(dao, 0);
+    }
+
+    public ReviewTmdbCrossRefFromDtoCreator(ReviewTmdbCrossRefDao dao, int biggestMovieReviewId) {
         super(dao);
+        this.biggestMovieReviewId = biggestMovieReviewId;
     }
 
     @Override
     public ReviewTmdbCrossRef createRoomInstanceFromDto(KinoDto kinoDto) {
         return kinoDto.getTmdbKinoId() != 0L ?
                 new ReviewTmdbCrossRef(
-                        Math.toIntExact(kinoDto.getId()),
+                        Math.toIntExact(kinoDto.getId()) + this.biggestMovieReviewId,
                         Math.toIntExact(kinoDto.getTmdbKinoId())
                 ) : null;
     }

@@ -15,7 +15,6 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
@@ -23,9 +22,6 @@ import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.utils.room.ReviewFromDtoCreator;
 import com.ulicae.cinelog.utils.room.ReviewTmdbCrossRefFromDtoCreator;
-import com.ulicae.cinelog.utils.room.SerieReviewFromDtoCreator;
-import com.ulicae.cinelog.utils.room.SerieReviewTmdbCrossRefFromDtoCreator;
-import com.ulicae.cinelog.utils.room.SerieTmdbFromDtoCreator;
 import com.ulicae.cinelog.utils.room.TagFromDtoCreator;
 import com.ulicae.cinelog.utils.room.TagReviewCrossRefFromDtoCreator;
 import com.ulicae.cinelog.utils.room.TmdbFromDtoCreator;
@@ -35,6 +31,7 @@ import com.ulicae.cinelog.utils.room.WishlistTmdbFromDtoCreator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -129,19 +126,27 @@ public class UpgradeFixRunner {
                         .subscribe(givenDb -> {
                             givenDb.clearAllTables();
 
-                            int biggestMovieReviewId = getBiggestMovieId();
-
                             List<TagDto> createdTags = migrateTags(givenDb);
 
-                            migrateMovieReviews(givenDb, createdTags);
-                            //migrateSerieReviews(givenDb, biggestMovieReviewId);
+                            List<KinoDto> kinoDtos = migrateMovieReviews(givenDb, createdTags);
+
+                            // We need the biggest kino id to generate next serie id
+                            int biggestMovieReviewId = getBiggestMovieId(kinoDtos);
+                            migrateSerieReviews(givenDb, createdTags, biggestMovieReviewId);
+
                             //migrateWishlistItems(givenDb, biggestMovieReviewId);
                         })
         );
     }
 
-    private int getBiggestMovieId() {
-        return new KinoService(((KinoApplication) application).getDaoSession()).getBiggestKinoId();
+    private int getBiggestMovieId(List<KinoDto> kinoDtos) {
+        return Math.toIntExact(
+                kinoDtos.stream()
+                        .sorted((dto1, dto2) -> dto1.getId() < dto2.getId() ? 1 : -1)
+                        .collect(Collectors.toList())
+                        .get(0)
+                        .getId()
+        );
     }
 
     private List<TagDto> migrateTags(AppDatabase givenDb) {
@@ -183,31 +188,26 @@ public class UpgradeFixRunner {
         serieWishlistTmdbCrossRefFromDtoCreator.insertAll(wishlistSerieDtos);
     }
 
-    private void migrateSerieReviews(AppDatabase givenDb, int biggestMovieReviewId) {
-        SerieReviewFromDtoCreator serieReviewFromDtoCreator =
-                new SerieReviewFromDtoCreator(givenDb.reviewDao(), biggestMovieReviewId);
-        SerieReviewTmdbCrossRefFromDtoCreator serieReviewTmdbCrossRefFromDtoCreator =
-                new SerieReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao(), biggestMovieReviewId);
-        SerieTmdbFromDtoCreator serieTmdbFromDtoCreator =
-                new SerieTmdbFromDtoCreator(givenDb.tmdbDao());
+    private void migrateSerieReviews(AppDatabase givenDb, List<TagDto> createdTags, int biggestMovieReviewId) {
+        ReviewFromDtoCreator reviewFromDtoCreator =
+                new ReviewFromDtoCreator(givenDb.reviewDao(), ItemEntityType.SERIE, biggestMovieReviewId);
+        ReviewTmdbCrossRefFromDtoCreator reviewTmdbCrossRefFromDtoCreator =
+                new ReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao(), biggestMovieReviewId);
+        TmdbFromDtoCreator tmdbFromDtoCreator =
+                new TmdbFromDtoCreator(givenDb.tmdbDao());
 
-        List<SerieDto> serieDtos =
-                new SerieService(((KinoApplication) application).getDaoSession(), application.getApplicationContext()).getAll();
+        List<KinoDto> serieDtos = new DbReader(application.getApplicationContext()).readSeries(createdTags, biggestMovieReviewId);
 
-        serieReviewFromDtoCreator.insertAll(serieDtos);
-        serieTmdbFromDtoCreator.insertAll(serieDtos);
-        serieReviewTmdbCrossRefFromDtoCreator.insertAll(serieDtos);
+        reviewFromDtoCreator.insertAll(serieDtos);
+        tmdbFromDtoCreator.insertAll(serieDtos);
+        reviewTmdbCrossRefFromDtoCreator.insertAll(serieDtos);
 
-        for(SerieDto serieDto : serieDtos) {
-            TagReviewCrossRefFromDtoCreator tagReviewCrossRefFromDtoCreator =
-                    new TagReviewCrossRefFromDtoCreator(givenDb.reviewTagCrossRefDao(), serieDto, biggestMovieReviewId);
-            tagReviewCrossRefFromDtoCreator.insertAll(serieDto.getTags());
-        }
+        migrateTagsOnReview(givenDb, serieDtos, biggestMovieReviewId);
     }
 
-    private void migrateMovieReviews(AppDatabase givenDb, List<TagDto> tags) {
+    private List<KinoDto> migrateMovieReviews(AppDatabase givenDb, List<TagDto> tags) {
         ReviewFromDtoCreator reviewFromDtoCreator =
-                new ReviewFromDtoCreator(givenDb.reviewDao());
+                new ReviewFromDtoCreator(givenDb.reviewDao(), ItemEntityType.MOVIE);
         ReviewTmdbCrossRefFromDtoCreator reviewTmdbCrossRefFromDtoCreator =
                 new ReviewTmdbCrossRefFromDtoCreator(givenDb.reviewTmdbDao());
         TmdbFromDtoCreator tmdbFromDtoCreator =
@@ -219,10 +219,16 @@ public class UpgradeFixRunner {
         tmdbFromDtoCreator.insertAll(kinoDtos);
         reviewTmdbCrossRefFromDtoCreator.insertAll(kinoDtos);
 
+        migrateTagsOnReview(givenDb, kinoDtos, 0);
+
+        return kinoDtos;
+    }
+
+    private static void migrateTagsOnReview(AppDatabase givenDb, List<KinoDto> kinoDtos, int biggestMovieReviewId) {
         for(KinoDto kinoDto : kinoDtos) {
             if(kinoDto.getTags() != null && !kinoDto.getTags().isEmpty()) {
                 TagReviewCrossRefFromDtoCreator tagReviewCrossRefFromDtoCreator =
-                        new TagReviewCrossRefFromDtoCreator(givenDb.reviewTagCrossRefDao(), kinoDto, 0);
+                        new TagReviewCrossRefFromDtoCreator(givenDb.reviewTagCrossRefDao(), kinoDto, biggestMovieReviewId);
                 tagReviewCrossRefFromDtoCreator.insertAll(kinoDto.getTags());
             }
         }

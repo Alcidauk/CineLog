@@ -6,6 +6,8 @@ public final class KinoReaderContract {
 
     private KinoReaderContract() {}
 
+    // MOVIE
+
     public static class LocalKino implements BaseColumns {
         public static final String TABLE_NAME = "LOCAL_KINO";
     }
@@ -14,6 +16,28 @@ public final class KinoReaderContract {
         public static final String TABLE_NAME = "TMDB_KINO";
         public static final String COLUMN_NAME_ID = "_id";
     }
+
+    // SERIE
+
+    public static class Review implements BaseColumns {
+        public static final String TABLE_NAME = "REVIEW";
+    }
+
+    public static class SerieReview implements BaseColumns {
+        public static final String TABLE_NAME = "SERIE_REVIEW";
+        public static final String COLUMN_NAME_REVIEW_ID = "REVIEW_id";
+    }
+
+    public static class TmdbSerie implements BaseColumns {
+        public static final String TABLE_NAME = "TMDB_SERIE";
+        public static final String COLUMN_NAME_ID = "_id";
+    }
+
+    public static class JoinReviewWithSerie implements BaseColumns {
+        public static final String TABLE_NAME = "JOIN_REVIEW_WITH_TAG";
+    }
+
+    // TAG
 
     public static class Tag implements BaseColumns {
         public static final String TABLE_NAME = "TAG";
