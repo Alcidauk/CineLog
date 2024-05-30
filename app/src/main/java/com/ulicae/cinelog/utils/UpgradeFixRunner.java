@@ -11,13 +11,12 @@ import com.ulicae.cinelog.BuildConfig;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dao.sqlite.DbReader;
+import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
-import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.utils.room.ReviewFromDtoCreator;
@@ -131,15 +130,15 @@ public class UpgradeFixRunner {
                             List<KinoDto> kinoDtos = migrateMovieReviews(givenDb, createdTags);
 
                             // We need the biggest kino id to generate next serie id
-                            int biggestMovieReviewId = getBiggestMovieId(kinoDtos);
+                            int biggestMovieReviewId = getBiggestId(kinoDtos);
                             migrateSerieReviews(givenDb, createdTags, biggestMovieReviewId);
 
-                            //migrateWishlistItems(givenDb, biggestMovieReviewId);
+                            migrateWishlistItems(givenDb);
                         })
         );
     }
 
-    private int getBiggestMovieId(List<KinoDto> kinoDtos) {
+    private int getBiggestId(List<? extends ItemDto> kinoDtos) {
         return Math.toIntExact(
                 kinoDtos.stream()
                         .sorted((dto1, dto2) -> dto1.getId() < dto2.getId() ? 1 : -1)
@@ -159,29 +158,30 @@ public class UpgradeFixRunner {
         return tagDtos;
     }
 
-    private void migrateWishlistItems(AppDatabase givenDb, int biggestMovieReviewId) {
+    private void migrateWishlistItems(AppDatabase givenDb) {
+        WishlistFromDtoCreator movieWishlistFromDtoCreator =
+                new WishlistFromDtoCreator(givenDb.wishlistItemDao(), ItemEntityType.MOVIE);
+        WishlistTmdbCrossRefFromDtoCreator movieWishlistTmdbCrossRefFromDtoCreator =
+                new WishlistTmdbCrossRefFromDtoCreator(givenDb.wishlistTmdbCrossRefDao(), ItemEntityType.MOVIE);
+
+        WishlistTmdbFromDtoCreator wishlistTmdbFromDtoCreator =
+                new WishlistTmdbFromDtoCreator(givenDb.tmdbDao());
+
+        List<WishlistDataDto> wishlistMovieDtos = new DbReader(application.getApplicationContext()).readWishlistMovieItems();
+
+        int biggestMovieReviewId = getBiggestId(wishlistMovieDtos);
+
         WishlistFromDtoCreator serieWishlistFromDtoCreator =
                 new WishlistFromDtoCreator(givenDb.wishlistItemDao(), ItemEntityType.SERIE, biggestMovieReviewId);
         WishlistTmdbCrossRefFromDtoCreator serieWishlistTmdbCrossRefFromDtoCreator =
                 new WishlistTmdbCrossRefFromDtoCreator(givenDb.wishlistTmdbCrossRefDao(), ItemEntityType.SERIE, biggestMovieReviewId);
 
-        WishlistFromDtoCreator movieWishlistFromDtoCreator =
-                new WishlistFromDtoCreator(givenDb.wishlistItemDao(), ItemEntityType.MOVIE, biggestMovieReviewId);
-        WishlistTmdbCrossRefFromDtoCreator movieWishlistTmdbCrossRefFromDtoCreator =
-                new WishlistTmdbCrossRefFromDtoCreator(givenDb.wishlistTmdbCrossRefDao(), ItemEntityType.MOVIE, biggestMovieReviewId);
-
-        WishlistTmdbFromDtoCreator wishlistTmdbFromDtoCreator =
-                new WishlistTmdbFromDtoCreator(givenDb.tmdbDao());
-
-        List<WishlistDataDto> wishlistMovieDtos =
-                new MovieWishlistService(((KinoApplication) application).getDaoSession()).getAll();
 
         movieWishlistFromDtoCreator.insertAll(wishlistMovieDtos);
         wishlistTmdbFromDtoCreator.insertAll(wishlistMovieDtos);
         movieWishlistTmdbCrossRefFromDtoCreator.insertAll(wishlistMovieDtos);
 
-        List<WishlistDataDto> wishlistSerieDtos =
-                new SerieWishlistService(((KinoApplication) application).getDaoSession()).getAll();
+        List<WishlistDataDto> wishlistSerieDtos = new DbReader(application.getApplicationContext()).readWishlistSerieItems(biggestMovieReviewId);
 
         serieWishlistFromDtoCreator.insertAll(wishlistSerieDtos);
         wishlistTmdbFromDtoCreator.insertAll(wishlistSerieDtos);

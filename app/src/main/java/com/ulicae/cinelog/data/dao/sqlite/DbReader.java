@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -340,5 +342,120 @@ public class DbReader {
         }
 
         return tags;
+    }
+
+    public List<WishlistDataDto> readWishlistMovieItems() {
+        Cursor cursor = db.query(
+                KinoReaderContract.WishlistMovieItem.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        cursor.moveToNext();
+
+        List<WishlistDataDto> wishlistItems = new ArrayList<>();
+
+        while (!cursor.isAfterLast()) {
+            wishlistItems.add(cursor.getInt(1) != 0 ?
+                    buildWishlistDtoWithTmdb(cursor) :
+                    buildWishlistDto(cursor, WishlistItemType.MOVIE, 0));
+
+            cursor.moveToNext();
+        }
+
+        return wishlistItems;
+    }
+
+    private WishlistDataDto buildWishlistDto(Cursor cursor, WishlistItemType wishlistItemType, int biggestMovieReviewId) {
+        return new WishlistDataDto(
+                cursor.getLong(0) + biggestMovieReviewId,
+                cursor.getInt(1),
+                cursor.getString(2),
+                null,
+                null,
+                0,
+                null,
+                wishlistItemType
+        );
+    }
+
+    private WishlistDataDto buildWishlistDtoWithTmdb(Cursor cursor) {
+        String[] tmdbId = {cursor.getString(1)};
+
+        Cursor tmdbCursor = db.query(
+                KinoReaderContract.TmdbKino.TABLE_NAME,
+                null,
+                KinoReaderContract.TmdbKino.COLUMN_NAME_ID + "=?",
+                tmdbId,
+                null,
+                null,
+                null
+        );
+        tmdbCursor.moveToNext();
+
+        return new WishlistDataDto(
+                cursor.getLong(0),
+                cursor.getInt(1),
+                cursor.getString(2),
+                tmdbCursor.getString(1),
+                tmdbCursor.getString(2),
+                tmdbCursor.getInt(3),
+                tmdbCursor.getString(4),
+                WishlistItemType.MOVIE
+        );
+    }
+
+    public List<WishlistDataDto> readWishlistSerieItems(int biggestMovieReviewId) {
+        Cursor cursor = db.query(
+                KinoReaderContract.WishlistSerieItem.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        cursor.moveToNext();
+
+        List<WishlistDataDto> wishlistItems = new ArrayList<>();
+
+        while (!cursor.isAfterLast()) {
+            wishlistItems.add(cursor.getInt(1) != 0 ?
+                    buildWishlistSerieDtoWithTmdb(cursor, biggestMovieReviewId) :
+                    buildWishlistDto(cursor, WishlistItemType.SERIE, biggestMovieReviewId));
+
+            cursor.moveToNext();
+        }
+
+        return wishlistItems;
+    }
+
+    private WishlistDataDto buildWishlistSerieDtoWithTmdb(Cursor cursor, int biggestMovieReviewId) {
+        String[] tmdbId = {cursor.getString(1)};
+
+        Cursor tmdbCursor = db.query(
+                KinoReaderContract.TmdbSerie.TABLE_NAME,
+                null,
+                KinoReaderContract.TmdbSerie.COLUMN_NAME_ID + "=?",
+                tmdbId,
+                null,
+                null,
+                null
+        );
+        tmdbCursor.moveToNext();
+
+        return new WishlistDataDto(
+                cursor.getLong(0) + biggestMovieReviewId,
+                cursor.getInt(1),
+                cursor.getString(2),
+                tmdbCursor.getString(1),
+                tmdbCursor.getString(2),
+                tmdbCursor.getInt(3),
+                tmdbCursor.getString(4),
+                WishlistItemType.SERIE
+        );
     }
 }

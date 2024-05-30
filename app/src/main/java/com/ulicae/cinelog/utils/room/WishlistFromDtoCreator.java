@@ -9,6 +9,10 @@ public class WishlistFromDtoCreator extends AsyncEntityFromDtoCreator<WishlistIt
     private final ItemEntityType itemEntityType;
     private final int biggestMovieReviewId;
 
+    public WishlistFromDtoCreator(WishlistItemDao dao, ItemEntityType itemEntityType) {
+        this(dao, itemEntityType, 0);
+    }
+
     public WishlistFromDtoCreator(WishlistItemDao dao, ItemEntityType itemEntityType, int biggestMovieReviewId) {
         super(dao);
         this.itemEntityType = itemEntityType;

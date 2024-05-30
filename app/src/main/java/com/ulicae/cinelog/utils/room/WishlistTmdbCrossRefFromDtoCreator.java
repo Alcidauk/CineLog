@@ -29,6 +29,10 @@ public class WishlistTmdbCrossRefFromDtoCreator extends EntityFromDtoCreator<Wis
 
     private final int biggestMovieReviewId;
 
+    public WishlistTmdbCrossRefFromDtoCreator(WishlistTmdbCrossRefDao dao, ItemEntityType itemEntityType) {
+        this(dao, itemEntityType, 0);
+    }
+
     public WishlistTmdbCrossRefFromDtoCreator(WishlistTmdbCrossRefDao dao, ItemEntityType itemEntityType, int biggestMovieReviewId) {
         super(dao);
         this.itemEntityType = itemEntityType;
@@ -37,7 +41,7 @@ public class WishlistTmdbCrossRefFromDtoCreator extends EntityFromDtoCreator<Wis
 
     @Override
     public WishlistTmdbCrossRef createRoomInstanceFromDto(WishlistDataDto itemDto) {
-        return itemDto.getTmdbKinoId() != null ?
+        return itemDto.getTmdbKinoId() != 0L ?
                 new WishlistTmdbCrossRef(
                         Math.toIntExact(itemEntityType == ItemEntityType.SERIE ? (biggestMovieReviewId + itemDto.getId()) : itemDto.getId()),
                         Math.toIntExact(itemDto.getTmdbKinoId())

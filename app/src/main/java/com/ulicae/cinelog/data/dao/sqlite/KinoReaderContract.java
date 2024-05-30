@@ -46,4 +46,11 @@ public final class KinoReaderContract {
     public static class JoinKinoTag implements BaseColumns {
         public static final String TABLE_NAME = "JOIN_LOCAL_KINO_WITH_TAG";
     }
+
+    public static class WishlistMovieItem implements BaseColumns {
+        public static final String TABLE_NAME = "WISHLIST_MOVIE";
+    }
+    public static class WishlistSerieItem implements BaseColumns {
+        public static final String TABLE_NAME = "WISHLIST_SERIE";
+    }
 }

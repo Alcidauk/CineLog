@@ -30,7 +30,7 @@ public class WishlistTmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbD
 
     @Override
     public Tmdb createRoomInstanceFromDto(WishlistDataDto itemDto) {
-        return itemDto.getTmdbKinoId() != null ?
+        return itemDto.getTmdbKinoId() != 0L ?
                 new Tmdb(itemDto.getTmdbKinoId(),
                         itemDto.getPosterPath(),
                         itemDto.getOverview(),
