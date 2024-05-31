@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.review.room.item;
+package com.ulicae.cinelog.android.v3.fragments.review.item;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,15 +13,14 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewItemDataFieldsInflater;
+import com.ulicae.cinelog.android.v3.V3MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
 import com.ulicae.cinelog.databinding.FragmentReviewMovieItemBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemReviewBinding;
 
-import org.parceler.Parcels;
-
-public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
+public class V3ReviewMovieItemFragment extends ShareableFragment<KinoDto> {
 
     private FragmentReviewMovieItemBinding binding;
 
@@ -44,7 +43,7 @@ public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
         int itemId = requireArguments().getInt("review_id");
         position = requireArguments().getInt("kino_position", -1);
 
-        reviewService = new ReviewService(((MainActivity) requireActivity()).getDb());
+        reviewService = new ReviewService(((V3MainActivity) requireActivity()).getDb());
         item = reviewService.getWithId(itemId);
 
         setLinkBaseUrl("https://www.themoviedb.org/movie/");
@@ -54,15 +53,15 @@ public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
 
         new ReviewItemDataFieldsInflater(item, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
 
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        FloatingActionButton fab = ((V3MainActivity) requireActivity()).getFab();
         // TODO go to new review edition
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(item, false, R.id.action_viewKinoFragment_to_editReviewFragment)
+                v -> ((V3MainActivity) requireActivity()).navigateToReview(item, false, R.id.action_viewKinoFragment_to_editReviewFragment)
         );
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
 
-        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
+        ((V3MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
   /*  TODO rewrite state management to get right data from editreview
 

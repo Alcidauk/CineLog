@@ -2,12 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_v3"
-    app:startDestination="@id/nav_reviews_room_movie">
+    app:startDestination="@id/v3_nav_reviews_movie">
 
     <fragment
-        android:id="@+id/nav_reviews_room_movie"
+        android:id="@+id/v3_nav_reviews_movie"
         android:name="com.ulicae.cinelog.android.v3.fragments.review.list.V3MovieReviewListFragment"
-        android:label="@string/title_fragment_movie_room">
+        android:label="@string/v3_title_fragment_movie">
         <action
             android:id="@+id/action_nav_reviews_room_movie_to_viewReviewFragment"
             app:destination="@id/viewReviewRoomFragment"
@@ -28,9 +28,9 @@
             -->
     </fragment>
     <fragment
-        android:id="@+id/nav_reviews_room_serie"
+        android:id="@+id/v3_nav_reviews_serie"
         android:name="com.ulicae.cinelog.android.v3.fragments.review.list.V3SerieReviewListFragment"
-        android:label="@string/title_fragment_serie_room">
+        android:label="@string/v3_title_fragment_serie">
         <action
             android:id="@+id/action_nav_reviews_room_serie_to_viewSerieRoomFragment"
             app:destination="@id/viewSerieRoomFragment"
@@ -50,7 +50,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>-->
     </fragment>
     <fragment
-        android:id="@+id/nav_wishlist_room_movie"
+        android:id="@+id/v3_nav_wishlist_movie"
         android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.MovieWishlistRoomFragment"
         android:label="@string/title_fragment_wishlist_movie" >
         <!-- TODO
@@ -62,7 +62,7 @@
             app:destination="@id/searchTmdbMovieFragment" />-->
     </fragment>
     <fragment
-        android:id="@+id/nav_wishlist_room_serie"
+        android:id="@+id/v3_nav_wishlist_serie"
         android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistRoomFragment"
         android:label="@string/title_fragment_wishlist_serie" >
         <!-- TODO
@@ -74,7 +74,7 @@
             app:destination="@id/searchTmbdSerieFragment" />-->
     </fragment>
     <fragment
-        android:id="@+id/nav_room_tags"
+        android:id="@+id/v3_nav_tags"
         android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagRoomFragment"
         android:label="@string/tags_title" >
         <action
@@ -138,7 +138,7 @@
     </fragment>-->
     <fragment
         android:id="@+id/viewReviewRoomFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.item.ReviewMovieRoomItemFragment"
+        android:name="com.ulicae.cinelog.android.v3.fragments.review.item.V3ReviewMovieItemFragment"
         android:label="@string/title_activity_view_room_review">
         <action
             android:id="@+id/action_viewKinoFragment_to_editReviewFragment"
@@ -150,7 +150,7 @@
     </fragment>
     <fragment
         android:id="@+id/viewSerieRoomFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.item.ReviewSerieRoomItemFragment"
+        android:name="com.ulicae.cinelog.android.v3.fragments.review.item.V3ReviewSerieItemFragment"
         android:label="@string/title_activity_view_room_review_serie">
         <action
             android:id="@+id/action_viewSerieFragment_to_editReviewFragment"

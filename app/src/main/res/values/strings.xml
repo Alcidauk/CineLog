@@ -163,8 +163,8 @@
     <string name="validate">Validate</string>
     <string name="no_tags_found_label">No tag found. Please verify enabled tags.</string>
     <string name="action_share">Share</string>
-    <string name="title_fragment_serie_room">Series (Room)</string>
-    <string name="title_fragment_movie_room">Movies (Room)</string>
+    <string name="v3_title_fragment_serie">Series (Room)</string>
+    <string name="v3_title_fragment_movie">Movies (Room)</string>
     <string name="title_activity_view_room_review">Movie review (Room)\n</string>
     <string name="title_activity_view_room_review_serie">Serie review (Room)</string>
     <string name="go_to_v2">Ouvrir la v2</string>

@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.review.room.item;
+package com.ulicae.cinelog.android.v3.fragments.review.item;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,13 +20,12 @@ import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisod
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
 import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
 import com.ulicae.cinelog.databinding.FragmentReviewSerieItemBinding;
 
 import org.parceler.Parcels;
 
-public class ReviewSerieRoomItemFragment extends ShareableFragment<SerieDto> {
+public class V3ReviewSerieItemFragment extends ShareableFragment<SerieDto> {
 
     private FragmentReviewSerieItemBinding binding;
 

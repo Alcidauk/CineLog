@@ -59,7 +59,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_view"
+        app:menu="@menu/drawer_view_v3"
         tools:ignore="UnusedAttribute" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

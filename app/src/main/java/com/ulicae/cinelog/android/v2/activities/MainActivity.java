@@ -120,11 +120,11 @@ public class MainActivity extends AppCompatActivity {
             add(R.id.nav_reviews_serie);
             add(R.id.nav_wishlist_movie);
             add(R.id.nav_wishlist_serie);
-            add(R.id.nav_reviews_room_movie);
-            add(R.id.nav_reviews_room_serie);
-            add(R.id.nav_wishlist_room_movie);
-            add(R.id.nav_wishlist_room_serie);
-            add(R.id.nav_room_tags);
+            add(R.id.v3_nav_reviews_movie);
+            add(R.id.v3_nav_reviews_serie);
+            add(R.id.v3_nav_wishlist_movie);
+            add(R.id.v3_nav_wishlist_serie);
+            add(R.id.v3_nav_tags);
         }};
         appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations)
                 .setOpenableLayout(binding.drawerLayout)
