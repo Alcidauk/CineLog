@@ -46,7 +46,7 @@ public class V3ReviewSerieItemFragment extends ShareableFragment<SerieDto> {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         int itemId = requireArguments().getInt("review_id");
-        position = requireArguments().getInt("kino_position", -1);
+        position = requireArguments().getInt("item_position", -1);
 
         reviewService = new SerieReviewService(((MainActivity) requireActivity()).getDb());
         item = reviewService.getWithId(itemId);
@@ -111,7 +111,7 @@ public class V3ReviewSerieItemFragment extends ShareableFragment<SerieDto> {
                 Intent returnIntent = getIntent();
                 returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
                 returnIntent.putExtra("kino", Parcels.wrap(kino));
-                returnIntent.putExtra("kino_position", position);
+                returnIntent.putExtra("item_position", position);
                 setResult(Activity.RESULT_OK, returnIntent);
             }
             onBackPressed();

@@ -10,9 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
-import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewItemDataFieldsInflater;
 import com.ulicae.cinelog.android.v3.V3MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
@@ -41,7 +39,7 @@ public class V3ReviewMovieItemFragment extends ShareableFragment<KinoDto> {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         int itemId = requireArguments().getInt("review_id");
-        position = requireArguments().getInt("kino_position", -1);
+        position = requireArguments().getInt("item_position", -1);
 
         reviewService = new ReviewService(((V3MainActivity) requireActivity()).getDb());
         item = reviewService.getWithId(itemId);
@@ -51,7 +49,7 @@ public class V3ReviewMovieItemFragment extends ShareableFragment<KinoDto> {
         LayoutReviewItemKinoBinding viewKinoContentLayout = binding.viewKinoContentLayout;
         LayoutReviewItemReviewBinding reviewKinoContentLayout = binding.reviewKinoContentLayout;
 
-        new ReviewItemDataFieldsInflater(item, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
+        new V3ReviewItemDataFieldsInflater(item, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
 
         FloatingActionButton fab = ((V3MainActivity) requireActivity()).getFab();
         // TODO go to new review edition
@@ -83,7 +81,7 @@ public class V3ReviewMovieItemFragment extends ShareableFragment<KinoDto> {
                 Intent returnIntent = getIntent();
                 returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
                 returnIntent.putExtra("kino", Parcels.wrap(kino));
-                returnIntent.putExtra("kino_position", position);
+                returnIntent.putExtra("item_position", position);
                 setResult(Activity.RESULT_OK, returnIntent);
             }
             onBackPressed();

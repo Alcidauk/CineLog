@@ -117,30 +117,6 @@
             app:destination="@id/wishlistItemFragment" />
     </fragment>
     <fragment
-        android:id="@+id/viewKinoFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.item.ReviewMovieItemFragment"
-        android:label="@string/title_activity_view_kino" >
-        <action
-            android:id="@+id/action_viewKinoFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
-        android:id="@+id/viewSerieFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.item.ReviewSerieItemFragment"
-        android:label="@string/title_activity_view_serie" >
-        <action
-            android:id="@+id/action_viewSerieFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
         android:id="@+id/editReviewFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.review.edit.ReviewEditionFragment"
         android:label="@string/title_activity_view_kino" >

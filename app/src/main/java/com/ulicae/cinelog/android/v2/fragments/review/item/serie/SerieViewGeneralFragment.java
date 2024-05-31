@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewItemDataFieldsInflater;
+import com.ulicae.cinelog.android.v3.fragments.review.item.V3ReviewItemDataFieldsInflater;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.databinding.FragmentSerieViewGeneralBinding;
 
@@ -54,7 +54,7 @@ public class SerieViewGeneralFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         SerieDto serieDto = Parcels.unwrap(requireArguments().getParcelable("kino"));
-        new ReviewItemDataFieldsInflater(serieDto, getActivity(), binding.serieViewKinoContent, binding.serieReviewKinoContent).configureFields();
+        new V3ReviewItemDataFieldsInflater(serieDto, getActivity(), binding.serieViewKinoContent, binding.serieReviewKinoContent).configureFields();
     }
 
 }

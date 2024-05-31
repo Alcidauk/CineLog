@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.review.item;
+package com.ulicae.cinelog.android.v3.fragments.review.item;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -50,7 +50,7 @@ import java.util.Locale;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewItemDataFieldsInflater {
+public class V3ReviewItemDataFieldsInflater {
 
     ImageView poster;
     TextView title;
@@ -66,16 +66,16 @@ public class ReviewItemDataFieldsInflater {
     Button overviewMoreButton;
     LinearLayout tagsList;
 
-    private final KinoDto kino;
+    private final KinoDto item;
     private Activity activity;
     private final LayoutReviewItemKinoBinding viewKinoContentLayout;
     private final LayoutReviewItemReviewBinding reviewKinoContentLayout;
 
-    public ReviewItemDataFieldsInflater(KinoDto kino,
-                                        Activity activity,
-                                        LayoutReviewItemKinoBinding viewKinoContentLayout,
-                                        LayoutReviewItemReviewBinding reviewKinoContentLayout) {
-        this.kino = kino;
+    public V3ReviewItemDataFieldsInflater(KinoDto item,
+                                          Activity activity,
+                                          LayoutReviewItemKinoBinding viewKinoContentLayout,
+                                          LayoutReviewItemReviewBinding reviewKinoContentLayout) {
+        this.item = item;
         this.activity = activity;
         this.viewKinoContentLayout = viewKinoContentLayout;
         this.reviewKinoContentLayout = reviewKinoContentLayout;
@@ -114,8 +114,8 @@ public class ReviewItemDataFieldsInflater {
     private void configureTags() {
         tagsList.removeAllViews();
 
-        if (kino.getTags() != null) {
-            for (TagDto tagDto : kino.getTags()) {
+        if (item.getTags() != null) {
+            for (TagDto tagDto : item.getTags()) {
                 RelativeLayout tagLayout = getLayoutForTag(tagDto);
                 tagsList.addView(tagLayout);
             }
@@ -150,34 +150,34 @@ public class ReviewItemDataFieldsInflater {
     }
 
     private void configureReview() {
-        if (kino.getReview() == null || "".equals(kino.getReview())) {
+        if (item.getReview() == null || "".equals(item.getReview())) {
             review.setVisibility(View.INVISIBLE);
             reviewLabel.setVisibility(View.INVISIBLE);
         } else {
             review.setVisibility(View.VISIBLE);
             reviewLabel.setVisibility(View.VISIBLE);
 
-            review.setText(kino.getReview());
+            review.setText(item.getReview());
         }
-        reviewDate.setText(getReviewDateAsString(kino.getReview_date()));
+        reviewDate.setText(getReviewDateAsString(item.getReview_date()));
     }
 
     private void configureRating() {
-        if (kino.getRating() != null) {
-            rating.setRating(kino.getRating());
-            ratingAsText.setText(String.format("%s", kino.getRating()));
+        if (item.getRating() != null) {
+            rating.setRating(item.getRating());
+            ratingAsText.setText(String.format("%s", item.getRating()));
         }
     }
 
     private void configureOverview() {
-        overview.setText(kino.getOverview());
-        if (kino.getOverview() == null || "".equals(kino.getOverview())) {
+        overview.setText(item.getOverview());
+        if (item.getOverview() == null || "".equals(item.getOverview())) {
             overviewMoreButton.setVisibility(View.INVISIBLE);
         }
     }
 
     private void configureReleaseDate() {
-        String releaseDateLocal = kino.getReleaseDate();
+        String releaseDateLocal = item.getReleaseDate();
         if (releaseDateLocal != null && !"".equals(releaseDateLocal)) {
             SimpleDateFormat frenchSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
             try {
@@ -185,17 +185,17 @@ public class ReviewItemDataFieldsInflater {
                 String formattedDate = DateFormat.getDateFormat(activity.getApplicationContext()).format(parsedDate);
                 year.setText(formattedDate);
             } catch (ParseException ignored) {
-                year.setText(String.valueOf(kino.getYear()));
+                year.setText(String.valueOf(item.getYear()));
             }
         }
     }
 
     private void configureTitleAndPoster() {
-        title.setText(kino.getTitle());
-        if (kino.getPosterPath() != null && !"".equals(kino.getPosterPath())) {
+        title.setText(item.getTitle());
+        if (item.getPosterPath() != null && !"".equals(item.getPosterPath())) {
             Glide.with(activity)
-                    .load(new ImageCacheDownloader(activity.getCacheDir(), kino.getPosterPath())
-                            .getPosterFinder().getImage(kino.getPosterPath()))
+                    .load(new ImageCacheDownloader(activity.getCacheDir(), item.getPosterPath())
+                            .getPosterFinder().getImage(item.getPosterPath()))
                     .centerCrop()
                     .crossFade()
                     .into(poster);
@@ -204,12 +204,12 @@ public class ReviewItemDataFieldsInflater {
 
     private void configureMaxRating() {
         int maxRating;
-        if (kino.getMaxRating() == null) {
+        if (item.getMaxRating() == null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
             String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
             maxRating = Integer.parseInt(defaultMaxRateValue);
         } else {
-            maxRating = kino.getMaxRating();
+            maxRating = item.getMaxRating();
         }
         rating.setNumStars(maxRating);
         rating.setStepSize(0.5f);

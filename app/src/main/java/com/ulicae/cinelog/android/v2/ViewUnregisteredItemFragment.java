@@ -45,7 +45,7 @@ public class ViewUnregisteredItemFragment extends Fragment {
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
 
         kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
-        position = requireArguments().getInt("kino_position", -1);
+        position = requireArguments().getInt("item_position", -1);
         String dtoType = requireArguments().getString("dtoType");
 
         bindData();
@@ -96,7 +96,7 @@ public class ViewUnregisteredItemFragment extends Fragment {
                 Intent returnIntent = getIntent();
                 returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
                 returnIntent.putExtra("kino", Parcels.wrap(kino));
-                returnIntent.putExtra("kino_position", position);
+                returnIntent.putExtra("item_position", position);
                 setResult(Activity.RESULT_OK, returnIntent);
             }
             onBackPressed();

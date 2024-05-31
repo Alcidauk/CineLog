@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
         int action = determineAction(kinoDto, inDb, fromSearch, room);
         if (inDb) {
             args.putInt("review_id", Math.toIntExact(kinoDto.getId()));
-            args.putInt("kino_position", position);
+            args.putInt("item_position", position);
         }
 
         // TODO remove kino, not used after room migration
