@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.review.room.list;
+package com.ulicae.cinelog.android.v3.fragments.review.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,13 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.android.v2.fragments.review.list.ReviewListFragment;
+import com.ulicae.cinelog.android.v3.V3MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
+import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
 import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
-import com.ulicae.cinelog.databinding.FragmentSerieListBinding;
 
 import java.util.List;
 
@@ -37,13 +34,13 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SerieReviewRoomListFragment extends ReviewRoomListFragment<SerieDto> {
+public class V3MovieReviewListFragment extends V3ReviewListFragment<KinoDto> {
 
-    private FragmentSerieListBinding binding;
+    private FragmentMovieListBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentSerieListBinding.inflate(inflater, container, false);
+        binding = FragmentMovieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -55,35 +52,35 @@ public class SerieReviewRoomListFragment extends ReviewRoomListFragment<SerieDto
 
     @Override
     protected void createService() {
-        service = new SerieReviewService(((MainActivity) getActivity()).getDb());
+        service = new ReviewService(((V3MainActivity) getActivity()).getDb());
     }
 
     @Override
-    protected List<SerieDto> getResults(int order) {
+    protected List<KinoDto> getResults(int order) {
         if (order == -1) {
             order = getOrderFromPreferences();
         }
         switch (order) {
             default:
-                return ((SerieReviewService) service).getAll();
+                return ((ReviewService) service).getAll();
         }
     }
 
     @Override
     protected void navigateToItem(KinoDto item, int position, boolean inDb, boolean fromSearch) {
-        ((MainActivity) requireActivity()).navigateToItem(
+        ((V3MainActivity) requireActivity()).navigateToItem(
                 (KinoDto) item, position, inDb, fromSearch, true
         );
     }
 
     @Override
-    protected ListView getKinoList() {
+    protected ListView getReviewListView() {
         return binding != null ? binding.kinoList : null;
     }
 
     @Override
     protected void onFabClick() {
-        ((MainActivity) requireActivity()).goToTmdbMovieSearch(false);
+        ((V3MainActivity) requireActivity()).goToTmdbMovieSearch(false);
     }
 
     private int getOrderFromPreferences() {

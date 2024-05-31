@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.review.room.list;
+package com.ulicae.cinelog.android.v3.fragments.review.list;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.review.list.ReviewDateHeaderListTransformer;
 import com.ulicae.cinelog.android.v2.fragments.review.list.ReviewListAdapter;
+import com.ulicae.cinelog.android.v3.V3MainActivity;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.RoomDataService;
@@ -42,11 +42,11 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment {
+public abstract class V3ReviewListFragment<T extends ItemDto> extends Fragment {
 
     ReviewListAdapter kino_adapter;
 
-    List<T> kinos;
+    List<T> reviews;
 
     protected RoomDataService service;
 
@@ -64,12 +64,12 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
+        FloatingActionButton fab = ((V3MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(v -> onFabClick());
         fab.setImageResource(R.drawable.add_kino);
         fab.show();
 
-        SearchView searchView = ((MainActivity) requireActivity()).getSearchView();
+        SearchView searchView = ((V3MainActivity) requireActivity()).getSearchView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -102,20 +102,20 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
     }
 
     private void createListView(int orderId) {
-        if (getKinoList() != null) {
+        if (getReviewListView() != null) {
             LIST_VIEW_STATE = orderId;
 
-            kinos = getResults(orderId);
+            reviews = getResults(orderId);
 
-            initialiseAdapter(kinos, orderId);
+            initialiseAdapter(reviews, orderId);
             applyListeners();
 
-            getKinoList().setAdapter(kino_adapter);
+            getReviewListView().setAdapter(kino_adapter);
         }
     }
 
     private void applyListeners() {
-        getKinoList().setOnItemLongClickListener((view, parent, position, rowId) -> {
+        getReviewListView().setOnItemLongClickListener((view, parent, position, rowId) -> {
             Object item = kino_adapter.getItem(position);
             if(!(item instanceof KinoDto)){
                 return false;
@@ -139,7 +139,7 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
             builder.create().show();
             return true;
         });
-        getKinoList().setOnItemClickListener((view, parent, position, rowId) -> {
+        getReviewListView().setOnItemClickListener((view, parent, position, rowId) -> {
             Object item = kino_adapter.getItem(position);
             if(!(item instanceof KinoDto)){
                 return;
@@ -176,7 +176,7 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
 
     protected abstract List<T> getResults(int order);
 
-    protected abstract ListView getKinoList();
+    protected abstract ListView getReviewListView();
 
     protected abstract void onFabClick();
 

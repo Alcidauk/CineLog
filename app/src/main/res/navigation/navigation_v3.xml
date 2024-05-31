@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation"
-    app:startDestination="@id/nav_reviews_movie">
+    android:id="@+id/navigation_v3"
+    app:startDestination="@id/nav_reviews_room_movie">
+
     <fragment
-        android:id="@+id/nav_reviews_movie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.list.MovieReviewListFragment"
-        android:label="@string/title_fragment_movie" >
+        android:id="@+id/nav_reviews_room_movie"
+        android:name="com.ulicae.cinelog.android.v3.fragments.review.list.V3MovieReviewListFragment"
+        android:label="@string/title_fragment_movie_room">
+        <action
+            android:id="@+id/action_nav_reviews_room_movie_to_viewReviewFragment"
+            app:destination="@id/viewReviewRoomFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <!-- TODO
         <action
             android:id="@+id/action_nav_reviews_movie_to_searchTmdbMovieFragment"
             app:destination="@id/searchTmdbMovieFragment"
@@ -15,19 +25,21 @@
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+            -->
+    </fragment>
+    <fragment
+        android:id="@+id/nav_reviews_room_serie"
+        android:name="com.ulicae.cinelog.android.v3.fragments.review.list.V3SerieReviewListFragment"
+        android:label="@string/title_fragment_serie_room">
         <action
-            android:id="@+id/action_nav_reviews_movie_to_viewKinoFragment"
-            app:destination="@id/viewKinoFragment"
+            android:id="@+id/action_nav_reviews_room_serie_to_viewSerieRoomFragment"
+            app:destination="@id/viewSerieRoomFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-    </fragment>
-    <fragment
-        android:id="@+id/nav_reviews_serie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.list.SerieReviewListFragment"
-        android:label="@string/title_fragment_serie" >
+        <!--
         <action
             android:id="@+id/action_nav_reviews_serie_to_searchTmbdSerieFragment"
             app:destination="@id/searchTmbdSerieFragment"
@@ -35,37 +47,45 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-        <action
-            android:id="@+id/action_nav_reviews_serie_to_viewSerieFragment"
-            app:destination="@id/viewSerieFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>-->
     </fragment>
     <fragment
-        android:id="@+id/nav_wishlist_movie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.MovieWishlistFragment"
+        android:id="@+id/nav_wishlist_room_movie"
+        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.MovieWishlistRoomFragment"
         android:label="@string/title_fragment_wishlist_movie" >
+        <!-- TODO
         <action
             android:id="@+id/action_nav_wishlist_movie_to_wishlistItemFragment"
             app:destination="@id/wishlistItemFragment" />
         <action
             android:id="@+id/action_nav_wishlist_movie_to_searchTmdbMovieFragment"
-            app:destination="@id/searchTmdbMovieFragment" />
+            app:destination="@id/searchTmdbMovieFragment" />-->
     </fragment>
     <fragment
-        android:id="@+id/nav_wishlist_serie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistFragment"
+        android:id="@+id/nav_wishlist_room_serie"
+        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistRoomFragment"
         android:label="@string/title_fragment_wishlist_serie" >
+        <!-- TODO
         <action
             android:id="@+id/action_nav_wishlist_serie_to_wishlistItemFragment"
             app:destination="@id/wishlistItemFragment" />
         <action
             android:id="@+id/action_nav_wishlist_serie_to_searchTmbdSerieFragment"
-            app:destination="@id/searchTmbdSerieFragment" />
+            app:destination="@id/searchTmbdSerieFragment" />-->
     </fragment>
+    <fragment
+        android:id="@+id/nav_room_tags"
+        android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagRoomFragment"
+        android:label="@string/tags_title" >
+        <action
+            android:id="@+id/action_nav_tags_to_editTagFragment"
+            app:destination="@id/editTagFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <!-- TODO
     <fragment
         android:id="@+id/searchTmdbMovieFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbMovieFragment"
@@ -115,11 +135,11 @@
         <action
             android:id="@+id/action_searchTmbdSerieFragment_to_wishlistItemFragment"
             app:destination="@id/wishlistItemFragment" />
-    </fragment>
+    </fragment>-->
     <fragment
-        android:id="@+id/viewKinoFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.item.ReviewMovieItemFragment"
-        android:label="@string/title_activity_view_kino" >
+        android:id="@+id/viewReviewRoomFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.item.ReviewMovieRoomItemFragment"
+        android:label="@string/title_activity_view_room_review">
         <action
             android:id="@+id/action_viewKinoFragment_to_editReviewFragment"
             app:destination="@id/editReviewFragment"
@@ -129,9 +149,9 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/viewSerieFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.item.ReviewSerieItemFragment"
-        android:label="@string/title_activity_view_serie" >
+        android:id="@+id/viewSerieRoomFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.item.ReviewSerieRoomItemFragment"
+        android:label="@string/title_activity_view_room_review_serie">
         <action
             android:id="@+id/action_viewSerieFragment_to_editReviewFragment"
             app:destination="@id/editReviewFragment"
@@ -140,6 +160,7 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+    <!-- TODO
     <fragment
         android:id="@+id/editReviewFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.review.edit.ReviewEditionFragment"
@@ -200,6 +221,6 @@
     <fragment
         android:id="@+id/editTagFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.tag.EditTagFragment"
-        android:label="EditTagFragment" />
+        android:label="EditTagFragment" />-->
 
 </navigation>
