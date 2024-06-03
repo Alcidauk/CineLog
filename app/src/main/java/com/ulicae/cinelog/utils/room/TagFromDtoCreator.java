@@ -30,7 +30,7 @@ public class TagFromDtoCreator extends AsyncEntityFromDtoCreator<Tag, TagDao, Ta
     @Override
     Tag createRoomInstanceFromDto(TagDto itemDto) {
         return new Tag(
-                Math.toIntExact(itemDto.getId()),
+                itemDto.getId() != null ? Math.toIntExact(itemDto.getId()) : 0,
                 itemDto.getName(),
                 itemDto.getColor(),
                 itemDto.isForMovies(),

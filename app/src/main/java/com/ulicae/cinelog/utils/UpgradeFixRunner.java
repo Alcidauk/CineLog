@@ -10,6 +10,7 @@ import androidx.room.Room;
 import com.ulicae.cinelog.BuildConfig;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dao.sqlite.DbReader;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -98,7 +99,11 @@ public class UpgradeFixRunner {
     }
 
     private void fixSerieReviews() {
-        SerieService serieService = new SerieService(((KinoApplication) application).getDaoSession(), context);
+        SerieService serieService = new SerieService(
+                ((KinoApplication) application).getDaoSession(),
+                ((MainActivity) application.getApplicationContext()).getDb(),
+                context
+        );
 
         List<SerieDto> all = serieService.getAll();
         for (SerieDto serieDto : all) {
@@ -225,8 +230,8 @@ public class UpgradeFixRunner {
     }
 
     private static void migrateTagsOnReview(AppDatabase givenDb, List<KinoDto> kinoDtos, int biggestMovieReviewId) {
-        for(KinoDto kinoDto : kinoDtos) {
-            if(kinoDto.getTags() != null && !kinoDto.getTags().isEmpty()) {
+        for (KinoDto kinoDto : kinoDtos) {
+            if (kinoDto.getTags() != null && !kinoDto.getTags().isEmpty()) {
                 TagReviewCrossRefFromDtoCreator tagReviewCrossRefFromDtoCreator =
                         new TagReviewCrossRefFromDtoCreator(givenDb.reviewTagCrossRefDao(), kinoDto, biggestMovieReviewId);
                 tagReviewCrossRefFromDtoCreator.insertAll(kinoDto.getTags());

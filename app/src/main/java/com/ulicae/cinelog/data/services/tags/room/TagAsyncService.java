@@ -4,9 +4,11 @@ import static io.reactivex.rxjava3.schedulers.Schedulers.io;
 
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
+import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
+import com.ulicae.cinelog.utils.room.TagFromDtoCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,25 +35,27 @@ import io.reactivex.rxjava3.core.Flowable;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagAsyncService implements AsyncDataService<TagDto> {
+public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<TagDto> {
 
     private final AppDatabase db;
 
+    private final TagFromDtoCreator tagFromDtoCreator;
+
     public TagAsyncService(AppDatabase db) {
+        this(
+                db,
+                new TagFromDtoCreator(db.tagDao())
+        );
+    }
+
+    public TagAsyncService(AppDatabase db, TagFromDtoCreator tagFromDtoCreator) {
         this.db = db;
+        this.tagFromDtoCreator = tagFromDtoCreator;
     }
 
     @Override
     public Completable createOrUpdate(TagDto dtoObject) {
-        return db.tagDao().insert(
-                new Tag(
-                        dtoObject.getId() != null ? Math.toIntExact(dtoObject.getId()) : 0,
-                        dtoObject.getName(),
-                        dtoObject.getColor(),
-                        dtoObject.isForMovies(),
-                        dtoObject.isForSeries()
-                )
-        );
+        return this.tagFromDtoCreator.insert(dtoObject);
     }
 
     @Override
@@ -102,5 +106,15 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
             ));
         }
         return tagDtos;
+    }
+
+    @Override
+    public List<TagDto> getAll() {
+        return this.findAll().blockingFirst();
+    }
+
+    @Override
+    public void createOrUpdateFromImport(List<TagDto> tagDtos) {
+        this.tagFromDtoCreator.insertAll(tagDtos);
     }
 }

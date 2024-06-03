@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.databinding.ActivityExportDbBinding;
@@ -67,7 +68,7 @@ public class ExportFragment extends Fragment {
     public void onClick(View view) {
         Application app = requireActivity().getApplication();
         if (writeStoragePermission != null && writeStoragePermission) {
-            new SnapshotExporter(new TagCsvExporterFactory(app), app).export("export_tags.csv");
+            new SnapshotExporter(new TagCsvExporterFactory(((MainActivity) requireActivity()).getDb()), app).export("export_tags.csv");
             new SnapshotExporter(new MovieCsvExporterFactory(app), app).export("export_movies.csv");
             new SnapshotExporter(new SerieCsvExporterFactory(app), app).export("export_series.csv");
             new SnapshotExporter(new WishlistCsvExporterFactory(

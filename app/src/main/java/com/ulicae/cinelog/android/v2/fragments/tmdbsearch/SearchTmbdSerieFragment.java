@@ -1,5 +1,6 @@
 package com.ulicae.cinelog.android.v2.fragments.tmdbsearch;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +69,11 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
         toWishlist = requireArguments().getBoolean("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new TvNetworkTaskCreator());
-        dataService = new SerieService(((KinoApplication) requireActivity().getApplication()).getDaoSession(), requireContext());
+        dataService = new SerieService(
+                ((KinoApplication) requireActivity().getApplication()).getDaoSession(),
+                ((MainActivity) requireContext()).getDb(),
+                requireContext()
+        );
 
         binding.kinoSearchAddFromScratch.setText(getString(R.string.add_serie_from_scratch_label));
         binding.kinoSearch.setHint(getString(R.string.serie_title_hint));

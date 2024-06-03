@@ -3,6 +3,7 @@ package com.ulicae.cinelog.io.exportdb.exporter;
 import android.app.Application;
 
 import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
@@ -33,7 +34,12 @@ public class MovieCsvExporterFactory implements ExporterFactory {
     private final KinoService kinoService;
 
     public MovieCsvExporterFactory(Application application) {
-        this(new KinoService(((KinoApplication) application).getDaoSession()));
+        this(
+                new KinoService(
+                        ((KinoApplication) application).getDaoSession(),
+                        ((MainActivity) application.getApplicationContext()).getDb()
+                )
+        );
     }
 
     private MovieCsvExporterFactory(KinoService kinoService) {

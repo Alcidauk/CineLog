@@ -62,7 +62,11 @@ public class SerieReviewListFragment extends ReviewListFragment<SerieDto> {
 
     @Override
     protected void createService() {
-        service = new SerieService(((KinoApplication) getActivity().getApplication()).getDaoSession(), getContext());
+        service = new SerieService(
+                ((KinoApplication) getActivity().getApplication()).getDaoSession(),
+                ((MainActivity) getActivity()).getDb(),
+                getContext()
+        );
     }
 
     @Override

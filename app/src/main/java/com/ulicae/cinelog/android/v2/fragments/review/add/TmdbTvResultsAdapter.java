@@ -4,6 +4,7 @@ package com.ulicae.cinelog.android.v2.fragments.review.add;
 import android.content.Context;
 
 import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.network.SerieBuilderFromMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
@@ -38,7 +39,7 @@ public class TmdbTvResultsAdapter extends TmdbResultAdapter<BaseTvShow> {
                                 ReviewCreationCallback reviewCreationCallback) {
         super(context,
                 results,
-                new SerieService(app.getDaoSession(), context),
+                new SerieService(app.getDaoSession(), ((MainActivity) context).getDb(), context),
                 new SerieBuilderFromMovie(),
                 reviewItemCallback, reviewCreationCallback);
     }

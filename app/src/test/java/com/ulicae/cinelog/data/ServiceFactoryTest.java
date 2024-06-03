@@ -2,13 +2,17 @@ package com.ulicae.cinelog.data;
 
 import android.content.Context;
 
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
+import com.ulicae.cinelog.room.AppDatabase;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
@@ -20,7 +24,15 @@ public class ServiceFactoryTest {
     private DaoSession daoSession;
 
     @Mock
-    private Context context;
+    private MainActivity context;
+
+    @Mock
+    private AppDatabase db;
+
+    @Before
+    public void setUp() throws Exception {
+        Mockito.doReturn(db).when(context).getDb();
+    }
 
     @Test
     public void kinoService() {

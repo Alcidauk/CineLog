@@ -20,9 +20,10 @@ import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
-import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
 import com.ulicae.cinelog.databinding.ActivityImportDbBinding;
@@ -81,8 +82,9 @@ public class ImportFragment extends Fragment {
                 new CsvImporter<>(
                         new FileReaderGetter(app),
                         new DtoImportCreator<>(context, new TagDtoFromRecordBuilder(context)),
-                        new TagService(((KinoApplication) app).getDaoSession()),
-                        context).importCsvFile("import_tags.csv");
+                        new TagAsyncService(((MainActivity) getActivity()).getDb()),
+                        context
+                ).importCsvFile("import_tags.csv");
 
                 binding.importInDbContent.importTagsStatusWaiting.setText(R.string.import_status_success);
             } catch (ImportException e) {
@@ -95,7 +97,7 @@ public class ImportFragment extends Fragment {
                 new CsvImporter<>(
                         new FileReaderGetter(app),
                         new DtoImportCreator<>(context, new KinoDtoFromRecordBuilder(context)),
-                        new KinoService(((KinoApplication) app).getDaoSession()),
+                        new KinoService(((KinoApplication) app).getDaoSession(), ((MainActivity) getActivity()).getDb()),
                         context).importCsvFile("import_movies.csv");
 
                 binding.importInDbContent.importMoviesStatusWaiting.setText(R.string.import_status_success);
@@ -109,7 +111,7 @@ public class ImportFragment extends Fragment {
                 new CsvImporter<>(
                         new FileReaderGetter(app),
                         new DtoImportCreator<>(context, new SerieDtoFromRecordBuilder(context)),
-                        new SerieService(((KinoApplication) app).getDaoSession(), context),
+                        new SerieService(((KinoApplication) app).getDaoSession(), ((MainActivity) getActivity()).getDb(), context),
                         context).importCsvFile("import_series.csv");
 
                 binding.importInDbContent.importSeriesStatusWaiting.setText(R.string.import_status_success);

@@ -59,7 +59,10 @@ public class MovieReviewListFragment extends ReviewListFragment<KinoDto> {
 
     @Override
     protected void createService() {
-        service = new KinoService(((KinoApplication) getActivity().getApplication()).getDaoSession());
+        service = new KinoService(
+                ((KinoApplication) getActivity().getApplication()).getDaoSession(),
+                ((MainActivity) getActivity()).getDb()
+        );
     }
 
     @Override

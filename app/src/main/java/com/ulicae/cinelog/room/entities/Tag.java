@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 /**
  * CineLog Copyright 2024 Pierre Rognon
  * <p>
@@ -42,5 +44,18 @@ public class Tag {
         this.color = color;
         this.forMovies = forMovies;
         this.forSeries = forSeries;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return id == tag.id && forMovies == tag.forMovies && forSeries == tag.forSeries && Objects.equals(name, tag.name) && Objects.equals(color, tag.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, color, forMovies, forSeries);
     }
 }

@@ -7,8 +7,8 @@ import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.KinoDtoBuilder;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
+import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.utils.KinoDtoToDbBuilder;
 
 import java.util.ArrayList;
@@ -38,19 +38,19 @@ public class KinoService implements DataService<KinoDto> {
     private final TmdbKinoRepository tmdbKinoRepository;
     private final KinoDtoBuilder kinoDtoBuilder;
     private final KinoDtoToDbBuilder kinoDtoToDbBuilder;
-    private final TagService tagService;
+    private final TagAsyncService tagService;
 
-    public KinoService(DaoSession session) {
+    public KinoService(DaoSession session, AppDatabase db) {
         this(new LocalKinoRepository(session),
                 new TmdbKinoRepository(session),
                 new KinoDtoBuilder(),
                 new KinoDtoToDbBuilder(),
-                new TagService(session));
+                new TagAsyncService(db));
     }
 
     KinoService(LocalKinoRepository localKinoRepository, TmdbKinoRepository tmdbKinoRepository,
                 KinoDtoBuilder kinoDtoBuilder, KinoDtoToDbBuilder builder,
-                TagService tagService) {
+                TagAsyncService tagService) {
         this.localKinoRepository = localKinoRepository;
         this.tmdbKinoRepository = tmdbKinoRepository;
         this.kinoDtoBuilder = kinoDtoBuilder;
@@ -87,7 +87,7 @@ public class KinoService implements DataService<KinoDto> {
     private void linkToTags(KinoDto createdKino, List<TagDto> tags) {
         if (tags != null) {
             for (TagDto tag : tags) {
-                tagService.addTagToItemIfNotExists(tag, createdKino);
+                tagService.addTagToItemIfNotExists(Math.toIntExact(createdKino.getId()), Math.toIntExact(tag.getId()));
             }
         }
     }

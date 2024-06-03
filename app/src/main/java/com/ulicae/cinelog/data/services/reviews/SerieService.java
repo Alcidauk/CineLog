@@ -13,9 +13,9 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
-import com.ulicae.cinelog.data.services.tags.TagService;
+import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.network.TmdbGetterService;
+import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
 import java.util.ArrayList;
@@ -47,12 +47,12 @@ public class SerieService implements DataService<SerieDto> {
     private final TmdbGetterService tmdbGetterService;
     private final SerieKinoDtoBuilder serieKinoDtoBuilder;
     private final SerieDtoToDbBuilder dtoToDbBuilder;
-    private final TagService tagService;
+    private final TagAsyncService tagService;
 
     SerieService(SerieReviewRepository serieReviewRepository, ReviewRepository reviewRepository,
                  TmdbSerieRepository tmdbSerieRepository, TmdbGetterService tmdbGetterService,
                  SerieKinoDtoBuilder serieKinoDtoBuilder, SerieDtoToDbBuilder dtoToDbBuilder,
-                 TagService tagService) {
+                 TagAsyncService tagService) {
         this.serieReviewRepository = serieReviewRepository;
         this.reviewRepository = reviewRepository;
         this.tmdbSerieRepository = tmdbSerieRepository;
@@ -62,13 +62,13 @@ public class SerieService implements DataService<SerieDto> {
         this.tagService = tagService;
     }
 
-    public SerieService(DaoSession daoSession, Context context) {
+    public SerieService(DaoSession daoSession, AppDatabase db, Context context) {
         this(new SerieReviewRepository(daoSession),
                 new ReviewRepository(daoSession),
                 new TmdbSerieRepository(daoSession),
                 new TmdbGetterService(context), new SerieKinoDtoBuilder(),
                 new SerieDtoToDbBuilder(),
-                new TagService(daoSession)
+                new TagAsyncService(db)
         );
     }
 
@@ -126,7 +126,7 @@ public class SerieService implements DataService<SerieDto> {
     private void linkToTags(KinoDto createdKino, List<TagDto> tags) {
         if (tags != null) {
             for (TagDto tag : tags) {
-                tagService.addTagToItemIfNotExists(tag, createdKino);
+                tagService.addTagToItemIfNotExists(Math.toIntExact(createdKino.getId()), Math.toIntExact(tag.getId()));
             }
         }
     }
