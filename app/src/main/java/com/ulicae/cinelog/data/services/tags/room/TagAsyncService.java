@@ -98,9 +98,9 @@ public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<Ta
         db.reviewTagCrossRefDao().delete(new ReviewTagCrossRef(reviewId, tagId));
     }
 
-    private List<TagDto> getDtoFromDaos(List<Tag> coucou) {
+    private List<TagDto> getDtoFromDaos(List<Tag> tags) {
         List<TagDto> tagDtos = new ArrayList<>();
-        for (Tag tag : coucou) {
+        for (Tag tag : tags) {
             tagDtos.add(new TagDto(
                     (long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries
             ));
@@ -108,6 +108,7 @@ public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<Ta
         return tagDtos;
     }
 
+    // TODO remove this method (should use findAll, which is the async method
     @Override
     public List<TagDto> getAll() {
         return this.findAll().blockingFirst();
