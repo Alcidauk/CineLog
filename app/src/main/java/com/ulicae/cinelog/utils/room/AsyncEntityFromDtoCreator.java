@@ -64,6 +64,6 @@ public abstract class AsyncEntityFromDtoCreator<T, U extends AsyncRoomDao, D ext
     abstract T createRoomInstanceFromDto(D itemDto);
 
     public Completable insert(D itemDto) {
-        return dao.insert(itemDto);
+        return dao.insert(createRoomInstanceFromDto(itemDto));
     }
 }
