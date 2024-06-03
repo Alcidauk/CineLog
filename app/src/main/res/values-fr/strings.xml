@@ -159,4 +159,5 @@
     <string name="no_tags_found_label">Aucun tag trouvé. Veuillez vérifier si des tags sont activés.</string>
 
     <string name="action_share">Partager</string>
+    <string name="tag_deleted">Tag supprimé</string>
 </resources>

@@ -19,7 +19,11 @@ import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentTagListBinding;
 import com.ulicae.cinelog.room.AppDatabase;
 
+import java.util.ArrayList;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -75,12 +79,17 @@ public class TagRoomFragment extends Fragment {
     }
 
     private void fetchAndSetTags() {
+        listAdapter = new TagListAdapter(getContext(), new ArrayList<>(), service, (MainActivity) getActivity());
+        binding.tagList.setAdapter(listAdapter);
+
         disposable.add(
                 service.findAll()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 tags -> {
-                                    listAdapter = new TagListAdapter(requireContext(), tags, service, (MainActivity) requireActivity());
-                                    binding.tagList.setAdapter(listAdapter);
+                                    listAdapter.clear();
+                                    listAdapter.addAll(tags);
                                 }));
         // TODO gérer les erreurs throwable -> Log.e("coucou", "Unable to get tags", throwable)));
     }

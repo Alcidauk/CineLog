@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -17,6 +18,9 @@ import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -84,7 +88,12 @@ class TagListAdapter extends ArrayAdapter<TagDto> {
         new AlertDialog.Builder(getContext())
                 .setMessage(R.string.delete_tag_dialog)
                 .setPositiveButton(R.string.yes, (dialog, id) -> {
-                    tagService.delete(dataDto);
+                    tagService.delete(dataDto)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(() -> {
+                                        Toast.makeText(getContext(), R.string.tag_deleted, Toast.LENGTH_SHORT).show();
+                                    });
 
                     remove(dataDto);
                 })
