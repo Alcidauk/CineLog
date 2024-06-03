@@ -18,6 +18,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
@@ -27,6 +28,7 @@ import com.ulicae.cinelog.data.services.AsyncServiceFactory;
 import com.ulicae.cinelog.data.services.RoomDataService;
 import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
+import com.ulicae.cinelog.room.AppDatabase;
 
 import org.parceler.Parcels;
 
@@ -65,9 +67,11 @@ public class ReviewEditionFragment extends Fragment {
         wishlistItemDeleter = new WishlistItemDeleter(requireContext());
 
         String dtoType = requireArguments().getString("dtoType");
-        dtoService = new AsyncServiceFactory(requireContext()).create(dtoType, ((MainActivity) requireActivity()).getDb());
+        AppDatabase appDb = ((KinoApplication) getActivity().getApplication()).getDb();
 
-        tagService = new TagAsyncService(((MainActivity) requireActivity()).getDb());
+        dtoService = new AsyncServiceFactory(requireContext()).create(dtoType, appDb);
+
+        tagService = new TagAsyncService(appDb);
 
         disposables = new ArrayList<>();
 

@@ -36,7 +36,7 @@ public class TmdbMovieResultsAdapter extends TmdbResultAdapter<BaseMovie> {
                                    ReviewCreationCallback reviewCreationCallback) {
         super(context,
                 results,
-                new KinoService(app.getDaoSession(), ((MainActivity) context).getDb()),
+                new KinoService(app.getDaoSession(), app.getDb()),
                 new KinoBuilderFromMovie(),
                 reviewItemCallback,
                 reviewCreationCallback);

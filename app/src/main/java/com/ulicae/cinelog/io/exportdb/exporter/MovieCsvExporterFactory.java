@@ -37,7 +37,7 @@ public class MovieCsvExporterFactory implements ExporterFactory {
         this(
                 new KinoService(
                         ((KinoApplication) application).getDaoSession(),
-                        ((MainActivity) application.getApplicationContext()).getDb()
+                        ((KinoApplication) application).getDb()
                 )
         );
     }

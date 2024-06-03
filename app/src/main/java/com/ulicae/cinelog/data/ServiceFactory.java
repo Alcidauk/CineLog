@@ -2,6 +2,7 @@ package com.ulicae.cinelog.data;
 
 import android.content.Context;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.services.reviews.DataService;
@@ -30,16 +31,20 @@ public class ServiceFactory {
 
     private Context context;
 
+    private KinoApplication app;
+
     public ServiceFactory(Context baseContext) {
         context = baseContext;
+        app = (KinoApplication) ((MainActivity) context).getApplication();
     }
 
     public DataService create(String type, DaoSession daoSession) {
+
         switch (type){
             case "kino":
-                return new KinoService(daoSession, ((MainActivity) context).getDb());
+                return new KinoService(daoSession, app.getDb());
             case "serie":
-                return new SerieService(daoSession, ((MainActivity) context).getDb(), context);
+                return new SerieService(daoSession, app.getDb(), context);
         }
 
         throw new NullPointerException("Unable to find a service for this type.");

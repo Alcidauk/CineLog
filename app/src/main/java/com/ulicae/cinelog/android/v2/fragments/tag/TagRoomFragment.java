@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
@@ -58,7 +59,7 @@ public class TagRoomFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        AppDatabase db = ((MainActivity) getActivity()).getDb();
+        AppDatabase db = ((KinoApplication) getActivity().getApplication()).getDb();
 
         service = new TagAsyncService(db);
         disposable = new CompositeDisposable();

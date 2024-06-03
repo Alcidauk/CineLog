@@ -2,6 +2,7 @@ package com.ulicae.cinelog.data;
 
 import android.content.Context;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
@@ -29,9 +30,13 @@ public class ServiceFactoryTest {
     @Mock
     private AppDatabase db;
 
+    @Mock
+    private KinoApplication app;
+
     @Before
     public void setUp() throws Exception {
-        Mockito.doReturn(db).when(context).getDb();
+        Mockito.doReturn(app).when(context).getApplication();
+        Mockito.doReturn(db).when(app).getDb();
     }
 
     @Test

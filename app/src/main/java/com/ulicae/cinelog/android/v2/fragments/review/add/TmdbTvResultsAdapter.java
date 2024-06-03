@@ -39,7 +39,7 @@ public class TmdbTvResultsAdapter extends TmdbResultAdapter<BaseTvShow> {
                                 ReviewCreationCallback reviewCreationCallback) {
         super(context,
                 results,
-                new SerieService(app.getDaoSession(), ((MainActivity) context).getDb(), context),
+                new SerieService(app.getDaoSession(), app.getDb(), context),
                 new SerieBuilderFromMovie(),
                 reviewItemCallback, reviewCreationCallback);
     }

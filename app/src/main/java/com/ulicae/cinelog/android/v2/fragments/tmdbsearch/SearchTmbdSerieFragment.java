@@ -69,9 +69,11 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
         toWishlist = requireArguments().getBoolean("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new TvNetworkTaskCreator());
+
+        KinoApplication application = (KinoApplication) getActivity().getApplication();
         dataService = new SerieService(
-                ((KinoApplication) requireActivity().getApplication()).getDaoSession(),
-                ((MainActivity) requireContext()).getDb(),
+                application.getDaoSession(),
+                application.getDb(),
                 requireContext()
         );
 

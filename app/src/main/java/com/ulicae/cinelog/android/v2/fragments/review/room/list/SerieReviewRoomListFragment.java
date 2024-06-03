@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.review.list.ReviewListFragment;
@@ -55,7 +56,7 @@ public class SerieReviewRoomListFragment extends ReviewRoomListFragment<SerieDto
 
     @Override
     protected void createService() {
-        service = new SerieReviewService(((MainActivity) getActivity()).getDb());
+        service = new SerieReviewService(((KinoApplication) getActivity().getApplication()).getDb());
     }
 
     @Override

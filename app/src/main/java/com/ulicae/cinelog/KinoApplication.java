@@ -4,6 +4,8 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import androidx.room.Room;
+
 import com.ulicae.cinelog.data.ProdOpenHelper;
 import com.ulicae.cinelog.data.dao.DaoMaster;
 import com.ulicae.cinelog.data.dao.DaoSession;
@@ -11,6 +13,7 @@ import com.ulicae.cinelog.io.exportdb.AutomaticExportException;
 import com.ulicae.cinelog.io.exportdb.AutomaticExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
+import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 /**
@@ -39,6 +42,7 @@ public class KinoApplication extends Application {
     SQLiteDatabase db;
     DaoMaster daoMaster;
     DaoSession daoSession;
+    AppDatabase appDb;
 
     @Override
     public void onCreate() {
@@ -50,6 +54,9 @@ public class KinoApplication extends Application {
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
 
+        this.appDb = Room
+                .databaseBuilder(getApplicationContext(), AppDatabase.class,"database-cinelog")
+                .build();
         verifyAutomaticSave();
     }
 
@@ -75,5 +82,9 @@ public class KinoApplication extends Application {
 
     public DaoSession getDaoSession() {
         return daoSession;
+    }
+
+    public AppDatabase getDb() {
+        return appDb;
     }
 }

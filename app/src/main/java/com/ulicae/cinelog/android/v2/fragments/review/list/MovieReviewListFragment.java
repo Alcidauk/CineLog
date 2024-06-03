@@ -61,7 +61,7 @@ public class MovieReviewListFragment extends ReviewListFragment<KinoDto> {
     protected void createService() {
         service = new KinoService(
                 ((KinoApplication) getActivity().getApplication()).getDaoSession(),
-                ((MainActivity) getActivity()).getDb()
+                ((KinoApplication) getActivity().getApplication()).getDb()
         );
     }
 

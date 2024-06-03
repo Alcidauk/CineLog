@@ -68,7 +68,9 @@ public class ExportFragment extends Fragment {
     public void onClick(View view) {
         Application app = requireActivity().getApplication();
         if (writeStoragePermission != null && writeStoragePermission) {
-            new SnapshotExporter(new TagCsvExporterFactory(((MainActivity) requireActivity()).getDb()), app).export("export_tags.csv");
+            new SnapshotExporter(new TagCsvExporterFactory(
+                    ((KinoApplication) requireActivity().getApplication()).getDb()),
+                    app).export("export_tags.csv");
             new SnapshotExporter(new MovieCsvExporterFactory(app), app).export("export_movies.csv");
             new SnapshotExporter(new SerieCsvExporterFactory(app), app).export("export_series.csv");
             new SnapshotExporter(new WishlistCsvExporterFactory(

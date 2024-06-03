@@ -16,6 +16,7 @@ import androidx.room.Room;
 
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
@@ -51,7 +52,7 @@ public class EditTagFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
 
-        tagService = new TagAsyncService(((MainActivity) getActivity()).getDb());
+        tagService = new TagAsyncService(((KinoApplication) getActivity().getApplication()).getDb());
 
         // TODO avoid parcels between activities and fetch DB with tag id
         tag = Parcels.unwrap(requireArguments().getParcelable("tag"));

@@ -99,9 +99,10 @@ public class UpgradeFixRunner {
     }
 
     private void fixSerieReviews() {
+        KinoApplication app = (KinoApplication) application;
         SerieService serieService = new SerieService(
-                ((KinoApplication) application).getDaoSession(),
-                ((MainActivity) application.getApplicationContext()).getDb(),
+                app.getDaoSession(),
+                app.getDb(),
                 context
         );
 

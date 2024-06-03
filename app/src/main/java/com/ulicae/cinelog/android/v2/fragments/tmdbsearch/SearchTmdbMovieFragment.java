@@ -67,9 +67,10 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
         toWishlist = requireArguments().getBoolean("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new MovieNetworkTaskCreator());
+        KinoApplication application = (KinoApplication) getActivity().getApplication();
         dataService = new KinoService(
-                ((KinoApplication) requireActivity().getApplication()).getDaoSession(),
-                ((MainActivity) getActivity()).getDb()
+                application.getDaoSession(),
+                application.getDb()
         );
     }
 

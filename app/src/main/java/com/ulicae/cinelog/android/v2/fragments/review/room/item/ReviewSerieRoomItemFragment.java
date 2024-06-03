@@ -13,6 +13,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
@@ -20,7 +21,6 @@ import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisod
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
 import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
 import com.ulicae.cinelog.databinding.FragmentReviewSerieItemBinding;
 
@@ -49,7 +49,9 @@ public class ReviewSerieRoomItemFragment extends ShareableFragment<SerieDto> {
         int itemId = requireArguments().getInt("review_id");
         position = requireArguments().getInt("kino_position", -1);
 
-        reviewService = new SerieReviewService(((MainActivity) requireActivity()).getDb());
+        reviewService = new SerieReviewService(
+                ((KinoApplication) requireActivity().getApplication()).getDb()
+        );
         item = reviewService.getWithId(itemId);
 
         setLinkBaseUrl("https://www.themoviedb.org/tv/");

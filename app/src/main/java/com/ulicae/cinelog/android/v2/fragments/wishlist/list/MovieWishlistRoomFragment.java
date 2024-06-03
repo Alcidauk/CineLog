@@ -11,6 +11,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
@@ -53,7 +54,7 @@ public class MovieWishlistRoomFragment extends WishlistFragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        AppDatabase appDb = ((MainActivity) getActivity()).getDb();
+        AppDatabase appDb = ((KinoApplication) getActivity().getApplication()).getDb();
 
         actionToItem = R.id.action_nav_wishlist_movie_to_wishlistItemFragment;
         service = new WishlistService(appDb, ItemEntityType.MOVIE);

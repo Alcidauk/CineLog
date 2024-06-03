@@ -31,6 +31,7 @@ import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.SerieDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.TagDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.WishlistDtoFromRecordBuilder;
+import com.ulicae.cinelog.room.AppDatabase;
 
 public class ImportFragment extends Fragment {
 
@@ -73,6 +74,7 @@ public class ImportFragment extends Fragment {
     public void onClick(View view) {
         Application app = requireActivity().getApplication();
         Context context = requireContext();
+        AppDatabase db = ((KinoApplication) requireActivity().getApplication()).getDb();
 
         if (writeStoragePermission != null && writeStoragePermission) {
             Toast.makeText(context, getString(R.string.import_starting_toast), Toast.LENGTH_SHORT).show();
@@ -82,7 +84,8 @@ public class ImportFragment extends Fragment {
                 new CsvImporter<>(
                         new FileReaderGetter(app),
                         new DtoImportCreator<>(context, new TagDtoFromRecordBuilder(context)),
-                        new TagAsyncService(((MainActivity) getActivity()).getDb()),
+                        new TagAsyncService(
+                                db),
                         context
                 ).importCsvFile("import_tags.csv");
 
@@ -97,7 +100,7 @@ public class ImportFragment extends Fragment {
                 new CsvImporter<>(
                         new FileReaderGetter(app),
                         new DtoImportCreator<>(context, new KinoDtoFromRecordBuilder(context)),
-                        new KinoService(((KinoApplication) app).getDaoSession(), ((MainActivity) getActivity()).getDb()),
+                        new KinoService(((KinoApplication) app).getDaoSession(), db),
                         context).importCsvFile("import_movies.csv");
 
                 binding.importInDbContent.importMoviesStatusWaiting.setText(R.string.import_status_success);
@@ -111,7 +114,7 @@ public class ImportFragment extends Fragment {
                 new CsvImporter<>(
                         new FileReaderGetter(app),
                         new DtoImportCreator<>(context, new SerieDtoFromRecordBuilder(context)),
-                        new SerieService(((KinoApplication) app).getDaoSession(), ((MainActivity) getActivity()).getDb(), context),
+                        new SerieService(((KinoApplication) app).getDaoSession(), db, context),
                         context).importCsvFile("import_series.csv");
 
                 binding.importInDbContent.importSeriesStatusWaiting.setText(R.string.import_status_success);

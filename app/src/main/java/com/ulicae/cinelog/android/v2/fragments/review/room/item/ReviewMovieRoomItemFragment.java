@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
@@ -44,7 +45,7 @@ public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
         int itemId = requireArguments().getInt("review_id");
         position = requireArguments().getInt("kino_position", -1);
 
-        reviewService = new ReviewService(((MainActivity) requireActivity()).getDb());
+        reviewService = new ReviewService(((KinoApplication) requireActivity().getApplication()).getDb());
         item = reviewService.getWithId(itemId);
 
         setLinkBaseUrl("https://www.themoviedb.org/movie/");

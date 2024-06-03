@@ -66,20 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private UpgradeFixRunner upgradeFixRunner;
 
-    private AppDatabase db;
-
-    public AppDatabase getDb() {
-        if(this.db == null) {
-            this.db = Room
-                    .databaseBuilder(
-                            getApplicationContext(),
-                            AppDatabase.class,
-                            "database-cinelog")
-                    .build();
-        }
-        return this.db;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
