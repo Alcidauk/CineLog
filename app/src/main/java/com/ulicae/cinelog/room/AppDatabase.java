@@ -38,7 +38,18 @@ import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-@Database(entities = {Review.class, ReviewTmdbCrossRef.class, Tmdb.class, WishlistItem.class, WishlistTmdbCrossRef.class, Tag.class, ReviewTagCrossRef.class}, version = 1)
+@Database(
+        entities = {
+                Review.class,
+                ReviewTmdbCrossRef.class,
+                Tmdb.class,
+                WishlistItem.class,
+                WishlistTmdbCrossRef.class,
+                Tag.class,
+                ReviewTagCrossRef.class
+        },
+        version = 1
+)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TmdbDao tmdbDao();
