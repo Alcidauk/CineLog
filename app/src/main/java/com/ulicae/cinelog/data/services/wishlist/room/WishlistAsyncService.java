@@ -2,7 +2,9 @@ package com.ulicae.cinelog.data.services.wishlist.room;
 
 import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
+import com.ulicae.cinelog.data.dto.data.room.WishlistItemToDataDtoBuilder;
 import com.ulicae.cinelog.data.services.wishlist.WishlistService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dao.TmdbDao;
@@ -15,6 +17,9 @@ import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -41,23 +46,32 @@ public class WishlistAsyncService implements WishlistService {
     private TmdbDao tmdbDao;
 
     private WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder;
+    private WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder;
 
     public WishlistAsyncService(AppDatabase db) {
-        this(db.wishlistItemDao(), db.wishlistTmdbCrossRefDao(), db.tmdbDao(), new WishlistSerieToSerieDataDtoBuilder());
+        this(
+                db.wishlistItemDao(),
+                db.wishlistTmdbCrossRefDao(),
+                db.tmdbDao(),
+                new WishlistSerieToSerieDataDtoBuilder(),
+                new WishlistItemToDataDtoBuilder()
+        );
     }
 
     WishlistAsyncService(WishlistItemDao wishlistItemDao,
                          WishlistTmdbCrossRefDao wishlistTmdbCrossRefDao,
                          TmdbDao tmdbDao,
-                         WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder) {
+                         WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder,
+                         WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder) {
         this.wishlistItemDao = wishlistItemDao;
         this.wishlistTmdbCrossRefDao = wishlistTmdbCrossRefDao;
         this.tmdbDao = tmdbDao;
         this.wishlistSerieToSerieDataDtoBuilder = wishlistSerieToSerieDataDtoBuilder;
+        this.wishlistItemToDataDtoBuilder = wishlistItemToDataDtoBuilder;
     }
 
     public void createSerieData(WishlistDataDto wishlistDataDto) {
-        Tmdb tmdbSerie = null;
+        Tmdb tmdbSerie;
         Long tmdbId = wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null;
 
         if (wishlistDataDto.getTmdbId() != null) {
@@ -88,6 +102,7 @@ public class WishlistAsyncService implements WishlistService {
     /**
      * TODO juste ramener le contenu de wishlist, et le tmdb depuis ailleurs pour le mettre dans
      * l'UI
+     *
      * @param type
      * @return
      */
@@ -108,12 +123,22 @@ public class WishlistAsyncService implements WishlistService {
     }
 
     public void delete(WishlistDataDto wishlistDataDto) {
-        // TODO retourner le completable pour pouvoir gérer l'async
-        wishlistItemDao.delete(new WishlistItem(Math.toIntExact(wishlistDataDto.getId()), null, null)).subscribe();
+        wishlistItemDao.delete(
+                        new WishlistItem(
+                                wishlistDataDto.getId(),
+                                wishlistDataDto.getWishlistItemType() ==
+                                        WishlistItemType.MOVIE ? ItemEntityType.MOVIE : ItemEntityType.SERIE,
+                                null
+                        )
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(); // TODO un toaster ?
     }
 
     /**
      * TODO gérer l'async
+     *
      * @param id
      * @return
      */
@@ -126,9 +151,15 @@ public class WishlistAsyncService implements WishlistService {
 
     @Override
     public WishlistDataDto getById(Long id) {
-        return null;
-        //WishlistSerie wishlistSerie = wishlistSerieRepository.find(id);
-        //return wishlistSerie != null ? wishlistSerieToSerieDataDtoBuilder.build(wishlistSerie) : null;
+        WishlistItem item = wishlistItemDao.find(id).blockingFirst();
+        List<WishlistTmdbCrossRef> crossRefs = wishlistTmdbCrossRefDao.findForReview(item.id).blockingFirst();
+
+        Tmdb tmdb = null;
+        if (crossRefs != null && crossRefs.size() > 0) {
+            tmdb = tmdbDao.find(crossRefs.get(0).tmdbId).blockingFirst();
+        }
+
+        return item != null ? wishlistItemToDataDtoBuilder.build(item, tmdb) : null;
     }
 
     /**

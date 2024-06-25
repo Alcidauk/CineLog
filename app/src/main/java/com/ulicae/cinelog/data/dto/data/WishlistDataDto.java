@@ -137,23 +137,11 @@ public class WishlistDataDto implements TmdbItemDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WishlistDataDto that = (WishlistDataDto) o;
-        return firstYear == that.firstYear &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(tmdbId, that.tmdbId) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(posterPath, that.posterPath) &&
-                Objects.equals(overview, that.overview) &&
-                Objects.equals(releaseDate, that.releaseDate) &&
-                wishlistItemType == that.wishlistItemType;
+        return firstYear == that.firstYear && Objects.equals(id, that.id) && Objects.equals(tmdbId, that.tmdbId) && Objects.equals(title, that.title) && Objects.equals(posterPath, that.posterPath) && Objects.equals(overview, that.overview) && Objects.equals(releaseDate, that.releaseDate) && wishlistItemType == that.wishlistItemType;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, tmdbId, title, posterPath, overview, firstYear, releaseDate, wishlistItemType);
-    }
-
-    @Override
-    public String toString() {
-        return title;
     }
 }

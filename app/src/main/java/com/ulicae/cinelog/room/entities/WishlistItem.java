@@ -26,6 +26,18 @@ public class WishlistItem {
         this.title = title;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public ItemEntityType getItemEntityType() {
+        return itemEntityType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

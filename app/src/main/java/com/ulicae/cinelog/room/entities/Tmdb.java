@@ -65,6 +65,34 @@ public class Tmdb {
         this.id = id;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public long getTmdbId() {
+        return tmdbId;
+    }
+
+    public ItemEntityType getType() {
+        return type;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
