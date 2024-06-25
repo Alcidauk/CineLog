@@ -331,7 +331,7 @@ public class DbReader {
     private WishlistDataDto buildWishlistDto(Cursor cursor, WishlistItemType wishlistItemType, int biggestMovieReviewId) {
         return new WishlistDataDto(
                 cursor.getLong(0) + biggestMovieReviewId,
-                cursor.getInt(1),
+                cursor.getLong(1),
                 cursor.getString(2),
                 null,
                 null,
@@ -357,7 +357,7 @@ public class DbReader {
 
         return new WishlistDataDto(
                 cursor.getLong(0),
-                cursor.getInt(1),
+                cursor.getLong(1),
                 cursor.getString(2),
                 tmdbCursor.getString(1),
                 tmdbCursor.getString(2),
@@ -408,7 +408,7 @@ public class DbReader {
 
         return new WishlistDataDto(
                 cursor.getLong(0) + biggestMovieReviewId,
-                cursor.getInt(1),
+                cursor.getLong(1),
                 cursor.getString(2),
                 tmdbCursor.getString(1),
                 tmdbCursor.getString(2),

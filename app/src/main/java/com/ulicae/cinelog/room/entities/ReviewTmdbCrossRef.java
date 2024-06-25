@@ -25,12 +25,12 @@ import androidx.room.Entity;
 public class ReviewTmdbCrossRef {
 
     @ColumnInfo(name = "review_id")
-    public int reviewId;
+    public long reviewId;
 
     @ColumnInfo(name = "movie_id")
-    public int movieId;
+    public long movieId;
 
-    public ReviewTmdbCrossRef(int reviewId, int movieId) {
+    public ReviewTmdbCrossRef(long reviewId, long movieId) {
         this.reviewId = reviewId;
         this.movieId = movieId;
     }

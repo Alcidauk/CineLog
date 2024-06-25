@@ -28,7 +28,7 @@ public class WishlistMovieToSerieDataDtoBuilder {
         TmdbKino movie = wishlistMovie.getMovie();
         return new WishlistDataDto(
                 wishlistMovie.getWishlist_movie_id(),
-                movie != null && movie.getMovie_id() != null ? movie.getMovie_id().intValue() : null,
+                movie != null && movie.getMovie_id() != null ? movie.getMovie_id() : null,
                 wishlistMovie.getTitle(),
                 movie != null ? movie.getPoster_path() : null,
                 movie != null ? movie.getOverview() : null,

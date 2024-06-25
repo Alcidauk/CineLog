@@ -8,6 +8,7 @@ import com.ulicae.cinelog.room.converters.Converters;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
 import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
+import com.ulicae.cinelog.room.dao.SyncWishlistItemDao;
 import com.ulicae.cinelog.room.dao.TagDao;
 import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
@@ -48,7 +49,7 @@ import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
                 Tag.class,
                 ReviewTagCrossRef.class
         },
-        version = 1
+        version = 3
 )
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -63,6 +64,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TagDao tagDao();
 
     public abstract ReviewTagCrossRefDao reviewTagCrossRefDao();
+
+    public abstract SyncWishlistItemDao syncWishlistItemDao();
 
 
     /*

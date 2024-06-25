@@ -1,14 +1,12 @@
 package com.ulicae.cinelog.room.dao;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Query;
 
-import com.ulicae.cinelog.room.entities.Tmdb;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.entities.WishlistItem;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
 
 
 /**
@@ -30,13 +28,12 @@ import io.reactivex.rxjava3.core.Flowable;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface TmdbDao extends SyncRoomDao<Tmdb> {
+public interface SyncWishlistItemDao extends SyncRoomDao<WishlistItem> {
 
-    @Query("SELECT * FROM tmdb")
-    Flowable<List<Tmdb>> findAll();
+    @Query("SELECT * FROM wishlistitem WHERE item_entity_type = :itemEntityType")
+    List<WishlistItem> findAll(ItemEntityType itemEntityType);
 
-    @Query("SELECT * FROM tmdb WHERE id = :id")
-    Flowable<Tmdb> find(long id);
+    @Query("SELECT * FROM wishlistitem WHERE id = :id")
+    WishlistItem find(long id);
 
-    // TODO un findByTmdb avec le type ?
 }

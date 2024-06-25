@@ -1,7 +1,9 @@
 package com.ulicae.cinelog.utils.room;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 
 /**
@@ -22,7 +24,7 @@ import com.ulicae.cinelog.room.entities.Tmdb;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao, KinoDto> {
+public class TmdbFromDtoCreator extends SyncEntityFromDtoCreator<Tmdb, TmdbDao, KinoDto> {
 
     public TmdbFromDtoCreator(TmdbDao dao) {
         super(dao);
@@ -31,7 +33,9 @@ public class TmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao, Kino
     @Override
     public Tmdb createRoomInstanceFromDto(KinoDto kinoDto) {
         return kinoDto.getTmdbKinoId() != 0L ?
-                new Tmdb(kinoDto.getTmdbKinoId(),
+                new Tmdb(
+                        kinoDto.getTmdbKinoId(),
+                        kinoDto instanceof SerieDto ? ItemEntityType.SERIE : ItemEntityType.MOVIE,
                         kinoDto.getPosterPath(),
                         kinoDto.getOverview(),
                         kinoDto.getYear(),

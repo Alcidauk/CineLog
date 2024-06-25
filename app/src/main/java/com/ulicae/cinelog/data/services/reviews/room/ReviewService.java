@@ -1,6 +1,7 @@
 package com.ulicae.cinelog.data.services.reviews.room;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.RoomDataService;
 import com.ulicae.cinelog.room.AppDatabase;
@@ -85,8 +86,8 @@ public class ReviewService implements RoomDataService<KinoDto> {
         }
 
         return new KinoDto(
-                (long) review.id,
-                tmdb != null ? tmdb.movieId : null,
+                review.id,
+                tmdb != null ? (long) tmdb.tmdbId : null,
                 review.title, review.reviewDate, review.review,
                 review.rating, review.maxRating,
                 tmdb != null ? tmdb.posterPath : null,
@@ -113,24 +114,28 @@ public class ReviewService implements RoomDataService<KinoDto> {
         Observable.just(dtoObject)
                 .subscribeOn(Schedulers.io())
                 .subscribe(dto -> {
-                    long tmdbId = db.tmdbDao().insert(new Tmdb(
-                            dto.getTmdbKinoId() != null ? dto.getTmdbKinoId() : 0,
+                    Tmdb tmdb = new Tmdb(
+                            dto.getTmdbKinoId() != null ? dto.getTmdbKinoId() : 0L,
+                            dtoObject instanceof SerieDto ? ItemEntityType.SERIE : ItemEntityType.MOVIE,
                             dto.getPosterPath(),
                             dto.getOverview(),
                             dto.getYear(),
                             dto.getReleaseDate()
-                    ));
+                    );
+                    db.tmdbDao().insert(tmdb);
+                    long tmdbId = tmdb.id;
 
-                    Long reviewId = db.reviewDao().insert(
-                            new Review(
-                                    Math.toIntExact(dto.getId()),
-                                    ItemEntityType.MOVIE,
-                                    dto.getTitle(),
-                                    dto.getReview_date(),
-                                    dto.getReview(),
-                                    dto.getRating(),
-                                    dto.getMaxRating()
-                            ));
+                    Review review = new Review(
+                            Math.toIntExact(dto.getId()),
+                            ItemEntityType.MOVIE,
+                            dto.getTitle(),
+                            dto.getReview_date(),
+                            dto.getReview(),
+                            dto.getRating(),
+                            dto.getMaxRating()
+                    );
+                    db.reviewDao().insert(review);
+                    long reviewId = review.id;
 
                     new ReviewTmdbCrossRef(Math.toIntExact(reviewId), Math.toIntExact(tmdbId));
 

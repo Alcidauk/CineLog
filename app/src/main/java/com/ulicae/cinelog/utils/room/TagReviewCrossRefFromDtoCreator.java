@@ -24,7 +24,7 @@ import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagReviewCrossRefFromDtoCreator extends EntityFromDtoCreator<ReviewTagCrossRef, ReviewTagCrossRefDao, TagDto>{
+public class TagReviewCrossRefFromDtoCreator extends SyncEntityFromDtoCreator<ReviewTagCrossRef, ReviewTagCrossRefDao, TagDto> {
     private final KinoDto kinoDto;
 
     private final int biggestMovieReviewId;

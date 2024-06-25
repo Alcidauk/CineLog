@@ -29,7 +29,7 @@ import java.util.Objects;
 public class WishlistDataDto implements TmdbItemDto {
 
     private Long id;
-    private Integer tmdbId;
+    private Long tmdbId;
 
     private String title;
 
@@ -52,7 +52,7 @@ public class WishlistDataDto implements TmdbItemDto {
         this.wishlistItemType = wishlistItemType;
     }
 
-    public WishlistDataDto(Long id, Integer tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate, WishlistItemType wishlistItemType) {
+    public WishlistDataDto(Long id, Long tmdbId, String title, String posterPath, String overview, int firstYear, String releaseDate, WishlistItemType wishlistItemType) {
         this.id = id;
         this.tmdbId = tmdbId;
         this.title = title;
@@ -116,11 +116,11 @@ public class WishlistDataDto implements TmdbItemDto {
         this.id = id;
     }
 
-    public Integer getTmdbId() {
+    public Long getTmdbId() {
         return tmdbId;
     }
 
-    public void setTmdbId(Integer tmdbId) {
+    public void setTmdbId(Long tmdbId) {
         this.tmdbId = tmdbId;
     }
 

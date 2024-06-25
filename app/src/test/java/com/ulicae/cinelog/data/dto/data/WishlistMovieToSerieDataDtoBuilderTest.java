@@ -36,7 +36,7 @@ public class WishlistMovieToSerieDataDtoBuilderTest {
         assertEquals(
                 new WishlistDataDto(
                         456L,
-                        456456456,
+                        456456456L,
                         "Elle",
                         "/poster/path",
                         "An overview",

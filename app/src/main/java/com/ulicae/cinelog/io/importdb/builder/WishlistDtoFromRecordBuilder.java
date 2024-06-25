@@ -43,7 +43,7 @@ public class WishlistDtoFromRecordBuilder extends DtoFromRecordBuilder<WishlistD
     public WishlistDataDto doBuild(CSVRecord csvRecord) throws ParseException, IllegalArgumentException {
         return new WishlistDataDto(
                 formatLong(getId(csvRecord)),
-                formatInteger(csvRecord.get("movie_id")),
+                formatLong(csvRecord.get("movie_id")),
                 csvRecord.get("title"),
                 csvRecord.get("poster_path"),
                 csvRecord.get("overview"),

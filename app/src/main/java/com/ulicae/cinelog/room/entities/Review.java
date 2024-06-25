@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -28,7 +29,7 @@ import java.util.Date;
 public class Review {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     @ColumnInfo(name = "item_entity_type")
     public ItemEntityType itemEntityType;
@@ -45,7 +46,7 @@ public class Review {
     @ColumnInfo(name = "max_rating")
     public Integer maxRating;
 
-    public Review(int id, ItemEntityType itemEntityType, String title, Date reviewDate, String review, Float rating, Integer maxRating) {
+    public Review(long id, ItemEntityType itemEntityType, String title, Date reviewDate, String review, Float rating, Integer maxRating) {
         this.id = id;
         this.itemEntityType = itemEntityType;
         this.title = title;
@@ -55,5 +56,17 @@ public class Review {
         this.maxRating = maxRating;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review1 = (Review) o;
+        return id == review1.id && itemEntityType == review1.itemEntityType && Objects.equals(title, review1.title) && Objects.equals(reviewDate, review1.reviewDate) && Objects.equals(review, review1.review) && Objects.equals(rating, review1.rating) && Objects.equals(maxRating, review1.maxRating);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, itemEntityType, title, reviewDate, review, rating, maxRating);
+    }
 }
 

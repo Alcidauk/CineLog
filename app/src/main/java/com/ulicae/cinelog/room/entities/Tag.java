@@ -27,7 +27,7 @@ import java.util.Objects;
 @Entity
 public class Tag {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     public String name;
 
@@ -38,7 +38,7 @@ public class Tag {
     @ColumnInfo(name = "for_series")
     public boolean forSeries;
 
-    public Tag(int id, String name, String color, boolean forMovies, boolean forSeries) {
+    public Tag(long id, String name, String color, boolean forMovies, boolean forSeries) {
         this.id = id;
         this.name = name;
         this.color = color;

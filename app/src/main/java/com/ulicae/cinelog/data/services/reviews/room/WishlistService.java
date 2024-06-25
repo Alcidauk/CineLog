@@ -64,7 +64,7 @@ public class WishlistService implements ItemService<WishlistDataDto>, DataServic
 
             itemsDto.add(new WishlistDataDto(
                     (long) item.id,
-                    tmdb != null ? Math.toIntExact(tmdb.movieId) : null,
+                    tmdb != null ? tmdb.id : null,
                     item.title,
                     tmdb != null ? tmdb.posterPath : null,
                     tmdb != null ? tmdb.overview: null,

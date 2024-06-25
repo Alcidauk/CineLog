@@ -2,7 +2,10 @@ package com.ulicae.cinelog.room.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.Objects;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -26,9 +29,14 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Tmdb {
 
-    @PrimaryKey
-    @ColumnInfo(name = "movie_id")
-    public Long movieId;
+    @PrimaryKey(autoGenerate = true)
+    public long id;
+
+    @ColumnInfo(name = "tmdb_id")
+    public long tmdbId;
+
+    @ColumnInfo
+    public ItemEntityType type;
 
     @ColumnInfo(name = "poster_path")
     public String posterPath;
@@ -41,11 +49,32 @@ public class Tmdb {
     @ColumnInfo(name = "release_date")
     public String releaseDate;
 
-    public Tmdb(Long movieId, String posterPath, String overview, int year, String releaseDate) {
-        this.movieId = movieId;
+    public Tmdb(long tmdbId, ItemEntityType type, String posterPath, String overview, int year, String releaseDate) {
+        this.tmdbId = tmdbId;
+        this.type = type;
         this.posterPath = posterPath;
         this.overview = overview;
         this.year = year;
         this.releaseDate = releaseDate;
+    }
+
+// TODO remove useless
+    @Ignore
+    public Tmdb(long id, long tmdbId, ItemEntityType type, String posterPath, String overview, int year, String releaseDate) {
+        this(tmdbId, type, posterPath, overview, year, releaseDate);
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tmdb tmdb = (Tmdb) o;
+        return id == tmdb.id && tmdbId == tmdb.tmdbId && year == tmdb.year && type == tmdb.type && Objects.equals(posterPath, tmdb.posterPath) && Objects.equals(overview, tmdb.overview) && Objects.equals(releaseDate, tmdb.releaseDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, tmdbId, type, posterPath, overview, year, releaseDate);
     }
 }

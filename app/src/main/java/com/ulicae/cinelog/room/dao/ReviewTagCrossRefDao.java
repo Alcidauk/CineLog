@@ -34,7 +34,7 @@ public interface ReviewTagCrossRefDao extends SyncRoomDao<ReviewTagCrossRef> {
     Flowable<List<ReviewTagCrossRef>> findAll();
 
     @Query("SELECT * FROM reviewtagcrossref WHERE review_id = :reviewId")
-    Flowable<List<ReviewTagCrossRef>> findForReview(int reviewId);
+    Flowable<List<ReviewTagCrossRef>> findForReview(long reviewId);
 
 
 }

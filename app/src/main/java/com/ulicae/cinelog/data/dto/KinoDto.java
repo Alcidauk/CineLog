@@ -213,4 +213,9 @@ public class KinoDto implements TmdbItemDto {
     public Long getId() {
         return this.getKinoId();
     }
+
+    @Override
+    public void setId(Long id) {
+        this.kinoId = id;
+    }
 }

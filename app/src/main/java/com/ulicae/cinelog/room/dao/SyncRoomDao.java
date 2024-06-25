@@ -28,10 +28,10 @@ import java.util.List;
 public interface SyncRoomDao<T> extends RoomDao<T>{
 
     @Insert
-    List<Long> insertAll(List<T> entities);
+    long[] insertAll(List<T> entities);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long insert(T entity);
+    long insert(T entity);
 
     @Delete
     void delete(T entity);

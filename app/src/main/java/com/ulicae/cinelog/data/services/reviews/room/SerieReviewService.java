@@ -78,7 +78,7 @@ public class SerieReviewService implements RoomDataService<SerieDto> {
 
             kinos.add(new SerieDto(
                     (long) review.id,
-                    tmdb != null ? tmdb.movieId : null,
+                    tmdb != null ? tmdb.id : null,
                     (long) review.id,
                     review.title, review.reviewDate, review.review,
                     review.rating, review.maxRating,
@@ -136,7 +136,7 @@ public class SerieReviewService implements RoomDataService<SerieDto> {
 
         return new SerieDto(
                 (long) review.id,
-                tmdb != null ? tmdb.movieId : null,
+                tmdb != null ? (long) tmdb.id : null,
                 (long) review.id,
                 review.title, review.reviewDate, review.review,
                 review.rating, review.maxRating,

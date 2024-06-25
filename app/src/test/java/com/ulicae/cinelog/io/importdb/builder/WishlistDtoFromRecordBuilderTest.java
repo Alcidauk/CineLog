@@ -43,7 +43,7 @@ public class WishlistDtoFromRecordBuilderTest {
 
         WishlistDataDto dataDto = new WishlistDataDto(
                 12L,
-                24,
+                24L,
                 "a good title",
                 "poster path",
                 "overview",
@@ -73,7 +73,7 @@ public class WishlistDtoFromRecordBuilderTest {
 
         WishlistDataDto dataDto = new WishlistDataDto(
                 12L,
-                24,
+                24L,
                 "a good title",
                 "poster path",
                 "overview",

@@ -4,12 +4,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 
 @Entity
 public class WishlistItem {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     @ColumnInfo(name = "item_entity_type")
     public ItemEntityType itemEntityType;
@@ -18,9 +20,22 @@ public class WishlistItem {
     
     
 
-    public WishlistItem(int id, ItemEntityType itemEntityType, String title) {
+    public WishlistItem(long id, ItemEntityType itemEntityType, String title) {
         this.id = id;
         this.itemEntityType = itemEntityType;
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WishlistItem item = (WishlistItem) o;
+        return id == item.id && itemEntityType == item.itemEntityType && Objects.equals(title, item.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, itemEntityType, title);
     }
 }

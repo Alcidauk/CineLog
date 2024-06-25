@@ -27,7 +27,7 @@ public class TvShowToWishlistDataDtoBuilderTest {
         tvShow.first_air_date = new SimpleDateFormat("dd/MM/yy").parse("01/10/2015");
 
         assertEquals(
-                new WishlistDataDto(null, 45, "Versailles", "45454545", "A magic castle", 2015, "01/10/2015", WishlistItemType.SERIE),
+                new WishlistDataDto(null, 45L, "Versailles", "45454545", "A magic castle", 2015, "01/10/2015", WishlistItemType.SERIE),
                 new TvShowToSerieDataDtoBuilder().build(tvShow)
         );
     }
@@ -42,7 +42,7 @@ public class TvShowToWishlistDataDtoBuilderTest {
         tvShow.first_air_date = null;
 
         assertEquals(
-                new WishlistDataDto(null,45, "Versailles", "45454545", "A magic castle", 0, null, WishlistItemType.SERIE),
+                new WishlistDataDto(null,45L, "Versailles", "45454545", "A magic castle", 0, null, WishlistItemType.SERIE),
                 new TvShowToSerieDataDtoBuilder().build(tvShow)
         );
     }

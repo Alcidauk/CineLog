@@ -33,7 +33,7 @@ public class MovieToWishlistDataDtoBuilder {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return new WishlistDataDto(
                 null,
-                movie.id,
+                (long) movie.id,
                 movie.title,
                 movie.poster_path,
                 movie.overview,

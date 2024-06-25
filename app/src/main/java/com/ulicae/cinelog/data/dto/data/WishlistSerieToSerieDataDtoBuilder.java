@@ -2,6 +2,9 @@ package com.ulicae.cinelog.data.dto.data;
 
 import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dao.WishlistSerie;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.entities.Tmdb;
+import com.ulicae.cinelog.room.entities.WishlistItem;
 
 /**
  * CineLog Copyright 2019 Pierre Rognon
@@ -28,13 +31,27 @@ public class WishlistSerieToSerieDataDtoBuilder {
         TmdbSerie serie = wishlistSerie.getSerie();
         return new WishlistDataDto(
                 wishlistSerie.getWishlist_serie_id(),
-                serie != null && serie.getSerie_id() != null ? serie.getSerie_id().intValue() : null,
+                serie != null && serie.getSerie_id() != null ? serie.getSerie_id() : null,
                 wishlistSerie.getTitle(),
                 serie != null ? serie.getPoster_path() : null,
                 serie != null ? serie.getOverview() : null,
                 serie != null ? serie.getYear() : 0,
                 serie != null ? serie.getRelease_date() : null,
                 WishlistItemType.SERIE
+        );
+    }
+
+    public WishlistDataDto buildWishlistDataDto(WishlistItem wishlistItem, Tmdb tmdb) {
+        return new WishlistDataDto(
+                wishlistItem.id,
+                tmdb.tmdbId,
+                wishlistItem.title,
+                tmdb.posterPath,
+                tmdb.overview,
+                tmdb.year,
+                tmdb.releaseDate,
+                wishlistItem.itemEntityType == ItemEntityType.MOVIE ?
+                        WishlistItemType.MOVIE : WishlistItemType.SERIE
         );
     }
 }

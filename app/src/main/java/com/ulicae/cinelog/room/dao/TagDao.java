@@ -41,6 +41,6 @@ public interface TagDao extends AsyncRoomDao<Tag> {
     Flowable<List<Tag>> findSerieTags();
 
     @Query("SELECT * FROM tag WHERE id = :id")
-    Flowable<Tag> find(int id);
+    Flowable<Tag> find(long id);
 
 }

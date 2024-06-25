@@ -90,8 +90,8 @@ public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<Ta
                 .blockingFirst();
     }
 
-    public Long addTagToItemIfNotExists(int reviewId, int tagId) {
-        return db.reviewTagCrossRefDao().insert(new ReviewTagCrossRef(reviewId, tagId));
+    public void addTagToItemIfNotExists(int reviewId, int tagId) {
+        db.reviewTagCrossRefDao().insert(new ReviewTagCrossRef(reviewId, tagId));
     }
 
     public void removeTagFromItemIfExists(int reviewId, int tagId) {

@@ -23,7 +23,7 @@ public class WishlistCsvExportWriterTest {
     public void write() throws Exception {
         wishlistDto = new WishlistDataDto(
                 24L,
-                25,
+                25L,
                 "a title",
                 "/path",
                 "an overview",
@@ -36,7 +36,7 @@ public class WishlistCsvExportWriterTest {
 
         verify(csvPrinterWrapper).printRecord(
                 24L,
-                25,
+                25L,
                 "a title",
                 "an overview",
                 2012,

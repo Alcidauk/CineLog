@@ -1,7 +1,9 @@
 package com.ulicae.cinelog.utils.room;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 
 /**
@@ -22,7 +24,7 @@ import com.ulicae.cinelog.room.entities.Tmdb;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class WishlistTmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbDao, WishlistDataDto> {
+public class WishlistTmdbFromDtoCreator extends SyncEntityFromDtoCreator<Tmdb, TmdbDao, WishlistDataDto> {
 
     public WishlistTmdbFromDtoCreator(TmdbDao dao) {
         super(dao);
@@ -30,8 +32,10 @@ public class WishlistTmdbFromDtoCreator extends EntityFromDtoCreator<Tmdb, TmdbD
 
     @Override
     public Tmdb createRoomInstanceFromDto(WishlistDataDto itemDto) {
-        return itemDto.getTmdbKinoId() != 0L ?
+        return itemDto.getTmdbKinoId() != 0 ?
                 new Tmdb(itemDto.getTmdbKinoId(),
+                        itemDto.getWishlistItemType() == WishlistItemType.MOVIE ?
+                                ItemEntityType.MOVIE : ItemEntityType.SERIE,
                         itemDto.getPosterPath(),
                         itemDto.getOverview(),
                         itemDto.getFirstYear(),

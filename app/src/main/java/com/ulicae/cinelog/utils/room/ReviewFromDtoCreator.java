@@ -1,6 +1,7 @@
 package com.ulicae.cinelog.utils.room;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
@@ -23,26 +24,24 @@ import com.ulicae.cinelog.room.entities.Review;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewFromDtoCreator extends EntityFromDtoCreator<Review, ReviewDao, KinoDto> {
+public class ReviewFromDtoCreator extends SyncEntityFromDtoCreator<Review, ReviewDao, KinoDto> {
 
-    private final ItemEntityType itemEntityType;
     private int biggestMovieReviewId;
 
-    public ReviewFromDtoCreator(ReviewDao dao, ItemEntityType itemEntityType) {
-        this(dao, itemEntityType, 0);
+    public ReviewFromDtoCreator(ReviewDao dao) {
+        this(dao, 0);
     }
 
-    public ReviewFromDtoCreator(ReviewDao dao, ItemEntityType itemEntityType, int biggestMovieReviewId) {
+    public ReviewFromDtoCreator(ReviewDao dao, int biggestMovieReviewId) {
         super(dao);
-        this.itemEntityType = itemEntityType;
         this.biggestMovieReviewId = biggestMovieReviewId;
     }
 
     @Override
     public Review createRoomInstanceFromDto(KinoDto kinoDto) {
         return new Review(
-                Math.toIntExact(kinoDto.getId()) + this.biggestMovieReviewId,
-                this.itemEntityType,
+                kinoDto.getId() + this.biggestMovieReviewId,
+                kinoDto instanceof SerieDto ? ItemEntityType.SERIE : ItemEntityType.MOVIE,
                 kinoDto.getTitle(),
                 kinoDto.getReview_date(),
                 kinoDto.getReview(),

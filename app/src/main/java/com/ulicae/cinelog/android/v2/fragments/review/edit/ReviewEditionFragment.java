@@ -64,10 +64,11 @@ public class ReviewEditionFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        wishlistItemDeleter = new WishlistItemDeleter(requireContext());
+        AppDatabase appDb = ((KinoApplication) getActivity().getApplication()).getDb();
+
+        wishlistItemDeleter = new WishlistItemDeleter(appDb);
 
         String dtoType = requireArguments().getString("dtoType");
-        AppDatabase appDb = ((KinoApplication) getActivity().getApplication()).getDb();
 
         dtoService = new AsyncServiceFactory(requireContext()).create(dtoType, appDb);
 
@@ -242,7 +243,9 @@ public class ReviewEditionFragment extends Fragment {
 
         long wishlistId = requireArguments().getLong("wishlistId", 0L);
         if (wishlistId != 0L) {
-            wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
+            // TODO do we need to know if it is a serie or a movie ?
+            //  wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
+            wishlistItemDeleter.deleteWishlistItem(wishlistId, "coucou"); // TODO adapter ça
         }
 
         updateTags();

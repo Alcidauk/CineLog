@@ -3,10 +3,8 @@ package com.ulicae.cinelog.android.v2.fragments.review.edit;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
-import com.ulicae.cinelog.android.v2.fragments.review.edit.WishlistItemDeleter;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
+import com.ulicae.cinelog.data.services.wishlist.room.WishlistAsyncService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,30 +34,27 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class WishlistItemDeleterTest {
 
     @Mock
-    private SerieWishlistService serieWishlistService;
-
-    @Mock
-    private MovieWishlistService movieWishlistService;
+    private WishlistAsyncService wishlistAsyncService;
 
     @Mock
     private WishlistDataDto wishlistDataDto;
 
     @Test
     public void deleteWishlistMovieItem() {
-        doReturn(wishlistDataDto).when(movieWishlistService).getById(1564L);
+        doReturn(wishlistDataDto).when(wishlistAsyncService).getById(1564L);
 
-        new WishlistItemDeleter(serieWishlistService, movieWishlistService).deleteWishlistItem(1564L, "kino");
+        new WishlistItemDeleter(wishlistAsyncService).deleteWishlistItem(1564L, "kino");
 
-        verify(movieWishlistService).delete(wishlistDataDto);
+        verify(wishlistAsyncService).delete(wishlistDataDto);
     }
 
     @Test
     public void deleteWishlistSerieItem() {
-        doReturn(wishlistDataDto).when(serieWishlistService).getById(1564L);
+        doReturn(wishlistDataDto).when(wishlistAsyncService).getById(1564L);
 
-        new WishlistItemDeleter(serieWishlistService, movieWishlistService).deleteWishlistItem(1564L, "serie");
+        new WishlistItemDeleter(wishlistAsyncService).deleteWishlistItem(1564L, "serie");
 
-        verify(serieWishlistService).delete(wishlistDataDto);
+        verify(wishlistAsyncService).delete(wishlistDataDto);
     }
 
 }

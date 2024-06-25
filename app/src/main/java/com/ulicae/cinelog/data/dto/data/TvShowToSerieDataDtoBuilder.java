@@ -14,7 +14,7 @@ public class TvShowToSerieDataDtoBuilder {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return new WishlistDataDto(
                 null,
-                tvShow.id,
+                (long) tvShow.id,
                 tvShow.name,
                 tvShow.poster_path,
                 tvShow.overview,
