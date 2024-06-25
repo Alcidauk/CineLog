@@ -24,36 +24,6 @@ public class DbReader {
     private final SQLiteDatabase db;
     private DbHelper dbHelper;
 
-    /*
-
-    // Define a projection that specifies which columns from the database
-// you will actually use after this query.
-
-    // Filter results WHERE "title" = 'My Title'
-        String selection = KinoReaderContract.LocalKino.COLUMN_NAME_TITLE + " = ?";
-        String[] selectionArgs = {"My Title"};
-
-    // How you want the results sorted in the resulting Cursor
-    //String sortOrder =
-    //        KinoReaderContract.LocalKino.COLUMN_NAME_ID + " DESC";
-
-    Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-        Tables:
-        JOIN_LOCAL_KINO_WITH_TAG x
-        JOIN_REVIEW_WITH_TAG
-        LOCAL_KINO x
-        sqlite_sequence
-        REVIEW
-        SERIE_EPISODE
-        SERIE_REVIEW
-        TAG x
-        TMDB_KINO x
-        TMDB_SERIE
-        WISHLIST_MOVIE
-        WISHLIST_SERIE
-
-         */
-
     public DbReader(Context context) {
         dbHelper = new DbHelper(context);
         db = dbHelper.getReadableDatabase();
@@ -123,17 +93,6 @@ public class DbReader {
     }
 
     public List<KinoDto> readKinos(List<TagDto> tags) {
-        /*
-        LOCAL_KINO columns:
-        _id
-        TMDB_ID
-        TITLE
-        REVIEW_DATE
-        REVIEW
-        RATING
-        MAX_RATING
-         */
-
         Map<Long, List<Long>> tagsByKino = readJoinKinoTag();
 
         Cursor cursor = db.query(
