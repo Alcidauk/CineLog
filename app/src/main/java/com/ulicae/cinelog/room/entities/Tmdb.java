@@ -58,13 +58,6 @@ public class Tmdb {
         this.releaseDate = releaseDate;
     }
 
-// TODO remove useless
-    @Ignore
-    public Tmdb(long id, long tmdbId, ItemEntityType type, String posterPath, String overview, int year, String releaseDate) {
-        this(tmdbId, type, posterPath, overview, year, releaseDate);
-        this.id = id;
-    }
-
     public long getId() {
         return id;
     }
