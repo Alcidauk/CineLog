@@ -137,7 +137,7 @@ public class ReviewService implements RoomDataService<KinoDto> {
                     db.reviewDao().insert(review);
                     long reviewId = review.id;
 
-                    new ReviewTmdbCrossRef(Math.toIntExact(reviewId), Math.toIntExact(tmdbId));
+                    new ReviewTmdbCrossRef(reviewId, tmdbId);
 
                     // TODO un call qui permet de forcer le refresh
                 });
