@@ -95,12 +95,24 @@
     <fragment
         android:id="@+id/nav_wishlist_room_movie"
         android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.MovieWishlistRoomFragment"
-        android:label="@string/title_fragment_wishlist_movie" >
+        android:label="@string/title_fragment_wishlist_movie">
+        <action
+            android:id="@+id/action_nav_wishlist_room_movie_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemFragment" />
+        <action
+            android:id="@+id/action_nav_wishlist_room_movie_to_searchTmbdSerieFragment"
+            app:destination="@id/searchTmbdSerieFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_wishlist_room_serie"
         android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistRoomFragment"
         android:label="@string/title_fragment_wishlist_serie" >
+        <action
+            android:id="@+id/action_nav_wishlist_room_serie_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemFragment" />
+        <action
+            android:id="@+id/action_nav_wishlist_room_serie_to_searchTmbdSerieFragment"
+            app:destination="@id/searchTmbdSerieFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_room_tags"
@@ -225,6 +237,17 @@
             android:id="@+id/action_editReviewFragment_to_nav_reviews_serie"
             app:destination="@id/nav_reviews_serie"
             app:popUpTo="@id/nav_reviews_serie"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_editReviewFragment_to_nav_reviews_room_movie"
+            app:destination="@id/nav_reviews_room_movie"
+            app:popUpTo="@id/nav_reviews_room_movie"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_editReviewFragment_to_nav_reviews_room_serie"
+            app:destination="@id/nav_reviews_room_serie"
+            app:popUpTo="@id/nav_reviews_room_serie"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

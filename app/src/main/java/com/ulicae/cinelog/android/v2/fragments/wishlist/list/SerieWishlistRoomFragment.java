@@ -50,7 +50,7 @@ public class SerieWishlistRoomFragment extends WishlistFragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        actionToItem = R.id.action_nav_wishlist_serie_to_wishlistItemFragment;
+        actionToItem = R.id.action_nav_wishlist_room_serie_to_wishlistItemFragment;
 
         AppDatabase appDb = ((KinoApplication) getActivity().getApplication()).getDb();
         service = new WishlistService(appDb, ItemEntityType.SERIE);

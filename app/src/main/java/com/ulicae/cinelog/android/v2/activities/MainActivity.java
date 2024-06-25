@@ -305,8 +305,8 @@ public class MainActivity extends AppCompatActivity {
     public void navigateBackToReviewList(KinoDto fromKinoDto) {
         navController.navigate(
                 fromKinoDto instanceof SerieDto ?
-                        R.id.action_editReviewFragment_to_nav_reviews_serie :
-                        R.id.action_editReviewFragment_to_nav_reviews_movie
+                        R.id.action_editReviewFragment_to_nav_reviews_room_serie :
+                        R.id.action_editReviewFragment_to_nav_reviews_room_movie
         );
     }
 

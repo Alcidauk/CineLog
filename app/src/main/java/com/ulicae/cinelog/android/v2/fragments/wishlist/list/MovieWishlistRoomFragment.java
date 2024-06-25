@@ -56,7 +56,7 @@ public class MovieWishlistRoomFragment extends WishlistFragment {
                               @Nullable Bundle savedInstanceState) {
         AppDatabase appDb = ((KinoApplication) getActivity().getApplication()).getDb();
 
-        actionToItem = R.id.action_nav_wishlist_movie_to_wishlistItemFragment;
+        actionToItem = R.id.action_nav_wishlist_room_movie_to_wishlistItemFragment;
         service = new WishlistService(appDb, ItemEntityType.MOVIE);
 
         super.onViewCreated(view, savedInstanceState);
