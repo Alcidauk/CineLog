@@ -34,8 +34,8 @@ class WishlistItemDeleter {
         this.wishlistAsyncService = wishlistAsyncService;
     }
 
-    public void deleteWishlistItem(Long tmdbKinoId, String type) {
-        WishlistDataDto byTmdbId = wishlistAsyncService.getById(tmdbKinoId);
-        wishlistAsyncService.delete(byTmdbId);
+    public void deleteWishlistItem(Long id) {
+        WishlistDataDto wishlistData = wishlistAsyncService.getById(id);
+        wishlistAsyncService.delete(wishlistData);
     }
 }

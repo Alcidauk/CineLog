@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -236,16 +235,14 @@ public class ReviewEditionFragment extends Fragment {
             kino.setMaxRating(maxRatingAsInt);
         }
 
-        // TODO fix kino refresh. Maybe review list should be fetched again ?
         // noinspection unchecked
-        //kino = (KinoDto) dtoService.createOrUpdate(kino);
         dtoService.createOrUpdate(kino);
 
         long wishlistId = requireArguments().getLong("wishlistId", 0L);
         if (wishlistId != 0L) {
             // TODO do we need to know if it is a serie or a movie ?
             //  wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
-            wishlistItemDeleter.deleteWishlistItem(wishlistId, "coucou"); // TODO adapter ça
+            wishlistItemDeleter.deleteWishlistItem(wishlistId); // TODO adapter ça
         }
 
         updateTags();

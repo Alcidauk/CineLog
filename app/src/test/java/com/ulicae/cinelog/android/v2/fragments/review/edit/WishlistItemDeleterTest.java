@@ -43,7 +43,7 @@ public class WishlistItemDeleterTest {
     public void deleteWishlistMovieItem() {
         doReturn(wishlistDataDto).when(wishlistAsyncService).getById(1564L);
 
-        new WishlistItemDeleter(wishlistAsyncService).deleteWishlistItem(1564L, "kino");
+        new WishlistItemDeleter(wishlistAsyncService).deleteWishlistItem(1564L);
 
         verify(wishlistAsyncService).delete(wishlistDataDto);
     }
@@ -52,7 +52,7 @@ public class WishlistItemDeleterTest {
     public void deleteWishlistSerieItem() {
         doReturn(wishlistDataDto).when(wishlistAsyncService).getById(1564L);
 
-        new WishlistItemDeleter(wishlistAsyncService).deleteWishlistItem(1564L, "serie");
+        new WishlistItemDeleter(wishlistAsyncService).deleteWishlistItem(1564L);
 
         verify(wishlistAsyncService).delete(wishlistDataDto);
     }
