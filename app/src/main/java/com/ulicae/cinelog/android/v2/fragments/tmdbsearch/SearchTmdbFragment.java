@@ -16,18 +16,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.review.add.ReviewCreationCallback;
 import com.ulicae.cinelog.android.v2.fragments.review.add.ReviewItemCallback;
 import com.ulicae.cinelog.android.v2.fragments.wishlist.add.WishlistItemCallback;
-import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
-import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
+
+import org.parceler.Parcels;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -63,13 +64,18 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
     protected final ReviewItemCallback movieSearchResultClickCallback =
             (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToItem(kinoDto, position, inDb, true, false);
     protected final ReviewCreationCallback movieReviewCreationClickCallback =
-            (kinoDto) -> ((MainActivity) requireActivity())
-                    .navigateToReview(
-                            kinoDto,
-                            true,
-                            kinoDto instanceof SerieDto ?
-                                    R.id.action_searchTmbdSerieFragment_to_editReviewFragment :
-                                    R.id.action_searchTmdbMovieFragment_to_editReviewFragment);
+            (kinoDto) -> {
+                Bundle args = new Bundle();
+                args.putString("dtoType", kinoDto instanceof SerieDto ? "serie": "kino");
+                args.putParcelable("kino", Parcels.wrap(kinoDto));
+                args.putBoolean("creation", true);
+                ((MainActivity) requireActivity()).navigateToReview(
+                        kinoDto instanceof SerieDto ?
+                                R.id.action_searchTmbdSerieFragment_to_editReviewFragment :
+                                R.id.action_searchTmdbMovieFragment_to_editReviewFragment,
+                        args
+                );
+            };
     protected final WishlistItemCallback wishlistItemCallback =
             (dataDto) -> ((MainActivity) requireActivity()).navigateToWishlistItem(
                     dataDto,

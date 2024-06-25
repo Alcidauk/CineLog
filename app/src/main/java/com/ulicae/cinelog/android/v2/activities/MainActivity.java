@@ -271,12 +271,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void navigateToReview(KinoDto kinoDto, boolean creation, int action) {
-        Bundle args = new Bundle();
-        args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
-        args.putParcelable("kino", Parcels.wrap(kinoDto));
-        args.putBoolean("creation", creation);
-
+    public void navigateToReview(int action, Bundle args) {
         navController.navigate(action, args);
     }
 

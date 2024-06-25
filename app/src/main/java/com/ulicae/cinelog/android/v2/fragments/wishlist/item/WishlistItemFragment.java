@@ -165,7 +165,15 @@ public class WishlistItemFragment extends ShareableFragment<WishlistDataDto> {
             return;
         }
 
-        ((MainActivity) requireActivity()).navigateToReview(dto, true, R.id.action_wishlistItemFragment_to_editReviewFragment);
+        Bundle args = new Bundle();
+        args.putString("dtoType", dto instanceof SerieDto ? "serie" : "kino");
+        args.putParcelable("kino", Parcels.wrap(dto));
+        args.putBoolean("creation", true);
+        args.putLong("wishlistId", item.getId());
+        ((MainActivity) requireActivity()).navigateToReview(
+                R.id.action_wishlistItemFragment_to_editReviewFragment,
+                args
+        );
     }
 
   /*  TODO rewrite state management to get right data from editreview

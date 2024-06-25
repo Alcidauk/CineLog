@@ -25,6 +25,8 @@ import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -95,7 +97,14 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
             SerieDto serieDto = new SerieDto();
             serieDto.setTitle(binding.kinoSearch.getText().toString());
 
-            ((MainActivity) requireActivity()).navigateToReview(serieDto, true, R.id.action_searchTmbdSerieFragment_to_editReviewFragment);
+            Bundle args = new Bundle();
+            args.putString("dtoType", "serie");
+            args.putParcelable("kino", Parcels.wrap(serieDto));
+            args.putBoolean("creation", true);
+            ((MainActivity) requireActivity()).navigateToReview(
+                    R.id.action_searchTmbdSerieFragment_to_editReviewFragment,
+                    args
+            );
         } else {
             ((MainActivity) requireActivity()).navigateToWishlistItem(
                     new WishlistDataDto(

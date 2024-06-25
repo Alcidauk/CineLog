@@ -60,8 +60,16 @@ public class ReviewSerieRoomItemFragment extends ShareableFragment<SerieDto> {
 
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(item, false, R.id.action_viewSerieFragment_to_editReviewFragment)
-        );
+                v -> {
+                    Bundle args = new Bundle();
+                    args.putString("dtoType", "serie");
+                    args.putParcelable("kino", Parcels.wrap(item));
+                    args.putBoolean("creation", false);
+                    ((MainActivity) requireActivity()).navigateToReview(
+                            R.id.action_viewSerieFragment_to_editReviewFragment,
+                            args
+                    );
+                });
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
 

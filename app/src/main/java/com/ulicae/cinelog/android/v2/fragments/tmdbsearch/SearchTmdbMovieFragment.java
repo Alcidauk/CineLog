@@ -24,6 +24,8 @@ import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -87,7 +89,14 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
             KinoDto kinoToCreate = new KinoDto();
             kinoToCreate.setTitle(binding.kinoSearch.getText().toString());
 
-            ((MainActivity) requireActivity()).navigateToReview(kinoToCreate, true, R.id.action_searchTmdbMovieFragment_to_editReviewFragment);
+            Bundle args = new Bundle();
+            args.putString("dtoType", "kino");
+            args.putParcelable("kino", Parcels.wrap(kinoToCreate));
+            args.putBoolean("creation", true);
+            ((MainActivity) requireActivity()).navigateToReview(
+                    R.id.action_searchTmdbMovieFragment_to_editReviewFragment,
+                    args
+            );
         } else {
             ((MainActivity) requireActivity()).navigateToWishlistItem(
                             new WishlistDataDto(

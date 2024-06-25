@@ -56,10 +56,17 @@ public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
         new ReviewItemDataFieldsInflater(item, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
 
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        // TODO go to new review edition
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(item, false, R.id.action_viewKinoFragment_to_editReviewFragment)
-        );
+                v -> {
+                    Bundle args = new Bundle();
+                    args.putString("dtoType", "kino");
+                    args.putParcelable("kino", Parcels.wrap(item));
+                    args.putBoolean("creation", false);
+                    ((MainActivity) requireActivity()).navigateToReview(
+                            R.id.action_viewKinoFragment_to_editReviewFragment,
+                            args
+                    );
+                });
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
 

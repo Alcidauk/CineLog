@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.databinding.LayoutKinoItemBinding;
 
 import org.parceler.Parcels;
@@ -37,7 +38,15 @@ public class ViewUnregisteredItemFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(kino, true, R.id.action_viewUnregisteredItemFragment_to_editReviewFragment)
+                v -> {
+                    Bundle args = new Bundle();
+                    args.putString("dtoType", kino instanceof SerieDto ? "serie" : "kino");
+                    args.putParcelable("kino", Parcels.wrap(kino));
+                    args.putBoolean("creation", true);
+                    ((MainActivity) requireActivity()).navigateToReview(
+                            R.id.action_viewUnregisteredItemFragment_to_editReviewFragment,
+                            args);
+                }
         );
         fab.setImageResource(R.drawable.add_review);
         fab.show();
