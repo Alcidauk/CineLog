@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.dto.data.room;
+package com.ulicae.cinelog.room.dto.utils.to;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
@@ -50,7 +50,6 @@ public class WishlistItemToDataDtoBuilder {
                 0,
                 null,
                 WishlistItemType.MOVIE
-                // TODO bouger le type dans le wishlist item puisqu'il peut ne pas y avoir de tmdb et qu'on a quand même besoin de stocker
         );
     }
 }

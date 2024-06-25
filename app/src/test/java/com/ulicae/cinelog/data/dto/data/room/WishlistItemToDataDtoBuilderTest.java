@@ -4,6 +4,7 @@ import static org.mockito.Mockito.doReturn;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.room.dto.utils.to.WishlistItemToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;

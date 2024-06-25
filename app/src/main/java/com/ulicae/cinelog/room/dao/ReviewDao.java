@@ -41,6 +41,7 @@ public interface ReviewDao extends SyncRoomDao<Review> {
     Flowable<Review> find(long id);
 
     // TODO comment faire avec une crossref
+    //  ===>>>> utiliser du embedded pour que ce soit plus simple https://developer.android.com/training/data-storage/room/relationships?hl=fr
     /*@Query("SELECT * FROM review WHERE tmdb_id = :tmdb_id")
     Flowable<Review> findByMovieId(Long tmdb_id);*/
 

@@ -1,10 +1,10 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.room.dto.utils.from;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.room.dao.ReviewDao;
+import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
-import com.ulicae.cinelog.room.entities.Review;
+import com.ulicae.cinelog.room.entities.Tmdb;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -24,29 +24,21 @@ import com.ulicae.cinelog.room.entities.Review;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewFromDtoCreator extends SyncEntityFromDtoCreator<Review, ReviewDao, KinoDto> {
+public class TmdbFromDtoCreator extends SyncEntityFromDtoCreator<Tmdb, TmdbDao, KinoDto> {
 
-    private int biggestMovieReviewId;
-
-    public ReviewFromDtoCreator(ReviewDao dao) {
-        this(dao, 0);
-    }
-
-    public ReviewFromDtoCreator(ReviewDao dao, int biggestMovieReviewId) {
+    public TmdbFromDtoCreator(TmdbDao dao) {
         super(dao);
-        this.biggestMovieReviewId = biggestMovieReviewId;
     }
 
     @Override
-    public Review createRoomInstanceFromDto(KinoDto kinoDto) {
-        return new Review(
-                kinoDto.getId() + this.biggestMovieReviewId,
-                kinoDto instanceof SerieDto ? ItemEntityType.SERIE : ItemEntityType.MOVIE,
-                kinoDto.getTitle(),
-                kinoDto.getReview_date(),
-                kinoDto.getReview(),
-                kinoDto.getRating(),
-                kinoDto.getMaxRating()
-        );
+    public Tmdb createRoomInstanceFromDto(KinoDto kinoDto) {
+        return kinoDto.getTmdbKinoId() != 0L ?
+                new Tmdb(
+                        kinoDto.getTmdbKinoId(),
+                        kinoDto instanceof SerieDto ? ItemEntityType.SERIE : ItemEntityType.MOVIE,
+                        kinoDto.getPosterPath(),
+                        kinoDto.getOverview(),
+                        kinoDto.getYear(),
+                        kinoDto.getReleaseDate()) : null;
     }
 }

@@ -1,9 +1,10 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.room.dto.utils.from;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
+import com.ulicae.cinelog.room.dto.utils.from.TagReviewCrossRefFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 
 import junit.framework.TestCase;

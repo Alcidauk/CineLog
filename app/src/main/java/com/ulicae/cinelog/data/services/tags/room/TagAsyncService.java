@@ -8,7 +8,7 @@ import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
-import com.ulicae.cinelog.utils.room.TagFromDtoCreator;
+import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
 
 import java.util.ArrayList;
 import java.util.List;

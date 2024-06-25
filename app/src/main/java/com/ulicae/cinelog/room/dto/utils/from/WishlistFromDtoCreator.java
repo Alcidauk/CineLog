@@ -1,10 +1,10 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.room.dto.utils.from;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.dao.SyncWishlistItemDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
-import com.ulicae.cinelog.room.entities.Tmdb;
+import com.ulicae.cinelog.room.entities.WishlistItem;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -24,21 +24,19 @@ import com.ulicae.cinelog.room.entities.Tmdb;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class WishlistTmdbFromDtoCreator extends SyncEntityFromDtoCreator<Tmdb, TmdbDao, WishlistDataDto> {
+public class WishlistFromDtoCreator extends SyncEntityFromDtoCreator<WishlistItem, SyncWishlistItemDao, WishlistDataDto> {
 
-    public WishlistTmdbFromDtoCreator(TmdbDao dao) {
-        super(dao);
+    public WishlistFromDtoCreator(SyncWishlistItemDao wishlistItemDao) {
+        super(wishlistItemDao);
     }
 
+
     @Override
-    public Tmdb createRoomInstanceFromDto(WishlistDataDto itemDto) {
-        return itemDto.getTmdbKinoId() != 0 ?
-                new Tmdb(itemDto.getTmdbKinoId(),
-                        itemDto.getWishlistItemType() == WishlistItemType.MOVIE ?
-                                ItemEntityType.MOVIE : ItemEntityType.SERIE,
-                        itemDto.getPosterPath(),
-                        itemDto.getOverview(),
-                        itemDto.getFirstYear(),
-                        itemDto.getReleaseDate()) : null;
+    public WishlistItem createRoomInstanceFromDto(WishlistDataDto dto) {
+        return new WishlistItem(
+                dto.getId(),
+                dto.getWishlistItemType() == WishlistItemType.MOVIE ? ItemEntityType.MOVIE : ItemEntityType.SERIE,
+                dto.getTitle()
+        );
     }
 }

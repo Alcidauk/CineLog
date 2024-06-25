@@ -20,12 +20,12 @@ import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
-import com.ulicae.cinelog.utils.room.ReviewFromDtoCreator;
-import com.ulicae.cinelog.utils.room.TagFromDtoCreator;
-import com.ulicae.cinelog.utils.room.TagReviewCrossRefFromDtoCreator;
-import com.ulicae.cinelog.utils.room.TmdbFromDtoCreator;
-import com.ulicae.cinelog.utils.room.WishlistFromDtoCreator;
-import com.ulicae.cinelog.utils.room.WishlistTmdbFromDtoCreator;
+import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
+import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
+import com.ulicae.cinelog.room.dto.utils.from.TagReviewCrossRefFromDtoCreator;
+import com.ulicae.cinelog.room.dto.utils.from.TmdbFromDtoCreator;
+import com.ulicae.cinelog.room.dto.utils.from.WishlistFromDtoCreator;
+import com.ulicae.cinelog.room.dto.utils.from.WishlistTmdbFromDtoCreator;
 
 import java.util.ArrayList;
 import java.util.List;

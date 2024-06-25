@@ -1,8 +1,9 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.room.dto.utils.from;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.room.dao.TmdbDao;
+import com.ulicae.cinelog.room.dto.utils.from.WishlistTmdbFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 
@@ -10,120 +11,95 @@ import junit.framework.TestCase;
 
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-public class TmdbFromDtoCreatorTest extends TestCase {
-
+public class WishlistTmdbFromDtoCreatorTest extends TestCase {
 
     @Mock
     private TmdbDao tmdbDao;
 
     public void testCreateRoomInstanceFromMovieDto() {
-        Date date = new Date();
         assertEquals(
                 new Tmdb(
-                        23,
+                        23L,
                         ItemEntityType.MOVIE,
                         "/aposterpath.jpg",
-                        "An overview",
+                        "A wishlist overview",
                         2000,
                         "12/12/2024"
                 ),
-                new TmdbFromDtoCreator(tmdbDao)
+                new WishlistTmdbFromDtoCreator(tmdbDao)
                         .createRoomInstanceFromDto(
-                                new KinoDto(
+                                new WishlistDataDto(
                                         453L,
                                         23L,
-                                        "a kino",
-                                        date,
-                                        "a kino review",
-                                        5.0f,
-                                        5,
+                                        "a wishlist movie item",
                                         "/aposterpath.jpg",
-                                        "An overview",
+                                        "A wishlist overview",
                                         2000,
                                         "12/12/2024",
-                                        new ArrayList<>()
+                                        WishlistItemType.MOVIE
                                 )
                         )
         );
     }
 
+
     public void testCreateRoomInstanceFromMovieDtoNoTmdb() {
-        Date date = new Date();
         assertNull(
-                new TmdbFromDtoCreator(tmdbDao)
+                new WishlistTmdbFromDtoCreator(tmdbDao)
                         .createRoomInstanceFromDto(
-                                new KinoDto(
+                                new WishlistDataDto(
                                         453L,
                                         0L,
-                                        "a kino",
-                                        date,
-                                        "a kino review",
-                                        5.0f,
-                                        5,
+                                        "a wishlist movie item",
                                         "/aposterpath.jpg",
-                                        "An overview",
+                                        "A wishlist overview",
                                         2000,
                                         "12/12/2024",
-                                        new ArrayList<>()
+                                        WishlistItemType.MOVIE
                                 )
                         )
         );
     }
 
     public void testCreateRoomInstanceFromSerieDto() {
-        Date date = new Date();
         assertEquals(
                 new Tmdb(
-                        23,
+                        23L,
                         ItemEntityType.SERIE,
                         "/aposterpath.jpg",
-                        "An overview",
+                        "A wishlist overview",
                         2000,
                         "12/12/2024"
                 ),
-                new TmdbFromDtoCreator(tmdbDao)
+                new WishlistTmdbFromDtoCreator(tmdbDao)
                         .createRoomInstanceFromDto(
-                                new SerieDto(
+                                new WishlistDataDto(
                                         453L,
                                         23L,
-                                        45L,
-                                        "a kino",
-                                        date,
-                                        "a kino review",
-                                        5.0f,
-                                        5,
+                                        "a wishlist movie item",
                                         "/aposterpath.jpg",
-                                        "An overview",
+                                        "A wishlist overview",
                                         2000,
                                         "12/12/2024",
-                                        new ArrayList<>()
+                                        WishlistItemType.SERIE
                                 )
                         )
         );
     }
 
     public void testCreateRoomInstanceFromSerieDtoNoTmdb() {
-        Date date = new Date();
         assertNull(
-                new TmdbFromDtoCreator(tmdbDao)
+                new WishlistTmdbFromDtoCreator(tmdbDao)
                         .createRoomInstanceFromDto(
-                                new SerieDto(
+                                new WishlistDataDto(
                                         453L,
                                         0L,
-                                        45L,
-                                        "a kino",
-                                        date,
-                                        "a kino review",
-                                        5.0f,
-                                        5,
+                                        "a wishlist movie item",
                                         "/aposterpath.jpg",
-                                        "An overview",
+                                        "A wishlist overview",
                                         2000,
                                         "12/12/2024",
-                                        new ArrayList<>()
+                                        WishlistItemType.SERIE
                                 )
                         )
         );

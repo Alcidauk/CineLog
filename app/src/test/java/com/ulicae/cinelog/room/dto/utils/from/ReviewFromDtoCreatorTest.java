@@ -1,8 +1,9 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.room.dto.utils.from;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.ReviewDao;
+import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
 

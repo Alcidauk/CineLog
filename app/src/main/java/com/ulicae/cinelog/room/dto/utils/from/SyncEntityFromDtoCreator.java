@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.room.dto.utils.from;
 
 import android.util.Log;
 

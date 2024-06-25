@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.room.dto.utils.from;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
@@ -35,8 +35,9 @@ public class TagReviewCrossRefFromDtoCreator extends SyncEntityFromDtoCreator<Re
         this.biggestMovieReviewId = biggestMovieReviewId;
     }
 
+    // TODO not public
     @Override
-    ReviewTagCrossRef createRoomInstanceFromDto(TagDto itemDto) {
+    public ReviewTagCrossRef createRoomInstanceFromDto(TagDto itemDto) {
         return new ReviewTagCrossRef(
                 Math.toIntExact(kinoDto instanceof SerieDto ? biggestMovieReviewId + kinoDto.getId() : kinoDto.getId()),
                 Math.toIntExact(itemDto.getId())

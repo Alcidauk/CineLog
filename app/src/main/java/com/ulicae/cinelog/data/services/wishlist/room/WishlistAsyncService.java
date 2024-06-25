@@ -4,7 +4,7 @@ import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
-import com.ulicae.cinelog.data.dto.data.room.WishlistItemToDataDtoBuilder;
+import com.ulicae.cinelog.room.dto.utils.to.WishlistItemToDataDtoBuilder;
 import com.ulicae.cinelog.data.services.wishlist.WishlistService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dao.TmdbDao;

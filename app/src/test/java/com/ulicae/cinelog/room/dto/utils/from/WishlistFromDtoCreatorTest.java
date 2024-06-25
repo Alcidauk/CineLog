@@ -1,11 +1,10 @@
-package com.ulicae.cinelog.utils.room;
+package com.ulicae.cinelog.room.dto.utils.from;
 
-import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.room.dao.SyncWishlistItemDao;
+import com.ulicae.cinelog.room.dto.utils.from.WishlistFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
-import com.ulicae.cinelog.room.entities.Tag;
 import com.ulicae.cinelog.room.entities.WishlistItem;
 
 import junit.framework.TestCase;
