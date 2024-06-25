@@ -122,11 +122,10 @@ public class ReviewService implements RoomDataService<KinoDto> {
                             dto.getYear(),
                             dto.getReleaseDate()
                     );
-                    db.tmdbDao().insert(tmdb);
-                    long tmdbId = tmdb.id;
+                    long tmdbId = db.tmdbDao().insert(tmdb);
 
                     Review review = new Review(
-                            Math.toIntExact(dto.getId()),
+                            dto.getId() != null ? dto.getId() : 0L,
                             ItemEntityType.MOVIE,
                             dto.getTitle(),
                             dto.getReview_date(),
@@ -134,10 +133,10 @@ public class ReviewService implements RoomDataService<KinoDto> {
                             dto.getRating(),
                             dto.getMaxRating()
                     );
-                    db.reviewDao().insert(review);
-                    long reviewId = review.id;
+                    long reviewId = db.reviewDao().insert(review);
 
-                    new ReviewTmdbCrossRef(reviewId, tmdbId);
+                    ReviewTmdbCrossRef tmdbCrossRef = new ReviewTmdbCrossRef(reviewId, tmdbId);
+                    db.reviewTmdbDao().insert(tmdbCrossRef);
 
                     // TODO un call qui permet de forcer le refresh
                 });
