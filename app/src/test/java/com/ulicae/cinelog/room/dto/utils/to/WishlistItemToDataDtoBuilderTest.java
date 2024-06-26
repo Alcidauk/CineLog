@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.dto.data.room;
+package com.ulicae.cinelog.room.dto.utils.to;
 
 import static org.mockito.Mockito.doReturn;
 
@@ -33,7 +33,7 @@ public class WishlistItemToDataDtoBuilderTest extends TestCase {
         doReturn(456L).when(wishlistItem).getId();
         doReturn("Elle").when(wishlistItem).getTitle();
 
-        doReturn(456456456L).when(tmdb).getId();
+        doReturn(456456456L).when(tmdb).getTmdbId();
         doReturn(2015).when(tmdb).getYear();
         doReturn("An overview").when(tmdb).getOverview();
         doReturn("/poster/path").when(tmdb).getPosterPath();

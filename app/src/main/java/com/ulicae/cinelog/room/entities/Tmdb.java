@@ -69,4 +69,16 @@ public class Tmdb {
         return releaseDate;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tmdb tmdb = (Tmdb) o;
+        return tmdbId == tmdb.tmdbId && year == tmdb.year && Objects.equals(posterPath, tmdb.posterPath) && Objects.equals(overview, tmdb.overview) && Objects.equals(releaseDate, tmdb.releaseDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tmdbId, posterPath, overview, year, releaseDate);
+    }
 }

@@ -6,6 +6,7 @@ import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
+import com.ulicae.cinelog.room.entities.Tmdb;
 
 import junit.framework.TestCase;
 
@@ -29,7 +30,8 @@ public class ReviewFromDtoCreatorTest extends TestCase {
                         reviewDate,
                         "a review",
                         5.0f,
-                        5
+                        5,
+                        null
                 ),
                 new ReviewFromDtoCreator(reviewDao, 0)
                         .createRoomInstanceFromDto(
@@ -61,7 +63,8 @@ public class ReviewFromDtoCreatorTest extends TestCase {
                         reviewDate,
                         "a review",
                         5.0f,
-                        5
+                        5,
+                        null
                 ),
                 new ReviewFromDtoCreator(reviewDao, 5)
                         .createRoomInstanceFromDto(
@@ -93,7 +96,8 @@ public class ReviewFromDtoCreatorTest extends TestCase {
                         reviewDate,
                         "a review",
                         5.0f,
-                        5
+                        5,
+                        null
                 ),
                 new ReviewFromDtoCreator(reviewDao, 0)
                         .createRoomInstanceFromDto(
@@ -126,7 +130,8 @@ public class ReviewFromDtoCreatorTest extends TestCase {
                         reviewDate,
                         "a review",
                         5.0f,
-                        5
+                        5,
+                        null
                 ),
                 new ReviewFromDtoCreator(reviewDao, 7)
                         .createRoomInstanceFromDto(

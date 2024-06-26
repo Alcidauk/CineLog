@@ -74,7 +74,7 @@ public class WishlistAsyncService implements WishlistService {
 
         WishlistItem wishlistItem =
                 new WishlistItem(
-                        Math.toIntExact(tmdbId),
+                        wishlistDataDto.getId(),
                         ItemEntityType.SERIE,
                         wishlistDataDto.getTitle(),
                         tmdbSerie

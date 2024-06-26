@@ -31,13 +31,13 @@ public class WishlistItemToDataDtoBuilder {
         if(tmdbItem != null) {
             return new WishlistDataDto(
                     wishlistItem.getId(),
-                    null, // TODO remove
+                    tmdbItem.getTmdbId(),
                     wishlistItem.getTitle(),
                     tmdbItem.getPosterPath(),
                     tmdbItem.getOverview(),
                     tmdbItem.getYear(),
                     tmdbItem.getReleaseDate(),
-                    wishlistItem.itemEntityType == ItemEntityType.MOVIE ? WishlistItemType.MOVIE : WishlistItemType.SERIE
+                    wishlistItem.getItemEntityType() == ItemEntityType.MOVIE ? WishlistItemType.MOVIE : WishlistItemType.SERIE
             );
         }
 

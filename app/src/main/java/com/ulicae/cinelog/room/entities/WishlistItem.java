@@ -41,16 +41,30 @@ public class WishlistItem {
         return title;
     }
 
+    public Tmdb getTmdb() {
+        return tmdb;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WishlistItem item = (WishlistItem) o;
-        return id == item.id && itemEntityType == item.itemEntityType && Objects.equals(title, item.title);
+        return id == item.id && itemEntityType == item.itemEntityType && Objects.equals(title, item.title) && Objects.equals(tmdb, item.tmdb);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, itemEntityType, title);
+        return Objects.hash(id, itemEntityType, title, tmdb);
+    }
+
+    @Override
+    public String toString() {
+        return "WishlistItem{" +
+                "id=" + id +
+                ", itemEntityType=" + itemEntityType +
+                ", title='" + title + '\'' +
+                ", tmdb=" + tmdb +
+                '}';
     }
 }

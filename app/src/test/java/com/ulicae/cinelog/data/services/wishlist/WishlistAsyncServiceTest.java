@@ -60,12 +60,6 @@ public class WishlistAsyncServiceTest {
     private WishlistItemDao wishlistItemDao;
 
     @Mock
-    private TmdbDao tmdbDao;
-
-    @Mock
-    private WishlistTmdbCrossRefDao wishlistTmdbCrossRefDao;
-
-    @Mock
     private WishlistSerieRepository wishlistSerieRepository;
 
     @Mock
@@ -77,64 +71,37 @@ public class WishlistAsyncServiceTest {
     @Before
     public void setUp() throws Exception {
         doReturn(wishlistItemDao).when(db).wishlistItemDao();
-        doReturn(tmdbDao).when(db).tmdbDao();
-        doReturn(wishlistTmdbCrossRefDao).when(db).wishlistTmdbCrossRefDao();
     }
 
     @Test
     public void createSerieData() {
-        TestObserver daoInsertObserver = TestObserver.create();
-        Completable insertCompletable = Completable.complete()
-                .doOnSubscribe(d -> daoInsertObserver.onSubscribe(d));
-
         new WishlistAsyncService(db).createSerieData(
                 new WishlistDataDto(
                         12L,
                         264564L,
-                        "A tv show",
-                        "2125",
+                        "A title",
+                        "a poster path",
                         "an overview",
-                        2015,
-                        "A release date",
+                        2013,
+                        "a release date",
                         WishlistItemType.SERIE
                 )
         );
 
-        given(wishlistItemDao.insert(
+        verify(wishlistItemDao).insert(
                 new WishlistItem(
                         12L,
                         ItemEntityType.SERIE,
-                        "A title"
-                )
-        )).willReturn(insertCompletable);
-
-        TestObserver tmdbDaoInsertObserver = TestObserver.create();
-        Completable tmdbDaoInsertCompletable = Completable.complete()
-                .doOnSubscribe(d -> daoInsertObserver.onSubscribe(d));
-
-        //pass completable to your mock
-        given(tmdbDao.insert(
-                new Tmdb(
-                        264564L,
-                        ItemEntityType.SERIE,
-                        "2125",
-                        "an overview",
-                        2015,
-                        "A release date"
-                )
-        )).willReturn(12L);
-
-        // tmdbDaoInsertObserver.ass();
-
-        // TODO
-
-       verify(wishlistTmdbCrossRefDao).insert(
-                new WishlistTmdbCrossRef(
-                        12L,
-                        264564L
+                        "A title",
+                        new Tmdb(
+                                264564L,
+                                "a poster path",
+                                "an overview",
+                                2013,
+                                "a release date"
                         )
+                )
         );
-
     }
 
     @Test
