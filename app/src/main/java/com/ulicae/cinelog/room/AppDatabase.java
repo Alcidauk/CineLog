@@ -7,19 +7,14 @@ import androidx.room.TypeConverters;
 import com.ulicae.cinelog.room.converters.Converters;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
-import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
 import com.ulicae.cinelog.room.dao.SyncWishlistItemDao;
 import com.ulicae.cinelog.room.dao.TagDao;
-import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
-import com.ulicae.cinelog.room.dao.WishlistTmdbCrossRefDao;
 import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
-import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
-import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -42,24 +37,18 @@ import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
 @Database(
         entities = {
                 Review.class,
-                ReviewTmdbCrossRef.class,
-                Tmdb.class,
                 WishlistItem.class,
-                WishlistTmdbCrossRef.class,
                 Tag.class,
                 ReviewTagCrossRef.class
         },
-        version = 3
+        version = 4
 )
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract TmdbDao tmdbDao();
 
     public abstract ReviewDao reviewDao();
-    public abstract ReviewTmdbCrossRefDao reviewTmdbDao();
 
     public abstract WishlistItemDao wishlistItemDao();
-    public abstract WishlistTmdbCrossRefDao wishlistTmdbCrossRefDao();
 
     public abstract TagDao tagDao();
 

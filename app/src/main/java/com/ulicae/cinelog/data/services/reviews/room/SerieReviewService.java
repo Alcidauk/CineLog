@@ -2,18 +2,14 @@ package com.ulicae.cinelog.data.services.reviews.room;
 
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.data.services.RoomDataService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
-import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
 import com.ulicae.cinelog.room.dao.TagDao;
-import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
-import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
 import com.ulicae.cinelog.room.entities.Tmdb;
 
@@ -55,19 +51,13 @@ public class SerieReviewService implements RoomDataService<SerieDto> {
      */
     public List<SerieDto> getAll() {
         ReviewDao reviewDao = db.reviewDao();
-        ReviewTmdbCrossRefDao reviewTmdbDao = db.reviewTmdbDao();
-        TmdbDao tmdbDao = db.tmdbDao();
         ReviewTagCrossRefDao reviewTagCrossRefDao = db.reviewTagCrossRefDao();
         TagDao tagDao = db.tagDao();
 
         List<Review> all1 = reviewDao.findAll(ItemEntityType.SERIE).blockingFirst();
         List<SerieDto> kinos = new ArrayList<>();
         for(Review review: all1) {
-            Tmdb tmdb = null;
-            List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
-            for(ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
-                tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
-            }
+            Tmdb tmdb = review.tmdb;
 
             List<TagDto> tags = new ArrayList<>();
             List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
@@ -78,7 +68,7 @@ public class SerieReviewService implements RoomDataService<SerieDto> {
 
             kinos.add(new SerieDto(
                     (long) review.id,
-                    tmdb != null ? tmdb.id : null,
+                    null,
                     (long) review.id,
                     review.title, review.reviewDate, review.review,
                     review.rating, review.maxRating,
@@ -114,18 +104,13 @@ public class SerieReviewService implements RoomDataService<SerieDto> {
         // TODO mettre ça en async, càd le récupérer quand on le reçoit pour appliquer les infos aux vues
         Review review = reviewFlowable.blockingFirst();
 
-        return buildSerieDtoFromReview(
-                review, db.reviewTmdbDao(), db.tmdbDao(), db.reviewTagCrossRefDao(), db.tagDao());
+        return buildSerieDtoFromReview(review, db.reviewTagCrossRefDao(), db.tagDao());
     }
 
-    private SerieDto buildSerieDtoFromReview(Review review, ReviewTmdbCrossRefDao reviewTmdbDao,
-                                           TmdbDao tmdbDao, ReviewTagCrossRefDao reviewTagCrossRefDao,
-                                           TagDao tagDao) {
-        Tmdb tmdb = null;
-        List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
-        for(ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
-            tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
-        }
+    private SerieDto buildSerieDtoFromReview(Review review,
+                                             ReviewTagCrossRefDao reviewTagCrossRefDao,
+                                             TagDao tagDao) {
+        Tmdb tmdb = review.tmdb;
 
         List<TagDto> tags = new ArrayList<>();
         List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
@@ -136,7 +121,7 @@ public class SerieReviewService implements RoomDataService<SerieDto> {
 
         return new SerieDto(
                 (long) review.id,
-                tmdb != null ? (long) tmdb.id : null,
+                null, // TODO remove this paramater
                 (long) review.id,
                 review.title, review.reviewDate, review.review,
                 review.rating, review.maxRating,

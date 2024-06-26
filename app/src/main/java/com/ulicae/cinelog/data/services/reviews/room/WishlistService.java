@@ -5,13 +5,10 @@ import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
-import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
-import com.ulicae.cinelog.room.dao.WishlistTmdbCrossRefDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
-import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,21 +47,15 @@ public class WishlistService implements ItemService<WishlistDataDto>, DataServic
     @Override
     public List<WishlistDataDto> getAll() {
         WishlistItemDao wishlistItemDao = db.wishlistItemDao();
-        WishlistTmdbCrossRefDao wishlistTmdbCrossRefDao = db.wishlistTmdbCrossRefDao();
-        TmdbDao tmdbDao = db.tmdbDao();
 
         List<WishlistItem> all1 = wishlistItemDao.findAll(itemEntityType).blockingFirst();
         List<WishlistDataDto> itemsDto = new ArrayList<>();
         for(WishlistItem item: all1) {
-            Tmdb tmdb = null;
-            List<WishlistTmdbCrossRef> crossRefs = wishlistTmdbCrossRefDao.findForReview(item.id).blockingFirst();
-            for(WishlistTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
-                tmdb = tmdbDao.find(reviewTmdbCrossRef.tmdbId).blockingFirst();
-            }
+            Tmdb tmdb = item.tmdb;
 
             itemsDto.add(new WishlistDataDto(
                     (long) item.id,
-                    tmdb != null ? tmdb.id : null,
+                    null, // TODO supprimer ce param
                     item.title,
                     tmdb != null ? tmdb.posterPath : null,
                     tmdb != null ? tmdb.overview: null,

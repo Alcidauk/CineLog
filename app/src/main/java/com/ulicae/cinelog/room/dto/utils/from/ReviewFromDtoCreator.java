@@ -5,6 +5,7 @@ import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
+import com.ulicae.cinelog.room.entities.Tmdb;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -46,7 +47,14 @@ public class ReviewFromDtoCreator extends SyncEntityFromDtoCreator<Review, Revie
                 kinoDto.getReview_date(),
                 kinoDto.getReview(),
                 kinoDto.getRating(),
-                kinoDto.getMaxRating()
+                kinoDto.getMaxRating(),
+                new Tmdb(
+                        kinoDto.getTmdbKinoId(),
+                        kinoDto.getPosterPath(),
+                        kinoDto.getOverview(),
+                        kinoDto.getYear(),
+                        kinoDto.getReleaseDate()
+                )
         );
     }
 }

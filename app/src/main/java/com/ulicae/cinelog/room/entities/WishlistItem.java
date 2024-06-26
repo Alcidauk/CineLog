@@ -1,6 +1,7 @@
 package com.ulicae.cinelog.room.entities;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -17,13 +18,15 @@ public class WishlistItem {
     public ItemEntityType itemEntityType;
 
     public String title;
-    
-    
 
-    public WishlistItem(long id, ItemEntityType itemEntityType, String title) {
+    @Embedded
+    public Tmdb tmdb;
+
+    public WishlistItem(long id, ItemEntityType itemEntityType, String title, Tmdb tmdb) {
         this.id = id;
         this.itemEntityType = itemEntityType;
         this.title = title;
+        this.tmdb = tmdb;
     }
 
     public long getId() {

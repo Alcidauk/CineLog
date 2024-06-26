@@ -4,6 +4,7 @@ import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.room.dao.SyncWishlistItemDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
 
 /**
@@ -36,7 +37,14 @@ public class WishlistFromDtoCreator extends SyncEntityFromDtoCreator<WishlistIte
         return new WishlistItem(
                 dto.getId(),
                 dto.getWishlistItemType() == WishlistItemType.MOVIE ? ItemEntityType.MOVIE : ItemEntityType.SERIE,
-                dto.getTitle()
+                dto.getTitle(),
+                new Tmdb(
+                        dto.getTmdbId(),
+                        dto.getPosterPath(),
+                        dto.getOverview(),
+                        dto.getFirstYear(),
+                        dto.getReleaseDate()
+                )
         );
     }
 }

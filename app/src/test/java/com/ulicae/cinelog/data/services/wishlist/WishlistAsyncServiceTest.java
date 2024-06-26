@@ -15,13 +15,10 @@ import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.services.wishlist.room.WishlistAsyncService;
 import com.ulicae.cinelog.room.AppDatabase;
-import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
-import com.ulicae.cinelog.room.dao.WishlistTmdbCrossRefDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
-import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
 
 import org.junit.Before;
 import org.junit.Test;

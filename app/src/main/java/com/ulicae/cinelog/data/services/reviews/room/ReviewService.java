@@ -7,13 +7,10 @@ import com.ulicae.cinelog.data.services.RoomDataService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
-import com.ulicae.cinelog.room.dao.ReviewTmdbCrossRefDao;
 import com.ulicae.cinelog.room.dao.TagDao;
-import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
-import com.ulicae.cinelog.room.entities.ReviewTmdbCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
 import com.ulicae.cinelog.room.entities.Tmdb;
 
@@ -55,28 +52,21 @@ public class ReviewService implements RoomDataService<KinoDto> {
      */
     public List<KinoDto> getAll() {
         ReviewDao reviewDao = db.reviewDao();
-        ReviewTmdbCrossRefDao reviewTmdbDao = db.reviewTmdbDao();
-        TmdbDao tmdbDao = db.tmdbDao();
         ReviewTagCrossRefDao reviewTagCrossRefDao = db.reviewTagCrossRefDao();
         TagDao tagDao = db.tagDao();
 
         List<Review> all1 = reviewDao.findAll(ItemEntityType.MOVIE).blockingFirst();
         List<KinoDto> kinos = new ArrayList<>();
         for (Review review : all1) {
-            kinos.add(buildKinoDtoFromReview(review, reviewTmdbDao, tmdbDao, reviewTagCrossRefDao, tagDao));
+            kinos.add(buildKinoDtoFromReview(review, reviewTagCrossRefDao, tagDao));
         }
 
         return kinos;
     }
 
-    private KinoDto buildKinoDtoFromReview(Review review, ReviewTmdbCrossRefDao reviewTmdbDao,
-                                           TmdbDao tmdbDao, ReviewTagCrossRefDao reviewTagCrossRefDao,
+    private KinoDto buildKinoDtoFromReview(Review review, ReviewTagCrossRefDao reviewTagCrossRefDao,
                                            TagDao tagDao) {
-        Tmdb tmdb = null;
-        List<ReviewTmdbCrossRef> crossRefs = reviewTmdbDao.findForReview(review.id).blockingFirst();
-        for (ReviewTmdbCrossRef reviewTmdbCrossRef : crossRefs) {
-            tmdb = tmdbDao.find(reviewTmdbCrossRef.movieId).blockingFirst();
-        }
+        Tmdb tmdb = review.tmdb;
 
         List<TagDto> tags = new ArrayList<>();
         List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
@@ -104,8 +94,7 @@ public class ReviewService implements RoomDataService<KinoDto> {
         // TODO mettre ça en async, càd le récupérer quand on le reçoit pour appliquer les infos aux vues
         Review review = reviewFlowable.blockingFirst();
 
-        return buildKinoDtoFromReview(
-                review, db.reviewTmdbDao(), db.tmdbDao(), db.reviewTagCrossRefDao(), db.tagDao());
+        return buildKinoDtoFromReview(review, db.reviewTagCrossRefDao(), db.tagDao());
     }
 
     @Override
@@ -116,13 +105,11 @@ public class ReviewService implements RoomDataService<KinoDto> {
                 .subscribe(dto -> {
                     Tmdb tmdb = new Tmdb(
                             dto.getTmdbKinoId() != null ? dto.getTmdbKinoId() : 0L,
-                            dtoObject instanceof SerieDto ? ItemEntityType.SERIE : ItemEntityType.MOVIE,
                             dto.getPosterPath(),
                             dto.getOverview(),
                             dto.getYear(),
                             dto.getReleaseDate()
                     );
-                    long tmdbId = db.tmdbDao().insert(tmdb);
 
                     Review review = new Review(
                             dto.getId() != null ? dto.getId() : 0L,
@@ -131,12 +118,11 @@ public class ReviewService implements RoomDataService<KinoDto> {
                             dto.getReview_date(),
                             dto.getReview(),
                             dto.getRating(),
-                            dto.getMaxRating()
+                            dto.getMaxRating(),
+                            tmdb
+
                     );
                     long reviewId = db.reviewDao().insert(review);
-
-                    ReviewTmdbCrossRef tmdbCrossRef = new ReviewTmdbCrossRef(reviewId, tmdbId);
-                    db.reviewTmdbDao().insert(tmdbCrossRef);
 
                     // TODO un call qui permet de forcer le refresh
                 });

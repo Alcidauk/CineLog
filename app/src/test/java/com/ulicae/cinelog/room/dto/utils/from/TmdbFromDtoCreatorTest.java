@@ -2,8 +2,6 @@ package com.ulicae.cinelog.room.dto.utils.from;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.room.dao.TmdbDao;
-import com.ulicae.cinelog.room.dto.utils.from.TmdbFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 

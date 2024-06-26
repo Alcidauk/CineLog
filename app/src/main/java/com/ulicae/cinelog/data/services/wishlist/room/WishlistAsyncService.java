@@ -4,16 +4,13 @@ import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
-import com.ulicae.cinelog.room.dto.utils.to.WishlistItemToDataDtoBuilder;
 import com.ulicae.cinelog.data.services.wishlist.WishlistService;
 import com.ulicae.cinelog.room.AppDatabase;
-import com.ulicae.cinelog.room.dao.TmdbDao;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
-import com.ulicae.cinelog.room.dao.WishlistTmdbCrossRefDao;
+import com.ulicae.cinelog.room.dto.utils.to.WishlistItemToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
-import com.ulicae.cinelog.room.entities.WishlistTmdbCrossRef;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +39,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class WishlistAsyncService implements WishlistService {
 
     private WishlistItemDao wishlistItemDao;
-    private WishlistTmdbCrossRefDao wishlistTmdbCrossRefDao;
-    private TmdbDao tmdbDao;
 
     private WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder;
     private WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder;
@@ -51,50 +46,38 @@ public class WishlistAsyncService implements WishlistService {
     public WishlistAsyncService(AppDatabase db) {
         this(
                 db.wishlistItemDao(),
-                db.wishlistTmdbCrossRefDao(),
-                db.tmdbDao(),
                 new WishlistSerieToSerieDataDtoBuilder(),
                 new WishlistItemToDataDtoBuilder()
         );
     }
 
     WishlistAsyncService(WishlistItemDao wishlistItemDao,
-                         WishlistTmdbCrossRefDao wishlistTmdbCrossRefDao,
-                         TmdbDao tmdbDao,
                          WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder,
                          WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder) {
         this.wishlistItemDao = wishlistItemDao;
-        this.wishlistTmdbCrossRefDao = wishlistTmdbCrossRefDao;
-        this.tmdbDao = tmdbDao;
         this.wishlistSerieToSerieDataDtoBuilder = wishlistSerieToSerieDataDtoBuilder;
         this.wishlistItemToDataDtoBuilder = wishlistItemToDataDtoBuilder;
     }
 
     public void createSerieData(WishlistDataDto wishlistDataDto) {
-        Tmdb tmdbSerie;
+        Tmdb tmdbSerie = null;
         Long tmdbId = wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null;
 
         if (wishlistDataDto.getTmdbId() != null) {
             tmdbSerie = new Tmdb(
                     Math.toIntExact(tmdbId),
-                    ItemEntityType.SERIE,
                     wishlistDataDto.getPosterPath(),
                     wishlistDataDto.getOverview(),
                     wishlistDataDto.getFirstYear(),
                     wishlistDataDto.getReleaseDate());
-
-            tmdbDao.insert(tmdbSerie);
-
-            WishlistTmdbCrossRef wishlistTmdbCrossRef =
-                    new WishlistTmdbCrossRef(Math.toIntExact(wishlistDataDto.getId()), Math.toIntExact(tmdbId));
-            wishlistTmdbCrossRefDao.insert(wishlistTmdbCrossRef);
         }
 
         WishlistItem wishlistItem =
                 new WishlistItem(
                         Math.toIntExact(tmdbId),
                         ItemEntityType.SERIE,
-                        wishlistDataDto.getTitle()
+                        wishlistDataDto.getTitle(),
+                        tmdbSerie
                 );
         wishlistItemDao.insert(wishlistItem);
     }
@@ -111,8 +94,7 @@ public class WishlistAsyncService implements WishlistService {
 
         List<WishlistDataDto> wishlistItemDtos = new ArrayList<>();
         for (WishlistItem item : items) {
-            List<WishlistTmdbCrossRef> wishlistTmdbCrossRefs = wishlistTmdbCrossRefDao.findForReview(item.id).blockingFirst();
-            // TODO wishlistItemDtos.add(wishlistSerieToSerieDataDtoBuilder.buildWishlistDataDto(item));
+            // TODO créer le builder avec room. wishlistItemDtos.add(wishlistSerieToSerieDataDtoBuilder.buildWishlistDataDto(item));
         }
         return wishlistItemDtos;
     }
@@ -128,6 +110,7 @@ public class WishlistAsyncService implements WishlistService {
                                 wishlistDataDto.getId(),
                                 wishlistDataDto.getWishlistItemType() ==
                                         WishlistItemType.MOVIE ? ItemEntityType.MOVIE : ItemEntityType.SERIE,
+                                null,
                                 null
                         )
                 )
@@ -152,14 +135,8 @@ public class WishlistAsyncService implements WishlistService {
     @Override
     public WishlistDataDto getById(Long id) {
         WishlistItem item = wishlistItemDao.find(id).blockingFirst();
-        List<WishlistTmdbCrossRef> crossRefs = wishlistTmdbCrossRefDao.findForReview(item.id).blockingFirst();
 
-        Tmdb tmdb = null;
-        if (crossRefs != null && crossRefs.size() > 0) {
-            tmdb = tmdbDao.find(crossRefs.get(0).tmdbId).blockingFirst();
-        }
-
-        return item != null ? wishlistItemToDataDtoBuilder.build(item, tmdb) : null;
+        return item != null ? wishlistItemToDataDtoBuilder.build(item, item.tmdb) : null;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.ulicae.cinelog.room.entities;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -46,7 +47,10 @@ public class Review {
     @ColumnInfo(name = "max_rating")
     public Integer maxRating;
 
-    public Review(long id, ItemEntityType itemEntityType, String title, Date reviewDate, String review, Float rating, Integer maxRating) {
+    @Embedded
+    public Tmdb tmdb;
+
+    public Review(long id, ItemEntityType itemEntityType, String title, Date reviewDate, String review, Float rating, Integer maxRating, Tmdb tmdb) {
         this.id = id;
         this.itemEntityType = itemEntityType;
         this.title = title;
@@ -54,6 +58,7 @@ public class Review {
         this.review = review;
         this.rating = rating;
         this.maxRating = maxRating;
+        this.tmdb = tmdb;
     }
 
     @Override
