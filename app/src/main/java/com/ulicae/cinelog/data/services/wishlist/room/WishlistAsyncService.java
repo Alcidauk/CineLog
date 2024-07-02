@@ -2,10 +2,10 @@ package com.ulicae.cinelog.data.services.wishlist.room;
 
 import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.services.wishlist.WishlistService;
 import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
 import com.ulicae.cinelog.room.dto.utils.to.WishlistItemToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
@@ -14,9 +14,6 @@ import com.ulicae.cinelog.room.entities.WishlistItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -43,20 +40,25 @@ public class WishlistAsyncService implements WishlistService {
     private WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder;
     private WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder;
 
+    private CinelogSchedulers cinelogSchedulers;
+
     public WishlistAsyncService(AppDatabase db) {
         this(
                 db.wishlistItemDao(),
                 new WishlistSerieToSerieDataDtoBuilder(),
-                new WishlistItemToDataDtoBuilder()
+                new WishlistItemToDataDtoBuilder(),
+                new CinelogSchedulers()
         );
     }
 
     WishlistAsyncService(WishlistItemDao wishlistItemDao,
                          WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder,
-                         WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder) {
+                         WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder,
+                         CinelogSchedulers cinelogSchedulers) {
         this.wishlistItemDao = wishlistItemDao;
         this.wishlistSerieToSerieDataDtoBuilder = wishlistSerieToSerieDataDtoBuilder;
         this.wishlistItemToDataDtoBuilder = wishlistItemToDataDtoBuilder;
+        this.cinelogSchedulers = cinelogSchedulers;
     }
 
     public void createSerieData(WishlistDataDto wishlistDataDto) {
@@ -108,14 +110,13 @@ public class WishlistAsyncService implements WishlistService {
         wishlistItemDao.delete(
                         new WishlistItem(
                                 wishlistDataDto.getId(),
-                                wishlistDataDto.getWishlistItemType() ==
-                                        WishlistItemType.MOVIE ? ItemEntityType.MOVIE : ItemEntityType.SERIE,
+                                null,
                                 null,
                                 null
                         )
                 )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(cinelogSchedulers.io())
+                .observeOn(cinelogSchedulers.androidMainThread())
                 .subscribe(); // TODO un toaster ?
     }
 
