@@ -4,7 +4,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.services.wishlist.room.WishlistAsyncService;
+import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,25 +1,17 @@
-package com.ulicae.cinelog.data.services.reviews.room;
+package com.ulicae.cinelog.room.services;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.RoomDataService;
+import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
-import com.ulicae.cinelog.room.dao.ReviewDao;
-import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
-import com.ulicae.cinelog.room.dao.TagDao;
+import com.ulicae.cinelog.room.dao.WishlistItemDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
-import com.ulicae.cinelog.room.entities.Review;
-import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
-import com.ulicae.cinelog.room.entities.Tag;
 import com.ulicae.cinelog.room.entities.Tmdb;
+import com.ulicae.cinelog.room.entities.WishlistItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -39,102 +31,60 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewService implements RoomDataService<KinoDto> {
+public class WishlistService implements ItemService<WishlistDataDto>, DataService<WishlistDataDto> {
 
-    private final AppDatabase db;
+    private AppDatabase db;
+    private final ItemEntityType itemEntityType;
 
-    public ReviewService(AppDatabase db) {
+    public WishlistService(AppDatabase db, ItemEntityType itemEntityType) {
         this.db = db;
+        this.itemEntityType = itemEntityType;
     }
 
     /*
     TODO avoid blockingfirst and make return async
      */
-    public List<KinoDto> getAll() {
-        ReviewDao reviewDao = db.reviewDao();
-        ReviewTagCrossRefDao reviewTagCrossRefDao = db.reviewTagCrossRefDao();
-        TagDao tagDao = db.tagDao();
+    @Override
+    public List<WishlistDataDto> getAll() {
+        WishlistItemDao wishlistItemDao = db.wishlistItemDao();
 
-        List<Review> all1 = reviewDao.findAll(ItemEntityType.MOVIE).blockingFirst();
-        List<KinoDto> kinos = new ArrayList<>();
-        for (Review review : all1) {
-            kinos.add(buildKinoDtoFromReview(review, reviewTagCrossRefDao, tagDao));
+        List<WishlistItem> all1 = wishlistItemDao.findAll(itemEntityType).blockingFirst();
+        List<WishlistDataDto> itemsDto = new ArrayList<>();
+        for(WishlistItem item: all1) {
+            Tmdb tmdb = item.tmdb;
+
+            itemsDto.add(new WishlistDataDto(
+                    (long) item.id,
+                    null, // TODO supprimer ce param
+                    item.title,
+                    tmdb != null ? tmdb.posterPath : null,
+                    tmdb != null ? tmdb.overview: null,
+                    tmdb != null ? tmdb.year : 0,
+                    tmdb != null ? tmdb.releaseDate : null,
+                    this.itemEntityType == ItemEntityType.MOVIE ? WishlistItemType.MOVIE : WishlistItemType.SERIE
+            ));
         }
 
-        return kinos;
-    }
-
-    private KinoDto buildKinoDtoFromReview(Review review, ReviewTagCrossRefDao reviewTagCrossRefDao,
-                                           TagDao tagDao) {
-        Tmdb tmdb = review.tmdb;
-
-        List<TagDto> tags = new ArrayList<>();
-        List<ReviewTagCrossRef> tagCrossRefs = reviewTagCrossRefDao.findForReview(review.id).blockingFirst();
-        for (ReviewTagCrossRef reviewTagCrossRef : tagCrossRefs) {
-            Tag tag = tagDao.find(Math.toIntExact(reviewTagCrossRef.tagId)).blockingFirst();
-            tags.add(new TagDto((long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries));
-        }
-
-        return new KinoDto(
-                review.id,
-                tmdb != null ? (long) tmdb.tmdbId : null,
-                review.title, review.reviewDate, review.review,
-                review.rating, review.maxRating,
-                tmdb != null ? tmdb.posterPath : null,
-                tmdb != null ? tmdb.overview : null,
-                tmdb != null ? tmdb.year : 0,
-                tmdb != null ? tmdb.releaseDate : null,
-                tags
-        );
-    }
-
-    public KinoDto getWithId(int itemId) {
-        Flowable<Review> reviewFlowable = db.reviewDao().find(Math.toIntExact(itemId));
-
-        // TODO mettre ça en async, càd le récupérer quand on le reçoit pour appliquer les infos aux vues
-        Review review = reviewFlowable.blockingFirst();
-
-        return buildKinoDtoFromReview(review, db.reviewTagCrossRefDao(), db.tagDao());
+        return itemsDto;
     }
 
     @Override
-    public void createOrUpdate(KinoDto dtoObject) {
-        // TODO tmdb pas à créer si on vient d'une wishlist
-        Observable.just(dtoObject)
-                .subscribeOn(Schedulers.io())
-                .subscribe(dto -> {
-                    Tmdb tmdb = new Tmdb(
-                            dto.getTmdbKinoId() != null ? dto.getTmdbKinoId() : 0L,
-                            dto.getPosterPath(),
-                            dto.getOverview(),
-                            dto.getYear(),
-                            dto.getReleaseDate()
-                    );
-
-                    Review review = new Review(
-                            dto.getId() != null ? dto.getId() : 0L,
-                            ItemEntityType.MOVIE,
-                            dto.getTitle(),
-                            dto.getReview_date(),
-                            dto.getReview(),
-                            dto.getRating(),
-                            dto.getMaxRating(),
-                            tmdb
-
-                    );
-                    long reviewId = db.reviewDao().insert(review);
-
-                    // TODO un call qui permet de forcer le refresh
-                });
-    }
-
-    @Override
-    public void delete(KinoDto dtoObject) {
+    public void createOrUpdateFromImport(List<WishlistDataDto> kinoDtos) {
 
     }
 
     @Override
-    public Flowable<List<KinoDto>> findAll() {
+    public void delete(WishlistDataDto dtoObject) {
+
+    }
+
+    @Override
+    public WishlistDataDto getWithTmdbId(long tmdbId) {
+        return null;
+    }
+
+    @Override
+    public WishlistDataDto createOrUpdate(WishlistDataDto dtoObject) {
         return null;
     }
 

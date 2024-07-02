@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.services.reviews.room;
+package com.ulicae.cinelog.room.services;
 
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;

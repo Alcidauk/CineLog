@@ -15,7 +15,7 @@ import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewItemDataFieldsInflater;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
+import com.ulicae.cinelog.room.services.ReviewService;
 import com.ulicae.cinelog.databinding.FragmentReviewMovieItemBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemReviewBinding;

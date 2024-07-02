@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.services.reviews.room.WishlistService;
+import com.ulicae.cinelog.room.services.WishlistService;
 import com.ulicae.cinelog.databinding.FragmentSerieListBinding;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ItemEntityType;

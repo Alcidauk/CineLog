@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.services.wishlist.room;
+package com.ulicae.cinelog.room.services;
 
 import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;

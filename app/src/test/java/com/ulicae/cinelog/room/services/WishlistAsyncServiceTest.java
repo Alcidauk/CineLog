@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.services.wishlist.room;
+package com.ulicae.cinelog.room.services;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
@@ -11,6 +11,7 @@ import com.ulicae.cinelog.room.dao.WishlistItemDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
+import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
 import org.junit.Before;
 import org.junit.Test;

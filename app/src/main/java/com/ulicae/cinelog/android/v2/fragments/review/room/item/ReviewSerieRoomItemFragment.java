@@ -21,7 +21,7 @@ import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisod
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
+import com.ulicae.cinelog.room.services.SerieReviewService;
 import com.ulicae.cinelog.databinding.FragmentReviewSerieItemBinding;
 
 import org.parceler.Parcels;

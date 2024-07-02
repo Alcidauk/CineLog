@@ -11,11 +11,9 @@ import android.widget.ListView;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.android.v2.fragments.review.list.ReviewListFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
-import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
+import com.ulicae.cinelog.room.services.SerieReviewService;
 import com.ulicae.cinelog.databinding.FragmentSerieListBinding;
 
 import java.util.List;

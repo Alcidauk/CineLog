@@ -2,8 +2,8 @@ package com.ulicae.cinelog.data.services;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.data.services.reviews.room.ReviewService;
-import com.ulicae.cinelog.data.services.reviews.room.SerieReviewService;
+import com.ulicae.cinelog.room.services.ReviewService;
+import com.ulicae.cinelog.room.services.SerieReviewService;
 import com.ulicae.cinelog.room.AppDatabase;
 
 /**
