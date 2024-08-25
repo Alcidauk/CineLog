@@ -142,13 +142,12 @@ public class UpgradeFixRunner {
     }
 
     private int getBiggestId(List<? extends ItemDto> kinoDtos) {
-        return Math.toIntExact(
-                kinoDtos.stream()
-                        .sorted((dto1, dto2) -> dto1.getId() < dto2.getId() ? 1 : -1)
-                        .collect(Collectors.toList())
-                        .get(0)
-                        .getId()
-        );
+        List<? extends ItemDto> kinoList = kinoDtos.stream()
+                .sorted((dto1, dto2) -> dto1.getId() < dto2.getId() ? 1 : -1)
+                .collect(Collectors.toList());
+        return kinoList.size() > 0 ?
+                Math.toIntExact(kinoList.get(0).getId()) :
+                0;
     }
 
     private List<TagDto> migrateTags(AppDatabase givenDb) {
