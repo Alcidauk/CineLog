@@ -293,8 +293,8 @@ public class DbReader {
                             cursor.getLong(0),
                             cursor.getString(1),
                             cursor.getString(2), //cursor.getString(3),
-                            cursor.getString(3) == "1" ? true : false,
-                            cursor.getString(4) == "1" ? true : false
+                            cursor.getString(3).equals("1") ? true : false,
+                            cursor.getString(4).equals("1") ? true : false
                     )
             );
             cursor.moveToNext();
