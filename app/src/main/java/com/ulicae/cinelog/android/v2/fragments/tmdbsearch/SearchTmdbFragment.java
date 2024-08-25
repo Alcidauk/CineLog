@@ -19,7 +19,7 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.review.add.ReviewCreationCallback;
 import com.ulicae.cinelog.android.v2.fragments.review.add.ReviewItemCallback;
-import com.ulicae.cinelog.android.v2.fragments.wishlist.add.WishlistItemCallback;
+import com.ulicae.cinelog.android.v2.fragments.wishlist.room.add.WishlistItemCallback;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.services.reviews.DataService;

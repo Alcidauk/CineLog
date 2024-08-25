@@ -11,7 +11,6 @@ import com.ulicae.cinelog.room.dao.WishlistItemDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
-import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -133,7 +132,7 @@ public class WishlistAsyncServiceTest {
                         "A release date",
                         WishlistItemType.SERIE
                 )
-        );
+        ).subscribe();
 
         verify(wishlistItemDao).delete(
                 new WishlistItem(

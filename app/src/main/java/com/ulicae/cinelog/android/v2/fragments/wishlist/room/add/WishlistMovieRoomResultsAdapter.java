@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.android.v2.fragments.wishlist.add;
 
+import static io.reactivex.rxjava3.schedulers.Schedulers.io;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +18,12 @@ import com.ulicae.cinelog.data.dto.data.MovieToWishlistDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
 import com.ulicae.cinelog.databinding.WishlistSearchResultItemBinding;
+import com.ulicae.cinelog.room.services.WishlistAsyncService;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 /**
  * CineLog Copyright 2022 Pierre Rognon
@@ -39,18 +44,18 @@ import java.util.List;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 // TODO generic with WishlistTvResultsAdapter
-public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
+public class WishlistMovieRoomResultsAdapter extends ArrayAdapter<BaseMovie> {
 
     private MovieToWishlistDataDtoBuilder movieToWishlistDataDtoBuilder;
-    private MovieWishlistService movieWishlistService;
+    private WishlistAsyncService movieWishlistService;
 
     private final WishlistItemCallback wishlistItemCallback;
 
-    public WishlistMovieResultsAdapter(Context context, List<BaseMovie> results, WishlistItemCallback wishlistItemCallback) {
+    public WishlistMovieRoomResultsAdapter(Context context, List<BaseMovie> results, WishlistItemCallback wishlistItemCallback) {
         super(context, R.layout.tmdb_item_row, results);
         this.wishlistItemCallback = wishlistItemCallback;
         this.movieToWishlistDataDtoBuilder = new MovieToWishlistDataDtoBuilder();
-        this.movieWishlistService = new MovieWishlistService(((KinoApplication) context.getApplicationContext()).getDaoSession());
+        this.movieWishlistService = new WishlistAsyncService(((KinoApplication) context.getApplicationContext()).getDb());
     }
 
 
@@ -70,11 +75,22 @@ public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
 
         BaseMovie item = getItem(position);
 
-        WishlistDataDto wishlistDataDto = item != null ? movieWishlistService.getByTmdbId(item.id) : null;
-        if (wishlistDataDto == null) {
-            wishlistDataDto = movieToWishlistDataDtoBuilder.build(item);
+        if(item != null){
+            View finalConvertView = convertView;
+            movieWishlistService.getByTmdbId(item.id)
+                    .subscribeOn(io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext((dataDto) -> {
+                        populateItem(finalConvertView, binding, dataDto);
+                    });
+        } else {
+            populateItem(convertView, binding, movieToWishlistDataDtoBuilder.build(item));
         }
 
+        return convertView;
+    }
+
+    private void populateItem(View convertView, WishlistSearchResultItemBinding binding, WishlistDataDto wishlistDataDto) {
         WishlistItemViewHolder holder = new WishlistItemViewHolder(binding);
 
         populateTitle(wishlistDataDto, holder);
@@ -83,8 +99,6 @@ public class WishlistMovieResultsAdapter extends ArrayAdapter<BaseMovie> {
 
         final WishlistDataDto finalWishlistDataDto = wishlistDataDto;
         convertView.setOnClickListener(v -> wishlistItemCallback.call(finalWishlistDataDto));
-
-        return convertView;
     }
 
     private void populatePoster(WishlistDataDto dataDto, WishlistItemViewHolder holder) {

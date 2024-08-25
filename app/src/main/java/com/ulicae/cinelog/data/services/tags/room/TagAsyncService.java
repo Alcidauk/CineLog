@@ -6,9 +6,9 @@ import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
-import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +74,14 @@ public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<Ta
                 .map(this::getDtoFromDaos);
     }
 
+    @Override
+    public Flowable<TagDto> findById(Long id) {
+        return db.tagDao().find(id)
+                .subscribeOn(io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::buildDtoFromTag);
+    }
+
     public List<TagDto> findMovieTags() {
         // TODO avoid blocking first
         return db.tagDao().findMovieTags()
@@ -101,11 +109,13 @@ public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<Ta
     private List<TagDto> getDtoFromDaos(List<Tag> tags) {
         List<TagDto> tagDtos = new ArrayList<>();
         for (Tag tag : tags) {
-            tagDtos.add(new TagDto(
-                    (long) tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries
-            ));
+            tagDtos.add(buildDtoFromTag(tag));
         }
         return tagDtos;
+    }
+
+    private TagDto buildDtoFromTag(Tag tag) {
+        return new TagDto(tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries);
     }
 
     // TODO remove this method (should use findAll, which is the async method

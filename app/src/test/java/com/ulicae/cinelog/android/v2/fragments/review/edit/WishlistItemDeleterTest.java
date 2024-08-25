@@ -6,10 +6,18 @@ import static org.mockito.Mockito.verify;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.function.Consumer;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 
 /**
  * CineLog Copyright 2019 Pierre Rognon
@@ -39,18 +47,10 @@ public class WishlistItemDeleterTest {
     @Mock
     private WishlistDataDto wishlistDataDto;
 
-    @Test
-    public void deleteWishlistMovieItem() {
-        doReturn(wishlistDataDto).when(wishlistAsyncService).getById(1564L);
-
-        new WishlistItemDeleter(wishlistAsyncService).deleteWishlistItem(1564L);
-
-        verify(wishlistAsyncService).delete(wishlistDataDto);
-    }
 
     @Test
-    public void deleteWishlistSerieItem() {
-        doReturn(wishlistDataDto).when(wishlistAsyncService).getById(1564L);
+    public void deleteWishlistItem() {
+        doReturn(Flowable.just(wishlistDataDto)).when(wishlistAsyncService).findById(1564L);
 
         new WishlistItemDeleter(wishlistAsyncService).deleteWishlistItem(1564L);
 

@@ -168,4 +168,5 @@
     <string name="title_activity_view_room_review">Movie review (Room)\n</string>
     <string name="title_activity_view_room_review_serie">Serie review (Room)</string>
     <string name="tag_deleted">Tag deleted</string>
+    <string name="title_fragment_wishlist_room_movie">Wishlist item (Room)</string>
 </resources>

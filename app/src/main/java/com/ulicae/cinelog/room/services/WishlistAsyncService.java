@@ -3,7 +3,7 @@ package com.ulicae.cinelog.room.services;
 import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
-import com.ulicae.cinelog.data.services.wishlist.WishlistService;
+import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
@@ -14,6 +14,9 @@ import com.ulicae.cinelog.room.entities.WishlistItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -33,7 +36,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class WishlistAsyncService implements WishlistService {
+public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
 
     private WishlistItemDao wishlistItemDao;
 
@@ -61,7 +64,7 @@ public class WishlistAsyncService implements WishlistService {
         this.cinelogSchedulers = cinelogSchedulers;
     }
 
-    public void createSerieData(WishlistDataDto wishlistDataDto) {
+    public Completable createSerieData(WishlistDataDto wishlistDataDto) {
         Tmdb tmdbSerie = null;
         Long tmdbId = wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null;
 
@@ -81,7 +84,8 @@ public class WishlistAsyncService implements WishlistService {
                         wishlistDataDto.getTitle(),
                         tmdbSerie
                 );
-        wishlistItemDao.insert(wishlistItem);
+
+        return wishlistItemDao.insert(wishlistItem);
     }
 
     /**
@@ -91,23 +95,13 @@ public class WishlistAsyncService implements WishlistService {
      * @param type
      * @return
      */
-    public List<WishlistDataDto> getAll(ItemEntityType type) {
-        List<WishlistItem> items = wishlistItemDao.findAll(type).blockingFirst();
-
-        List<WishlistDataDto> wishlistItemDtos = new ArrayList<>();
-        for (WishlistItem item : items) {
-            // TODO créer le builder avec room. wishlistItemDtos.add(wishlistSerieToSerieDataDtoBuilder.buildWishlistDataDto(item));
-        }
-        return wishlistItemDtos;
+    public Flowable<List<WishlistDataDto>> findAllForType(ItemEntityType type) {
+        return wishlistItemDao.findAll(type)
+                .map(this::getDtoFromDaos);
     }
 
-    @Override
-    public List<WishlistDataDto> getAll() {
-        return null;
-    }
-
-    public void delete(WishlistDataDto wishlistDataDto) {
-        wishlistItemDao.delete(
+    public Completable delete(WishlistDataDto wishlistDataDto) {
+        return wishlistItemDao.delete(
                         new WishlistItem(
                                 wishlistDataDto.getId(),
                                 null,
@@ -116,28 +110,43 @@ public class WishlistAsyncService implements WishlistService {
                         )
                 )
                 .subscribeOn(cinelogSchedulers.io())
-                .observeOn(cinelogSchedulers.androidMainThread())
-                .subscribe(); // TODO un toaster ?
+                .observeOn(cinelogSchedulers.androidMainThread());
+    }
+
+    @Override
+    public Flowable<List<WishlistDataDto>> findAll() {
+        return wishlistItemDao
+                .findAll()
+                .map(this::getDtoFromDaos);
+    }
+
+    private List<WishlistDataDto> getDtoFromDaos(List<WishlistItem> items) {
+        List<WishlistDataDto> wishlistDataDtos = new ArrayList<>();
+        for (WishlistItem item : items) {
+            wishlistDataDtos.add(wishlistItemToDataDtoBuilder.build(item, item.tmdb));
+        }
+        return wishlistDataDtos;
+    }
+
+    public Flowable<WishlistDataDto> findById(Long id) {
+        return wishlistItemDao
+                .find(id)
+                .map(wishlistItem ->
+                        wishlistItemToDataDtoBuilder.build(wishlistItem, wishlistItem.tmdb));
     }
 
     /**
-     * TODO gérer l'async
+     * TODO utiliser dans les wishlist results
      *
-     * @param id
+     * @param tmdbId
      * @return
      */
-    @Override
-    public WishlistDataDto getByTmdbId(Integer id) {
+    public Flowable<WishlistDataDto> getByTmdbId(Integer tmdbId) {
         return null;
-        //WishlistSerie wishlistSerie = wishlistSerieRepository.findByTmdbId(id);
-        //return wishlistSerie != null ? wishlistSerieToSerieDataDtoBuilder.build(wishlistSerie) : null;
-    }
-
-    @Override
-    public WishlistDataDto getById(Long id) {
-        WishlistItem item = wishlistItemDao.find(id).blockingFirst();
-
-        return item != null ? wishlistItemToDataDtoBuilder.build(item, item.tmdb) : null;
+                /* wishlistItemDao
+                .findByTmdbId(tmdbId)
+                .map(wishlistItem ->
+                        wishlistItemToDataDtoBuilder.build(wishlistItem, wishlistItem.tmdb)); */
     }
 
     /**
@@ -145,17 +154,10 @@ public class WishlistAsyncService implements WishlistService {
      **/
 
     @Override
-    public WishlistDataDto getWithTmdbId(long tmdbId) {
-        return getByTmdbId(Long.valueOf(tmdbId).intValue());
+    public Completable createOrUpdate(WishlistDataDto dtoObject) {
+        return createSerieData(dtoObject);
     }
 
-    @Override
-    public WishlistDataDto createOrUpdate(WishlistDataDto dtoObject) {
-        createSerieData(dtoObject);
-        return getById(dtoObject.getId());
-    }
-
-    // TODO generification
     @Override
     public void createOrUpdateFromImport(List<WishlistDataDto> dtos) {
         for (WishlistDataDto dto : dtos) {
@@ -166,7 +168,8 @@ public class WishlistAsyncService implements WishlistService {
                 }
             }
 
-            createOrUpdate(dto);
+            // TODO ne pas subscribe ici mais au call de createOrUpdateFromImport
+            createOrUpdate(dto).subscribe();
         }
     }
 }

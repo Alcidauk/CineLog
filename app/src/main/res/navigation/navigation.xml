@@ -94,24 +94,22 @@
     </fragment>
     <fragment
         android:id="@+id/nav_wishlist_room_movie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.MovieWishlistRoomFragment"
-        android:label="@string/title_fragment_wishlist_movie">
+        android:name="com.ulicae.cinelog.room.fragments.wishlist.list.WishlistMovieRoomListFragment">
         <action
-            android:id="@+id/action_nav_wishlist_room_movie_to_wishlistItemFragment"
-            app:destination="@id/wishlistItemFragment" />
+            android:id="@+id/action_nav_wishlist_room_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemRoomFragment" />
         <action
-            android:id="@+id/action_nav_wishlist_room_movie_to_searchTmbdSerieFragment"
+            android:id="@+id/action_nav_wishlist_room_to_searchTmbdSerieFragment"
             app:destination="@id/searchTmbdSerieFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_wishlist_room_serie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.wishlist.list.SerieWishlistRoomFragment"
-        android:label="@string/title_fragment_wishlist_serie" >
+        android:name="com.ulicae.cinelog.room.fragments.wishlist.list.WishlistSerieRoomListFragment">
         <action
-            android:id="@+id/action_nav_wishlist_room_serie_to_wishlistItemFragment"
-            app:destination="@id/wishlistItemFragment" />
+            android:id="@+id/action_nav_wishlist_room_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemRoomFragment" />
         <action
-            android:id="@+id/action_nav_wishlist_room_serie_to_searchTmbdSerieFragment"
+            android:id="@+id/action_nav_wishlist_room_to_searchTmbdSerieFragment"
             app:destination="@id/searchTmbdSerieFragment" />
     </fragment>
     <fragment
@@ -290,6 +288,36 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/nav_wishlist_serie"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishlistItemRoomFragment"
+        android:name="com.ulicae.cinelog.room.fragments.wishlist.item.WishlistItemRoomFragment"
+        android:label="@string/title_fragment_wishlist_room_movie" >
+        <action
+            android:id="@+id/action_wishlistItemRoomFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_wishlistItemRoomFragment_to_nav_wishlist_room_movie"
+            app:destination="@id/nav_wishlist_room_movie"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_wishlist_room_movie"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_wishlistItemRoomFragment_to_nav_wishlist_room_serie"
+            app:destination="@id/nav_wishlist_room_serie"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_reviews_room_serie"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

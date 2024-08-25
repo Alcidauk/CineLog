@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.android.v2.fragments.wishlist.room.add.WishlistItemCallback;
 import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
