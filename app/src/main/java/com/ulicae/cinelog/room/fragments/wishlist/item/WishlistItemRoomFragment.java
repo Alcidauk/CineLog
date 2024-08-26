@@ -59,7 +59,7 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
         wishlistAsyncService = new WishlistAsyncService(appDb);
 
         Long itemId = requireArguments().getLong("wishlistItemId");
-        if(itemId != null && !itemId.equals(0L)){
+        if (itemId != null && !itemId.equals(0L)) {
             fetchWishlistItem(itemId).subscribe();
         } else {
             this.item = Parcels.unwrap(requireArguments().getParcelable("dataDto"));
@@ -70,7 +70,7 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
     }
 
     private Flowable<WishlistDataDto> fetchWishlistItem(long itemId) {
-        return  wishlistAsyncService.findById(itemId)
+        return wishlistAsyncService.findById(itemId)
                 .subscribeOn(Schedulers.io())
                 .doOnNext(item -> this.item = item)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -137,13 +137,12 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
     }
 
     private void addToWishlist() {
-        if (item.getWishlistItemType() == WishlistItemType.SERIE) {
-            // TODO serieWishlistService.createSerieData(item);
-            Toast.makeText(requireContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-        } else if (item.getWishlistItemType() == WishlistItemType.MOVIE) {
-            // TODO movieWishlistService.createMovieData(item);
-            Toast.makeText(requireContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
-        }
+        wishlistAsyncService.createOrUpdate(item)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+
+        Toast.makeText(requireContext(), getString(R.string.wishlist_item_added), Toast.LENGTH_LONG).show();
 
         ((MainActivity) requireActivity()).navigateBackToWishlist(item.getWishlistItemType());
     }

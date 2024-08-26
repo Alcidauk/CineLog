@@ -68,8 +68,8 @@ public class WishlistAsyncServiceTest {
     }
 
     @Test
-    public void createSerieData() {
-        new WishlistAsyncService(db).createSerieData(
+    public void testInsertSerie() {
+        new WishlistAsyncService(db).insert(
                 new WishlistDataDto(
                         12L,
                         264564L,
@@ -84,8 +84,39 @@ public class WishlistAsyncServiceTest {
 
         verify(wishlistItemDao).insert(
                 new WishlistItem(
-                        12L,
+                        0L,
                         ItemEntityType.SERIE,
+                        "A title",
+                        new Tmdb(
+                                264564L,
+                                "a poster path",
+                                "an overview",
+                                2013,
+                                "a release date"
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void testInsertMovie() {
+        new WishlistAsyncService(db).insert(
+                new WishlistDataDto(
+                        12L,
+                        264564L,
+                        "A title",
+                        "a poster path",
+                        "an overview",
+                        2013,
+                        "a release date",
+                        WishlistItemType.MOVIE
+                )
+        );
+
+        verify(wishlistItemDao).insert(
+                new WishlistItem(
+                        0L,
+                        ItemEntityType.MOVIE,
                         "A title",
                         new Tmdb(
                                 264564L,

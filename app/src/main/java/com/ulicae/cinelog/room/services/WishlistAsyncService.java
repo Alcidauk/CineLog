@@ -2,6 +2,7 @@ package com.ulicae.cinelog.room.services;
 
 import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.room.AppDatabase;
@@ -64,7 +65,7 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
         this.cinelogSchedulers = cinelogSchedulers;
     }
 
-    public Completable createSerieData(WishlistDataDto wishlistDataDto) {
+    public Completable insert(WishlistDataDto wishlistDataDto) {
         Tmdb tmdbSerie = null;
         Long tmdbId = wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null;
 
@@ -79,8 +80,9 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
 
         WishlistItem wishlistItem =
                 new WishlistItem(
-                        wishlistDataDto.getId(),
-                        ItemEntityType.SERIE,
+                        0L,
+                        wishlistDataDto.getWishlistItemType() == WishlistItemType.MOVIE ?
+                                ItemEntityType.MOVIE : ItemEntityType.SERIE,
                         wishlistDataDto.getTitle(),
                         tmdbSerie
                 );
@@ -147,7 +149,7 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
 
     @Override
     public Completable createOrUpdate(WishlistDataDto dtoObject) {
-        return createSerieData(dtoObject);
+        return insert(dtoObject);
     }
 
     @Override
