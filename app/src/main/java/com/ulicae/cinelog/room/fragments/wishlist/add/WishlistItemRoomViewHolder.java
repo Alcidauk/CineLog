@@ -1,7 +1,9 @@
-package com.ulicae.cinelog.android.v2.fragments.wishlist.room.add;
+package com.ulicae.cinelog.room.fragments.wishlist.add;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
 
 import com.ulicae.cinelog.databinding.WishlistSearchResultItemBinding;
 
@@ -42,5 +44,7 @@ public class WishlistItemRoomViewHolder {
     public ImageView getPoster() {
         return binding.kinoPoster;
     }
+
+    public CardView getCardView() { return binding.kinoCardView; }
 
 }

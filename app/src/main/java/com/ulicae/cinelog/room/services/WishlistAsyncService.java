@@ -135,18 +135,10 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
                         wishlistItemToDataDtoBuilder.build(wishlistItem, wishlistItem.tmdb));
     }
 
-    /**
-     * TODO utiliser dans les wishlist results
-     *
-     * @param tmdbId
-     * @return
-     */
     public Flowable<WishlistDataDto> getByTmdbId(Integer tmdbId) {
-        return null;
-                /* wishlistItemDao
+        return wishlistItemDao
                 .findByTmdbId(tmdbId)
-                .map(wishlistItem ->
-                        wishlistItemToDataDtoBuilder.build(wishlistItem, wishlistItem.tmdb)); */
+                .map(wishlistItem -> wishlistItemToDataDtoBuilder.build(wishlistItem, wishlistItem.tmdb));
     }
 
     /**
