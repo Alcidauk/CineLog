@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.wishlist.room.add;
+package com.ulicae.cinelog.room.fragments.wishlist.add;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 

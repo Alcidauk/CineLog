@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.wishlist.add;
+package com.ulicae.cinelog.room.fragments.wishlist.add;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.fragments.wishlist.room.add.WishlistItemCallback;
 import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
@@ -38,13 +37,13 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
+public class WishlistTvRoomResultsAdapter extends ArrayAdapter<BaseTvShow> {
 
     private TvShowToSerieDataDtoBuilder tvShowToSerieDataDtoBuilder;
     private SerieWishlistService serieWishlistService;
     private WishlistItemCallback wishlistItemCallback;
 
-    public WishlistTvResultsAdapter(Context context, List<BaseTvShow> results, WishlistItemCallback wishlistItemCallback) {
+    public WishlistTvRoomResultsAdapter(Context context, List<BaseTvShow> results, WishlistItemCallback wishlistItemCallback) {
         super(context, R.layout.tmdb_item_row, results);
         this.wishlistItemCallback = wishlistItemCallback;
         this.tvShowToSerieDataDtoBuilder = new TvShowToSerieDataDtoBuilder();
@@ -73,7 +72,7 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
             wishlistDataDto = tvShowToSerieDataDtoBuilder.build(item);
         }
 
-        WishlistItemViewHolder holder = new WishlistItemViewHolder(binding);
+        WishlistItemRoomViewHolder holder = new WishlistItemRoomViewHolder(binding);
 
         populateTitle(wishlistDataDto, holder);
         populateYear(wishlistDataDto, holder);
@@ -85,7 +84,7 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
         return convertView;
     }
 
-    private void populatePoster(WishlistDataDto kinoDto, WishlistItemViewHolder holder) {
+    private void populatePoster(WishlistDataDto kinoDto, WishlistItemRoomViewHolder holder) {
         if (kinoDto.getPosterPath() != null) {
             Glide.with(getContext())
                     .load("https://image.tmdb.org/t/p/w185" + kinoDto.getPosterPath())
@@ -101,7 +100,7 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
         }
     }
 
-    private void populateYear(WishlistDataDto wishlistDataDto, WishlistItemViewHolder holder) {
+    private void populateYear(WishlistDataDto wishlistDataDto, WishlistItemRoomViewHolder holder) {
         if (wishlistDataDto.getReleaseDate() != null && !wishlistDataDto.getReleaseDate().equals("")) {
             holder.getYear().setText(String.format("%d", wishlistDataDto.getFirstYear()));
         } else {
@@ -109,7 +108,7 @@ public class WishlistTvResultsAdapter extends ArrayAdapter<BaseTvShow> {
         }
     }
 
-    private void populateTitle(WishlistDataDto wishlistDataDto, WishlistItemViewHolder holder) {
+    private void populateTitle(WishlistDataDto wishlistDataDto, WishlistItemRoomViewHolder holder) {
         holder.getTitle().setText(wishlistDataDto.getTitle() != null ? wishlistDataDto.getTitle() : "");
     }
 }
