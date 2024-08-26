@@ -59,10 +59,11 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
         wishlistAsyncService = new WishlistAsyncService(appDb);
 
         Long itemId = requireArguments().getLong("wishlistItemId");
-        if(itemId != null){
+        if(itemId != null && !itemId.equals(0L)){
             fetchWishlistItem(itemId).subscribe();
         } else {
-            item = Parcels.unwrap(requireArguments().getParcelable("dataDto"));
+            this.item = Parcels.unwrap(requireArguments().getParcelable("dataDto"));
+            initItem();
         }
 
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
@@ -74,12 +75,17 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
                 .doOnNext(item -> this.item = item)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(item -> {
-                    this.initFields();
-                    this.initFabButton();
-
-                    String tmdbType = item.getWishlistItemType() == WishlistItemType.SERIE ? "tv" : "movie";
-                    setLinkBaseUrl(String.format("https://www.themoviedb.org/%s/", tmdbType));
+                    this.item = item;
+                    initItem();
                 });
+    }
+
+    private void initItem() {
+        this.initFields();
+        this.initFabButton();
+
+        String tmdbType = item.getWishlistItemType() == WishlistItemType.SERIE ? "tv" : "movie";
+        setLinkBaseUrl(String.format("https://www.themoviedb.org/%s/", tmdbType));
     }
 
     private void initFields() {
