@@ -19,13 +19,12 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.review.add.ReviewCreationCallback;
 import com.ulicae.cinelog.android.v2.fragments.review.add.ReviewItemCallback;
-import com.ulicae.cinelog.android.v2.fragments.wishlist.room.add.WishlistItemCallback;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.data.services.reviews.DataService;
 import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
 import com.ulicae.cinelog.network.TmdbServiceWrapper;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
+import com.ulicae.cinelog.room.fragments.wishlist.add.WishlistItemCallback;
 import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
 
 import org.parceler.Parcels;
@@ -58,8 +57,6 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
 
     protected TmdbServiceWrapper tmdbServiceWrapper;
     protected NetworkTaskManager networkTaskManager;
-
-    protected DataService dataService;
 
     protected final ReviewItemCallback movieSearchResultClickCallback =
             (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToItem(kinoDto, position, inDb, true, false);

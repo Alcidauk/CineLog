@@ -11,21 +11,21 @@ import androidx.annotation.Nullable;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.fragments.review.add.TmdbMovieResultsAdapter;
-import com.ulicae.cinelog.android.v2.fragments.wishlist.add.WishlistMovieResultsAdapter;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
+import com.ulicae.cinelog.android.v2.fragments.review.add.TmdbMovieResultsAdapter;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
 import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
+import com.ulicae.cinelog.room.fragments.wishlist.add.WishlistMovieRoomResultsAdapter;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,11 +69,6 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
         toWishlist = requireArguments().getBoolean("toWishlist", false);
 
         networkTaskManager = new NetworkTaskManager(this, new MovieNetworkTaskCreator());
-        KinoApplication application = (KinoApplication) getActivity().getApplication();
-        dataService = new KinoService(
-                application.getDaoSession(),
-                application.getDb()
-        );
     }
 
     @Override
@@ -118,7 +113,7 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
                     movieSearchResultClickCallback,
                     movieReviewCreationClickCallback);
         } else {
-            arrayAdapter = new WishlistMovieResultsAdapter(
+            arrayAdapter = new WishlistMovieRoomResultsAdapter(
                     requireContext(),
                     movies,
                     wishlistItemCallback);

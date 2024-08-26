@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.android.v2.fragments.tmdbsearch;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +11,15 @@ import androidx.annotation.Nullable;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.android.v2.fragments.review.add.TmdbTvResultsAdapter;
-import com.ulicae.cinelog.android.v2.fragments.wishlist.add.WishlistTvResultsAdapter;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
+import com.ulicae.cinelog.android.v2.fragments.review.add.TmdbTvResultsAdapter;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
 import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
+import com.ulicae.cinelog.room.fragments.wishlist.add.WishlistTvRoomResultsAdapter;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 
@@ -72,13 +70,6 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
 
         networkTaskManager = new NetworkTaskManager(this, new TvNetworkTaskCreator());
 
-        KinoApplication application = (KinoApplication) getActivity().getApplication();
-        dataService = new SerieService(
-                application.getDaoSession(),
-                application.getDb(),
-                requireContext()
-        );
-
         binding.kinoSearchAddFromScratch.setText(getString(R.string.add_serie_from_scratch_label));
         binding.kinoSearch.setHint(getString(R.string.serie_title_hint));
     }
@@ -126,7 +117,7 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
                     movieSearchResultClickCallback,
                     movieReviewCreationClickCallback);
         } else {
-            arrayAdapter = new WishlistTvResultsAdapter(
+            arrayAdapter = new WishlistTvRoomResultsAdapter(
                     requireContext(),
                     tvShows,
                     wishlistItemCallback);
