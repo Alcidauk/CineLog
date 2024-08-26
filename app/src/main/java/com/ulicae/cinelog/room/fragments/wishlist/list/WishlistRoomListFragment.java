@@ -109,7 +109,7 @@ public class WishlistRoomListFragment extends Fragment {
                     .doOnNext((wishlistItems) -> {
                         this.dataDtos = wishlistItems;
 
-                        listAdapter = new WishlistListRoomAdapter(getContext(), dataDtos);
+                        listAdapter = new WishlistListRoomAdapter(requireContext(), dataDtos);
                         getWishlistItemList().setAdapter(listAdapter);
                     })
                     .subscribe();

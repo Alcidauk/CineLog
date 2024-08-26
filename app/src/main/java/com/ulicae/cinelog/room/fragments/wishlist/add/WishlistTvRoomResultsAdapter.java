@@ -1,26 +1,15 @@
 package com.ulicae.cinelog.room.fragments.wishlist.add;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
-import androidx.annotation.NonNull;
-
-import com.bumptech.glide.Glide;
-import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
-import com.ulicae.cinelog.databinding.WishlistSearchResultItemBinding;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 
 import java.util.List;
 
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -37,78 +26,24 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class WishlistTvRoomResultsAdapter extends ArrayAdapter<BaseTvShow> {
+public class WishlistTvRoomResultsAdapter extends WishlistRoomResultsAdapter<BaseTvShow> {
 
     private TvShowToSerieDataDtoBuilder tvShowToSerieDataDtoBuilder;
-    private SerieWishlistService serieWishlistService;
-    private WishlistItemCallback wishlistItemCallback;
+
 
     public WishlistTvRoomResultsAdapter(Context context, List<BaseTvShow> results, WishlistItemCallback wishlistItemCallback) {
-        super(context, R.layout.tmdb_item_row, results);
-        this.wishlistItemCallback = wishlistItemCallback;
+        super(context, results, wishlistItemCallback);
         this.tvShowToSerieDataDtoBuilder = new TvShowToSerieDataDtoBuilder();
-        this.serieWishlistService = new SerieWishlistService(((KinoApplication) context.getApplicationContext()).getDaoSession());
     }
 
-
-    public long getItemId(int position) {
-        return 0;
+    @Override
+    protected WishlistDataDto build(BaseTvShow item) {
+        return tvShowToSerieDataDtoBuilder.build(item);
     }
 
-    @NonNull
-    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
-        WishlistSearchResultItemBinding binding;
-        if (convertView == null) {
-            binding = WishlistSearchResultItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            convertView = binding.getRoot();
-        } else {
-            binding = WishlistSearchResultItemBinding.bind(convertView);
-        }
-
-        BaseTvShow item = getItem(position);
-
-        WishlistDataDto wishlistDataDto = item != null ? serieWishlistService.getByTmdbId(item.id) : null;
-        if (wishlistDataDto == null) {
-            wishlistDataDto = tvShowToSerieDataDtoBuilder.build(item);
-        }
-
-        WishlistItemRoomViewHolder holder = new WishlistItemRoomViewHolder(binding);
-
-        populateTitle(wishlistDataDto, holder);
-        populateYear(wishlistDataDto, holder);
-        populatePoster(wishlistDataDto, holder);
-
-        final WishlistDataDto finalWishlistDataDto = wishlistDataDto;
-        convertView.setOnClickListener(v -> wishlistItemCallback.call(finalWishlistDataDto));
-
-        return convertView;
+    @Override
+    protected int getId(BaseTvShow item) {
+        return item.id;
     }
 
-    private void populatePoster(WishlistDataDto kinoDto, WishlistItemRoomViewHolder holder) {
-        if (kinoDto.getPosterPath() != null) {
-            Glide.with(getContext())
-                    .load("https://image.tmdb.org/t/p/w185" + kinoDto.getPosterPath())
-                    .centerCrop()
-                    .crossFade()
-                    .into(holder.getPoster());
-        } else {
-            Glide.with(getContext())
-                    .load(R.drawable.noimage_purple)
-                    .centerCrop()
-                    .crossFade()
-                    .into(holder.getPoster());
-        }
-    }
-
-    private void populateYear(WishlistDataDto wishlistDataDto, WishlistItemRoomViewHolder holder) {
-        if (wishlistDataDto.getReleaseDate() != null && !wishlistDataDto.getReleaseDate().equals("")) {
-            holder.getYear().setText(String.format("%d", wishlistDataDto.getFirstYear()));
-        } else {
-            holder.getYear().setText("");
-        }
-    }
-
-    private void populateTitle(WishlistDataDto wishlistDataDto, WishlistItemRoomViewHolder holder) {
-        holder.getTitle().setText(wishlistDataDto.getTitle() != null ? wishlistDataDto.getTitle() : "");
-    }
 }
