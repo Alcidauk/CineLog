@@ -82,7 +82,7 @@ public class SerieReviewRoomListFragment extends ReviewRoomListFragment<SerieDto
 
     @Override
     protected void onFabClick() {
-        ((MainActivity) requireActivity()).goToTmdbMovieSearch(false);
+        ((MainActivity) requireActivity()).goToTmdbSerieSearch(false);
     }
 
     private int getOrderFromPreferences() {

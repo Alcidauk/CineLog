@@ -157,8 +157,11 @@ public class WishlistRoomListFragment extends Fragment {
     }
 
     protected void onFabClick() {
-        // TODO movie or serie
-        ((MainActivity) requireActivity()).goToTmdbMovieSearch(true);
+        if(itemEntityType == ItemEntityType.MOVIE) {
+            ((MainActivity) requireActivity()).goToTmdbMovieSearch(true);
+        } else {
+            ((MainActivity) requireActivity()).goToTmdbSerieSearch(true);
+        }
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

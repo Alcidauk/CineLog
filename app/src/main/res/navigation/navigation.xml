@@ -86,7 +86,7 @@
             app:destination="@id/wishlistItemRoomFragment" />
         <action
             android:id="@+id/action_nav_wishlist_room_to_searchTmbdMovieFragment"
-            app:destination="@id/searchTmbdSerieFragment" />
+            app:destination="@id/searchTmdbMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_wishlist_room_serie"
