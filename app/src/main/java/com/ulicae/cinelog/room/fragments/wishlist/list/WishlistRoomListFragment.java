@@ -157,7 +157,7 @@ public class WishlistRoomListFragment extends Fragment {
     }
 
     protected void onFabClick() {
-        if(itemEntityType == ItemEntityType.MOVIE) {
+        if (itemEntityType == ItemEntityType.MOVIE) {
             ((MainActivity) requireActivity()).goToTmdbMovieSearch(true);
         } else {
             ((MainActivity) requireActivity()).goToTmdbSerieSearch(true);
@@ -179,8 +179,8 @@ public class WishlistRoomListFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        if(this.disposables != null){
-            for(Disposable disposable : disposables) {
+        if (this.disposables != null) {
+            for (Disposable disposable : disposables) {
                 disposable.dispose();
             }
         }
