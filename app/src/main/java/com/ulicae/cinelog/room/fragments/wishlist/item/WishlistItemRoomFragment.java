@@ -59,7 +59,11 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
         wishlistAsyncService = new WishlistAsyncService(appDb);
 
         Long itemId = requireArguments().getLong("wishlistItemId");
-        fetchWishlistItem(itemId).subscribe();
+        if(itemId != null){
+            fetchWishlistItem(itemId).subscribe();
+        } else {
+            item = Parcels.unwrap(requireArguments().getParcelable("dataDto"));
+        }
 
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }

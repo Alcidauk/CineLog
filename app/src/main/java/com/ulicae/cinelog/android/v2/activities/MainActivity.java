@@ -277,7 +277,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void navigateToWishlistItem(WishlistDataDto dataDto, int action) {
         Bundle args = new Bundle();
-        args.putLong("wishlistItemId", dataDto.getId());
+
+        if(dataDto.getId() != null) {
+            args.putLong("wishlistItemId", dataDto.getId());
+        } else {
+            args.putParcelable("dataDto", Parcels.wrap(dataDto));
+        }
+
         navController.navigate(action, args);
     }
 
