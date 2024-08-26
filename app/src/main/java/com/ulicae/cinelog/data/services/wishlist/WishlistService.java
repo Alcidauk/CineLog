@@ -23,6 +23,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
+@Deprecated
 public interface WishlistService extends DataService<WishlistDataDto> {
 
     List<WishlistDataDto> getAll();

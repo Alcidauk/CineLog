@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
         Set<Integer> topLevelDestinations = new HashSet<Integer>() {{
             add(R.id.nav_reviews_movie);
             add(R.id.nav_reviews_serie);
-            add(R.id.nav_wishlist_movie);
-            add(R.id.nav_wishlist_serie);
             add(R.id.nav_reviews_room_movie);
             add(R.id.nav_reviews_room_serie);
             add(R.id.nav_wishlist_room_movie);
@@ -177,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         args.putBoolean("toWishlist", wishlist);
 
         if (wishlist) {
-            navController.navigate(R.id.action_nav_wishlist_movie_to_searchTmdbMovieFragment, args);
+            navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdMovieFragment, args);
         } else {
             navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieFragment, args);
         }
@@ -188,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         args.putBoolean("toWishlist", wishlist);
 
         if (wishlist) {
-            navController.navigate(R.id.action_nav_wishlist_serie_to_searchTmbdSerieFragment, args);
+            navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdSerieFragment, args);
         } else {
             navController.navigate(R.id.action_nav_reviews_serie_to_searchTmbdSerieFragment, args);
         }
@@ -298,8 +296,8 @@ public class MainActivity extends AppCompatActivity {
     public void navigateBackToWishlist(WishlistItemType type) {
         navController.navigate(
                 type == WishlistItemType.SERIE ?
-                        R.id.action_wishlistItemFragment_to_nav_wishlist_serie :
-                        R.id.action_wishlistItemFragment_to_nav_wishlist_movie
+                        R.id.action_wishlistItemRoomFragment_to_nav_wishlist_room_serie :
+                        R.id.action_wishlistItemRoomFragment_to_nav_wishlist_room_movie
         );
     }
 
