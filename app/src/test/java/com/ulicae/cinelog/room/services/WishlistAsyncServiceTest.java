@@ -5,9 +5,11 @@ import static org.mockito.Mockito.verify;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
+import com.ulicae.cinelog.room.dto.utils.to.WishlistItemToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
@@ -18,7 +20,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Scheduler;
 
 /**
@@ -136,8 +141,8 @@ public class WishlistAsyncServiceTest {
                 wishlistItemDao,
                 null,
                 null,
-                cinelogSchedulers
-
+                cinelogSchedulers,
+                null
         );
 
         doReturn(deleteCompletable).when(wishlistItemDao).delete(
@@ -175,5 +180,71 @@ public class WishlistAsyncServiceTest {
         );
 
         verify(deleteCompletable).subscribe();
+    }
+
+    @Test
+    public void findAll() {
+        WishlistAsyncService wishlistAsyncService = new WishlistAsyncService(
+                wishlistItemDao,
+                null,
+                null,
+                cinelogSchedulers,
+                null
+        );
+
+        doReturn(Flowable.just(
+                new WishlistDataDto()
+        )).when(wishlistItemDao).findAll();
+
+        wishlistAsyncService.findAll();
+
+        verify(wishlistItemDao).findAll();
+    }
+
+    @Test
+    public void findAllMovies() {
+        WishlistAsyncService wishlistAsyncService = new WishlistAsyncService(
+                wishlistItemDao,
+                new WishlistSerieToSerieDataDtoBuilder(),
+                new WishlistItemToDataDtoBuilder(),
+                cinelogSchedulers,
+                ItemEntityType.MOVIE
+        );
+
+        doReturn(Flowable.just(
+                new ArrayList() {{
+                    add(new WishlistItem(2L, ItemEntityType.MOVIE, "a title", null));
+                }}
+        )).when(wishlistItemDao).findAll(ItemEntityType.MOVIE);
+
+        wishlistAsyncService.findAll().test().assertValue(
+                new ArrayList<WishlistDataDto>() {{
+                    add(new WishlistDataDto(2L, null, "a title", null, null, 0, null, WishlistItemType.MOVIE));
+                }}
+        );
+    }
+
+    @Test
+    public void findAllSeries() {
+        WishlistAsyncService wishlistAsyncService = new WishlistAsyncService(
+                wishlistItemDao,
+                new WishlistSerieToSerieDataDtoBuilder(),
+                new WishlistItemToDataDtoBuilder(),
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        );
+
+        doReturn(Flowable.just(
+                new ArrayList() {{
+                    add(new WishlistItem(2L, ItemEntityType.SERIE, "a title", null));
+                }}
+        )).when(wishlistItemDao).findAll(ItemEntityType.SERIE);
+
+        wishlistAsyncService.findAll().test().assertValue(
+                new ArrayList<WishlistDataDto>() {{
+                    add(new WishlistDataDto(2L, null, "a title", null, null, 0, null, WishlistItemType.SERIE));
+                }}
+        );
+
     }
 }

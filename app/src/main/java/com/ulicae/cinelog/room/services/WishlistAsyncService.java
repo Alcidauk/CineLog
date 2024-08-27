@@ -46,23 +46,32 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
 
     private CinelogSchedulers cinelogSchedulers;
 
+    private ItemEntityType itemEntityType;
+
     public WishlistAsyncService(AppDatabase db) {
+        this(db, null);
+    }
+
+    public WishlistAsyncService(AppDatabase db, ItemEntityType itemEntityType) {
         this(
                 db.wishlistItemDao(),
                 new WishlistSerieToSerieDataDtoBuilder(),
                 new WishlistItemToDataDtoBuilder(),
-                new CinelogSchedulers()
+                new CinelogSchedulers(),
+                itemEntityType
         );
     }
 
     WishlistAsyncService(WishlistItemDao wishlistItemDao,
                          WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder,
                          WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder,
-                         CinelogSchedulers cinelogSchedulers) {
+                         CinelogSchedulers cinelogSchedulers,
+                         ItemEntityType itemEntityType) {
         this.wishlistItemDao = wishlistItemDao;
         this.wishlistSerieToSerieDataDtoBuilder = wishlistSerieToSerieDataDtoBuilder;
         this.wishlistItemToDataDtoBuilder = wishlistItemToDataDtoBuilder;
         this.cinelogSchedulers = cinelogSchedulers;
+        this.itemEntityType = itemEntityType;
     }
 
     public Completable insert(WishlistDataDto wishlistDataDto) {
@@ -117,9 +126,11 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
 
     @Override
     public Flowable<List<WishlistDataDto>> findAll() {
-        return wishlistItemDao
-                .findAll()
-                .map(this::getDtoFromDaos);
+        if(this.itemEntityType == null) {
+            return wishlistItemDao.findAll().map(this::getDtoFromDaos);
+        } else {
+            return wishlistItemDao.findAll(this.itemEntityType).map(this::getDtoFromDaos);
+        }
     }
 
     private List<WishlistDataDto> getDtoFromDaos(List<WishlistItem> items) {
