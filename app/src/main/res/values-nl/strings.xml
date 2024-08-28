@@ -59,8 +59,7 @@
     <string name="action_export">Exporteren</string>
     <string name="export_start_toast">Bezig met voorbereiden…</string>
     <string name="export_succeeded_toast">Exporteren voltooid. Zie export_movies.csv, export_series.csv, export_wishlist_movies.csv en export_wishlist_series.csv in de hoofdopslagmap.</string>
-    <string name="export_io_error_toast">Er is een i/o-fout opgetreden tijdens het exporteren. Controleer de machtigingen.</string>
-    <string name="export_permission_error_toast">Het exporteren naar de externe opslag is mislukt omdat CineLog hiertoe niet gemachtigd is.</string>
+    <string name="export_io_error_toast">Er is een i/o-fout opgetreden tijdens het exporteren.</string>
 
     <string name="action_import">Importeren</string>
     <string name="title_activity_import_db">CSV-bestand importeren</string>

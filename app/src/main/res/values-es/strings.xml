@@ -56,8 +56,7 @@
     <string name="action_export">Exportar</string>
     <string name="export_start_toast">Iniciando exportación…</string>
     <string name="export_succeeded_toast">… exportación terminada. Revise los archivos export_movies.csv, export_series.csv, export_wishlist_movies.csv y export_wishlist_series.csv en el almacenamiento raíz.</string>
-    <string name="export_io_error_toast">Un problema I/O ocurrió durante la exportación. Compruebe sus permisos.</string>
-    <string name="export_permission_error_toast">No es posible exportar por falta de permisos de escritura del almacenamiento externo para CineLog.</string>
+    <string name="export_io_error_toast">Un problema I/O ocurrió durante la exportación.</string>
 
     <string name="action_import">Importar</string>
     <string name="title_activity_import_db">Importar archivo CSV</string>

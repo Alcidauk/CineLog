@@ -55,12 +55,11 @@
 
     <string name="title_activity_export_db">Export data</string>
     <string name="export_db">Export data as CSV</string>
-    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export_movies.csv\' and \'export_series.csv\' in \'media/com.ulicae.cinego\'. You will be able to import this backup if you need it.</string>
+    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export_****.csv\' in the directory you will choose. You will be able to import this backup if you need it.</string>
     <string name="action_export">Export</string>
     <string name="export_start_toast">Export starting…</string>
-    <string name="export_succeeded_toast">… export succeeded. See export_movies.csv and export_series.csv files in \'media/com.ulicae.cinego\'.</string>
-    <string name="export_io_error_toast">An I/O error occurred during export. Verify your permissions.</string>
-    <string name="export_permission_error_toast">Can\'t export since external storage writing is not allowed for CineLog.</string>
+    <string name="export_succeeded_toast">… export succeeded. Files are now available in your chosen directory.</string>
+    <string name="export_io_error_toast">An I/O error occurred during export.</string>
 
     <string name="action_import">Import</string>
     <string name="title_activity_import_db">CSV File import</string>

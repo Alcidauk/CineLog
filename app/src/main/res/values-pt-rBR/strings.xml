@@ -57,8 +57,7 @@
     <string name="action_export">Exportar</string>
     <string name="export_start_toast">Iniciando exportação…</string>
     <string name="export_succeeded_toast">… exportação concluída. Ver export_movies.csv e export_series.csv files em \'media/com.ulicae.cinego\'.</string>
-    <string name="export_io_error_toast">Um erro de I/O ocorreu durante a exportação. Verifique suas permissões.</string>
-    <string name="export_permission_error_toast">Não foi possível exportar, pois a escrita na memória externa não é permitida para CineLog.</string>
+    <string name="export_io_error_toast">Um erro de I/O ocorreu durante a exportação.</string>
 
     <string name="action_import">Importar</string>
     <string name="title_activity_import_db">Importar arquivo CSV</string>

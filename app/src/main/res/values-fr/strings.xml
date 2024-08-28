@@ -59,8 +59,7 @@
     <string name="action_export">Exporter</string>
     <string name="export_start_toast">Export démarré…</string>
     <string name="export_succeeded_toast">… export terminé. Vérifiez les fichiers export_movies.csv et export_series.csv générés dans media/com.ulicae.cinego</string>
-    <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu. Vérifiez les permissions accordées à l\'application.</string>
-    <string name="export_permission_error_toast">Impossible d\'exporter sans autoriser la permission de stockage à CinéLog.</string>
+    <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu.</string>
 
     <string name="action_import">Importer</string>
     <string name="title_activity_import_db">Import d\'un fichier CSV</string>
