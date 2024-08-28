@@ -49,7 +49,7 @@ public class WishlistItemToDataDtoBuilder {
                 null,
                 0,
                 null,
-                WishlistItemType.MOVIE
+                wishlistItem.getItemEntityType() == ItemEntityType.MOVIE ? WishlistItemType.MOVIE : WishlistItemType.SERIE
         );
     }
 }
