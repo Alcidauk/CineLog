@@ -1,9 +1,7 @@
 package com.ulicae.cinelog.room.services;
 
-import com.ulicae.cinelog.data.dao.WishlistSerie;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.CinelogSchedulers;
@@ -41,7 +39,6 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
 
     private WishlistItemDao wishlistItemDao;
 
-    private WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder;
     private WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder;
 
     private CinelogSchedulers cinelogSchedulers;
@@ -55,7 +52,6 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
     public WishlistAsyncService(AppDatabase db, ItemEntityType itemEntityType) {
         this(
                 db.wishlistItemDao(),
-                new WishlistSerieToSerieDataDtoBuilder(),
                 new WishlistItemToDataDtoBuilder(),
                 new CinelogSchedulers(),
                 itemEntityType
@@ -63,12 +59,10 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
     }
 
     WishlistAsyncService(WishlistItemDao wishlistItemDao,
-                         WishlistSerieToSerieDataDtoBuilder wishlistSerieToSerieDataDtoBuilder,
                          WishlistItemToDataDtoBuilder wishlistItemToDataDtoBuilder,
                          CinelogSchedulers cinelogSchedulers,
                          ItemEntityType itemEntityType) {
         this.wishlistItemDao = wishlistItemDao;
-        this.wishlistSerieToSerieDataDtoBuilder = wishlistSerieToSerieDataDtoBuilder;
         this.wishlistItemToDataDtoBuilder = wishlistItemToDataDtoBuilder;
         this.cinelogSchedulers = cinelogSchedulers;
         this.itemEntityType = itemEntityType;
@@ -167,13 +161,6 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
     public Completable createOrUpdate(List<WishlistDataDto> dtos) {
         List<WishlistItem> items = new ArrayList<>();
         for (WishlistDataDto dto : dtos) {
-            if (dto.getId() == null) {
-                WishlistSerie existingDto = null; // TODO ishlistSerieRepository.findByTmdbId(dto.getTmdbId());
-                if (existingDto != null) {
-                    dto.setId(existingDto.getWishlist_serie_id());
-                }
-            }
-
             items.add(buildItem(dto));
         }
 

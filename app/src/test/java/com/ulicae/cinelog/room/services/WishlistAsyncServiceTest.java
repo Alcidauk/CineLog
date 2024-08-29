@@ -5,7 +5,6 @@ import static org.mockito.Mockito.verify;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.data.dto.data.WishlistSerieToSerieDataDtoBuilder;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
@@ -143,7 +142,6 @@ public class WishlistAsyncServiceTest {
         WishlistAsyncService wishlistAsyncService = new WishlistAsyncService(
                 wishlistItemDao,
                 null,
-                null,
                 cinelogSchedulers,
                 null
         );
@@ -190,7 +188,6 @@ public class WishlistAsyncServiceTest {
         WishlistAsyncService wishlistAsyncService = new WishlistAsyncService(
                 wishlistItemDao,
                 null,
-                null,
                 cinelogSchedulers,
                 null
         );
@@ -208,7 +205,6 @@ public class WishlistAsyncServiceTest {
     public void findAllMovies() {
         WishlistAsyncService wishlistAsyncService = new WishlistAsyncService(
                 wishlistItemDao,
-                new WishlistSerieToSerieDataDtoBuilder(),
                 new WishlistItemToDataDtoBuilder(),
                 cinelogSchedulers,
                 ItemEntityType.MOVIE
@@ -231,7 +227,6 @@ public class WishlistAsyncServiceTest {
     public void findAllSeries() {
         WishlistAsyncService wishlistAsyncService = new WishlistAsyncService(
                 wishlistItemDao,
-                new WishlistSerieToSerieDataDtoBuilder(),
                 new WishlistItemToDataDtoBuilder(),
                 cinelogSchedulers,
                 ItemEntityType.SERIE
