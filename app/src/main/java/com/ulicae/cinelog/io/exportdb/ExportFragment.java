@@ -21,6 +21,7 @@ import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.TagCsvExporterFactory;
+import com.ulicae.cinelog.utils.ToasterWrapper;
 import com.ulicae.cinelog.io.exportdb.exporter.WishlistCsvExporterFactory;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
@@ -54,25 +55,33 @@ public class ExportFragment extends Fragment {
     };
 
     private void exportData(KinoApplication app, DocumentFile documentFile) {
+        ToasterWrapper toasterWrapper = new ToasterWrapper(getContext());
         exportForType(
                 app,
                 documentFile,
                 "export_wishlist_series.csv",
-                new WishlistCsvExporterFactory(new WishlistAsyncService(app.getDb(), ItemEntityType.SERIE))
+                new WishlistCsvExporterFactory(
+                        new WishlistAsyncService(app.getDb(), ItemEntityType.SERIE),
+                        toasterWrapper
+                )
+
         );
 
         exportForType(
                 app,
                 documentFile,
                 "export_wishlist_movies.csv",
-                new WishlistCsvExporterFactory(new WishlistAsyncService(app.getDb(), ItemEntityType.MOVIE))
+                new WishlistCsvExporterFactory(
+                        new WishlistAsyncService(app.getDb(), ItemEntityType.MOVIE),
+                        toasterWrapper
+                )
         );
 
         exportForType(
                 app,
                 documentFile,
                 "export_tags.csv",
-                new TagCsvExporterFactory(((KinoApplication) requireActivity().getApplication()).getDb())
+                new TagCsvExporterFactory((KinoApplication) requireActivity().getApplication())
         );
 
         exportForType(app, documentFile, "export_movies.csv", new MovieCsvExporterFactory(app));
@@ -88,7 +97,7 @@ public class ExportFragment extends Fragment {
 
         new SnapshotExporter(
                 exporterFactory,
-                app,
+                new ToasterWrapper(getContext()),
                 requireActivity().getContentResolver()
         ).export(exportFile.getUri());
     }

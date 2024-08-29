@@ -1,15 +1,16 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
 import com.ulicae.cinelog.io.exportdb.writer.TagCsvExportWriter;
-import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.utils.ToasterWrapper;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -30,15 +31,18 @@ public class TagCsvExporterFactory implements ExporterFactory {
 
     private final TagAsyncService tagService;
 
-    public TagCsvExporterFactory(AppDatabase db) {
-        this(new TagAsyncService(db));
+    private final ToasterWrapper toasterWrapper;
+
+    public TagCsvExporterFactory(KinoApplication kinoApplication) {
+        this(new TagAsyncService(kinoApplication.getDb()), new ToasterWrapper(kinoApplication.getApplicationContext()));
     }
 
-    private TagCsvExporterFactory(TagAsyncService tagService) {
+    private TagCsvExporterFactory(TagAsyncService tagService, ToasterWrapper toasterWrapper) {
         this.tagService = tagService;
+        this.toasterWrapper = toasterWrapper;
     }
 
-    public CsvExporter<TagDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
-        return new CsvExporter<>(tagService, new TagCsvExportWriter(fileWriter));
+    public AsyncCsvExporter<TagDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
+        return new AsyncCsvExporter<>(tagService, new TagCsvExportWriter(fileWriter), toasterWrapper);
     }
 }

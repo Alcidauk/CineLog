@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
+import com.ulicae.cinelog.utils.ToasterWrapper;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -17,19 +18,18 @@ import java.io.IOException;
 
 public class SnapshotExporter {
     private final ExporterFactory exporterFactory;
-    private final Application application;
-
+    private final ToasterWrapper toasterWrapper;
     private final ContentResolver contentResolver;
 
-    SnapshotExporter(ExporterFactory exporterFactory, Application application,
+    SnapshotExporter(ExporterFactory exporterFactory, ToasterWrapper toasterWrapper,
                           ContentResolver contentResolver) {
         this.exporterFactory = exporterFactory;
-        this.application = application;
+        this.toasterWrapper = toasterWrapper;
         this.contentResolver = contentResolver;
     }
 
     public void export(Uri exportFilename) {
-        showToast(R.string.export_start_toast);
+        toasterWrapper.toast(R.string.export_start_toast, ToasterWrapper.ToasterDuration.SHORT);
 
         try {
             ParcelFileDescriptor parcelFileDescriptor = contentResolver.openFileDescriptor(exportFilename, "w");
@@ -43,15 +43,12 @@ public class SnapshotExporter {
             CsvExporter csvExporter = exporterFactory.makeCsvExporter(fileWriter);
             csvExporter.export();
 
-            showToast(R.string.export_succeeded_toast);
+            toasterWrapper.toast(R.string.export_succeeded_toast, ToasterWrapper.ToasterDuration.SHORT);
         } catch (IOException e) {
-            showToast(R.string.export_io_error_toast);
+            toasterWrapper.toast(R.string.export_io_error_toast, ToasterWrapper.ToasterDuration.LONG);
         }
     }
 
-    private void showToast(int messageId) {
-        Toast.makeText(application.getApplicationContext(), application.getString(messageId), Toast.LENGTH_LONG).show();
-    }
 
 
 }

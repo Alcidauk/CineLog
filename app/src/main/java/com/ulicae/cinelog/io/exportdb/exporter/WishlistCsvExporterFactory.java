@@ -1,14 +1,15 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.services.wishlist.WishlistService;
 import com.ulicae.cinelog.io.exportdb.writer.WishlistCsvExportWriter;
+import com.ulicae.cinelog.room.services.WishlistAsyncService;
+import com.ulicae.cinelog.utils.ToasterWrapper;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * CineLog Copyright 2020 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -25,15 +26,18 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class WishlistCsvExporterFactory implements ExporterFactory{
+public class WishlistCsvExporterFactory implements ExporterFactory {
 
-    private final WishlistService wishlistService;
+    private final WishlistAsyncService wishlistService;
+    private final ToasterWrapper toasterWrapper;
 
-    public WishlistCsvExporterFactory(WishlistService wishlistService) {
+    public WishlistCsvExporterFactory(WishlistAsyncService wishlistService, ToasterWrapper toasterWrapper) {
         this.wishlistService = wishlistService;
+        this.toasterWrapper = toasterWrapper;
     }
 
-    public CsvExporter<WishlistDataDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
-        return new CsvExporter<>(wishlistService, new WishlistCsvExportWriter(fileWriter));
+    // TODO give a toaster service
+    public AsyncCsvExporter<WishlistDataDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
+        return new AsyncCsvExporter<>(wishlistService, new WishlistCsvExportWriter(fileWriter), toasterWrapper);
     }
 }
