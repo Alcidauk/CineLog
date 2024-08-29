@@ -48,7 +48,7 @@ public class ExportFragment extends Fragment {
     }
 
     private final ActivityResultCallback<Uri> activityResultCallback = result -> {
-        DocumentFile choosenDirFile = DocumentFile.fromTreeUri(requireActivity(), (Uri) result);
+        DocumentFile choosenDirFile = DocumentFile.fromTreeUri(requireActivity(), result);
         KinoApplication app = ((KinoApplication) requireActivity().getApplication());
 
         exportData(app, choosenDirFile);
