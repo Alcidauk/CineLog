@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.room.Room;
 
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
@@ -20,9 +19,8 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentEditTagBinding;
-import com.ulicae.cinelog.room.AppDatabase;
 
 import org.parceler.Parcels;
 

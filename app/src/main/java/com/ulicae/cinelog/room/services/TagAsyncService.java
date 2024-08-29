@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.services.tags.room;
+package com.ulicae.cinelog.room.services;
 
 import static io.reactivex.rxjava3.schedulers.Schedulers.io;
 

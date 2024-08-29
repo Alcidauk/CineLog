@@ -15,7 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentTagListBinding;
 import com.ulicae.cinelog.room.AppDatabase;
 

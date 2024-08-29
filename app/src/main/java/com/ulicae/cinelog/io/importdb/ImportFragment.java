@@ -24,7 +24,7 @@ import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
-import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.ActivityImportDbBinding;
 import com.ulicae.cinelog.io.importdb.builder.DtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;

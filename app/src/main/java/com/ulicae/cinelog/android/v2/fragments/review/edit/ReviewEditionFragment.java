@@ -26,7 +26,7 @@ import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.AsyncServiceFactory;
 import com.ulicae.cinelog.data.services.RoomDataService;
-import com.ulicae.cinelog.data.services.tags.room.TagAsyncService;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
 import com.ulicae.cinelog.room.AppDatabase;
 
