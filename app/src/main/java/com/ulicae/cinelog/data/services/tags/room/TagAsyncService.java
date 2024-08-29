@@ -124,8 +124,14 @@ public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<Ta
         return this.findAll().blockingFirst();
     }
 
+    @Deprecated
     @Override
     public void createOrUpdateFromImport(List<TagDto> tagDtos) {
         this.tagFromDtoCreator.insertAll(tagDtos);
+    }
+
+    @Override
+    public Completable createOrUpdate(List<TagDto> tagDtos) {
+        return this.tagFromDtoCreator.insertAll(tagDtos);
     }
 }

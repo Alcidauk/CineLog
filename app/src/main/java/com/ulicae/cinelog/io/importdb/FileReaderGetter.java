@@ -1,10 +1,15 @@
 package com.ulicae.cinelog.io.importdb;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.os.ParcelFileDescriptor;
+
+import androidx.documentfile.provider.DocumentFile;
 
 import com.ulicae.cinelog.utils.FileUtilsWrapper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -30,10 +35,12 @@ import java.io.IOException;
 public class FileReaderGetter {
 
     private final FileUtilsWrapper fileUtilsWrapper;
+    private final ContentResolver contentResolver;
 
     FileReaderGetter(Context context){
         File[] externalMediaDirs = context.getExternalMediaDirs();
         this.fileUtilsWrapper = new FileUtilsWrapper(externalMediaDirs[0]);
+        this.contentResolver = context.getContentResolver();
     }
 
     public FileReader get(String name) throws IOException {
@@ -43,5 +50,11 @@ public class FileReaderGetter {
         }
 
         return new FileReader(child);
+    }
+
+    public FileReader get(DocumentFile documentFile) throws FileNotFoundException {
+        ParcelFileDescriptor parcelFileDescriptor =
+                this.contentResolver.openFileDescriptor(documentFile.getUri(), "r");
+        return new FileReader(parcelFileDescriptor.getFileDescriptor());
     }
 }

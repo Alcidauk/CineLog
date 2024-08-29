@@ -12,7 +12,7 @@ public interface AsyncDataService<T extends ItemDto> {
 
     Completable createOrUpdate(T dtoObject);
 
-    void createOrUpdateFromImport(List<T> dtos);
+    Completable createOrUpdate(List<T> dtos);
 
     Completable delete(T dtoObject);
 

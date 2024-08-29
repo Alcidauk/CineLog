@@ -74,7 +74,7 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
         this.itemEntityType = itemEntityType;
     }
 
-    public Completable insert(WishlistDataDto wishlistDataDto) {
+    public WishlistItem buildItem(WishlistDataDto wishlistDataDto) {
         Tmdb tmdbSerie = null;
         Long tmdbId = wishlistDataDto.getTmdbId() != null ? wishlistDataDto.getTmdbId().longValue() : null;
 
@@ -96,7 +96,7 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
                         tmdbSerie
                 );
 
-        return wishlistItemDao.insert(wishlistItem);
+        return wishlistItem;
     }
 
     /**
@@ -160,11 +160,12 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
 
     @Override
     public Completable createOrUpdate(WishlistDataDto dtoObject) {
-        return insert(dtoObject);
+        return wishlistItemDao.insert(buildItem(dtoObject));
     }
 
     @Override
-    public void createOrUpdateFromImport(List<WishlistDataDto> dtos) {
+    public Completable createOrUpdate(List<WishlistDataDto> dtos) {
+        List<WishlistItem> items = new ArrayList<>();
         for (WishlistDataDto dto : dtos) {
             if (dto.getId() == null) {
                 WishlistSerie existingDto = null; // TODO ishlistSerieRepository.findByTmdbId(dto.getTmdbId());
@@ -173,8 +174,9 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
                 }
             }
 
-            // TODO ne pas subscribe ici mais au call de createOrUpdateFromImport
-            createOrUpdate(dto).subscribe();
+            items.add(buildItem(dto));
         }
+
+        return wishlistItemDao.insertAll(items);
     }
 }

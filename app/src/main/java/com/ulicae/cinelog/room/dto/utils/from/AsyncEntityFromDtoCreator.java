@@ -2,6 +2,8 @@ package com.ulicae.cinelog.room.dto.utils.from;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.room.dao.AsyncRoomDao;
 
@@ -36,7 +38,18 @@ public abstract class AsyncEntityFromDtoCreator<T, U extends AsyncRoomDao, D ext
         this.dao = dao;
     }
 
-    public void insertAll(List<D> items) {
+    public Completable insertAll(List<D> items) {
+        return dao.insertAll(buildEntities(items));
+    }
+
+    public void insertAllForMigration(List<D> items) {
+        List<T> entities = buildEntities(items);
+
+        insertRoomEntities(entities);
+    }
+
+    @NonNull
+    private List<T> buildEntities(List<D> items) {
         List<T> entities = new ArrayList<>();
 
         for (D item : items) {
@@ -45,8 +58,7 @@ public abstract class AsyncEntityFromDtoCreator<T, U extends AsyncRoomDao, D ext
                 entities.add(instance);
             }
         }
-
-        insertRoomEntities(entities);
+        return entities;
     }
 
     private void insertRoomEntities(List<T> entities) {

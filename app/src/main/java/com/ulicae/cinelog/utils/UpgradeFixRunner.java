@@ -155,7 +155,7 @@ public class UpgradeFixRunner {
 
         List<TagDto> tagDtos = new DbReader(application.getApplicationContext()).readTags(application.getApplicationContext());
 
-        tagFromDtoCreator.insertAll(tagDtos);
+        tagFromDtoCreator.insertAllForMigration(tagDtos);
 
         return tagDtos;
     }

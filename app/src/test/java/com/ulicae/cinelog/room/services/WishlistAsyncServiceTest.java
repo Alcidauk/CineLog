@@ -14,6 +14,7 @@ import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,7 +75,7 @@ public class WishlistAsyncServiceTest {
 
     @Test
     public void testInsertSerie() {
-        new WishlistAsyncService(db).insert(
+        WishlistItem item = new WishlistAsyncService(db).buildItem(
                 new WishlistDataDto(
                         12L,
                         264564L,
@@ -87,7 +88,8 @@ public class WishlistAsyncServiceTest {
                 )
         );
 
-        verify(wishlistItemDao).insert(
+        Assert.assertEquals(
+                item,
                 new WishlistItem(
                         0L,
                         ItemEntityType.SERIE,
@@ -105,7 +107,7 @@ public class WishlistAsyncServiceTest {
 
     @Test
     public void testInsertMovie() {
-        new WishlistAsyncService(db).insert(
+        WishlistItem item = new WishlistAsyncService(db).buildItem(
                 new WishlistDataDto(
                         12L,
                         264564L,
@@ -118,7 +120,8 @@ public class WishlistAsyncServiceTest {
                 )
         );
 
-        verify(wishlistItemDao).insert(
+        Assert.assertEquals(
+                item,
                 new WishlistItem(
                         0L,
                         ItemEntityType.MOVIE,
