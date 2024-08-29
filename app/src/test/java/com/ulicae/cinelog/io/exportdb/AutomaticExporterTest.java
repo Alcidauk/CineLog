@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.io.exportdb;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
+import com.ulicae.cinelog.io.exportdb.exporter.SyncCsvExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;
 
@@ -84,10 +84,10 @@ public class AutomaticExporterTest {
         FileWriter fileWriter = mock(FileWriter.class);
         doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
 
-        CsvExporter csvExporter = mock(CsvExporter.class);
-        doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
+        SyncCsvExporter syncCsvExporter = mock(SyncCsvExporter.class);
+        doReturn(syncCsvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
 
-        doThrow(IOException.class).when(csvExporter).export();
+        doThrow(IOException.class).when(syncCsvExporter).export();
 
         assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
 
@@ -102,13 +102,13 @@ public class AutomaticExporterTest {
         FileWriter fileWriter = mock(FileWriter.class);
         doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
 
-        CsvExporter csvExporter = mock(CsvExporter.class);
-        doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
+        SyncCsvExporter syncCsvExporter = mock(SyncCsvExporter.class);
+        doReturn(syncCsvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
 
         assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
 
         verify(exportTreeManager).prepareTree();
-        verify(csvExporter).export();
+        verify(syncCsvExporter).export();
         verify(exportTreeManager).clean();
     }
 }

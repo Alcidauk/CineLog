@@ -3,7 +3,6 @@ package com.ulicae.cinelog.io.exportdb.exporter;
 import android.app.Application;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.io.exportdb.writer.SerieCsvExportWriter;
@@ -12,7 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -45,7 +44,7 @@ public class SerieCsvExporterFactory implements ExporterFactory{
         this.serieService = serieService;
     }
 
-    public CsvExporter<SerieDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
-        return new CsvExporter<>(serieService, new SerieCsvExportWriter(fileWriter));
+    public SyncCsvExporter<SerieDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
+        return new SyncCsvExporter<>(serieService, new SerieCsvExportWriter(fileWriter));
     }
 }

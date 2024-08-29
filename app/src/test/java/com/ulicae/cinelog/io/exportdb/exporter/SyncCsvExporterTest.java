@@ -34,7 +34,7 @@ import static org.mockito.Mockito.verify;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CsvExporterTest {
+public class SyncCsvExporterTest {
 
     @Mock
     private KinoService kinoService;
@@ -52,7 +52,7 @@ public class CsvExporterTest {
         }};
         doReturn(kinos).when(kinoService).getAll();
 
-        new CsvExporter(kinoService, csvExportWriter).export();
+        new SyncCsvExporter(kinoService, csvExportWriter).export();
 
         verify(csvExportWriter).write(aKino);
         verify(csvExportWriter).write(anotherKino);
