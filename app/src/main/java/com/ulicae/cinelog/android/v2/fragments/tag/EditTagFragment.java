@@ -19,11 +19,10 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentEditTagBinding;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 
-import org.parceler.Parcels;
-
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
@@ -32,6 +31,8 @@ public class EditTagFragment extends Fragment {
     private FragmentEditTagBinding binding;
 
     private TagAsyncService tagService;
+
+    private Disposable disposable;
 
 
     TagDto tag;
@@ -52,12 +53,11 @@ public class EditTagFragment extends Fragment {
 
         tagService = new TagAsyncService(((KinoApplication) getActivity().getApplication()).getDb());
 
-        // TODO avoid parcels between activities and fetch DB with tag id
-        tag = Parcels.unwrap(requireArguments().getParcelable("tag"));
-        if (tag == null) {
+        Long tagId = requireArguments().getLong("tagId");
+        if (tagId == null || tagId.equals(0L)) {
             createNewTag();
         } else {
-            bindExistingTag();
+            bindExistingTag(tagId);
         }
 
         ((MainActivity) requireActivity()).getFab().setOnClickListener(fabView -> onFabClick());
@@ -67,13 +67,27 @@ public class EditTagFragment extends Fragment {
         binding.tagSeries.setOnCheckedChangeListener((compoundButton, b) -> onSeriesCheckedChanged(b));
         binding.tagColorUpdate.setOnClickListener(this::onTagColorUpdate);
 
-        fetchColor();
     }
 
-    private void bindExistingTag() {
-        binding.tagName.setText(tag.getName());
-        binding.tagFilms.setChecked(tag.isForMovies());
-        binding.tagSeries.setChecked(tag.isForSeries());
+    private void bindExistingTag(Long id) {
+        disposable = tagService.findById(id)
+                .subscribe(tag -> {
+                    this.tag = tag;
+
+                    binding.tagName.setText(tag.getName());
+                    binding.tagFilms.setChecked(tag.isForMovies());
+                    binding.tagSeries.setChecked(tag.isForSeries());
+
+                    fetchColor();
+                });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(disposable != null) {
+            disposable.dispose();
+        }
     }
 
     @SuppressLint("ResourceType")

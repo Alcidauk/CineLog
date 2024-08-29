@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToTagEdition(TagDto dataDto) {
         Bundle args = new Bundle();
         if (dataDto != null) {
-            args.putParcelable("tag", Parcels.wrap(dataDto));
+            args.putLong("tagId", dataDto.getId());
         }
         navController.navigate(R.id.action_nav_tags_to_editTagFragment, args);
     }
