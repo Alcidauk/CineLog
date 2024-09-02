@@ -19,6 +19,7 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.databinding.ActivityExportDbBinding;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
+import com.ulicae.cinelog.io.exportdb.exporter.ReviewCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.TagCsvExporterFactory;
 import com.ulicae.cinelog.utils.ToasterWrapper;
@@ -84,9 +85,9 @@ public class ExportFragment extends Fragment {
                 new TagCsvExporterFactory((KinoApplication) requireActivity().getApplication())
         );
 
-        exportForType(app, documentFile, "export_movies.csv", new MovieCsvExporterFactory(app));
-        exportForType(app, documentFile, "export_series.csv", new SerieCsvExporterFactory(app));
-    }
+        exportForType(app, documentFile, "export_movies.csv", new ReviewCsvExporterFactory(app, ItemEntityType.MOVIE));
+        exportForType(app, documentFile, "export_series.csv", new ReviewCsvExporterFactory(app, ItemEntityType.SERIE));
+   }
 
     private void exportForType(KinoApplication app, DocumentFile documentFile,
                                String exportFilename, ExporterFactory exporterFactory) {

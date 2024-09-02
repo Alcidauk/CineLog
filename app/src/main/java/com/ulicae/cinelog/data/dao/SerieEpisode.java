@@ -28,6 +28,8 @@ import java.util.Date;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
+
+// TODO dans room, intégrer les épisodes
 @Parcel
 @Entity
 public class SerieEpisode {

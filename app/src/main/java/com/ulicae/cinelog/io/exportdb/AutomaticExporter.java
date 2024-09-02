@@ -34,6 +34,7 @@ public class AutomaticExporter {
     private final BusinessPreferenceGetter businessPreferenceGetter;
     private final ExporterFactory csvExporterFactory;
 
+    // TODO ne plus exporter dans le dossier actuel, mais dans le dossier chiosi au moment de la sélection d'import auto
     public AutomaticExporter(Application application, ExporterFactory exporterFactory, String subDir) {this(
                 new ExportTreeManager(application.getExternalMediaDirs()[0], subDir),
                 new BusinessPreferenceGetter(application),

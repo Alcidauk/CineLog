@@ -11,30 +11,29 @@ import com.ulicae.cinelog.data.dao.DaoMaster;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.io.exportdb.AutomaticExportException;
 import com.ulicae.cinelog.io.exportdb.AutomaticExporter;
-import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
-import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
+import com.ulicae.cinelog.io.exportdb.exporter.ReviewCsvExporterFactory;
 import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
- *
- *
+ * <p>
+ * <p>
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * CineLog is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
- *
  */
 public class KinoApplication extends Application {
 
@@ -55,14 +54,14 @@ public class KinoApplication extends Application {
         daoSession = daoMaster.newSession();
 
         this.appDb = Room
-                .databaseBuilder(getApplicationContext(), AppDatabase.class,"database-cinelog")
+                .databaseBuilder(getApplicationContext(), AppDatabase.class, "database-cinelog")
                 .build();
         verifyAutomaticSave();
     }
 
     private void verifyAutomaticSave() {
         try {
-            if(new AutomaticExporter(this, new MovieCsvExporterFactory(this), "movie").tryExport()){
+            if (new AutomaticExporter(this, new ReviewCsvExporterFactory(this, ItemEntityType.MOVIE), "movie").tryExport()) {
                 Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_LONG).show();
             }
         } catch (AutomaticExportException e) {
@@ -71,7 +70,7 @@ public class KinoApplication extends Application {
         }
 
         try {
-            if(new AutomaticExporter(this, new SerieCsvExporterFactory(this), "serie").tryExport()){
+            if (new AutomaticExporter(this, new ReviewCsvExporterFactory(this, ItemEntityType.SERIE), "serie").tryExport()) {
                 Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_serie_toast), Toast.LENGTH_LONG).show();
             }
         } catch (AutomaticExportException e) {
