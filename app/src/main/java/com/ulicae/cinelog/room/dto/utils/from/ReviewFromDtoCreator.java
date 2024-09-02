@@ -48,13 +48,14 @@ public class ReviewFromDtoCreator extends SyncEntityFromDtoCreator<Review, Revie
                 kinoDto.getReview(),
                 kinoDto.getRating(),
                 kinoDto.getMaxRating(),
+                (kinoDto.getTmdbKinoId() != null && !kinoDto.getTmdbKinoId().equals(0L)) ?
                 new Tmdb(
                         kinoDto.getTmdbKinoId(),
                         kinoDto.getPosterPath(),
                         kinoDto.getOverview(),
                         kinoDto.getYear(),
                         kinoDto.getReleaseDate()
-                )
+                ) : null
         );
     }
 }
