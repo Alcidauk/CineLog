@@ -35,7 +35,7 @@ import java.util.List;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MovieCsvExportWriterTest {
+public class ReviewCsvExportWriterTest {
 
     @Mock
     private CSVPrinterWrapper csvPrinterWrapper;
@@ -65,7 +65,7 @@ public class MovieCsvExportWriterTest {
                 tags
         );
 
-        new MovieCsvExportWriter(csvPrinterWrapper).write(aKino);
+        new ReviewCsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
                 24L,
@@ -100,7 +100,7 @@ public class MovieCsvExportWriterTest {
                 null
         );
 
-        new MovieCsvExportWriter(csvPrinterWrapper).write(aKino);
+        new ReviewCsvExportWriter(csvPrinterWrapper).write(aKino);
 
         verify(csvPrinterWrapper).printRecord(
                 24L,
@@ -120,7 +120,7 @@ public class MovieCsvExportWriterTest {
 
     @Test
     public void endWriting() throws Exception {
-        new MovieCsvExportWriter(csvPrinterWrapper).endWriting();
+        new ReviewCsvExportWriter(csvPrinterWrapper).endWriting();
 
         verify(csvPrinterWrapper).flush();
         verify(csvPrinterWrapper).close();

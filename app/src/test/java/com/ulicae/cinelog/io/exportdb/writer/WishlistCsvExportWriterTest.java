@@ -48,7 +48,7 @@ public class WishlistCsvExportWriterTest {
 
     @Test
     public void endWriting() throws Exception {
-        new MovieCsvExportWriter(csvPrinterWrapper).endWriting();
+        new WishlistCsvExportWriter(csvPrinterWrapper).endWriting();
 
         verify(csvPrinterWrapper).flush();
         verify(csvPrinterWrapper).close();

@@ -2,7 +2,7 @@ package com.ulicae.cinelog.io.exportdb.exporter;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
+import com.ulicae.cinelog.io.exportdb.writer.ReviewCsvExportWriter;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.utils.ToasterWrapper;
@@ -44,6 +44,6 @@ public class ReviewCsvExporterFactory implements ExporterFactory {
     }
 
     public AsyncCsvExporter<KinoDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
-        return new AsyncCsvExporter<>(reviewService, new MovieCsvExportWriter(fileWriter), toasterWrapper);
+        return new AsyncCsvExporter<>(reviewService, new ReviewCsvExportWriter(fileWriter), toasterWrapper);
     }
 }

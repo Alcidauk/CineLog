@@ -5,14 +5,12 @@ import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -33,7 +31,7 @@ import java.util.stream.Stream;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class MovieCsvExportWriter extends CsvExportWriter<KinoDto> {
+public class ReviewCsvExportWriter extends CsvExportWriter<KinoDto> {
 
     public enum Headers {
         id,
@@ -50,11 +48,11 @@ public class MovieCsvExportWriter extends CsvExportWriter<KinoDto> {
         tags
     }
 
-    public MovieCsvExportWriter(Appendable out) throws IOException {
+    public ReviewCsvExportWriter(Appendable out) throws IOException {
         super(out, Headers.class);
     }
 
-    MovieCsvExportWriter(CSVPrinterWrapper csvPrinterWrapper) {
+    ReviewCsvExportWriter(CSVPrinterWrapper csvPrinterWrapper) {
         super(csvPrinterWrapper);
     }
 
