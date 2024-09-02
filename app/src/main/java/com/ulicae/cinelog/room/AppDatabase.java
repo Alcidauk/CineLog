@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.ulicae.cinelog.room.converters.Converters;
+import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
 import com.ulicae.cinelog.room.dao.SyncWishlistItemDao;
@@ -13,7 +14,6 @@ import com.ulicae.cinelog.room.dao.WishlistItemDao;
 import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
-import com.ulicae.cinelog.room.entities.Tmdb;
 import com.ulicae.cinelog.room.entities.WishlistItem;
 
 /**
@@ -47,6 +47,7 @@ import com.ulicae.cinelog.room.entities.WishlistItem;
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ReviewDao reviewDao();
+    public abstract ReviewAsyncDao reviewAsyncDao();
 
     public abstract WishlistItemDao wishlistItemDao();
 
