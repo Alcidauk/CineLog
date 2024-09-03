@@ -3,6 +3,7 @@ package com.ulicae.cinelog.data.dao.sqlite;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 import androidx.annotation.NonNull;
 
@@ -31,19 +32,16 @@ public class DbReader {
 
     public List<KinoDto> readSeries(List<TagDto> tags, int biggestMovieReviewId) {
         Map<Long, List<Long>> tagsByKino = readJoinReviewTag();
-
-        Cursor cursor = db.query(
-                KinoReaderContract.Review.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        cursor.moveToNext();
-
         List<KinoDto> series = new ArrayList<>();
+
+        Cursor cursor;
+        try {
+            cursor = this.getTableCursor(KinoReaderContract.Review.TABLE_NAME);
+        } catch (NoSuchTableException e) {
+            return series;
+        }
+
+        cursor.moveToNext();
 
         while (!cursor.isAfterLast()) {
             List<TagDto> serieTags = tags
@@ -68,21 +66,19 @@ public class DbReader {
     private Map<Long, List<Long>> readJoinReviewTag() {
         Map<Long, List<Long>> joinReviewToTag = new HashMap<>();
 
-        Cursor cursor = db.query(
-                KinoReaderContract.JoinReviewWithSerie.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        Cursor cursor;
+        try {
+            cursor = this.getTableCursor(KinoReaderContract.JoinReviewWithSerie.TABLE_NAME);
+        } catch (NoSuchTableException e) {
+            return joinReviewToTag;
+        }
+
         cursor.moveToNext();
 
         while (!cursor.isAfterLast()) {
             long reviewId = cursor.getLong(2);
             long tagId = cursor.getLong(1);
-            if(joinReviewToTag.get(reviewId) == null){
+            if (joinReviewToTag.get(reviewId) == null) {
                 joinReviewToTag.put(reviewId, new ArrayList<>());
             }
             joinReviewToTag.get(reviewId).add(tagId);
@@ -95,15 +91,13 @@ public class DbReader {
     public List<KinoDto> readKinos(List<TagDto> tags) {
         Map<Long, List<Long>> tagsByKino = readJoinKinoTag();
 
-        Cursor cursor = db.query(
-                KinoReaderContract.LocalKino.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        Cursor cursor;
+        try {
+            cursor = this.getTableCursor(KinoReaderContract.LocalKino.TABLE_NAME);
+        } catch (NoSuchTableException e) {
+            return new ArrayList<>();
+        }
+
         cursor.moveToNext();
 
         List<KinoDto> kinos = new ArrayList<>();
@@ -248,21 +242,18 @@ public class DbReader {
     public Map<Long, List<Long>> readJoinKinoTag() {
         Map<Long, List<Long>> joinKinoToTag = new HashMap<>();
 
-        Cursor cursor = db.query(
-                KinoReaderContract.JoinKinoTag.TABLE_NAME,   // The table to query
-                null,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null               // The sort order
-        );
+        Cursor cursor;
+        try {
+            cursor = this.getTableCursor(KinoReaderContract.JoinKinoTag.TABLE_NAME);
+        } catch (NoSuchTableException e) {
+            return joinKinoToTag;
+        }
         cursor.moveToNext();
 
         while (!cursor.isAfterLast()) {
             long kinoId = cursor.getLong(2);
             long tagId = cursor.getLong(1);
-            if(joinKinoToTag.get(kinoId) == null){
+            if (joinKinoToTag.get(kinoId) == null) {
                 joinKinoToTag.put(kinoId, new ArrayList<>());
             }
             joinKinoToTag.get(kinoId).add(tagId);
@@ -273,15 +264,13 @@ public class DbReader {
     }
 
     public List<TagDto> readTags(Context applicationContext) {
-        Cursor cursor = db.query(
-                KinoReaderContract.Tag.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        Cursor cursor;
+        try {
+            cursor = this.getTableCursor(KinoReaderContract.Tag.TABLE_NAME);
+        } catch (NoSuchTableException e) {
+            return new ArrayList<>();
+        }
+
         cursor.moveToNext();
 
 
@@ -304,18 +293,16 @@ public class DbReader {
     }
 
     public List<WishlistDataDto> readWishlistMovieItems() {
-        Cursor cursor = db.query(
-                KinoReaderContract.WishlistMovieItem.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        cursor.moveToNext();
-
         List<WishlistDataDto> wishlistItems = new ArrayList<>();
+
+        Cursor cursor;
+        try {
+            cursor = this.getTableCursor(KinoReaderContract.WishlistMovieItem.TABLE_NAME);
+        } catch (NoSuchTableException e) {
+            return wishlistItems;
+        }
+
+        cursor.moveToNext();
 
         while (!cursor.isAfterLast()) {
             wishlistItems.add(cursor.getInt(1) != 0 ?
@@ -368,15 +355,13 @@ public class DbReader {
     }
 
     public List<WishlistDataDto> readWishlistSerieItems(int biggestMovieReviewId) {
-        Cursor cursor = db.query(
-                KinoReaderContract.WishlistSerieItem.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        Cursor cursor;
+        try {
+            cursor = this.getTableCursor(KinoReaderContract.WishlistSerieItem.TABLE_NAME);
+        } catch (NoSuchTableException e) {
+            return new ArrayList<>();
+        }
+
         cursor.moveToNext();
 
         List<WishlistDataDto> wishlistItems = new ArrayList<>();
@@ -416,5 +401,27 @@ public class DbReader {
                 tmdbCursor.getString(4),
                 WishlistItemType.SERIE
         );
+    }
+
+    private Cursor getTableCursor(String tableName) throws NoSuchTableException {
+        Cursor cursor;
+        try {
+            cursor = db.query(
+                    tableName,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+        } catch (SQLiteException e) {
+            if (e.getMessage().contains("no such table")) {
+                throw new NoSuchTableException();
+            } else {
+                throw e;
+            }
+        }
+        return cursor;
     }
 }
