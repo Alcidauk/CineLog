@@ -5,7 +5,6 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.io.exportdb.writer.ReviewCsvExportWriter;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.services.ReviewAsyncService;
-import com.ulicae.cinelog.utils.ToasterWrapper;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,15 +27,15 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewCsvExporterFactory implements ExporterFactory {
+public class ReviewCsvExporterFactory implements ExporterFactory<KinoDto> {
 
     private final ReviewAsyncService reviewService;
 
     public ReviewCsvExporterFactory(KinoApplication kinoApplication, ItemEntityType itemEntityType) {
-        this(new ReviewAsyncService(kinoApplication.getDb(), itemEntityType), new ToasterWrapper(kinoApplication.getApplicationContext()));
+        this(new ReviewAsyncService(kinoApplication.getDb(), itemEntityType));
     }
 
-    private ReviewCsvExporterFactory(ReviewAsyncService reviewService, ToasterWrapper toasterWrapper) {
+    private ReviewCsvExporterFactory(ReviewAsyncService reviewService) {
         this.reviewService = reviewService;
     }
 

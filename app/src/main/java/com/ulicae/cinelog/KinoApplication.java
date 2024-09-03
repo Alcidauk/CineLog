@@ -16,7 +16,11 @@ import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -45,6 +49,8 @@ public class KinoApplication extends Application {
     DaoSession daoSession;
     AppDatabase appDb;
 
+    private List<Disposable> disposableList;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -55,6 +61,8 @@ public class KinoApplication extends Application {
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
 
+        this.disposableList = new ArrayList<>();
+
         this.appDb = Room
                 .databaseBuilder(getApplicationContext(), AppDatabase.class, "database-cinelog")
                 .build();
@@ -63,40 +71,48 @@ public class KinoApplication extends Application {
 
     private void verifyAutomaticSave() {
         try {
-            new AutomaticExporter(this, new ReviewCsvExporterFactory(this, ItemEntityType.MOVIE), "movie")
-                    .tryExport()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            (success) -> {
-                                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_SHORT).show();
-                            },
-                            e -> {
-                                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_movie), Toast.LENGTH_LONG).show();
-                                Toast.makeText(getApplicationContext(), getString(((AutomaticExportException) e).getStringCode()), Toast.LENGTH_LONG).show();
-                            }
-                    );
+            this.disposableList.add(
+                    new AutomaticExporter<>(this, new ReviewCsvExporterFactory(this, ItemEntityType.MOVIE), "movie")
+                            .tryExport()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    (success) -> Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_SHORT).show(),
+                                    e -> {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_movie), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), getString(((AutomaticExportException) e).getStringCode()), Toast.LENGTH_LONG).show();
+                                    }
+                            )
+            );
         } catch (AutomaticExportException e) {
             Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_movie), Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), getString(e.getStringCode()), Toast.LENGTH_LONG).show();
         }
 
         try {
-            new AutomaticExporter(this, new ReviewCsvExporterFactory(this, ItemEntityType.SERIE), "serie")
-                    .tryExport()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            (success) -> {
-                                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_serie_toast), Toast.LENGTH_SHORT).show();
-                            },
-                            e -> {
-                                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_serie), Toast.LENGTH_LONG).show();
-                                Toast.makeText(getApplicationContext(), getString(((AutomaticExportException) e).getStringCode()), Toast.LENGTH_LONG).show();
-                            }
-                    );
-            ;
+            this.disposableList.add(
+                    new AutomaticExporter<>(this, new ReviewCsvExporterFactory(this, ItemEntityType.SERIE), "serie")
+                            .tryExport()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    (success) -> Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_serie_toast), Toast.LENGTH_SHORT).show(),
+                                    e -> {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_serie), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), getString(((AutomaticExportException) e).getStringCode()), Toast.LENGTH_LONG).show();
+                                    }
+                            )
+            );
         } catch (AutomaticExportException e) {
             Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_serie), Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), getString(e.getStringCode()), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+
+        for(Disposable disposable : this.disposableList) {
+            disposable.dispose();
         }
     }
 

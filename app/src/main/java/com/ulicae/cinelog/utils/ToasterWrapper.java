@@ -35,11 +35,10 @@ public class ToasterWrapper {
     }
 
     public void toast(int value, ToasterDuration duration) {
-        Toast.makeText(context, value, getToastDuration(duration));
+        Toast.makeText(context, value, getToastDuration(duration)).show();
     }
 
     public int getToastDuration(ToasterDuration toasterDuration) {
-
         switch (toasterDuration) {
             case LONG:
                 return Toast.LENGTH_LONG;

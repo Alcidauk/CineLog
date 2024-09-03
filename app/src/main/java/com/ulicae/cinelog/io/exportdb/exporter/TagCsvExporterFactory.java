@@ -26,7 +26,7 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagCsvExporterFactory implements ExporterFactory {
+public class TagCsvExporterFactory implements ExporterFactory<TagDto> {
 
     private final TagAsyncService tagService;
 

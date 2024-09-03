@@ -16,24 +16,56 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.databinding.ActivityExportDbBinding;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.ReviewCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.TagCsvExporterFactory;
-import com.ulicae.cinelog.utils.ToasterWrapper;
 import com.ulicae.cinelog.io.exportdb.exporter.WishlistCsvExporterFactory;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
+import com.ulicae.cinelog.utils.ToasterWrapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ExportFragment extends Fragment {
 
     private @NonNull ActivityExportDbBinding binding;
+
+    private List<Disposable> disposableList;
+
+    private ToasterWrapper toasterWrapper;
+
+    private SnapshotExporterFactory snapshotExporterFactory;
+
+    void setToasterWrapper(ToasterWrapper toasterWrapper) {
+        this.toasterWrapper = toasterWrapper;
+    }
+
+    void setSnapshotExporterFactory(SnapshotExporterFactory snapshotExporterFactory) {
+        this.snapshotExporterFactory = snapshotExporterFactory;
+    }
+
+    void setDisposableList(List<Disposable> disposableList) {
+        this.disposableList = disposableList;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
+        setToasterWrapper(new ToasterWrapper(getContext()));
+        setSnapshotExporterFactory(
+                new SnapshotExporterFactory(toasterWrapper, requireActivity().getContentResolver()));
+        setDisposableList(new ArrayList<>());
 
         binding = ActivityExportDbBinding.inflate(getLayoutInflater());
         return binding.getRoot();
@@ -54,9 +86,7 @@ public class ExportFragment extends Fragment {
     };
 
     private void exportData(KinoApplication app, DocumentFile documentFile) {
-        ToasterWrapper toasterWrapper = new ToasterWrapper(getContext());
         exportForType(
-                app,
                 documentFile,
                 "export_wishlist_series.csv",
                 new WishlistCsvExporterFactory(
@@ -66,7 +96,6 @@ public class ExportFragment extends Fragment {
         );
 
         exportForType(
-                app,
                 documentFile,
                 "export_wishlist_movies.csv",
                 new WishlistCsvExporterFactory(
@@ -75,28 +104,39 @@ public class ExportFragment extends Fragment {
         );
 
         exportForType(
-                app,
                 documentFile,
                 "export_tags.csv",
                 new TagCsvExporterFactory((KinoApplication) requireActivity().getApplication())
         );
 
-        exportForType(app, documentFile, "export_movies.csv", new ReviewCsvExporterFactory(app, ItemEntityType.MOVIE));
-        exportForType(app, documentFile, "export_series.csv", new ReviewCsvExporterFactory(app, ItemEntityType.SERIE));
-   }
+        exportForType(documentFile, "export_movies.csv", new ReviewCsvExporterFactory(app, ItemEntityType.MOVIE));
+        exportForType(documentFile, "export_series.csv", new ReviewCsvExporterFactory(app, ItemEntityType.SERIE));
+    }
 
-    private void exportForType(KinoApplication app, DocumentFile documentFile,
-                               String exportFilename, ExporterFactory exporterFactory) {
+    void exportForType(DocumentFile documentFile,
+                       String exportFilename,
+                       ExporterFactory<? extends ItemDto> exporterFactory) {
+        toasterWrapper.toast(R.string.export_start_toast, ToasterWrapper.ToasterDuration.SHORT);
+
         DocumentFile exportFile = documentFile.createFile("application/text", exportFilename);
-        if(exportFile == null){
+        if (exportFile == null) {
+            toasterWrapper.toast(R.string.export_io_error_toast, ToasterWrapper.ToasterDuration.LONG);
             return;
         }
-
-        new SnapshotExporter(
-                exporterFactory,
-                new ToasterWrapper(getContext()),
-                requireActivity().getContentResolver()
-        ).export(exportFile.getUri());
+        try {
+            disposableList.add(
+                    snapshotExporterFactory
+                            .makeSnapshotExporter(exporterFactory)
+                            .export(exportFile.getUri())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    success -> toasterWrapper.toast(R.string.export_succeeded_toast, ToasterWrapper.ToasterDuration.LONG),
+                                    error -> toasterWrapper.toast(R.string.export_io_error_toast, ToasterWrapper.ToasterDuration.LONG)
+                            )
+            );
+        } catch (IOException e) {
+            toasterWrapper.toast(R.string.export_io_error_toast, ToasterWrapper.ToasterDuration.LONG);
+       }
     }
 
 
@@ -106,4 +146,12 @@ public class ExportFragment extends Fragment {
         launcher.launch(Uri.fromFile(requireActivity().getFilesDir()));
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        for (Disposable disposable : disposableList) {
+            disposable.dispose();
+        }
+    }
 }

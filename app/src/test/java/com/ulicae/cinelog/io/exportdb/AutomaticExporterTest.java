@@ -12,7 +12,7 @@ import static org.mockito.Mockito.verify;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.io.exportdb.exporter.AsyncCsvExporter;
-import com.ulicae.cinelog.io.exportdb.exporter.ReviewCsvExporterFactory;
+import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;
 
 import org.junit.Rule;
@@ -40,13 +40,12 @@ public class AutomaticExporterTest {
     private BusinessPreferenceGetter businessPreferenceGetter;
 
     @Mock
-    private ReviewCsvExporterFactory csvExporterFactory;
+    private ExporterFactory<DummyDtoTestCase> csvExporterFactory;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-
-    static class DummyDto implements ItemDto {
+    static class DummyDtoTestCase implements ItemDto {
         @Override
         public Long getId() {
             return 0L;
@@ -62,7 +61,7 @@ public class AutomaticExporterTest {
     public void tryExportNotEnabled() throws AutomaticExportException {
         doReturn(false).when(businessPreferenceGetter).getAutomaticExport();
 
-        new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
+        new AutomaticExporter<>(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
 
         verify(exportTreeManager, never()).prepareTree();
     }
@@ -72,7 +71,7 @@ public class AutomaticExporterTest {
         doReturn(true).when(businessPreferenceGetter).getAutomaticExport();
         doReturn(false).when(exportTreeManager).isExportNeeded();
 
-        new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
+        new AutomaticExporter<>(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
 
         verify(exportTreeManager).prepareTree();
         verify(exportTreeManager, never()).getNextExportFile();
@@ -88,7 +87,7 @@ public class AutomaticExporterTest {
 
         doThrow(IOException.class).when(exportTreeManager).getNextExportFile();
 
-        new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
+        new AutomaticExporter<>(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
     }
 
     @Test
@@ -99,14 +98,14 @@ public class AutomaticExporterTest {
         FileWriter fileWriter = mock(FileWriter.class);
         doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
 
-        AsyncCsvExporter asyncCsvExporter = mock(AsyncCsvExporter.class);
+        AsyncCsvExporter<DummyDtoTestCase> asyncCsvExporter = mock(AsyncCsvExporter.class);
         doReturn(asyncCsvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
 
         IOException throwable = new IOException();
         doReturn(Flowable.error(throwable)).when(asyncCsvExporter).export();
 
-        TestSubscriber<List<DummyDto>> test =
-                new AutomaticExporter<DummyDto>(
+        TestSubscriber<List<DummyDtoTestCase>> test =
+                new AutomaticExporter<>(
                         exportTreeManager,
                         businessPreferenceGetter,
                         csvExporterFactory)
@@ -126,13 +125,13 @@ public class AutomaticExporterTest {
         FileWriter fileWriter = mock(FileWriter.class);
         doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
 
-        AsyncCsvExporter<DummyDto> asyncCsvExporter = mock(AsyncCsvExporter.class);
+        AsyncCsvExporter<DummyDtoTestCase> asyncCsvExporter = mock(AsyncCsvExporter.class);
         doReturn(asyncCsvExporter).when(csvExporterFactory).makeCsvExporter(any(FileWriter.class));
 
         doReturn(Flowable.just(new ArrayList<>())).when(asyncCsvExporter).export();
 
-        TestSubscriber<List<DummyDto>> test =
-                new AutomaticExporter<DummyDto>(
+        TestSubscriber<List<DummyDtoTestCase>> test =
+                new AutomaticExporter<>(
                         exportTreeManager,
                         businessPreferenceGetter,
                         csvExporterFactory)
