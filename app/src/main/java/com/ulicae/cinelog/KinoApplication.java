@@ -16,6 +16,8 @@ import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+
 /**
  * CineLog Copyright 2018 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
@@ -61,18 +63,37 @@ public class KinoApplication extends Application {
 
     private void verifyAutomaticSave() {
         try {
-            if (new AutomaticExporter(this, new ReviewCsvExporterFactory(this, ItemEntityType.MOVIE), "movie").tryExport()) {
-                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_LONG).show();
-            }
+            new AutomaticExporter(this, new ReviewCsvExporterFactory(this, ItemEntityType.MOVIE), "movie")
+                    .tryExport()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            (success) -> {
+                                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_SHORT).show();
+                            },
+                            e -> {
+                                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_movie), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getString(((AutomaticExportException) e).getStringCode()), Toast.LENGTH_LONG).show();
+                            }
+                    );
         } catch (AutomaticExportException e) {
             Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_movie), Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), getString(e.getStringCode()), Toast.LENGTH_LONG).show();
         }
 
         try {
-            if (new AutomaticExporter(this, new ReviewCsvExporterFactory(this, ItemEntityType.SERIE), "serie").tryExport()) {
-                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_serie_toast), Toast.LENGTH_LONG).show();
-            }
+            new AutomaticExporter(this, new ReviewCsvExporterFactory(this, ItemEntityType.SERIE), "serie")
+                    .tryExport()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            (success) -> {
+                                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_serie_toast), Toast.LENGTH_SHORT).show();
+                            },
+                            e -> {
+                                Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_serie), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getString(((AutomaticExportException) e).getStringCode()), Toast.LENGTH_LONG).show();
+                            }
+                    );
+            ;
         } catch (AutomaticExportException e) {
             Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_serie), Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), getString(e.getStringCode()), Toast.LENGTH_LONG).show();

@@ -1,6 +1,10 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
-import java.io.IOException;
+import com.ulicae.cinelog.data.dto.ItemDto;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -20,6 +24,6 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface CsvExporter {
-    void export() throws IOException;
+public interface CsvExporter<T extends ItemDto> {
+    Flowable<List<T>> export();
 }

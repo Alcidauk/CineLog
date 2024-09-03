@@ -3,12 +3,16 @@ package com.ulicae.cinelog.io.exportdb;
 import android.app.Application;
 
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.data.dto.ItemDto;
+import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -28,27 +32,28 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class AutomaticExporter {
+public class AutomaticExporter<T extends ItemDto> {
 
     private final ExportTreeManager exportTreeManager;
     private final BusinessPreferenceGetter businessPreferenceGetter;
-    private final ExporterFactory csvExporterFactory;
+    private final ExporterFactory<T> csvExporterFactory;
 
     // TODO ne plus exporter dans le dossier actuel, mais dans le dossier chiosi au moment de la sélection d'import auto
-    public AutomaticExporter(Application application, ExporterFactory exporterFactory, String subDir) {this(
+    public AutomaticExporter(Application application, ExporterFactory<T> exporterFactory, String subDir) {
+        this(
                 new ExportTreeManager(application.getExternalMediaDirs()[0], subDir),
                 new BusinessPreferenceGetter(application),
                 exporterFactory
         );
     }
 
-    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, ExporterFactory exporterFactory) {
+    AutomaticExporter(ExportTreeManager exportTreeManager, BusinessPreferenceGetter businessPreferenceGetter, ExporterFactory<T> exporterFactory) {
         this.exportTreeManager = exportTreeManager;
         this.businessPreferenceGetter = businessPreferenceGetter;
         this.csvExporterFactory = exporterFactory;
     }
 
-    public boolean tryExport() throws AutomaticExportException {
+    public Flowable<List<T>> tryExport() throws AutomaticExportException {
         if (businessPreferenceGetter.getAutomaticExport()) {
             exportTreeManager.prepareTree();
 
@@ -60,17 +65,18 @@ public class AutomaticExporter {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_get_next_export);
                 }
 
+                CsvExporter<T> csvExporter;
                 try {
-                    csvExporterFactory.makeCsvExporter(nextExportFile).export();
-
-                    exportTreeManager.clean();
+                    csvExporter = csvExporterFactory.makeCsvExporter(nextExportFile);
                 } catch (IOException e) {
                     throw new AutomaticExportException(e, R.string.automatic_export_cant_export);
                 }
 
-                return true;
+                return csvExporter.export()
+                        .doOnNext(result -> exportTreeManager.clean());
             }
         }
-        return false;
+
+        return Flowable.empty();
     }
 }

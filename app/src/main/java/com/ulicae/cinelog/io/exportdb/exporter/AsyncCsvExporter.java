@@ -1,12 +1,12 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
-import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
 import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
-import com.ulicae.cinelog.utils.ToasterWrapper;
 
-import java.io.IOException;
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -26,34 +26,25 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class AsyncCsvExporter<T extends ItemDto> implements CsvExporter {
+public class AsyncCsvExporter<T extends ItemDto> implements CsvExporter<T> {
     private final AsyncDataService<T> service;
     private final CsvExportWriter<T> csvExportWriter;
-    private final ToasterWrapper toasterWrapper;
 
-
-    AsyncCsvExporter(AsyncDataService<T> service, CsvExportWriter<T> csvExportWriter, ToasterWrapper toasterWrapper) {
+    AsyncCsvExporter(AsyncDataService<T> service, CsvExportWriter<T> csvExportWriter) {
         this.service = service;
         this.csvExportWriter = csvExportWriter;
-        this.toasterWrapper = toasterWrapper;
     }
 
-    public void export() throws IOException {
-        service
+    public Flowable<List<T>> export() {
+        return service
                 .findAll()
-                .subscribe(
-                        success -> {
-                            for (T dto : success) {
+                .doOnNext(
+                        dtos -> {
+                            for (T dto : dtos) {
                                 csvExportWriter.write(dto);
                             }
 
                             csvExportWriter.endWriting();
-                        },
-                        error -> {
-                            this.toasterWrapper.toast(
-                                    R.string.export_io_error_toast,
-                                    ToasterWrapper.ToasterDuration.LONG
-                            );
                         }
                 );
     }

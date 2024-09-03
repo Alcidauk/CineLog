@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
+import com.ulicae.cinelog.data.dto.ItemDto;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -21,8 +23,8 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface ExporterFactory {
+public interface ExporterFactory<T extends ItemDto> {
 
-    CsvExporter makeCsvExporter(FileWriter fileWriter) throws IOException;
+    CsvExporter<T> makeCsvExporter(FileWriter fileWriter) throws IOException;
 
 }
