@@ -60,8 +60,7 @@ public class ExportFragment extends Fragment {
                 documentFile,
                 "export_wishlist_series.csv",
                 new WishlistCsvExporterFactory(
-                        new WishlistAsyncService(app.getDb(), ItemEntityType.SERIE),
-                        toasterWrapper
+                        new WishlistAsyncService(app.getDb(), ItemEntityType.SERIE)
                 )
 
         );
@@ -71,8 +70,7 @@ public class ExportFragment extends Fragment {
                 documentFile,
                 "export_wishlist_movies.csv",
                 new WishlistCsvExporterFactory(
-                        new WishlistAsyncService(app.getDb(), ItemEntityType.MOVIE),
-                        toasterWrapper
+                        new WishlistAsyncService(app.getDb(), ItemEntityType.MOVIE)
                 )
         );
 

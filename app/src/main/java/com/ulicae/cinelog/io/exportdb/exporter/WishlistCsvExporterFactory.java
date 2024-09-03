@@ -3,7 +3,6 @@ package com.ulicae.cinelog.io.exportdb.exporter;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.io.exportdb.writer.WishlistCsvExportWriter;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
-import com.ulicae.cinelog.utils.ToasterWrapper;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,15 +28,13 @@ import java.io.IOException;
 public class WishlistCsvExporterFactory implements ExporterFactory {
 
     private final WishlistAsyncService wishlistService;
-    private final ToasterWrapper toasterWrapper;
 
-    public WishlistCsvExporterFactory(WishlistAsyncService wishlistService, ToasterWrapper toasterWrapper) {
+    public WishlistCsvExporterFactory(WishlistAsyncService wishlistService) {
         this.wishlistService = wishlistService;
-        this.toasterWrapper = toasterWrapper;
     }
 
     // TODO give a toaster service
     public AsyncCsvExporter<WishlistDataDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
-        return new AsyncCsvExporter<>(wishlistService, new WishlistCsvExportWriter(fileWriter), toasterWrapper);
+        return new AsyncCsvExporter<>(wishlistService, new WishlistCsvExportWriter(fileWriter));
     }
 }

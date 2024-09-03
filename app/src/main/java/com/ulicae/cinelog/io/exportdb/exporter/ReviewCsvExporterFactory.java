@@ -32,18 +32,15 @@ public class ReviewCsvExporterFactory implements ExporterFactory {
 
     private final ReviewAsyncService reviewService;
 
-    private final ToasterWrapper toasterWrapper;
-
     public ReviewCsvExporterFactory(KinoApplication kinoApplication, ItemEntityType itemEntityType) {
         this(new ReviewAsyncService(kinoApplication.getDb(), itemEntityType), new ToasterWrapper(kinoApplication.getApplicationContext()));
     }
 
     private ReviewCsvExporterFactory(ReviewAsyncService reviewService, ToasterWrapper toasterWrapper) {
         this.reviewService = reviewService;
-        this.toasterWrapper = toasterWrapper;
     }
 
     public AsyncCsvExporter<KinoDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
-        return new AsyncCsvExporter<>(reviewService, new ReviewCsvExportWriter(fileWriter), toasterWrapper);
+        return new AsyncCsvExporter<>(reviewService, new ReviewCsvExportWriter(fileWriter));
     }
 }
