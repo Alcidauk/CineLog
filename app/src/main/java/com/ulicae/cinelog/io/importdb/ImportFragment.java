@@ -82,7 +82,7 @@ public class ImportFragment extends Fragment {
 
         Toast.makeText(context, getString(R.string.import_starting_toast), Toast.LENGTH_SHORT).show();
 
-        importForType(
+        asyncImportForType(
                 app,
                 context,
                 choosenDirFile,
