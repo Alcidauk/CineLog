@@ -8,16 +8,18 @@ import static org.mockito.Mockito.verify;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import androidx.documentfile.provider.DocumentFile;
 
-import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
+import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.utils.ToasterWrapper;
 
 import junit.framework.TestCase;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExportFragmentTest extends TestCase {
@@ -41,17 +44,22 @@ public class ExportFragmentTest extends TestCase {
     private SnapshotExporterFactory snapshotExporterFactory;
 
     @Mock
+    private SnapshotExporter<? extends ItemDto> snapshotExporter;
+
+    @Mock
     private ToasterWrapper toasterWrapper;
 
     @Mock
-    private SnapshotExporter<? extends ItemDto> snapshotExporter;
+    private CinelogSchedulers cinelogSchedulers;
+
+    @Before
+    public void before() {
+        doReturn(Schedulers.trampoline()).when(cinelogSchedulers).androidMainThread();
+    }
 
     @Test
     public void testExportForTypeNoDocumentFile() {
-        ExportFragment exportFragment = new ExportFragment();
-        exportFragment.setToasterWrapper(toasterWrapper);
-        exportFragment.setSnapshotExporterFactory(snapshotExporterFactory);
-        exportFragment.setDisposableList(new ArrayList<>());
+        ExportFragment exportFragment = getExportFragment();
 
         exportFragment.exportForType(docFile, "coucou", exporterFactory);
 
@@ -70,10 +78,7 @@ public class ExportFragmentTest extends TestCase {
         doReturn(snapshotExporter).when(snapshotExporterFactory).makeSnapshotExporter(exporterFactory);
         doThrow(new IOException()).when(snapshotExporter).export(uri);
 
-        ExportFragment exportFragment = new ExportFragment();
-        exportFragment.setToasterWrapper(toasterWrapper);
-        exportFragment.setSnapshotExporterFactory(snapshotExporterFactory);
-        exportFragment.setDisposableList(new ArrayList<>());
+        ExportFragment exportFragment = getExportFragment();
 
         exportFragment.exportForType(docFile, "coucou", exporterFactory);
 
@@ -94,10 +99,7 @@ public class ExportFragmentTest extends TestCase {
         Flowable<ArrayList<? extends ItemDto>> just = Flowable.error(new IOException());
         doReturn(just).when(snapshotExporter).export(uri);
 
-        ExportFragment exportFragment = new ExportFragment();
-        exportFragment.setToasterWrapper(toasterWrapper);
-        exportFragment.setSnapshotExporterFactory(snapshotExporterFactory);
-        exportFragment.setDisposableList(new ArrayList<>());
+        ExportFragment exportFragment = getExportFragment();
 
         exportFragment.exportForType(docFile, "coucou", exporterFactory);
 
@@ -118,10 +120,7 @@ public class ExportFragmentTest extends TestCase {
         Flowable<ArrayList<? extends ItemDto>> just = Flowable.just(new ArrayList<>());
         doReturn(just).when(snapshotExporter).export(any(Uri.class));
 
-        ExportFragment exportFragment = new ExportFragment();
-        exportFragment.setToasterWrapper(toasterWrapper);
-        exportFragment.setSnapshotExporterFactory(snapshotExporterFactory);
-        exportFragment.setDisposableList(new ArrayList<>());
+        ExportFragment exportFragment = getExportFragment();
 
         exportFragment.exportForType(docFile, "coucou", exporterFactory);
 
@@ -129,6 +128,15 @@ public class ExportFragmentTest extends TestCase {
 
         verify(toasterWrapper).toast(com.ulicae.cinelog.R.string.export_start_toast, ToasterWrapper.ToasterDuration.SHORT);
         verify(toasterWrapper).toast(com.ulicae.cinelog.R.string.export_succeeded_toast, ToasterWrapper.ToasterDuration.LONG);
+    }
+
+    private @NonNull ExportFragment getExportFragment() {
+        ExportFragment exportFragment = new ExportFragment();
+        exportFragment.setToasterWrapper(toasterWrapper);
+        exportFragment.setSnapshotExporterFactory(snapshotExporterFactory);
+        exportFragment.setDisposableList(new ArrayList<>());
+        exportFragment.setCinelogSchedulers(cinelogSchedulers);
+        return exportFragment;
     }
 
 }

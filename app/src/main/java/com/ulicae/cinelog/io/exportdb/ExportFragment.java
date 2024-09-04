@@ -23,6 +23,7 @@ import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.ReviewCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.TagCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.WishlistCsvExporterFactory;
+import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
 import com.ulicae.cinelog.utils.ToasterWrapper;
@@ -44,6 +45,8 @@ public class ExportFragment extends Fragment {
 
     private SnapshotExporterFactory snapshotExporterFactory;
 
+    private CinelogSchedulers cinelogSchedulers;
+
     void setToasterWrapper(ToasterWrapper toasterWrapper) {
         this.toasterWrapper = toasterWrapper;
     }
@@ -54,6 +57,10 @@ public class ExportFragment extends Fragment {
 
     void setDisposableList(List<Disposable> disposableList) {
         this.disposableList = disposableList;
+    }
+
+    void setCinelogSchedulers(CinelogSchedulers cinelogSchedulers) {
+        this.cinelogSchedulers = cinelogSchedulers;
     }
 
     @Override
@@ -128,7 +135,7 @@ public class ExportFragment extends Fragment {
                     snapshotExporterFactory
                             .makeSnapshotExporter(exporterFactory)
                             .export(exportFile.getUri())
-                            .observeOn(AndroidSchedulers.mainThread())
+                            .observeOn(cinelogSchedulers.androidMainThread())
                             .subscribe(
                                     success -> toasterWrapper.toast(R.string.export_succeeded_toast, ToasterWrapper.ToasterDuration.LONG),
                                     error -> toasterWrapper.toast(R.string.export_io_error_toast, ToasterWrapper.ToasterDuration.LONG)
