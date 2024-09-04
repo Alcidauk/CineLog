@@ -1,10 +1,18 @@
 package com.ulicae.cinelog.io.importdb;
 
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import android.content.Context;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
+import androidx.documentfile.provider.DocumentFile;
 
+import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.CinelogSchedulers;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -13,8 +21,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -35,18 +43,20 @@ import static org.mockito.Mockito.verify;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CsvImporterTest {
+public class AsyncCsvImporterTest {
 
     @Mock
     private FileReaderGetter fileReaderGetter;
     @Mock
     private FileReader fileReader;
+    @Mock
+    private DocumentFile documentFile;
 
     @Mock
     private DtoImportCreator dtoImportCreator;
 
     @Mock
-    private KinoService kinoService;
+    private ReviewAsyncService reviewAsyncService;
 
     @Mock
     private KinoDto aLocalKino;
@@ -56,20 +66,35 @@ public class CsvImporterTest {
     @Mock
     private Context context;
 
+    @Mock
+    private CinelogSchedulers cinelogSchedulers;
+
+
+    @Before
+    public void before() {
+        doReturn(Schedulers.trampoline()).when(cinelogSchedulers).androidMainThread();
+        doReturn(Schedulers.trampoline()).when(cinelogSchedulers).io();
+    }
+
+
     @Test
     public void importCsvFile() throws Exception {
-        doReturn(fileReader).when(fileReaderGetter).get("import.csv");
+        DocumentFile docFile = mock(DocumentFile.class);
+        doReturn(docFile).when(documentFile).findFile("import.csv");
 
-        doReturn(new ArrayList<KinoDto>() {{
+        doReturn(fileReader).when(fileReaderGetter).get(docFile);
+
+        ArrayList<KinoDto> dtos = new ArrayList<KinoDto>() {{
             add(aLocalKino);
             add(anotherLocalKino);
-        }}).when(dtoImportCreator).getDtos(fileReader);
+        }};
+        doReturn(dtos).when(dtoImportCreator).getDtos(fileReader);
 
-        new CsvImporter(fileReaderGetter, dtoImportCreator, kinoService, context).importCsvFile("import.csv");
+        doReturn(Completable.complete()).when(reviewAsyncService).createOrUpdate(dtos);
 
-        verify(kinoService).createOrUpdateFromImport(new ArrayList<KinoDto>() {{
-            add(aLocalKino);
-            add(anotherLocalKino);
-        }});
+        new AsyncCsvImporter<>(fileReaderGetter, dtoImportCreator, reviewAsyncService, context, cinelogSchedulers)
+                .importCsvFile(documentFile, "import.csv");
+
+        verify(reviewAsyncService).createOrUpdate(dtos);
     }
 }

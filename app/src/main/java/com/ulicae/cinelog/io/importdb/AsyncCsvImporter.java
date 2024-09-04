@@ -8,6 +8,7 @@ import androidx.documentfile.provider.DocumentFile;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
+import com.ulicae.cinelog.room.CinelogSchedulers;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -41,15 +42,18 @@ class AsyncCsvImporter<Dto extends ItemDto> {
     private final DtoImportCreator<Dto> dtoImportCreator;
     private AsyncDataService<Dto> itemService;
     private Context context;
+    private CinelogSchedulers cinelogSchedulers;
 
     public AsyncCsvImporter(FileReaderGetter fileReaderGetter,
                             DtoImportCreator<Dto> dtoImportCreator,
                             AsyncDataService<Dto> itemService,
-                            Context context) {
+                            Context context,
+                            CinelogSchedulers cinelogSchedulers) {
         this.fileReaderGetter = fileReaderGetter;
         this.dtoImportCreator = dtoImportCreator;
         this.itemService = itemService;
         this.context = context;
+        this.cinelogSchedulers = cinelogSchedulers;
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -69,8 +73,8 @@ class AsyncCsvImporter<Dto extends ItemDto> {
 
         // TODO gérer les erreurs dans le subscribe
         itemService.createOrUpdate(dtos)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(cinelogSchedulers.io())
+                .observeOn(cinelogSchedulers.androidMainThread())
                 .subscribe();
     }
 
