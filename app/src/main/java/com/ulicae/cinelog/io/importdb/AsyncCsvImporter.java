@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.io.importdb;
 
-import android.content.ContentResolver;
 import android.content.Context;
 
 import androidx.documentfile.provider.DocumentFile;
@@ -8,14 +7,12 @@ import androidx.documentfile.provider.DocumentFile;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
-import com.ulicae.cinelog.room.CinelogSchedulers;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Completable;
 
 
 /**
@@ -42,25 +39,22 @@ class AsyncCsvImporter<Dto extends ItemDto> {
     private final DtoImportCreator<Dto> dtoImportCreator;
     private AsyncDataService<Dto> itemService;
     private Context context;
-    private CinelogSchedulers cinelogSchedulers;
 
     public AsyncCsvImporter(FileReaderGetter fileReaderGetter,
                             DtoImportCreator<Dto> dtoImportCreator,
                             AsyncDataService<Dto> itemService,
-                            Context context,
-                            CinelogSchedulers cinelogSchedulers) {
+                            Context context) {
         this.fileReaderGetter = fileReaderGetter;
         this.dtoImportCreator = dtoImportCreator;
         this.itemService = itemService;
         this.context = context;
-        this.cinelogSchedulers = cinelogSchedulers;
     }
 
     @SuppressWarnings("WeakerAccess")
-    public void importCsvFile(DocumentFile choosenDirFile, String importFilename) throws ImportException, IOException {
+    public Completable importCsvFile(DocumentFile choosenDirFile, String importFilename) throws ImportException, IOException {
         DocumentFile importFile = choosenDirFile.findFile(importFilename);
         if (importFile == null) {
-            return;
+            return Completable.never();
         }
 
         FileReader fileReader;
@@ -71,11 +65,7 @@ class AsyncCsvImporter<Dto extends ItemDto> {
         }
         List<Dto> dtos = dtoImportCreator.getDtos(fileReader);
 
-        // TODO gérer les erreurs dans le subscribe
-        itemService.createOrUpdate(dtos)
-                .subscribeOn(cinelogSchedulers.io())
-                .observeOn(cinelogSchedulers.androidMainThread())
-                .subscribe();
+        return itemService.createOrUpdate(dtos);
     }
 
 }

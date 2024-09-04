@@ -92,7 +92,7 @@ public class AsyncCsvImporterTest {
 
         doReturn(Completable.complete()).when(reviewAsyncService).createOrUpdate(dtos);
 
-        new AsyncCsvImporter<>(fileReaderGetter, dtoImportCreator, reviewAsyncService, context, cinelogSchedulers)
+        new AsyncCsvImporter<>(fileReaderGetter, dtoImportCreator, reviewAsyncService, context)
                 .importCsvFile(documentFile, "import.csv");
 
         verify(reviewAsyncService).createOrUpdate(dtos);

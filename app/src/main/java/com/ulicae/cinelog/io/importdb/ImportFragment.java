@@ -20,25 +20,33 @@ import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
-import com.ulicae.cinelog.io.importdb.builder.ReviewableDtoFromRecordBuilder;
-import com.ulicae.cinelog.room.CinelogSchedulers;
-import com.ulicae.cinelog.room.services.ReviewAsyncService;
-import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.ActivityImportDbBinding;
 import com.ulicae.cinelog.io.importdb.builder.DtoFromRecordBuilder;
+import com.ulicae.cinelog.io.importdb.builder.ReviewableDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.TagDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.WishlistDtoFromRecordBuilder;
 import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ImportFragment extends Fragment {
 
     private @NonNull
     ActivityImportDbBinding binding;
+
+    private CinelogSchedulers cinelogSchedulers;
+    private List<Disposable> disposables;
 
     public ImportFragment() {
     }
@@ -48,6 +56,9 @@ public class ImportFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
+        cinelogSchedulers = new CinelogSchedulers();
+        disposables = new ArrayList<>();
 
         binding = ActivityImportDbBinding.inflate(getLayoutInflater());
         return binding.getRoot();
@@ -66,6 +77,15 @@ public class ImportFragment extends Fragment {
 
         importData(app, choosenDirFile);
     };
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        for(Disposable disposable : disposables) {
+            disposable.dispose();
+        }
+    }
 
     ActivityResultLauncher<Uri> launcher = registerForActivityResult(new ActivityResultContracts.OpenDocumentTree(), activityResultCallback);
 
@@ -122,7 +142,7 @@ public class ImportFragment extends Fragment {
                 new WishlistDtoFromRecordBuilder(context),
                 binding.importInDbContent.importWishlistMoviesStatusWaiting,
                 binding.importInDbContent.importWishlistMoviesErrorMessage
-                );
+        );
 
         asyncImportForType(
                 app,
@@ -143,26 +163,40 @@ public class ImportFragment extends Fragment {
                                    Context context,
                                    DocumentFile choosenDirFile,
                                    String importFilename,
-                                   AsyncDataService asyncDataService,
+                                   AsyncDataService<? extends ItemDto> asyncDataService,
                                    DtoFromRecordBuilder dtoFromRecordBuilder,
                                    TextView waitingUIZone,
                                    TextView errorUIZone) {
         try {
-            new AsyncCsvImporter<>(
-                    new FileReaderGetter(app),
-                    new DtoImportCreator<>(context, dtoFromRecordBuilder),
-                    asyncDataService,
-                    context,
-                    new CinelogSchedulers()
-            ).importCsvFile(choosenDirFile, importFilename);
+            disposables.add(
+                    new AsyncCsvImporter<>(
+                            new FileReaderGetter(app),
+                            new DtoImportCreator<>(context, dtoFromRecordBuilder),
+                            asyncDataService,
+                            context
+                    ).importCsvFile(choosenDirFile, importFilename)
+                            .subscribeOn(cinelogSchedulers.io())
+                            .observeOn(cinelogSchedulers.androidMainThread())
+                            .subscribe(
+                                    () -> {
+                                        waitingUIZone.setText(R.string.import_status_success);
+                                    },
+                                    error -> {
+                                        showImportError(app, waitingUIZone, errorUIZone, error);
+                                    }
+                            )
+            );
 
-            waitingUIZone.setText(R.string.import_status_success);
         } catch (ImportException e) {
-            Toast.makeText(app.getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            waitingUIZone.setText(R.string.import_status_failed);
-            errorUIZone.setText(e.getMessage());
+            showImportError(app, waitingUIZone, errorUIZone, e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void showImportError(KinoApplication app, TextView waitingUIZone, TextView errorUIZone, Throwable error) {
+        Toast.makeText(app.getBaseContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+        waitingUIZone.setText(R.string.import_status_failed);
+        errorUIZone.setText(error.getMessage());
     }
 }
