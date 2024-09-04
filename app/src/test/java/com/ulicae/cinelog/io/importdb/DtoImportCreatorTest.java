@@ -3,7 +3,7 @@ package com.ulicae.cinelog.io.importdb;
 import android.content.Context;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;
+import com.ulicae.cinelog.io.importdb.builder.ReviewableDtoFromRecordBuilder;
 
 import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
@@ -54,7 +54,7 @@ public class DtoImportCreatorTest {
     private KinoDto kinoDto;
 
     @Mock
-    private KinoDtoFromRecordBuilder kinoDtoFromRecordBuilder;
+    private ReviewableDtoFromRecordBuilder kinoDtoFromRecordBuilder;
 
     @Mock
     private Context context;

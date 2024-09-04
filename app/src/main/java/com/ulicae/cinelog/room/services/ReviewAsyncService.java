@@ -61,17 +61,6 @@ public class ReviewAsyncService implements AsyncDataService<KinoDto> {
         );
     }
 
-    public ReviewAsyncService(AppDatabase db) {
-        this(
-                db.reviewAsyncDao(),
-                db.reviewTagCrossRefDao(),
-                db.tagDao(),
-                new ReviewToDataDtoBuilder(),
-                new CinelogSchedulers(),
-                null
-        );
-    }
-
     ReviewAsyncService(ReviewAsyncDao reviewDao,
                        ReviewTagCrossRefDao crossRefDao,
                        TagDao tagDao,
@@ -102,7 +91,7 @@ public class ReviewAsyncService implements AsyncDataService<KinoDto> {
         Review review =
                 new Review(
                         0L,
-                        ItemEntityType.MOVIE,
+                        itemEntityType,
                         kinoDto.getTitle(),
                         kinoDto.getReview_date(),
                         kinoDto.getReview(),

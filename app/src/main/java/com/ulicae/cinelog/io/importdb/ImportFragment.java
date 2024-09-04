@@ -21,14 +21,12 @@ import androidx.fragment.app.Fragment;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.services.AsyncDataService;
-import com.ulicae.cinelog.data.services.reviews.ItemService;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
-import com.ulicae.cinelog.data.services.reviews.SerieService;
+import com.ulicae.cinelog.io.importdb.builder.ReviewableDtoFromRecordBuilder;
+import com.ulicae.cinelog.room.CinelogSchedulers;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.ActivityImportDbBinding;
 import com.ulicae.cinelog.io.importdb.builder.DtoFromRecordBuilder;
-import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;
-import com.ulicae.cinelog.io.importdb.builder.SerieDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.TagDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.WishlistDtoFromRecordBuilder;
 import com.ulicae.cinelog.room.AppDatabase;
@@ -93,24 +91,24 @@ public class ImportFragment extends Fragment {
                 binding.importInDbContent.importTagsErrorMessage
         );
 
-        importForType(
+        asyncImportForType(
                 app,
                 context,
                 choosenDirFile,
                 "import_movies.csv",
-                new KinoService(app.getDaoSession(), db),
-                new KinoDtoFromRecordBuilder(context),
+                new ReviewAsyncService(app.getDb(), ItemEntityType.MOVIE),
+                new ReviewableDtoFromRecordBuilder(context),
                 binding.importInDbContent.importMoviesStatusWaiting,
                 binding.importInDbContent.importMoviesErrorMessage
         );
 
-        importForType(
+        asyncImportForType(
                 app,
                 context,
                 choosenDirFile,
                 "import_series.csv",
-                new SerieService(app.getDaoSession(), db, context),
-                new SerieDtoFromRecordBuilder(context),
+                new ReviewAsyncService(app.getDb(), ItemEntityType.SERIE),
+                new ReviewableDtoFromRecordBuilder(context),
                 binding.importInDbContent.importSeriesStatusWaiting,
                 binding.importInDbContent.importSeriesErrorMessage
         );
@@ -141,29 +139,6 @@ public class ImportFragment extends Fragment {
 
     }
 
-    private void importForType(KinoApplication app,
-                               Context context,
-                               DocumentFile choosenDirFile, String importFilename,
-                               ItemService itemService,
-                               DtoFromRecordBuilder dtoFromRecordBuilder,
-                               TextView waitingUIZone,
-                               TextView errorUIZone) {
-        try {
-            new CsvImporter<>(
-                    new FileReaderGetter(app),
-                    new DtoImportCreator<>(context, dtoFromRecordBuilder),
-                    itemService,
-                    context
-            ).importCsvFile(importFilename);
-
-            waitingUIZone.setText(R.string.import_status_success);
-        } catch (ImportException e) {
-            Toast.makeText(app.getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            waitingUIZone.setText(R.string.import_status_failed);
-            errorUIZone.setText(e.getMessage());
-        }
-    }
-
     public void asyncImportForType(KinoApplication app,
                                    Context context,
                                    DocumentFile choosenDirFile,
@@ -177,7 +152,8 @@ public class ImportFragment extends Fragment {
                     new FileReaderGetter(app),
                     new DtoImportCreator<>(context, dtoFromRecordBuilder),
                     asyncDataService,
-                    context
+                    context,
+                    new CinelogSchedulers()
             ).importCsvFile(choosenDirFile, importFilename);
 
             waitingUIZone.setText(R.string.import_status_success);
