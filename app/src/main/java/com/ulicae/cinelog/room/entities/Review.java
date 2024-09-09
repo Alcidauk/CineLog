@@ -61,6 +61,70 @@ public class Review {
         this.tmdb = tmdb;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public ItemEntityType getItemEntityType() {
+        return itemEntityType;
+    }
+
+    public void setItemEntityType(ItemEntityType itemEntityType) {
+        this.itemEntityType = itemEntityType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Date getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public Integer getMaxRating() {
+        return maxRating;
+    }
+
+    public void setMaxRating(Integer maxRating) {
+        this.maxRating = maxRating;
+    }
+
+    public Tmdb getTmdb() {
+        return tmdb;
+    }
+
+    public void setTmdb(Tmdb tmdb) {
+        this.tmdb = tmdb;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

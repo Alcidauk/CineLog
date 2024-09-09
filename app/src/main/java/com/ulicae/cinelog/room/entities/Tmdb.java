@@ -69,6 +69,26 @@ public class Tmdb {
         return releaseDate;
     }
 
+    public void setTmdbId(long tmdbId) {
+        this.tmdbId = tmdbId;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

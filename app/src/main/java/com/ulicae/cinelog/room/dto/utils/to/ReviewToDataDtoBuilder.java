@@ -27,39 +27,38 @@ public class ReviewToDataDtoBuilder {
     /**
      * TODO build des tags ici ?
      * @param review
-     * @param tmdbItem
      * @return
      */
-    public KinoDto build(Review review, Tmdb tmdbItem) {
-        if (tmdbItem != null) {
+    public KinoDto build(Review review) {
+        if (review.getTmdb() != null) {
             return new KinoDto(
-                    review.id,
-                    tmdbItem.getTmdbId(),
-                    review.title,
-                    review.reviewDate,
-                    review.review,
+                    review.getId(),
+                    review.getTmdb().getTmdbId(),
+                    review.getTitle(),
+                    review.getReviewDate(),
+                    review.getReview(),
                     review.rating,
                     review.maxRating,
-                    tmdbItem != null ? tmdbItem.getPosterPath() : null,
-                    tmdbItem != null ? tmdbItem.getOverview() : null,
-                    tmdbItem != null ? tmdbItem.getYear() : 0,
-                    tmdbItem != null ? tmdbItem.getReleaseDate() : null,
+                    review.getTmdb().getPosterPath(),
+                    review.getTmdb().getOverview(),
+                    review.getTmdb().getYear(),
+                    review.getTmdb().getReleaseDate(),
                     null // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf
             );
         }
 
         return new KinoDto(
                 review.id,
-                review.tmdb != null ? review.tmdb.tmdbId : null,
+                null,
                 review.title,
                 review.reviewDate,
                 review.review,
                 review.rating,
                 review.maxRating,
-                review.tmdb != null ? review.tmdb.getPosterPath() : null,
-                review.tmdb != null ? review.tmdb.getOverview() : null,
-                review.tmdb != null ? review.tmdb.getYear() : 0,
-                review.tmdb != null ? review.tmdb.getReleaseDate() : null,
+                null,
+                null,
+                0,
+                null,
                 null
         );
     }
