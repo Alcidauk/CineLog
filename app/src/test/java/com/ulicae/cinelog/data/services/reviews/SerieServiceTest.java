@@ -8,7 +8,6 @@ import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
-import com.ulicae.cinelog.network.TmdbGetterService;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
 import org.junit.Test;
@@ -65,9 +64,6 @@ public class SerieServiceTest {
     @Mock
     private SerieDtoToDbBuilder toDbBuilder;
 
-    @Mock
-    private TmdbGetterService tmdbGetterService;
-
     @Test
     public void getReview() {
         SerieReview serieReview = mock(SerieReview.class);
@@ -77,7 +73,7 @@ public class SerieServiceTest {
 
         assertEquals(
                 serieDto,
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getReview(4L)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).getReview(4L)
         );
     }
 
@@ -90,7 +86,7 @@ public class SerieServiceTest {
 
         assertEquals(
                 serieDto,
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getWithTmdbId(4L)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).getWithTmdbId(4L)
         );
     }
 
@@ -107,7 +103,7 @@ public class SerieServiceTest {
                 new ArrayList<SerieDto>() {{
                     add(serieDto);
                 }},
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAll()
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).getAll()
         );
     }
 
@@ -124,7 +120,7 @@ public class SerieServiceTest {
                 new ArrayList<SerieDto>() {{
                     add(serieDto);
                 }},
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAllByRating(true)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).getAllByRating(true)
         );
     }
 
@@ -141,7 +137,7 @@ public class SerieServiceTest {
                 new ArrayList<SerieDto>() {{
                     add(serieDto);
                 }},
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAllByRating(false)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).getAllByRating(false)
         );
     }
 
@@ -158,7 +154,7 @@ public class SerieServiceTest {
 
         assertEquals(
                 Arrays.asList(serieDto, anotherSerieDto),
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAllByTitle(true)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).getAllByTitle(true)
         );
     }
 
@@ -175,7 +171,7 @@ public class SerieServiceTest {
 
         assertEquals(
                 Arrays.asList(serieDto, anotherSerieDto),
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAllByTitle(false)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).getAllByTitle(false)
         );
     }
 
@@ -184,7 +180,7 @@ public class SerieServiceTest {
         //noinspection ResultOfMethodCallIgnored
         doReturn(545L).when(serieDto).getKinoId();
 
-        new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).delete(serieDto);
+        new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).delete(serieDto);
 
         verify(serieReviewRepository).delete(545L);
     }
@@ -207,7 +203,7 @@ public class SerieServiceTest {
 
         assertEquals(
                 createdKino,
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).createOrUpdate(serieDto)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).createOrUpdate(serieDto)
         );
 
         verify(serieReviewRepository).createOrUpdate(serieReview);
@@ -230,7 +226,7 @@ public class SerieServiceTest {
 
         assertEquals(
                 createdKino,
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).createOrUpdate(serieDto)
+                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null).createOrUpdate(serieDto)
         );
 
         verify(serieReviewRepository).createOrUpdate(reviewToCreate);
@@ -254,7 +250,7 @@ public class SerieServiceTest {
         SerieDto createdKino = mock(SerieDto.class);
         doReturn(createdKino).when(serieKinoDtoBuilder).build(serieReview);
 
-        new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null)
+        new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null)
                 .createOrUpdateFromImport(new ArrayList<SerieDto>() {{
                     add(serieDto);
                 }});
@@ -283,7 +279,7 @@ public class SerieServiceTest {
 
         doReturn(dbSerieReview).when(serieReviewRepository).findByMovieId(4561432L);
 
-        new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null)
+        new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, serieKinoDtoBuilder, toDbBuilder, null)
                 .createOrUpdateFromImport(new ArrayList<SerieDto>() {{
                     add(serieDto);
                 }});
@@ -292,19 +288,6 @@ public class SerieServiceTest {
 
         verify(serieReviewRepository).createOrUpdate(serieReview);
         verify(tmdbSerieRepository).createOrUpdate(tmdbKino);
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    @Test
-    public void syncSerieWithTmdb() {
-        SerieReview serieReview = mock(SerieReview.class);
-        doReturn(serieReview).when(serieReviewRepository).findByMovieId(24);
-
-        SerieService serieService = new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository,
-                tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null);
-        serieService.syncWithTmdb(24);
-
-        verify(tmdbGetterService).startSyncWithTmdb(serieService, serieReview, 24);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -325,7 +308,7 @@ public class SerieServiceTest {
         doReturn("Alala").when(updatedDto).getTitle();
 
         new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository,
-                tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).updateTmdbInfo(updatedDto, serieReview);
+                serieKinoDtoBuilder, toDbBuilder, null).updateTmdbInfo(updatedDto, serieReview);
 
         verify(tmdbSerie).setOverview("Banane");
         verify(tmdbSerie).setPoster_path("Bleue");

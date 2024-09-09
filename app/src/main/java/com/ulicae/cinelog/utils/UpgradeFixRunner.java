@@ -3,20 +3,15 @@ package com.ulicae.cinelog.utils;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.room.Room;
 
 import com.ulicae.cinelog.BuildConfig;
-import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.data.dao.sqlite.DbReader;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.services.reviews.SerieService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
@@ -85,35 +80,9 @@ public class UpgradeFixRunner {
             return;
         }
 
-        if (lastCodeVersionSaved < 19 && BuildConfig.VERSION_CODE >= 19) {
-            fixSerieReviews();
-        } else if (lastCodeVersionSaved < 41 && BuildConfig.VERSION_CODE >= 41) {
+        if (lastCodeVersionSaved < 41 && BuildConfig.VERSION_CODE >= 41) {
             migrateToRoom();
         }
-    }
-
-    private void fixSerieReviews() {
-        KinoApplication app = (KinoApplication) application;
-        SerieService serieService = new SerieService(
-                app.getDaoSession(),
-                app.getDb(),
-                context
-        );
-
-        List<SerieDto> all = serieService.getAll();
-        for (SerieDto serieDto : all) {
-            if (serieDto.getReviewId() == 0L) {
-                serieDto.setReviewId(null);
-
-                serieService.createOrUpdate(serieDto);
-                Log.i("upgrade_fix", String.format("Creating own review for serie with id %s", serieDto.getTmdbKinoId()));
-            }
-
-            serieService.syncWithTmdb(serieDto.getTmdbKinoId());
-            Log.i("upgrade_fix", String.format("Refreshing data of %s serie with tmdb online db", serieDto.getTmdbKinoId()));
-        }
-
-        Toast.makeText(application.getBaseContext(), application.getBaseContext().getString(R.string.restart_app_please), Toast.LENGTH_LONG).show();
     }
 
     private void migrateToRoom() {

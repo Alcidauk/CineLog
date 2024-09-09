@@ -65,8 +65,7 @@ public class SerieReviewListFragment extends ReviewListFragment<SerieDto> {
         KinoApplication application = (KinoApplication) getActivity().getApplication();
         service = new SerieService(
                 application.getDaoSession(),
-                application.getDb(),
-                getContext()
+                application.getDb()
         );
     }
 

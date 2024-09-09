@@ -44,7 +44,7 @@ public class ServiceFactory {
             case "kino":
                 return new KinoService(daoSession, app.getDb());
             case "serie":
-                return new SerieService(daoSession, app.getDb(), context);
+                return new SerieService(daoSession, app.getDb());
         }
 
         throw new NullPointerException("Unable to find a service for this type.");

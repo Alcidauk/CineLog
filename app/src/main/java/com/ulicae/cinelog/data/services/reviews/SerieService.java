@@ -1,7 +1,5 @@
 package com.ulicae.cinelog.data.services.reviews;
 
-import android.content.Context;
-
 import com.ulicae.cinelog.data.ReviewRepository;
 import com.ulicae.cinelog.data.SerieReviewRepository;
 import com.ulicae.cinelog.data.TmdbSerieRepository;
@@ -14,7 +12,6 @@ import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.room.services.TagAsyncService;
-import com.ulicae.cinelog.network.TmdbGetterService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
@@ -44,29 +41,27 @@ public class SerieService implements DataService<SerieDto> {
     private final SerieReviewRepository serieReviewRepository;
     private final ReviewRepository reviewRepository;
     private final TmdbSerieRepository tmdbSerieRepository;
-    private final TmdbGetterService tmdbGetterService;
     private final SerieKinoDtoBuilder serieKinoDtoBuilder;
     private final SerieDtoToDbBuilder dtoToDbBuilder;
     private final TagAsyncService tagService;
 
     SerieService(SerieReviewRepository serieReviewRepository, ReviewRepository reviewRepository,
-                 TmdbSerieRepository tmdbSerieRepository, TmdbGetterService tmdbGetterService,
+                 TmdbSerieRepository tmdbSerieRepository,
                  SerieKinoDtoBuilder serieKinoDtoBuilder, SerieDtoToDbBuilder dtoToDbBuilder,
                  TagAsyncService tagService) {
         this.serieReviewRepository = serieReviewRepository;
         this.reviewRepository = reviewRepository;
         this.tmdbSerieRepository = tmdbSerieRepository;
-        this.tmdbGetterService = tmdbGetterService;
         this.serieKinoDtoBuilder = serieKinoDtoBuilder;
         this.dtoToDbBuilder = dtoToDbBuilder;
         this.tagService = tagService;
     }
 
-    public SerieService(DaoSession daoSession, AppDatabase db, Context context) {
+    public SerieService(DaoSession daoSession, AppDatabase db) {
         this(new SerieReviewRepository(daoSession),
                 new ReviewRepository(daoSession),
                 new TmdbSerieRepository(daoSession),
-                new TmdbGetterService(context), new SerieKinoDtoBuilder(),
+                new SerieKinoDtoBuilder(),
                 new SerieDtoToDbBuilder(),
                 new TagAsyncService(db)
         );
@@ -129,12 +124,6 @@ public class SerieService implements DataService<SerieDto> {
                 tagService.addTagToItemIfNotExists(Math.toIntExact(createdKino.getId()), Math.toIntExact(tag.getId()));
             }
         }
-    }
-
-    public void syncWithTmdb(long tmdbId) {
-        SerieReview serieReview = serieReviewRepository.findByMovieId(tmdbId);
-
-        tmdbGetterService.startSyncWithTmdb(this, serieReview, tmdbId);
     }
 
     public void updateTmdbInfo(SerieDto updatedDto, SerieReview serieReview){
