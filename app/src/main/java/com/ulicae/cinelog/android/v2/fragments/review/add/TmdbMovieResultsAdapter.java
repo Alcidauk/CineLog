@@ -3,9 +3,9 @@ package com.ulicae.cinelog.android.v2.fragments.review.add;
 import android.content.Context;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
 import com.ulicae.cinelog.network.KinoBuilderFromMovie;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class TmdbMovieResultsAdapter extends TmdbResultAdapter<BaseMovie> {
                                    ReviewCreationCallback reviewCreationCallback) {
         super(context,
                 results,
-                new KinoService(app.getDaoSession(), app.getDb()),
+                new ReviewAsyncService(app, ItemEntityType.MOVIE),
                 new KinoBuilderFromMovie(),
                 reviewItemCallback,
                 reviewCreationCallback);

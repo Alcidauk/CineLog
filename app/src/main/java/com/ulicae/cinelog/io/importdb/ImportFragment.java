@@ -116,7 +116,7 @@ public class ImportFragment extends Fragment {
                 context,
                 choosenDirFile,
                 "import_movies.csv",
-                new ReviewAsyncService(app.getDb(), ItemEntityType.MOVIE),
+                new ReviewAsyncService(app, ItemEntityType.MOVIE),
                 new ReviewableDtoFromRecordBuilder(context),
                 binding.importInDbContent.importMoviesStatusWaiting,
                 binding.importInDbContent.importMoviesErrorMessage
@@ -127,7 +127,7 @@ public class ImportFragment extends Fragment {
                 context,
                 choosenDirFile,
                 "import_series.csv",
-                new ReviewAsyncService(app.getDb(), ItemEntityType.SERIE),
+                new ReviewAsyncService(app, ItemEntityType.SERIE),
                 new ReviewableDtoFromRecordBuilder(context),
                 binding.importInDbContent.importSeriesStatusWaiting,
                 binding.importInDbContent.importSeriesErrorMessage

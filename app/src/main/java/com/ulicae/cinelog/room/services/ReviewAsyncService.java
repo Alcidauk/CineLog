@@ -1,9 +1,9 @@
 package com.ulicae.cinelog.room.services;
 
+import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.AsyncDataService;
-import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.data.services.AsyncDataTmdbService;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -39,7 +40,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class ReviewAsyncService implements AsyncDataService<KinoDto> {
+public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
 
     private final ReviewAsyncDao reviewDao;
     private final ReviewTagCrossRefDao crossRefDao;
@@ -50,11 +51,11 @@ public class ReviewAsyncService implements AsyncDataService<KinoDto> {
 
     private ItemEntityType itemEntityType;
 
-    public ReviewAsyncService(AppDatabase db, ItemEntityType itemEntityType) {
+    public ReviewAsyncService(KinoApplication app, ItemEntityType itemEntityType) {
         this(
-                db.reviewAsyncDao(),
-                db.reviewTagCrossRefDao(),
-                db.tagDao(),
+                app.getDb().reviewAsyncDao(),
+                app.getDb().reviewTagCrossRefDao(),
+                app.getDb().tagDao(),
                 new ReviewToDataDtoBuilder(),
                 new CinelogSchedulers(),
                 itemEntityType
@@ -179,7 +180,7 @@ public class ReviewAsyncService implements AsyncDataService<KinoDto> {
     private List<KinoDto> getDtoFromDaos(List<Review> items) {
         List<KinoDto> kinoDtos = new ArrayList<>();
         for (Review item : items) {
-            kinoDtos.add(reviewToDataDtoBuilder.build(item, item.tmdb));
+            kinoDtos.add(reviewToDataDtoBuilder.build(item));
         }
         return kinoDtos;
     }
@@ -192,17 +193,17 @@ public class ReviewAsyncService implements AsyncDataService<KinoDto> {
         return reviewDao
                 .find(id)
                 .map(review ->
-                        reviewToDataDtoBuilder.build(review, review.tmdb))
+                        reviewToDataDtoBuilder.build(review))
                 .doOnNext(kinoDto -> kinoDto.setTags(getReviewTags(kinoDto)));
     }
 
-    // TODO long vs int, verify its ok
-    public Flowable<KinoDto> getByTmdbId(Integer tmdbId) {
+    public Single<KinoDto> getWithTmdbId(long tmdbId) {
         return reviewDao
-                .findByMovieId(Long.valueOf(tmdbId))
-                .map(review -> reviewToDataDtoBuilder.build(review, review.tmdb))
-                .doOnNext(kinoDto -> kinoDto.setTags(getReviewTags(kinoDto)));
+                .findByMovieIdSingle(tmdbId)
+                .map(reviewToDataDtoBuilder::build)
+                .doAfterSuccess((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
     }
+
 
     /**
      * DATA SERVICE COMPATIBILITY

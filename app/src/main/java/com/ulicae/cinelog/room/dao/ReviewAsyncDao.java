@@ -9,6 +9,7 @@ import com.ulicae.cinelog.room.entities.Review;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -44,6 +45,10 @@ public interface ReviewAsyncDao extends AsyncRoomDao<Review> {
 
     @Query("SELECT * FROM review WHERE tmdb_id = :tmdb_id")
     Flowable<Review> findByMovieId(Long tmdb_id);
+
+
+    @Query("SELECT * FROM review WHERE tmdb_id = :tmdb_id")
+    Single<Review> findByMovieIdSingle(Long tmdb_id);
 
     /*Flowable<List<Review>> findAllByRating(boolean asc);
 

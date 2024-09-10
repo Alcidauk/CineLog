@@ -32,7 +32,7 @@ public class ReviewCsvExporterFactory implements ExporterFactory<KinoDto> {
     private final ReviewAsyncService reviewService;
 
     public ReviewCsvExporterFactory(KinoApplication kinoApplication, ItemEntityType itemEntityType) {
-        this(new ReviewAsyncService(kinoApplication.getDb(), itemEntityType));
+        this(new ReviewAsyncService(kinoApplication, itemEntityType));
     }
 
     private ReviewCsvExporterFactory(ReviewAsyncService reviewService) {

@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         if (wishlist) {
             navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdMovieFragment, args);
         } else {
-            navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieFragment, args);
+            navController.navigate(R.id.action_nav_reviews_room_movie_to_searchTmdbMovieFragment, args);
         }
     }
 

@@ -29,6 +29,14 @@
         android:name="com.ulicae.cinelog.android.v2.fragments.review.room.list.MovieReviewRoomListFragment"
         android:label="@string/title_fragment_movie_room">
         <action
+            android:id="@+id/action_nav_reviews_room_movie_to_searchTmdbMovieFragment"
+            app:destination="@id/searchTmdbMovieFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
             android:id="@+id/action_nav_reviews_room_movie_to_viewReviewFragment"
             app:destination="@id/viewReviewRoomFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
