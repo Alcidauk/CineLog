@@ -2,7 +2,8 @@ package com.ulicae.cinelog.room.dto.utils.to;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.room.entities.Review;
-import com.ulicae.cinelog.room.entities.Tmdb;
+
+import java.util.ArrayList;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -43,7 +44,7 @@ public class ReviewToDataDtoBuilder {
                     review.getTmdb().getOverview(),
                     review.getTmdb().getYear(),
                     review.getTmdb().getReleaseDate(),
-                    null // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf
+                    new ArrayList<>() // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf
             );
         }
 
