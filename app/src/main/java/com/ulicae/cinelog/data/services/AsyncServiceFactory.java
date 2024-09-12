@@ -1,10 +1,9 @@
 package com.ulicae.cinelog.data.services;
 
-import android.content.Context;
-
-import com.ulicae.cinelog.room.services.ReviewService;
-import com.ulicae.cinelog.room.services.SerieReviewService;
-import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.KinoApplication;
+import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -26,18 +25,13 @@ import com.ulicae.cinelog.room.AppDatabase;
  */
 public class AsyncServiceFactory {
 
-    private Context context;
-
-    public AsyncServiceFactory(Context baseContext) {
-        context = baseContext;
-    }
-
-    public RoomDataService create(String type, AppDatabase db) {
+    // TODO is this class needed
+    public AsyncDataService<KinoDto> create(String type, KinoApplication app) {
         switch (type) {
             case "kino":
-                return new ReviewService(db);
+                return new ReviewAsyncService(app, ItemEntityType.MOVIE);
             case "serie":
-                return new SerieReviewService(db);
+                return new ReviewAsyncService(app, ItemEntityType.SERIE);
         }
 
         throw new NullPointerException("Unable to find a service for this type.");
