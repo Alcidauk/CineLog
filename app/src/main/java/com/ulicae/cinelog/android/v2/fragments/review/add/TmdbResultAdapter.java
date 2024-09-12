@@ -20,6 +20,7 @@ import com.ulicae.cinelog.data.services.AsyncDataTmdbService;
 import com.ulicae.cinelog.databinding.TmdbItemRowBinding;
 import com.ulicae.cinelog.network.DtoBuilderFromTmdbObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -66,6 +67,7 @@ public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
         this.builderFromTmdbObject = dtoBuilderFromTmdbObject;
         this.reviewItemCallback = reviewItemCallback;
         this.reviewCreationCallback = reviewCreationCallback;
+        this.disposables = new ArrayList<>();
     }
 
     public long getItemId(int position) {
