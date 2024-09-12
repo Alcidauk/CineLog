@@ -39,6 +39,7 @@
     <string name="title_activity_add_review_creation">Review creation</string>
     <string name="review_hint">Enter your review here.</string>
 
+    <string name="list_loading_failed">Cannot load review list</string>
 
     <string name="order">Order</string>
     <string name="year">Release year</string>

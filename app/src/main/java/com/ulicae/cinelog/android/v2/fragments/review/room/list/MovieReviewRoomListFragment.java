@@ -12,10 +12,9 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.room.services.ReviewService;
 import com.ulicae.cinelog.databinding.FragmentMovieListBinding;
-
-import java.util.List;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -35,12 +34,14 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class MovieReviewRoomListFragment extends ReviewRoomListFragment<KinoDto> {
+public class MovieReviewRoomListFragment extends ReviewRoomListFragment {
 
     private FragmentMovieListBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        itemEntityType = ItemEntityType.MOVIE;
+
         binding = FragmentMovieListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -53,24 +54,13 @@ public class MovieReviewRoomListFragment extends ReviewRoomListFragment<KinoDto>
 
     @Override
     protected void createService() {
-        service = new ReviewService(((KinoApplication) getActivity().getApplication()).getDb());
-    }
-
-    @Override
-    protected List<KinoDto> getResults(int order) {
-        if (order == -1) {
-            order = getOrderFromPreferences();
-        }
-        switch (order) {
-            default:
-                return ((ReviewService) service).getAll();
-        }
+        service = new ReviewAsyncService((KinoApplication) getActivity().getApplication(), ItemEntityType.MOVIE);
     }
 
     @Override
     protected void navigateToItem(KinoDto item, int position, boolean inDb, boolean fromSearch) {
         ((MainActivity) requireActivity()).navigateToItem(
-                (KinoDto) item, position, inDb, fromSearch, true
+                item, position, inDb, fromSearch, true
         );
     }
 
@@ -84,7 +74,7 @@ public class MovieReviewRoomListFragment extends ReviewRoomListFragment<KinoDto>
         ((MainActivity) requireActivity()).goToTmdbMovieSearch(false);
     }
 
-    private int getOrderFromPreferences() {
+    protected int getOrderFromPreferences() {
         return super.getOrderFromPreferences("default_movie_sort_type");
     }
 }

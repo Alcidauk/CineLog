@@ -1,9 +1,13 @@
 package com.ulicae.cinelog.android.v2.fragments.review.room.list;
 
+import static io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,13 +20,17 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.review.list.ReviewDateHeaderListTransformer;
 import com.ulicae.cinelog.android.v2.fragments.review.list.ReviewListAdapter;
-import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.services.RoomDataService;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -42,15 +50,17 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment {
+public abstract class ReviewRoomListFragment extends Fragment {
+
+    ItemEntityType itemEntityType;
 
     ReviewListAdapter kino_adapter;
 
-    List<T> kinos;
-
-    protected RoomDataService service;
+    protected ReviewAsyncService service;
 
     private int LIST_VIEW_STATE = -1;
+
+    protected List<Disposable> disposables;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +68,8 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
 
         setHasOptionsMenu(true);
         createService();
-        createListView(1);
+
+        this.disposables = new ArrayList<>();
     }
 
     @Override
@@ -83,41 +94,57 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
             }
         });
         searchView.setVisibility(View.VISIBLE);
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        createListView(LIST_VIEW_STATE);
+        createListView(LIST_VIEW_STATE, view.getContext());
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (!item.hasSubMenu()) {
-            createListView(item.getItemId());
+            createListView(item.getItemId(), requireContext());
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void createListView(int orderId) {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        for(Disposable disposable : disposables) {
+            disposable.dispose();
+        }
+    }
+
+    private void createListView(int orderId, Context context) {
         if (getKinoList() != null) {
             LIST_VIEW_STATE = orderId;
 
-            kinos = getResults(orderId);
+            disposables.add(
+                    getResults(orderId)
+                            .observeOn(mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .doOnError(
+                                    (error) ->
+                                            Toast.makeText(
+                                                    getContext(),
+                                                    getString(R.string.list_loading_failed),
+                                                    Toast.LENGTH_LONG
+                                            ).show())
+                            .subscribe((kinos) -> {
+                                initialiseAdapter(kinos, orderId, context);
+                                applyListeners();
 
-            initialiseAdapter(kinos, orderId);
-            applyListeners();
-
-            getKinoList().setAdapter(kino_adapter);
+                                getKinoList().setAdapter(kino_adapter);
+                            })
+            );
         }
     }
 
     private void applyListeners() {
         getKinoList().setOnItemLongClickListener((view, parent, position, rowId) -> {
             Object item = kino_adapter.getItem(position);
-            if(!(item instanceof KinoDto)){
+            if (!(item instanceof KinoDto)) {
                 return false;
             }
 
@@ -141,7 +168,7 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
         });
         getKinoList().setOnItemClickListener((view, parent, position, rowId) -> {
             Object item = kino_adapter.getItem(position);
-            if(!(item instanceof KinoDto)){
+            if (!(item instanceof KinoDto)) {
                 return;
             }
             // TODO callback ?
@@ -152,14 +179,16 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
     protected abstract void navigateToItem(KinoDto item, int position, boolean inDb, boolean fromSearch);
 
     @NonNull
-    private void initialiseAdapter(List<T> kinos, int orderId) {
+    private void initialiseAdapter(List<KinoDto> kinos, int orderId, Context context) {
         List<Object> objects = new ArrayList<>(kinos);
         if (orderId == R.id.order_by_date_added_newest_first || orderId == R.id.order_by_date_added_oldest_first) {
-            objects = new ReviewDateHeaderListTransformer(getContext(), kinos).transform();
+            objects = new ReviewDateHeaderListTransformer(context, kinos).transform();
         }
 
-        kino_adapter = new ReviewListAdapter(getContext(), objects);
+        kino_adapter = new ReviewListAdapter(context, objects);
     }
+
+    protected abstract int getOrderFromPreferences();
 
     protected int getOrderFromPreferences(String arrayKey) {
         String defaultSortType = new PreferencesWrapper().getStringPreference(
@@ -174,7 +203,40 @@ public abstract class ReviewRoomListFragment<T extends ItemDto> extends Fragment
                 );
     }
 
-    protected abstract List<T> getResults(int order);
+    protected Flowable<List<KinoDto>> getResults(int order) {
+        if (order == -1) {
+            order = getOrderFromPreferences();
+        }
+
+        Flowable<List<KinoDto>> flowableDtos;
+        switch (order) {
+            case R.id.order_by_title_asc:
+                flowableDtos = service.getReviewsByTitle(true);
+                break;
+            case R.id.order_by_title_desc:
+                flowableDtos = service.getReviewsByTitle(false);
+                break;
+            case R.id.order_by_date_added_newest_first:
+                return service.getReviewsByReviewDate(false);
+            case R.id.order_by_date_added_oldest_first:
+                return service.getReviewsByReviewDate(true);
+            case R.id.order_by_rating_highest_first:
+                flowableDtos = service.getReviewsByRating(false);
+                break;
+            case R.id.order_by_rating_lowest_first:
+                flowableDtos = service.getReviewsByRating(true);
+                break;
+            case R.id.order_by_year_newest_first:
+                return service.getReviewsByYear(false);
+            case R.id.order_by_year_oldest_first:
+                return service.getReviewsByYear(true);
+            default:
+                flowableDtos = service.findAll();
+                break;
+        }
+
+        return flowableDtos;
+    }
 
     protected abstract ListView getKinoList();
 

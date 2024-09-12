@@ -1,6 +1,8 @@
 package com.ulicae.cinelog.room.dto.utils.to;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
 
 import java.util.ArrayList;
@@ -27,41 +29,78 @@ public class ReviewToDataDtoBuilder {
 
     /**
      * TODO build des tags ici ?
+     * TODO bis, est-ce qu'on a encore besoin de seriedto ?
      * @param review
      * @return
      */
     public KinoDto build(Review review) {
-        if (review.getTmdb() != null) {
+        if(review.getItemEntityType().equals(ItemEntityType.MOVIE)) {
+            if (review.getTmdb() != null) {
+                return new KinoDto(
+                        review.getId(),
+                        review.getTmdb().getTmdbId(),
+                        review.getTitle(),
+                        review.getReviewDate(),
+                        review.getReview(),
+                        review.rating,
+                        review.maxRating,
+                        review.getTmdb().getPosterPath(),
+                        review.getTmdb().getOverview(),
+                        review.getTmdb().getYear(),
+                        review.getTmdb().getReleaseDate(),
+                        new ArrayList<>() // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf
+                );
+            }
+
             return new KinoDto(
-                    review.getId(),
-                    review.getTmdb().getTmdbId(),
-                    review.getTitle(),
-                    review.getReviewDate(),
-                    review.getReview(),
+                    review.id,
+                    null,
+                    review.title,
+                    review.reviewDate,
+                    review.review,
                     review.rating,
                     review.maxRating,
-                    review.getTmdb().getPosterPath(),
-                    review.getTmdb().getOverview(),
-                    review.getTmdb().getYear(),
-                    review.getTmdb().getReleaseDate(),
-                    new ArrayList<>() // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf
+                    null,
+                    null,
+                    0,
+                    null,
+                    new ArrayList<>()
+            );
+        } else {
+            if (review.getTmdb() != null) {
+                return new SerieDto(
+                        review.getId(),
+                        review.getTmdb().getTmdbId(),
+                        null,
+                        review.getTitle(),
+                        review.getReviewDate(),
+                        review.getReview(),
+                        review.rating,
+                        review.maxRating,
+                        review.getTmdb().getPosterPath(),
+                        review.getTmdb().getOverview(),
+                        review.getTmdb().getYear(),
+                        review.getTmdb().getReleaseDate(),
+                        new ArrayList<>() // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf
+                );
+            }
+
+            return new SerieDto(
+                    review.id,
+                    null,
+                    null,
+                    review.title,
+                    review.reviewDate,
+                    review.review,
+                    review.rating,
+                    review.maxRating,
+                    null,
+                    null,
+                    0,
+                    null,
+                    new ArrayList<>()
             );
         }
-
-        return new KinoDto(
-                review.id,
-                null,
-                review.title,
-                review.reviewDate,
-                review.review,
-                review.rating,
-                review.maxRating,
-                null,
-                null,
-                0,
-                null,
-                null
-        );
     }
 
     /*private List<TagDto> buildTags(List<Tag> tags) {

@@ -226,4 +226,39 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
                 .insertAll(items);
     }
 
+    public Flowable<List<KinoDto>> getReviewsByRating(boolean asc) {
+        Flowable<List<Review>> query = asc ?
+                reviewDao.findAllByRatingAsc(this.itemEntityType) :
+                reviewDao.findAllByRatingDesc(this.itemEntityType);
+
+        return query.map(this::getDtoFromDaos);
+        // TODO .doOnNext((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
+    }
+
+    public Flowable<List<KinoDto>> getReviewsByReviewDate(boolean asc) {
+        Flowable<List<Review>> query = asc ?
+                reviewDao.findAllByReviewDateAsc(this.itemEntityType) :
+                reviewDao.findAllByReviewDateDesc(this.itemEntityType);
+
+        return query.map(this::getDtoFromDaos);
+        // TODO .doOnNext((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
+    }
+
+    public Flowable<List<KinoDto>> getReviewsByYear(boolean asc) {
+        Flowable<List<Review>> query = asc ?
+                reviewDao.findAllByYearAsc(this.itemEntityType) :
+                reviewDao.findAllByYearDesc(this.itemEntityType);
+
+        return query.map(this::getDtoFromDaos);
+        // TODO .doOnNext((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
+    }
+
+    public Flowable<List<KinoDto>> getReviewsByTitle(boolean asc) {
+        Flowable<List<Review>> query = asc ?
+                reviewDao.findAllByTitleAsc(this.itemEntityType) :
+                reviewDao.findAllByTitleDesc(this.itemEntityType);
+
+        return query.map(this::getDtoFromDaos);
+        // TODO .doOnNext((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
+    }
 }

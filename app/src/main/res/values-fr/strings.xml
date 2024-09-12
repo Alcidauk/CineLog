@@ -159,4 +159,5 @@
 
     <string name="action_share">Partager</string>
     <string name="tag_deleted">Tag supprimé</string>
+    <string name="list_loading_failed">Impossible de récupérer les avis</string>
 </resources>
