@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,10 +26,10 @@ import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.AsyncServiceFactory;
-import com.ulicae.cinelog.data.services.RoomDataService;
-import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
 import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 
 import org.parceler.Parcels;
 
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -46,7 +48,7 @@ public class ReviewEditionFragment extends Fragment {
 
     KinoDto kino;
 
-    private RoomDataService dtoService;
+    private ReviewAsyncService reviewAsyncService;
     private TagAsyncService tagService;
 
     private WishlistItemDeleter wishlistItemDeleter;
@@ -69,7 +71,10 @@ public class ReviewEditionFragment extends Fragment {
 
         String dtoType = requireArguments().getString("dtoType");
 
-        dtoService = new AsyncServiceFactory(requireContext()).create(dtoType, appDb);
+        reviewAsyncService = (ReviewAsyncService) new AsyncServiceFactory().create(
+                dtoType,
+                ((KinoApplication) getActivity().getApplication())
+        );
 
         tagService = new TagAsyncService(appDb);
 
@@ -235,19 +240,28 @@ public class ReviewEditionFragment extends Fragment {
             kino.setMaxRating(maxRatingAsInt);
         }
 
-        // noinspection unchecked
-        dtoService.createOrUpdate(kino);
+        disposables.add(
+                reviewAsyncService.createOrUpdate(kino)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                        () -> {
+                            long wishlistId = requireArguments().getLong("wishlistId", 0L);
+                            if (wishlistId != 0L) {
+                                // TODO do we need to know if it is a serie or a movie ?
+                                //  wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
+                                wishlistItemDeleter.deleteWishlistItem(wishlistId); // TODO adapter ça
+                            }
 
-        long wishlistId = requireArguments().getLong("wishlistId", 0L);
-        if (wishlistId != 0L) {
-            // TODO do we need to know if it is a serie or a movie ?
-            //  wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
-            wishlistItemDeleter.deleteWishlistItem(wishlistId); // TODO adapter ça
-        }
+                            updateTags();
 
-        updateTags();
-
-        ((MainActivity) requireActivity()).navigateBackToReviewList(kino);
+                            ((MainActivity) requireActivity()).navigateBackToReviewList(kino);
+                        },
+                        error -> {
+                            Toast.makeText(getContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_SHORT).show();
+                        }
+                )
+        );
     }
 
     private void updateTags() {

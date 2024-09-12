@@ -160,4 +160,5 @@
     <string name="action_share">Partager</string>
     <string name="tag_deleted">Tag supprimé</string>
     <string name="list_loading_failed">Impossible de récupérer les avis</string>
+    <string name="review_cant_edit">Erreur: impossible d\'éditer l\'avis</string>
 </resources>

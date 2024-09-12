@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         if (wishlist) {
             navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdSerieFragment, args);
         } else {
-            navController.navigate(R.id.action_nav_reviews_serie_to_searchTmbdSerieFragment, args);
+            navController.navigate(R.id.action_nav_reviews_room_serie_to_searchTmdbMovieFragment, args);
         }
     }
 
@@ -247,8 +247,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
                 return kinoDto instanceof SerieDto ?
-                        R.id.action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment :
-                        R.id.action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment;
+                        R.id.action_searchTmbdSerieRoomFragment_to_viewUnregisteredItemFragment :
+                        R.id.action_searchTmdbMovieRoomFragment_to_viewUnregisteredItemFragment;
             }
         } else {
             if(inDb) {

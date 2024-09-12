@@ -59,7 +59,7 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
     protected NetworkTaskManager networkTaskManager;
 
     protected final ReviewItemCallback movieSearchResultClickCallback =
-            (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToItem(kinoDto, position, inDb, true, false);
+            (kinoDto, position, inDb) -> ((MainActivity) requireActivity()).navigateToItem(kinoDto, position, inDb, true, true);
     protected final ReviewCreationCallback movieReviewCreationClickCallback =
             (kinoDto) -> {
                 Bundle args = new Bundle();
@@ -68,8 +68,8 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
                 args.putBoolean("creation", true);
                 ((MainActivity) requireActivity()).navigateToReview(
                         kinoDto instanceof SerieDto ?
-                                R.id.action_searchTmbdSerieFragment_to_editReviewFragment :
-                                R.id.action_searchTmdbMovieFragment_to_editReviewFragment,
+                                R.id.action_searchTmbdSerieRoomFragment_to_editReviewFragment :
+                                R.id.action_searchTmdbMovieRoomFragment_to_editReviewFragment,
                         args
                 );
             };

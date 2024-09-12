@@ -78,8 +78,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
-            android:id="@+id/action_nav_reviews_room_movie_to_searchTmdbMovieFragment"
-            app:destination="@id/searchTmdbMovieRoomFragment"
+            android:id="@+id/action_nav_reviews_room_serie_to_searchTmdbMovieFragment"
+            app:destination="@id/searchTmbdSerieRoomFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
@@ -175,6 +175,48 @@
         <action
             android:id="@+id/action_searchTmdbMovieRoomFragment_to_viewKinoRoomFragment"
             app:destination="@id/viewReviewRoomFragment" />
+        <action
+            android:id="@+id/action_searchTmdbMovieRoomFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_searchTmdbMovieRoomFragment_to_viewUnregisteredItemFragment"
+            app:destination="@id/viewUnregisteredItemFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_searchTmdbMovieRoomFragment_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemRoomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchTmbdSerieRoomFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmbdSerieFragment"
+        android:label="@string/title_activity_add_kino" >
+        <action
+            android:id="@+id/action_searchTmbdSerieRoomFragment_to_viewSerieFragment"
+            app:destination="@id/viewSerieFragment" />
+        <action
+            android:id="@+id/action_searchTmbdSerieRoomFragment_to_editReviewFragment"
+            app:destination="@id/editReviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_searchTmbdSerieRoomFragment_to_viewUnregisteredItemFragment"
+            app:destination="@id/viewUnregisteredItemFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_searchTmbdSerieRoomFragment_to_wishlistItemFragment"
+            app:destination="@id/wishlistItemRoomFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewReviewRoomFragment"
