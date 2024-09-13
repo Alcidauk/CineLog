@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.review.list;
+package com.ulicae.cinelog.android.v2.fragments.review.room.list;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;

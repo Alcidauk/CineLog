@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.tag;
+package com.ulicae.cinelog.android.v2.fragments.review.room.tag;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;

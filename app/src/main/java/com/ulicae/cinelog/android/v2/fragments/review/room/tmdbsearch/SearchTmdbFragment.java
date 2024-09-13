@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.tmdbsearch;
+package com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

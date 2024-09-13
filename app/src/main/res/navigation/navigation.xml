@@ -2,28 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/nav_reviews_movie">
-    <fragment
-        android:id="@+id/nav_reviews_movie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.list.MovieReviewListFragment"
-        android:label="@string/title_fragment_movie" >
-        <action
-            android:id="@+id/action_nav_reviews_movie_to_searchTmdbMovieFragment"
-            app:destination="@id/searchTmdbMovieFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:launchSingleTop="false"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-        <action
-            android:id="@+id/action_nav_reviews_movie_to_viewKinoFragment"
-            app:destination="@id/viewKinoFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:launchSingleTop="false"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-    </fragment>
+    app:startDestination="@id/nav_reviews_room_movie">
     <fragment
         android:id="@+id/nav_reviews_room_movie"
         android:name="com.ulicae.cinelog.android.v2.fragments.review.room.list.MovieReviewRoomListFragment"
@@ -42,26 +21,6 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-    </fragment>
-    <fragment
-        android:id="@+id/nav_reviews_serie"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.list.SerieReviewListFragment"
-        android:label="@string/title_fragment_serie" >
-        <action
-            android:id="@+id/action_nav_reviews_serie_to_searchTmbdSerieFragment"
-            app:destination="@id/searchTmbdSerieFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:launchSingleTop="false"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-        <action
-            android:id="@+id/action_nav_reviews_serie_to_viewSerieFragment"
-            app:destination="@id/viewSerieFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
@@ -108,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_room_tags"
-        android:name="com.ulicae.cinelog.android.v2.fragments.tag.TagRoomFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.tag.TagRoomFragment"
         android:label="@string/tags_title" >
         <action
             android:id="@+id/action_nav_tags_to_editTagFragment"
@@ -120,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchTmdbMovieFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbMovieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch.SearchTmdbMovieFragment"
         android:label="@string/title_activity_add_kino" >
         <action
             android:id="@+id/action_searchTmdbMovieFragment_to_viewKinoFragment"
@@ -145,7 +104,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchTmbdSerieFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmbdSerieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch.SearchTmbdSerieFragment"
         android:label="@string/title_activity_add_kino" >
         <action
             android:id="@+id/action_searchTmbdSerieFragment_to_viewSerieFragment"
@@ -170,7 +129,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchTmdbMovieRoomFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbMovieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch.SearchTmdbMovieFragment"
         android:label="@string/title_activity_add_kino" >
         <action
             android:id="@+id/action_searchTmdbMovieRoomFragment_to_viewKinoRoomFragment"
@@ -195,7 +154,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchTmbdSerieRoomFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmbdSerieFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch.SearchTmbdSerieFragment"
         android:label="@string/title_activity_add_kino" >
         <action
             android:id="@+id/action_searchTmbdSerieRoomFragment_to_viewSerieFragment"
@@ -336,7 +295,7 @@
     </fragment>
     <fragment
         android:id="@+id/editTagFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.tag.EditTagFragment"
+        android:name="com.ulicae.cinelog.android.v2.fragments.review.room.tag.EditTagFragment"
         android:label="EditTagFragment" />
 
 </navigation>

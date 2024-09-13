@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch.SearchTmdbFragment;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
 import org.junit.Test;

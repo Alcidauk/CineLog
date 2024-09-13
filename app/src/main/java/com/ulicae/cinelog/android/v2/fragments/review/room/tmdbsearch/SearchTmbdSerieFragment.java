@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.tmdbsearch;
+package com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,20 +12,19 @@ import androidx.annotation.Nullable;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.android.v2.fragments.review.add.TmdbMovieResultsAdapter;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.android.v2.fragments.review.add.TmdbTvResultsAdapter;
+import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.databinding.FragmentSearchTmdbBinding;
-import com.ulicae.cinelog.network.task.MovieNetworkTaskCreator;
 import com.ulicae.cinelog.network.task.NetworkTaskManager;
-import com.ulicae.cinelog.room.fragments.wishlist.add.WishlistMovieRoomResultsAdapter;
-import com.uwetrottmann.tmdb2.entities.BaseMovie;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
+import com.ulicae.cinelog.network.task.TvNetworkTaskCreator;
+import com.ulicae.cinelog.room.fragments.wishlist.add.WishlistTvRoomResultsAdapter;
+import com.uwetrottmann.tmdb2.entities.BaseTvShow;
+import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -48,7 +47,7 @@ import retrofit2.Call;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
+public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
 
     private boolean toWishlist;
 
@@ -66,56 +65,61 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         toWishlist = requireArguments().getBoolean("toWishlist", false);
 
-        networkTaskManager = new NetworkTaskManager(this, new MovieNetworkTaskCreator());
+        networkTaskManager = new NetworkTaskManager(this, new TvNetworkTaskCreator());
+
+        binding.kinoSearchAddFromScratch.setText(getString(R.string.add_serie_from_scratch_label));
+        binding.kinoSearch.setHint(getString(R.string.serie_title_hint));
     }
 
     @Override
     protected void executeTask(String textToSearch) {
-        Call<MovieResultsPage> search = tmdbServiceWrapper.search(binding.kinoSearch.getText().toString());
+        Call<TvShowResultsPage> search = tmdbServiceWrapper.searchTv(binding.kinoSearch.getText().toString());
         networkTaskManager.createAndExecute(search);
     }
 
+    // TODO rewrite navigation
     @Override
-    public void onFromScratchClick(View view) {
+    protected void onFromScratchClick(View view) {
         // TODO should be callbacks ?
         if (!toWishlist) {
-            KinoDto kinoToCreate = new KinoDto();
-            kinoToCreate.setTitle(binding.kinoSearch.getText().toString());
+            SerieDto serieDto = new SerieDto();
+            serieDto.setTitle(binding.kinoSearch.getText().toString());
 
             Bundle args = new Bundle();
-            args.putString("dtoType", "kino");
-            args.putParcelable("kino", Parcels.wrap(kinoToCreate));
+            args.putString("dtoType", "serie");
+            args.putParcelable("kino", Parcels.wrap(serieDto));
             args.putBoolean("creation", true);
             ((MainActivity) requireActivity()).navigateToReview(
-                    R.id.action_searchTmdbMovieFragment_to_editReviewFragment,
+                    R.id.action_searchTmbdSerieFragment_to_editReviewFragment,
                     args
             );
         } else {
             ((MainActivity) requireActivity()).navigateToWishlistItem(
-                            new WishlistDataDto(
-                                    binding.kinoSearch.getText().toString(),
-                                    WishlistItemType.MOVIE
-                            ),
-                    R.id.action_searchTmdbMovieFragment_to_wishlistItemFragment
+                    new WishlistDataDto(
+                            binding.kinoSearch.getText().toString(),
+                            WishlistItemType.SERIE
+                    ),
+                    R.id.action_searchTmbdSerieFragment_to_wishlistItemFragment
             );
         }
     }
 
-    public void populateListView(final List<BaseMovie> movies) {
-        ArrayAdapter<BaseMovie> arrayAdapter;
+    public void populateListView(final List<BaseTvShow> tvShows) {
+        ArrayAdapter<BaseTvShow> arrayAdapter;
         if (!toWishlist) {
-            arrayAdapter = new TmdbMovieResultsAdapter(
+            arrayAdapter = new TmdbTvResultsAdapter(
                     requireContext(),
-                    ((KinoApplication) requireActivity().getApplication()),
-                    movies,
+                    (KinoApplication) requireActivity().getApplication(),
+                    tvShows,
                     movieSearchResultClickCallback,
                     movieReviewCreationClickCallback);
         } else {
-            arrayAdapter = new WishlistMovieRoomResultsAdapter(
+            arrayAdapter = new WishlistTvRoomResultsAdapter(
                     requireContext(),
-                    movies,
+                    tvShows,
                     wishlistItemCallback);
         }
 

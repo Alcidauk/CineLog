@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.android.v2.fragments.review.list;
+package com.ulicae.cinelog.android.v2.fragments.review.room.list;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
