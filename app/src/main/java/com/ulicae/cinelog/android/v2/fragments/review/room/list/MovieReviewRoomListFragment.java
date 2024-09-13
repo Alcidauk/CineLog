@@ -60,7 +60,7 @@ public class MovieReviewRoomListFragment extends ReviewRoomListFragment {
     @Override
     protected void navigateToItem(KinoDto item, int position, boolean inDb, boolean fromSearch) {
         ((MainActivity) requireActivity()).navigateToItem(
-                item, position, inDb, fromSearch, true
+                item, position, inDb, fromSearch
         );
     }
 

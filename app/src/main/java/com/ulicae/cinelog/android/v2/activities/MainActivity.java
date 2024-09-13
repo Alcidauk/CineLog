@@ -17,7 +17,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.room.Room;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.BuildConfig;
@@ -31,7 +30,6 @@ import com.ulicae.cinelog.data.dto.data.WishlistItemType;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
-import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 import com.ulicae.cinelog.utils.UpgradeFixRunner;
 
@@ -216,9 +214,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), activity));
     }
 
-    public void navigateToItem(KinoDto kinoDto, int position, boolean inDb, boolean fromSearch, boolean room) {
+    public void navigateToItem(KinoDto kinoDto, int position, boolean inDb, boolean fromSearch) {
         Bundle args = new Bundle();
-        int action = determineAction(kinoDto, inDb, fromSearch, room);
+        int action = determineAction(kinoDto, inDb, fromSearch);
         if (inDb) {
             args.putInt("review_id", Math.toIntExact(kinoDto.getId()));
             args.putInt("kino_position", position);
@@ -232,40 +230,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // TODO better and without class check
-    public int determineAction(KinoDto kinoDto, boolean inDb, boolean fromSearch, boolean room) {
-        if (room) {
-            if(inDb) {
-                // TODO toutes actions vers room fragments
-                if(kinoDto instanceof SerieDto) {
-                    return fromSearch ?
-                            R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
-                            R.id.action_nav_reviews_room_serie_to_viewSerieRoomFragment;
-                } else {
-                    return fromSearch ?
-                            R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
-                            R.id.action_nav_reviews_room_movie_to_viewReviewFragment;
-                }
+    public int determineAction(KinoDto kinoDto, boolean inDb, boolean fromSearch) {
+        if (inDb) {
+            // TODO toutes actions vers room fragments
+            if (kinoDto instanceof SerieDto) {
+                return fromSearch ?
+                        R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
+                        R.id.action_nav_reviews_room_serie_to_viewSerieRoomFragment;
             } else {
-                return kinoDto instanceof SerieDto ?
-                        R.id.action_searchTmbdSerieRoomFragment_to_viewUnregisteredItemFragment :
-                        R.id.action_searchTmdbMovieRoomFragment_to_viewUnregisteredItemFragment;
+                return fromSearch ?
+                        R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
+                        R.id.action_nav_reviews_room_movie_to_viewReviewFragment;
             }
         } else {
-            if(inDb) {
-                if(kinoDto instanceof SerieDto) {
-                    return fromSearch ?
-                            R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
-                            R.id.action_nav_reviews_serie_to_viewSerieFragment;
-                } else {
-                    return fromSearch ?
-                            R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
-                            R.id.action_nav_reviews_movie_to_viewKinoFragment;
-                }
-            } else {
-                return kinoDto instanceof SerieDto ?
-                        R.id.action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment :
-                        R.id.action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment;
-            }
+            return kinoDto instanceof SerieDto ?
+                    R.id.action_searchTmbdSerieRoomFragment_to_viewUnregisteredItemFragment :
+                    R.id.action_searchTmdbMovieRoomFragment_to_viewUnregisteredItemFragment;
         }
     }
 
@@ -276,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
     public void navigateToWishlistItem(WishlistDataDto dataDto, int action) {
         Bundle args = new Bundle();
 
-        if(dataDto.getId() != null) {
+        if (dataDto.getId() != null) {
             args.putLong("wishlistItemId", dataDto.getId());
         } else {
             args.putParcelable("dataDto", Parcels.wrap(dataDto));
@@ -315,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        if(this.upgradeFixRunner != null){
+        if (this.upgradeFixRunner != null) {
             this.upgradeFixRunner.clear();
         }
         super.onDestroy();
