@@ -11,8 +11,6 @@ import com.ulicae.cinelog.room.dao.TagDao;
 import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
-import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
-import com.ulicae.cinelog.room.entities.Tag;
 import com.ulicae.cinelog.room.entities.Tmdb;
 
 import java.util.ArrayList;
@@ -42,9 +40,9 @@ import io.reactivex.rxjava3.core.Single;
  */
 public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
 
+    private final ReviewTagAsyncService reviewTagAsyncService;
+
     private final ReviewAsyncDao reviewDao;
-    private final ReviewTagCrossRefDao crossRefDao;
-    private final TagDao tagDao;
     private final ReviewToDataDtoBuilder reviewToDataDtoBuilder;
 
     private CinelogSchedulers cinelogSchedulers;
@@ -53,29 +51,30 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
 
     public ReviewAsyncService(KinoApplication app, ItemEntityType itemEntityType) {
         this(
+                new ReviewTagAsyncService(
+                        app.getDb().reviewTagCrossRefDao(),
+                        app.getDb().tagDao()
+                ),
                 app.getDb().reviewAsyncDao(),
-                app.getDb().reviewTagCrossRefDao(),
-                app.getDb().tagDao(),
                 new ReviewToDataDtoBuilder(),
                 new CinelogSchedulers(),
                 itemEntityType
         );
     }
 
-    ReviewAsyncService(ReviewAsyncDao reviewDao,
-                       ReviewTagCrossRefDao crossRefDao,
-                       TagDao tagDao,
+    ReviewAsyncService(ReviewTagAsyncService reviewTagAsyncService,
+                       ReviewAsyncDao reviewDao,
                        ReviewToDataDtoBuilder reviewToDataDtoBuilder,
                        CinelogSchedulers cinelogSchedulers,
                        ItemEntityType itemEntityType) {
+        this.reviewTagAsyncService = reviewTagAsyncService;
         this.reviewDao = reviewDao;
-        this.crossRefDao = crossRefDao;
-        this.tagDao = tagDao;
         this.reviewToDataDtoBuilder = reviewToDataDtoBuilder;
         this.cinelogSchedulers = cinelogSchedulers;
         this.itemEntityType = itemEntityType;
     }
 
+    // TODO use ReviewFromDtoCreator
     public Review buildItem(KinoDto kinoDto) {
         Tmdb tmdb = null;
         Long tmdbId = kinoDto.getTmdbKinoId();
@@ -104,19 +103,6 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
         return review;
     }
 
-    /**
-     * TODO juste ramener le contenu de wishlist, et le tmdb depuis ailleurs pour le mettre dans
-     * l'UI
-     *
-     * @param type
-     * @return
-     */
-    public Flowable<List<KinoDto>> findAllForType(ItemEntityType type) {
-        return reviewDao.findAll(type)
-                .map(this::getDtoFromDaos);
-    }
-
-
     /*
     TODO remove tmdb item
      */
@@ -144,49 +130,39 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
             reviewsFlowable = reviewDao.findAll(this.itemEntityType);
         }
 
-        Flowable<List<KinoDto>> dtoFlowable = reviewsFlowable
-                .map(this::getDtoFromDaos)
-                .doOnNext(
-                        kinoDtos -> {
-                            for (KinoDto kinoDto : kinoDtos) {
-                                List<TagDto> tagDtos = getReviewTags(kinoDto);
-                                kinoDto.setTags(tagDtos);
-                            }
-
-                        }
-                );
-
-        return dtoFlowable;
+        return mapAndFetchTags(reviewsFlowable);
     }
 
-    // TODO pas en sync ?
-    private List<TagDto> getReviewTags(KinoDto kinoDto) {
-        List<ReviewTagCrossRef> crossRefs = crossRefDao
-                .findForReview(kinoDto.getId())
-                .blockingFirst();
+    public Flowable<List<KinoDto>> findByRating(boolean asc) {
+        Flowable<List<Review>> query = asc ?
+                reviewDao.findAllByRatingAsc(this.itemEntityType) :
+                reviewDao.findAllByRatingDesc(this.itemEntityType);
 
-        List<TagDto> tagDtos = new ArrayList<>();
-        for (ReviewTagCrossRef crossRef : crossRefs) {
-            TagDto tagDto = tagDao.find(crossRef.tagId)
-                    .map(this::getTagDtoFromTag)
-                    .blockingFirst();
-
-            tagDtos.add(tagDto);
-        }
-
-        return tagDtos;
+        return mapAndFetchTags(query);
     }
 
-    private List<KinoDto> getDtoFromDaos(List<Review> items) {
-        List<KinoDto> kinoDtos = new ArrayList<>();
-        for (Review item : items) {
-            kinoDtos.add(reviewToDataDtoBuilder.build(item));
-        }
-        return kinoDtos;
+    public Flowable<List<KinoDto>> findByReviewDate(boolean asc) {
+        Flowable<List<Review>> query = asc ?
+                reviewDao.findAllByReviewDateAsc(this.itemEntityType) :
+                reviewDao.findAllByReviewDateDesc(this.itemEntityType);
+
+        return mapAndFetchTags(query);
     }
 
-    private TagDto getTagDtoFromTag(Tag item) {
-        return new TagDto(item.id, item.name, item.color, item.forMovies, item.forSeries);
+    public Flowable<List<KinoDto>> findByYear(boolean asc) {
+        Flowable<List<Review>> query = asc ?
+                reviewDao.findAllByYearAsc(this.itemEntityType) :
+                reviewDao.findAllByYearDesc(this.itemEntityType);
+
+        return mapAndFetchTags(query);
+    }
+
+    public Flowable<List<KinoDto>> findByTitle(boolean asc) {
+        Flowable<List<Review>> query = asc ?
+                reviewDao.findAllByTitleAsc(this.itemEntityType) :
+                reviewDao.findAllByTitleDesc(this.itemEntityType);
+
+        return mapAndFetchTags(query);
     }
 
     public Flowable<KinoDto> findById(Long id) {
@@ -194,20 +170,15 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
                 .find(id)
                 .map(review ->
                         reviewToDataDtoBuilder.build(review))
-                .doOnNext(kinoDto -> kinoDto.setTags(getReviewTags(kinoDto)));
+                .doOnNext(kinoDto -> kinoDto.setTags(reviewTagAsyncService.getReviewTags(kinoDto)));
     }
 
     public Single<KinoDto> getWithTmdbId(long tmdbId) {
         return reviewDao
                 .findByMovieIdSingle(tmdbId)
                 .map(reviewToDataDtoBuilder::build)
-                .doAfterSuccess((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
+                .doAfterSuccess((kinoDto -> kinoDto.setTags(reviewTagAsyncService.getReviewTags(kinoDto))));
     }
-
-
-    /**
-     * DATA SERVICE COMPATIBILITY
-     **/
 
     @Override
     public Completable createOrUpdate(KinoDto dtoObject) {
@@ -226,39 +197,26 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
                 .insertAll(items);
     }
 
-    public Flowable<List<KinoDto>> getReviewsByRating(boolean asc) {
-        Flowable<List<Review>> query = asc ?
-                reviewDao.findAllByRatingAsc(this.itemEntityType) :
-                reviewDao.findAllByRatingDesc(this.itemEntityType);
+    private Flowable<List<KinoDto>> mapAndFetchTags(Flowable<List<Review>> reviewsFlowable) {
+        return reviewsFlowable
+                .map(this::getDtoFromDaos)
+                .doOnNext(
+                        kinoDtos -> {
+                            for (KinoDto kinoDto : kinoDtos) {
+                                List<TagDto> tagDtos = reviewTagAsyncService.getReviewTags(kinoDto);
+                                kinoDto.setTags(tagDtos);
+                            }
 
-        return query.map(this::getDtoFromDaos);
-        // TODO .doOnNext((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
+                        }
+                );
     }
 
-    public Flowable<List<KinoDto>> getReviewsByReviewDate(boolean asc) {
-        Flowable<List<Review>> query = asc ?
-                reviewDao.findAllByReviewDateAsc(this.itemEntityType) :
-                reviewDao.findAllByReviewDateDesc(this.itemEntityType);
-
-        return query.map(this::getDtoFromDaos);
-        // TODO .doOnNext((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
+    private List<KinoDto> getDtoFromDaos(List<Review> items) {
+        List<KinoDto> kinoDtos = new ArrayList<>();
+        for (Review item : items) {
+            kinoDtos.add(reviewToDataDtoBuilder.build(item));
+        }
+        return kinoDtos;
     }
 
-    public Flowable<List<KinoDto>> getReviewsByYear(boolean asc) {
-        Flowable<List<Review>> query = asc ?
-                reviewDao.findAllByYearAsc(this.itemEntityType) :
-                reviewDao.findAllByYearDesc(this.itemEntityType);
-
-        return query.map(this::getDtoFromDaos);
-        // TODO .doOnNext((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
-    }
-
-    public Flowable<List<KinoDto>> getReviewsByTitle(boolean asc) {
-        Flowable<List<Review>> query = asc ?
-                reviewDao.findAllByTitleAsc(this.itemEntityType) :
-                reviewDao.findAllByTitleDesc(this.itemEntityType);
-
-        return query.map(this::getDtoFromDaos);
-        // TODO .doOnNext((kinoDto -> kinoDto.setTags(getReviewTags(kinoDto))));
-    }
 }

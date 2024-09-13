@@ -2,16 +2,13 @@ package com.ulicae.cinelog.room.services;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import com.ulicae.cinelog.data.ReviewRepository;
-import com.ulicae.cinelog.data.SerieReviewRepository;
-import com.ulicae.cinelog.data.TmdbSerieRepository;
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.dto.SerieKinoDtoBuilder;
+import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
-import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
@@ -24,16 +21,20 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewAsyncServiceTest extends TestCase {
 
     @Mock
     private ReviewAsyncDao reviewAsyncDao;
-
     @Mock
-    private ReviewFromDtoCreator reviewFromDtoCreator;
+    private ReviewTagAsyncService reviewTagAsyncService;
 
     @Mock
     private ReviewToDataDtoBuilder reviewToDataDtoBuilder;
@@ -41,26 +42,14 @@ public class ReviewAsyncServiceTest extends TestCase {
     @Mock
     private CinelogSchedulers cinelogSchedulers;
 
-    @Mock
-    private SerieReviewRepository serieReviewRepository;
-
-    @Mock
-    private TmdbSerieRepository tmdbSerieRepository;
-
-    @Mock
-    private ReviewRepository reviewRepository;
-
-    @Mock
-    private SerieKinoDtoBuilder serieKinoDtoBuilder;
 
     @Mock
     private SerieDto serieDto;
+    @Mock
+    private KinoDto kinoDto;
 
     @Mock
     private SerieDtoToDbBuilder toDbBuilder;
-
-
-
 
     @Test
     public void getByTmdbMovieId() {
@@ -72,9 +61,8 @@ public class ReviewAsyncServiceTest extends TestCase {
         doReturn(single).when(reviewAsyncDao).findByMovieIdSingle(45L);
 
         Single<KinoDto> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
                 reviewAsyncDao,
-                null,
-                null,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
                 ItemEntityType.MOVIE
@@ -82,6 +70,325 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         withTmdbId.test().assertValue(serieDto);
     }
+
+
+    @Test
+    public void testFindAll() {
+        Review review = mock(Review.class);
+
+        doReturn(kinoDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAll();
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                null
+        ).findAll();
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(kinoDto);
+        }});
+    }
+
+    @Test
+    public void testFindAllMovies() {
+        Review review = mock(Review.class);
+
+        doReturn(kinoDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAll(ItemEntityType.MOVIE);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.MOVIE
+        ).findAll();
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(kinoDto);
+        }});
+    }
+
+    @Test
+    public void testFindAllSeriesWithoutTags() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAll(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findAll();
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+    @Test
+    public void testFindAllSeriesWithTags() {
+        Review review = mock(Review.class);
+        TagDto tagDto = mock(TagDto.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAll(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList(){{
+            add(tagDto);
+        }}).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findAll();
+
+        TestSubscriber<List<KinoDto>> subscriber = withTmdbId.test();
+
+        verify(serieDto).setTags(new ArrayList<TagDto>(){{ add(tagDto); }});
+        subscriber.assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+
+    @Test
+    public void testFindByRatingAsc() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAllByRatingAsc(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findByRating(true);
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+    @Test
+    public void testFindByRatingDesc() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAllByRatingDesc(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findByRating(false);
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+    @Test
+    public void testFindByTitleAsc() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAllByTitleAsc(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findByTitle(true);
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+    @Test
+    public void testFindByTitleDesc() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAllByTitleDesc(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findByTitle(false);
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+
+    @Test
+    public void testFindByReviewDateAsc() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAllByReviewDateAsc(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findByReviewDate(true);
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+
+    @Test
+    public void testFindByReviewDateDesc() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAllByReviewDateDesc(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findByReviewDate(false);
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+    @Test
+    public void testFindByYearAsc() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAllByYearAsc(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findByYear(true);
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
+    @Test
+    public void testFindByYearDesc() {
+        Review review = mock(Review.class);
+
+        doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
+
+        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+            add(review);
+        }});
+        doReturn(flowable).when(reviewAsyncDao).findAllByYearDesc(ItemEntityType.SERIE);
+
+        doReturn(new ArrayList()).when(reviewTagAsyncService).getReviewTags(serieDto);
+
+        Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
+                reviewTagAsyncService,
+                reviewAsyncDao,
+                reviewToDataDtoBuilder,
+                cinelogSchedulers,
+                ItemEntityType.SERIE
+        ).findByYear(false);
+
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+            add(serieDto);
+        }});
+    }
+
 
 /*
     @Test
@@ -111,74 +418,6 @@ public class ReviewAsyncServiceTest extends TestCase {
                     add(serieDto);
                 }},
                 new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAll()
-        );
-    }
-
-    @Test
-    public void getByRatingAsc() {
-        final SerieReview serieReview = mock(SerieReview.class);
-
-        doReturn(new ArrayList<SerieReview>() {{
-            add(serieReview);
-        }}).when(serieReviewRepository).findAllByRating(true);
-        doReturn(serieDto).when(serieKinoDtoBuilder).build(serieReview);
-
-        assertEquals(
-                new ArrayList<SerieDto>() {{
-                    add(serieDto);
-                }},
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAllByRating(true)
-        );
-    }
-
-    @Test
-    public void getByRatingDesc() {
-        final SerieReview serieReview = mock(SerieReview.class);
-
-        doReturn(new ArrayList<SerieReview>() {{
-            add(serieReview);
-        }}).when(serieReviewRepository).findAllByRating(false);
-        doReturn(serieDto).when(serieKinoDtoBuilder).build(serieReview);
-
-        assertEquals(
-                new ArrayList<SerieDto>() {{
-                    add(serieDto);
-                }},
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAllByRating(false)
-        );
-    }
-
-    @Test
-    public void getAllByTitleAsc() {
-        SerieReview serieReview = mock(SerieReview.class);
-        SerieReview anotherSerieReview = mock(SerieReview.class);
-
-        doReturn(Arrays.asList(serieReview, anotherSerieReview)).when(serieReviewRepository).findAllByTitle(true);
-
-        SerieDto anotherSerieDto = mock(SerieDto.class);
-        doReturn(serieDto).when(serieKinoDtoBuilder).build(serieReview);
-        doReturn(anotherSerieDto).when(serieKinoDtoBuilder).build(anotherSerieReview);
-
-        assertEquals(
-                Arrays.asList(serieDto, anotherSerieDto),
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAllByTitle(true)
-        );
-    }
-
-    @Test
-    public void getAllByTitleDesc() {
-        SerieReview serieReview = mock(SerieReview.class);
-        SerieReview anotherSerieReview = mock(SerieReview.class);
-
-        doReturn(Arrays.asList(serieReview, anotherSerieReview)).when(serieReviewRepository).findAllByTitle(false);
-
-        SerieDto anotherSerieDto = mock(SerieDto.class);
-        doReturn(serieDto).when(serieKinoDtoBuilder).build(serieReview);
-        doReturn(anotherSerieDto).when(serieKinoDtoBuilder).build(anotherSerieReview);
-
-        assertEquals(
-                Arrays.asList(serieDto, anotherSerieDto),
-                new SerieService(serieReviewRepository, reviewRepository, tmdbSerieRepository, tmdbGetterService, serieKinoDtoBuilder, toDbBuilder, null).getAllByTitle(false)
         );
     }
 

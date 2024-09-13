@@ -209,25 +209,25 @@ public abstract class ReviewRoomListFragment extends Fragment {
         Flowable<List<KinoDto>> flowableDtos;
         switch (order) {
             case R.id.order_by_title_asc:
-                flowableDtos = service.getReviewsByTitle(true);
+                flowableDtos = service.findByTitle(true);
                 break;
             case R.id.order_by_title_desc:
-                flowableDtos = service.getReviewsByTitle(false);
+                flowableDtos = service.findByTitle(false);
                 break;
             case R.id.order_by_date_added_newest_first:
-                return service.getReviewsByReviewDate(false);
+                return service.findByReviewDate(false);
             case R.id.order_by_date_added_oldest_first:
-                return service.getReviewsByReviewDate(true);
+                return service.findByReviewDate(true);
             case R.id.order_by_rating_highest_first:
-                flowableDtos = service.getReviewsByRating(false);
+                flowableDtos = service.findByRating(false);
                 break;
             case R.id.order_by_rating_lowest_first:
-                flowableDtos = service.getReviewsByRating(true);
+                flowableDtos = service.findByRating(true);
                 break;
             case R.id.order_by_year_newest_first:
-                return service.getReviewsByYear(false);
+                return service.findByYear(false);
             case R.id.order_by_year_oldest_first:
-                return service.getReviewsByYear(true);
+                return service.findByYear(true);
             default:
                 flowableDtos = service.findAll();
                 break;

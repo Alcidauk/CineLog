@@ -4,7 +4,6 @@ import static io.reactivex.rxjava3.schedulers.Schedulers.io;
 
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.AsyncDataService;
-import com.ulicae.cinelog.data.services.reviews.ItemService;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
@@ -35,7 +34,7 @@ import io.reactivex.rxjava3.core.Flowable;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<TagDto> {
+public class TagAsyncService implements AsyncDataService<TagDto> {
 
     private final AppDatabase db;
 
@@ -116,18 +115,6 @@ public class TagAsyncService implements ItemService<TagDto>, AsyncDataService<Ta
 
     private TagDto buildDtoFromTag(Tag tag) {
         return new TagDto(tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries);
-    }
-
-    // TODO remove this method (should use findAll, which is the async method
-    @Override
-    public List<TagDto> getAll() {
-        return this.findAll().blockingFirst();
-    }
-
-    @Deprecated
-    @Override
-    public void createOrUpdateFromImport(List<TagDto> tagDtos) {
-        this.tagFromDtoCreator.insertAll(tagDtos);
     }
 
     @Override

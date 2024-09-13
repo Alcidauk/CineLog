@@ -1,0 +1,50 @@
+package com.ulicae.cinelog.room.services;
+
+import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
+import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
+import com.ulicae.cinelog.room.dao.TagDao;
+import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;
+import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
+import com.ulicae.cinelog.room.entities.Tag;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReviewTagAsyncService {
+
+    private final ReviewTagCrossRefDao crossRefDao;
+    private final TagDao tagDao;
+
+    public ReviewTagAsyncService(ReviewTagCrossRefDao crossRefDao, TagDao tagDao) {
+        this.crossRefDao = crossRefDao;
+        this.tagDao = tagDao;
+    }
+
+    // TODO pas en sync ?
+    public List<TagDto> getReviewTags(KinoDto kinoDto) {
+        List<ReviewTagCrossRef> crossRefs = crossRefDao
+                .findForReview(kinoDto.getId())
+                .blockingFirst();
+
+        List<TagDto> tagDtos = new ArrayList<>();
+        for (ReviewTagCrossRef crossRef : crossRefs) {
+            TagDto tagDto = tagDao.find(crossRef.tagId)
+                    .map(this::getTagDtoFromTag)
+                    .blockingFirst();
+
+            tagDtos.add(tagDto);
+        }
+
+        return tagDtos;
+    }
+
+    // TODO builder
+    private TagDto getTagDtoFromTag(Tag item) {
+        return new TagDto(item.id, item.name, item.color, item.forMovies, item.forSeries);
+    }
+
+
+
+}
