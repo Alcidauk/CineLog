@@ -173,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
         args.putBoolean("toWishlist", wishlist);
 
         if (wishlist) {
-            navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdMovieFragment, args);
+            navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdMovieRoomFragment, args);
         } else {
-            navController.navigate(R.id.action_nav_reviews_room_movie_to_searchTmdbMovieFragment, args);
+            navController.navigate(R.id.action_nav_reviews_room_movie_to_searchTmdbMovieRoomFragment, args);
         }
     }
 
@@ -184,9 +184,9 @@ public class MainActivity extends AppCompatActivity {
         args.putBoolean("toWishlist", wishlist);
 
         if (wishlist) {
-            navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdSerieFragment, args);
+            navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdSerieRoomFragment, args);
         } else {
-            navController.navigate(R.id.action_nav_reviews_room_serie_to_searchTmdbMovieFragment, args);
+            navController.navigate(R.id.action_nav_reviews_room_serie_to_searchTmdbSerieRoomFragment, args);
         }
     }
 
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 return fromSearch ?
                         R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
-                        R.id.action_nav_reviews_room_movie_to_viewReviewFragment;
+                        R.id.action_nav_reviews_room_movie_to_viewMovieRoomFragment;
             }
         } else {
             return kinoDto instanceof SerieDto ?

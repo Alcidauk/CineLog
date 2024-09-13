@@ -8,16 +8,16 @@
         android:name="com.ulicae.cinelog.android.v2.fragments.review.room.list.MovieReviewRoomListFragment"
         android:label="@string/title_fragment_movie_room">
         <action
-            android:id="@+id/action_nav_reviews_room_movie_to_searchTmdbMovieFragment"
-            app:destination="@id/searchTmdbMovieFragment"
+            android:id="@+id/action_nav_reviews_room_movie_to_viewMovieRoomFragment"
+            app:destination="@id/viewReviewRoomFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
-            android:id="@+id/action_nav_reviews_room_movie_to_viewReviewFragment"
-            app:destination="@id/viewReviewRoomFragment"
+            android:id="@+id/action_nav_reviews_room_movie_to_searchTmdbMovieRoomFragment"
+            app:destination="@id/searchTmdbMovieFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
@@ -37,7 +37,7 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
-            android:id="@+id/action_nav_reviews_room_serie_to_searchTmdbMovieFragment"
+            android:id="@+id/action_nav_reviews_room_serie_to_searchTmdbSerieRoomFragment"
             app:destination="@id/searchTmbdSerieRoomFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -52,8 +52,8 @@
             android:id="@+id/action_nav_wishlist_room_to_wishlistItemFragment"
             app:destination="@id/wishlistItemRoomFragment" />
         <action
-            android:id="@+id/action_nav_wishlist_room_to_searchTmbdMovieFragment"
-            app:destination="@id/searchTmdbMovieFragment" />
+            android:id="@+id/action_nav_wishlist_room_to_searchTmbdMovieRoomFragment"
+            app:destination="@id/searchTmdbMovieRoomFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_wishlist_room_serie"
@@ -62,8 +62,8 @@
             android:id="@+id/action_nav_wishlist_room_to_wishlistItemFragment"
             app:destination="@id/wishlistItemRoomFragment" />
         <action
-            android:id="@+id/action_nav_wishlist_room_to_searchTmbdSerieFragment"
-            app:destination="@id/searchTmbdSerieFragment" />
+            android:id="@+id/action_nav_wishlist_room_to_searchTmbdSerieRoomFragment"
+            app:destination="@id/searchTmbdSerieRoomFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_room_tags"
@@ -190,33 +190,9 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/viewKinoFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.item.ReviewMovieItemFragment"
-        android:label="@string/title_activity_view_kino" >
-        <action
-            android:id="@+id/action_viewKinoFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
         android:id="@+id/viewSerieRoomFragment"
         android:name="com.ulicae.cinelog.android.v2.fragments.review.room.item.ReviewSerieRoomItemFragment"
         android:label="@string/title_activity_view_room_review_serie">
-        <action
-            android:id="@+id/action_viewSerieFragment_to_editReviewFragment"
-            app:destination="@id/editReviewFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
-        android:id="@+id/viewSerieFragment"
-        android:name="com.ulicae.cinelog.android.v2.fragments.review.item.ReviewSerieItemFragment"
-        android:label="@string/title_activity_view_serie" >
         <action
             android:id="@+id/action_viewSerieFragment_to_editReviewFragment"
             app:destination="@id/editReviewFragment"
