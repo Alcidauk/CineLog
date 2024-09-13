@@ -14,26 +14,35 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.room.services.ReviewService;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.databinding.FragmentReviewMovieItemBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemReviewBinding;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+
 public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
 
     private FragmentReviewMovieItemBinding binding;
 
-    private ReviewService reviewService;
+    private ReviewAsyncService reviewService;
 
     int position;
+
+    private List<Disposable> disposables;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         this.addOptionMenu();
+        this.disposables = new ArrayList<>();
         binding = FragmentReviewMovieItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
@@ -41,18 +50,31 @@ public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        int itemId = requireArguments().getInt("review_id");
+        long itemId = requireArguments().getLong("review_id");
         position = requireArguments().getInt("kino_position", -1);
 
-        reviewService = new ReviewService(((KinoApplication) requireActivity().getApplication()).getDb());
-        item = reviewService.getWithId(itemId);
+        reviewService = new ReviewAsyncService((KinoApplication) requireActivity().getApplication(), ItemEntityType.MOVIE);
+
+        disposables.add(
+        reviewService.findById(itemId)
+                .subscribe(
+                        review -> {
+                            item = review;
+
+                            LayoutReviewItemKinoBinding viewKinoContentLayout = binding.viewKinoContentLayout;
+                            LayoutReviewItemReviewBinding reviewKinoContentLayout = binding.reviewKinoContentLayout;
+
+                            new ReviewItemDataFieldsInflater(item, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
+
+                            ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
+                        },
+                        error -> {
+                            // TODO
+                        }
+                )
+        );
 
         setLinkBaseUrl("https://www.themoviedb.org/movie/");
-
-        LayoutReviewItemKinoBinding viewKinoContentLayout = binding.viewKinoContentLayout;
-        LayoutReviewItemReviewBinding reviewKinoContentLayout = binding.reviewKinoContentLayout;
-
-        new ReviewItemDataFieldsInflater(item, getActivity(), viewKinoContentLayout, reviewKinoContentLayout).configureFields();
 
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
@@ -62,14 +84,22 @@ public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
                     args.putParcelable("kino", Parcels.wrap(item));
                     args.putBoolean("creation", false);
                     ((MainActivity) requireActivity()).navigateToReview(
-                            R.id.action_viewKinoFragment_to_editReviewFragment,
+                            R.id.action_viewMovieReviewRoomFragment_to_editReviewFragment,
                             args
                     );
                 });
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
 
-        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        for(Disposable disposable : disposables){
+            disposable.dispose();
+        }
     }
   /*  TODO rewrite state management to get right data from editreview
 

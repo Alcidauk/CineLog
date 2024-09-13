@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         int action = determineAction(kinoDto, inDb, fromSearch);
         if (inDb) {
-            args.putInt("review_id", Math.toIntExact(kinoDto.getId()));
+            args.putLong("review_id", kinoDto.getId());
             args.putInt("kino_position", position);
         }
 
@@ -234,12 +234,12 @@ public class MainActivity extends AppCompatActivity {
         if (inDb) {
             // TODO toutes actions vers room fragments
             if (kinoDto instanceof SerieDto) {
-                return fromSearch ?
-                        R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
+                return //fromSearch ?
+                       // TODO R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
                         R.id.action_nav_reviews_room_serie_to_viewSerieRoomFragment;
             } else {
-                return fromSearch ?
-                        R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
+                return //fromSearch ?
+                       // TODO R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
                         R.id.action_nav_reviews_room_movie_to_viewMovieRoomFragment;
             }
         } else {

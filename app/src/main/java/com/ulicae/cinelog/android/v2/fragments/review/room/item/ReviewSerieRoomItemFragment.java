@@ -20,25 +20,33 @@ import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewEpisodesFragment;
 import com.ulicae.cinelog.android.v2.fragments.review.item.serie.SerieViewGeneralFragment;
 import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.room.services.SerieReviewService;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.databinding.FragmentReviewSerieItemBinding;
 
 import org.parceler.Parcels;
 
-public class ReviewSerieRoomItemFragment extends ShareableFragment<SerieDto> {
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+
+public class ReviewSerieRoomItemFragment extends ShareableFragment<KinoDto> {
 
     private FragmentReviewSerieItemBinding binding;
 
-    private SerieReviewService reviewService;
+    private ReviewAsyncService reviewService;
 
     int position;
+
+    private List<Disposable> disposables;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         this.addOptionMenu();
+        this.disposables = new ArrayList<>();
         binding = FragmentReviewSerieItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
@@ -46,17 +54,26 @@ public class ReviewSerieRoomItemFragment extends ShareableFragment<SerieDto> {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        int itemId = requireArguments().getInt("review_id");
+        long itemId = requireArguments().getLong("review_id");
         position = requireArguments().getInt("kino_position", -1);
 
-        reviewService = new SerieReviewService(
-                ((KinoApplication) requireActivity().getApplication()).getDb()
+        reviewService = new ReviewAsyncService((KinoApplication) requireActivity().getApplication(), ItemEntityType.SERIE);
+
+        disposables.add(
+                reviewService.findById(itemId)
+                        .subscribe(
+                                review -> {
+                                    item = review;
+                                    setViewPager();
+
+                                },
+                                error -> {
+                                    // TODO
+                                }
+                        )
         );
-        item = reviewService.getWithId(itemId);
 
         setLinkBaseUrl("https://www.themoviedb.org/tv/");
-
-        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
 
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
@@ -66,14 +83,14 @@ public class ReviewSerieRoomItemFragment extends ShareableFragment<SerieDto> {
                     args.putParcelable("kino", Parcels.wrap(item));
                     args.putBoolean("creation", false);
                     ((MainActivity) requireActivity()).navigateToReview(
-                            R.id.action_viewSerieFragment_to_editReviewFragment,
+                            R.id.action_viewSerieReviewRoomFragment_to_editReviewFragment,
                             args
                     );
                 });
         fab.setImageResource(R.drawable.edit_kino);
         fab.show();
 
-        setViewPager();
+        ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
 
     private void setViewPager() {
