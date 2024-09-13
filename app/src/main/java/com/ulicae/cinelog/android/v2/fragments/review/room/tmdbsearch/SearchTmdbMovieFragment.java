@@ -88,7 +88,7 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
             args.putParcelable("kino", Parcels.wrap(kinoToCreate));
             args.putBoolean("creation", true);
             ((MainActivity) requireActivity()).navigateToReview(
-                    R.id.action_searchTmdbMovieFragment_to_editReviewFragment,
+                    R.id.action_searchTmdbMovieRoomFragment_to_editReviewFragment,
                     args
             );
         } else {
@@ -97,7 +97,7 @@ public class SearchTmdbMovieFragment extends SearchTmdbFragment<BaseMovie> {
                                     binding.kinoSearch.getText().toString(),
                                     WishlistItemType.MOVIE
                             ),
-                    R.id.action_searchTmdbMovieFragment_to_wishlistItemFragment
+                    R.id.action_searchTmdbMovieRoomFragment_to_wishlistItemFragment
             );
         }
     }

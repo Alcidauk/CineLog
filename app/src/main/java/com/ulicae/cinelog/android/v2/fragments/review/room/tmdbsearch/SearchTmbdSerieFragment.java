@@ -93,7 +93,7 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
             args.putParcelable("kino", Parcels.wrap(serieDto));
             args.putBoolean("creation", true);
             ((MainActivity) requireActivity()).navigateToReview(
-                    R.id.action_searchTmbdSerieFragment_to_editReviewFragment,
+                    R.id.action_searchTmbdSerieRoomFragment_to_editReviewFragment,
                     args
             );
         } else {
@@ -102,7 +102,7 @@ public class SearchTmbdSerieFragment extends SearchTmdbFragment<BaseTvShow> {
                             binding.kinoSearch.getText().toString(),
                             WishlistItemType.SERIE
                     ),
-                    R.id.action_searchTmbdSerieFragment_to_wishlistItemFragment
+                    R.id.action_searchTmbdSerieRoomFragment_to_wishlistItemFragment
             );
         }
     }

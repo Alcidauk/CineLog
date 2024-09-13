@@ -77,8 +77,8 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
             (dataDto) -> ((MainActivity) requireActivity()).navigateToWishlistItem(
                     dataDto,
                     dataDto.getWishlistItemType() == WishlistItemType.SERIE ?
-                            R.id.action_searchTmbdSerieFragment_to_wishlistItemFragment :
-                            R.id.action_searchTmdbMovieFragment_to_wishlistItemFragment
+                            R.id.action_searchTmbdSerieRoomFragment_to_wishlistItemFragment :
+                            R.id.action_searchTmdbMovieRoomFragment_to_wishlistItemFragment
             );
 
     private Handler handler;
