@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.android.v2.fragments.review.room.item;
 
+import static io.reactivex.rxjava3.schedulers.Schedulers.io;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ReviewSerieRoomItemFragment extends ShareableFragment<KinoDto> {
@@ -61,6 +64,8 @@ public class ReviewSerieRoomItemFragment extends ShareableFragment<KinoDto> {
 
         disposables.add(
                 reviewService.findById(itemId)
+                        .subscribeOn(io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 review -> {
                                     item = review;
