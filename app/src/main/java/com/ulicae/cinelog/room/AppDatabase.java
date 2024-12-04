@@ -8,12 +8,15 @@ import com.ulicae.cinelog.room.converters.Converters;
 import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
+import com.ulicae.cinelog.room.dao.SyncTmdbSerieEpisodeDao;
 import com.ulicae.cinelog.room.dao.SyncWishlistItemDao;
 import com.ulicae.cinelog.room.dao.TagDao;
+import com.ulicae.cinelog.room.dao.TmdbSerieEpisodeDao;
 import com.ulicae.cinelog.room.dao.WishlistItemDao;
 import com.ulicae.cinelog.room.entities.Review;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
+import com.ulicae.cinelog.room.entities.TmdbSerieEpisode;
 import com.ulicae.cinelog.room.entities.WishlistItem;
 
 /**
@@ -39,9 +42,10 @@ import com.ulicae.cinelog.room.entities.WishlistItem;
                 Review.class,
                 WishlistItem.class,
                 Tag.class,
-                ReviewTagCrossRef.class
+                ReviewTagCrossRef.class,
+                TmdbSerieEpisode.class,
         },
-        version = 4
+        version = 6
 )
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -57,6 +61,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract SyncWishlistItemDao syncWishlistItemDao();
 
+    public abstract SyncTmdbSerieEpisodeDao syncTmdbSerieEpisodeDao();
+
+    public abstract TmdbSerieEpisodeDao tmdbSerieEpisodeDao();
 
     /*
     TODO

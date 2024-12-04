@@ -28,6 +28,10 @@ public final class KinoReaderContract {
         public static final String COLUMN_NAME_REVIEW_ID = "REVIEW_id";
     }
 
+    public static class SerieEpisode implements BaseColumns {
+        public static final String TABLE_NAME = "SERIE_EPISODE";
+    }
+
     public static class TmdbSerie implements BaseColumns {
         public static final String TABLE_NAME = "TMDB_SERIE";
         public static final String COLUMN_NAME_ID = "_id";

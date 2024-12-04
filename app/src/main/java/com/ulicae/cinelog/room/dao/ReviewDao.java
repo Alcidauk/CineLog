@@ -1,16 +1,15 @@
 package com.ulicae.cinelog.room.dao;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
+import com.ulicae.cinelog.room.entities.ReviewWithEpisodes;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 
 /**
@@ -50,5 +49,14 @@ public interface ReviewDao extends SyncRoomDao<Review> {
     Flowable<List<Review>> findAllByYear(boolean asc);
 
     Flowable<List<Review>> findAllByReviewDate(boolean asc);*/
+
+
+    /**
+     * ReviewWithEpisodes
+     */
+
+    @Transaction
+    @Query("SELECT * FROM Review WHERE Review.tmdb_id = :id")
+    Flowable<ReviewWithEpisodes> getReviewWithEpisodes(Long id);
 
 }
