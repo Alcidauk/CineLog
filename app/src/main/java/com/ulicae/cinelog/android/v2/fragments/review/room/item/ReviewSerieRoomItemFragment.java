@@ -138,7 +138,7 @@ public class ReviewSerieRoomItemFragment extends ShareableFragment<KinoDto> {
 
         @Override
         public int getItemCount() {
-            return 2;
+            return item.getTmdbKinoId() == null ? 1 : 2;
         }
     }
 
