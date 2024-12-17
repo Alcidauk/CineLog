@@ -2,7 +2,7 @@ package com.ulicae.cinelog.room.dto.utils.from;
 
 import android.util.Log;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
+import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.room.dao.SyncRoomDao;
 
 import java.util.ArrayList;

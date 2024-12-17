@@ -2,8 +2,8 @@ package com.ulicae.cinelog.room.fragments.wishlist.add;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.data.dto.data.MovieToWishlistDataDtoBuilder;
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.MovieToWishlistDataDtoBuilder;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import java.util.List;

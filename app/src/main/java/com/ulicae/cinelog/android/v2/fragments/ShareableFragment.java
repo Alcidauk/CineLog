@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.TmdbItemDto;
+import com.ulicae.cinelog.room.dto.TmdbItemDto;
 
 public abstract class ShareableFragment<T extends TmdbItemDto> extends Fragment {
 

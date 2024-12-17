@@ -2,7 +2,7 @@ package com.ulicae.cinelog.io.importdb;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.io.importdb.builder.ReviewableDtoFromRecordBuilder;
 
 import org.apache.commons.csv.CSVRecord;

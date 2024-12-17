@@ -3,21 +3,15 @@ package com.ulicae.cinelog.android.v2.fragments.review.edit;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.function.Consumer;
-
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.subscribers.TestSubscriber;
 
 /**
  * CineLog Copyright 2019 Pierre Rognon

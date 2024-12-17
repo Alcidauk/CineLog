@@ -1,10 +1,9 @@
 package com.ulicae.cinelog;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.network.KinoBuilderFromMovie;
+import static org.junit.Assert.assertEquals;
+
+import com.ulicae.cinelog.room.dto.SerieDto;
 import com.ulicae.cinelog.network.SerieBuilderFromMovie;
-import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 
 import org.junit.Test;
@@ -12,8 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -59,6 +56,7 @@ public class SerieBuilderFromMovieTest {
                 null,
                 1970,
                 "1970",
+                null,
                 null
         );
 

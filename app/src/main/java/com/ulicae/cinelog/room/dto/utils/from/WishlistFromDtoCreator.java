@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.room.dto.utils.from;
 
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.WishlistItemType;
 import com.ulicae.cinelog.room.dao.SyncWishlistItemDao;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Tmdb;

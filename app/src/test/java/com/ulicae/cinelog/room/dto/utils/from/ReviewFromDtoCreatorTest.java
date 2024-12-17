@@ -1,12 +1,10 @@
 package com.ulicae.cinelog.room.dto.utils.from;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.SerieDto;
 import com.ulicae.cinelog.room.dao.ReviewDao;
-import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
-import com.ulicae.cinelog.room.entities.Tmdb;
 
 import junit.framework.TestCase;
 
@@ -114,6 +112,7 @@ public class ReviewFromDtoCreatorTest extends TestCase {
                                         null,
                                         0,
                                         null,
+                                        null,
                                         null
                                 )
                         )
@@ -147,6 +146,7 @@ public class ReviewFromDtoCreatorTest extends TestCase {
                                         null,
                                         null,
                                         0,
+                                        null,
                                         null,
                                         null
                                 )

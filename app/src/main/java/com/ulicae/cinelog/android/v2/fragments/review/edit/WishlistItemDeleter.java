@@ -1,6 +1,5 @@
 package com.ulicae.cinelog.android.v2.fragments.review.edit;
 
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
 import com.ulicae.cinelog.room.AppDatabase;
 

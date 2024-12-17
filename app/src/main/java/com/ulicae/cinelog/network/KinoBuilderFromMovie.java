@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.network;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import java.text.SimpleDateFormat;
@@ -13,7 +13,7 @@ import java.util.Locale;
  *
  * This file is part of CineLog.
  * CineLog is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under tSerieReviewServicehe terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *

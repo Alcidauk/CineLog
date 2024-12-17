@@ -1,20 +1,20 @@
 package com.ulicae.cinelog.data.dto;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
+
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieReview;
-import com.ulicae.cinelog.data.dao.Tag;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
+import com.ulicae.cinelog.room.dto.SerieDto;
+import com.ulicae.cinelog.room.dto.utils.to.TagToDtoBuilder;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Collections;
 import java.util.Date;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.doReturn;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -46,14 +46,9 @@ public class SerieKinoDtoBuilderTest {
     @Mock
     private TmdbSerie tmdbSerie;
 
-    @Mock
-    private Tag tag;
 
     @Mock
-    private TagDto tagDto;
-
-    @Mock
-    private TagDtoBuilder tagDtoBuilder;
+    private TagToDtoBuilder tagDtoBuilder;
 
     @Test
     public void build() {
@@ -75,10 +70,6 @@ public class SerieKinoDtoBuilderTest {
         Date reviewDate = new Date();
         doReturn(reviewDate).when(review).getReview_date();
 
-
-        doReturn(tagDto).when(tagDtoBuilder).build(tag);
-        doReturn(Collections.singletonList(tag)).when(review).getTags();
-
         assertEquals(
                 new SerieDto(
                         4L,
@@ -93,15 +84,16 @@ public class SerieKinoDtoBuilderTest {
                         "an horrible overview",
                         2015,
                         "1956/12/12",
+                        null,
                         null
                 ),
-                new SerieKinoDtoBuilder(tagDtoBuilder).build(serieReview)
+                new SerieToDtoBuilder(tagDtoBuilder).build(serieReview)
         );
     }
 
     @Test(expected = NullPointerException.class)
     public void build_null() {
-        new SerieKinoDtoBuilder().build(null);
+        new SerieToDtoBuilder().build(null);
     }
 
 }

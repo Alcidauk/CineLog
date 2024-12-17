@@ -1,9 +1,8 @@
 package com.ulicae.cinelog.room.services;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.AsyncDataTmdbService;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
 import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;

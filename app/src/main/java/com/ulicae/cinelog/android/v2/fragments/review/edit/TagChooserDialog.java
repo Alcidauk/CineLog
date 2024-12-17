@@ -7,8 +7,8 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 
 import java.util.ArrayList;
 import java.util.List;

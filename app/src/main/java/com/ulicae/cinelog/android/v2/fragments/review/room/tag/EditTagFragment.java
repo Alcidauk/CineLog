@@ -18,7 +18,7 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.databinding.FragmentEditTagBinding;
 import com.ulicae.cinelog.room.services.TagAsyncService;
 

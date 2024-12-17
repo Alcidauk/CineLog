@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.io.exportdb.writer.TagCsvExportWriter;
 

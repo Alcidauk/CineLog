@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.io.exportdb.writer.WishlistCsvExportWriter;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
 

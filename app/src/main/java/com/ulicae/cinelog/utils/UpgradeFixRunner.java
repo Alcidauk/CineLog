@@ -8,11 +8,11 @@ import androidx.room.Room;
 
 import com.ulicae.cinelog.BuildConfig;
 import com.ulicae.cinelog.data.dao.sqlite.DbReader;
-import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.ItemDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
+import com.ulicae.cinelog.room.dto.TagDto;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.SerieEpisodeFromDtoCreator;

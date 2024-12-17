@@ -8,7 +8,7 @@ import android.content.Context;
 
 import androidx.documentfile.provider.DocumentFile;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.services.ReviewAsyncService;
 

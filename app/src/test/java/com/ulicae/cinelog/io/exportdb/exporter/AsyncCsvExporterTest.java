@@ -3,8 +3,8 @@ package com.ulicae.cinelog.io.exportdb.exporter;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.services.AsyncDataService;
+import com.ulicae.cinelog.room.dto.ItemDto;
+import com.ulicae.cinelog.room.services.AsyncDataService;
 import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
 
 import junit.framework.TestCase;

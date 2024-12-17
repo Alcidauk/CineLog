@@ -10,7 +10,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.ItemDto;
+import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.io.exportdb.exporter.AsyncCsvExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;

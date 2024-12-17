@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.util.List;

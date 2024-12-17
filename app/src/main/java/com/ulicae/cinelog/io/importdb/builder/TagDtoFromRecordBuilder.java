@@ -2,7 +2,7 @@ package com.ulicae.cinelog.io.importdb.builder;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.apache.commons.csv.CSVRecord;

@@ -5,10 +5,7 @@ import static org.mockito.Mockito.doReturn;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.io.importdb.ImportException;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.apache.commons.csv.CSVRecord;

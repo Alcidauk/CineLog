@@ -15,8 +15,8 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.services.AsyncDataTmdbService;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.services.AsyncDataTmdbService;
 import com.ulicae.cinelog.databinding.TmdbItemRowBinding;
 import com.ulicae.cinelog.network.DtoBuilderFromTmdbObject;
 

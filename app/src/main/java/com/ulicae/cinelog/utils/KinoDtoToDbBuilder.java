@@ -2,7 +2,7 @@ package com.ulicae.cinelog.utils;
 
 import com.ulicae.cinelog.data.dao.LocalKino;
 import com.ulicae.cinelog.data.dao.TmdbKino;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

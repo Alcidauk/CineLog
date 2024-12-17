@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 
 import org.junit.Before;
 import org.junit.Test;

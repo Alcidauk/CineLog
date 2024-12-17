@@ -1,8 +1,8 @@
 package com.ulicae.cinelog.data.dto;
 
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.TvShowToSerieDataDtoBuilder;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.TvShowToSerieDataDtoBuilder;
+import com.ulicae.cinelog.room.dto.data.WishlistItemType;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 
 import org.junit.Test;

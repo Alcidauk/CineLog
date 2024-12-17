@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.dto.data;
+package com.ulicae.cinelog.room.dto.data;
 
 public enum WishlistItemType {
 

@@ -26,6 +26,7 @@ import java.util.Objects;
  */
 @Entity
 public class Tag {
+
     @PrimaryKey(autoGenerate = true)
     public long id;
 
@@ -43,6 +44,46 @@ public class Tag {
         this.name = name;
         this.color = color;
         this.forMovies = forMovies;
+        this.forSeries = forSeries;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public boolean isForMovies() {
+        return forMovies;
+    }
+
+    public void setForMovies(boolean forMovies) {
+        this.forMovies = forMovies;
+    }
+
+    public boolean isForSeries() {
+        return forSeries;
+    }
+
+    public void setForSeries(boolean forSeries) {
         this.forSeries = forSeries;
     }
 

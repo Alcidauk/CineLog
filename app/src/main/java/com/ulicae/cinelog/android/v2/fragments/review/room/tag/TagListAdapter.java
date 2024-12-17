@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.services.TagAsyncService;
 
 import java.util.List;

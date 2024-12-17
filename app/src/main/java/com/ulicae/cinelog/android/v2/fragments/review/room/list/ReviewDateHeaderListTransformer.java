@@ -3,7 +3,7 @@ package com.ulicae.cinelog.android.v2.fragments.review.room.list;
 import android.content.Context;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

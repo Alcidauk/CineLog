@@ -20,8 +20,8 @@ import androidx.viewbinding.ViewBinding;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.databinding.ReviewListItemRowBinding;
 import com.ulicae.cinelog.databinding.ReviewListYearRowBinding;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;

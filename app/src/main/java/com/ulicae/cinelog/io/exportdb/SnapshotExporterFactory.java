@@ -2,7 +2,7 @@ package com.ulicae.cinelog.io.exportdb;
 
 import android.content.ContentResolver;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
+import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.utils.ToasterWrapper;
 

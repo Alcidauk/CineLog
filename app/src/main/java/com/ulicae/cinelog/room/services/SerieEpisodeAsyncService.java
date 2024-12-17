@@ -1,8 +1,7 @@
 package com.ulicae.cinelog.room.services;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
-import com.ulicae.cinelog.data.services.AsyncDataService;
+import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.ReviewDao;
 import com.ulicae.cinelog.room.dao.TmdbSerieEpisodeDao;

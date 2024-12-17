@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
+import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.databinding.SerieEpisodeResultItemBinding;
 import com.ulicae.cinelog.room.services.SerieEpisodeAsyncService;
 

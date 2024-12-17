@@ -1,6 +1,6 @@
-package com.ulicae.cinelog.data.dto.data;
+package com.ulicae.cinelog.room.dto.data;
 
-import com.ulicae.cinelog.data.dto.TmdbItemDto;
+import com.ulicae.cinelog.room.dto.TmdbItemDto;
 
 import org.parceler.Parcel;
 

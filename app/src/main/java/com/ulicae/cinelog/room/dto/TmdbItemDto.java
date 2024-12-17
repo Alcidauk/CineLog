@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.dto;
+package com.ulicae.cinelog.room.dto;
 
 public interface TmdbItemDto extends ItemDto {
 

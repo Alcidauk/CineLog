@@ -1,8 +1,8 @@
 package com.ulicae.cinelog.room.dto.utils.from;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.SerieDto;
+import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.room.dao.SyncTmdbSerieEpisodeDao;
 import com.ulicae.cinelog.room.entities.TmdbSerieEpisode;
 

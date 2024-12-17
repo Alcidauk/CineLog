@@ -2,7 +2,7 @@ package com.ulicae.cinelog.io.exportdb.writer;
 
 import static org.mockito.Mockito.verify;
 
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

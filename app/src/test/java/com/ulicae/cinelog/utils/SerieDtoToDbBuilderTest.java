@@ -1,9 +1,8 @@
 package com.ulicae.cinelog.utils;
 
 import com.ulicae.cinelog.data.dao.Review;
-import com.ulicae.cinelog.data.dao.SerieReview;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
-import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.room.dto.SerieDto;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

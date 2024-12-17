@@ -1,7 +1,10 @@
 package com.ulicae.cinelog.room.dto.utils.to;
 
-import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
+import com.ulicae.cinelog.data.dao.SerieEpisode;
+import com.ulicae.cinelog.data.dao.TmdbSerie;
+import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.room.entities.TmdbSerieEpisode;
+import com.uwetrottmann.tmdb2.entities.TvEpisode;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -22,6 +25,29 @@ import com.ulicae.cinelog.room.entities.TmdbSerieEpisode;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 public class TmdbSerieEpisodeToSerieEpisodeDtoBuilder {
+
+    public SerieEpisodeDto buildFromTvAndDb(TmdbSerieEpisode serieEpisode, TvEpisode tvEpisode){
+        SerieEpisodeDto episodeAsDto = build(serieEpisode);
+        episodeAsDto.setName(tvEpisode.name);
+        episodeAsDto.setAirDate(tvEpisode.air_date);
+        episodeAsDto.setSeasonNumber(tvEpisode.season_number);
+        episodeAsDto.setEpisodeNumber(tvEpisode.episode_number);
+
+        return episodeAsDto;
+    }
+
+    public SerieEpisodeDto build(TvEpisode tvEpisode, Long tmdbSerieId, Long reviewId) {
+        return new SerieEpisodeDto(
+                tvEpisode.id,
+                tmdbSerieId,
+                reviewId,
+                null,
+                tvEpisode.name,
+                tvEpisode.air_date,
+                tvEpisode.season_number,
+                tvEpisode.episode_number
+        );
+    }
 
     public SerieEpisodeDto build(TmdbSerieEpisode serieEpisode) {
         return new SerieEpisodeDto(

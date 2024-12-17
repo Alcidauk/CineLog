@@ -1,9 +1,7 @@
-package com.ulicae.cinelog.data.dto;
-
-import com.ulicae.cinelog.data.dao.Tag;
+package com.ulicae.cinelog.room.dto;
 
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2020 Pierre Rognon
  *
  *
  * This file is part of CineLog.
@@ -21,15 +19,9 @@ import com.ulicae.cinelog.data.dao.Tag;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  *
  */
-public class TagDtoBuilder {
+public interface ItemDto {
 
-    public TagDto build(Tag tag) {
-        return new TagDto(
-                tag.getId(),
-                tag.getName(),
-                tag.getColor(),
-                tag.getForMovies(),
-                tag.getForSeries()
-        );
-    }
+    Long getId();
+
+    void setId(Long id);
 }

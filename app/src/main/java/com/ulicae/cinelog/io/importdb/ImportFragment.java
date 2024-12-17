@@ -20,8 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.services.AsyncDataService;
+import com.ulicae.cinelog.room.dto.ItemDto;
+import com.ulicae.cinelog.room.services.AsyncDataService;
 import com.ulicae.cinelog.databinding.ActivityImportDbBinding;
 import com.ulicae.cinelog.io.importdb.builder.DtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.ReviewableDtoFromRecordBuilder;

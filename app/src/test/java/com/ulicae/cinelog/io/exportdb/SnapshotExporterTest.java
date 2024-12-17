@@ -9,7 +9,7 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
+import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 

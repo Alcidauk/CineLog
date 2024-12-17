@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
+import com.ulicae.cinelog.room.dto.ItemDto;
 
 import java.util.List;
 

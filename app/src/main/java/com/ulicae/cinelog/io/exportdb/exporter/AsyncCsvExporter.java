@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.services.AsyncDataService;
+import com.ulicae.cinelog.room.dto.ItemDto;
+import com.ulicae.cinelog.room.services.AsyncDataService;
 import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
 
 import java.util.List;

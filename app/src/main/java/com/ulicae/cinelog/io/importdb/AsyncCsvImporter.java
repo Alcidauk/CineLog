@@ -5,8 +5,8 @@ import android.content.Context;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.services.AsyncDataService;
+import com.ulicae.cinelog.room.dto.ItemDto;
+import com.ulicae.cinelog.room.services.AsyncDataService;
 
 import java.io.FileReader;
 import java.io.IOException;

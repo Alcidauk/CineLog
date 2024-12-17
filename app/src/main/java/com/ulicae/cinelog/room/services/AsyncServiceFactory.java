@@ -1,9 +1,8 @@
-package com.ulicae.cinelog.data.services;
+package com.ulicae.cinelog.room.services;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
-import com.ulicae.cinelog.room.services.ReviewAsyncService;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon

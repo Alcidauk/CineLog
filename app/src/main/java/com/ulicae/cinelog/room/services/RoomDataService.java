@@ -1,6 +1,6 @@
-package com.ulicae.cinelog.data.services;
+package com.ulicae.cinelog.room.services;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
+import com.ulicae.cinelog.room.dto.ItemDto;
 
 import java.util.List;
 

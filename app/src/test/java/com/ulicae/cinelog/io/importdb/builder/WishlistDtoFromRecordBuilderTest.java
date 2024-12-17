@@ -2,8 +2,8 @@ package com.ulicae.cinelog.io.importdb.builder;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.WishlistItemType;
 import com.ulicae.cinelog.io.importdb.ImportException;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 

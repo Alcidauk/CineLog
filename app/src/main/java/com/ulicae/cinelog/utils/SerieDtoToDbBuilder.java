@@ -3,8 +3,8 @@ package com.ulicae.cinelog.utils;
 import com.ulicae.cinelog.data.dao.Review;
 import com.ulicae.cinelog.data.dao.SerieEpisode;
 import com.ulicae.cinelog.data.dao.TmdbSerie;
-import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
+import com.ulicae.cinelog.room.dto.SerieDto;
+import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

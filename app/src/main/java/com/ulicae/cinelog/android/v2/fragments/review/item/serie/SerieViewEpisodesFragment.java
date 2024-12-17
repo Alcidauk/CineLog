@@ -12,10 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
-import com.ulicae.cinelog.data.dto.SerieEpisodeDtoBuilder;
+import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.databinding.FragmentSerieViewEpisodesBinding;
 import com.ulicae.cinelog.network.task.SerieEpisodesNetworkTask;
+import com.ulicae.cinelog.room.dto.utils.to.TmdbSerieEpisodeToSerieEpisodeDtoBuilder;
 import com.ulicae.cinelog.room.entities.ReviewWithEpisodes;
 import com.ulicae.cinelog.room.entities.TmdbSerieEpisode;
 import com.ulicae.cinelog.room.services.SerieEpisodeAsyncService;
@@ -114,7 +114,7 @@ public class SerieViewEpisodesFragment extends Fragment {
         List<SerieEpisodeDto> allTvEpisodes =
                 tvEpisodes.stream()
                         .map((tvEpisode) ->
-                                new SerieEpisodeDtoBuilder().build(tvEpisode, this.tmdbId, this.reviewId))
+                                new TmdbSerieEpisodeToSerieEpisodeDtoBuilder().build(tvEpisode, this.tmdbId, this.reviewId))
                         .collect(Collectors.toList());
 
         for (TmdbSerieEpisode watchedTvEpisode : reviewWithEpisodes.episodes) {
