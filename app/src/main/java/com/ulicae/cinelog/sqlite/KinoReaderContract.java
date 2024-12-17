@@ -1,4 +1,4 @@
-package com.ulicae.cinelog.data.dao.sqlite;
+package com.ulicae.cinelog.sqlite;
 
 import android.provider.BaseColumns;
 

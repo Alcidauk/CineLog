@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import androidx.room.Room;
 
-import com.ulicae.cinelog.data.ProdOpenHelper;
 import com.ulicae.cinelog.data.dao.DaoMaster;
 import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.io.exportdb.AutomaticExportException;

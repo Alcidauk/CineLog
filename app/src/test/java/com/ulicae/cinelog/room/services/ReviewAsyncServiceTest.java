@@ -4,15 +4,14 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import com.ulicae.cinelog.room.CinelogSchedulers;
+import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
 import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.SerieDto;
 import com.ulicae.cinelog.room.dto.TagDto;
-import com.ulicae.cinelog.room.CinelogSchedulers;
-import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
 import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
-import com.ulicae.cinelog.utils.SerieDtoToDbBuilder;
 
 import junit.framework.TestCase;
 
@@ -47,9 +46,6 @@ public class ReviewAsyncServiceTest extends TestCase {
     private SerieDto serieDto;
     @Mock
     private KinoDto kinoDto;
-
-    @Mock
-    private SerieDtoToDbBuilder toDbBuilder;
 
     @Test
     public void getByTmdbMovieId() {

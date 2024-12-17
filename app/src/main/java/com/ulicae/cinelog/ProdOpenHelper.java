@@ -1,7 +1,13 @@
-package com.ulicae.cinelog.data.dao;
+package com.ulicae.cinelog;
+
+import android.content.Context;
+
+import com.ulicae.cinelog.data.dao.DaoMaster;
+
+import org.greenrobot.greendao.database.Database;
 
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2018 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -18,11 +24,14 @@ package com.ulicae.cinelog.data.dao;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public interface JoinWithTag {
+public class ProdOpenHelper extends DaoMaster.OpenHelper {
 
-    Long getId();
+    public ProdOpenHelper(Context context, String name) {
+        super(context, name);
+    }
 
-    Long getTagId();
-
+    @Override
+    public void onOpen(Database db) {
+        DaoMaster.createAllTables(db, true);
+    }
 }
-

@@ -7,7 +7,7 @@ import android.util.Log;
 import androidx.room.Room;
 
 import com.ulicae.cinelog.BuildConfig;
-import com.ulicae.cinelog.data.dao.sqlite.DbReader;
+import com.ulicae.cinelog.sqlite.DbReader;
 import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.SerieEpisodeDto;

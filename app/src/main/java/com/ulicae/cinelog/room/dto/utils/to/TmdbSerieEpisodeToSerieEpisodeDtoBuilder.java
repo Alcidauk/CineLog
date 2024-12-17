@@ -1,7 +1,5 @@
 package com.ulicae.cinelog.room.dto.utils.to;
 
-import com.ulicae.cinelog.data.dao.SerieEpisode;
-import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.room.entities.TmdbSerieEpisode;
 import com.uwetrottmann.tmdb2.entities.TvEpisode;
