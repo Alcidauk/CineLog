@@ -1,13 +1,10 @@
 package com.ulicae.cinelog;
 
 import android.app.Application;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import androidx.room.Room;
 
-import com.ulicae.cinelog.data.dao.DaoMaster;
-import com.ulicae.cinelog.data.dao.DaoSession;
 import com.ulicae.cinelog.io.exportdb.AutomaticExportException;
 import com.ulicae.cinelog.io.exportdb.AutomaticExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.ReviewCsvExporterFactory;
@@ -22,7 +19,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * kinolog Copyright (C) 2017  ryan rigby
  * <p>
  * <p>
@@ -42,10 +39,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
  */
 public class KinoApplication extends Application {
 
-    ProdOpenHelper helper;
-    SQLiteDatabase db;
-    DaoMaster daoMaster;
-    DaoSession daoSession;
     AppDatabase appDb;
 
     private List<Disposable> disposableList;
@@ -54,11 +47,6 @@ public class KinoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         new ThemeWrapper().setThemeWithPreferences(this);
-
-        helper = new ProdOpenHelper(this, "notes-db");
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
 
         this.disposableList = new ArrayList<>();
 
@@ -113,10 +101,6 @@ public class KinoApplication extends Application {
         for(Disposable disposable : this.disposableList) {
             disposable.dispose();
         }
-    }
-
-    public DaoSession getDaoSession() {
-        return daoSession;
     }
 
     public AppDatabase getDb() {

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao'
 
 
 android {
@@ -38,10 +37,6 @@ android {
     }
 }
 
-greendao {
-    schemaVersion 9
-}
-
 dependencies {
     def nav_version = "2.5.2"
 
@@ -74,9 +69,6 @@ dependencies {
     // Makes parceling simple
     implementation 'org.parceler:parceler-api:1.1.13'
     annotationProcessor 'org.parceler:parceler:1.1.13'
-
-    // GreenDAO ORM for database
-    implementation 'org.greenrobot:greendao:3.2.2'
 
     // Just needed for old (GreenDao) to new (Room) DB lib migration
     implementation "androidx.sqlite:sqlite:2.4.0"
