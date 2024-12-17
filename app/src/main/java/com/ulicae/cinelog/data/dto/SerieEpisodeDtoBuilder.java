@@ -5,7 +5,7 @@ import com.ulicae.cinelog.data.dao.TmdbSerie;
 import com.uwetrottmann.tmdb2.entities.TvEpisode;
 
 /**
- * CineLog Copyright 2020 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -34,11 +34,11 @@ public class SerieEpisodeDtoBuilder {
         return episodeAsDto;
     }
 
-    public SerieEpisodeDto build(TvEpisode tvEpisode, Long tmdbSerieId) {
+    public SerieEpisodeDto build(TvEpisode tvEpisode, Long tmdbSerieId, Long reviewId) {
         return new SerieEpisodeDto(
-                null,
                 tvEpisode.id,
                 tmdbSerieId,
+                reviewId,
                 null,
                 tvEpisode.name,
                 tvEpisode.air_date,
@@ -51,9 +51,9 @@ public class SerieEpisodeDtoBuilder {
         TmdbSerie serie = serieEpisode.getSerie();
 
         return new SerieEpisodeDto(
-                serieEpisode.getEpisodeId(),
                 serieEpisode.getTmdbEpisodeId(),
                 serie != null ? serie.getSerie_id() : null,
+                null,
                 serieEpisode.getWatchingDate(),
                 null,
                 null,

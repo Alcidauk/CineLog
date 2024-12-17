@@ -53,7 +53,7 @@ public class SerieDtoToDbBuilder {
 
     public SerieEpisode buildSerieEpisode(SerieEpisodeDto serieEpisodeDto) {
         return new SerieEpisode(
-                serieEpisodeDto.getEpisodeId(),
+                null,
                 serieEpisodeDto.getTmdbEpisodeId(),
                 serieEpisodeDto.getTmdbSerieId(),
                 serieEpisodeDto.getWatchingDate()

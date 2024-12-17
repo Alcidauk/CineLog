@@ -16,6 +16,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -153,12 +154,12 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
      **/
 
     @Override
-    public Completable createOrUpdate(WishlistDataDto dtoObject) {
+    public Single<Long> createOrUpdate(WishlistDataDto dtoObject) {
         return wishlistItemDao.insert(buildItem(dtoObject));
     }
 
     @Override
-    public Completable createOrUpdate(List<WishlistDataDto> dtos) {
+    public Single createOrUpdate(List<WishlistDataDto> dtos) {
         List<WishlistItem> items = new ArrayList<>();
         for (WishlistDataDto dto : dtos) {
             items.add(buildItem(dto));

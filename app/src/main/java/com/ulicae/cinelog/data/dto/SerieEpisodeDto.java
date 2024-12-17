@@ -24,9 +24,9 @@ import java.util.Objects;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Parcel
-public class SerieEpisodeDto {
+public class SerieEpisodeDto implements ItemDto {
 
-    Long episodeId;
+    Long reviewId;
 
     Integer tmdbEpisodeId;
 
@@ -43,11 +43,11 @@ public class SerieEpisodeDto {
     }
 
 
-    public SerieEpisodeDto(Long episodeId, Integer tmdbEpisodeId, Long tmdbSerieId, Date watchingDate,
+    public SerieEpisodeDto(Integer tmdbEpisodeId, Long tmdbSerieId, Long reviewId, Date watchingDate,
                            String name, Date airDate, Integer seasonNumber, Integer episodeNumber) {
-        this.episodeId = episodeId;
         this.tmdbEpisodeId = tmdbEpisodeId;
         this.tmdbSerieId = tmdbSerieId;
+        this.reviewId = reviewId;
         this.watchingDate = watchingDate;
         this.name = name;
         this.airDate = airDate;
@@ -55,12 +55,12 @@ public class SerieEpisodeDto {
         this.episodeNumber = episodeNumber;
     }
 
-    public Long getEpisodeId() {
-        return episodeId;
-    }
-
     public Integer getTmdbEpisodeId() {
         return tmdbEpisodeId;
+    }
+
+    public Long getReviewId() {
+        return reviewId;
     }
 
     public Long getTmdbSerieId() {
@@ -107,8 +107,8 @@ public class SerieEpisodeDto {
         this.watchingDate = watchingDate;
     }
 
-    public void setEpisodeId(Long episodeId) {
-        this.episodeId = episodeId;
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class SerieEpisodeDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SerieEpisodeDto that = (SerieEpisodeDto) o;
-        return Objects.equals(episodeId, that.episodeId) &&
+        return Objects.equals(reviewId, that.reviewId) &&
                 Objects.equals(tmdbEpisodeId, that.tmdbEpisodeId) &&
                 Objects.equals(tmdbSerieId, that.tmdbSerieId) &&
                 Objects.equals(watchingDate, that.watchingDate) &&
@@ -128,6 +128,16 @@ public class SerieEpisodeDto {
 
     @Override
     public int hashCode() {
-        return Objects.hash(episodeId, tmdbEpisodeId, tmdbSerieId, watchingDate, name, airDate, seasonNumber, episodeNumber);
+        return Objects.hash(reviewId, tmdbEpisodeId, tmdbSerieId, watchingDate, name, airDate, seasonNumber, episodeNumber);
+    }
+
+    @Override
+    public Long getId() {
+        return Long.valueOf(tmdbEpisodeId);
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.tmdbEpisodeId = Math.toIntExact(id);
     }
 }

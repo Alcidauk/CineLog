@@ -163,6 +163,7 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
                     item.getOverview(),
                     item.getFirstYear(),
                     item.getReleaseDate(),
+                    new ArrayList<>(),
                     new ArrayList<>()
             );
         } else if (item.getWishlistItemType() == WishlistItemType.MOVIE) {

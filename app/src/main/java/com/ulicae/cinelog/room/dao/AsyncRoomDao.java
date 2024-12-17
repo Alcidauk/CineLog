@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 
 /**
@@ -30,10 +31,10 @@ import io.reactivex.rxjava3.core.Completable;
 public interface AsyncRoomDao<T> extends RoomDao<T> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertAll(List<T> entities);
+    Single<List<Long>> insertAll(List<T> entities);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(T entity);
+    Single<Long> insert(T entity);
 
     @Delete
     Completable delete(T entity);

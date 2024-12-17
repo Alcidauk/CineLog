@@ -178,11 +178,11 @@ public class ImportFragment extends Fragment {
                             .subscribeOn(cinelogSchedulers.io())
                             .observeOn(cinelogSchedulers.androidMainThread())
                             .subscribe(
-                                    () -> {
+                                    (created) -> {
                                         waitingUIZone.setText(R.string.import_status_success);
                                     },
                                     error -> {
-                                        showImportError(app, waitingUIZone, errorUIZone, error);
+                                        showImportError(app, waitingUIZone, errorUIZone, (Throwable) error);
                                     }
                             )
             );

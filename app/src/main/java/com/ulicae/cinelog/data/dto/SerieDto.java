@@ -30,16 +30,19 @@ public class SerieDto extends KinoDto {
 
     Long reviewId;
 
+    List<SerieEpisodeDto> episodeDtos;
+
     public SerieDto() {
     }
 
     // TODO improve it
     public SerieDto(Long kinoId, Long tmdbKinoId, Long reviewId, String title, Date review_date,
                     String review, Float rating, Integer maxRating, String posterPath,
-                    String overview, int year, String releaseDate, List<TagDto> tags) {
+                    String overview, int year, String releaseDate, List<TagDto> tags, List<SerieEpisodeDto> episodeDtos) {
         super(kinoId, tmdbKinoId, title, review_date, review, rating, maxRating, posterPath,
                 overview, year, releaseDate, tags);
         this.reviewId = reviewId;
+        this.episodeDtos = episodeDtos;
     }
 
     public Long getReviewId() {
@@ -50,17 +53,25 @@ public class SerieDto extends KinoDto {
         this.reviewId = reviewId;
     }
 
+    public List<SerieEpisodeDto> getEpisodeDtos() {
+        return episodeDtos;
+    }
+
+    public void setEpisodeDtos(List<SerieEpisodeDto> episodeDtos) {
+        this.episodeDtos = episodeDtos;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         SerieDto serieDto = (SerieDto) o;
-        return Objects.equals(reviewId, serieDto.reviewId);
+        return Objects.equals(reviewId, serieDto.reviewId) && Objects.equals(episodeDtos, serieDto.episodeDtos);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), reviewId);
+        return Objects.hash(super.hashCode(), reviewId, episodeDtos);
     }
 }

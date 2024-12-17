@@ -122,10 +122,17 @@ public class ReviewSerieRoomItemFragment extends ShareableFragment<KinoDto> {
         @Override
         public Fragment createFragment(int position) {
             Bundle args = new Bundle();
-            args.putParcelable("kino", Parcels.wrap(kino));
-
-            Fragment fragment = position == 0 ? new SerieViewGeneralFragment() : new SerieViewEpisodesFragment();
+            Fragment fragment;
+            if(position == 0) {
+                args.putParcelable("kino", Parcels.wrap(kino));
+                fragment = new SerieViewGeneralFragment();
+            } else {
+                args.putLong("tmdbId", kino.getTmdbKinoId());
+                args.putLong("reviewId", kino.getKinoId());
+                fragment = new SerieViewEpisodesFragment();
+            }
             fragment.setArguments(args);
+
             return fragment;
         }
 

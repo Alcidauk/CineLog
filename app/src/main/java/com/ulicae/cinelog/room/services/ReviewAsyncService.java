@@ -6,8 +6,6 @@ import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.services.AsyncDataTmdbService;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
-import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
-import com.ulicae.cinelog.room.dao.TagDao;
 import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
@@ -181,12 +179,12 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
     }
 
     @Override
-    public Completable createOrUpdate(KinoDto dtoObject) {
+    public Single<Long> createOrUpdate(KinoDto dtoObject) {
         return reviewDao.insert(buildItem(dtoObject));
     }
 
     @Override
-    public Completable createOrUpdate(List<KinoDto> dtos) {
+    public Single createOrUpdate(List<KinoDto> dtos) {
         List<Review> items = new ArrayList<>();
         for (KinoDto dto : dtos) {
             items.add(buildItem(dto));

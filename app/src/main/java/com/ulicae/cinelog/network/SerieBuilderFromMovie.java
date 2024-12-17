@@ -51,6 +51,7 @@ public class SerieBuilderFromMovie implements DtoBuilderFromTmdbObject<BaseTvSho
                 tvShow.overview,
                 yearAsInt,
                 yearAsString,
+                new ArrayList<>(),
                 new ArrayList<>()
         );
     }

@@ -1,29 +1,35 @@
 package com.ulicae.cinelog.android.v2.fragments.review.item.serie;
 
+import static io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.dto.SerieDto;
 import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
-import com.ulicae.cinelog.data.services.reviews.SerieEpisodeService;
+import com.ulicae.cinelog.data.dto.SerieEpisodeDtoBuilder;
 import com.ulicae.cinelog.databinding.FragmentSerieViewEpisodesBinding;
 import com.ulicae.cinelog.network.task.SerieEpisodesNetworkTask;
+import com.ulicae.cinelog.room.entities.ReviewWithEpisodes;
+import com.ulicae.cinelog.room.entities.TmdbSerieEpisode;
+import com.ulicae.cinelog.room.services.SerieEpisodeAsyncService;
 import com.uwetrottmann.tmdb2.entities.TvEpisode;
 
-import org.parceler.Parcels;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -42,19 +48,23 @@ import java.util.List;
  */
 public class SerieViewEpisodesFragment extends Fragment {
 
+    private List<Disposable> disposables;
+
     private FragmentSerieViewEpisodesBinding binding;
 
-    private SerieEpisodeService serieEpisodeService;
-    private SerieDto serieDto;
+    private TvEpisodesAdapter tvEpisodesAdapter;
+
+    private SerieEpisodeAsyncService serieEpisodeService;
+    private Long tmdbId;
+    private Long reviewId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        serieEpisodeService = new SerieEpisodeService(
-                ((KinoApplication) getActivity().getApplication()).getDaoSession()
-        );
+        serieEpisodeService =
+                new SerieEpisodeAsyncService(((KinoApplication) getActivity().getApplication()));
+        disposables = new ArrayList<>();
     }
 
     @Override
@@ -68,33 +78,75 @@ public class SerieViewEpisodesFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         binding.serieViewEpisodesProgressBar.setVisibility(View.VISIBLE);
-        this.serieDto = Parcels.unwrap(requireArguments().getParcelable("kino"));
+        this.tmdbId = requireArguments().getLong("tmdbId");
+        this.reviewId = requireArguments().getLong("reviewId");
 
-        if (serieDto.getTmdbKinoId() != null) {
-            new SerieEpisodesNetworkTask(this).execute(serieDto.getTmdbKinoId().intValue());
+        if (this.tmdbId != null) {
+            new SerieEpisodesNetworkTask(this).execute(tmdbId.intValue());
         }
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
+    public void onDestroyView() {
+        super.onDestroyView();
+        for (Disposable disposable : this.disposables) {
+            disposable.dispose();
+        }
 
-        System.out.println("vcoucou");
+        tvEpisodesAdapter.destroy();
     }
 
     public void populateEpisodeList(List<TvEpisode> tvEpisodes) {
         binding.serieViewEpisodesProgressBar.setVisibility(View.GONE);
 
-        List<SerieEpisodeDto> dtoEpisodes = serieEpisodeService.getDtoEpisodes(tvEpisodes,
-                this.serieDto.getTmdbKinoId());
-
-        ArrayAdapter<SerieEpisodeDto> arrayAdapter = new TvEpisodesAdapter(
-                getContext(), dtoEpisodes, serieEpisodeService);
-
-        if (binding != null) {
-            binding.serieViewEpisodesList.setAdapter(arrayAdapter);
-        }
+        disposables.add(
+                serieEpisodeService
+                        .findSerieEpisodes(this.tmdbId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(mainThread())
+                        .subscribe((reviewWithEpisodes) -> {
+                            List<SerieEpisodeDto> episodeList = buildEpisodeList(tvEpisodes, reviewWithEpisodes);
+                            createAndBindAdapter(episodeList);
+                        }));
     }
 
+    private @NonNull List<SerieEpisodeDto> buildEpisodeList(List<TvEpisode> tvEpisodes, ReviewWithEpisodes reviewWithEpisodes) {
+        List<SerieEpisodeDto> allTvEpisodes =
+                tvEpisodes.stream()
+                        .map((tvEpisode) ->
+                                new SerieEpisodeDtoBuilder().build(tvEpisode, this.tmdbId, this.reviewId))
+                        .collect(Collectors.toList());
 
+        for (TmdbSerieEpisode watchedTvEpisode : reviewWithEpisodes.episodes) {
+            SerieEpisodeDto watchedInList = allTvEpisodes
+                    .stream()
+                    .filter((episode) ->
+                            episode.getTmdbEpisodeId().equals((int) watchedTvEpisode.getTmdbEpisodeId()))
+                    .findAny()
+                    .get();
+
+            watchedInList.setWatchingDate(watchedTvEpisode.getWatchingDate());
+
+            for(SerieEpisodeDto serieEpisodeDto : allTvEpisodes) {
+                if(serieEpisodeDto.getTmdbEpisodeId().equals(watchedInList.getTmdbEpisodeId())){
+                    serieEpisodeDto.setWatchingDate(watchedInList.getWatchingDate());
+                }
+            }
+        }
+        return allTvEpisodes;
+    }
+
+    private void createAndBindAdapter(List<SerieEpisodeDto> allTvEpisodes) {
+        tvEpisodesAdapter =
+                new TvEpisodesAdapter(
+                        getContext(),
+                        allTvEpisodes,
+                        serieEpisodeService,
+                        this.reviewId
+                );
+
+        if (binding != null) {
+            binding.serieViewEpisodesList.setAdapter(tvEpisodesAdapter);
+        }
+    }
 }

@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 
 /**
@@ -51,10 +51,10 @@ class AsyncCsvImporter<Dto extends ItemDto> {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public Completable importCsvFile(DocumentFile choosenDirFile, String importFilename) throws ImportException, IOException {
+    public Single importCsvFile(DocumentFile choosenDirFile, String importFilename) throws ImportException, IOException {
         DocumentFile importFile = choosenDirFile.findFile(importFilename);
         if (importFile == null) {
-            return Completable.never();
+            return Single.never();
         }
 
         FileReader fileReader;

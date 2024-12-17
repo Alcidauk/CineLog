@@ -81,7 +81,8 @@ public class ReviewToDataDtoBuilder {
                         review.getTmdb().getOverview(),
                         review.getTmdb().getYear(),
                         review.getTmdb().getReleaseDate(),
-                        new ArrayList<>() // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf
+                        new ArrayList<>(), // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf,
+                        new ArrayList<>() // TODO idem
                 );
             }
 
@@ -98,6 +99,7 @@ public class ReviewToDataDtoBuilder {
                     null,
                     0,
                     null,
+                    new ArrayList<>(),
                     new ArrayList<>()
             );
         }

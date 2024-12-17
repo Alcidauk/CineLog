@@ -28,7 +28,7 @@ import java.util.List;
  */
 public abstract class SyncEntityFromDtoCreator<T, U extends SyncRoomDao, D extends ItemDto> {
 
-    private final U dao;
+    protected final U dao;
 
     public SyncEntityFromDtoCreator(U dao) {
         this.dao = dao;

@@ -25,8 +25,8 @@ public class TmdbSerieEpisodeToSerieEpisodeDtoBuilder {
 
     public SerieEpisodeDto build(TmdbSerieEpisode serieEpisode) {
         return new SerieEpisodeDto(
-                null,
                 (int) serieEpisode.getTmdbEpisodeId(),
+                null,
                 null,
                 serieEpisode.getWatchingDate(),
                 null,

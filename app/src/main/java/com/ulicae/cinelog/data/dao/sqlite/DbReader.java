@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.ulicae.cinelog.data.dto.KinoDto;
 import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.data.dto.data.WishlistItemType;
@@ -152,7 +153,8 @@ public class DbReader {
                 null,
                 0,
                 null,
-                serieTags
+                serieTags,
+                null // Espisodes are built after an then linked
         );
     }
 
@@ -214,7 +216,8 @@ public class DbReader {
                 tmdbCursor.getString(2),
                 tmdbCursor.getInt(3),
                 tmdbCursor.getString(4),
-                serieTags
+                serieTags,
+                null // Espisodes are built after an then linked
         );
     }
 
@@ -233,6 +236,39 @@ public class DbReader {
         serieReviewCursor.moveToNext();
 
         return serieReviewCursor.isAfterLast() || serieReviewCursor.getInt(1) == 0 ? null : serieReviewCursor;
+    }
+
+    public List<SerieEpisodeDto> readSerieEpisodes() {
+        Cursor cursor;
+        try {
+            cursor = this.getTableCursor(KinoReaderContract.SerieEpisode.TABLE_NAME);
+        } catch (NoSuchTableException e) {
+            return new ArrayList<>();
+        }
+
+        cursor.moveToNext();
+
+        List<SerieEpisodeDto> episodes = new ArrayList<>();
+
+        while (!cursor.isAfterLast()) {
+            episodes.add(buildEpisodeDto(cursor));
+            cursor.moveToNext();
+        }
+
+        return episodes;
+    }
+
+    private SerieEpisodeDto buildEpisodeDto(Cursor cursor) {
+        return new SerieEpisodeDto(
+                cursor.getInt(1),
+                cursor.getLong(2),
+                null,
+                new Date(cursor.getLong(3)),
+                null,
+                null,
+                null,
+                null
+        );
     }
 
     private static boolean hasTmdb(Cursor cursor) {

@@ -26,6 +26,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
+@Deprecated
 public class SerieKinoDtoBuilder {
 
     private final TagDtoBuilder tagDtoBuilder;
@@ -62,7 +63,8 @@ public class SerieKinoDtoBuilder {
                 serie != null ? serie.getOverview() : null,
                 serie != null ? serie.getYear() : 0,
                 serie != null ? serie.getRelease_date() : null,
-                tagDtos
+                tagDtos,
+                new ArrayList<>() // TODO voir ce qu'on fait ici
         );
     }
 }

@@ -245,7 +245,7 @@ public class ReviewEditionFragment extends Fragment {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                        () -> {
+                        (createdKino) -> {
                             long wishlistId = requireArguments().getLong("wishlistId", 0L);
                             if (wishlistId != 0L) {
                                 // TODO do we need to know if it is a serie or a movie ?

@@ -15,6 +15,7 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -53,7 +54,7 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
     }
 
     @Override
-    public Completable createOrUpdate(TagDto dtoObject) {
+    public Single createOrUpdate(TagDto dtoObject) {
         return this.tagFromDtoCreator.insert(dtoObject);
     }
 
@@ -118,7 +119,7 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
     }
 
     @Override
-    public Completable createOrUpdate(List<TagDto> tagDtos) {
+    public Single createOrUpdate(List<TagDto> tagDtos) {
         return this.tagFromDtoCreator.insertAll(tagDtos);
     }
 }

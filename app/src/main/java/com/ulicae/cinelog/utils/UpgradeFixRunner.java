@@ -10,10 +10,12 @@ import com.ulicae.cinelog.BuildConfig;
 import com.ulicae.cinelog.data.dao.sqlite.DbReader;
 import com.ulicae.cinelog.data.dto.ItemDto;
 import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.data.dto.TagDto;
 import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
+import com.ulicae.cinelog.room.dto.utils.from.SerieEpisodeFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.TagReviewCrossRefFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.WishlistFromDtoCreator;
@@ -103,11 +105,25 @@ public class UpgradeFixRunner {
 
                             // We need the biggest kino id to generate next serie id
                             int biggestMovieReviewId = getBiggestId(kinoDtos);
-                            migrateSerieReviews(givenDb, createdTags, biggestMovieReviewId);
+                            List<KinoDto> serieDtos = migrateSerieReviews(givenDb, createdTags, biggestMovieReviewId);
+
+                            migrateEpisodes(givenDb, serieDtos);
 
                             migrateWishlistItems(givenDb);
                         })
         );
+    }
+
+    private void migrateEpisodes(AppDatabase givenDb, List<KinoDto> serieDtos) {
+        List<SerieEpisodeDto> episodeDtos = new DbReader(application.getApplicationContext())
+                .readSerieEpisodes();
+
+        SerieEpisodeFromDtoCreator episodeFromDtoCreator =
+                new SerieEpisodeFromDtoCreator(
+                        givenDb.syncTmdbSerieEpisodeDao(),
+                        serieDtos
+                );
+        episodeFromDtoCreator.insertAll(episodeDtos);
     }
 
     private int getBiggestId(List<? extends ItemDto> kinoDtos) {
@@ -144,17 +160,24 @@ public class UpgradeFixRunner {
         wishlistFromDtoCreator.insertAll(wishlistDtos);
     }
 
-    private void migrateSerieReviews(AppDatabase givenDb, List<TagDto> createdTags, int biggestMovieReviewId) {
+    private List<KinoDto> migrateSerieReviews(AppDatabase givenDb,
+                                              List<TagDto> createdTags,
+                                              int biggestMovieReviewId) {
         ReviewFromDtoCreator reviewFromDtoCreator =
                 new ReviewFromDtoCreator(givenDb.reviewDao(), biggestMovieReviewId);
 
-        List<KinoDto> serieDtos = new DbReader(application.getApplicationContext()).readSeries(createdTags, biggestMovieReviewId);
+        List<KinoDto> serieDtos =
+                new DbReader(application.getApplicationContext()).readSeries(
+                        createdTags,
+                        biggestMovieReviewId);
 
         for (KinoDto kinoDto : serieDtos) {
             reviewFromDtoCreator.insert(kinoDto);
         }
 
         migrateTagsOnReview(givenDb, serieDtos, biggestMovieReviewId);
+
+        return serieDtos;
     }
 
     private List<KinoDto> migrateMovieReviews(AppDatabase givenDb, List<TagDto> tags) {

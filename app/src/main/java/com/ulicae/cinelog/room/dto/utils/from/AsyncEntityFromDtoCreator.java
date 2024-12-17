@@ -10,7 +10,7 @@ import com.ulicae.cinelog.room.dao.AsyncRoomDao;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -38,7 +38,7 @@ public abstract class AsyncEntityFromDtoCreator<T, U extends AsyncRoomDao, D ext
         this.dao = dao;
     }
 
-    public Completable insertAll(List<D> items) {
+    public Single insertAll(List<D> items) {
         return dao.insertAll(buildEntities(items));
     }
 
@@ -75,7 +75,7 @@ public abstract class AsyncEntityFromDtoCreator<T, U extends AsyncRoomDao, D ext
 
     abstract T createRoomInstanceFromDto(D itemDto);
 
-    public Completable insert(D itemDto) {
+    public Single insert(D itemDto) {
         return dao.insert(createRoomInstanceFromDto(itemDto));
     }
 }
