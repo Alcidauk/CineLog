@@ -116,6 +116,14 @@ public abstract class SearchTmdbFragment<T extends BaseRatingObject> extends Fra
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        networkTaskManager.cancelTasks();
+        handler.removeMessages(TRIGGER_SERACH);
+    }
+
     protected abstract void onFromScratchClick(View view);
 
     private void startSearchTask() {

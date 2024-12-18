@@ -50,7 +50,7 @@ public class NetworkTaskManager<T extends BaseRatingObject> {
         taskList.add(networkTask);
     }
 
-    void cancelTasks() {
+    public void cancelTasks() {
         for (AsyncTask task : taskList) {
             task.cancel(true);
         }
