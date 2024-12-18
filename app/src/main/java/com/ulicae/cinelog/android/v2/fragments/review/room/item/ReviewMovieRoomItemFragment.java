@@ -13,18 +13,19 @@ import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.android.v2.fragments.ShareableFragment;
-import com.ulicae.cinelog.room.dto.KinoDto;
-import com.ulicae.cinelog.room.entities.ItemEntityType;
-import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.databinding.FragmentReviewMovieItemBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemReviewBinding;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
@@ -57,6 +58,7 @@ public class ReviewMovieRoomItemFragment extends ShareableFragment<KinoDto> {
 
         disposables.add(
         reviewService.findById(itemId)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         review -> {
                             item = review;
