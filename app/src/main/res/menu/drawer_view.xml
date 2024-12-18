@@ -28,12 +28,6 @@
                 <item
                     android:id="@+id/nav_reviews_serie"
                     android:title="@string/title_fragment_serie" />
-                <item
-                    android:id="@+id/nav_reviews_room_movie"
-                    android:title="@string/title_fragment_movie_room" />
-                <item
-                    android:id="@+id/nav_reviews_room_serie"
-                    android:title="@string/title_fragment_serie_room" />
             </menu>
         </item>
         <item
@@ -42,10 +36,10 @@
             <menu>
                 <item
                     android:id="@+id/nav_wishlist_room_movie"
-                    android:title="@string/title_fragment_movie_room" />
+                    android:title="@string/title_fragment_movie" />
                 <item
                     android:id="@+id/nav_wishlist_room_serie"
-                    android:title="@string/title_fragment_serie_room" />
+                    android:title="@string/title_fragment_serie" />
             </menu>
         </item>
         <item
@@ -54,7 +48,7 @@
             <menu>
                 <item
                     android:id="@+id/nav_room_tags"
-                    android:title="@string/nav_tags_room_space" />
+                    android:title="@string/nav_tags_space" />
             </menu>
         </item>
 

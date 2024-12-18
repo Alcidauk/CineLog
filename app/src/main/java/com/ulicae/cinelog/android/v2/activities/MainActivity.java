@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
         Set<Integer> topLevelDestinations = new HashSet<Integer>() {{
             add(R.id.nav_reviews_movie);
             add(R.id.nav_reviews_serie);
-            add(R.id.nav_reviews_room_movie);
-            add(R.id.nav_reviews_room_serie);
+            add(R.id.nav_reviews_movie);
+            add(R.id.nav_reviews_serie);
             add(R.id.nav_wishlist_room_movie);
             add(R.id.nav_wishlist_room_serie);
             add(R.id.nav_room_tags);
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         if (wishlist) {
             navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdMovieRoomFragment, args);
         } else {
-            navController.navigate(R.id.action_nav_reviews_room_movie_to_searchTmdbMovieRoomFragment, args);
+            navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieRoomFragment, args);
         }
     }
 
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         if (wishlist) {
             navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdSerieRoomFragment, args);
         } else {
-            navController.navigate(R.id.action_nav_reviews_room_serie_to_searchTmdbSerieRoomFragment, args);
+            navController.navigate(R.id.action_nav_reviews_serie_to_searchTmdbSerieRoomFragment, args);
         }
     }
 
@@ -236,11 +236,11 @@ public class MainActivity extends AppCompatActivity {
             if (kinoDto instanceof SerieDto) {
                 return fromSearch ?
                        R.id.action_searchTmdbSerieRoomFragment_to_viewSerieRoomFragment :
-                        R.id.action_nav_reviews_room_serie_to_viewSerieRoomFragment;
+                        R.id.action_nav_reviews_serie_to_viewSerieRoomFragment;
             } else {
                 return fromSearch ?
                        R.id.action_searchTmdbMovieRoomFragment_to_viewKinoRoomFragment :
-                        R.id.action_nav_reviews_room_movie_to_viewMovieRoomFragment;
+                        R.id.action_nav_reviews_movie_to_viewMovieRoomFragment;
             }
         } else {
             return kinoDto instanceof SerieDto ?
@@ -284,8 +284,8 @@ public class MainActivity extends AppCompatActivity {
     public void navigateBackToReviewList(KinoDto fromKinoDto) {
         navController.navigate(
                 fromKinoDto instanceof SerieDto ?
-                        R.id.action_editReviewFragment_to_nav_reviews_room_serie :
-                        R.id.action_editReviewFragment_to_nav_reviews_room_movie
+                        R.id.action_editReviewFragment_to_nav_reviews_serie :
+                        R.id.action_editReviewFragment_to_nav_reviews_movie
         );
     }
 
