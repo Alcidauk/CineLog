@@ -2,10 +2,24 @@ package com.ulicae.cinelog.room.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 
 import java.util.Objects;
 
-@Entity(primaryKeys = {"review_id", "tag_id"})
+@Entity(
+        primaryKeys = {"review_id", "tag_id"},
+        foreignKeys = {
+        @ForeignKey(
+                entity = Review.class,
+                parentColumns = "id",
+                childColumns = "review_id"
+        ),
+        @ForeignKey(
+                entity = Tag.class,
+                parentColumns = "id",
+                childColumns = "tag_id"
+        )
+})
 public class ReviewTagCrossRef {
 
     @ColumnInfo(name = "review_id")
