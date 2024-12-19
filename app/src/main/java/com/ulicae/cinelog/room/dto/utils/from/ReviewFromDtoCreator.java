@@ -41,7 +41,7 @@ public class ReviewFromDtoCreator extends SyncEntityFromDtoCreator<Review, Revie
     @Override
     public Review createRoomInstanceFromDto(KinoDto kinoDto) {
         return new Review(
-                kinoDto.getId() + this.biggestMovieReviewId,
+                (kinoDto.getId() != null ? kinoDto.getId() : 0L) + this.biggestMovieReviewId,
                 kinoDto instanceof SerieDto ? ItemEntityType.SERIE : ItemEntityType.MOVIE,
                 kinoDto.getTitle(),
                 kinoDto.getReview_date(),
