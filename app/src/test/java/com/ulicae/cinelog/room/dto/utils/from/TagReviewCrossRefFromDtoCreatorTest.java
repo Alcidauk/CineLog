@@ -65,6 +65,7 @@ public class TagReviewCrossRefFromDtoCreatorTest extends TestCase {
                                 null,
                                 0,
                                 null,
+                                null,
                                 null
                         ),
                         0)
