@@ -280,6 +280,10 @@ public class ReviewEditionFragment extends Fragment {
                                     Math.toIntExact(kino.getId()), Math.toIntExact(tag.getId())
                             );
 
+                            if(kino.getTags() == null){
+                                kino.setTags(new ArrayList<>());
+                            }
+
                             if (!kino.getTags().contains(tag)) {
                                 kino.getTags().add(tag);
                             }
