@@ -1,14 +1,14 @@
 package com.ulicae.cinelog.room.services;
 
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.room.dto.KinoDto;
-import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.TagDto;
+import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
-import com.ulicae.cinelog.room.entities.Tmdb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,7 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
 
     private final ReviewTagAsyncService reviewTagAsyncService;
 
+    private final ReviewFromDtoCreator creator;
     private final ReviewAsyncDao reviewDao;
     private final ReviewToDataDtoBuilder reviewToDataDtoBuilder;
 
@@ -52,6 +53,7 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
                         app.getDb().reviewTagCrossRefDao(),
                         app.getDb().tagDao()
                 ),
+                new ReviewFromDtoCreator(app.getDb().reviewDao()),
                 app.getDb().reviewAsyncDao(),
                 new ReviewToDataDtoBuilder(),
                 new CinelogSchedulers(),
@@ -60,44 +62,21 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
     }
 
     ReviewAsyncService(ReviewTagAsyncService reviewTagAsyncService,
+                       ReviewFromDtoCreator creator,
                        ReviewAsyncDao reviewDao,
                        ReviewToDataDtoBuilder reviewToDataDtoBuilder,
                        CinelogSchedulers cinelogSchedulers,
                        ItemEntityType itemEntityType) {
         this.reviewTagAsyncService = reviewTagAsyncService;
+        this.creator = creator;
         this.reviewDao = reviewDao;
         this.reviewToDataDtoBuilder = reviewToDataDtoBuilder;
         this.cinelogSchedulers = cinelogSchedulers;
         this.itemEntityType = itemEntityType;
     }
 
-    // TODO use ReviewFromDtoCreator
     public Review buildItem(KinoDto kinoDto) {
-        Tmdb tmdb = null;
-        Long tmdbId = kinoDto.getTmdbKinoId();
-
-        if (kinoDto.getTmdbKinoId() != null) {
-            tmdb = new Tmdb(
-                    Math.toIntExact(tmdbId),
-                    kinoDto.getPosterPath(),
-                    kinoDto.getOverview(),
-                    kinoDto.getYear(),
-                    kinoDto.getReleaseDate());
-        }
-
-        Review review =
-                new Review(
-                        0L,
-                        itemEntityType,
-                        kinoDto.getTitle(),
-                        kinoDto.getReview_date(),
-                        kinoDto.getReview(),
-                        kinoDto.getRating(),
-                        kinoDto.getMaxRating(),
-                        tmdb
-                );
-
-        return review;
+        return creator.createRoomInstanceFromDto(kinoDto);
     }
 
     /*

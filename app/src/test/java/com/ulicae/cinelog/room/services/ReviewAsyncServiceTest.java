@@ -9,6 +9,7 @@ import com.ulicae.cinelog.room.dao.ReviewAsyncDao;
 import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.SerieDto;
 import com.ulicae.cinelog.room.dto.TagDto;
+import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
@@ -40,6 +41,9 @@ public class ReviewAsyncServiceTest extends TestCase {
 
     @Mock
     private CinelogSchedulers cinelogSchedulers;
+    
+    @Mock
+    private ReviewFromDtoCreator reviewFromDtoCreator;
 
 
     @Mock
@@ -58,6 +62,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Single<KinoDto> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -81,6 +86,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -105,6 +111,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -131,6 +138,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -160,6 +168,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -190,6 +199,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -216,6 +226,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -242,6 +253,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -268,6 +280,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -295,6 +308,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -322,6 +336,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -348,6 +363,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
@@ -374,6 +390,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
                 cinelogSchedulers,
