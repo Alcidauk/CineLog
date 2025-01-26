@@ -2,6 +2,7 @@ package com.ulicae.cinelog.room.dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
@@ -33,39 +34,52 @@ import io.reactivex.rxjava3.core.Single;
 public interface ReviewAsyncDao extends AsyncRoomDao<Review> {
 
 
+    @Transaction
     @Query("SELECT * FROM review")
     Flowable<List<Review>> findAll();
 
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype")
     Flowable<List<Review>> findAll(ItemEntityType itemEntitytype);
 
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype ORDER BY rating ASC")
     Flowable<List<Review>> findAllByRatingAsc(ItemEntityType itemEntitytype);
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype ORDER BY rating DESC")
     Flowable<List<Review>> findAllByRatingDesc(ItemEntityType itemEntitytype);
 
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype ORDER BY review_date ASC")
     Flowable<List<Review>> findAllByReviewDateAsc(ItemEntityType itemEntitytype);
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype ORDER BY review_date DESC")
     Flowable<List<Review>> findAllByReviewDateDesc(ItemEntityType itemEntitytype);
 
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype ORDER BY release_date ASC")
     Flowable<List<Review>> findAllByYearAsc(ItemEntityType itemEntitytype);
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype ORDER BY release_date DESC")
     Flowable<List<Review>> findAllByYearDesc(ItemEntityType itemEntitytype);
 
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype ORDER BY title ASC")
     Flowable<List<Review>> findAllByTitleAsc(ItemEntityType itemEntitytype);
+    @Transaction
     @Query("SELECT * FROM review WHERE item_entity_type = :itemEntitytype ORDER BY title DESC")
     Flowable<List<Review>> findAllByTitleDesc(ItemEntityType itemEntitytype);
 
+    @Transaction
     @Query("SELECT * FROM review WHERE id = :id")
     Flowable<Review> find(long id);
 
+    @Transaction
     @Query("SELECT * FROM review WHERE tmdb_id = :tmdb_id")
     Flowable<Review> findByMovieId(Long tmdb_id);
 
 
+    @Transaction
     @Query("SELECT * FROM review WHERE tmdb_id = :tmdb_id")
     Single<Review> findByMovieIdSingle(Long tmdb_id);
 }
