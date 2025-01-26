@@ -166,4 +166,6 @@
     <string name="title_activity_view_review">Movie review</string>
     <string name="title_activity_view_review_serie">Serie review</string>
     <string name="tag_deleted">Tag deleted</string>
+    <string name="cant_link_tag_to_review">Cannot link a tag to the review. Please reopen review and try again</string>
+    <string name="cant_unlink_tag_to_review">Cannot unlink a tag to the review. Please reopen review and try again</string>
 </resources>

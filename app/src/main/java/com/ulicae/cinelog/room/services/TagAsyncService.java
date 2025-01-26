@@ -97,12 +97,12 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
                 .blockingFirst();
     }
 
-    public void addTagToItemIfNotExists(int reviewId, int tagId) {
-        db.reviewTagCrossRefDao().insert(new ReviewTagCrossRef(reviewId, tagId));
+    public Single<Long> addTagToItemIfNotExists(int reviewId, int tagId) {
+        return db.reviewTagCrossRefDao().insert(new ReviewTagCrossRef(reviewId, tagId));
     }
 
-    public void removeTagFromItemIfExists(int reviewId, int tagId) {
-        db.reviewTagCrossRefDao().delete(new ReviewTagCrossRef(reviewId, tagId));
+    public Completable removeTagFromItemIfExists(int reviewId, int tagId) {
+        return db.reviewTagCrossRefDao().delete(new ReviewTagCrossRef(reviewId, tagId));
     }
 
     private List<TagDto> getDtoFromDaos(List<Tag> tags) {

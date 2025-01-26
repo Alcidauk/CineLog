@@ -1,13 +1,15 @@
 package com.ulicae.cinelog.room.dao;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Query;
 
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 
 import java.util.List;
-;import io.reactivex.rxjava3.core.Flowable;
+
+import io.reactivex.rxjava3.core.Flowable;
+
+;
 
 /**
  * CineLog Copyright 2024 Pierre Rognon
@@ -28,7 +30,7 @@ import java.util.List;
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
 @Dao
-public interface ReviewTagCrossRefDao extends SyncRoomDao<ReviewTagCrossRef> {
+public interface ReviewTagCrossRefDao extends AsyncRoomDao<ReviewTagCrossRef> {
 
     @Query("SELECT * FROM reviewtagcrossref")
     Flowable<List<ReviewTagCrossRef>> findAll();

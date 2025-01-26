@@ -1,9 +1,9 @@
 package com.ulicae.cinelog.room.dto.utils.from;
 
+import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
 import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.SerieDto;
 import com.ulicae.cinelog.room.dto.TagDto;
-import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 
 /**
@@ -24,7 +24,7 @@ import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagReviewCrossRefFromDtoCreator extends SyncEntityFromDtoCreator<ReviewTagCrossRef, ReviewTagCrossRefDao, TagDto> {
+public class TagReviewCrossRefFromDtoCreator extends AsyncEntityFromDtoCreator<ReviewTagCrossRef, ReviewTagCrossRefDao, TagDto> {
     private final KinoDto kinoDto;
 
     private final int biggestMovieReviewId;

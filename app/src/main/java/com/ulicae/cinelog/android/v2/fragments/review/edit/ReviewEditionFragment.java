@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.android.v2.fragments.review.edit;
 
+import static io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread;
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.SharedPreferences;
@@ -22,12 +24,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
+import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
+import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.SerieDto;
 import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.services.AsyncServiceFactory;
-import com.ulicae.cinelog.databinding.FragmentReviewEditionBinding;
-import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.room.services.TagAsyncService;
 
@@ -135,6 +137,7 @@ public class ReviewEditionFragment extends Fragment {
 
     private int getMaxRating() {
         int maxRating;
+        // TODO kino peut être null, parce qu'on est avec un item en base qu'on doit aller refetcher
         if (kino.getMaxRating() == null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
             String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
@@ -245,24 +248,24 @@ public class ReviewEditionFragment extends Fragment {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                        (createdKino) -> {
-                            kino.setId(createdKino);
+                                (createdKino) -> {
+                                    kino.setId(createdKino);
 
-                            long wishlistId = requireArguments().getLong("wishlistId", 0L);
-                            if (wishlistId != 0L) {
-                                // TODO do we need to know if it is a serie or a movie ?
-                                //  wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
-                                wishlistItemDeleter.deleteWishlistItem(wishlistId); // TODO adapter ça
-                            }
+                                    long wishlistId = requireArguments().getLong("wishlistId", 0L);
+                                    if (wishlistId != 0L) {
+                                        // TODO do we need to know if it is a serie or a movie ?
+                                        //  wishlistItemDeleter.deleteWishlistItem(wishlistId, requireArguments().getString("dtoType"));
+                                        wishlistItemDeleter.deleteWishlistItem(wishlistId); // TODO adapter ça
+                                    }
 
-                            updateTags();
+                                    updateTags();
 
-                            ((MainActivity) requireActivity()).navigateBackToReviewList(kino);
-                        },
-                        error -> {
-                            Toast.makeText(getContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_SHORT).show();
-                        }
-                )
+                                    ((MainActivity) requireActivity()).navigateBackToReviewList(kino);
+                                },
+                                error -> {
+                                    Toast.makeText(getContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_SHORT).show();
+                                }
+                        )
         );
     }
 
@@ -277,10 +280,16 @@ public class ReviewEditionFragment extends Fragment {
 
                         if (tagChooserDialog.selectedTags[i]) {
                             tagService.addTagToItemIfNotExists(
-                                    Math.toIntExact(kino.getId()), Math.toIntExact(tag.getId())
-                            );
+                                            Math.toIntExact(kino.getId()),
+                                            Math.toIntExact(tag.getId()))
+                                    .observeOn(mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .doOnError((error) -> {
+                                        Toast.makeText(getContext(), getString(R.string.cant_link_tag_to_review), Toast.LENGTH_SHORT).show();
+                                    })
+                                    .subscribe();
 
-                            if(kino.getTags() == null){
+                            if (kino.getTags() == null) {
                                 kino.setTags(new ArrayList<>());
                             }
 
@@ -288,10 +297,14 @@ public class ReviewEditionFragment extends Fragment {
                                 kino.getTags().add(tag);
                             }
                         } else {
-
                             tagService.removeTagFromItemIfExists(
-                                    Math.toIntExact(kino.getId()), Math.toIntExact(tag.getId())
-                            );
+                                            Math.toIntExact(kino.getId()), Math.toIntExact(tag.getId()))
+                                    .observeOn(mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .doOnError((error) -> {
+                                        Toast.makeText(getContext(), getString(R.string.cant_unlink_tag_to_review), Toast.LENGTH_SHORT).show();
+                                    })
+                                    .subscribe();
 
                             kino.getTags().remove(tag);
                         }
