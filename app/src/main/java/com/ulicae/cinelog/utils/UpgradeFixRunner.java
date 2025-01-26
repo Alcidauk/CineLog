@@ -200,7 +200,7 @@ public class UpgradeFixRunner {
             if (kinoDto.getTags() != null && !kinoDto.getTags().isEmpty()) {
                 TagReviewCrossRefFromDtoCreator tagReviewCrossRefFromDtoCreator =
                         new TagReviewCrossRefFromDtoCreator(givenDb.reviewTagCrossRefDao(), kinoDto, biggestMovieReviewId);
-                tagReviewCrossRefFromDtoCreator.insertAll(kinoDto.getTags());
+                tagReviewCrossRefFromDtoCreator.insertAll(kinoDto.getTags()).subscribe();
             }
         }
     }
