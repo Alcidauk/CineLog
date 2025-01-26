@@ -43,13 +43,19 @@ public class KinoApplication extends Application {
 
     private List<Disposable> disposableList;
 
+    /**
+     * Just add this quick snippet to the build method to get queries in app log
+     *   .setQueryCallback(
+     *        (s, list) -> System.out.println("SQL Query: "+ s + " SQL Args: " + list),
+     *        Executors.newSingleThreadExecutor()
+     *   )
+     */
     @Override
     public void onCreate() {
         super.onCreate();
         new ThemeWrapper().setThemeWithPreferences(this);
 
         this.disposableList = new ArrayList<>();
-
         this.appDb = Room
                 .databaseBuilder(getApplicationContext(), AppDatabase.class, "database-cinelog")
                 .build();
