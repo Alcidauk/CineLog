@@ -59,6 +59,9 @@ public class ReviewEditionFragment extends Fragment {
 
     private List<Disposable> disposables;
 
+    // TODO when this flag is true, on a return button touch, remove the review that was just created coming from a unregistered item
+    private boolean creation;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentReviewEditionBinding.inflate(getLayoutInflater());
@@ -83,9 +86,7 @@ public class ReviewEditionFragment extends Fragment {
         disposables = new ArrayList<>();
 
         kino = Parcels.unwrap(requireArguments().getParcelable("kino"));
-        if (requireArguments().getBoolean("creation", false)) {
-            requireActivity().setTitle(getString(R.string.title_activity_add_review_creation));
-        }
+        creation = requireArguments().getBoolean("creation");
 
         initRating();
         initReview();

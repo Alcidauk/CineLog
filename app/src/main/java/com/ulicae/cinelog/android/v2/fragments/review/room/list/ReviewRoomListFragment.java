@@ -169,7 +169,6 @@ public abstract class ReviewRoomListFragment extends Fragment {
             if (!(item instanceof KinoDto)) {
                 return;
             }
-            // TODO callback ?
             navigateToItem((KinoDto) item, position, true, false);
         });
     }

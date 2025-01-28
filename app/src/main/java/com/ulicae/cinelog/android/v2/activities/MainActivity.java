@@ -218,12 +218,10 @@ public class MainActivity extends AppCompatActivity {
         if (inDb) {
             args.putLong("review_id", kinoDto.getId());
             args.putInt("kino_position", position);
+        } else {
+            args.putParcelable("kino", Parcels.wrap(kinoDto));
+            args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
         }
-
-        // TODO remove kino, not used after room migration
-        args.putParcelable("kino", Parcels.wrap(kinoDto));
-        args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
-
         navController.navigate(action, args);
     }
 

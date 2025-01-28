@@ -80,37 +80,4 @@ public class ViewUnregisteredItemFragment extends Fragment {
             requireActivity().setTitle(R.string.title_activity_view_unregistered_serie);
         }
     }
-
-    /*  TODO rewrite state management to get right data from editreview
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_ADD_REVIEW) {
-            if (resultCode == Activity.RESULT_OK) {
-                kino = Parcels.unwrap(data.getParcelableExtra("kino"));
-                editted = true;
-                System.out.println("Result Ok");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (editted) {
-                Intent returnIntent = getIntent();
-                returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-                returnIntent.putExtra("kino", Parcels.wrap(kino));
-                returnIntent.putExtra("kino_position", position);
-                setResult(Activity.RESULT_OK, returnIntent);
-            }
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 }
