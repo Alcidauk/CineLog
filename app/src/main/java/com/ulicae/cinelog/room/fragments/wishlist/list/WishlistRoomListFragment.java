@@ -106,13 +106,12 @@ public class WishlistRoomListFragment extends Fragment {
             Disposable findDisposable = service.findAllForType(itemEntityType)
                     .subscribeOn(io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext((wishlistItems) -> {
+                    .subscribe((wishlistItems -> {
                         this.dataDtos = wishlistItems;
 
                         listAdapter = new WishlistListRoomAdapter(requireContext(), dataDtos);
                         getWishlistItemList().setAdapter(listAdapter);
-                    })
-                    .subscribe();
+                    }));
 
             disposables.add(findDisposable);
 

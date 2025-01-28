@@ -30,14 +30,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto> {
 
+    private List<Disposable> disposables;
     private LayoutKinoItemBinding binding;
 
     private WishlistAsyncService wishlistAsyncService;
@@ -47,6 +50,7 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         this.addOptionMenu();
+        this.disposables = new ArrayList<>();
         binding = LayoutKinoItemBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
@@ -60,7 +64,13 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
 
         Long itemId = requireArguments().getLong("wishlistItemId");
         if (itemId != null && !itemId.equals(0L)) {
-            fetchWishlistItem(itemId).subscribe();
+            this.disposables.add(
+                    this.fetchWishlistItem(itemId)
+                    .subscribe((item) -> {
+                        this.item = item;
+                        initItem();
+                    })
+            );
         } else {
             this.item = Parcels.unwrap(requireArguments().getParcelable("dataDto"));
             initItem();
@@ -69,15 +79,19 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        for (Disposable disposable : disposables) {
+            disposable.dispose();
+        }
+    }
+
     private Flowable<WishlistDataDto> fetchWishlistItem(long itemId) {
         return wishlistAsyncService.findById(itemId)
                 .subscribeOn(Schedulers.io())
-                .doOnNext(item -> this.item = item)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(item -> {
-                    this.item = item;
-                    initItem();
-                });
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     private void initItem() {
