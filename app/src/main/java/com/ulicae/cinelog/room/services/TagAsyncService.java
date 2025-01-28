@@ -2,8 +2,8 @@ package com.ulicae.cinelog.room.services;
 
 import static io.reactivex.rxjava3.schedulers.Schedulers.io;
 
-import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
@@ -81,20 +81,18 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
                 .map(this::buildDtoFromTag);
     }
 
-    public List<TagDto> findMovieTags() {
-        // TODO avoid blocking first
+    public Flowable<List<TagDto>> findMovieTags() {
         return db.tagDao().findMovieTags()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(io())
-                .map(this::getDtoFromDaos)
-                .blockingFirst();
+                .map(this::getDtoFromDaos);
     }
 
-    public List<TagDto> findSerieTags() {
-        // TODO avoid blocking first
+    public Flowable<List<TagDto>> findSerieTags() {
         return db.tagDao().findSerieTags()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(io())
-                .map(this::getDtoFromDaos)
-                .blockingFirst();
+                .map(this::getDtoFromDaos);
     }
 
     public Single<Long> addTagToItemIfNotExists(int reviewId, int tagId) {

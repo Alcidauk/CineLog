@@ -40,6 +40,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -121,10 +122,15 @@ public class ReviewEditionFragment extends Fragment {
     private View.OnClickListener onReviewTagEdit() {
         return view -> {
             // TODO async instead of blocking first
-            List<TagDto> tagList = kino instanceof SerieDto ? tagService.findSerieTags() : tagService.findMovieTags();
+            Flowable<List<TagDto>> tagListFlowable =
+                    kino instanceof SerieDto ? tagService.findSerieTags() : tagService.findMovieTags();
 
-            tagDialog = new TagChooserDialog(kino, tagList);
-            tagDialog.show(requireActivity().getSupportFragmentManager(), "NoticeDialogFragment");
+            disposables.add(
+                    tagListFlowable.subscribe((tagList) -> {
+                        tagDialog = new TagChooserDialog(kino, tagList);
+                        tagDialog.show(requireActivity().getSupportFragmentManager(), "NoticeDialogFragment");
+                    })
+            );
         };
     }
 
