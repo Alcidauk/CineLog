@@ -102,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
         Set<Integer> topLevelDestinations = new HashSet<Integer>() {{
             add(R.id.nav_reviews_movie);
             add(R.id.nav_reviews_serie);
-            add(R.id.nav_reviews_movie);
-            add(R.id.nav_reviews_serie);
             add(R.id.nav_wishlist_room_movie);
             add(R.id.nav_wishlist_room_serie);
             add(R.id.nav_room_tags);
