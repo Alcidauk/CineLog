@@ -7,6 +7,7 @@ import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.to.ReviewToDataDtoBuilder;
+import com.ulicae.cinelog.room.dto.utils.to.TagToDtoBuilder;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.room.entities.Review;
 
@@ -52,7 +53,8 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
         this(
                 new ReviewTagAsyncService(
                         app.getDb().reviewTagCrossRefDao(),
-                        app.getDb().tagDao()
+                        app.getDb().tagDao(),
+                        new TagToDtoBuilder()
                 ),
                 new SerieEpisodeAsyncService(app),
                 new ReviewFromDtoCreator(app.getDb().reviewDao()),

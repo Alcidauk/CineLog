@@ -59,9 +59,7 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
 
     @Override
     public Completable delete(TagDto dtoObject) {
-        // TODO how to delete without building an object
         Tag tagToDelete = new Tag(Math.toIntExact(dtoObject.getId()), null, null, false, false);
-
         return db.tagDao().delete(tagToDelete);
     }
 

@@ -4,6 +4,7 @@ import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
 import com.ulicae.cinelog.room.dao.TagDao;
+import com.ulicae.cinelog.room.dto.utils.to.TagToDtoBuilder;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
 
@@ -16,10 +17,13 @@ public class ReviewTagAsyncService {
 
     private final ReviewTagCrossRefDao crossRefDao;
     private final TagDao tagDao;
+    private final TagToDtoBuilder tagToDtoBuilder;
 
-    public ReviewTagAsyncService(ReviewTagCrossRefDao crossRefDao, TagDao tagDao) {
+    public ReviewTagAsyncService(ReviewTagCrossRefDao crossRefDao, TagDao tagDao,
+                                 TagToDtoBuilder tagToDtoBuilder) {
         this.crossRefDao = crossRefDao;
         this.tagDao = tagDao;
+        this.tagToDtoBuilder = tagToDtoBuilder;
     }
 
     // TODO pas en sync ?
@@ -44,9 +48,8 @@ public class ReviewTagAsyncService {
         return crossRefDao.deleteByReviewId(reviewId);
     }
 
-    // TODO builder
     private TagDto getTagDtoFromTag(Tag item) {
-        return new TagDto(item.id, item.name, item.color, item.forMovies, item.forSeries);
+        return tagToDtoBuilder.build(item);
     }
 
 

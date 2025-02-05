@@ -93,13 +93,6 @@ public class WishlistAsyncService implements AsyncDataService<WishlistDataDto> {
         return wishlistItem;
     }
 
-    /**
-     * TODO juste ramener le contenu de wishlist, et le tmdb depuis ailleurs pour le mettre dans
-     * l'UI
-     *
-     * @param type
-     * @return
-     */
     public Flowable<List<WishlistDataDto>> findAllForType(ItemEntityType type) {
         return wishlistItemDao.findAll(type)
                 .map(this::getDtoFromDaos);
