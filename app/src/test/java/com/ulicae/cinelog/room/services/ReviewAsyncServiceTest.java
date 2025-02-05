@@ -35,13 +35,15 @@ public class ReviewAsyncServiceTest extends TestCase {
     private ReviewAsyncDao reviewAsyncDao;
     @Mock
     private ReviewTagAsyncService reviewTagAsyncService;
+    @Mock
+    private SerieEpisodeAsyncService serieEpisodeAsyncService;
 
     @Mock
     private ReviewToDataDtoBuilder reviewToDataDtoBuilder;
 
     @Mock
     private CinelogSchedulers cinelogSchedulers;
-    
+
     @Mock
     private ReviewFromDtoCreator reviewFromDtoCreator;
 
@@ -62,6 +64,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Single<KinoDto> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -79,13 +82,14 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(kinoDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAll();
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -93,7 +97,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 null
         ).findAll();
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(kinoDto);
         }});
     }
@@ -104,13 +108,14 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(kinoDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAll(ItemEntityType.MOVIE);
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -118,7 +123,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.MOVIE
         ).findAll();
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(kinoDto);
         }});
     }
@@ -129,7 +134,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAll(ItemEntityType.SERIE);
@@ -138,6 +143,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -145,7 +151,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findAll();
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -157,17 +163,18 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAll(ItemEntityType.SERIE);
 
-        doReturn(new ArrayList(){{
+        doReturn(new ArrayList() {{
             add(tagDto);
         }}).when(reviewTagAsyncService).getReviewTags(serieDto);
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -177,8 +184,10 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         TestSubscriber<List<KinoDto>> subscriber = withTmdbId.test();
 
-        verify(serieDto).setTags(new ArrayList<TagDto>(){{ add(tagDto); }});
-        subscriber.assertValue(new ArrayList<KinoDto>(){{
+        verify(serieDto).setTags(new ArrayList<TagDto>() {{
+            add(tagDto);
+        }});
+        subscriber.assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -190,7 +199,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAllByRatingAsc(ItemEntityType.SERIE);
@@ -199,6 +208,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -206,7 +216,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findByRating(true);
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -217,7 +227,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAllByRatingDesc(ItemEntityType.SERIE);
@@ -226,6 +236,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -233,7 +244,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findByRating(false);
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -244,7 +255,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAllByTitleAsc(ItemEntityType.SERIE);
@@ -253,6 +264,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -260,7 +272,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findByTitle(true);
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -271,7 +283,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAllByTitleDesc(ItemEntityType.SERIE);
@@ -280,6 +292,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -287,7 +300,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findByTitle(false);
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -299,7 +312,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAllByReviewDateAsc(ItemEntityType.SERIE);
@@ -308,6 +321,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -315,7 +329,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findByReviewDate(true);
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -327,7 +341,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAllByReviewDateDesc(ItemEntityType.SERIE);
@@ -336,6 +350,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -343,7 +358,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findByReviewDate(false);
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -354,7 +369,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAllByYearAsc(ItemEntityType.SERIE);
@@ -363,6 +378,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -370,7 +386,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findByYear(true);
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
@@ -381,7 +397,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         doReturn(serieDto).when(reviewToDataDtoBuilder).build(review);
 
-        Flowable flowable = Flowable.just(new ArrayList<Review>(){{
+        Flowable flowable = Flowable.just(new ArrayList<Review>() {{
             add(review);
         }});
         doReturn(flowable).when(reviewAsyncDao).findAllByYearDesc(ItemEntityType.SERIE);
@@ -390,6 +406,7 @@ public class ReviewAsyncServiceTest extends TestCase {
 
         Flowable<List<KinoDto>> withTmdbId = new ReviewAsyncService(
                 reviewTagAsyncService,
+                serieEpisodeAsyncService,
                 reviewFromDtoCreator,
                 reviewAsyncDao,
                 reviewToDataDtoBuilder,
@@ -397,7 +414,7 @@ public class ReviewAsyncServiceTest extends TestCase {
                 ItemEntityType.SERIE
         ).findByYear(false);
 
-        withTmdbId.test().assertValue(new ArrayList<KinoDto>(){{
+        withTmdbId.test().assertValue(new ArrayList<KinoDto>() {{
             add(serieDto);
         }});
     }
