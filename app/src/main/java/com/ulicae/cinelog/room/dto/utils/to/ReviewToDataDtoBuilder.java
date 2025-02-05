@@ -28,8 +28,8 @@ import java.util.ArrayList;
 public class ReviewToDataDtoBuilder {
 
     /**
-     * TODO build des tags ici ?
-     * TODO bis, est-ce qu'on a encore besoin de seriedto ?
+     * NB: on build les éléments extérieur au sein des services, qui ont accès aux autres builders
+     *  (episodes et tags). De toute façon, ceux ci ne sont pas inclus dans la Review.
      * @param review
      * @return
      */
@@ -48,7 +48,7 @@ public class ReviewToDataDtoBuilder {
                         review.getTmdb().getOverview(),
                         review.getTmdb().getYear(),
                         review.getTmdb().getReleaseDate(),
-                        new ArrayList<>() // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf
+                        new ArrayList<>()
                 );
             }
 
@@ -81,8 +81,8 @@ public class ReviewToDataDtoBuilder {
                         review.getTmdb().getOverview(),
                         review.getTmdb().getYear(),
                         review.getTmdb().getReleaseDate(),
-                        new ArrayList<>(), // TODO voir si on reste comme ça (en buildant en doOnNext dans le find, pas ouf,
-                        new ArrayList<>() // TODO idem
+                        new ArrayList<>(),
+                        new ArrayList<>()
                 );
             }
 
@@ -104,12 +104,4 @@ public class ReviewToDataDtoBuilder {
             );
         }
     }
-
-    /*private List<TagDto> buildTags(List<Tag> tags) {
-        return tags.stream()
-                        .map(tag -> {
-                            return new TagDto(tag.id, tag.name, tag.color, tag.forMovies, tag.forSeries); // TODO return new TagDto(crossRef.tagId, null, null, null, null)
-                        })
-                .collect(Collectors.toList());
-    }*/
 }
