@@ -26,6 +26,7 @@ import com.ulicae.cinelog.utils.PreferencesWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -153,7 +154,8 @@ public abstract class ReviewRoomListFragment extends Fragment {
                         if (item instanceof KinoDto) {
                             kino_adapter.remove(item);
                             //noinspection unchecked
-                            service.delete((KinoDto) item);
+                            Completable delete = service.delete((KinoDto) item);
+                            delete.subscribe();
 
                             kino_adapter.notifyDataSetInvalidated();
                         }

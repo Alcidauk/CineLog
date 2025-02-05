@@ -38,12 +38,13 @@ import io.reactivex.rxjava3.core.Single;
 public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
 
     private final ReviewTagAsyncService reviewTagAsyncService;
+    private final SerieEpisodeAsyncService serieEpisodeAsyncService;
 
     private final ReviewFromDtoCreator creator;
     private final ReviewAsyncDao reviewDao;
-    private final ReviewToDataDtoBuilder reviewToDataDtoBuilder;
 
     private CinelogSchedulers cinelogSchedulers;
+    private final ReviewToDataDtoBuilder reviewToDataDtoBuilder;
 
     private ItemEntityType itemEntityType;
 
@@ -53,6 +54,7 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
                         app.getDb().reviewTagCrossRefDao(),
                         app.getDb().tagDao()
                 ),
+                new SerieEpisodeAsyncService(app),
                 new ReviewFromDtoCreator(app.getDb().reviewDao()),
                 app.getDb().reviewAsyncDao(),
                 new ReviewToDataDtoBuilder(),
@@ -62,12 +64,14 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
     }
 
     ReviewAsyncService(ReviewTagAsyncService reviewTagAsyncService,
+                       SerieEpisodeAsyncService serieEpisodeAsyncService,
                        ReviewFromDtoCreator creator,
                        ReviewAsyncDao reviewDao,
                        ReviewToDataDtoBuilder reviewToDataDtoBuilder,
                        CinelogSchedulers cinelogSchedulers,
                        ItemEntityType itemEntityType) {
         this.reviewTagAsyncService = reviewTagAsyncService;
+        this.serieEpisodeAsyncService = serieEpisodeAsyncService;
         this.creator = creator;
         this.reviewDao = reviewDao;
         this.reviewToDataDtoBuilder = reviewToDataDtoBuilder;
@@ -79,11 +83,8 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
         return creator.createRoomInstanceFromDto(kinoDto);
     }
 
-    /*
-    TODO remove tmdb item
-     */
     public Completable delete(KinoDto kinoDto) {
-        return reviewDao.delete(
+        Completable completable =  reviewDao.delete(
                         new Review(
                                 kinoDto.getId(),
                                 null,
@@ -94,7 +95,15 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
                                 null,
                                 null
                         )
-                )
+                );
+
+        Completable tagCompletable = reviewTagAsyncService.deleteForReview(kinoDto.getId());
+
+        Completable episodeCompletable = serieEpisodeAsyncService.deleteForReview(kinoDto.getId());
+
+        return tagCompletable
+                .andThen(episodeCompletable)
+                .andThen(completable)
                 .subscribeOn(cinelogSchedulers.io())
                 .observeOn(cinelogSchedulers.androidMainThread());
     }

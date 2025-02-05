@@ -10,6 +10,8 @@ import com.ulicae.cinelog.room.entities.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+
 public class ReviewTagAsyncService {
 
     private final ReviewTagCrossRefDao crossRefDao;
@@ -36,6 +38,10 @@ public class ReviewTagAsyncService {
         }
 
         return tagDtos;
+    }
+
+    public Completable deleteForReview(Long reviewId) {
+        return crossRefDao.deleteByReviewId(reviewId);
     }
 
     // TODO builder

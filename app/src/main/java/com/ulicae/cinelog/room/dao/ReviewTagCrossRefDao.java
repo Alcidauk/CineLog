@@ -7,6 +7,7 @@ import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 
 ;
@@ -38,5 +39,7 @@ public interface ReviewTagCrossRefDao extends AsyncRoomDao<ReviewTagCrossRef> {
     @Query("SELECT * FROM reviewtagcrossref WHERE review_id = :reviewId")
     Flowable<List<ReviewTagCrossRef>> findForReview(long reviewId);
 
+    @Query("DELETE FROM reviewtagcrossref WHERE review_id = :reviewId")
+    Completable deleteByReviewId(long reviewId);
 
 }

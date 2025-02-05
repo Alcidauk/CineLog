@@ -7,6 +7,7 @@ import com.ulicae.cinelog.room.entities.TmdbSerieEpisode;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 
 
@@ -36,4 +37,7 @@ public interface TmdbSerieEpisodeDao extends AsyncRoomDao<TmdbSerieEpisode> {
 
     @Query("SELECT * FROM tmdbserieepisode WHERE tmdb_episode_id = :tmdbEpisodeId")
     Flowable<TmdbSerieEpisode> find(long tmdbEpisodeId);
+
+    @Query("DELETE FROM tmdbserieepisode WHERE review_id = :reviewId")
+    Completable deleteByReviewId(long reviewId);
 }

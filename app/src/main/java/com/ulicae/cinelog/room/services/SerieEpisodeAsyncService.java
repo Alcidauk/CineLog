@@ -127,6 +127,10 @@ public class SerieEpisodeAsyncService implements AsyncDataService<SerieEpisodeDt
         return tmdbSerieEpisodeDao.insertAll(items);
     }
 
+    public Completable deleteForReview(Long reviewId) {
+        return tmdbSerieEpisodeDao.deleteByReviewId(reviewId);
+    }
+
 
     /* TODO reintroduce this code
     public List<SerieEpisodeDto> getDtoEpisodes(List<TvEpisode> tvEpisodes, Long tmdbSerieId) {
