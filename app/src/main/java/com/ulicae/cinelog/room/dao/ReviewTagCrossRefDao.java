@@ -42,4 +42,7 @@ public interface ReviewTagCrossRefDao extends AsyncRoomDao<ReviewTagCrossRef> {
     @Query("DELETE FROM reviewtagcrossref WHERE review_id = :reviewId")
     Completable deleteByReviewId(long reviewId);
 
+    @Query("DELETE FROM reviewtagcrossref WHERE tag_id = :tagId")
+    Completable deleteByTagId(long tagId);
+
 }

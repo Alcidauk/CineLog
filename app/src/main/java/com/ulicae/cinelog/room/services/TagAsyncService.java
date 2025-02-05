@@ -59,8 +59,13 @@ public class TagAsyncService implements AsyncDataService<TagDto> {
 
     @Override
     public Completable delete(TagDto dtoObject) {
+        Completable reviewTagCrossrefCompletable =
+                db.reviewTagCrossRefDao().deleteByTagId(dtoObject.getId());
+
         Tag tagToDelete = new Tag(Math.toIntExact(dtoObject.getId()), null, null, false, false);
-        return db.tagDao().delete(tagToDelete);
+        Completable tagCompletable = db.tagDao().delete(tagToDelete);
+
+        return reviewTagCrossrefCompletable.andThen(tagCompletable);
     }
 
     @Override
