@@ -210,26 +210,4 @@ public class WishlistItemRoomFragment extends ShareableFragment<WishlistDataDto>
                 args
         );
     }
-
-  /*  TODO rewrite state management to get right data from editreview
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_ADD_REVIEW) {
-            if (resultCode == Activity.RESULT_OK) {
-                item = Parcels.unwrap(data.getParcelableExtra("kino"));
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
 }
