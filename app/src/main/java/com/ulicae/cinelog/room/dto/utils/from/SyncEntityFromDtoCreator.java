@@ -51,8 +51,7 @@ public abstract class SyncEntityFromDtoCreator<T, U extends SyncRoomDao, D exten
             return dao.insert(instance);
         }
 
-        // TODO throw exception ?
-        return 0;
+        throw new NullPointerException("Unable to build an instance from this item.");
     }
 
     abstract T createRoomInstanceFromDto(D itemDto);
