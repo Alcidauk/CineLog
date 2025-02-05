@@ -91,7 +91,6 @@ public class TagRoomFragment extends Fragment {
                                     listAdapter.clear();
                                     listAdapter.addAll(tags);
                                 }));
-        // TODO gérer les erreurs throwable -> Log.e("coucou", "Unable to get tags", throwable)));
     }
 
     @Override

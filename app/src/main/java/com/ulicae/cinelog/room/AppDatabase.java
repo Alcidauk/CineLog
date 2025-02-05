@@ -67,7 +67,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
     /*
     TODO
-    - migrate all db
     - avoid use of kinodto, and have a review dto and a tmdb dto
      */
 
