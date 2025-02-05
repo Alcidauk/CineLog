@@ -121,7 +121,6 @@ public class ReviewEditionFragment extends Fragment {
     @NonNull
     private View.OnClickListener onReviewTagEdit() {
         return view -> {
-            // TODO async instead of blocking first
             Flowable<List<TagDto>> tagListFlowable =
                     kino instanceof SerieDto ? tagService.findSerieTags() : tagService.findMovieTags();
 

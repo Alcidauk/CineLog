@@ -228,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
     // TODO better and without class check
     public int determineAction(KinoDto kinoDto, boolean inDb, boolean fromSearch) {
         if (inDb) {
-            // TODO toutes actions vers room fragments
             if (kinoDto instanceof SerieDto) {
                 return fromSearch ?
                        R.id.action_searchTmdbSerieRoomFragment_to_viewSerieRoomFragment :
