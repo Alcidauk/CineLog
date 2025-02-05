@@ -26,7 +26,8 @@ public class ReviewTagAsyncService {
         this.tagToDtoBuilder = tagToDtoBuilder;
     }
 
-    // TODO pas en sync ?
+    // TODO réfléchir au passage en async. A travailler parce que les calls remontent jusqu'à l'UI
+    //  ce qui peut donc impacter l'affichage directement
     public List<TagDto> getReviewTags(KinoDto kinoDto) {
         List<ReviewTagCrossRef> crossRefs = crossRefDao
                 .findForReview(kinoDto.getId())
