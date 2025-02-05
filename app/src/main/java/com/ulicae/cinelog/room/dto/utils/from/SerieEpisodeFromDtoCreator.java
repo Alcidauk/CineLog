@@ -45,7 +45,6 @@ public class SerieEpisodeFromDtoCreator extends SyncEntityFromDtoCreator<TmdbSer
         );
     }
 
-    // TODO, est ce qu'on doit le faire ici sachant qu'onle refait plus loin via les reviews ?!
     @Override
     public Long[] insertAll(List<SerieEpisodeDto> items) {
         List<TmdbSerieEpisode> episodes = new ArrayList<>();

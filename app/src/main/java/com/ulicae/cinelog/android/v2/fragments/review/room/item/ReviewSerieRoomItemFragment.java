@@ -142,30 +142,4 @@ public class ReviewSerieRoomItemFragment extends ShareableFragment<KinoDto> {
         }
     }
 
-  /*  TODO rewrite state management to get right data from editreview
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (editted) {
-                Intent returnIntent = getIntent();
-                returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-                returnIntent.putExtra("kino", Parcels.wrap(kino));
-                returnIntent.putExtra("kino_position", position);
-                setResult(Activity.RESULT_OK, returnIntent);
-            }
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_ADD_REVIEW && resultCode == Activity.RESULT_OK) {
-            kino = Parcels.unwrap(data.getParcelableExtra("kino"));
-            generalFragment.updateKino((SerieDto) kino);
-        }
-    }*/
 }

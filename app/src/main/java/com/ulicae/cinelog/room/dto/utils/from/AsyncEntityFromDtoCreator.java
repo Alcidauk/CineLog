@@ -68,7 +68,6 @@ public abstract class AsyncEntityFromDtoCreator<T, U extends AsyncRoomDao, D ext
 
         Class<? extends T> clazz = (Class<? extends T>) entities.get(0).getClass();
         Log.i("room_migration", String.format("Inserting %s %s entities in the new room DB", entities.size(), clazz));
-        // TODO unique constraint fail, trouver pourquoi deux tmdb series.
         dao.insertAll(entities).subscribe();
         Log.i("room_migration", String.format("Entities %s %s inserted in the new room DB", entities.size(), clazz));
     }
