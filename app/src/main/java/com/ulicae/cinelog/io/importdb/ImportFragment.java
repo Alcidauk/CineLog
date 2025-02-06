@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.io.importdb.builder.SerieReviewableDtoFromRecordBuilder;
 import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.room.services.AsyncDataService;
 import com.ulicae.cinelog.databinding.ActivityImportDbBinding;
@@ -40,6 +41,24 @@ import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
+/**
+ * CineLog Copyright 2025 Pierre Rognon
+ * <p>
+ * <p>
+ * This file is part of CineLog.
+ * CineLog is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * CineLog is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+ */
 public class ImportFragment extends Fragment {
 
     private @NonNull
@@ -128,7 +147,7 @@ public class ImportFragment extends Fragment {
                 choosenDirFile,
                 "import_series.csv",
                 new ReviewAsyncService(app, ItemEntityType.SERIE),
-                new ReviewableDtoFromRecordBuilder(context),
+                new SerieReviewableDtoFromRecordBuilder(context),
                 binding.importInDbContent.importSeriesStatusWaiting,
                 binding.importInDbContent.importSeriesErrorMessage
         );
