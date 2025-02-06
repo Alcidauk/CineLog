@@ -143,7 +143,7 @@ public class DbReader {
         return new SerieDto(
                 cursor.getLong(0),
                 0L,
-                cursor.getLong(2) + biggestMovieReviewId, // TODO est-ce qu'on veut mettre ça ??
+                null,
                 cursor.getString(1),
                 cursor.getString(2) != null ? new Date(cursor.getLong(2)) : null,
                 cursor.getString(3),
