@@ -7,18 +7,18 @@ import android.util.Log;
 import androidx.room.Room;
 
 import com.ulicae.cinelog.BuildConfig;
-import com.ulicae.cinelog.sqlite.DbReader;
+import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
 import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.dto.utils.from.ReviewFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.SerieEpisodeFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.TagFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.TagReviewCrossRefFromDtoCreator;
 import com.ulicae.cinelog.room.dto.utils.from.WishlistFromDtoCreator;
+import com.ulicae.cinelog.sqlite.DbReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,20 +64,18 @@ public class UpgradeFixRunner {
         PreferencesWrapper preferencesWrapper = new PreferencesWrapper();
         int lastCodeVersionSaved = preferencesWrapper.getIntegerPreference(context, "last_code_version_saved", 0);
 
-        //if (lastCodeVersionSaved != BuildConfig.VERSION_CODE) {
-        try {
-            lookForFixes(lastCodeVersionSaved);
-        } catch (Exception e) {
-            Log.i("upgrade_fix", "Unable to process with fixes. Won't upgrade preference version code.");
-            return;
+        if (lastCodeVersionSaved != BuildConfig.VERSION_CODE) {
+            try {
+                lookForFixes(lastCodeVersionSaved);
+            } catch (Exception e) {
+                Log.i("upgrade_fix", "Unable to process with fixes. Won't upgrade preference version code.");
+                return;
+            }
+            preferencesWrapper.setIntegerPreference(context, "last_code_version_saved", BuildConfig.VERSION_CODE);
         }
-        preferencesWrapper.setIntegerPreference(context, "last_code_version_saved", BuildConfig.VERSION_CODE);
-        //}
     }
 
     private void lookForFixes(int lastCodeVersionSaved) {
-        migrateToRoom();
-
         if (lastCodeVersionSaved == 0) {
             return;
         }
