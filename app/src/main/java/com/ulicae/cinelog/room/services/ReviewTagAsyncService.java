@@ -1,9 +1,11 @@
 package com.ulicae.cinelog.room.services;
 
-import com.ulicae.cinelog.room.dto.KinoDto;
-import com.ulicae.cinelog.room.dto.TagDto;
+import static io.reactivex.rxjava3.schedulers.Schedulers.io;
+
 import com.ulicae.cinelog.room.dao.ReviewTagCrossRefDao;
 import com.ulicae.cinelog.room.dao.TagDao;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.dto.utils.to.TagToDtoBuilder;
 import com.ulicae.cinelog.room.entities.ReviewTagCrossRef;
 import com.ulicae.cinelog.room.entities.Tag;
@@ -11,7 +13,9 @@ import com.ulicae.cinelog.room.entities.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ReviewTagAsyncService {
 
@@ -54,5 +58,22 @@ public class ReviewTagAsyncService {
     }
 
 
-
+    public Disposable updateTagsForReview(KinoDto dto) {
+        return crossRefDao
+                // remove all links...
+                .deleteByReviewId(dto.getId())
+                .subscribeOn(io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> {
+                            // ... and then create current ones
+                            for (TagDto tag : dto.getTags()) {
+                                crossRefDao
+                                        .insert(new ReviewTagCrossRef(dto.getId(), tag.getId()))
+                                        .subscribeOn(io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe();
+                            }
+                        });
+    }
 }

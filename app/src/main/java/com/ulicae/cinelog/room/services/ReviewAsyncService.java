@@ -86,18 +86,18 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
     }
 
     public Completable delete(KinoDto kinoDto) {
-        Completable completable =  reviewDao.delete(
-                        new Review(
-                                kinoDto.getId(),
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null
-                        )
-                );
+        Completable completable = reviewDao.delete(
+                new Review(
+                        kinoDto.getId(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                )
+        );
 
         Completable tagCompletable = reviewTagAsyncService.deleteForReview(kinoDto.getId());
 
@@ -177,9 +177,10 @@ public class ReviewAsyncService implements AsyncDataTmdbService<KinoDto> {
         List<Review> items = new ArrayList<>();
         for (KinoDto dto : dtos) {
             items.add(buildItem(dto));
+
+            reviewTagAsyncService.updateTagsForReview(dto);
         }
 
-        // TODO créer les crossrefs
         return reviewDao
                 .insertAll(items);
     }
