@@ -9,10 +9,8 @@ import android.content.Context;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.ulicae.cinelog.room.dto.KinoDto;
-import com.ulicae.cinelog.room.CinelogSchedulers;
 import com.ulicae.cinelog.room.services.ReviewAsyncService;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -21,8 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Single;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -66,17 +63,6 @@ public class AsyncCsvImporterTest {
     @Mock
     private Context context;
 
-    @Mock
-    private CinelogSchedulers cinelogSchedulers;
-
-
-    @Before
-    public void before() {
-        doReturn(Schedulers.trampoline()).when(cinelogSchedulers).androidMainThread();
-        doReturn(Schedulers.trampoline()).when(cinelogSchedulers).io();
-    }
-
-
     @Test
     public void importCsvFile() throws Exception {
         DocumentFile docFile = mock(DocumentFile.class);
@@ -90,7 +76,7 @@ public class AsyncCsvImporterTest {
         }};
         doReturn(dtos).when(dtoImportCreator).getDtos(fileReader);
 
-        doReturn(Completable.complete()).when(reviewAsyncService).createOrUpdate(dtos);
+        doReturn(Single.never()).when(reviewAsyncService).createOrUpdate(dtos);
 
         new AsyncCsvImporter<>(fileReaderGetter, dtoImportCreator, reviewAsyncService, context)
                 .importCsvFile(documentFile, "import.csv");
