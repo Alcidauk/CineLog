@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -56,8 +57,8 @@ public class SerieBuilderFromMovieTest {
                 null,
                 1970,
                 "1970",
-                null,
-                null
+                new ArrayList<>(),
+                new ArrayList<>()
         );
 
         assertEquals(
