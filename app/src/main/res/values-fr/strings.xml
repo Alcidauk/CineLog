@@ -59,8 +59,7 @@
     <string name="action_export">Exporter</string>
     <string name="export_start_toast">Export démarré…</string>
     <string name="export_succeeded_toast">… export terminé. Vérifiez les fichiers export_movies.csv et export_series.csv générés dans media/com.ulicae.cinego</string>
-    <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu. Vérifiez les permissions accordées à l\'application.</string>
-    <string name="export_permission_error_toast">Impossible d\'exporter sans autoriser la permission de stockage à CinéLog.</string>
+    <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu.</string>
 
     <string name="action_import">Importer</string>
     <string name="title_activity_import_db">Import d\'un fichier CSV</string>
@@ -158,5 +157,11 @@
     <string name="wishlist_cant_create_review">Error: can\'t create review</string>
     <string name="no_tags_found_label">Aucun tag trouvé. Veuillez vérifier si des tags sont activés.</string>
 
+    <string name="cant_link_tag_to_review">Impossible de lier un tag à l\'avis. Veuillez réessayer d\'ouvrir l\'avis.</string>
+    <string name="cant_unlink_tag_to_review">Impossible de délier le tag à l\'avis. Veuillez réessayer en réouvrant l\'avis.</string>
+
     <string name="action_share">Partager</string>
+    <string name="tag_deleted">Tag supprimé</string>
+    <string name="list_loading_failed">Impossible de récupérer les avis</string>
+    <string name="review_cant_edit">Erreur: impossible d\'éditer l\'avis</string>
 </resources>

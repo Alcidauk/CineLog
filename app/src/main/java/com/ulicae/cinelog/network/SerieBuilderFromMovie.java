@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.network;
 
-import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.room.dto.SerieDto;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 
 import java.text.SimpleDateFormat;
@@ -51,6 +51,7 @@ public class SerieBuilderFromMovie implements DtoBuilderFromTmdbObject<BaseTvSho
                 tvShow.overview,
                 yearAsInt,
                 yearAsString,
+                new ArrayList<>(),
                 new ArrayList<>()
         );
     }

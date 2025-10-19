@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- CineLog Copyright 2018 Pierre Rognon
- kinolog Copyright (C) 2017  ryan rigby
+ CineLog Copyright 2024 Pierre Rognon
 
  This file is part of CineLog.
  CineLog is free software: you can redistribute it and/or modify
@@ -36,15 +35,22 @@
             android:title="@string/nav_wishlist_space">
             <menu>
                 <item
-                    android:id="@+id/nav_wishlist_movie"
+                    android:id="@+id/nav_wishlist_room_movie"
                     android:title="@string/title_fragment_movie" />
                 <item
-                    android:id="@+id/nav_wishlist_serie"
+                    android:id="@+id/nav_wishlist_room_serie"
                     android:title="@string/title_fragment_serie" />
             </menu>
         </item>
         <item
-            android:id="@+id/nav_tags"
-            android:title="@string/nav_tags_space" />
+            android:id="@+id/nav_tags_menu"
+            android:title="@string/nav_tags_space">
+            <menu>
+                <item
+                    android:id="@+id/nav_room_tags"
+                    android:title="@string/nav_tags_space" />
+            </menu>
+        </item>
+
     </group>
 </menu>

@@ -1,7 +1,6 @@
 package com.ulicae.cinelog.android.v2.fragments.review.item.serie;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +8,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.SerieEpisodeDto;
-import com.ulicae.cinelog.data.services.reviews.SerieEpisodeService;
-import com.ulicae.cinelog.databinding.SerieEpisodeResultItemBinding;
+import androidx.annotation.NonNull;
 
+import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.room.dto.SerieEpisodeDto;
+import com.ulicae.cinelog.databinding.SerieEpisodeResultItemBinding;
+import com.ulicae.cinelog.room.services.SerieEpisodeAsyncService;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -36,12 +42,17 @@ import java.util.List;
  */
 class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
 
-    private SerieEpisodeService serieEpisodeService;
+    private SerieEpisodeAsyncService serieEpisodeService;
+    private final Long reviewId;
     private SerieEpisodeResultItemBinding binding;
 
-    TvEpisodesAdapter(Context context, List<SerieEpisodeDto> results, SerieEpisodeService serieEpisodeService) {
+    private List<Disposable> disposables;
+
+    TvEpisodesAdapter(Context context, List<SerieEpisodeDto> results, SerieEpisodeAsyncService serieEpisodeService, Long reviewId) {
         super(context, R.layout.serie_episode_result_item, results);
         this.serieEpisodeService = serieEpisodeService;
+        this.reviewId = reviewId;
+        this.disposables = new ArrayList<>();
     }
 
     public long getItemId(int position) {
@@ -89,7 +100,8 @@ class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
                         DateFormat.getDateFormat(getContext()).format(item.getWatchingDate()) : ""
         );
 
-        if (item.getEpisodeId() != null) {
+        // The watching date is the discriminant for a watched episode
+        if (item.getWatchingDate() != null) {
             holder.getEpisodeWatched().setImageResource(R.drawable.round_eye_purple);
         } else {
             holder.getEpisodeWatched().setImageResource(R.drawable.round_eye_grey);
@@ -102,7 +114,7 @@ class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
                         DateFormat.getDateFormat(getContext()).format(item.getWatchingDate()) : ""
         );
 
-        if (item.getEpisodeId() != null) {
+        if (item.getWatchingDate() != null) {
             holder.getEpisodeWatched().setImageResource(R.drawable.round_eye_purple);
         } else {
             holder.getEpisodeWatched().setImageResource(R.drawable.round_eye_grey);
@@ -110,28 +122,57 @@ class TvEpisodesAdapter extends ArrayAdapter<SerieEpisodeDto> {
     }
 
     private void registerWatching(SerieEpisodeDto item) {
-        if (item.getEpisodeId() != null) {
+        if (item.getWatchingDate() != null) {
             Toast.makeText(getContext(), getContext().getString(R.string.serie_episode_delete_hint), Toast.LENGTH_LONG).show();
         } else {
-            SerieEpisodeDto updatedItem = serieEpisodeService.createOrUpdate(item);
-            item.setWatchingDate(updatedItem.getWatchingDate());
-            item.setEpisodeId(updatedItem.getEpisodeId());
+            // We need the review id because of the foreign key
+            item.setReviewId(reviewId);
 
-            notifyDataSetChanged();
+            disposables.add(
+                    serieEpisodeService
+                            .createOrUpdate(item)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe((newItemId) -> findAndUpdateItem(item, newItemId))
+            );
         }
+    }
+
+    private void findAndUpdateItem(SerieEpisodeDto item, Long newItemId) {
+        disposables.add(
+                serieEpisodeService
+                        .findById(newItemId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                (newItem) -> {
+                                    item.setWatchingDate(newItem.getWatchingDate());
+                                    notifyDataSetChanged();
+                                }
+                        )
+        );
     }
 
 
     private boolean unregisterWatching(SerieEpisodeDto item) {
-        if(item.getEpisodeId() != null) {
-            serieEpisodeService.delete(item);
-
-            item.setEpisodeId(null);
-            item.setWatchingDate(null);
-
-            notifyDataSetChanged();
+        if (item.getWatchingDate() != null) {
+            disposables.add(
+                    serieEpisodeService.delete(item)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(() -> {
+                                item.setWatchingDate(null);
+                                notifyDataSetChanged();
+                            })
+            );
         }
         return true;
+    }
+
+    public void destroy() {
+        for(Disposable disposable : disposables){
+            disposable.dispose();
+        }
     }
 
 }

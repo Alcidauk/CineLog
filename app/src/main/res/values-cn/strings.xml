@@ -61,7 +61,6 @@
     <string name="export_start_toast">开始导出......</string>
     <string name="export_succeeded_toast">...... 导出成功。详见\'media/com.ulicae.cinego/files\' 中的 export_movies.csv 和 export_series.csv 文件。</string>
     <string name="export_io_error_toast">导出期间发生一个 I/O 错误。请验证你的权限。</string>
-    <string name="export_permission_error_toast">无法导出数据，因 CineLog 未被允许写入外部存储。</string>
 
     <string name="action_import">导入</string>
     <string name="title_activity_import_db">CSV 文件导入</string>

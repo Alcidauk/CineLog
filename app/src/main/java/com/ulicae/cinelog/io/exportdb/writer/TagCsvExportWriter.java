@@ -1,12 +1,8 @@
 package com.ulicae.cinelog.io.exportdb.writer;
 
-import android.annotation.SuppressLint;
-
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon

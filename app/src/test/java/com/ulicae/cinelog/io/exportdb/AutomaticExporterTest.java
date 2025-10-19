@@ -1,8 +1,18 @@
 package com.ulicae.cinelog.io.exportdb;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
-import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
+import com.ulicae.cinelog.room.dto.ItemDto;
+import com.ulicae.cinelog.io.exportdb.exporter.AsyncCsvExporter;
+import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 import com.ulicae.cinelog.utils.BusinessPreferenceGetter;
 
 import org.junit.Rule;
@@ -14,16 +24,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.hamcrest.Matchers.hasProperty;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AutomaticExporterTest {
@@ -35,16 +40,28 @@ public class AutomaticExporterTest {
     private BusinessPreferenceGetter businessPreferenceGetter;
 
     @Mock
-    private MovieCsvExporterFactory csvExporterFactory;
+    private ExporterFactory<DummyDtoTestCase> csvExporterFactory;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+
+    static class DummyDtoTestCase implements ItemDto {
+        @Override
+        public Long getId() {
+            return 0L;
+        }
+
+        @Override
+        public void setId(Long id) {
+
+        }
+    }
 
     @Test
     public void tryExportNotEnabled() throws AutomaticExportException {
         doReturn(false).when(businessPreferenceGetter).getAutomaticExport();
 
-        assertFalse(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+        new AutomaticExporter<>(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
 
         verify(exportTreeManager, never()).prepareTree();
     }
@@ -54,7 +71,7 @@ public class AutomaticExporterTest {
         doReturn(true).when(businessPreferenceGetter).getAutomaticExport();
         doReturn(false).when(exportTreeManager).isExportNeeded();
 
-        assertFalse(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+        new AutomaticExporter<>(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
 
         verify(exportTreeManager).prepareTree();
         verify(exportTreeManager, never()).getNextExportFile();
@@ -70,26 +87,32 @@ public class AutomaticExporterTest {
 
         doThrow(IOException.class).when(exportTreeManager).getNextExportFile();
 
-        new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
+        new AutomaticExporter<>(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport();
     }
 
     @Test
     public void tryExportIOWhenExport() throws IOException, AutomaticExportException {
-        expectedException.expect(AutomaticExportException.class);
-        expectedException.expect(hasProperty("stringCode", is(R.string.automatic_export_cant_export)));
-
         doReturn(true).when(businessPreferenceGetter).getAutomaticExport();
         doReturn(true).when(exportTreeManager).isExportNeeded();
 
         FileWriter fileWriter = mock(FileWriter.class);
         doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
 
-        CsvExporter csvExporter = mock(CsvExporter.class);
-        doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
+        AsyncCsvExporter<DummyDtoTestCase> asyncCsvExporter = mock(AsyncCsvExporter.class);
+        doReturn(asyncCsvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
 
-        doThrow(IOException.class).when(csvExporter).export();
+        IOException throwable = new IOException();
+        doReturn(Flowable.error(throwable)).when(asyncCsvExporter).export();
 
-        assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+        TestSubscriber<List<DummyDtoTestCase>> test =
+                new AutomaticExporter<>(
+                        exportTreeManager,
+                        businessPreferenceGetter,
+                        csvExporterFactory)
+                        .tryExport()
+                        .test();
+
+        test.assertError(throwable);
 
         verify(exportTreeManager, never()).clean();
     }
@@ -102,13 +125,25 @@ public class AutomaticExporterTest {
         FileWriter fileWriter = mock(FileWriter.class);
         doReturn(fileWriter).when(exportTreeManager).getNextExportFile();
 
-        CsvExporter csvExporter = mock(CsvExporter.class);
-        doReturn(csvExporter).when(csvExporterFactory).makeCsvExporter(fileWriter);
+        AsyncCsvExporter<DummyDtoTestCase> asyncCsvExporter = mock(AsyncCsvExporter.class);
+        doReturn(asyncCsvExporter).when(csvExporterFactory).makeCsvExporter(any(FileWriter.class));
 
-        assertTrue(new AutomaticExporter(exportTreeManager, businessPreferenceGetter, csvExporterFactory).tryExport());
+        doReturn(Flowable.just(new ArrayList<>())).when(asyncCsvExporter).export();
+
+        TestSubscriber<List<DummyDtoTestCase>> test =
+                new AutomaticExporter<>(
+                        exportTreeManager,
+                        businessPreferenceGetter,
+                        csvExporterFactory)
+                        .tryExport()
+                        .test();
 
         verify(exportTreeManager).prepareTree();
-        verify(csvExporter).export();
+        verify(asyncCsvExporter).export();
         verify(exportTreeManager).clean();
+
+        test.assertComplete();
     }
+
+
 }

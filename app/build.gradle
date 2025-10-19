@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao'
 
 
 android {
@@ -9,7 +8,7 @@ android {
         targetCompatibility 1.8
     }
 
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
         applicationId 'com.ulicae.cinelog'
         minSdkVersion 24
@@ -36,10 +35,6 @@ android {
     }
     productFlavors {
     }
-}
-
-greendao {
-    schemaVersion 9
 }
 
 dependencies {
@@ -75,8 +70,24 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.13'
     annotationProcessor 'org.parceler:parceler:1.1.13'
 
-    // GreenDAO ORM for database
-    implementation 'org.greenrobot:greendao:3.2.2'
+    // Just needed for old (GreenDao) to new (Room) DB lib migration
+    implementation "androidx.sqlite:sqlite:2.4.0"
+
+    // Room will replace greendao, because of a lack in code publication
+    def room_version = "2.6.1"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava3:$room_version"
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    // (see https://github.com/ReactiveX/RxJava/releases for latest 3.x.x version)
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.8'
+
     // https://mvnrepository.com/artifact/com.uwetrottmann.tmdb2/tmdb-java
     implementation 'com.uwetrottmann.tmdb2:tmdb-java:2.2.0'
     // Add import and export functionnalities
@@ -93,7 +104,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.28.2'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:4.11.0'
     testImplementation group: 'org.hamcrest', name: 'hamcrest-junit', version: '2.0.0.0'
 }

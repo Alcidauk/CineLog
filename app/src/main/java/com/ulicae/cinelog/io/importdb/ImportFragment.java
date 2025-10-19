@@ -1,50 +1,74 @@
 package com.ulicae.cinelog.io.importdb;
 
-import android.Manifest;
-import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
-import com.ulicae.cinelog.data.services.reviews.SerieService;
-import com.ulicae.cinelog.data.services.tags.TagService;
-import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
+import com.ulicae.cinelog.io.importdb.builder.SerieReviewableDtoFromRecordBuilder;
+import com.ulicae.cinelog.room.dto.ItemDto;
+import com.ulicae.cinelog.room.services.AsyncDataService;
 import com.ulicae.cinelog.databinding.ActivityImportDbBinding;
-import com.ulicae.cinelog.io.importdb.builder.KinoDtoFromRecordBuilder;
-import com.ulicae.cinelog.io.importdb.builder.SerieDtoFromRecordBuilder;
+import com.ulicae.cinelog.io.importdb.builder.DtoFromRecordBuilder;
+import com.ulicae.cinelog.io.importdb.builder.ReviewableDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.TagDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.WishlistDtoFromRecordBuilder;
+import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.CinelogSchedulers;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.ReviewAsyncService;
+import com.ulicae.cinelog.room.services.TagAsyncService;
+import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+
+/**
+ * CineLog Copyright 2025 Pierre Rognon
+ * <p>
+ * <p>
+ * This file is part of CineLog.
+ * CineLog is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * CineLog is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
+ */
 public class ImportFragment extends Fragment {
 
     private @NonNull
     ActivityImportDbBinding binding;
 
-    private Boolean writeStoragePermission;
+    private CinelogSchedulers cinelogSchedulers;
+    private List<Disposable> disposables;
 
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(
-                    new ActivityResultContracts.RequestPermission(), isGranted -> {
-                        writeStoragePermission = isGranted;
-                    }
-            );
-
+    public ImportFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,11 +76,8 @@ public class ImportFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            writeStoragePermission = true;
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
+        cinelogSchedulers = new CinelogSchedulers();
+        disposables = new ArrayList<>();
 
         binding = ActivityImportDbBinding.inflate(getLayoutInflater());
         return binding.getRoot();
@@ -69,88 +90,132 @@ public class ImportFragment extends Fragment {
         binding.importInDbContent.importDbButton.setOnClickListener(this::onClick);
     }
 
-    public void onClick(View view) {
-        Application app = requireActivity().getApplication();
-        Context context = requireContext();
+    private final ActivityResultCallback<Uri> activityResultCallback = result -> {
+        DocumentFile choosenDirFile = DocumentFile.fromTreeUri(requireActivity(), result);
+        KinoApplication app = ((KinoApplication) requireActivity().getApplication());
 
-        if (writeStoragePermission != null && writeStoragePermission) {
-            Toast.makeText(context, getString(R.string.import_starting_toast), Toast.LENGTH_SHORT).show();
+        importData(app, choosenDirFile);
+    };
 
-            // TODO improve this code
-            try {
-                new CsvImporter<>(
-                        new FileReaderGetter(app),
-                        new DtoImportCreator<>(context, new TagDtoFromRecordBuilder(context)),
-                        new TagService(((KinoApplication) app).getDaoSession()),
-                        context).importCsvFile("import_tags.csv");
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
 
-                binding.importInDbContent.importTagsStatusWaiting.setText(R.string.import_status_success);
-            } catch (ImportException e) {
-                Toast.makeText(app.getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                binding.importInDbContent.importTagsStatusWaiting.setText(R.string.import_status_failed);
-                binding.importInDbContent.importTagsErrorMessage.setText(e.getMessage());
-            }
-
-            try {
-                new CsvImporter<>(
-                        new FileReaderGetter(app),
-                        new DtoImportCreator<>(context, new KinoDtoFromRecordBuilder(context)),
-                        new KinoService(((KinoApplication) app).getDaoSession()),
-                        context).importCsvFile("import_movies.csv");
-
-                binding.importInDbContent.importMoviesStatusWaiting.setText(R.string.import_status_success);
-            } catch (ImportException e) {
-                Toast.makeText(app.getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                binding.importInDbContent.importMoviesStatusWaiting.setText(R.string.import_status_failed);
-                binding.importInDbContent.importMoviesErrorMessage.setText(e.getMessage());
-            }
-
-            try {
-                new CsvImporter<>(
-                        new FileReaderGetter(app),
-                        new DtoImportCreator<>(context, new SerieDtoFromRecordBuilder(context)),
-                        new SerieService(((KinoApplication) app).getDaoSession(), context),
-                        context).importCsvFile("import_series.csv");
-
-                binding.importInDbContent.importSeriesStatusWaiting.setText(R.string.import_status_success);
-            } catch (ImportException e) {
-                Toast.makeText(app.getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                binding.importInDbContent.importSeriesStatusWaiting.setText(R.string.import_status_failed);
-                binding.importInDbContent.importSeriesErrorMessage.setText(e.getMessage());
-            }
-
-            try {
-                new CsvImporter<>(
-                        new FileReaderGetter(app),
-                        new DtoImportCreator<>(context, new WishlistDtoFromRecordBuilder(context)),
-                        new MovieWishlistService(((KinoApplication) app).getDaoSession()),
-                        context).importCsvFile("import_wishlist_movies.csv");
-
-                binding.importInDbContent.importWishlistMoviesStatusWaiting.setText(R.string.import_status_success);
-            } catch (ImportException e) {
-                Toast.makeText(app.getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                binding.importInDbContent.importWishlistMoviesStatusWaiting.setText(R.string.import_status_failed);
-                binding.importInDbContent.importWishlistMoviesErrorMessage.setText(e.getMessage());
-            }
-
-            try {
-                new CsvImporter<>(
-                        new FileReaderGetter(app),
-                        new DtoImportCreator<>(context, new WishlistDtoFromRecordBuilder(context)),
-                        new SerieWishlistService(((KinoApplication) app).getDaoSession()),
-                        context).importCsvFile("import_wishlist_series.csv");
-
-                binding.importInDbContent.importWishlistSeriesStatusWaiting.setText(R.string.import_status_success);
-            } catch (ImportException e) {
-                Toast.makeText(app.getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                binding.importInDbContent.importWishlistSeriesStatusWaiting.setText(R.string.import_status_failed);
-                binding.importInDbContent.importWishlistSeriesErrorMessage.setText(e.getMessage());
-            }
-
-            Toast.makeText(app.getBaseContext(), getString(R.string.import_ending_toast), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(app.getBaseContext(), getString(R.string.import_permission_error_toast), Toast.LENGTH_LONG).show();
+        for(Disposable disposable : disposables) {
+            disposable.dispose();
         }
     }
 
+    ActivityResultLauncher<Uri> launcher = registerForActivityResult(new ActivityResultContracts.OpenDocumentTree(), activityResultCallback);
+
+    public void onClick(View view) {
+        launcher.launch(Uri.fromFile(requireActivity().getFilesDir()));
+    }
+
+    private void importData(KinoApplication app, DocumentFile choosenDirFile) {
+        Context context = requireContext();
+        AppDatabase db = app.getDb();
+        // TODO ToasterWrapper toasterWrapper = new ToasterWrapper(getContext());
+
+        Toast.makeText(context, getString(R.string.import_starting_toast), Toast.LENGTH_SHORT).show();
+
+        asyncImportForType(
+                app,
+                context,
+                choosenDirFile,
+                "import_tags.csv",
+                new TagAsyncService(db),
+                new TagDtoFromRecordBuilder(context),
+                binding.importInDbContent.importTagsStatusWaiting,
+                binding.importInDbContent.importTagsErrorMessage
+        );
+
+        asyncImportForType(
+                app,
+                context,
+                choosenDirFile,
+                "import_movies.csv",
+                new ReviewAsyncService(app, ItemEntityType.MOVIE),
+                new ReviewableDtoFromRecordBuilder(context),
+                binding.importInDbContent.importMoviesStatusWaiting,
+                binding.importInDbContent.importMoviesErrorMessage
+        );
+
+        asyncImportForType(
+                app,
+                context,
+                choosenDirFile,
+                "import_series.csv",
+                new ReviewAsyncService(app, ItemEntityType.SERIE),
+                new SerieReviewableDtoFromRecordBuilder(context),
+                binding.importInDbContent.importSeriesStatusWaiting,
+                binding.importInDbContent.importSeriesErrorMessage
+        );
+
+        asyncImportForType(
+                app,
+                context,
+                choosenDirFile,
+                "import_wishlist_movies.csv",
+                new WishlistAsyncService(app.getDb(), ItemEntityType.MOVIE),
+                new WishlistDtoFromRecordBuilder(context),
+                binding.importInDbContent.importWishlistMoviesStatusWaiting,
+                binding.importInDbContent.importWishlistMoviesErrorMessage
+        );
+
+        asyncImportForType(
+                app,
+                context,
+                choosenDirFile,
+                "import_wishlist_series.csv",
+                new WishlistAsyncService(app.getDb(), ItemEntityType.SERIE),
+                new WishlistDtoFromRecordBuilder(context),
+                binding.importInDbContent.importWishlistSeriesStatusWaiting,
+                binding.importInDbContent.importWishlistSeriesErrorMessage
+        );
+
+        Toast.makeText(app.getBaseContext(), getString(R.string.import_ending_toast), Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void asyncImportForType(KinoApplication app,
+                                   Context context,
+                                   DocumentFile choosenDirFile,
+                                   String importFilename,
+                                   AsyncDataService<? extends ItemDto> asyncDataService,
+                                   DtoFromRecordBuilder dtoFromRecordBuilder,
+                                   TextView waitingUIZone,
+                                   TextView errorUIZone) {
+        try {
+            disposables.add(
+                    new AsyncCsvImporter<>(
+                            new FileReaderGetter(app),
+                            new DtoImportCreator<>(context, dtoFromRecordBuilder),
+                            asyncDataService,
+                            context
+                    ).importCsvFile(choosenDirFile, importFilename)
+                            .subscribeOn(cinelogSchedulers.io())
+                            .observeOn(cinelogSchedulers.androidMainThread())
+                            .subscribe(
+                                    (created) -> {
+                                        waitingUIZone.setText(R.string.import_status_success);
+                                    },
+                                    error -> {
+                                        showImportError(app, waitingUIZone, errorUIZone, (Throwable) error);
+                                    }
+                            )
+            );
+
+        } catch (ImportException e) {
+            showImportError(app, waitingUIZone, errorUIZone, e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void showImportError(KinoApplication app, TextView waitingUIZone, TextView errorUIZone, Throwable error) {
+        Toast.makeText(app.getBaseContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+        waitingUIZone.setText(R.string.import_status_failed);
+        errorUIZone.setText(error.getMessage());
+    }
 }

@@ -1,45 +1,66 @@
 package com.ulicae.cinelog.io.exportdb;
 
-import android.Manifest;
-import android.app.Application;
-import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.services.wishlist.MovieWishlistService;
-import com.ulicae.cinelog.data.services.wishlist.SerieWishlistService;
+import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.databinding.ActivityExportDbBinding;
-import com.ulicae.cinelog.io.exportdb.exporter.MovieCsvExporterFactory;
-import com.ulicae.cinelog.io.exportdb.exporter.SerieCsvExporterFactory;
+import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
+import com.ulicae.cinelog.io.exportdb.exporter.ReviewCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.TagCsvExporterFactory;
 import com.ulicae.cinelog.io.exportdb.exporter.WishlistCsvExporterFactory;
+import com.ulicae.cinelog.room.CinelogSchedulers;
+import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.WishlistAsyncService;
+import com.ulicae.cinelog.utils.ToasterWrapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ExportFragment extends Fragment {
 
     private @NonNull ActivityExportDbBinding binding;
 
-    private Boolean writeStoragePermission;
+    private List<Disposable> disposableList;
 
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(
-                    new ActivityResultContracts.RequestPermission(), isGranted -> {
-                        writeStoragePermission = isGranted;
-                    }
-            );
+    private ToasterWrapper toasterWrapper;
 
+    private SnapshotExporterFactory snapshotExporterFactory;
+
+    private CinelogSchedulers cinelogSchedulers;
+
+    void setToasterWrapper(ToasterWrapper toasterWrapper) {
+        this.toasterWrapper = toasterWrapper;
+    }
+
+    void setSnapshotExporterFactory(SnapshotExporterFactory snapshotExporterFactory) {
+        this.snapshotExporterFactory = snapshotExporterFactory;
+    }
+
+    void setDisposableList(List<Disposable> disposableList) {
+        this.disposableList = disposableList;
+    }
+
+    void setCinelogSchedulers(CinelogSchedulers cinelogSchedulers) {
+        this.cinelogSchedulers = cinelogSchedulers;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,11 +68,10 @@ public class ExportFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            writeStoragePermission = true;
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
+        setToasterWrapper(new ToasterWrapper(getContext()));
+        setSnapshotExporterFactory(
+                new SnapshotExporterFactory(toasterWrapper, requireActivity().getContentResolver()));
+        setDisposableList(new ArrayList<>());
 
         binding = ActivityExportDbBinding.inflate(getLayoutInflater());
         return binding.getRoot();
@@ -64,21 +84,81 @@ public class ExportFragment extends Fragment {
         binding.exportInDbContent.exportDbButton.setOnClickListener(this::onClick);
     }
 
-    public void onClick(View view) {
-        Application app = requireActivity().getApplication();
-        if (writeStoragePermission != null && writeStoragePermission) {
-            new SnapshotExporter(new TagCsvExporterFactory(app), app).export("export_tags.csv");
-            new SnapshotExporter(new MovieCsvExporterFactory(app), app).export("export_movies.csv");
-            new SnapshotExporter(new SerieCsvExporterFactory(app), app).export("export_series.csv");
-            new SnapshotExporter(new WishlistCsvExporterFactory(
-                    new MovieWishlistService(((KinoApplication) app).getDaoSession())),
-                    app).export("export_wishlist_movies.csv");
-            new SnapshotExporter(new WishlistCsvExporterFactory(
-                    new SerieWishlistService(((KinoApplication) app).getDaoSession())),
-                    app).export("export_wishlist_series.csv");
-        } else {
-            Toast.makeText(app.getApplicationContext(), getString(R.string.export_permission_error_toast), Toast.LENGTH_LONG).show();
-        }
+    private final ActivityResultCallback<Uri> activityResultCallback = result -> {
+        DocumentFile choosenDirFile = DocumentFile.fromTreeUri(requireActivity(), result);
+        KinoApplication app = ((KinoApplication) requireActivity().getApplication());
+        setCinelogSchedulers(new CinelogSchedulers());
+
+        exportData(app, choosenDirFile);
+    };
+
+    private void exportData(KinoApplication app, DocumentFile documentFile) {
+        exportForType(
+                documentFile,
+                "export_wishlist_series.csv",
+                new WishlistCsvExporterFactory(
+                        new WishlistAsyncService(app.getDb(), ItemEntityType.SERIE)
+                )
+
+        );
+
+        exportForType(
+                documentFile,
+                "export_wishlist_movies.csv",
+                new WishlistCsvExporterFactory(
+                        new WishlistAsyncService(app.getDb(), ItemEntityType.MOVIE)
+                )
+        );
+
+        exportForType(
+                documentFile,
+                "export_tags.csv",
+                new TagCsvExporterFactory((KinoApplication) requireActivity().getApplication())
+        );
+
+        exportForType(documentFile, "export_movies.csv", new ReviewCsvExporterFactory(app, ItemEntityType.MOVIE));
+        exportForType(documentFile, "export_series.csv", new ReviewCsvExporterFactory(app, ItemEntityType.SERIE));
     }
 
+    void exportForType(DocumentFile documentFile,
+                       String exportFilename,
+                       ExporterFactory<? extends ItemDto> exporterFactory) {
+        toasterWrapper.toast(R.string.export_start_toast, ToasterWrapper.ToasterDuration.SHORT);
+
+        DocumentFile exportFile = documentFile.createFile("application/text", exportFilename);
+        if (exportFile == null) {
+            toasterWrapper.toast(R.string.export_io_error_toast, ToasterWrapper.ToasterDuration.LONG);
+            return;
+        }
+        try {
+            disposableList.add(
+                    snapshotExporterFactory
+                            .makeSnapshotExporter(exporterFactory)
+                            .export(exportFile.getUri())
+                            .observeOn(cinelogSchedulers.androidMainThread())
+                            .subscribe(
+                                    success -> toasterWrapper.toast(R.string.export_succeeded_toast, ToasterWrapper.ToasterDuration.LONG),
+                                    error -> toasterWrapper.toast(R.string.export_io_error_toast, ToasterWrapper.ToasterDuration.LONG)
+                            )
+            );
+        } catch (IOException e) {
+            toasterWrapper.toast(R.string.export_io_error_toast, ToasterWrapper.ToasterDuration.LONG);
+       }
+    }
+
+
+    ActivityResultLauncher<Uri> launcher = registerForActivityResult(new ActivityResultContracts.OpenDocumentTree(), activityResultCallback);
+
+    public void onClick(View view) {
+        launcher.launch(Uri.fromFile(requireActivity().getFilesDir()));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        for (Disposable disposable : disposableList) {
+            disposable.dispose();
+        }
+    }
 }

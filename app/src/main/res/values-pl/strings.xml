@@ -59,8 +59,7 @@
     <string name="action_export">Eksport</string>
     <string name="export_start_toast">Eksport rozpoczęty…</string>
     <string name="export_succeeded_toast">Pomyślnie wyeksportowano recenzje do plików „export_movies.csv”, „export_series.csv”, „export_wishlist_movies.csv” i „export_wishlist_series.csv”.</string>
-    <string name="export_io_error_toast">Błąd wejścia/wyjścia podczas eksportu. Sprawdź uprawnienia aplikacji.</string>
-    <string name="export_permission_error_toast">Nie można wyeksportować danych, ponieważ CineLog nie posiada uprawnień do zapisu w pamięci zewnętrznej.</string>
+    <string name="export_io_error_toast">Błąd wejścia/wyjścia podczas eksportu.</string>
 
     <string name="action_import">Import</string>
     <string name="title_activity_import_db">Import danych</string>

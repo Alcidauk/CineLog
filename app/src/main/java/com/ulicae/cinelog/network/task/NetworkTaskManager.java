@@ -2,7 +2,7 @@ package com.ulicae.cinelog.network.task;
 
 import android.os.AsyncTask;
 
-import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch.SearchTmdbFragment;
 import com.uwetrottmann.tmdb2.entities.BaseRatingObject;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class NetworkTaskManager<T extends BaseRatingObject> {
         taskList.add(networkTask);
     }
 
-    void cancelTasks() {
+    public void cancelTasks() {
         for (AsyncTask task : taskList) {
             task.cancel(true);
         }

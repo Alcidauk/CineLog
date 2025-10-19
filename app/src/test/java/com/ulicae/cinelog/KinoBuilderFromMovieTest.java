@@ -1,6 +1,6 @@
 package com.ulicae.cinelog;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.network.KinoBuilderFromMovie;
 import com.uwetrottmann.tmdb2.entities.Movie;
 

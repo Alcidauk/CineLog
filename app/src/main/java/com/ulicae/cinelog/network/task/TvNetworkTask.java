@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.network.task;
 
-import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmdbFragment;
-import com.ulicae.cinelog.android.v2.fragments.tmdbsearch.SearchTmbdSerieFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch.SearchTmdbFragment;
+import com.ulicae.cinelog.android.v2.fragments.review.room.tmdbsearch.SearchTmbdSerieFragment;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;

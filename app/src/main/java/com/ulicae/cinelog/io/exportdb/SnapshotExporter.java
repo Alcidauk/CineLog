@@ -1,55 +1,42 @@
 package com.ulicae.cinelog.io.exportdb;
 
-import android.app.Application;
-import android.widget.Toast;
+import android.content.ContentResolver;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 
-import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.io.exportdb.exporter.CsvExporter;
 import com.ulicae.cinelog.io.exportdb.exporter.ExporterFactory;
 
+import java.io.FileDescriptor;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
-public class SnapshotExporter {
+import io.reactivex.rxjava3.core.Flowable;
 
-    private ExporterFactory exporterFactory;
-    private Application application;
+public class SnapshotExporter<T extends ItemDto> {
+    private final ExporterFactory<T> exporterFactory;
+    private final ContentResolver contentResolver;
 
-    SnapshotExporter(ExporterFactory exporterFactory, Application application) {
+    SnapshotExporter(ExporterFactory<T> exporterFactory,
+                     ContentResolver contentResolver) {
         this.exporterFactory = exporterFactory;
-        this.application = application;
+        this.contentResolver = contentResolver;
     }
 
-    public void export(String exportFilename) {
-        showToast(R.string.export_start_toast);
-
-        CsvExporter csvExporter;
-        FileWriter fileWriter;
-        try {
-            fileWriter = new FileWriterGetter(application)
-                    .get(exportFilename);
-        } catch (IOException e) {
-            showToast(R.string.export_io_error_toast);
-            return;
+    public Flowable<List<T>> export(Uri exportFilename) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor = contentResolver.openFileDescriptor(exportFilename, "w");
+        if (parcelFileDescriptor == null) {
+            throw new IOException();
         }
 
-        try {
-            csvExporter = exporterFactory.makeCsvExporter(fileWriter);
-        } catch (IOException e) {
-            showToast(R.string.export_io_error_toast);
-            return;
-        }
+        FileDescriptor fd = parcelFileDescriptor.getFileDescriptor();
+        FileWriter fileWriter = new FileWriter(fd);
 
-        try {
-            csvExporter.export();
-            showToast(R.string.export_succeeded_toast);
-        } catch (IOException e) {
-            showToast(R.string.export_io_error_toast);
-        }
+        CsvExporter<T> csvExporter = exporterFactory.makeCsvExporter(fileWriter);
+        return csvExporter.export();
     }
 
-    private void showToast(int messageId) {
-        Toast.makeText(application.getApplicationContext(), application.getString(messageId), Toast.LENGTH_LONG).show();
-    }
 
 }

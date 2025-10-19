@@ -22,11 +22,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.BuildConfig;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.settings.SettingsActivity;
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.dto.SerieDto;
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.SerieDto;
+import com.ulicae.cinelog.room.dto.TagDto;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.WishlistItemType;
 import com.ulicae.cinelog.databinding.ActivityMainBinding;
 import com.ulicae.cinelog.io.exportdb.ExportDb;
 import com.ulicae.cinelog.io.importdb.ImportInDb;
@@ -39,7 +39,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
+    private UpgradeFixRunner upgradeFixRunner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkNeededFix() {
-        new UpgradeFixRunner(getBaseContext(), getApplication()).runFixesIfNeeded();
+        upgradeFixRunner = new UpgradeFixRunner(getBaseContext(), getApplication());
+        upgradeFixRunner.runFixesIfNeeded();
     }
 
     @Override
@@ -100,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
         Set<Integer> topLevelDestinations = new HashSet<Integer>() {{
             add(R.id.nav_reviews_movie);
             add(R.id.nav_reviews_serie);
-            add(R.id.nav_wishlist_movie);
-            add(R.id.nav_wishlist_serie);
-            add(R.id.nav_tags);
+            add(R.id.nav_wishlist_room_movie);
+            add(R.id.nav_wishlist_room_serie);
+            add(R.id.nav_room_tags);
         }};
         appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations)
                 .setOpenableLayout(binding.drawerLayout)
@@ -120,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
     private void listenDrawerOpenal() {
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+            }
 
             @SuppressLint("SetTextI18n")
             @Override
@@ -129,10 +132,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDrawerClosed(@NonNull View drawerView) {}
+            public void onDrawerClosed(@NonNull View drawerView) {
+            }
 
             @Override
-            public void onDrawerStateChanged(int newState) {}
+            public void onDrawerStateChanged(int newState) {
+            }
         });
     }
 
@@ -165,10 +170,10 @@ public class MainActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putBoolean("toWishlist", wishlist);
 
-        if(wishlist){
-            navController.navigate(R.id.action_nav_wishlist_movie_to_searchTmdbMovieFragment, args);
+        if (wishlist) {
+            navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdMovieRoomFragment, args);
         } else {
-            navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieFragment, args);
+            navController.navigate(R.id.action_nav_reviews_movie_to_searchTmdbMovieRoomFragment, args);
         }
     }
 
@@ -176,17 +181,17 @@ public class MainActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putBoolean("toWishlist", wishlist);
 
-        if(wishlist){
-            navController.navigate(R.id.action_nav_wishlist_serie_to_searchTmbdSerieFragment, args);
+        if (wishlist) {
+            navController.navigate(R.id.action_nav_wishlist_room_to_searchTmbdSerieRoomFragment, args);
         } else {
-            navController.navigate(R.id.action_nav_reviews_serie_to_searchTmbdSerieFragment, args);
+            navController.navigate(R.id.action_nav_reviews_serie_to_searchTmdbSerieRoomFragment, args);
         }
     }
 
     public void goToTagEdition(TagDto dataDto) {
         Bundle args = new Bundle();
-        if(dataDto != null){
-            args.putParcelable("tag", Parcels.wrap(dataDto));
+        if (dataDto != null) {
+            args.putLong("tagId", dataDto.getId());
         }
         navController.navigate(R.id.action_nav_tags_to_editTagFragment, args);
     }
@@ -208,49 +213,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void navigateToItem(KinoDto kinoDto, int position, boolean inDb, boolean fromSearch) {
+        Bundle args = new Bundle();
+        int action = determineAction(kinoDto, inDb, fromSearch);
         if (inDb) {
-            int action;
-            Bundle args = new Bundle();
-            if (kinoDto instanceof SerieDto) {
-                action = fromSearch ?
-                        R.id.action_searchTmbdSerieFragment_to_viewSerieFragment :
-                        R.id.action_nav_reviews_serie_to_viewSerieFragment;
-                args.putString("dtoType", "serie");
-            } else {
-                action = fromSearch ?
-                        R.id.action_searchTmdbMovieFragment_to_viewKinoFragment :
-                        R.id.action_nav_reviews_movie_to_viewKinoFragment;
-                args.putString("dtoType", "kino");
-            }
-
-            args.putParcelable("kino", Parcels.wrap(kinoDto));
+            args.putLong("review_id", kinoDto.getId());
             args.putInt("kino_position", position);
-
-            navController.navigate(action, args);
         } else {
-            int action = kinoDto instanceof SerieDto ?
-                    R.id.action_searchTmbdSerieFragment_to_viewUnregisteredItemFragment :
-                    R.id.action_searchTmdbMovieFragment_to_viewUnregisteredItemFragment;
-
-            Bundle args = new Bundle();
-            args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
             args.putParcelable("kino", Parcels.wrap(kinoDto));
-            navController.navigate(action, args);
+            args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
+        }
+        navController.navigate(action, args);
+    }
+
+    // TODO better and without class check
+    public int determineAction(KinoDto kinoDto, boolean inDb, boolean fromSearch) {
+        if (inDb) {
+            if (kinoDto instanceof SerieDto) {
+                return fromSearch ?
+                       R.id.action_searchTmdbSerieRoomFragment_to_viewSerieRoomFragment :
+                        R.id.action_nav_reviews_serie_to_viewSerieRoomFragment;
+            } else {
+                return fromSearch ?
+                       R.id.action_searchTmdbMovieRoomFragment_to_viewKinoRoomFragment :
+                        R.id.action_nav_reviews_movie_to_viewMovieRoomFragment;
+            }
+        } else {
+            return kinoDto instanceof SerieDto ?
+                    R.id.action_searchTmbdSerieRoomFragment_to_viewUnregisteredItemFragment :
+                    R.id.action_searchTmdbMovieRoomFragment_to_viewUnregisteredItemFragment;
         }
     }
 
-    public void navigateToReview(KinoDto kinoDto, boolean creation, int action) {
-        Bundle args = new Bundle();
-        args.putString("dtoType", kinoDto instanceof SerieDto ? "serie" : "kino");
-        args.putParcelable("kino", Parcels.wrap(kinoDto));
-        args.putBoolean("creation", creation);
-
+    public void navigateToReview(int action, Bundle args) {
         navController.navigate(action, args);
     }
 
     public void navigateToWishlistItem(WishlistDataDto dataDto, int action) {
         Bundle args = new Bundle();
-        args.putParcelable("dataDto", Parcels.wrap(dataDto));
+
+        if (dataDto.getId() != null) {
+            args.putLong("wishlistItemId", dataDto.getId());
+        } else {
+            args.putParcelable("dataDto", Parcels.wrap(dataDto));
+        }
+
         navController.navigate(action, args);
     }
 
@@ -265,19 +271,28 @@ public class MainActivity extends AppCompatActivity {
     public void navigateBackToWishlist(WishlistItemType type) {
         navController.navigate(
                 type == WishlistItemType.SERIE ?
-                        R.id.action_wishlistItemFragment_to_nav_wishlist_serie :
-                        R.id.action_wishlistItemFragment_to_nav_wishlist_movie
-        );    }
+                        R.id.action_wishlistItemRoomFragment_to_nav_wishlist_room_serie :
+                        R.id.action_wishlistItemRoomFragment_to_nav_wishlist_room_movie
+        );
+    }
 
     public void navigateBackToReviewList(KinoDto fromKinoDto) {
         navController.navigate(
                 fromKinoDto instanceof SerieDto ?
-                R.id.action_editReviewFragment_to_nav_reviews_serie :
-                R.id.action_editReviewFragment_to_nav_reviews_movie
+                        R.id.action_editReviewFragment_to_nav_reviews_serie :
+                        R.id.action_editReviewFragment_to_nav_reviews_movie
         );
     }
 
     public void navigateBack() {
         navController.popBackStack();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (this.upgradeFixRunner != null) {
+            this.upgradeFixRunner.clear();
+        }
+        super.onDestroy();
     }
 }

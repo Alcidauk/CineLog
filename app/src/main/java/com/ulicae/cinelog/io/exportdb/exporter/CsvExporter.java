@@ -1,14 +1,13 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
-import com.ulicae.cinelog.data.dto.ItemDto;
-import com.ulicae.cinelog.data.services.reviews.ItemService;
-import com.ulicae.cinelog.io.exportdb.writer.CsvExportWriter;
+import com.ulicae.cinelog.room.dto.ItemDto;
 
-import java.io.IOException;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
+
 /**
- * CineLog Copyright 2022 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -25,22 +24,6 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class CsvExporter<T extends ItemDto> {
-    private final ItemService<T> service;
-    private final CsvExportWriter<T> csvExportWriter;
-
-    CsvExporter(ItemService<T> service, CsvExportWriter<T> csvExportWriter) {
-        this.service = service;
-        this.csvExportWriter = csvExportWriter;
-    }
-
-    public void export() throws IOException {
-        List<T> localKinoList = service.getAll();
-
-        for (T dto : localKinoList) {
-            csvExportWriter.write(dto);
-        }
-
-        csvExportWriter.endWriting();
-    }
+public interface CsvExporter<T extends ItemDto> {
+    Flowable<List<T>> export();
 }

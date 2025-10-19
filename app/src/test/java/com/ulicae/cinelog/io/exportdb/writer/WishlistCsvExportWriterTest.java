@@ -1,7 +1,7 @@
 package com.ulicae.cinelog.io.exportdb.writer;
 
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.WishlistItemType;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ public class WishlistCsvExportWriterTest {
     public void write() throws Exception {
         wishlistDto = new WishlistDataDto(
                 24L,
-                25,
+                25L,
                 "a title",
                 "/path",
                 "an overview",
@@ -36,7 +36,7 @@ public class WishlistCsvExportWriterTest {
 
         verify(csvPrinterWrapper).printRecord(
                 24L,
-                25,
+                25L,
                 "a title",
                 "an overview",
                 2012,
@@ -48,7 +48,7 @@ public class WishlistCsvExportWriterTest {
 
     @Test
     public void endWriting() throws Exception {
-        new MovieCsvExportWriter(csvPrinterWrapper).endWriting();
+        new WishlistCsvExportWriter(csvPrinterWrapper).endWriting();
 
         verify(csvPrinterWrapper).flush();
         verify(csvPrinterWrapper).close();

@@ -2,10 +2,8 @@ package com.ulicae.cinelog.io.importdb.builder;
 
 import android.content.Context;
 
-import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.data.WishlistDataDto;
-import com.ulicae.cinelog.data.dto.data.WishlistItemType;
-import com.ulicae.cinelog.io.importdb.ImportException;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
+import com.ulicae.cinelog.room.dto.data.WishlistItemType;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.apache.commons.csv.CSVRecord;
@@ -43,7 +41,7 @@ public class WishlistDtoFromRecordBuilder extends DtoFromRecordBuilder<WishlistD
     public WishlistDataDto doBuild(CSVRecord csvRecord) throws ParseException, IllegalArgumentException {
         return new WishlistDataDto(
                 formatLong(getId(csvRecord)),
-                formatInteger(csvRecord.get("movie_id")),
+                formatLong(csvRecord.get("movie_id")),
                 csvRecord.get("title"),
                 csvRecord.get("poster_path"),
                 csvRecord.get("overview"),

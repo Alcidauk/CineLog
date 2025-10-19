@@ -1,5 +1,7 @@
 package com.ulicae.cinelog.android.v2.fragments.review.add;
 
+import static io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -13,12 +15,16 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.data.dto.KinoDto;
-import com.ulicae.cinelog.data.services.reviews.DataService;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.services.AsyncDataTmdbService;
 import com.ulicae.cinelog.databinding.TmdbItemRowBinding;
 import com.ulicae.cinelog.network.DtoBuilderFromTmdbObject;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * CineLog Copyright 2018 Pierre Rognon
@@ -40,7 +46,7 @@ import java.util.List;
  */
 public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
 
-    protected DataService<? extends KinoDto> dataService;
+    protected AsyncDataTmdbService<KinoDto> dataService;
 
     private DtoBuilderFromTmdbObject<T> builderFromTmdbObject;
     private TmdbItemRowBinding binding;
@@ -48,9 +54,11 @@ public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
     protected final ReviewItemCallback reviewItemCallback;
     protected final ReviewCreationCallback reviewCreationCallback;
 
+    private List<Disposable> disposables;
+
     public TmdbResultAdapter(Context context,
                              List<T> results,
-                             DataService<? extends KinoDto> dataService,
+                             AsyncDataTmdbService<KinoDto> dataService,
                              DtoBuilderFromTmdbObject<T> dtoBuilderFromTmdbObject,
                              ReviewItemCallback reviewItemCallback,
                              ReviewCreationCallback reviewCreationCallback) {
@@ -59,6 +67,7 @@ public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
         this.builderFromTmdbObject = dtoBuilderFromTmdbObject;
         this.reviewItemCallback = reviewItemCallback;
         this.reviewCreationCallback = reviewCreationCallback;
+        this.disposables = new ArrayList<>();
     }
 
     public long getItemId(int position) {
@@ -84,56 +93,73 @@ public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
         populatePoster(kinoDto, holder);
 
         final Long tmdbId = kinoDto.getTmdbKinoId();
-        populateAddButton(kinoDto, holder, tmdbId);
 
-        KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
-        if (kinoByTmdbMovieId != null) {
-            if (kinoByTmdbMovieId.getMaxRating() <= 5) {
-                holder.getRatingBar().setRating(
-                        kinoByTmdbMovieId.getRating() != null ? kinoByTmdbMovieId.getRating() : 0
-                );
+        View finalConvertView = convertView;
+        disposables.add(
+                dataService
+                        .getWithTmdbId(tmdbId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(mainThread())
+                        // if single returns error, we admit it was not found in DB, so we use network result one
+                        .onErrorReturnItem(kinoDto)
+                        .subscribe((kino) -> {
+                            if (kino.getId() == null) {
+                                populateUnregistered(kino, holder);
+                            } else {
+                                populateReview(kino, holder);
+                            }
 
-                holder.getRatingBarAsText().setVisibility(View.INVISIBLE);
-                holder.getRatingBarMaxAsText().setVisibility(View.INVISIBLE);
-
-                holder.getRatingBar().setVisibility(View.VISIBLE);
-            } else {
-                holder.getRatingBarAsText().setText(String.format("%s", kinoByTmdbMovieId.getRating()));
-                holder.getRatingBarMaxAsText().setText(String.format("/%s", kinoByTmdbMovieId.getMaxRating()));
-
-                holder.getRatingBarAsText().setVisibility(View.VISIBLE);
-                holder.getRatingBarMaxAsText().setVisibility(View.VISIBLE);
-
-                holder.getRatingBar().setVisibility(View.INVISIBLE);
-            }
-
-            holder.getAddButton().setVisibility(View.INVISIBLE);
-        } else {
-            holder.getRatingBar().setVisibility(View.INVISIBLE);
-            holder.getRatingBarAsText().setVisibility(View.INVISIBLE);
-            holder.getRatingBarMaxAsText().setVisibility(View.INVISIBLE);
-
-            holder.getAddButton().setVisibility(View.VISIBLE);
-        }
-
-        convertView.setOnClickListener(
-                v -> viewDetails(
-                        kinoByTmdbMovieId != null ? kinoByTmdbMovieId : kinoDto,
-                        position,
-                        kinoByTmdbMovieId != null)
+                            finalConvertView.setOnClickListener(
+                                    v -> viewDetails(
+                                            kino,
+                                            position,
+                                            kino.getId() != null)
+                            );
+                        })
         );
-
-        holder.getAddButton().setFocusable(false);
-
         return convertView;
     }
 
-    private void populateAddButton(final KinoDto kinoDto, TmdbViewHolder holder, final Long tmdbId) {
-        holder.getAddButton().setOnClickListener(view -> {
-            KinoDto kinoByTmdbMovieId = dataService.getWithTmdbId(tmdbId);
-            addReview(
-                    kinoByTmdbMovieId != null ? kinoByTmdbMovieId : kinoDto
+    @Override
+    public void clear() {
+        for (Disposable disposable : disposables) {
+            disposable.dispose();
+        }
+    }
+
+    private void populateReview(KinoDto existingReview, TmdbViewHolder holder) {
+        if (existingReview.getMaxRating() <= 5) {
+            holder.getRatingBar().setRating(
+                    existingReview.getRating() != null ? existingReview.getRating() : 0
             );
+
+            holder.getRatingBarAsText().setVisibility(View.INVISIBLE);
+            holder.getRatingBarMaxAsText().setVisibility(View.INVISIBLE);
+
+            holder.getRatingBar().setVisibility(View.VISIBLE);
+        } else {
+            holder.getRatingBarAsText().setText(String.format("%s", existingReview.getRating()));
+            holder.getRatingBarMaxAsText().setText(String.format("/%s", existingReview.getMaxRating()));
+
+            holder.getRatingBarAsText().setVisibility(View.VISIBLE);
+            holder.getRatingBarMaxAsText().setVisibility(View.VISIBLE);
+
+            holder.getRatingBar().setVisibility(View.INVISIBLE);
+        }
+
+        holder.getAddButton().setVisibility(View.INVISIBLE);
+        holder.getAddButton().setFocusable(false);
+    }
+
+    private void populateUnregistered(final KinoDto kinoDto, TmdbViewHolder holder) {
+        holder.getRatingBar().setVisibility(View.INVISIBLE);
+        holder.getRatingBarAsText().setVisibility(View.INVISIBLE);
+        holder.getRatingBarMaxAsText().setVisibility(View.INVISIBLE);
+
+        holder.getAddButton().setVisibility(View.VISIBLE);
+
+        holder.getAddButton().setOnClickListener(view -> {
+            addReview(kinoDto);
         });
     }
 

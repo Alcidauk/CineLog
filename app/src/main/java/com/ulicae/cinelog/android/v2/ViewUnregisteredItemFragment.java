@@ -13,7 +13,8 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.SerieDto;
 import com.ulicae.cinelog.databinding.LayoutKinoItemBinding;
 
 import org.parceler.Parcels;
@@ -37,7 +38,15 @@ public class ViewUnregisteredItemFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
         fab.setOnClickListener(
-                v -> ((MainActivity) requireActivity()).navigateToReview(kino, true, R.id.action_viewUnregisteredItemFragment_to_editReviewFragment)
+                v -> {
+                    Bundle args = new Bundle();
+                    args.putString("dtoType", kino instanceof SerieDto ? "serie" : "kino");
+                    args.putParcelable("kino", Parcels.wrap(kino));
+                    args.putBoolean("creation", true);
+                    ((MainActivity) requireActivity()).navigateToReview(
+                            R.id.action_viewUnregisteredItemFragment_to_editReviewFragment,
+                            args);
+                }
         );
         fab.setImageResource(R.drawable.add_review);
         fab.show();
@@ -71,37 +80,4 @@ public class ViewUnregisteredItemFragment extends Fragment {
             requireActivity().setTitle(R.string.title_activity_view_unregistered_serie);
         }
     }
-
-    /*  TODO rewrite state management to get right data from editreview
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_ADD_REVIEW) {
-            if (resultCode == Activity.RESULT_OK) {
-                kino = Parcels.unwrap(data.getParcelableExtra("kino"));
-                editted = true;
-                System.out.println("Result Ok");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                System.out.println("Result Cancelled");
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (editted) {
-                Intent returnIntent = getIntent();
-                returnIntent.putExtra("dtoType", getIntent().getStringExtra("dtoType"));
-                returnIntent.putExtra("kino", Parcels.wrap(kino));
-                returnIntent.putExtra("kino_position", position);
-                setResult(Activity.RESULT_OK, returnIntent);
-            }
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 }

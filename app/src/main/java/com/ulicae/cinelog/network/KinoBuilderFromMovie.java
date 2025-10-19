@@ -1,6 +1,6 @@
 package com.ulicae.cinelog.network;
 
-import com.ulicae.cinelog.data.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 
 import java.text.SimpleDateFormat;

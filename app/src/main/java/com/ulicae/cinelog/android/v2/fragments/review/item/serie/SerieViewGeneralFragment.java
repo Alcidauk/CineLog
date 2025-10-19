@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.ulicae.cinelog.android.v2.fragments.review.item.ReviewItemDataFieldsInflater;
-import com.ulicae.cinelog.data.dto.SerieDto;
+import com.ulicae.cinelog.android.v2.fragments.review.room.item.ReviewItemDataFieldsInflater;
+import com.ulicae.cinelog.room.dto.SerieDto;
 import com.ulicae.cinelog.databinding.FragmentSerieViewGeneralBinding;
 
 import org.parceler.Parcels;

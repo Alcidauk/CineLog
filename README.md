@@ -47,10 +47,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Source: https://github.com/zagum/Android-SwitchIcon/
 License: Apache2
 
-  - greenDAO
-Source: https://github.com/greenrobot/greenDAO
-License: Apache2
-
   - Parceler
 Source: https://github.com/johncarl81/parceler/
 License: Apache2

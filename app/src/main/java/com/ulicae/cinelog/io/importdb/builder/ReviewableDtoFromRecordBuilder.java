@@ -4,11 +4,13 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.ulicae.cinelog.data.dto.TagDto;
+import com.ulicae.cinelog.room.dto.KinoDto;
+import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.apache.commons.csv.CSVRecord;
 
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,11 +33,38 @@ import java.util.stream.Collectors;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class ReviewableDtoFromRecordBuilder<Dto> extends DtoFromRecordBuilder<Dto> {
+public class ReviewableDtoFromRecordBuilder extends DtoFromRecordBuilder<KinoDto> {
+
+    public ReviewableDtoFromRecordBuilder(Context context) {
+        super(new PreferencesWrapper(), context);
+    }
 
     ReviewableDtoFromRecordBuilder(PreferencesWrapper preferencesWrapper, Context context) {
         super(preferencesWrapper, context);
     }
+
+    public KinoDto doBuild(CSVRecord csvRecord) throws ParseException, IllegalArgumentException {
+        return new KinoDto(
+                formatLong(getId(csvRecord)),
+                formatLong(csvRecord.get("movie_id")),
+                csvRecord.get("title"),
+                formatDate(csvRecord.get("review_date")),
+                csvRecord.get("review"),
+                formatFloat(csvRecord.get("rating")),
+                getMaxRating(csvRecord),
+                csvRecord.get("poster_path"),
+                csvRecord.get("overview"),
+                formatInteger(csvRecord.get("year")),
+                csvRecord.get("release_date"),
+                getTagDtoWithIds(csvRecord)
+        );
+    }
+
+    @Override
+    public String getLineTitle(CSVRecord csvRecord) {
+        return csvRecord.get("title");
+    }
+
 
     @NonNull
     protected List<TagDto> getTagDtoWithIds(CSVRecord csvRecord) {

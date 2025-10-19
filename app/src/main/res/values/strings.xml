@@ -1,6 +1,5 @@
 <!--
- CineLog Copyright 2018 Pierre Rognon
- kinolog Copyright (C) 2017  ryan rigby
+ CineLog Copyright 2024 Pierre Rognon
 
  This file is part of CineLog.
  CineLog is free software: you can redistribute it and/or modify
@@ -40,6 +39,7 @@
     <string name="title_activity_add_review_creation">Review creation</string>
     <string name="review_hint">Enter your review here.</string>
 
+    <string name="list_loading_failed">Cannot load review list</string>
 
     <string name="order">Order</string>
     <string name="year">Release year</string>
@@ -56,12 +56,11 @@
 
     <string name="title_activity_export_db">Export data</string>
     <string name="export_db">Export data as CSV</string>
-    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export_movies.csv\' and \'export_series.csv\' in \'media/com.ulicae.cinego\'. You will be able to import this backup if you need it.</string>
+    <string name="export_db_label">Click the button to export your data as a CSV file. It will be saved as \'export_****.csv\' in the directory you will choose. You will be able to import this backup if you need it.</string>
     <string name="action_export">Export</string>
     <string name="export_start_toast">Export starting…</string>
-    <string name="export_succeeded_toast">… export succeeded. See export_movies.csv and export_series.csv files in \'media/com.ulicae.cinego\'.</string>
-    <string name="export_io_error_toast">An I/O error occurred during export. Verify your permissions.</string>
-    <string name="export_permission_error_toast">Can\'t export since external storage writing is not allowed for CineLog.</string>
+    <string name="export_succeeded_toast">… export succeeded. Files are now available in your chosen directory.</string>
+    <string name="export_io_error_toast">An I/O error occurred during export.</string>
 
     <string name="action_import">Import</string>
     <string name="title_activity_import_db">CSV File import</string>
@@ -116,7 +115,9 @@
     <string name="automatic_export_movie_toast">Success of movies automatic save !</string>
     <string name="automatic_export_serie_toast">Success of automatic save of series !</string>
     <string name="nav_reviews_space">Reviews</string>
+    <string name="nav_reviews_room_space">Reviews room</string>
     <string name="nav_wishlist_space">Wishlist</string>
+    <string name="nav_wishlist_room_space">Wishlist room</string>
     <string name="nav_title">Menu</string>
     <string name="toolbar_title_reviews">Reviews</string>
     <string name="toolbar_title_wishlist">Wishlist</string>
@@ -158,7 +159,13 @@
     <string name="delete_tag_dialog">Do you want to remove this tag ?</string>
     <string name="import_parsing_line_error_missing_column_toast">A mandatory column is missing in an imported file</string>
     <string name="wishlist_cant_create_review">Error: can\'t create review</string>
+    <string name="review_cant_edit">Error: can\'t edit review</string>
     <string name="validate">Validate</string>
     <string name="no_tags_found_label">No tag found. Please verify enabled tags.</string>
     <string name="action_share">Share</string>
+    <string name="title_activity_view_review">Movie review</string>
+    <string name="title_activity_view_review_serie">Serie review</string>
+    <string name="tag_deleted">Tag deleted</string>
+    <string name="cant_link_tag_to_review">Cannot link a tag to the review. Please reopen review and try again</string>
+    <string name="cant_unlink_tag_to_review">Cannot unlink a tag to the review. Please reopen review and try again</string>
 </resources>

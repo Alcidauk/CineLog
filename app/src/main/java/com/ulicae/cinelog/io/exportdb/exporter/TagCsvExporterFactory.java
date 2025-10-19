@@ -1,19 +1,15 @@
 package com.ulicae.cinelog.io.exportdb.exporter;
 
-import android.app.Application;
-
 import com.ulicae.cinelog.KinoApplication;
-import com.ulicae.cinelog.data.dto.TagDto;
-import com.ulicae.cinelog.data.services.reviews.KinoService;
-import com.ulicae.cinelog.data.services.tags.TagService;
-import com.ulicae.cinelog.io.exportdb.writer.MovieCsvExportWriter;
+import com.ulicae.cinelog.room.dto.TagDto;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.io.exportdb.writer.TagCsvExportWriter;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * CineLog Copyright 2018 Pierre Rognon
+ * CineLog Copyright 2024 Pierre Rognon
  * <p>
  * <p>
  * This file is part of CineLog.
@@ -30,19 +26,19 @@ import java.io.IOException;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagCsvExporterFactory implements ExporterFactory {
+public class TagCsvExporterFactory implements ExporterFactory<TagDto> {
 
-    private final TagService tagService;
+    private final TagAsyncService tagService;
 
-    public TagCsvExporterFactory(Application application) {
-        this(new TagService(((KinoApplication) application).getDaoSession()));
+    public TagCsvExporterFactory(KinoApplication kinoApplication) {
+        this(new TagAsyncService(kinoApplication.getDb()));
     }
 
-    private TagCsvExporterFactory(TagService tagService) {
+    private TagCsvExporterFactory(TagAsyncService tagService) {
         this.tagService = tagService;
     }
 
-    public CsvExporter<TagDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
-        return new CsvExporter<>(tagService, new TagCsvExportWriter(fileWriter));
+    public AsyncCsvExporter<TagDto> makeCsvExporter(FileWriter fileWriter) throws IOException {
+        return new AsyncCsvExporter<>(tagService, new TagCsvExportWriter(fileWriter));
     }
 }
