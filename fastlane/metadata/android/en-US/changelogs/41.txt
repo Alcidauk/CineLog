@@ -1,0 +1,3 @@
+* #87: Can't import as not allowed
+* #83: Consider using another way to import/export files
+* #82: Can't import/export (no permission)
