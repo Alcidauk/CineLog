@@ -12,6 +12,12 @@ import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
 import com.ulicae.cinelog.utils.ThemeWrapper;
 
+import org.acra.ACRA;
+import org.acra.config.CoreConfigurationBuilder;
+import org.acra.config.DialogConfigurationBuilder;
+import org.acra.config.MailSenderConfigurationBuilder;
+import org.acra.data.StringFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +65,27 @@ public class KinoApplication extends Application {
         this.appDb = Room
                 .databaseBuilder(getApplicationContext(), AppDatabase.class, "database-cinelog")
                 .build();
+
+        ACRA.init(this, new CoreConfigurationBuilder()
+                .withBuildConfigClass(BuildConfig.class)
+                .withReportFormat(StringFormat.JSON)
+                .withPluginConfigurations(
+                        new DialogConfigurationBuilder()
+                                .withText(getString(R.string.crash_dialog_text))
+                                .withTitle(getString(R.string.crash_dialog_title))
+                                .withPositiveButtonText(getString(R.string.crash_dialog_positive))
+                                .withNegativeButtonText(getString(R.string.dialog_dialog_negative))
+                                .build(),
+                        new MailSenderConfigurationBuilder()
+                                .withMailTo("cinelog@ulicae.com")
+                                .withReportAsFile(true)
+                                .withReportFileName("Crash.txt")
+                                .withSubject(getString(R.string.crash_mail_subject))
+                                .withBody(getString(R.string.crash_mail_body))
+                                .build()
+                )
+        );
+
         verifyAutomaticSave();
     }
 

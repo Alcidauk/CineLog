@@ -168,4 +168,11 @@
     <string name="tag_deleted">Tag deleted</string>
     <string name="cant_link_tag_to_review">Cannot link a tag to the review. Please reopen review and try again</string>
     <string name="cant_unlink_tag_to_review">Cannot unlink a tag to the review. Please reopen review and try again</string>
+    <string name="acra_dialog_text">coucou</string>
+    <string name="crash_mail_subject">A Cinelog crash just happened</string>
+    <string name="crash_mail_body">Please describe what you were doing here (a step by step description would be perfect)</string>
+    <string name="crash_dialog_text">A crash just happened. If do you agree, you can send the stacktrace to the developer. It would be really helpful to fix this crash.\n</string>
+    <string name="crash_dialog_title">Crash</string>
+    <string name="crash_dialog_positive">I agree</string>
+    <string name="dialog_dialog_negative">I do not agree</string>
 </resources>

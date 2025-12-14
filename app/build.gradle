@@ -104,6 +104,11 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
+    // stacktrace revealer
+    def acraVersion = '5.13.1'
+    implementation "ch.acra:acra-mail:$acraVersion"
+    implementation "ch.acra:acra-dialog:$acraVersion"
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:4.11.0'
     testImplementation group: 'org.hamcrest', name: 'hamcrest-junit', version: '2.0.0.0'
