@@ -9,15 +9,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.databinding.FragmentTagListBinding;
 import com.ulicae.cinelog.room.AppDatabase;
+import com.ulicae.cinelog.room.fragments.AddableFragment;
+import com.ulicae.cinelog.room.services.TagAsyncService;
 
 import java.util.ArrayList;
 
@@ -43,7 +42,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class TagRoomFragment extends Fragment {
+public class TagRoomFragment extends AddableFragment {
 
     private FragmentTagListBinding binding;
 
@@ -63,6 +62,7 @@ public class TagRoomFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         AppDatabase db = ((KinoApplication) getActivity().getApplication()).getDb();
 
         service = new TagAsyncService(db);
@@ -70,12 +70,16 @@ public class TagRoomFragment extends Fragment {
 
         fetchAndSetTags();
 
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.setOnClickListener(v -> ((MainActivity) requireActivity()).goToTagEdition(null));
-        fab.setImageResource(R.drawable.add_tag);
-
         // TODO implement search for tags
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
+    }
+
+    protected void onFabClick(){
+        ((MainActivity) requireActivity()).goToTagEdition(null);
+    }
+
+    protected int getFabImage(){
+        return R.drawable.add_tag;
     }
 
     private void fetchAndSetTags() {

@@ -20,6 +20,7 @@ import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
 import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.fragments.AddableFragment;
 import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.utils.PreferencesWrapper;
 
@@ -49,7 +50,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public abstract class ReviewRoomListFragment extends Fragment {
+public abstract class ReviewRoomListFragment extends AddableFragment {
 
     ItemEntityType itemEntityType;
 
@@ -74,11 +75,7 @@ public abstract class ReviewRoomListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.setOnClickListener(v -> onFabClick());
-        fab.setImageResource(R.drawable.add_kino);
-        fab.show();
-
+        super.onViewCreated(view, savedInstanceState);
         SearchView searchView = ((MainActivity) requireActivity()).getSearchView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -95,6 +92,10 @@ public abstract class ReviewRoomListFragment extends Fragment {
         searchView.setVisibility(View.VISIBLE);
 
         createListView(LIST_VIEW_STATE, view.getContext());
+    }
+
+    protected int getFabImage(){
+        return R.drawable.add_kino;
     }
 
     @Override
@@ -238,8 +239,6 @@ public abstract class ReviewRoomListFragment extends Fragment {
     }
 
     protected abstract ListView getKinoList();
-
-    protected abstract void onFabClick();
 
     protected abstract void createService();
 }

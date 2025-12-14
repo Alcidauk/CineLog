@@ -17,15 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
 import com.ulicae.cinelog.android.v2.activities.MainActivity;
-import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.databinding.FragmentRoomListBinding;
+import com.ulicae.cinelog.room.dto.data.WishlistDataDto;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.fragments.AddableFragment;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * You should have received a copy of the GNU General Public License
  * along with CineLog. If not, see <https://www.gnu.org/licenses/>.
  */
-public class WishlistRoomListFragment extends Fragment {
+public class WishlistRoomListFragment extends AddableFragment {
 
     WishlistListRoomAdapter listAdapter;
 
@@ -67,14 +66,11 @@ public class WishlistRoomListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         disposables = new ArrayList<>();
         service = new WishlistAsyncService(((KinoApplication) getActivity().getApplication()).getDb());
 
         createListView(1);
-
-        FloatingActionButton fab = ((MainActivity) requireActivity()).getFab();
-        fab.setOnClickListener(v -> onFabClick());
-        fab.setImageResource(R.drawable.add_kino);
 
         SearchView searchView = ((MainActivity) requireActivity()).getSearchView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -90,6 +86,10 @@ public class WishlistRoomListFragment extends Fragment {
             }
         });
         searchView.setVisibility(View.VISIBLE);
+    }
+
+    protected int getFabImage(){
+        return R.drawable.add_kino;
     }
 
     @Override
