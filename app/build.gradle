@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 
 android {
 
+    namespace = "com.ulicae.cinelog"
+
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
