@@ -97,6 +97,13 @@ public abstract class ReviewRoomListFragment extends AddableFragment {
         searchView.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        createListView(LIST_VIEW_STATE, this.getView().getContext());
+    }
+
     protected int getFabImage(){
         return R.drawable.add_kino;
     }
