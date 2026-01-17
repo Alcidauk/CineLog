@@ -76,6 +76,11 @@ public abstract class ReviewRoomListFragment extends AddableFragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        createListView(LIST_VIEW_STATE, view.getContext());
+    }
+
+    private void setSearchView() {
         SearchView searchView = ((MainActivity) requireActivity()).getSearchView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -90,8 +95,6 @@ public abstract class ReviewRoomListFragment extends AddableFragment {
             }
         });
         searchView.setVisibility(View.VISIBLE);
-
-        createListView(LIST_VIEW_STATE, view.getContext());
     }
 
     protected int getFabImage(){
@@ -133,8 +136,9 @@ public abstract class ReviewRoomListFragment extends AddableFragment {
                                             ).show())
                             .subscribe((kinos) -> {
                                 initialiseAdapter(kinos, orderId, context);
-                                applyListeners();
 
+                                setSearchView();
+                                applyListeners();
                                 getKinoList().setAdapter(kino_adapter);
                             })
             );

@@ -70,8 +70,10 @@ public class WishlistRoomListFragment extends AddableFragment {
         disposables = new ArrayList<>();
         service = new WishlistAsyncService(((KinoApplication) getActivity().getApplication()).getDb());
 
-        createListView(1);
+        createListView(1, true);
+    }
 
+    private void initSearchView() {
         SearchView searchView = ((MainActivity) requireActivity()).getSearchView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -95,13 +97,13 @@ public class WishlistRoomListFragment extends AddableFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (!item.hasSubMenu()) {
-            createListView(item.getItemId());
+            createListView(item.getItemId(), false);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    protected void createListView(int orderId) {
+    protected void createListView(int orderId, boolean initSearchView) {
         if (getWishlistItemList() != null) {
             Disposable findDisposable = service.findAllForType(itemEntityType)
                     .subscribeOn(io())
@@ -111,6 +113,10 @@ public class WishlistRoomListFragment extends AddableFragment {
 
                         listAdapter = new WishlistListRoomAdapter(requireContext(), dataDtos);
                         getWishlistItemList().setAdapter(listAdapter);
+
+                        if(initSearchView) {
+                            initSearchView();
+                        }
                     }));
 
             disposables.add(findDisposable);
