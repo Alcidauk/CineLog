@@ -62,7 +62,6 @@
     <string name="action_import">Importar</string>
     <string name="title_activity_import_db">Importar arquivo CSV</string>
     <string name="import_db">Importar arquivo CSV no banco de dados</string>
-    <string name="import_db_label">O processo de importação vai importar filmes de import_movies.csv e séries de import_series.csv arquivo em \'media/com.ulicae.cinego\'.</string>
     <string name="import_permission_error_toast">Não foi possível importar, pois a leitura da memória externa não é permitida para CineLog.</string>
     <string name="import_error_toast">Ocorreu um erro durante a importação do arquivo %s</string>
     <string name="import_io_error_toast">Ocorreu um erro ao tentar encontrar o arquivo %s. Verifique se está localizado na pasta do CineLog e se você tem as devidas permissões.</string>

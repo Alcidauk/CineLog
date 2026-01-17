@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,25 +21,27 @@ import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
-import com.ulicae.cinelog.io.exportdb.AutomaticExportException;
-import com.ulicae.cinelog.io.importdb.builder.SerieReviewableDtoFromRecordBuilder;
-import com.ulicae.cinelog.room.dto.ItemDto;
-import com.ulicae.cinelog.room.services.AsyncDataService;
 import com.ulicae.cinelog.databinding.ActivityImportDbBinding;
 import com.ulicae.cinelog.io.importdb.builder.DtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.ReviewableDtoFromRecordBuilder;
+import com.ulicae.cinelog.io.importdb.builder.SerieReviewableDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.TagDtoFromRecordBuilder;
 import com.ulicae.cinelog.io.importdb.builder.WishlistDtoFromRecordBuilder;
 import com.ulicae.cinelog.room.AppDatabase;
 import com.ulicae.cinelog.room.CinelogSchedulers;
+import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.room.entities.ItemEntityType;
+import com.ulicae.cinelog.room.services.AsyncDataService;
 import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.room.services.TagAsyncService;
 import com.ulicae.cinelog.room.services.WishlistAsyncService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -68,6 +71,8 @@ public class ImportFragment extends Fragment {
     private CinelogSchedulers cinelogSchedulers;
     private List<Disposable> disposables;
 
+    Map<String, EntityImporter<? extends ItemDto>> entityImporterMap = new HashMap<>();
+
     public ImportFragment() {
     }
 
@@ -88,132 +93,130 @@ public class ImportFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.importInDbToolbar.toolbar);
-        binding.importInDbContent.importDbButton.setOnClickListener(this::onClick);
+
+        Context context = requireContext();
+        KinoApplication app = (KinoApplication) requireActivity().getApplication();
+        AppDatabase db = app.getDb();
+        
+
+        entityImporterMap.putAll(new HashMap<String, EntityImporter<? extends ItemDto>>() {{
+            put("tag",
+                    new EntityImporter<>(
+                            binding.importInDbContent.importDbTagsButton,
+                            binding.importInDbContent.importTagsStatusWaiting,
+                            binding.importInDbContent.importTagsErrorMessage,
+                            new TagAsyncService(db),
+                            new TagDtoFromRecordBuilder(context)
+                    )
+            );
+            put("movie",
+                    new EntityImporter<>(
+                            binding.importInDbContent.importDbMoviesButton,
+                            binding.importInDbContent.importMoviesStatusWaiting,
+                            binding.importInDbContent.importMoviesErrorMessage,
+                            new ReviewAsyncService(app, ItemEntityType.MOVIE),
+                            new ReviewableDtoFromRecordBuilder(context)
+                    )
+            );
+            put("serie",
+                    new EntityImporter<>(
+                            binding.importInDbContent.importDbSeriesButton,
+                            binding.importInDbContent.importSeriesStatusWaiting,
+                            binding.importInDbContent.importSeriesErrorMessage,     
+                            new ReviewAsyncService(app, ItemEntityType.SERIE),
+                            new SerieReviewableDtoFromRecordBuilder(context)
+                    )
+            );
+            put("wishlistMovie",
+                    new EntityImporter<>(
+                            binding.importInDbContent.importDbWishlistMoviesButton,
+                            binding.importInDbContent.importWishlistMoviesStatusWaiting,
+                            binding.importInDbContent.importWishlistMoviesErrorMessage,
+                            new WishlistAsyncService(app.getDb(), ItemEntityType.MOVIE),
+                            new WishlistDtoFromRecordBuilder(context)
+                    )
+            );
+            put("wishlistSerie",
+                    new EntityImporter<>(
+                            binding.importInDbContent.importDbWishlistSeriesButton,
+                            binding.importInDbContent.importWishlistSeriesStatusWaiting,
+                            binding.importInDbContent.importWishlistSeriesErrorMessage,
+                            new WishlistAsyncService(app.getDb(), ItemEntityType.SERIE),
+                            new WishlistDtoFromRecordBuilder(context)
+                    )
+            );
+        }});
+
+        initListeners();
     }
 
-    private final ActivityResultCallback<Uri> activityResultCallback = result -> {
-        try {
-            DocumentFile choosenDirFile = DocumentFile.fromTreeUri(requireActivity(), result);
-            KinoApplication app = ((KinoApplication) requireActivity().getApplication());
-
-            importData(app, choosenDirFile);
-        } catch (NullPointerException e){
-            Toast.makeText(this.getContext(), getString(R.string.import_choose_file_stop), Toast.LENGTH_LONG).show();
+    public void initListeners() {
+        for (EntityImporter entityImporter : entityImporterMap.values()) {
+            entityImporter.importButton.setOnClickListener(v -> entityImporter.getLauncher().launch(Arrays.asList("text/*").toArray(new String[]{})));
         }
 
-    };
+        binding.importInDbContent.importDbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                importData();
+
+            }
+        });
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        for(Disposable disposable : disposables) {
+        for (Disposable disposable : disposables) {
             disposable.dispose();
         }
     }
 
-    ActivityResultLauncher<Uri> launcher = registerForActivityResult(new ActivityResultContracts.OpenDocumentTree(), activityResultCallback);
 
-    public void onClick(View view) {
-        launcher.launch(Uri.fromFile(requireActivity().getFilesDir()));
+    private void importData() {
+        Toast.makeText(getContext(), getString(R.string.import_starting_toast), Toast.LENGTH_SHORT).show();
+        
+        for(EntityImporter<? extends ItemDto> importer : entityImporterMap.values()){
+            asyncImportForType(
+                    importer
+            );
+        }
+
+        Toast.makeText(getContext(), getString(R.string.import_ending_toast), Toast.LENGTH_SHORT).show();
+
     }
 
-    private void importData(KinoApplication app, DocumentFile choosenDirFile) {
+    public void asyncImportForType(EntityImporter<?extends ItemDto> entityImporter) {
         Context context = requireContext();
-        AppDatabase db = app.getDb();
-        // TODO ToasterWrapper toasterWrapper = new ToasterWrapper(getContext());
+        KinoApplication app = (KinoApplication) requireActivity().getApplication();
 
-        Toast.makeText(context, getString(R.string.import_starting_toast), Toast.LENGTH_SHORT).show();
-
-        asyncImportForType(
-                app,
-                context,
-                choosenDirFile,
-                "import_tags.csv",
-                new TagAsyncService(db),
-                new TagDtoFromRecordBuilder(context),
-                binding.importInDbContent.importTagsStatusWaiting,
-                binding.importInDbContent.importTagsErrorMessage
-        );
-
-        asyncImportForType(
-                app,
-                context,
-                choosenDirFile,
-                "import_movies.csv",
-                new ReviewAsyncService(app, ItemEntityType.MOVIE),
-                new ReviewableDtoFromRecordBuilder(context),
-                binding.importInDbContent.importMoviesStatusWaiting,
-                binding.importInDbContent.importMoviesErrorMessage
-        );
-
-        asyncImportForType(
-                app,
-                context,
-                choosenDirFile,
-                "import_series.csv",
-                new ReviewAsyncService(app, ItemEntityType.SERIE),
-                new SerieReviewableDtoFromRecordBuilder(context),
-                binding.importInDbContent.importSeriesStatusWaiting,
-                binding.importInDbContent.importSeriesErrorMessage
-        );
-
-        asyncImportForType(
-                app,
-                context,
-                choosenDirFile,
-                "import_wishlist_movies.csv",
-                new WishlistAsyncService(app.getDb(), ItemEntityType.MOVIE),
-                new WishlistDtoFromRecordBuilder(context),
-                binding.importInDbContent.importWishlistMoviesStatusWaiting,
-                binding.importInDbContent.importWishlistMoviesErrorMessage
-        );
-
-        asyncImportForType(
-                app,
-                context,
-                choosenDirFile,
-                "import_wishlist_series.csv",
-                new WishlistAsyncService(app.getDb(), ItemEntityType.SERIE),
-                new WishlistDtoFromRecordBuilder(context),
-                binding.importInDbContent.importWishlistSeriesStatusWaiting,
-                binding.importInDbContent.importWishlistSeriesErrorMessage
-        );
-
-        Toast.makeText(app.getBaseContext(), getString(R.string.import_ending_toast), Toast.LENGTH_SHORT).show();
-
-    }
-
-    public void asyncImportForType(KinoApplication app,
-                                   Context context,
-                                   DocumentFile choosenDirFile,
-                                   String importFilename,
-                                   AsyncDataService<? extends ItemDto> asyncDataService,
-                                   DtoFromRecordBuilder dtoFromRecordBuilder,
-                                   TextView waitingUIZone,
-                                   TextView errorUIZone) {
         try {
+            if (entityImporter.getFile() == null) {
+                return;
+            }
+
             disposables.add(
                     new AsyncCsvImporter<>(
                             new FileReaderGetter(app),
-                            new DtoImportCreator<>(context, dtoFromRecordBuilder),
-                            asyncDataService,
+                            new DtoImportCreator(context, entityImporter.getDtoFromRecordBuilder()),
+                            entityImporter.getAsyncDataService(),
                             context
-                    ).importCsvFile(choosenDirFile, importFilename)
+                    ).importCsvFile(entityImporter.getFile())
                             .subscribeOn(cinelogSchedulers.io())
                             .observeOn(cinelogSchedulers.androidMainThread())
                             .subscribe(
                                     (created) -> {
-                                        waitingUIZone.setText(R.string.import_status_success);
+                                        entityImporter.getWaitingZone().setText(R.string.import_status_success);
                                     },
                                     error -> {
-                                        showImportError(app, waitingUIZone, errorUIZone, (Throwable) error);
+                                        showImportError(app, entityImporter.getWaitingZone(), entityImporter.getErrorZone(), (Throwable) error);
                                     }
                             )
             );
 
         } catch (ImportException e) {
-            showImportError(app, waitingUIZone, errorUIZone, e);
+            showImportError(app, entityImporter.getWaitingZone(), entityImporter.getErrorZone(), e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -223,5 +226,76 @@ public class ImportFragment extends Fragment {
         Toast.makeText(app.getBaseContext(), error.getMessage(), Toast.LENGTH_LONG).show();
         waitingUIZone.setText(R.string.import_status_failed);
         errorUIZone.setText(error.getMessage());
+    }
+
+    public class EntityImporter<T extends ItemDto> {
+
+        private final ActivityResultLauncher launcher;
+        private DocumentFile file;
+
+        private final Button importButton;
+        private TextView waitingZone;
+        private final TextView errorZone;
+
+        private final AsyncDataService<T> asyncDataService;
+        private final DtoFromRecordBuilder<T> dtoFromRecordBuilder;
+
+        private final ActivityResultCallback<Uri> openDocumentActivityResultCallback = result -> {
+            try {
+                this.file = DocumentFile.fromSingleUri(requireActivity(), result);
+
+                waitingZone.setText(this.file.getName());
+            } catch (NullPointerException e) {
+                Toast.makeText(getContext(), getString(R.string.import_choose_file_stop), Toast.LENGTH_LONG).show();
+            }
+        };
+
+        public EntityImporter(Button importButton, TextView waitingZone, TextView errorZone,
+                              AsyncDataService<T> asyncDataService,
+                              DtoFromRecordBuilder<T> dtoFromRecordBuilder
+        ) {
+            this.importButton = importButton;
+            this.waitingZone = waitingZone;
+            this.errorZone = errorZone;
+            this.asyncDataService = asyncDataService;
+            this.dtoFromRecordBuilder = dtoFromRecordBuilder;
+            this.launcher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), openDocumentActivityResultCallback);
+        }
+
+        public EntityImporter(Button importDbSeriesButton, TextView importSeriesStatusWaiting,
+                              TextView importSeriesErrorMessage,
+                              ReviewAsyncService reviewAsyncService,
+                              SerieReviewableDtoFromRecordBuilder serieReviewableDtoFromRecordBuilder) {
+            this.importButton = importDbSeriesButton;
+            this.waitingZone = importSeriesStatusWaiting;
+            this.errorZone = importSeriesErrorMessage;
+            this.asyncDataService = (AsyncDataService<T>) reviewAsyncService;
+            this.dtoFromRecordBuilder = (DtoFromRecordBuilder<T>) serieReviewableDtoFromRecordBuilder;
+            this.launcher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), openDocumentActivityResultCallback);
+        }
+
+        public ActivityResultLauncher getLauncher() {
+            return this.launcher;
+        }
+
+        public TextView getWaitingZone() {
+            return waitingZone;
+        }
+
+        public TextView getErrorZone() {
+            return errorZone;
+        }
+
+        public DocumentFile getFile() {
+            return file;
+        }
+
+        public DtoFromRecordBuilder<? extends ItemDto> getDtoFromRecordBuilder() {
+            return dtoFromRecordBuilder;
+        }
+
+        public AsyncDataService<? extends ItemDto> getAsyncDataService() {
+            return asyncDataService;
+        }
     }
 }

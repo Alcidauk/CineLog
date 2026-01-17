@@ -62,9 +62,9 @@
     <string name="export_io_error_toast">Une erreur d\'entrée/sortie a eu lieu.</string>
 
     <string name="action_import">Importer</string>
-    <string name="title_activity_import_db">Import d\'un fichier CSV</string>
-    <string name="import_db">Importer des films</string>
-    <string name="import_db_label">Pour importer des revues de films et de séries, nommez les fichiers import_movies.csv et import_series.csv et placez les dans le dossier \'media/com.ulicae.cinego\'.</string>
+    <string name="title_activity_import_db">Import de sauvegardes (en CSV)</string>
+    <string name="import_db">Importer les données</string>
+    <string name="import_db_label">Choisissez un fichier pour chaque ligne ci-dessous. Une fois celà réalisé, cliquez sur "Importer les données".</string>
     <string name="import_permission_error_toast">Impossible d\'importer sans autoriser la permission de stockage à CinéLog.</string>
     <string name="import_error_toast">Une erreur est survenue durant l\'import des données du fichier %s.</string>
     <string name="import_io_error_toast">Impossible d\'ouvrir le fichier %s. Vérifiez qu\'il se trouve dans le dossier \'media/com.ulicae.cinego\' et que vous avez la permission requise.</string>

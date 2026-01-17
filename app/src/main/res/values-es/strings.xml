@@ -61,7 +61,6 @@
     <string name="action_import">Importar</string>
     <string name="title_activity_import_db">Importar archivo CSV</string>
     <string name="import_db">Importar archivo CSV en la base de datos</string>
-    <string name="import_db_label">El proceso de importación de archivos recuperará películas de import_movies.csv y import_wishlist_movies.csv y series de import_series.csv y import_wishlist_series.csv en el almacenamiento raíz.</string>
     <string name="import_permission_error_toast">No es posible importar por falta de permisos de escritura del almacenamiento externo para CineLog.</string>
     <string name="import_error_toast">Un error ocurrió durante la importación de datos del archivo %s.</string>
     <string name="import_io_error_toast">Un error ocurrió cuando se intentó buscar el archivo %s. Verifique si el archivo está en el almacenamiento raíz con los permisos de lectura adecuados.</string>

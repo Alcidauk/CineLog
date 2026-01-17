@@ -63,9 +63,9 @@
     <string name="export_io_error_toast">An I/O error occurred during export.</string>
 
     <string name="action_import">Import</string>
-    <string name="title_activity_import_db">CSV File import</string>
-    <string name="import_db">Import CSV file in database</string>
-    <string name="import_db_label">The import process will import movies of import_movies.csv and series of import_series.csv file in \'media/com.ulicae.cinego\'.</string>
+    <string name="title_activity_import_db">Data save import</string>
+    <string name="import_db">Import data</string>
+    <string name="import_db_label">Choose a file for every type of item you want to import (you should have one for each type). When you are done, click the import button.</string>
     <string name="import_permission_error_toast">Can\'t import since external storage reading is not allowed for CineLog.</string>
     <string name="import_error_toast">An error occurred during data import of %s file.</string>
     <string name="import_io_error_toast">An error occurred while trying to find %s file. Verify it is located at the CineLog app folder and that you have required permissions.</string>
@@ -176,4 +176,6 @@
     <string name="crash_dialog_title">Crash</string>
     <string name="crash_dialog_positive">I agree</string>
     <string name="dialog_dialog_negative">I do not agree</string>
+    <string name="pref_enable_acra">Acra</string>
+    <string name="choose_file">Choose a file</string>
 </resources>

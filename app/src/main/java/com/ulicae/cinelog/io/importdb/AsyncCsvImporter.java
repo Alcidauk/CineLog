@@ -51,17 +51,12 @@ class AsyncCsvImporter<Dto extends ItemDto> {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public Single importCsvFile(DocumentFile choosenDirFile, String importFilename) throws ImportException, IOException {
-        DocumentFile importFile = choosenDirFile.findFile(importFilename);
-        if (importFile == null) {
-            return Single.never();
-        }
-
+    public Single importCsvFile(DocumentFile importFile) throws ImportException, IOException {
         FileReader fileReader;
         try {
             fileReader = fileReaderGetter.get(importFile);
         } catch (IOException e) {
-            throw new ImportException(context.getString(R.string.import_io_error_toast, importFilename), e);
+            throw new ImportException(context.getString(R.string.import_io_error_toast, importFile.getName()), e);
         }
         List<Dto> dtos = dtoImportCreator.getDtos(fileReader);
 

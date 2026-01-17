@@ -79,7 +79,7 @@ public class AsyncCsvImporterTest {
         doReturn(Single.never()).when(reviewAsyncService).createOrUpdate(dtos);
 
         new AsyncCsvImporter<>(fileReaderGetter, dtoImportCreator, reviewAsyncService, context)
-                .importCsvFile(documentFile, "import.csv");
+                .importCsvFile(documentFile);
 
         verify(reviewAsyncService).createOrUpdate(dtos);
     }

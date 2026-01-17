@@ -64,7 +64,6 @@
     <string name="action_import">Importeren</string>
     <string name="title_activity_import_db">CSV-bestand importeren</string>
     <string name="import_db">CSV-bestand importeren naar databank</string>
-    <string name="import_db_label">Het importproces importeert films uit import_movies.csv en import_wishlist_movies.csv en series uit import_series.csv en import_wishlist_series.csv file uit de hoofdopslagmap.</string>
     <string name="import_permission_error_toast">Het importeren van de externe opslag is mislukt omdat CineLog hiertoe niet gemachtigd is.</string>
     <string name="import_error_toast">Er is een fout opgetreden tijdens het importeren van \'%s\'.</string>
     <string name="import_io_error_toast">Er is een fout opgetreden tijdens het lokaliseren van \'%s\'. Ga na of het bestand aanwezig is in de hoofdopslagmap en of je de juiste machtigingen hebt verleend.</string>

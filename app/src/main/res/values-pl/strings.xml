@@ -64,7 +64,6 @@
     <string name="action_import">Import</string>
     <string name="title_activity_import_db">Import danych</string>
     <string name="import_db">Zaimportuj dane</string>
-    <string name="import_db_label">Naciśnij poniższy przycisk, aby zaimportować recenzje filmów i seriali z plików „import_movies.csv”, „import_series.csv”, „import_wishlist_movies.csv” i „import_wishlist_series.csv”. Pliki te powinny znajdować się w katalogu głównym pamięci zewnętrznej.</string>
     <string name="import_permission_error_toast">Nie można zaimportować danych, ponieważ CineLog nie posiada uprawnień do odczytu z pamięci zewnętrznej.</string>
     <string name="import_error_toast">Błąd podczas importowania danych z pliku „%s”.</string>
     <string name="import_io_error_toast">Błąd podczas próby znalezienia pliku „%s”. Sprawdź czy znajduje się on w katalogu głównym pamięci zewnętrznej i czy CineLog posiada wystarczające uprawnienia.</string>

@@ -46,6 +46,9 @@
             android:title="@string/automatic_save"
             android:summary="@string/automatic_save_summary"
             android:defaultValue="false"/>
+        <CheckBoxPreference android:key="acra.enable"
+            android:title="@string/pref_enable_acra"
+            android:defaultValue="true"/>
 
         <ListPreference
             android:key="default_movie_sort_type"

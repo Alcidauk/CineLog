@@ -65,7 +65,6 @@
     <string name="action_import">导入</string>
     <string name="title_activity_import_db">CSV 文件导入</string>
     <string name="import_db">导入数据库中的 CSV 文件</string>
-    <string name="import_db_label">将导入\'media/com.ulicae.cinego/files\' 下 import_movies.csv 文件内的电影数据和 import_series.csv 文件内的连续剧数据。</string>
     <string name="import_permission_error_toast">无法导入，因 CineLog 未被允许读取外部存储。</string>
     <string name="import_error_toast">导入 %s 文件的数据期间出错</string>
     <string name="import_io_error_toast">试图查找 %s 文件时出错。请验证该文件位于存储根目录且你有所需的权限。</string>
