@@ -59,14 +59,15 @@ public class EditTagFragment extends Fragment {
         } else {
             bindExistingTag(tagId);
         }
+    }
 
+    private void bindTagElements() {
         ((MainActivity) requireActivity()).getFab().setOnClickListener(fabView -> onFabClick());
         ((MainActivity) requireActivity()).getSearchView().setVisibility(View.GONE);
 
         binding.tagFilms.setOnCheckedChangeListener((compoundButton, b) -> onFilmsCheckedChanged(b));
         binding.tagSeries.setOnCheckedChangeListener((compoundButton, b) -> onSeriesCheckedChanged(b));
         binding.tagColorUpdate.setOnClickListener(this::onTagColorUpdate);
-
     }
 
     private void bindExistingTag(Long id) {
@@ -79,6 +80,8 @@ public class EditTagFragment extends Fragment {
                     binding.tagSeries.setChecked(tag.isForSeries());
 
                     fetchColor();
+
+                    bindTagElements();
                 });
     }
 
@@ -94,6 +97,8 @@ public class EditTagFragment extends Fragment {
     private void createNewTag() {
         tag = new TagDto();
         tag.setColor(getString(R.color.colorPrimary));
+
+        bindTagElements();
     }
 
 
