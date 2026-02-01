@@ -32,6 +32,7 @@ import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.room.services.AsyncServiceFactory;
 import com.ulicae.cinelog.room.services.ReviewAsyncService;
 import com.ulicae.cinelog.room.services.TagAsyncService;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import org.parceler.Parcels;
 
@@ -62,6 +63,7 @@ public class ReviewEditionFragment extends Fragment {
 
     // TODO when this flag is true, on a return button touch, remove the review that was just created coming from a unregistered item
     private boolean creation;
+    private PreferencesWrapper preferencesWrapper;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,6 +74,8 @@ public class ReviewEditionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         AppDatabase appDb = ((KinoApplication) getActivity().getApplication()).getDb();
+
+        preferencesWrapper = new PreferencesWrapper();
 
         wishlistItemDeleter = new WishlistItemDeleter(appDb);
 
@@ -145,8 +149,11 @@ public class ReviewEditionFragment extends Fragment {
         int maxRating;
         // TODO kino peut être null, parce qu'on est avec un item en base qu'on doit aller refetcher
         if (kino.getMaxRating() == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            String defaultMaxRateValue = preferencesWrapper.getStringPreference(
+                    getContext(),
+                    "default_max_rate_value",
+                    "5"
+            );
             maxRating = Integer.parseInt(defaultMaxRateValue);
         } else {
             maxRating = kino.getMaxRating();
@@ -179,7 +186,11 @@ public class ReviewEditionFragment extends Fragment {
 
         int maxRating;
         if (kino.getMaxRating() == null) {
-            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            String defaultMaxRateValue = preferencesWrapper.getStringPreference(
+                    getContext(),
+                    "default_max_rate_value",
+                    "5"
+            );
             maxRating = Integer.parseInt(defaultMaxRateValue);
         } else {
             maxRating = kino.getMaxRating();
@@ -243,8 +254,11 @@ public class ReviewEditionFragment extends Fragment {
         }
 
         if (kino.getMaxRating() == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-            String maxRating = prefs.getString("default_max_rate_value", "5");
+            String maxRating = preferencesWrapper.getStringPreference(
+                    getContext(),
+                    "default_max_rate_value",
+                    "5"
+            );
             int maxRatingAsInt = Integer.parseInt(maxRating);
             kino.setMaxRating(maxRatingAsInt);
         }

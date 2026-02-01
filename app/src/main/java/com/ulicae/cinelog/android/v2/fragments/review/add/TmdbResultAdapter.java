@@ -19,6 +19,7 @@ import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.services.AsyncDataTmdbService;
 import com.ulicae.cinelog.databinding.TmdbItemRowBinding;
 import com.ulicae.cinelog.network.DtoBuilderFromTmdbObject;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,8 +202,11 @@ public abstract class TmdbResultAdapter<T> extends ArrayAdapter<T> {
     }
 
     private void populateRatingBar(TmdbViewHolder holder) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+        String defaultMaxRateValue = new PreferencesWrapper().getStringPreference(
+                getContext(),
+                "default_max_rate_value",
+                "5"
+        );
         int maxRating = Integer.parseInt(defaultMaxRateValue);
         holder.getRatingBar().setNumStars(maxRating);
     }

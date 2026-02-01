@@ -25,6 +25,7 @@ import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.databinding.LayoutReviewItemKinoBinding;
 import com.ulicae.cinelog.databinding.LayoutReviewItemReviewBinding;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.text.ParseException;
@@ -205,8 +206,11 @@ public class ReviewItemDataFieldsInflater {
     private void configureMaxRating() {
         int maxRating;
         if (kino.getMaxRating() == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            String defaultMaxRateValue = new PreferencesWrapper().getStringPreference(
+                    activity,
+                    "default_max_rate_value",
+                    "5"
+            );
             maxRating = Integer.parseInt(defaultMaxRateValue);
         } else {
             maxRating = kino.getMaxRating();

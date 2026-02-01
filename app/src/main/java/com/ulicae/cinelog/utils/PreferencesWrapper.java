@@ -26,7 +26,8 @@ import android.preference.PreferenceManager;
 public class PreferencesWrapper {
 
     public String getStringPreference(Context context, String key, String defaultValue) {
-        return getPreferenceManager(context).getString(key, defaultValue);
+        String value = getPreferenceManager(context).getString(key, defaultValue);
+        return value != null && !value.isEmpty() ? value : defaultValue;
     }
 
     public boolean getBooleanPreference(Context context, String key, boolean defaultValue) {

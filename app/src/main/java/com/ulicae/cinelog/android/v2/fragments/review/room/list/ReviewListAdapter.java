@@ -24,6 +24,7 @@ import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.room.dto.TagDto;
 import com.ulicae.cinelog.databinding.ReviewListItemRowBinding;
 import com.ulicae.cinelog.databinding.ReviewListYearRowBinding;
+import com.ulicae.cinelog.utils.PreferencesWrapper;
 import com.ulicae.cinelog.utils.image.ImageCacheDownloader;
 
 import java.util.List;
@@ -167,11 +168,14 @@ public class ReviewListAdapter extends ArrayAdapter<Object> {
         TextView kinoRatingRatingBarAsText = holder.getKinoRatingBarAsText();
         TextView kinoRatingRatingBarMaxAsText = holder.getKinoRatingBarMaxAsText();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         int maxRating;
         if (movie.getMaxRating() == null) {
-            String defaultMaxRateValue = prefs.getString("default_max_rate_value", "5");
+            String defaultMaxRateValue = new PreferencesWrapper().getStringPreference(
+                    getContext(),
+                    "default_max_rate_value",
+                    "5"
+            );
             maxRating = Integer.parseInt(defaultMaxRateValue);
         } else {
             maxRating = movie.getMaxRating();
