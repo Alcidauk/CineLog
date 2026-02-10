@@ -18,8 +18,8 @@ import org.acra.config.DialogConfigurationBuilder;
 import org.acra.config.MailSenderConfigurationBuilder;
 import org.acra.data.StringFormat;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -47,7 +47,7 @@ public class KinoApplication extends Application {
 
     AppDatabase appDb;
 
-    private List<Disposable> disposableList;
+    private Map<String, Disposable> disposableMap;
 
     /**
      * Just add this quick snippet to the build method to get queries in app log
@@ -61,7 +61,7 @@ public class KinoApplication extends Application {
         super.onCreate();
         new ThemeWrapper().setThemeWithPreferences(this);
 
-        this.disposableList = new ArrayList<>();
+        this.disposableMap = new HashMap<>();
         this.appDb = Room
                 .databaseBuilder(getApplicationContext(), AppDatabase.class, "database-cinelog")
                 .build();
@@ -91,12 +91,17 @@ public class KinoApplication extends Application {
 
     private void verifyAutomaticSave() {
         try {
-            this.disposableList.add(
+            this.disposableMap.put(
+                    "movie",
                     new AutomaticExporter<>(this, new ReviewCsvExporterFactory(this, ItemEntityType.MOVIE), "movie")
                             .tryExport()
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    (success) -> Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_SHORT).show(),
+                                    (success) -> {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_movie_toast), Toast.LENGTH_SHORT).show();
+                                        this.clearDisposable("movie");
+                                    },
+
                                     e -> {
                                         Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_movie), Toast.LENGTH_LONG).show();
                                         Toast.makeText(getApplicationContext(), getString(((AutomaticExportException) e).getStringCode()), Toast.LENGTH_LONG).show();
@@ -109,12 +114,16 @@ public class KinoApplication extends Application {
         }
 
         try {
-            this.disposableList.add(
+            this.disposableMap.put(
+                    "serie",
                     new AutomaticExporter<>(this, new ReviewCsvExporterFactory(this, ItemEntityType.SERIE), "serie")
                             .tryExport()
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    (success) -> Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_serie_toast), Toast.LENGTH_SHORT).show(),
+                                    (success) -> {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_serie_toast), Toast.LENGTH_SHORT).show();
+                                        this.clearDisposable("serie");
+                                    },
                                     e -> {
                                         Toast.makeText(getApplicationContext(), getString(R.string.automatic_export_cant_export_serie), Toast.LENGTH_LONG).show();
                                         Toast.makeText(getApplicationContext(), getString(((AutomaticExportException) e).getStringCode()), Toast.LENGTH_LONG).show();
@@ -131,9 +140,20 @@ public class KinoApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
 
-        for(Disposable disposable : this.disposableList) {
+        this.disposableMap.clear();
+    }
+
+    /**
+     * Remove disposable with the name given from the referencing map,
+     * after disposing the disposable
+     * @param name the name in the map
+     */
+    private void clearDisposable(String name) {
+        Disposable disposable = this.disposableMap.get(name);
+        if(disposable != null) {
             disposable.dispose();
         }
+        this.disposableMap.remove(name);
     }
 
     public AppDatabase getDb() {
