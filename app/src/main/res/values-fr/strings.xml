@@ -73,6 +73,7 @@
     <string name="import_starting_toast">Import démarré…</string>
     <string name="import_ending_toast">… import terminé !</string>
 
+    <string name="import_choose_file_stop">Vous devez choisir le dossier où se trouvent les fichiers</string>
     <string name="add_from_scratch_label">Film non trouvé ?</string>
 
     <string name="title_activity_settings">Paramètres</string>

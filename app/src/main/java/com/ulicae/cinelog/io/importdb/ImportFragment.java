@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.ulicae.cinelog.KinoApplication;
 import com.ulicae.cinelog.R;
+import com.ulicae.cinelog.io.exportdb.AutomaticExportException;
 import com.ulicae.cinelog.io.importdb.builder.SerieReviewableDtoFromRecordBuilder;
 import com.ulicae.cinelog.room.dto.ItemDto;
 import com.ulicae.cinelog.room.services.AsyncDataService;
@@ -91,10 +92,15 @@ public class ImportFragment extends Fragment {
     }
 
     private final ActivityResultCallback<Uri> activityResultCallback = result -> {
-        DocumentFile choosenDirFile = DocumentFile.fromTreeUri(requireActivity(), result);
-        KinoApplication app = ((KinoApplication) requireActivity().getApplication());
+        try {
+            DocumentFile choosenDirFile = DocumentFile.fromTreeUri(requireActivity(), result);
+            KinoApplication app = ((KinoApplication) requireActivity().getApplication());
 
-        importData(app, choosenDirFile);
+            importData(app, choosenDirFile);
+        } catch (NullPointerException e){
+            Toast.makeText(this.getContext(), getString(R.string.import_choose_file_stop), Toast.LENGTH_LONG).show();
+        }
+
     };
 
     @Override
