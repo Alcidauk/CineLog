@@ -377,7 +377,9 @@ public class ReviewEditionFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (this.disposables != null) {
-            this.disposables.clear();
+            for(Disposable disposable : disposables){
+                disposable.dispose();
+            }
         }
     }
 }
