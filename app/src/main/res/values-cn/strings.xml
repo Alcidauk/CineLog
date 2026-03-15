@@ -16,7 +16,7 @@
  You should have received a copy of the GNU General Public License
  along with CineLog. If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">CineLog</string>
     <string name="movie_title_input">输入电影名称</string>
     <string name="action_settings">设置</string>
@@ -128,7 +128,7 @@
     <string name="restart_app_please">请重启应用程序完成升级。</string>
 
     <string name="unknown_year">未知发行年份</string>
-    
+
     <string name="import_tags_status">标签导入：</string>
     <string name="import_movies_status">影评导入：</string>
     <string name="import_series_status">剧评导入：</string>
@@ -159,4 +159,5 @@
     <string name="wishlist_cant_create_review">出错：无法创建评论</string>
     <string name="validate">验证</string>
     <string name="no_tags_found_label">没找到标签。请确认已启用了标签。</string>
+    <string name="action_share">分享</string>
 </resources>
