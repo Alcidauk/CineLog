@@ -2,13 +2,19 @@ package com.ulicae.cinelog;
 
 import com.ulicae.cinelog.room.dto.KinoDto;
 import com.ulicae.cinelog.network.KinoBuilderFromMovie;
+import com.uwetrottmann.tmdb2.TmdbHelper;
 import com.uwetrottmann.tmdb2.entities.Movie;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,11 +40,41 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class KinoBuilderFromMovieTest {
 
+    private TimeZone defaultTimeZone;
+
+    @Before
+    public void saveDefaultTimeZone() {
+        defaultTimeZone = TimeZone.getDefault();
+    }
+
+    @After
+    public void restoreDefaultTimeZone() {
+        TimeZone.setDefault(defaultTimeZone);
+    }
+
+    /**
+     * Parse a date the same way tmdb-java does: "yyyy-MM-dd" in the
+     * default time zone, so the result is local midnight.
+     */
+    private static Date tmdbDate(String date) throws ParseException {
+        return new SimpleDateFormat(TmdbHelper.TMDB_DATE_PATTERN).parse(date);
+    }
+
+    private static int yearInTimeZone(String timeZoneId, String releaseDate) throws ParseException {
+        TimeZone.setDefault(TimeZone.getTimeZone(timeZoneId));
+
+        Movie movie = new Movie();
+        movie.id = 4562131;
+        movie.release_date = tmdbDate(releaseDate);
+
+        return new KinoBuilderFromMovie().build(movie).getYear();
+    }
+
     @Test
     public void build() throws Exception {
         Movie movie = new Movie();
 
-        movie.release_date = new Date(0);
+        movie.release_date = tmdbDate("1970-01-01");
         movie.title = "a new title";
         movie.id = 4562131;
         movie.poster_path = "a path to the poster";
@@ -63,6 +99,18 @@ public class KinoBuilderFromMovieTest {
                 kinoDto,
                 new KinoBuilderFromMovie().build(movie)
         );
+    }
+
+    /* West of UTC: local midnight on 1 January is still 1 January in UTC. */
+    @Test
+    public void build_yearAtNewYearInVancouver() throws Exception {
+        assertEquals(2020, yearInTimeZone("America/Vancouver", "2020-01-01"));
+    }
+
+    /* East of UTC: local midnight on 1 January is 31 December in UTC. */
+    @Test
+    public void build_yearAtNewYearInAuckland() throws Exception {
+        assertEquals(2020, yearInTimeZone("Pacific/Auckland", "2020-01-01"));
     }
 
     @Test(expected = NullPointerException.class)
